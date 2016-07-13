@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"	
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans	
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+	 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		 
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+		
+    <context:annotation-config />
+ 
+    <!-- ************ JPA configuration *********** -->
+    <tx:annotation-driven transaction-manager="transactionManager" />  
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
+        <property name="persistenceUnitName" value="training-model" />        
+        <property name="dataSource" ref="trainingDs" />
+        <property name="jpaVendorAdapter">
+            
+            <bean class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+        
+        <property name="jpaPropertyMap">
+  <map>
+    <entry key="eclipselink.weaving" value="false"/>
+  </map>
+</property>
+    </bean>  
+  
+    
+    <bean id="trainingDs" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">
+        <property name="jndiName" value="java:/trainingDS" />
+        <property name="resourceRef" value="true" />        
+    </bean>   
+
+
+</beans>
