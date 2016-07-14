@@ -1,0 +1,387 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.com.expertla.training.model.entities;
+
+import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+/**
+ *
+ * @author Edwin G
+ */
+@Entity
+@Table(name = "user")
+@NamedQueries({
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
+    @NamedQuery(name = "User.findByLogin", query = "SELECT u FROM User u WHERE u.login = :login"),
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+    @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name"),
+    @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByBirthDate", query = "SELECT u FROM User u WHERE u.birthDate = :birthDate"),
+    @NamedQuery(name = "User.findBySex", query = "SELECT u FROM User u WHERE u.sex = :sex"),
+    @NamedQuery(name = "User.findByWeight", query = "SELECT u FROM User u WHERE u.weight = :weight"),
+    @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
+    @NamedQuery(name = "User.findByCellphone", query = "SELECT u FROM User u WHERE u.cellphone = :cellphone"),
+    @NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address"),
+    @NamedQuery(name = "User.findByPostalCode", query = "SELECT u FROM User u WHERE u.postalCode = :postalCode"),
+    @NamedQuery(name = "User.findByFacebookPage", query = "SELECT u FROM User u WHERE u.facebookPage = :facebookPage"),
+    @NamedQuery(name = "User.findByIndMetricSys", query = "SELECT u FROM User u WHERE u.indMetricSys = :indMetricSys"),
+    @NamedQuery(name = "User.findByCreationDate", query = "SELECT u FROM User u WHERE u.creationDate = :creationDate")})
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "user_id")
+    private Integer userId;
+    @Basic(optional = false)
+    @Column(name = "login")
+    private String login;
+    @Column(name = "password")
+    private String password;
+    @Basic(optional = false)
+    @Column(name = "name")
+    private String name;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "birth_date")
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
+    @Column(name = "sex")
+    private String sex;
+    @Column(name = "weight")
+    private BigInteger weight;
+    @Column(name = "phone")
+    private String phone;
+    @Column(name = "cellphone")
+    private String cellphone;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "postal_code")
+    private String postalCode;
+    @Lob
+    @Column(name = "profile_photo")
+    private byte[] profilePhoto;
+    @Column(name = "facebook_page")
+    private String facebookPage;
+    @Basic(optional = false)
+    @Column(name = "ind_metric_sys")
+    private String indMetricSys;
+    @Basic(optional = false)
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
+    @OneToMany(mappedBy = "userId")
+    private Collection<QuestionnaireResponse> questionnaireResponseCollection;
+    @OneToMany(mappedBy = "userId")
+    private Collection<Questionnaire> questionnaireCollection;
+    @OneToMany(mappedBy = "userId")
+    private Collection<TrainingPlanUser> trainingPlanUserCollection;
+    @OneToMany(mappedBy = "userId")
+    private Collection<UserProfile> userProfileCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<VideoUser> videoUserCollection;
+    @OneToMany(mappedBy = "userId")
+    private Collection<DisciplineUser> disciplineUserCollection;
+    @OneToMany(mappedBy = "userId")
+    private Collection<RoleUser> roleUserCollection;
+    @JoinColumn(name = "city_id", referencedColumnName = "city_id")
+    @ManyToOne
+    private City cityId;
+    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
+    @ManyToOne
+    private State stateId;
+    @OneToMany(mappedBy = "starId")
+    private Collection<User> userCollection;
+    @JoinColumn(name = "star_id", referencedColumnName = "user_id")
+    @ManyToOne
+    private User starId;
+
+    public User() {
+    }
+
+    public User(Integer userId) {
+        this.userId = userId;
+    }
+
+    public User(Integer userId, String login, String name, String indMetricSys, Date creationDate) {
+        this.userId = userId;
+        this.login = login;
+        this.name = name;
+        this.indMetricSys = indMetricSys;
+        this.creationDate = creationDate;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public BigInteger getWeight() {
+        return weight;
+    }
+
+    public void setWeight(BigInteger weight) {
+        this.weight = weight;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public byte[] getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(byte[] profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
+    public String getFacebookPage() {
+        return facebookPage;
+    }
+
+    public void setFacebookPage(String facebookPage) {
+        this.facebookPage = facebookPage;
+    }
+
+    public String getIndMetricSys() {
+        return indMetricSys;
+    }
+
+    public void setIndMetricSys(String indMetricSys) {
+        this.indMetricSys = indMetricSys;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Collection<QuestionnaireResponse> getQuestionnaireResponseCollection() {
+        return questionnaireResponseCollection;
+    }
+
+    public void setQuestionnaireResponseCollection(Collection<QuestionnaireResponse> questionnaireResponseCollection) {
+        this.questionnaireResponseCollection = questionnaireResponseCollection;
+    }
+
+    public Collection<Questionnaire> getQuestionnaireCollection() {
+        return questionnaireCollection;
+    }
+
+    public void setQuestionnaireCollection(Collection<Questionnaire> questionnaireCollection) {
+        this.questionnaireCollection = questionnaireCollection;
+    }
+
+    public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {
+        return trainingPlanUserCollection;
+    }
+
+    public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
+        this.trainingPlanUserCollection = trainingPlanUserCollection;
+    }
+
+    public Collection<UserProfile> getUserProfileCollection() {
+        return userProfileCollection;
+    }
+
+    public void setUserProfileCollection(Collection<UserProfile> userProfileCollection) {
+        this.userProfileCollection = userProfileCollection;
+    }
+
+    public Collection<VideoUser> getVideoUserCollection() {
+        return videoUserCollection;
+    }
+
+    public void setVideoUserCollection(Collection<VideoUser> videoUserCollection) {
+        this.videoUserCollection = videoUserCollection;
+    }
+
+    public Collection<DisciplineUser> getDisciplineUserCollection() {
+        return disciplineUserCollection;
+    }
+
+    public void setDisciplineUserCollection(Collection<DisciplineUser> disciplineUserCollection) {
+        this.disciplineUserCollection = disciplineUserCollection;
+    }
+
+    public Collection<RoleUser> getRoleUserCollection() {
+        return roleUserCollection;
+    }
+
+    public void setRoleUserCollection(Collection<RoleUser> roleUserCollection) {
+        this.roleUserCollection = roleUserCollection;
+    }
+
+    public City getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(City cityId) {
+        this.cityId = cityId;
+    }
+
+    public State getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(State stateId) {
+        this.stateId = stateId;
+    }
+
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
+    }
+
+    public User getStarId() {
+        return starId;
+    }
+
+    public void setStarId(User starId) {
+        this.starId = starId;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (userId != null ? userId.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof User)) {
+            return false;
+        }
+        User other = (User) object;
+        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "co.com.expertla.training.model.entities.User[ userId=" + userId + " ]";
+    }
+    
+}

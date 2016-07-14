@@ -1,4 +1,4 @@
-package co.com.expertla.training.model;
+package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
 

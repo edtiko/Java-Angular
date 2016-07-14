@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import co.com.expertla.training.dao.UsuarioDao;
-import co.com.expertla.training.model.Usuario;
+import co.com.expertla.training.model.entities.Usuario;
 
 /**
  *

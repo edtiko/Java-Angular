@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import co.com.expertla.training.model.Usuario;
+import co.com.expertla.training.model.entities.Usuario;
 import co.com.expertla.training.service.UsuarioService;
 
   

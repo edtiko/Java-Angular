@@ -5,7 +5,7 @@ package co.com.expertla.training.service;
 
 import java.util.List;
 
-import co.com.expertla.training.model.Usuario;
+import co.com.expertla.training.model.entities.Usuario;
 
 /**
  * @author Edwin G

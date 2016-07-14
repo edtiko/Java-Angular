@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.dao.UsuarioDao;
-import co.com.expertla.training.model.Usuario;
+import co.com.expertla.training.model.entities.Usuario;
 import co.com.expertla.training.service.UsuarioService;
 
 @Service("usuarioService")

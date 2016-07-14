@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import co.com.expertla.training.model.Usuario;
+import co.com.expertla.training.model.entities.Usuario;
 import co.com.expertla.training.service.UsuarioService;
 
 /**
