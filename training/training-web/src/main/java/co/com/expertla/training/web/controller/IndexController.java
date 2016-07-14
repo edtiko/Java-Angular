@@ -14,7 +14,7 @@ public class IndexController {
  
       @RequestMapping(method = RequestMethod.GET)
         public String getIndexPage() {
-            return "static/views/usuario.html";
+            return "static/views/index.html";
         }
  
 }

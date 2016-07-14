@@ -9,34 +9,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.com.expertla.training.dao.UsuarioDao;
-import co.com.expertla.training.model.entities.Usuario;
-import co.com.expertla.training.service.UsuarioService;
+import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.dao.UserDao;
+import co.com.expertla.training.service.UserService;
 
 @Service("usuarioService")
 @Transactional
-public class UsuarioServiceImpl implements UsuarioService{
+public class UserServiceImpl implements UserService{
      
     //private static final AtomicLong counter = new AtomicLong();
      
-    private static List<Usuario> users;
+    private static List<User> users;
     
     @Autowired
-    private UsuarioDao usuarioDao;
+    private UserDao userDao;
     
    /* static{
         users= populateDummyUsers();
     }*/
- 
-    public List<Usuario> findAllUsers() {
-        return usuarioDao.findAllUsers();
+   @Override
+    public List<User> findAllUsers() {
+        return userDao.findAllUsers();
     }
-     
-    public Usuario findById(Integer id) {
-        return usuarioDao.findById(id);
+     @Override
+    public User findById(Integer id) {
+        return userDao.findById(id);
     }
-     
-    public Usuario findByName(String name) {
+     @Override
+    public User findByName(String name) {
         /*for(Usuario user : users){
             if(user.getUsername().equalsIgnoreCase(name)){
                 return user;
@@ -44,8 +44,8 @@ public class UsuarioServiceImpl implements UsuarioService{
         }*/
         return null;
     }
-    
-    public Usuario findUserByUsername(String username) {
+    @Override
+    public User findUserByUsername(String username) {
         /*for(Usuario user : users){
             if(user.getUsername().equalsIgnoreCase(username)){
                 return user;
@@ -53,19 +53,21 @@ public class UsuarioServiceImpl implements UsuarioService{
         }*/
         return null;
     }
-     
-    public Integer saveUser(Usuario user) {
+     @Override
+    public Integer saveUser(User user) {
         /*user.setId(counter.incrementAndGet());
         users.add(user);*/
     	return null;
     }
  
-    public int updateUser(Usuario user) {
+    @Override
+    public int updateUser(User user) {
        /* int index = users.indexOf(user);
         users.set(index, user);*/
     	return 0;
     }
  
+    @Override
     public Integer deleteUserById(Integer id) {
          
        /* for (Iterator<Usuario> iterator = users.iterator(); iterator.hasNext(); ) {
@@ -77,20 +79,16 @@ public class UsuarioServiceImpl implements UsuarioService{
     	return null;
     }
  
-    public boolean isUserExist(Usuario user) {
-        return findByName(user.getUsername())!=null;
+    @Override
+    public boolean isUserExist(User user) {
+        return findByName(user.getName())!=null;
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
      
-    public void deleteAllUsers(){
-        users.clear();
-    }
- 
-   /* private static List<Usuario> populateDummyUsers(){
-        List<Usuario> users = new ArrayList<Usuario>();
-        users.add(new Usuario(counter.incrementAndGet(),"1234","Sam", "NY", "sam@abc.com"));
-        users.add(new Usuario(counter.incrementAndGet(),"1234","Tomy", "ALBAMA", "tomy@abc.com"));
-        users.add(new Usuario(counter.incrementAndGet(),"1234","Kelly", "NEBRASKA", "kelly@abc.com"));
-        return users;
-    }*/
+
  
 }

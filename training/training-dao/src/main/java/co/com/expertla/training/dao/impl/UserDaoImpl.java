@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import co.com.expertla.training.dao.UsuarioDao;
-import co.com.expertla.training.model.entities.Usuario;
+import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.dao.UserDao;
 
 /**
  *
@@ -20,22 +20,22 @@ import co.com.expertla.training.model.entities.Usuario;
  *
  */
 @Repository
-public class UsuarioDaoImpl extends BaseDAOImpl<Usuario> implements UsuarioDao {
+public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
 
     /**
      * @author <a href="mailto:edwin.gomez@expertla.com">Edwin Gomez</a>
      * @param id
      * @return 
      * @since 11/07/2016
-     * @see co.com.expertla.training.dao.UsuarioDao#findById(long)
+     * @see co.com.expertla.training.dao.UserDao#findById(long)
      */
     @Override
-    public Usuario findById(Integer id) {
+    public User findById(Integer id) {
 
         try {
-            String qlString = "SELECT u FROM Usuario u WHERE u.id = :id";
+            String qlString = "SELECT u FROM User u WHERE u.id = :id";
             setParameter("id", id);
-            List<Usuario> query = createQuery(qlString);
+            List<User> query = createQuery(qlString);
             return query.get(0);
         } catch (Exception e) {
             return null;
@@ -43,10 +43,10 @@ public class UsuarioDaoImpl extends BaseDAOImpl<Usuario> implements UsuarioDao {
     }
 
     @Override
-    public List<Usuario> findAllUsers() {
+    public List<User> findAllUsers() {
         try {
             String qlString = "SELECT u FROM Usuario u ";
-            List<Usuario> query = createQuery(qlString);
+            List<User> query = createQuery(qlString);
             return query;
         } catch (Exception e) {
             return null;

@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import co.com.expertla.training.model.entities.Usuario;
-import co.com.expertla.training.service.UsuarioService;
+import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.service.UserService;
 
 /**
  * @author <a href="mailto:edwin.gomez@expertla.com">Edwin Gomez</a>
@@ -29,11 +29,11 @@ public class SecurityUserDetailsService implements UserDetailsService {
     private static final Logger LOGGER = Logger.getLogger(SecurityUserDetailsService.class);
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UserService usuarioService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario user = usuarioService.findUserByUsername(username);
+        User user = usuarioService.findUserByUsername(username);
 
         if (user == null) {
             String message = "Username not found" + username;
