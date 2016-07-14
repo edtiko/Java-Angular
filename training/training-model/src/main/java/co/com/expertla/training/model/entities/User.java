@@ -29,7 +29,7 @@ import javax.persistence.TemporalType;
  * @author Edwin G
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user_training")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),

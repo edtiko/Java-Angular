@@ -2,7 +2,7 @@
  
 //var App = angular.module('myApp',[]);
 
-// create the module and name it scotchApp
+// create the module and name it trainingApp
 	var trainingApp = angular.module('trainingApp', ['ngRoute']);
 
 	// configure our routes
@@ -12,7 +12,7 @@
 			// route for the home page
 			.when('/data-person', {
 				templateUrl : 'static/views/datosPersonales/user.html',
-				controller  : 'userController'
+				controller  : 'UserController'
 			})
 
 			// route for the about page

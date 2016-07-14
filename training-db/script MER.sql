@@ -80,7 +80,7 @@ drop table training_plan_user;
 
 drop table training_plan_workout;
 
-drop table "user";
+drop table user_training;
 
 drop table user_profile;
 
@@ -540,9 +540,9 @@ create table training_plan_workout (
 );
 
 /*==============================================================*/
-/* Table: "user"                                                */
+/* Table: "user_training"                                                */
 /*==============================================================*/
-create table "user" (
+create table user_training (
    user_id              integer              not null,
    city_id              integer              null,
    state_id             integer              null,
@@ -566,10 +566,10 @@ create table "user" (
    constraint pk_user primary key (user_id)
 );
 
-comment on column "user".star_id is
+comment on column user_training.star_id is
 'Es la estrella del deporte asociada al usuario';
 
-comment on column "user".ind_metric_sys is
+comment on column user_training.ind_metric_sys is
 '(0) Ingles (1) Metrico Decimal';
 
 /*==============================================================*/
@@ -669,7 +669,7 @@ alter table discipline_user
 
 alter table discipline_user
    add constraint fk_disc_user_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table equipment_user_profile
@@ -714,7 +714,7 @@ alter table membership_user
 
 alter table membership_user
    add constraint fk_member_user_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table membership_user
@@ -749,7 +749,7 @@ alter table question
 
 alter table questionnaire
    add constraint fk_questna_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table questionnaire
@@ -804,7 +804,7 @@ alter table questionnaire_response
 
 alter table questionnaire_response
    add constraint fk_question_reference_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table question_option
@@ -844,7 +844,7 @@ alter table role_user
 
 alter table role_user
    add constraint fk_role_user_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table sport_equipment
@@ -859,7 +859,7 @@ alter table sport_equipment
 
 alter table training_plan_user
    add constraint fk_train_plan_user_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table training_plan_user
@@ -894,12 +894,12 @@ alter table "user"
 
 alter table "user"
    add constraint fk_user_reference_user foreign key (star_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table user_profile
    add constraint fk_user_pro_reference_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table user_profile
@@ -919,7 +919,7 @@ alter table user_sport
 
 alter table video_user
    add constraint fk_video_user_user foreign key (user_id)
-      references "user" (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table video_user

@@ -2,7 +2,7 @@
  
 trainingApp.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
           var self = this;
-          self.user={id:null,name:'',last_name:'',email:'', sex:'', weight:'', phone:'', cellphone: '', state_id: '', city_id: '', address: '', postal_code: '', birth_date: '', facebook_page:''};
+          self.user={user_id:null,name:'',last_name:'',email:'', sex:'', weight:'', phone:'', cellphone: '', state_id: '', city_id: '', address: '', postal_code: '', birth_date: '', facebook_page:''};
           self.users=[];
                
           self.fetchAllUsers = function(){

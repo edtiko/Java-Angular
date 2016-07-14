@@ -45,7 +45,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     @Override
     public List<User> findAllUsers() {
         try {
-            String qlString = "SELECT u FROM Usuario u ";
+            String qlString = "SELECT u FROM User u ";
             List<User> query = createQuery(qlString);
             return query;
         } catch (Exception e) {
