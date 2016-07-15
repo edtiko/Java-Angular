@@ -18,4 +18,11 @@ public interface UserDao extends BaseDAO<User>{
         
         List<User> findAllUsers();
 
+    public Integer saveUser(User user);
+    
+   public Integer updateUser(User user);
+
+    public void deleteUser(User user);
+    
+    
 }

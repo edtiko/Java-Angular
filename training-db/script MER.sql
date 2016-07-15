@@ -543,11 +543,11 @@ create table training_plan_workout (
 /* Table: "user_training"                                                */
 /*==============================================================*/
 create table user_training (
-   user_id              integer              not null,
+   user_id              serial,
    city_id              integer              null,
    state_id             integer              null,
    star_id              integer              null,
-   login                varchar(100)         not null,
+   login                varchar(100)         not,
    password             varchar(100)         null,
    name                 varchar(200)         not null,
    last_name            varchar(200)         null,
@@ -561,7 +561,7 @@ create table user_training (
    postal_code          varchar(50)          null,
    profile_photo        bytea                null,
    facebook_page        varchar(200)         null,
-   ind_metric_sys       varchar(1)           not null,
+   ind_metric_sys       varchar(1)           null,
    creation_date        date                 not null,
    constraint pk_user primary key (user_id)
 );
@@ -576,7 +576,7 @@ comment on column user_training.ind_metric_sys is
 /* Table: user_profile                                          */
 /*==============================================================*/
 create table user_profile (
-   user_profile_id      integer              not null,
+   user_profile_id      serial         ,
    user_id              integer              null,
    objetive_id          integer              null,
    ind_pulsometer       varchar(1)           null,
@@ -882,17 +882,17 @@ alter table training_plan_workout
       references activity (activity_id)
       on delete restrict on update restrict;
 
-alter table "user"
+alter table user_training
    add constraint fk_user_city foreign key (city_id)
       references city (city_id)
       on delete restrict on update restrict;
 
-alter table "user"
+alter table user_training
    add constraint fk_user_state foreign key (state_id)
       references state (state_id)
       on delete restrict on update restrict;
 
-alter table "user"
+alter table user_training
    add constraint fk_user_reference_user foreign key (star_id)
       references user_training (user_id)
       on delete restrict on update restrict;

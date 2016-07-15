@@ -3,6 +3,7 @@
  */
 package co.com.expertla.training.service.impl;
 
+import co.com.expertla.training.model.dto.UserDTO;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.UserService;
 
 /**
@@ -33,7 +33,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = usuarioService.findUserByUsername(username);
+        UserDTO user = usuarioService.findUserByUsername(username);
 
         if (user == null) {
             String message = "Username not found" + username;
