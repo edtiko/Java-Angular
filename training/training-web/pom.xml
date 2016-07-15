@@ -14,7 +14,6 @@
     <name>training-web</name>
     <properties>
         <springframework.version>4.2.0.RELEASE</springframework.version>
-        <jackson.version>2.5.3</jackson.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <maven_compiler_source>1.8</maven_compiler_source>
         <maven_compiler_target>1.8</maven_compiler_target>
@@ -74,11 +73,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

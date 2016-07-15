@@ -2,7 +2,7 @@
  
 trainingApp.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
           var self = this;
-          self.user={user_id:null,name:'',last_name:'',email:'', sex:'', weight:'', phone:'', cellphone: '', state_id: '', city_id: '', address: '', postal_code: '', birth_date: '', facebook_page:''};
+          self.user={userId:null,name:'',lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', state_id: '', city_id: '', address: '', postal_code: '', birth_date: '', facebook_page:''};
           self.users=[];
                
           self.fetchAllUsers = function(){
@@ -50,7 +50,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
           self.fetchAllUsers();
  
           self.submit = function() {
-              if(self.user.id===null){
+              if(self.user.user_id===null){
                   console.log('Saving New User', self.user);    
                   self.createUser(self.user);
               }else{
