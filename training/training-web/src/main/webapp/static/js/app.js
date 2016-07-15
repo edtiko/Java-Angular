@@ -16,9 +16,9 @@
 			})
 
 			// route for the about page
-			.when('/about', {
-				templateUrl : 'static/views/about.html',
-				controller  : 'aboutController'
+			.when('/calendar', {
+				templateUrl : 'static/views/calendar.html',
+				controller  : 'calendarController'
 			})
 
 			// route for the contact page
