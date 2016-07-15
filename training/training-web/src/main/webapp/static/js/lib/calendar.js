@@ -994,6 +994,10 @@ if (!String.prototype.formatNum) {
             self.options.day = $(this).data('cal-date');
             self.view(view);
         });
+        
+        $('*[data-add-event]').click(function () {
+            alert('add event');
+        });
         $('.cal-cell').dblclick(function () {
             var view = $('[data-cal-date]', this).data('cal-view');
             self.options.day = $('[data-cal-date]', this).data('cal-date');
@@ -1159,8 +1163,8 @@ if (!String.prototype.formatNum) {
                     downbox.hide();
                 })
                 .on('click', function (event) {
-                    var $contextMenu = $("#contextMenu");
-                    $contextMenu.hide();
+//                    var $contextMenu = $("#contextMenu");
+//                    $contextMenu.hide();
                     if ($('.events-list', this).length == 0) {
                         return;
                     }
@@ -1169,19 +1173,19 @@ if (!String.prototype.formatNum) {
                     }
                     showEventsList(event, downbox, slider, self);
                 })
-                .on('contextmenu', function (event) {
-                    event.preventDefault();
-                    var $contextMenu = $("#contextMenu");
-                    $contextMenu.css({
-                        display: "block",
-                        left: event.pageX,
-                        top: event.pageY
-                    });
-
-                    $contextMenu.show();
-
-                    return false;
-                })
+//                .on('contextmenu', function (event) {
+//                    event.preventDefault();
+//                    var $contextMenu = $("#contextMenu");
+//                    $contextMenu.css({
+//                        display: "block",
+//                        left: event.pageX,
+//                        top: event.pageY
+//                    });
+//
+//                    $contextMenu.show();
+//
+//                    return false;
+//                })
                 ;
 
         var slider = $(document.createElement('div')).attr('id', 'cal-slide-box');
@@ -1241,7 +1245,7 @@ if (!String.prototype.formatNum) {
         // Wait 400ms before updating the modal & attach the mouseenter&mouseleave(400ms is the time for the slider to fade out and slide up)
         setTimeout(function () {
             $('a.event-item').mouseenter(function () {
-                $('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
+//                $('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
             });
             $('a.event-item').mouseleave(function () {
                 $('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));

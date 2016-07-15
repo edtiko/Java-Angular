@@ -2,11 +2,11 @@
 
     "use strict";
     
-    var $contextMenu = $("#contextMenu");
-    $contextMenu.on("click", "a", function () {
-        alert('add event');
-        $contextMenu.hide();
-    });
+//    var $contextMenu = $("#contextMenu");
+//    $contextMenu.on("click", "a", function () {
+//        alert('add event');
+//        $contextMenu.hide();
+//    });
 
     var options = {
         language: 'es-CO',
