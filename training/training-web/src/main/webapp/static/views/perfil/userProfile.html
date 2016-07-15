@@ -1,0 +1,141 @@
+
+<div class="formcontainer" ng-controller="UserProfileController as profileCtrl"> 
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Consultar por Id</label>
+            <div class="col-md-7">
+                <input ng-model="profileCtrl.userProfile.userProfileId" type="text" class="form-control input-sm" style="width: 70%;display: inline">
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" ng-click="profileCtrl.findById(profileCtrl.userProfile)" >Consultar</button>
+</div>
+
+
+<div class="formcontainer"> 
+    <form name="formPerfil" class="form-horizontal">
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">¿Tienes pulsometro? </label>
+                <div class="col-md-7">
+                    <input  type="checkbox" name="pulsometro"> 
+                    <input type="checkbox" name="pulsometro">
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">¿Tienes potenciometro?</label>
+                <div class="col-md-7">
+                    <input  type="checkbox" name="potenciometro"> 
+                    <input type="checkbox" name="potenciometro">
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">¿Tienes bicicleta? </label>
+                <div class="col-md-7">
+                    <input  type="checkbox" name="bicicleta"> 
+                    <input type="checkbox" name="bicicleta">
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">¿Qué tipo de zapatilla usas?</label>
+                <div class="col-md-7">
+                    <select class="form-control" style="width: 70%;display: inline">
+                        <option> Seleccione </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">Disciplina Deportiva</label>
+                <div class="col-md-7">
+                    <select class="form-control" style="width: 70%;display: inline" >
+                        <option> Seleccione </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">Edad Deportiva</label>
+                <div class="col-md-7">
+                    <select class="form-control" style="width: 70%;display: inline">
+                        <option> Seleccione </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">Ppm</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control input-sm" style="width: 70%;display: inline" ng-model="userProfile.ppm">
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">Potencia</label>
+                <div class="col-md-7">
+                    <input type="text" class="form-control input-sm" style="width: 70%;display: inline">
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">¿Practicas otros deportes?</label>
+                <div class="col-md-7">
+                    <select class="form-control" style="width: 70%;display: inline">
+                        <option> Seleccione </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">Logros Deportivos</label>
+                <div class="col-md-7">
+                    <textarea class="ng-invalid form-control" 
+                              style="width: 70%;display: inline; resize: none">
+                    </textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">Sistema de medición </label>
+                <div class="col-md-7">
+                    <select class="form-control" style="width: 70%;display: inline">
+                        <option> Seleccione </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row"> 
+            <div class="form-group col-md-12">
+                <label class="col-md-2 control-lable">Acerca de mí</label>
+                <div class="col-md-7">
+                    <textarea class="form-control" style="width: 70%;display: inline;resize: none"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
