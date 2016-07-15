@@ -2,7 +2,7 @@
  
 trainingApp.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
           var self = this;
-          self.user={userId:null,name:'',lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', state_id: '', city_id: '', address: '', postal_code: '', birth_date: '', facebook_page:''};
+          self.user={userId:null,name:'',lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', stateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:''};
           self.users=[];
                
           self.fetchAllUsers = function(){
@@ -50,12 +50,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
           self.fetchAllUsers();
  
           self.submit = function() {
-              if(self.user.user_id===null){
+              if(self.user.userId===null){
                   console.log('Saving New User', self.user);    
                   self.createUser(self.user);
               }else{
-                  self.updateUser(self.user, self.user.id);
-                  console.log('User updated with id ', self.user.id);
+                  self.updateUser(self.user, self.user.userId);
+                  console.log('User updated with id ', self.user.userId);
               }
               self.reset();
           };
@@ -63,7 +63,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
           self.edit = function(id){
               console.log('id to be edited', id);
               for(var i = 0; i < self.users.length; i++){
-                  if(self.users[i].id === id) {
+                  if(self.users[i].userId === id) {
                      self.user = angular.copy(self.users[i]);
                      break;
                   }
@@ -72,7 +72,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
                
           self.remove = function(id){
               console.log('id to be deleted', id);
-              if(self.user.id === id) {//clean form if the user to be deleted is shown there.
+              if(self.user.userId === id) {//clean form if the user to be deleted is shown there.
                  self.reset();
               }
               self.deleteUser(id);
@@ -80,7 +80,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
  
            
           self.reset = function(){
-              self.user={id:null,username:'',address:'',email:''};
+              self.user={userId:null,name:'',lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', stateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:''};
               $scope.myForm.$setPristine(); //reset Form
           };
  

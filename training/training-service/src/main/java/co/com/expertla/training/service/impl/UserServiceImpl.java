@@ -1,8 +1,10 @@
 /**
- * 
+ *
  */
 package co.com.expertla.training.service.impl;
 
+import co.com.expertla.training.dao.CityDao;
+import co.com.expertla.training.dao.StateDao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,32 +13,43 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.dao.UserDao;
+import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.City;
+import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.service.UserService;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 @Service("usuarioService")
 @Transactional
-public class UserServiceImpl implements UserService{
-     
+public class UserServiceImpl implements UserService {
+
     //private static final AtomicLong counter = new AtomicLong();
-     
-    private static List<User> users;
-    
+
     @Autowired
     private UserDao userDao;
     
-   /* static{
+    @Autowired
+    private CityDao cityDao;
+    
+    @Autowired
+    private StateDao stateDao;
+
+    /* static{
         users= populateDummyUsers();
     }*/
-   @Override
-    public List<User> findAllUsers() {
-        return userDao.findAllUsers();
+    @Override
+    public List<UserDTO> findAllUsers() {
+        return userDao.findAllUsers().stream().map(UserDTO::mapFromUserEntity).collect(Collectors.toList());
     }
-     @Override
-    public User findById(Integer id) {
-        return userDao.findById(id);
+
+    @Override
+    public UserDTO findById(Integer id) {
+        return UserDTO.mapFromUserEntity(userDao.findById(id));
     }
-     @Override
-    public User findByName(String name) {
+
+    @Override
+    public UserDTO findByName(String name) {
         /*for(Usuario user : users){
             if(user.getUsername().equalsIgnoreCase(name)){
                 return user;
@@ -44,8 +57,9 @@ public class UserServiceImpl implements UserService{
         }*/
         return null;
     }
+
     @Override
-    public User findUserByUsername(String username) {
+    public UserDTO findUserByUsername(String username) {
         /*for(Usuario user : users){
             if(user.getUsername().equalsIgnoreCase(username)){
                 return user;
@@ -53,42 +67,59 @@ public class UserServiceImpl implements UserService{
         }*/
         return null;
     }
-     @Override
-    public Integer saveUser(User user) {
-        /*user.setId(counter.incrementAndGet());
-        users.add(user);*/
-    	return null;
-    }
- 
+    
+    @Transactional
     @Override
-    public int updateUser(User user) {
-       /* int index = users.indexOf(user);
-        users.set(index, user);*/
-    	return 0;
-    }
+    public Integer saveUser(UserDTO userDTO) {
+     City city = cityDao.findById(userDTO.getCityId());
+     State state = stateDao.findById(userDTO.getStateId());
+     User user = new User(userDTO.getUserId(), userDTO.getName(), userDTO.getLastName(),userDTO.getEmail(), userDTO.getBirthDate(), userDTO.getAddress(), 
+                           userDTO.getSex(), userDTO.getWeight(), userDTO.getPhone(), userDTO.getCellphone(), city, 
+                           state, userDTO.getLogin(), userDTO.getFacebookPage(), userDTO.getPostalCode(), new Date());
  
-    @Override
-    public Integer deleteUserById(Integer id) {
-         
-       /* for (Iterator<Usuario> iterator = users.iterator(); iterator.hasNext(); ) {
-        	Usuario user = iterator.next();
-            if (user.getId() == id) {
-                iterator.remove();
-            }
-        }*/
-    	return null;
+        return userDao.saveUser(user);
     }
- 
+
+    @Transactional
     @Override
-    public boolean isUserExist(User user) {
-        return findByName(user.getName())!=null;
+    public int updateUser(UserDTO userDTO) {
+       User user = userDao.findById(userDTO.getUserId());
+       City city = cityDao.findById(userDTO.getCityId());
+       State state = stateDao.findById(userDTO.getStateId());
+       user.setName(userDTO.getName());
+       user.setLastName(userDTO.getLastName());
+       user.setEmail(userDTO.getEmail());
+       user.setBirthDate(userDTO.getBirthDate());
+       user.setAddress(userDTO.getAddress());
+       user.setSex(userDTO.getSex());
+       user.setWeight(userDTO.getWeight());
+       user.setPhone(userDTO.getPhone());
+       user.setCellphone(userDTO.getCellphone());
+       user.setCityId(city);
+       user.setStateId(state);
+       user.setPostalCode(userDTO.getPostalCode());
+       user.setCreationDate(new Date());
+       
+       
+        return userDao.updateUser(user);
+    }
+    
+    @Transactional
+    @Override
+    public void deleteUserById(Integer id) {
+
+       User user = userDao.findById(id);
+        userDao.deleteUser(user);
+    }
+
+    @Override
+    public boolean isUserExist(UserDTO user) {
+        return findByName(user.getName()) != null;
     }
 
     @Override
     public void deleteAllUsers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-     
 
- 
 }

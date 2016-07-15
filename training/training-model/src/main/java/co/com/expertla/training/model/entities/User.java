@@ -13,6 +13,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -20,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,8 +55,9 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "user_id")
+    @SequenceGenerator(name = "user_training_user_id_seq", sequenceName = "user_training_user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_training_user_id_seq")
+    @Column(name = "user_id", updatable = false)
     private Integer userId;
     @Basic(optional = false)
     @Column(name = "login")
@@ -127,12 +131,26 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public User(Integer userId, String login, String name, String indMetricSys, Date creationDate) {
+      public User(Integer userId, String name, String lastName, String email, Date birthDate, String address,
+                   String sex, BigInteger weight, String phone, String cellphone, City cityId, 
+                   State stateId, String login, String facebookPage, String postalCode, Date creationDate) {
         this.userId = userId;
         this.login = login;
         this.name = name;
-        this.indMetricSys = indMetricSys;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.email = email;
+        this.sex = sex;
+        this.weight = weight;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        this.cityId = cityId;
+        this.stateId = stateId;
+        this.facebookPage = facebookPage;
+        this.postalCode = postalCode;
         this.creationDate = creationDate;
+        
     }
 
     public Integer getUserId() {

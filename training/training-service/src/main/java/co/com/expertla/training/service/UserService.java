@@ -3,9 +3,9 @@
  */
 package co.com.expertla.training.service;
 
+import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
 
-import co.com.expertla.training.model.entities.User;
 
 /**
  * @author Edwin G
@@ -13,21 +13,21 @@ import co.com.expertla.training.model.entities.User;
  */
 public interface UserService {
 
-	User findById(Integer id);
+	UserDTO findById(Integer id);
 
-	User findByName(String name);
+	UserDTO findByName(String name);
 	
-	User findUserByUsername(String username);
+	UserDTO findUserByUsername(String username);
 
-	Integer saveUser(User user);
+	Integer saveUser(UserDTO user);
 
-	int updateUser(User user);
+	int updateUser(UserDTO user);
 
-	Integer deleteUserById(Integer id);
+	void deleteUserById(Integer id);
 
-	List<User> findAllUsers();
+	List<UserDTO> findAllUsers();
 
 	void deleteAllUsers();
 
-	public boolean isUserExist(User user);
+	public boolean isUserExist(UserDTO user);
 }
