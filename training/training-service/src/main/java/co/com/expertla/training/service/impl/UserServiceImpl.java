@@ -4,7 +4,7 @@
 package co.com.expertla.training.service.impl;
 
 import co.com.expertla.training.dao.CityDao;
-import co.com.expertla.training.dao.StateDao;
+import co.com.expertla.training.dao.CountryDao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,18 +13,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.dao.UserDao;
+import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;
-import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.service.UserService;
 import java.util.Date;
 import java.util.stream.Collectors;
+import co.com.expertla.training.dao.FederalStateDao;
+import co.com.expertla.training.model.dto.CityDTO;
+import co.com.expertla.training.model.dto.FederalStateDTO;
 
 @Service("usuarioService")
 @Transactional
 public class UserServiceImpl implements UserService {
 
     //private static final AtomicLong counter = new AtomicLong();
+    
+    public static final Short STATE_ACTIVE = 1;
 
     @Autowired
     private UserDao userDao;
@@ -33,7 +38,10 @@ public class UserServiceImpl implements UserService {
     private CityDao cityDao;
     
     @Autowired
-    private StateDao stateDao;
+    private FederalStateDao federalStateDao;
+    
+     @Autowired
+    private CountryDao countryDao;
 
     /* static{
         users= populateDummyUsers();
@@ -72,10 +80,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer saveUser(UserDTO userDTO) {
      City city = cityDao.findById(userDTO.getCityId());
-     State state = stateDao.findById(userDTO.getStateId());
      User user = new User(userDTO.getUserId(), userDTO.getName(), userDTO.getLastName(),userDTO.getEmail(), userDTO.getBirthDate(), userDTO.getAddress(), 
                            userDTO.getSex(), userDTO.getWeight(), userDTO.getPhone(), userDTO.getCellphone(), city, 
-                           state, userDTO.getLogin(), userDTO.getFacebookPage(), userDTO.getPostalCode(), new Date());
+                           STATE_ACTIVE, userDTO.getLogin(), userDTO.getPassword(), userDTO.getFacebookPage(), userDTO.getPostalCode(), new Date());
  
         return userDao.saveUser(user);
     }
@@ -85,8 +92,9 @@ public class UserServiceImpl implements UserService {
     public int updateUser(UserDTO userDTO) {
        User user = userDao.findById(userDTO.getUserId());
        City city = cityDao.findById(userDTO.getCityId());
-       State state = stateDao.findById(userDTO.getStateId());
        user.setName(userDTO.getName());
+       user.setLogin(userDTO.getLogin());
+       user.setPassword(userDTO.getPassword());
        user.setLastName(userDTO.getLastName());
        user.setEmail(userDTO.getEmail());
        user.setBirthDate(userDTO.getBirthDate());
@@ -96,8 +104,8 @@ public class UserServiceImpl implements UserService {
        user.setPhone(userDTO.getPhone());
        user.setCellphone(userDTO.getCellphone());
        user.setCityId(city);
-       user.setStateId(state);
        user.setPostalCode(userDTO.getPostalCode());
+       user.setFacebookPage(userDTO.getFacebookPage());
        user.setCreationDate(new Date());
        
        
@@ -120,6 +128,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteAllUsers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<CountryDTO> findAllCountries() {
+       return countryDao.findAllCountries().stream().map(CountryDTO::mapFromCountryEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<FederalStateDTO> findStatesByCountry(Integer countryId) {
+         return federalStateDao.findStatesByCountryId(countryId).stream().map(FederalStateDTO::mapFromStateEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CityDTO> findCitiesByState(Integer stateId) {
+        return cityDao.findCitiesByState(stateId).stream().map(CityDTO::mapFromCityEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isUser(String username, String password) {
+        return userDao.isUser(username, password);
     }
 
 }

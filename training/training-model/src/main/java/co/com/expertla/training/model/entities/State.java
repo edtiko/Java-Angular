@@ -55,8 +55,7 @@ public class State implements Serializable {
     private Collection<QuestionOption> questionOptionCollection;
     @OneToMany(mappedBy = "stateId")
     private Collection<QuestionnaireCategory> questionnaireCategoryCollection;
-    @OneToMany(mappedBy = "stateId")
-    private Collection<User> userCollection;
+
 
     public State() {
     }
@@ -158,13 +157,6 @@ public class State implements Serializable {
         this.questionnaireCategoryCollection = questionnaireCategoryCollection;
     }
 
-    public Collection<User> getUserCollection() {
-        return userCollection;
-    }
-
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
-    }
 
     @Override
     public int hashCode() {

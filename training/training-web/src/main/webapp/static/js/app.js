@@ -9,6 +9,10 @@ var trainingApp = angular.module('trainingApp', ['ngRoute', 'ngAnimate', 'ui.boo
 trainingApp.config(function ($routeProvider) {
     $routeProvider
 
+            .when('/login', {
+                templateUrl: 'static/views/login.html',
+                controller: 'UserController'
+            })
             // route for the home page
             .when('/data-person', {
                 templateUrl: 'static/views/datosPersonales/user.html',
@@ -46,10 +50,10 @@ trainingApp.controller('mainController', function ($scope) {
     };
 
     $scope.dateOptions = {
-        dateDisabled: disabled,
+        //dateDisabled: disabled,
         formatYear: 'yy',
         maxDate: new Date(2020, 5, 22),
-        minDate: new Date(),
+        //minDate: new Date(),
         startingDay: 1
     };
 
@@ -60,19 +64,15 @@ trainingApp.controller('mainController', function ($scope) {
         return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
     }
 
-    $scope.toggleMin = function () {
+    /*$scope.toggleMin = function () {
         $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
         $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
     };
 
-    $scope.toggleMin();
+    $scope.toggleMin();*/
 
-    $scope.open1 = function () {
-        $scope.popup1.opened = true;
-    };
-
-    $scope.open2 = function () {
-        $scope.popup2.opened = true;
+    $scope.open = function () {
+        $scope.popup.opened = true;
     };
 
     $scope.setDate = function (year, month, day) {
@@ -80,14 +80,10 @@ trainingApp.controller('mainController', function ($scope) {
     };
 
     $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
+    $scope.format = 'dd/MM/yyyy';
     $scope.altInputFormats = ['M!/d!/yyyy'];
 
-    $scope.popup1 = {
-        opened: false
-    };
-
-    $scope.popup2 = {
+    $scope.popup = {
         opened: false
     };
 

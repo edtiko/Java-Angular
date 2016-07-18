@@ -2,9 +2,48 @@
  
 trainingApp.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
           var self = this;
-          self.user={userId:null,name:'',lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', stateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:''};
+          self.user={userId:null,name:'',lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', stateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: ''};
           self.users=[];
-               
+          $scope.countries=[];
+          $scope.states=[];
+          $scope.cities=[];
+         $scope.sexOptions = {
+            m: "Masculino",
+            f: "Femenino"
+        };    
+         self.fetchAllCountries = function(){
+              UserService.fetchAllCountries()
+                  .then(
+                               function(response) {
+                                    $scope.countries = response;
+                               },
+                                function(errResponse){
+                                    console.error('Error while fetching Currencies');
+                                }
+                       );
+          };
+           $scope.getStatesByCountry = function(countryId){
+              UserService.getStatesByCountry(countryId)
+                  .then(
+                               function(response) {
+                                    $scope.states = response;
+                               },
+                                function(errResponse){
+                                    console.error('Error while fetching Currencies');
+                                }
+                       );
+          };
+           $scope.getCitiesByState = function(stateId){
+              UserService.getCitiesByState(stateId)
+                  .then(
+                               function(response) {
+                                    $scope.cities = response;
+                               },
+                                function(errResponse){
+                                    console.error('Error while fetching Currencies');
+                                }
+                       );
+          };
           self.fetchAllUsers = function(){
               UserService.fetchAllUsers()
                   .then(
@@ -48,6 +87,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
           };
  
           self.fetchAllUsers();
+          self.fetchAllCountries();
  
           self.submit = function() {
               if(self.user.userId===null){

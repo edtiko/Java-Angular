@@ -23,6 +23,8 @@ public interface UserDao extends BaseDAO<User>{
    public Integer updateUser(User user);
 
     public void deleteUser(User user);
-    
+
+    public boolean isUser(String username, String password);
+
     
 }

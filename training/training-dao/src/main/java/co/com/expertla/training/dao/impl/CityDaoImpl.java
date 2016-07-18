@@ -29,5 +29,17 @@ public class CityDaoImpl extends BaseDAOImpl<City> implements CityDao{
             return null;
         }
     }
+
+    @Override
+    public List<City> findCitiesByState(Integer federalStateId) {
+              try {
+            String qlString = "SELECT c FROM City c WHERE c.federalStateId.federalStateId = :federalStateId";
+            setParameter("federalStateId", federalStateId);
+            List<City> query = createQuery(qlString);
+            return query;
+        } catch (Exception e) {
+            return null;
+        } 
+    }
     
 }

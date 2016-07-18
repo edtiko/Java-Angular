@@ -115,9 +115,9 @@ public class User implements Serializable {
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     @ManyToOne
     private City cityId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    
+    @Column(name = "state_id")
+    private Short stateId;
     @OneToMany(mappedBy = "starId")
     private Collection<User> userCollection;
     @JoinColumn(name = "star_id", referencedColumnName = "user_id")
@@ -133,9 +133,10 @@ public class User implements Serializable {
 
       public User(Integer userId, String name, String lastName, String email, Date birthDate, String address,
                    String sex, BigInteger weight, String phone, String cellphone, City cityId, 
-                   State stateId, String login, String facebookPage, String postalCode, Date creationDate) {
+                   Short stateId, String login, String password, String facebookPage, String postalCode, Date creationDate) {
         this.userId = userId;
         this.login = login;
+        this.password = password;
         this.name = name;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -353,11 +354,11 @@ public class User implements Serializable {
         this.cityId = cityId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

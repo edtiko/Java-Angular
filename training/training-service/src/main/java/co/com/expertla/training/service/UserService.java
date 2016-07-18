@@ -1,11 +1,13 @@
 /**
- * 
+ *
  */
 package co.com.expertla.training.service;
 
+import co.com.expertla.training.model.dto.CityDTO;
+import co.com.expertla.training.model.dto.CountryDTO;
+import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
-
 
 /**
  * @author Edwin G
@@ -13,21 +15,30 @@ import java.util.List;
  */
 public interface UserService {
 
-	UserDTO findById(Integer id);
+    UserDTO findById(Integer id);
 
-	UserDTO findByName(String name);
-	
-	UserDTO findUserByUsername(String username);
+    UserDTO findByName(String name);
 
-	Integer saveUser(UserDTO user);
+    UserDTO findUserByUsername(String username);
 
-	int updateUser(UserDTO user);
+    Integer saveUser(UserDTO user);
 
-	void deleteUserById(Integer id);
+    int updateUser(UserDTO user);
 
-	List<UserDTO> findAllUsers();
+    void deleteUserById(Integer id);
 
-	void deleteAllUsers();
+    List<UserDTO> findAllUsers();
 
-	public boolean isUserExist(UserDTO user);
+    void deleteAllUsers();
+
+    public boolean isUserExist(UserDTO user);
+
+    public List<CountryDTO> findAllCountries();
+
+    public List<FederalStateDTO> findStatesByCountry(Integer countryId);
+
+    public List<CityDTO> findCitiesByState(Integer stateId);
+    
+    public boolean isUser(String username, String password);
+
 }

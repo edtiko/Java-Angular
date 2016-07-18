@@ -887,10 +887,10 @@ alter table user_training
       references city (city_id)
       on delete restrict on update restrict;
 
-alter table user_training
+/*alter table user_training
    add constraint fk_user_state foreign key (state_id)
       references state (state_id)
-      on delete restrict on update restrict;
+      on delete restrict on update restrict;*/
 
 alter table user_training
    add constraint fk_user_reference_user foreign key (star_id)

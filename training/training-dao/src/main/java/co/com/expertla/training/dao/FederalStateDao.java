@@ -6,14 +6,17 @@
 package co.com.expertla.training.dao;
 
 import co.com.expertla.base.jpa.BaseDAO;
-import co.com.expertla.training.model.entities.State;
+import co.com.expertla.training.model.entities.FederalState;
+import java.util.List;
 
 /**
  *
  * @author Edwin G
  */
-public interface StateDao extends BaseDAO<State> {
+public interface FederalStateDao extends BaseDAO<FederalState> {
     
-    State findById(Integer id);
+    FederalState findById(Integer id);
+    
+    List<FederalState> findStatesByCountryId(Integer countryId);
     
 }

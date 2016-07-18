@@ -25,6 +25,7 @@
       <div class="generic-container" ng-controller="UserController as ctrl">
           <div class="panel panel-default">
               <div class="panel-heading"><span class="lead">Datos Personales</span></div>
+              <div class="panel-body">
               <div class="container-fluid">
                   <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
                       <input type="hidden" ng-model="ctrl.user.userId" />
@@ -69,6 +70,14 @@
                       </div>
                        <div class="row">
                           <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="sex">Sexo:</label>
+                              <div class="col-md-7">
+                                  <select id="sex" ng-model="ctrl.user.sex" ng-options="k as v for (k,v) in sexOptions" class="form-control"></select>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
                               <label class="col-md-2 control-lable" for="phone">Tel&eacute;fono fijo:</label>
                               <div class="col-md-7">
                                   <input type="text" ng-model="ctrl.user.phone" id="phone" class="form-control input-sm" placeholder="Ingrese su Tel&eacute;fono"/>
@@ -80,6 +89,30 @@
                               <label class="col-md-2 control-lable" for="cellphone">Celular:</label>
                               <div class="col-md-7">
                                   <input type="text" ng-model="ctrl.user.cellphone" id="cellphone" class="form-control input-sm" placeholder="Ingrese su Celular"/>
+                              </div>
+                          </div>
+                      </div>
+                        <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="country">Pa&iacute;s:</label>
+                              <div class="col-md-7">
+                                  <select ng-init=""  id="country" ng-model="ctrl.user.countryId" ng-options="country.countryId as country.name for country in countries" ng-change="getStatesByCountry(ctrl.user.countryId)" class="form-control"></select>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="state">Estado:</label>
+                              <div class="col-md-7">
+                                  <select id="state"  ng-model="ctrl.user.stateId" ng-options="state.stateId as state.name for state in states" ng-change="getCitiesByState(ctrl.user.stateId)" class="form-control"></select>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="city">Ciudad:</label>
+                              <div class="col-md-7">
+                                  <select id="city" ng-model="ctrl.user.cityId" ng-options="city.cityId as city.name for city in cities" ng-change="" class="form-control"></select>
                               </div>
                           </div>
                       </div>
@@ -105,23 +138,32 @@
                               <label class="col-md-2 control-lable" for="birthDate">Fecha de Nacimiento:</label>
                               <div class="col-md-7">
                                   <p class="input-group">
-                                      <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="ctrl.user.birthDate" is-open="popup1.opened" placeholder="Ingrese su Fecha de Nacimiento" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                                      <input type="text" id="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="ctrl.user.birthDate" is-open="popup.opened" placeholder="Ingrese su Fecha de Nacimiento" datepicker-options="dateOptions" ng-required="true" close-text="Close" maxlength="10"/>
                                       <span class="input-group-btn">
-                                          <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                          <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
                                       </span>
                                   </p>
                                  
                               </div>
                           </div>
                       </div>
-                      <div class="row">
-                          <div class="form-actions floatRight">
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="postalCode">P&aacute;gina de Facebook:</label>
+                              <div class="col-md-7">
+                                  <input type="text" ng-model="ctrl.user.facebookPage" id="postalCode" class="form-control input-sm" placeholder="Ingrese su P&aacute;gina de Facebook"/>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group col-md-12">
+                          <div class="form-actions">
                               <input type="submit"  value="{{!ctrl.user.userId ? 'Guardar' : 'Actualizar'}}" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid">
                               <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Limpiar</button>
                           </div>
                       </div>
                   </form>
               </div>
+                  </div>
           </div>
           <div class="panel panel-default">
                 <!-- Default panel contents -->

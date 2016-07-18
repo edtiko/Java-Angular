@@ -3,6 +3,9 @@
  */
 package co.com.expertla.training.web.controller;
 
+import co.com.expertla.training.model.dto.CityDTO;
+import co.com.expertla.training.model.dto.CountryDTO;
+import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
 
@@ -20,6 +23,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.UserService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
 
   
 @RestController
@@ -28,6 +35,22 @@ public class UserController {
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
   
+    
+   @RequestMapping(value = "/login/", method = RequestMethod.POST)
+    public @ResponseBody String authenticate(HttpServletRequest request) {
+        
+        String username = request.getParameter("login");
+        String password = request.getParameter("password");
+        
+        boolean user = userService.isUser(username, password);
+        Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+	String res  = "false";	
+        
+        if(user){
+            res = "true";
+        }
+      return prettyGson.toJson(res);
+    }
      
     //-------------------Retrieve All Users--------------------------------------------------------
       
@@ -123,6 +146,39 @@ public class UserController {
   
         userService.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    
+    
+        //-------------------Retrieve All Countries--------------------------------------------------------
+    
+      @RequestMapping(value = "/countries/", method = RequestMethod.GET)
+    public ResponseEntity<List<CountryDTO>> listAllCountries() {
+        List<CountryDTO> countries = userService.findAllCountries();
+        if(countries.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+        return new ResponseEntity<>(countries, HttpStatus.OK);
+    }
+    
+          //-------------------Retrieve States--------------------------------------------------------
+    @RequestMapping(value = "/states/{countryId}", method = RequestMethod.GET)
+    public ResponseEntity<List<FederalStateDTO>> getStatesByCountry(@PathVariable("countryId") Integer countryId) {
+        List<FederalStateDTO> states = userService.findStatesByCountry(countryId);
+        if(states.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+        return new ResponseEntity<>(states, HttpStatus.OK);
+    }
+    
+            //-------------------Retrieve Cities--------------------------------------------------------
+      
+    @RequestMapping(value = "/cities/{stateId}", method = RequestMethod.GET)
+    public ResponseEntity<List<CityDTO>> listAllCountries(@PathVariable("stateId") Integer stateId) {
+        List<CityDTO> cities = userService.findCitiesByState(stateId);
+        if(cities.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+        }
+        return new ResponseEntity<>(cities, HttpStatus.OK);
     }
   
 }

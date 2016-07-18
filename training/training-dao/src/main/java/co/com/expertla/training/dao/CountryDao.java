@@ -5,18 +5,17 @@
  */
 package co.com.expertla.training.dao;
 
-import co.com.expertla.base.jpa.BaseDAO;
-import co.com.expertla.training.model.entities.City;
+import co.com.expertla.training.model.entities.Country;
 import java.util.List;
 
 /**
  *
  * @author Edwin G
  */
-public interface CityDao extends BaseDAO<City> {
-    
-    City findById(Integer id);
-    
-    public List<City> findCitiesByState(Integer stateId);
-    
+public interface CountryDao {
+
+    Country findById(Integer id);
+
+    List<Country> findAllCountries();
+
 }

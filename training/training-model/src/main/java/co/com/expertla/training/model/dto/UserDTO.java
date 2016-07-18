@@ -56,7 +56,7 @@ public class UserDTO {
 
     private Integer cityId;
 
-    private Integer stateId;
+    private Short stateId;
     
     
     public UserDTO() {
@@ -64,7 +64,7 @@ public class UserDTO {
 
    public UserDTO(Integer userId, String name, String lastName, String email, Date birthDate, String address,
                    String sex, BigInteger weight, String phone, String cellphone, Integer cityId, 
-                   Integer stateId, String login, String facebookPage, String postalCode) {
+                   Short stateId, String login, String facebookPage, String postalCode) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -87,7 +87,7 @@ public class UserDTO {
     public static UserDTO mapFromUserEntity(User user) {
         return new UserDTO(user.getUserId(), user.getName(), user.getLastName(),user.getEmail(), user.getBirthDate(), user.getAddress(), 
                            user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId()!=null?user.getCityId().getCityId():null), 
-                           (user.getStateId()!=null?user.getStateId().getStateId():null), user.getLogin(), user.getFacebookPage(), user.getPostalCode());
+                           user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getPostalCode());
     }
     
       public static List<UserDTO> mapFromUsersEntities(List<User> users) {
@@ -239,11 +239,11 @@ public class UserDTO {
         this.cityId = cityId;
     }
 
-    public Integer getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(Integer stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

@@ -29,7 +29,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
      * @author <a href="mailto:edwin.gomez@expertla.com">Edwin Gomez</a>
      * @param userId
      * @param id
-     * @return 
+     * @return
      * @since 11/07/2016
      * @see co.com.expertla.training.dao.UserDao#findById(long)
      */
@@ -59,17 +59,17 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
 
     @Override
     public Integer saveUser(User user) {
-        try { 
+        try {
             return create(user).getUserId();
         } catch (DAOException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
     @Override
     public Integer updateUser(User user) {
-        try { 
+        try {
             return merge(user).getUserId();
         } catch (DAOException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -79,10 +79,23 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
 
     @Override
     public void deleteUser(User user) {
-         try { 
+        try {
             remove(user, user.getUserId());
         } catch (DAOException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public boolean isUser(String username, String password) {
+        try {
+            String qlString = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password";
+            setParameter("login", username);
+            setParameter("password", password);
+            List<User> query = createQuery(qlString);
+            return (query.get(0)!=null);
+        } catch (Exception e) {
+            return false;
         }
     }
 }
