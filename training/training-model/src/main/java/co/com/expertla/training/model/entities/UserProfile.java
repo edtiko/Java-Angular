@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,6 +37,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "UserProfile.findBySportsAchievements", query = "SELECT u FROM UserProfile u WHERE u.sportsAchievements = :sportsAchievements"),
     @NamedQuery(name = "UserProfile.findByAboutMe", query = "SELECT u FROM UserProfile u WHERE u.aboutMe = :aboutMe")})
 public class UserProfile implements Serializable {
+
+    @OneToMany(mappedBy = "userProfileId")
+    private Collection<UserAvailability> userAvailabilityCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,6 +66,9 @@ public class UserProfile implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
+    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
+    @ManyToOne
+    private Modality modalityId;
     @OneToMany(mappedBy = "userProfileId")
     private Collection<UserSport> userSportCollection;
     @OneToMany(mappedBy = "userProfileId")
@@ -193,6 +200,23 @@ public class UserProfile implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.UserProfile[ userProfileId=" + userProfileId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<UserAvailability> getUserAvailabilityCollection() {
+        return userAvailabilityCollection;
+    }
+
+    public void setUserAvailabilityCollection(Collection<UserAvailability> userAvailabilityCollection) {
+        this.userAvailabilityCollection = userAvailabilityCollection;
+    }
+
+    public Modality getModalityId() {
+        return modalityId;
+    }
+
+    public void setModalityId(Modality modalityId) {
+        this.modalityId = modalityId;
     }
     
 }

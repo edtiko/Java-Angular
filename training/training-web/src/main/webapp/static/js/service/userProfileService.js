@@ -17,11 +17,11 @@ var $contextPath = "http://localhost:8085/training-web/";
                             );
             },
              
-            mergeProfile: function(userProfile, id){
-                    return $http.post($contextPath+'userProfile/merge/'+id, userProfile)
+            mergeProfile: function(userProfile){
+                    return $http.post($contextPath+'userProfile/merge', userProfile)
                             .then(
                                     function(response){
-                                        return response.data;
+                                        return response.data.entity.output;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while merging userProfile');
@@ -31,10 +31,10 @@ var $contextPath = "http://localhost:8085/training-web/";
             },
              
             getProfile: function(userProfile){
-                    return $http.post($contextPath+'userProfile/get/by/id/'+userProfile)
+                    return $http.post($contextPath+'userProfile/get/by/id',userProfile)
                             .then(
                                     function(response){
-                                        return response.data;
+                                        return response.data.entity.output;
                                     }, 
                                     function(errResponse){
                                         console.error(userProfile);
@@ -42,10 +42,7 @@ var $contextPath = "http://localhost:8085/training-web/";
                                         return $q.reject(errResponse);
                                     }
                             );
-            }
-            
-         
-
+            },
          
         };
  

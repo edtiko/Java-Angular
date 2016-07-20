@@ -28,7 +28,7 @@ trainingApp.config(function ($routeProvider) {
             })
 
             .when('/profile', {
-                templateUrl: 'static/views/perfil/userProfile.html',
+                templateUrl: 'static/views/perfil/user-profile.html',
                 controller: 'UserProfileController'
             });
 });

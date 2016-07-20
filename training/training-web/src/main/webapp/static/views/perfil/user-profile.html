@@ -1,0 +1,201 @@
+
+<div class="formcontainer" ng-controller="UserProfileController as profileCtrl"> 
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Consultar por Id</label>
+            <div class="col-md-7">
+                <input ng-model="profileCtrl.userProfile.userId" type="text" class="form-control input-sm" style="width: 70%;display: inline">
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" ng-click="profileCtrl.findById(profileCtrl.userProfile)" >Consultar</button>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">¿Tienes pulsometro? </label>
+            <div class="col-md-7">
+                <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'1'"> Si
+                <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'0'"> No
+            </div>
+        </div>
+        <div class="form-group col-md-12" ng-show="userProfile.indPulsometer == 1">
+            <label class="col-md-2 control-lable">¿Cuál?</label>
+            <div class="col-md-7">
+                <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.pulsometer"
+                        ng-options="p.sportEquipmentId as p.brand for p in pulsometers">
+                    <option> Seleccione </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">¿Tienes potenciometro?</label>
+            <div class="col-md-7">
+                <input  type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'1'"> Si
+                <input type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'0'"> No
+            </div>
+            <div ng-show="userProfile.indPower == 1">
+                <label class="col-md-2 control-lable">¿Cuál?</label>
+                <div class="col-md-7">
+                    <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.potentiometer"
+                            ng-options="p.sportEquipmentId as p.brand for p in potentiometers">
+                        <option> Seleccione </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Disponibilidad</label>
+            <div class="col-md-7">
+                <div ng-repeat="d in userProfile.availability">
+                    <label>{{d.day}}</label>
+                    <input type="checkbox" ng-model="availability[d]" value="{{d.day}}" ng-checked="{{d.checked}}">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Objetivo</label>
+            <div class="col-md-7">
+                <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.objetive"
+                        ng-options="o.objetiveId as o.name for o in objetives">
+                    <option> Seleccione </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!--        <div class="row"> 
+                <div class="form-group col-md-12">
+                    <label class="col-md-2 control-lable">¿Tienes bicicleta? </label>
+                    <div class="col-md-7">
+                        <input  type="radio" name="bicicleta"> Si
+                        <input type="radio" name="bicicleta"> No
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label class="col-md-2 control-lable">¿Cuál?</label>
+                    <div class="col-md-7">
+                        <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.bike"
+                                ng-options="b.brand for b in bikes track by b.brand">
+                        </select>
+                    </div>
+                </div>
+            </div>-->
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">¿Qué tipo de zapatilla usas?</label>
+            <div class="col-md-7">
+                <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.shoes"
+                        ng-options="shoe.sportEquipmentId as shoe.brand for shoe in shoes">
+                    <option> Seleccione </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Disciplina Deportiva</label>
+            <div class="col-md-7">
+                <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.discipline"
+                        ng-options="disc.disciplineId as disc.name for disc in disciplines" ng-change="profileCtrl.getModalitiesByDisciplineId(userProfile.discipline)">
+                    <option selected="selected"> Seleccione </option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Modalidad</label>
+            <div class="col-md-7">
+                <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.modality"
+                        ng-options="m.modalityId as m.name for m in modalities">
+                    <option> Seleccione </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Edad Deportiva</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control input-sm" style="width: 70%;display: inline" ng-model="userProfile.ageSport">
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Ppm</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control input-sm" style="width: 70%;display: inline" ng-model="userProfile.ppm">
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Potencia</label>
+            <div class="col-md-7">
+                <input type="text" class="form-control input-sm" style="width: 70%;display: inline" ng-model="userProfile.power">
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">¿Practicas otros deportes?</label>
+            <div class="col-md-7">
+                <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.sport"
+                        ng-options="s.sportId as s.name for s in sports">
+                    <option> Seleccione </option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Logros Deportivos</label>
+            <div class="col-md-7">
+                <textarea class="ng-invalid form-control" ng-model="userProfile.sportsAchievements" 
+                          style="width: 70%;display: inline; resize: none">
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Sistema de medición </label>
+            <div class="col-md-7">
+                <select class="form-control" style="width: 70%;display: inline" ng-model="userProfile.indMetricSys">
+                    <option value="" hidden></option>
+                    <option value="-1"> Seleccione </option>
+                    <option ng-repeat="metricSys in metricSystems" value="{{metricSys.id}}">{{metricSys.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"> 
+        <div class="form-group col-md-12">
+            <label class="col-md-2 control-lable">Acerca de mí</label>
+            <div class="col-md-7">
+                <textarea class="form-control" style="width: 70%;display: inline;resize: none" ng-model="userProfile.aboutMe"></textarea>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary btn-sm" ng-click="profileCtrl.mergeUserProfile(userProfile)"> Guardar </button>
+</div>
