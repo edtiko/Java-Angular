@@ -15,11 +15,11 @@ trainingApp.config(function ($routeProvider) {
                 controller: 'UserController'
             })
 
-            // route for the about page
-            .when('/about', {
-                templateUrl: 'static/views/about.html',
-                controller: 'aboutController'
-            })
+			// route for the about page
+			.when('/calendar', {
+				templateUrl : 'static/views/calendar.html',
+				controller  : 'calendarController'
+			})
 
             // route for the contact page
             .when('/contact', {
