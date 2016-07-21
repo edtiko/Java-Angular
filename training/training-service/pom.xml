@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <springframework.version>4.2.0.RELEASE</springframework.version>
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
+        <spring.security.version>3.2.5.RELEASE</spring.security.version>
 
     </properties>
     <dependencies>
@@ -26,18 +26,7 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${springframework.version}</version>
         </dependency>
-        <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -51,12 +40,12 @@
             <artifactId>training-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>javaee</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>5</version>
-            <type>jar</type>
+          <dependency>
+            <groupId>co.com.expertla.training.model</groupId>
+            <artifactId>training-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
     <build>
         <pluginManagement>

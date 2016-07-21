@@ -98,4 +98,16 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
             return false;
         }
     }
+
+    @Override
+    public User findUserByUsername(String userName) {
+            try {
+            String qlString = "SELECT u FROM User u WHERE u.login = :login";
+            setParameter("login", userName);
+            List<User> query = createQuery(qlString);
+            return query.get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

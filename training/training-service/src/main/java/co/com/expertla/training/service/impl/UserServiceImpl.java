@@ -68,12 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findUserByUsername(String username) {
-        /*for(Usuario user : users){
-            if(user.getUsername().equalsIgnoreCase(username)){
-                return user;
-            }
-        }*/
-        return null;
+         return UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
     }
     
     @Transactional

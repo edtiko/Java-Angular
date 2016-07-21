@@ -15,6 +15,7 @@ import java.util.List;
 public interface UserDao extends BaseDAO<User>{
 	
 	User findById(Integer id);
+       User findUserByUsername(String userName);
         
         List<User> findAllUsers();
 
