@@ -25,14 +25,15 @@
       <div class="generic-container" ng-controller="UserController as ctrl">
           <div class="panel panel-default">
               <div class="panel-heading"><span class="lead">Datos Personales</span></div>
-              <div class="formcontainer">
+              <div class="panel-body">
+              <div class="container-fluid">
                   <form ng-submit="ctrl.submit()" name="myForm" class="form-horizontal">
-                      <input type="hidden" ng-model="ctrl.user.user_id" />
+                      <input type="hidden" ng-model="ctrl.user.userId" />
                       <div class="row">
                           <div class="form-group col-md-12">
-                              <label class="col-md-2 control-lable" for="uname">Nombres</label>
+                              <label class="col-md-2 control-lable" for="uname">Nombres:</label>
                               <div class="col-md-7">
-                                  <input type="text" ng-model="ctrl.user.name" id="uname" class="username form-control input-sm" placeholder="Ingrese su nombre" required ng-minlength="3"/>
+                                  <input type="text" ng-model="ctrl.user.name" id="uname" class="form-control input-sm" placeholder="Ingrese su Nombre" required ng-minlength="3"/>
                                   <div class="has-error" ng-show="myForm.$dirty">
                                       <span ng-show="myForm.uname.$error.required">Este es un campo requerido</span>
                                       <span ng-show="myForm.uname.$error.minlength">El tamaño minimo requerido es 3</span>
@@ -41,22 +42,25 @@
                               </div>
                           </div>
                       </div>
-                         
-                       
-                      <div class="row">
+                       <div class="row">
                           <div class="form-group col-md-12">
-                              <label class="col-md-2 control-lable" for="address">Address</label>
+                              <label class="col-md-2 control-lable" for="lname">Apellidos:</label>
                               <div class="col-md-7">
-                                  <input type="text" ng-model="ctrl.user.address" id="address" class="form-control input-sm" placeholder="Enter your Address. [This field is validation free]"/>
+                                  <input type="text" ng-model="ctrl.user.lastName" id="lname" class="form-control input-sm" placeholder="Ingrese su Apellido" required ng-minlength="3"/>
+                                  <div class="has-error" ng-show="myForm.$dirty">
+                                      <span ng-show="myForm.lname.$error.required">Este es un campo requerido</span>
+                                      <span ng-show="myForm.lname.$error.minlength">El tamaño minimo requerido es 3</span>
+                                      <span ng-show="myForm.lname.$invalid">Este campo es invalido</span>
+                                  </div>
                               </div>
                           </div>
                       </div>
- 
-                      <div class="row">
+                      
+                       <div class="row">
                           <div class="form-group col-md-12">
-                              <label class="col-md-2 control-lable" for="email">Email</label>
+                              <label class="col-md-2 control-lable" for="email">Correo Electr&oacute;nico:</label>
                               <div class="col-md-7">
-                                  <input type="email" ng-model="ctrl.user.email" id="email" class="email form-control input-sm" placeholder="Enter your Email" required/>
+                                  <input type="email" ng-model="ctrl.user.email" id="email" class="email form-control input-sm" placeholder="Ingrese su Correo" required/>
                                   <div class="has-error" ng-show="myForm.$dirty">
                                       <span ng-show="myForm.email.$error.required">This is a required field</span>
                                       <span ng-show="myForm.email.$invalid">This field is invalid </span>
@@ -64,15 +68,102 @@
                               </div>
                           </div>
                       </div>
- 
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="sex">Sexo:</label>
+                              <div class="col-md-7">
+                                  <select id="sex" ng-model="ctrl.user.sex" ng-options="k as v for (k,v) in sexOptions" class="form-control"></select>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="phone">Tel&eacute;fono fijo:</label>
+                              <div class="col-md-7">
+                                  <input type="text" ng-model="ctrl.user.phone" id="phone" class="form-control input-sm" placeholder="Ingrese su Tel&eacute;fono"/>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="cellphone">Celular:</label>
+                              <div class="col-md-7">
+                                  <input type="text" ng-model="ctrl.user.cellphone" id="cellphone" class="form-control input-sm" placeholder="Ingrese su Celular"/>
+                              </div>
+                          </div>
+                      </div>
+                        <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="country">Pa&iacute;s:</label>
+                              <div class="col-md-7">
+                                  <select ng-init=""  id="country" ng-model="ctrl.user.countryId" ng-options="country.countryId as country.name for country in countries" ng-change="getStatesByCountry(ctrl.user.countryId)" class="form-control"></select>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="state">Estado:</label>
+                              <div class="col-md-7">
+                                  <select id="state"  ng-model="ctrl.user.stateId" ng-options="state.stateId as state.name for state in states" ng-change="getCitiesByState(ctrl.user.stateId)" class="form-control"></select>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="city">Ciudad:</label>
+                              <div class="col-md-7">
+                                  <select id="city" ng-model="ctrl.user.cityId" ng-options="city.cityId as city.name for city in cities" ng-change="" class="form-control"></select>
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="address">Direcci&oacute;n:</label>
+                              <div class="col-md-7">
+                                  <input type="text" ng-model="ctrl.user.address" id="address" class="form-control input-sm" placeholder="Ingrese su Direcci&oacute;n"/>
+                              </div>
+                          </div>
+                      </div>
+                       
                       <div class="row">
-                          <div class="form-actions floatRight">
-                              <input type="submit"  value="{{!ctrl.user.user_id ? 'Add' : 'Update'}}" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid">
-                              <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Reset Form</button>
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="postalCode">C&oacute;digo Postal:</label>
+                              <div class="col-md-7">
+                                  <input type="text" ng-model="ctrl.user.postalCode" id="postalCode" class="form-control input-sm" placeholder="Ingrese su C&oacute;digo Postal"/>
+                              </div>
+                          </div>
+                      </div>
+                        <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="birthDate">Fecha de Nacimiento:</label>
+                              <div class="col-md-7">
+                                  <p class="input-group">
+                                      <input type="text" id="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="ctrl.user.birthDate" is-open="popup.opened" placeholder="Ingrese su Fecha de Nacimiento" datepicker-options="dateOptions" ng-required="true" close-text="Close" maxlength="10"/>
+                                      <span class="input-group-btn">
+                                          <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                      </span>
+                                  </p>
+                                 
+                              </div>
+                          </div>
+                      </div>
+                       <div class="row">
+                          <div class="form-group col-md-12">
+                              <label class="col-md-2 control-lable" for="postalCode">P&aacute;gina de Facebook:</label>
+                              <div class="col-md-7">
+                                  <input type="text" ng-model="ctrl.user.facebookPage" id="postalCode" class="form-control input-sm" placeholder="Ingrese su P&aacute;gina de Facebook"/>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group col-md-12">
+                          <div class="form-actions">
+                              <input type="submit"  value="{{!ctrl.user.userId ? 'Guardar' : 'Actualizar'}}" class="btn btn-primary btn-sm" ng-disabled="myForm.$invalid">
+                              <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Limpiar</button>
                           </div>
                       </div>
                   </form>
               </div>
+                  </div>
           </div>
           <div class="panel panel-default">
                 <!-- Default panel contents -->
@@ -90,12 +181,12 @@
                       </thead>
                       <tbody>
                           <tr ng-repeat="u in ctrl.users">
-                              <td><span ng-bind="u.user_id"></span></td>
+                              <td><span ng-bind="u.userId"></span></td>
                               <td><span ng-bind="u.name"></span></td>
                               <td><span ng-bind="u.address"></span></td>
                               <td><span ng-bind="u.email"></span></td>
                               <td>
-                              <button type="button" ng-click="ctrl.edit(u.user_id)" class="btn btn-success custom-width">Edit</button>  <button type="button" ng-click="ctrl.remove(u.user_id)" class="btn btn-danger custom-width">Remove</button>
+                              <button type="button" ng-click="ctrl.edit(u.userId)" class="btn btn-success custom-width">Editar</button>  <button type="button" ng-click="ctrl.remove(u.userId)" class="btn btn-danger custom-width">Eliminar</button>
                               </td>
                           </tr>
                       </tbody>
