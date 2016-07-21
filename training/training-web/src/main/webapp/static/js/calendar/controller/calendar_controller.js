@@ -1,12 +1,18 @@
+'use strict';
+ 
+trainingApp.controller('calendarController', ['$scope', 'UserService', function($scope, UserService) {
+          var self = this;
+          self.user={userId:null,name:'',lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', state_id: '', city_id: '', address: '', postal_code: '', birth_date: '', facebook_page:''};
+          self.users=[];
+               
+          self.reset = function(){
+              alert('reset')
+          };
+      }]);
+
 (function ($) {
 
     "use strict";
-    
-//    var $contextMenu = $("#contextMenu");
-//    $contextMenu.on("click", "a", function () {
-//        alert('add event');
-//        $contextMenu.hide();
-//    });
 
     var options = {
         language: 'es-CO',
@@ -49,6 +55,20 @@
         $this.click(function () {
             calendar.navigate($this.data('calendar-nav'));
         });
+    });
+
+    $('*[data-add-event]').click(function () {
+
+        $.ajax({
+            url: 'static/tmpls/add-event.html',
+            dataType: 'html',
+            type: 'GET',
+            async: false
+        }).done(function (html) {
+            $('#add-events-modal-body').html(html);
+        });
+
+        $('#add-events-modal').modal();
     });
 
     $('.btn-group button[data-calendar-view]').each(function () {

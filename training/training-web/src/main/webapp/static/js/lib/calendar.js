@@ -995,9 +995,9 @@ if (!String.prototype.formatNum) {
             self.view(view);
         });
         
-        $('*[data-add-event]').click(function () {
-            alert('add event');
-        });
+//        $('*[data-add-event]').click(function () {
+//            
+//        });
         $('.cal-cell').dblclick(function () {
             var view = $('[data-cal-date]', this).data('cal-view');
             self.options.day = $('[data-cal-date]', this).data('cal-date');
