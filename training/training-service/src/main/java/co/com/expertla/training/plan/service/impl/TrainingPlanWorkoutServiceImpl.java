@@ -40,8 +40,8 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 //        GET THE AVAILABLE DAYS FROM USER PROFILE
 
           //GET USER AVAILABILITY
-          UserAvailability userAvailability = new UserAvailability();
-          getAvailableDays(userAvailability, fromDate, toDate);   
+//          UserAvailability userAvailability = new UserAvailability();
+//          getAvailableDays(userAvailability, fromDate, toDate);   
 //        DAYS_AVAILABLE = FIND THE NEXT AMOUNT OF DAYS AVAILABLE IN THE 30 DAYS 
 //                
 //        IF(DAYS_AVAILABLE >= DAYS_OBJETIVE){

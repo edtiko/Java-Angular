@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: '/training-web/static',
+    baseUrl: '/training/static',
     urlArgs: 'v=1.0'
 });
 
