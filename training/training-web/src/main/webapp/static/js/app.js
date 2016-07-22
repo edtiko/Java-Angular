@@ -3,10 +3,14 @@
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
-var trainingApp = angular.module('trainingApp', ['ngRoute', 'ngAnimate', 'ui.bootstrap']);
+var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute', 'ngAnimate', 'ui.bootstrap']);
 
 // configure our routes
-trainingApp.config(function ($routeProvider) {
+trainingApp.config(function ($routeProvider, routeResolverProvider) {
+    
+    var route = routeResolverProvider.route;
+
+    
     $routeProvider
 
             .when('/login', {
@@ -19,11 +23,12 @@ trainingApp.config(function ($routeProvider) {
                 controller: 'UserController'
             })
 
-			// route for the about page
-			.when('/calendar', {
-				templateUrl : 'static/views/calendar.html',
-				controller  : 'calendarController'
-			})
+            // route for the about page
+//            .when('/calendar', {
+//                templateUrl: 'static/views/calendar.html',
+//                controller: 'calendarController'
+//            })
+            .when('/calendar', route.resolve('calendar'))
 
             // route for the contact page
             .when('/contact', {
@@ -65,11 +70,11 @@ trainingApp.controller('mainController', function ($scope) {
     }
 
     /*$scope.toggleMin = function () {
-        $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
-        $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
-    };
-
-    $scope.toggleMin();*/
+     $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+     $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+     };
+     
+     $scope.toggleMin();*/
 
     $scope.open = function () {
         $scope.popup.opened = true;
@@ -132,3 +137,20 @@ trainingApp.controller('contactController', function ($scope) {
 trainingApp.controller('DatepickerCtrl', function ($scope) {
 
 });
+
+/**
+ * 
+ * @param {type} element
+ * @returns 
+ */
+function compileAngularElement(element) {
+    var $div = $(element);
+    // The parent of the new element
+    var $target = $("[ng-app]");
+    angular.element($target).injector().invoke(['$compile', function ($compile) {
+            var $scope = angular.element($div).scope();
+            $compile($div)($scope);
+            // Finally, refresh the watch expressions in the new element
+            $scope.$apply();
+        }]);
+}

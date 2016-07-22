@@ -1,5 +1,4 @@
-<div style = "margin: 10px 0" ng-controller="calendarController">
-    {{calendarController.user.lastName}}
+<div style = "margin: 10px 0">
     <div class="row">
         <div class="form-group col-md-12">
             <label class="col-md-2 control-lable" for="tiempo">Tiempo</label>
@@ -38,8 +37,8 @@
 
     <div class="row">
         <div class="form-group col-md-12">
-            <input type="button" ng-click="calendarController.reset()" value="Guardar" class="btn btn-primary btn-sm">
-            <button type="button" ng-click="calendarController.reset()" class="btn btn-warning btn-sm">Limpiar</button>
+            <input type="button" ng-click="ctr.reset()" value="Guardar" class="btn btn-primary btn-sm">
+            <button type="button" ng-click="ctr.reset()" class="btn btn-warning btn-sm">Limpiar</button>
         </div>
     </div>
 
