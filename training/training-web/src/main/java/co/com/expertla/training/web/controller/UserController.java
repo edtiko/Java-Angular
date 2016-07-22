@@ -7,42 +7,53 @@ import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import co.com.expertla.training.service.UserService;
+import java.security.Principal;
+import java.util.List;
+import org.apache.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import co.com.expertla.training.model.entities.User;
-import co.com.expertla.training.service.UserService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.ResponseBody;
-
   
-@RestController
+@Controller
 public class UserController {
   
+    
+    private static final Logger LOGGER = Logger.getLogger(UserController.class);
+    
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
   
     
-   @RequestMapping(value = "/login/", method = RequestMethod.POST)
-    public @ResponseBody String authenticate(HttpServletRequest request) {
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET)
+    public UserDTO getUserInfo(Principal principal) {
+        System.out.println("Entro user info");
+        UserDTO user = userService.findUserByUsername(principal.getName());
+
+        return user != null ? user : null;
+    }
+   //@RequestMapping(value = "/login/", method = RequestMethod.POST)
+    /*public @ResponseBody String authenticate(@PathVariable("login") String login, @PathVariable("password") String password) {
         
-        String username = request.getParameter("login");
-        String password = request.getParameter("password");
+
         
-        boolean user = userService.isUser(username, password);
+        boolean user = userService.isUser(login, password);
         Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
 	String res  = "false";	
         
@@ -50,7 +61,7 @@ public class UserController {
             res = "true";
         }
       return prettyGson.toJson(res);
-    }
+    }*/
      
     //-------------------Retrieve All Users--------------------------------------------------------
       
@@ -179,6 +190,12 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(cities, HttpStatus.OK);
+    }
+    
+     @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> errorHandler(Exception exc) {
+        LOGGER.error(exc.getMessage(), exc);
+        return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
     }
   
 }

@@ -3,7 +3,6 @@
  */
 package co.com.expertla.training.web.configuration;
 
-import javax.servlet.Filter;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -18,7 +17,7 @@ public class IndexInitializer extends AbstractAnnotationConfigDispatcherServletI
   
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { IndexConfiguration.class };
+        return new Class[] { IndexConfiguration.class, AppSecurityConfig.class };
     }
    
     @Override
@@ -31,10 +30,10 @@ public class IndexInitializer extends AbstractAnnotationConfigDispatcherServletI
         return new String[] { "/" };
     }
      
-    @Override
+    /*@Override
     protected Filter[] getServletFilters() {
         Filter [] singleton = { new CORSFilter() };
         return singleton;
-    }
+    }*/
   
 }
