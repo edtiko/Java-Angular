@@ -22,6 +22,11 @@ var trainingApp = angular.module('trainingApp', ['ngRoute','frontendServices', '
                 templateUrl: 'static/views/about.html',
                 controller: 'aboutController'
             })
+            
+            .when('/calendar', {
+                templateUrl: 'static/views/calendar.html',
+                controller: 'calendarController'
+            })
 
             // route for the contact page
             .when('/contact', {
@@ -130,6 +135,23 @@ trainingApp.controller('contactController', function ($scope) {
 trainingApp.controller('DatepickerCtrl', function ($scope) {
 
 });
+
+/**
+ * 
+ * @param {type} element
+ * @returns 
+ */
+function compileAngularElement(element) {
+    var $div = $(element);
+    // The parent of the new element
+    var $target = $("[ng-app]");
+    angular.element($target).injector().invoke(['$compile', function ($compile) {
+            var $scope = angular.element($div).scope();
+            $compile($div)($scope);
+            // Finally, refresh the watch expressions in the new element
+            $scope.$apply();
+        }]);
+}
 
 
 trainingApp.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
