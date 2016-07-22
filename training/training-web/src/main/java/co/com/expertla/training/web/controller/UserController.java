@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +24,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
   
@@ -58,6 +64,29 @@ public class UserController {
         }
       return prettyGson.toJson(res);
     }*/
+    
+    	/**
+	 * Upload single file using Spring Controller
+     * @param file
+     * @param userId
+     * @return 
+	 */
+    @RequestMapping(value = "/uploadFile/{userId}", method = RequestMethod.POST)
+    public @ResponseBody
+    String uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                userService.saveProfilePhoto(bytes, userId);
+                return "You successfully uploaded file=" ;
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                return "You failed to upload  => " + e.getMessage();
+            }
+        } else {
+            return "You failed to upload  because the file was empty.";
+        }
+    }
      
     //-------------------Retrieve All Users--------------------------------------------------------
       

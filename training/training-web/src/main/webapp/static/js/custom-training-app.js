@@ -131,14 +131,32 @@ trainingApp.controller('DatepickerCtrl', function ($scope) {
 
 });
 
+trainingApp.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
 
-trainingApp.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
+
+trainingApp.controller('UserController', ['$scope', 'UserService','$filter', function($scope, UserService, $filter) {
           var self = this;
-          self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: ''};
+          self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: '', profilePhoto:''};
           self.users=[];
           $scope.countries=[];
           $scope.states=[];
           $scope.cities=[];
+          $scope.dateAsString = null;
+          $scope.dt = null;
          $scope.sexOptions = {
             m: "Masculino",
             f: "Femenino"
@@ -249,8 +267,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
                 if (self.users[i].userId === id) {
                     $scope.getStatesByCountry(self.users[i].countryId);
                     $scope.getCitiesByState(self.users[i].federalStateId);
-                    self.users[i].birthDay = new Date('01-05-1991');
-                    self.users[i].postalCode = 'hola';
+                    var date = self.users[i].birthDate.split("/");
+                    console.log(date);
+                    $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+            
                     self.user = angular.copy(self.users[i]);
                     break;
                 }
@@ -267,7 +287,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
  
            
           self.reset = function(){
-              self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: ''};
+              self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: '', profilePhoto:''};
               $scope.myForm.$setPristine(); //reset Form
           };
           
@@ -277,5 +297,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
                   self.authenticateUser(self.user.login, self.user.password);
           
           };
+          
+          $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        console.log('file is ' );
+        console.dir(file);
+        UserService.uploadFileToUrl(file, self.user.userId);
+    };
  
       }]);
