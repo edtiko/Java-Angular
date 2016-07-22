@@ -40,7 +40,7 @@ require.config({
             deps: ['angular']
         },
         frontendServices: {
-            deps: ['angular', 'lodash', 'csrfInterceptor']
+            deps: ['angular', 'lodash']
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'frontendServices','angularBoostrap']

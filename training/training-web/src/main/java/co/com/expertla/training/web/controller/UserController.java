@@ -14,22 +14,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
-import java.security.Principal;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
   
-@Controller
+@RestController
 public class UserController {
   
     
@@ -39,7 +35,7 @@ public class UserController {
     UserService userService;  //Service which will do all data retrieval/manipulation work
   
     
-    @ResponseBody
+   /* @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET)
     public UserDTO getUserInfo(Principal principal) {
@@ -47,7 +43,7 @@ public class UserController {
         UserDTO user = userService.findUserByUsername(principal.getName());
 
         return user != null ? user : null;
-    }
+    }*/
    //@RequestMapping(value = "/login/", method = RequestMethod.POST)
     /*public @ResponseBody String authenticate(@PathVariable("login") String login, @PathVariable("password") String password) {
         
@@ -152,7 +148,7 @@ public class UserController {
     //------------------- Delete All Users --------------------------------------------------------
       
     @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
-    public ResponseEntity<User> deleteAllUsers() {
+    public ResponseEntity<UserDTO> deleteAllUsers() {
         System.out.println("Deleting All Users");
   
         userService.deleteAllUsers();

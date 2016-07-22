@@ -3,7 +3,7 @@
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
-var trainingApp = angular.module('trainingApp', ['ngRoute','frontendServices', 'spring-security-csrf-token-interceptor','ui.bootstrap'])
+var trainingApp = angular.module('trainingApp', ['ngRoute','frontendServices','ui.bootstrap'])
    .config(function ($routeProvider) {
     $routeProvider
 
@@ -156,7 +156,7 @@ function compileAngularElement(element) {
 
 trainingApp.controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
           var self = this;
-          self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', stateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: ''};
+          self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: ''};
           self.users=[];
           $scope.countries=[];
           $scope.states=[];
@@ -177,6 +177,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
                        );
           };
            $scope.getStatesByCountry = function(countryId){
+               if(countryId != null){
               UserService.getStatesByCountry(countryId)
                   .then(
                                function(response) {
@@ -185,9 +186,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
                                 function(errResponse){
                                     console.error('Error while fetching Currencies');
                                 }
-                       );
+                       );}
           };
            $scope.getCitiesByState = function(stateId){
+               if(stateId != null){
               UserService.getCitiesByState(stateId)
                   .then(
                                function(response) {
@@ -196,7 +198,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
                                 function(errResponse){
                                     console.error('Error while fetching Currencies');
                                 }
-                       );
+                       ); }
           };
           self.fetchAllUsers = function(){
               UserService.fetchAllUsers()
@@ -263,15 +265,19 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
               self.reset();
           };
                
-          self.edit = function(id){
-              console.log('id to be edited', id);
-              for(var i = 0; i < self.users.length; i++){
-                  if(self.users[i].userId === id) {
-                     self.user = angular.copy(self.users[i]);
-                     break;
-                  }
-              }
-          };
+        self.edit = function (id) {
+            console.log('id to be edited', id);
+            for (var i = 0; i < self.users.length; i++) {
+                if (self.users[i].userId === id) {
+                    $scope.getStatesByCountry(self.users[i].countryId);
+                    $scope.getCitiesByState(self.users[i].federalStateId);
+                    self.users[i].birthDay = new Date('01-05-1991');
+                    self.users[i].postalCode = 'hola';
+                    self.user = angular.copy(self.users[i]);
+                    break;
+                }
+            }
+        };
                
           self.remove = function(id){
               console.log('id to be deleted', id);
@@ -283,7 +289,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', function($sco
  
            
           self.reset = function(){
-              self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', stateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: ''};
+              self.user={userId:null,name:'', login: '', password: '', lastName:'',email:'', sex:'', weight:'', phone:'', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage:'', countryId: ''};
               $scope.myForm.$setPristine(); //reset Form
           };
           

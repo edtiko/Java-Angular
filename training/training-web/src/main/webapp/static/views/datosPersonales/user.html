@@ -96,7 +96,7 @@
                           <div class="form-group col-md-12">
                               <label class="col-md-2 control-lable" for="country">Pa&iacute;s:</label>
                               <div class="col-md-7">
-                                  <select ng-init=""  id="country" ng-model="ctrl.user.countryId" ng-options="country.countryId as country.name for country in countries" ng-change="getStatesByCountry(ctrl.user.countryId)" class="form-control"></select>
+                                  <select ng-init="" placeholder="Ingrese su País" id="country" ng-model="ctrl.user.countryId" ng-options="country.countryId as country.name for country in countries" ng-change="getStatesByCountry(ctrl.user.countryId)" class="form-control"></select>
                               </div>
                           </div>
                       </div>
@@ -104,7 +104,7 @@
                           <div class="form-group col-md-12">
                               <label class="col-md-2 control-lable" for="state">Estado:</label>
                               <div class="col-md-7">
-                                  <select id="state"  ng-model="ctrl.user.stateId" ng-options="state.stateId as state.name for state in states" ng-change="getCitiesByState(ctrl.user.stateId)" class="form-control"></select>
+                                  <select id="state"  ng-model="ctrl.user.federalStateId" ng-options="state.federalStateId as state.name for state in states" ng-change="getCitiesByState(ctrl.user.federalStateId)" class="form-control"></select>
                               </div>
                           </div>
                       </div>

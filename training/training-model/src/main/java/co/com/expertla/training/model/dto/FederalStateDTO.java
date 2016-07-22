@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class FederalStateDTO {
     
-    private Integer stateId;
+    private Integer federalStateId;
     private Integer countryId;
     private String name;
     
@@ -24,7 +24,7 @@ public class FederalStateDTO {
     }
     
     public FederalStateDTO(FederalState state){
-       this.stateId = state.getFederalStateId();
+       this.federalStateId = state.getFederalStateId();
        this.name = state.getName();
        this.countryId = state.getCountryId() != null?state.getCountryId().getCountryId():null;
     }
@@ -37,13 +37,14 @@ public class FederalStateDTO {
         return states.stream().map((state) -> mapFromStateEntity(state)).collect(Collectors.toList());
     }
 
-    public Integer getStateId() {
-        return stateId;
+    public Integer getFederalStateId() {
+        return federalStateId;
     }
 
-    public void setStateId(Integer stateId) {
-        this.stateId = stateId;
+    public void setFederalStateId(Integer federalStateId) {
+        this.federalStateId = federalStateId;
     }
+
 
     public Integer getCountryId() {
         return countryId;

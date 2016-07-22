@@ -58,13 +58,17 @@ public class UserDTO {
 
     private Short stateId;
     
+    private Integer federalStateId;
+    
+    private Integer countryId;
+
     
     public UserDTO() {
     }
 
    public UserDTO(Integer userId, String name, String lastName, String email, Date birthDate, String address,
                    String sex, BigInteger weight, String phone, String cellphone, Integer cityId, 
-                   Short stateId, String login, String facebookPage, String postalCode) {
+                   Short stateId, String login, String facebookPage, String postalCode, Integer federalStateId, Integer countryId) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -80,6 +84,8 @@ public class UserDTO {
         this.stateId = stateId;
         this.facebookPage = facebookPage;
         this.postalCode = postalCode;
+        this.federalStateId = federalStateId;
+        this.countryId = countryId;
         
     }
 
@@ -87,7 +93,9 @@ public class UserDTO {
     public static UserDTO mapFromUserEntity(User user) {
         return new UserDTO(user.getUserId(), user.getName(), user.getLastName(),user.getEmail(), user.getBirthDate(), user.getAddress(), 
                            user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId()!=null?user.getCityId().getCityId():null), 
-                           user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getPostalCode());
+                           user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getPostalCode(), 
+                           user.getCityId()!=null?user.getCityId().getFederalStateId().getFederalStateId():null, 
+                           user.getCityId()!=null?user.getCityId().getFederalStateId().getCountryId().getCountryId():null);
     }
     
       public static List<UserDTO> mapFromUsersEntities(List<User> users) {
@@ -245,6 +253,23 @@ public class UserDTO {
 
     public void setStateId(Short stateId) {
         this.stateId = stateId;
+    }
+    
+    
+    public Integer getFederalStateId() {
+        return federalStateId;
+    }
+
+    public void setFederalStateId(Integer federalStateId) {
+        this.federalStateId = federalStateId;
+    }
+
+    public Integer getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
     }
 
     

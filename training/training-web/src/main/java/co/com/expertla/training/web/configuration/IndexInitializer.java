@@ -17,7 +17,7 @@ public class IndexInitializer extends AbstractAnnotationConfigDispatcherServletI
   
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { IndexConfiguration.class, AppSecurityConfig.class };
+        return new Class[] { IndexConfiguration.class};
     }
    
     @Override
