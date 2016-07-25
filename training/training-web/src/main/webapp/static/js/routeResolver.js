@@ -9,21 +9,18 @@ define([], function () {
         };
 
         this.routeConfig = function () {
-            var viewsDirectory = '/training-web/static/views/',
-                controllersDirectory = '/training-web/static/js/',
-
-            setBaseDirectories = function (viewsDir, controllersDir) {
-                viewsDirectory = viewsDir;
-                controllersDirectory = controllersDir;
-            },
-
-            getViewsDirectory = function () {
-                return viewsDirectory;
-            },
-
-            getControllersDirectory = function () {
-                return controllersDirectory;
-            };
+            var viewsDirectory = '/training/static/views/',
+                    controllersDirectory = '/training/static/js/',
+                    setBaseDirectories = function (viewsDir, controllersDir) {
+                        viewsDirectory = viewsDir;
+                        controllersDirectory = controllersDir;
+                    },
+                    getViewsDirectory = function () {
+                        return viewsDirectory;
+                    },
+                    getControllersDirectory = function () {
+                        return controllersDirectory;
+                    };
 
             return {
                 setBaseDirectories: setBaseDirectories,
@@ -35,32 +32,33 @@ define([], function () {
         this.route = function (routeConfig) {
 
             var resolve = function (baseName, path, secure) {
-                if (!path) path = '';
+                if (!path)
+                    path = '';
 
                 var routeDef = {};
-                routeDef.templateUrl = routeConfig.getViewsDirectory() + path + baseName + '.html';
-                routeDef.controller = baseName + '_controller';
+                routeDef.controller = baseName + 'Controller';
                 routeDef.secure = (secure) ? secure : false;
                 routeDef.resolve = {
                     load: ['$q', '$rootScope', function ($q, $rootScope) {
-                        var dependencies = [routeConfig.getControllersDirectory() + path + 
-                                    baseName + "/" + 'controller' + "/" + baseName + '_controller.js'];
-                        return resolveDependencies($q, $rootScope, dependencies);
-                    }]
+                            var dependencies = [routeConfig.getControllersDirectory() + path +
+                                        baseName + "/" + 'controller' + "/" + baseName + '_controller.js'];
+                            return resolveDependencies($q, $rootScope, dependencies);
+                        }]
                 };
+                routeDef.templateUrl = routeConfig.getViewsDirectory() + path + baseName + '.html';
 
                 return routeDef;
+
             },
+                    resolveDependencies = function ($q, $rootScope, dependencies) {
+                        var defer = $q.defer();
+                        require(dependencies, function () {
+                            defer.resolve();
+                            $rootScope.$apply();
+                        });
 
-            resolveDependencies = function ($q, $rootScope, dependencies) {
-                var defer = $q.defer();
-                require(dependencies, function () {
-                    defer.resolve();
-                    $rootScope.$apply()
-                });
-
-                return defer.promise;
-            };
+                        return defer.promise;
+                    };
 
             return {
                 resolve: resolve

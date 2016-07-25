@@ -15,7 +15,9 @@ require.config({
         csrfInterceptor: '../bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
         lodash: "../bower_components/lodash/dist/lodash",
         frontendServices: 'frontend-services',
-        trainingApp: "custom-training-app"
+        trainingApp: "custom-training-app",
+        calendarController: "calendar/controller/calendar_controller",
+        app: "routeResolver"
     },
     shim: {
         angular: {
@@ -43,12 +45,16 @@ require.config({
             deps: ['angular', 'lodash']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'frontendServices','angularBoostrap']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 
+                'frontendServices','angularBoostrap']
+        },
+        app: {
+            deps: ['trainingApp']
         }
     }
 });
 
-require(['trainingApp'], function () {
+require(['app'], function () {
 
     angular.bootstrap(document.getElementById('trainingApp'), ['trainingApp']);
 
