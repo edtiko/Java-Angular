@@ -77,6 +77,18 @@ angular.module('frontendServices', [])
                                         }
                                 );
                     },
+                    getImageProfile: function(userId){
+                          return $http.get('http://localhost:8080/training/getImageProfile/'+userId)
+                                .then(
+                                        function (response) {
+                                            return response.data;
+                                        },
+                                        function (errResponse) {
+                                            console.error('Error while fetching image profile');
+                                            return $q.reject(errResponse);
+                                        }
+                                );
+                    },
                     createUser: function (user) {
                         user.birthDate = user.birthDate.getDate() + '/' + (user.birthDate.getMonth() + 1) + '/' + user.birthDate.getFullYear();
                         return $http.post('http://localhost:8080/training/user/', user)
@@ -129,17 +141,19 @@ angular.module('frontendServices', [])
                                 );
                     },
                     uploadFileToUrl: function (file, userId) {
-                        var fd = new FormData();
-                        fd.append('file', file);
-                        fd.append('userId', userId);
-                        $http.post('http://localhost:8080/training/uploadFile/'+userId, fd, {
-                            transformRequest: angular.identity,
-                            headers: {'Content-Type': undefined}
-                        })
-                                .success(function () {
-                                })
-                                .error(function () {
-                                });
+                        if (file != null && userId != null) {
+                            var fd = new FormData();
+                            fd.append('file', file);
+                            fd.append('userId', userId);
+                            $http.post('http://localhost:8080/training/uploadFile/' + userId, fd, {
+                                transformRequest: angular.identity,
+                                headers: {'Content-Type': undefined}
+                            })
+                                    .success(function () {
+                                    })
+                                    .error(function () {
+                                    });
+                        }
                     }
                 };
             }]);

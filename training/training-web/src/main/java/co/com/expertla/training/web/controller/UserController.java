@@ -14,10 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -85,6 +85,27 @@ public class UserController {
             }
         } else {
             return "You failed to upload  because the file was empty.";
+        }
+    }
+
+    @RequestMapping(value = "/getImageProfile/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<String> getImageProfile(@PathVariable("userId") Integer userId,
+            HttpServletResponse response) {
+        try {
+            final HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            UserDTO usuario = userService.findById(userId);
+            byte[] binaryData = usuario != null ? usuario.getProfilePhoto() : null;
+            if (binaryData != null) {
+                byte[] encodeBase64 = Base64.encodeBase64(binaryData);
+                String base64Encoded = new String(encodeBase64, "UTF-8");
+                return new ResponseEntity<>(base64Encoded, headers, HttpStatus.OK);
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
         }
     }
      

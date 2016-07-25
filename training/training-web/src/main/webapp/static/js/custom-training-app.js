@@ -157,6 +157,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService','$filter', fun
           $scope.cities=[];
           $scope.dateAsString = null;
           $scope.dt = null;
+          $scope.dataImage = "static/img/profile-default.png";
          $scope.sexOptions = {
             m: "Masculino",
             f: "Femenino"
@@ -193,6 +194,22 @@ trainingApp.controller('UserController', ['$scope', 'UserService','$filter', fun
                                },
                                 function(errResponse){
                                     console.error('Error while fetching Currencies');
+                                }
+                       ); }
+          };
+           $scope.getImageProfile = function(userId){
+               if(userId != null){
+              UserService.getImageProfile(userId)
+                  .then(
+                               function(response) {
+                                   if(response != ""){
+                                    $scope.dataImage = "data:image/png;base64,"+response;
+                                }else{
+                                  $scope.dataImage = "static/img/profile-default.png"  
+                                }
+                               },
+                                function(errResponse){
+                                    console.error('Error while fetching Image Profile');
                                 }
                        ); }
           };
@@ -267,8 +284,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService','$filter', fun
                 if (self.users[i].userId === id) {
                     $scope.getStatesByCountry(self.users[i].countryId);
                     $scope.getCitiesByState(self.users[i].federalStateId);
+                    $scope.getImageProfile(id);
                     var date = self.users[i].birthDate.split("/");
-                    console.log(date);
                     $scope.dt = new Date(date[2], date[1] - 1, date[0]);
             
                     self.user = angular.copy(self.users[i]);
