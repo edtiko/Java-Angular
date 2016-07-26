@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl;
 
-import co.com.expertla.training.dao.UserAvailabilityDao;
+import co.com.expertla.training.user.dao.UserAvailabilityDao;
 import co.com.expertla.training.model.dto.UserAvailabilityDTO;
 import co.com.expertla.training.model.entities.UserAvailability;
 import co.com.expertla.training.service.UserAvailabilityService;
@@ -39,7 +39,7 @@ public class UserAvailabilityServiceImpl implements UserAvailabilityService {
             dto.setChecked(userAvailability.getTuesday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
-            dto.setDay("Miércoles");
+            dto.setDay("Miercoles");
             dto.setChecked(userAvailability.getWednesday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
@@ -51,7 +51,7 @@ public class UserAvailabilityServiceImpl implements UserAvailabilityService {
             dto.setChecked(userAvailability.getFriday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
-            dto.setDay("Sábado");
+            dto.setDay("Sabado");
             dto.setChecked(userAvailability.getSaturday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
@@ -67,6 +67,11 @@ public class UserAvailabilityServiceImpl implements UserAvailabilityService {
     public UserAvailability findByUserId(Integer id) throws Exception {
         List<UserAvailability> list =  userAvailabilityDao.findByUserId(id);
         return (list == null || list.isEmpty()) ? null : list.get(0);
+    }
+    
+    @Override
+    public UserAvailability create(UserAvailability userAvailability) throws Exception {
+        return userAvailabilityDao.create(userAvailability);
     }
  
     @Override

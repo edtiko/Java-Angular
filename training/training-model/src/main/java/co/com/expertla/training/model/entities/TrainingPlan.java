@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
@@ -13,10 +8,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,7 +37,8 @@ public class TrainingPlan implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @Basic(optional = false)@SequenceGenerator(name = "training_plan_seq", sequenceName = "training_plan_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_plan_seq")
     @Column(name = "training_plan_id")
     private Integer trainingPlanId;
     @Basic(optional = false)
@@ -48,7 +47,6 @@ public class TrainingPlan implements Serializable {
     @Column(name = "description")
     private String description;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
     @Column(name = "duration")
     private BigDecimal duration;
     @Basic(optional = false)

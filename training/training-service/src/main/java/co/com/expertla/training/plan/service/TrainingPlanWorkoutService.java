@@ -1,6 +1,3 @@
-/**
- * 
- */
 package co.com.expertla.training.plan.service;
 
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
@@ -28,6 +25,9 @@ public interface TrainingPlanWorkoutService {
      * @throws Exception 
      */
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception;
+    
+    
+    public void generatePlan(Integer id,Date fromDate, Date toDate) throws Exception;
 
  
 }

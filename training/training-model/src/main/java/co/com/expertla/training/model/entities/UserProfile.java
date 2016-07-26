@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
@@ -11,12 +6,15 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -38,12 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserProfile.findByAboutMe", query = "SELECT u FROM UserProfile u WHERE u.aboutMe = :aboutMe")})
 public class UserProfile implements Serializable {
 
-    @OneToMany(mappedBy = "userProfileId")
-    private Collection<UserAvailability> userAvailabilityCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @Basic(optional = false)@SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
     @Column(name = "user_profile_id")
     private Integer userProfileId;
     @Column(name = "ind_pulsometer")
@@ -73,6 +69,8 @@ public class UserProfile implements Serializable {
     private Collection<UserSport> userSportCollection;
     @OneToMany(mappedBy = "userProfileId")
     private Collection<EquipmentUserProfile> equipmentUserProfileCollection;
+    @OneToMany(mappedBy = "userProfileId")
+    private Collection<UserAvailability> userAvailabilityCollection;
 
     public UserProfile() {
     }

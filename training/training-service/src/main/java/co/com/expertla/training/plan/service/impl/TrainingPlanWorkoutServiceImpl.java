@@ -1,8 +1,10 @@
-/**
- * 
- */
 package co.com.expertla.training.plan.service.impl;
 
+import co.com.expertla.training.configuration.dao.ActivityDao;
+import co.com.expertla.training.plan.dao.DcfDao;
+import co.com.expertla.training.user.dao.UserAvailabilityDao;
+import co.com.expertla.training.user.dao.UserProfileDao;
+import co.com.expertla.training.enums.StateEnum;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
+import co.com.expertla.training.model.entities.Activity;
+import co.com.expertla.training.model.entities.Dcf;
+import co.com.expertla.training.model.entities.State;
+import co.com.expertla.training.model.entities.TrainingPlan;
+import co.com.expertla.training.model.entities.TrainingPlanUser;
+import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.model.entities.UserAvailability;
+import co.com.expertla.training.model.entities.UserProfile;
+import co.com.expertla.training.plan.dao.TrainingPlanDao;
+import co.com.expertla.training.plan.dao.TrainingPlanUserDao;
 import co.com.expertla.training.plan.dao.TrainingPlanWorkoutDao;
 import co.com.expertla.training.plan.service.TrainingPlanWorkoutService;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,32 +41,171 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
      
     @Autowired
     private TrainingPlanWorkoutDao trainingPlanWorkoutDao;
+    
+    @Autowired
+    private UserProfileDao userProfileDao;
+    
+    @Autowired
+    private DcfDao dcfDao;
+    
+    @Autowired
+    private UserAvailabilityDao userAvailabilityDao;
+    
+    @Autowired
+    private ActivityDao activityDao;
+    
+    @Autowired
+    private TrainingPlanDao trainingPlanDao;
+    
+    @Autowired
+    private TrainingPlanUserDao trainingPlanUserDao;
 
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
-        
-        //TODO:
-        
-//        GET THE CURRENT DCF FOR THE USER
-
-//        GET THE AVAILABLE DAYS FROM USER PROFILE
-
-          //GET USER AVAILABILITY
-          UserAvailability userAvailability = new UserAvailability();
-          getAvailableDays(userAvailability, fromDate, toDate);   
-//        DAYS_AVAILABLE = FIND THE NEXT AMOUNT OF DAYS AVAILABLE IN THE 30 DAYS 
-//                
-//        IF(DAYS_AVAILABLE >= DAYS_OBJETIVE){
-//          CREATE_PLAN_WITH_AVAILABLE_DAYS()
-//        }ELSE{
-//          CREATE_PLAN_WITH_EXTRA_DAYS()
-//        }
-                
-        
         return trainingPlanWorkoutDao.getPlanWorkoutByUser(user, fromDate, toDate);
     }
     
+    @Override
+    public void generatePlan(Integer id,Date fromDate, Date toDate) throws Exception {
+        UserProfile userProfile = userProfileDao.findByUserId(id);
+        Dcf dcf = dcfDao.findByObjetiveIdAndModalityId(userProfile.getObjetiveId().getObjetiveId(), userProfile.getModalityId().getModalityId());
+        List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(id);
+        UserAvailability userAvailability =(userAvailabilityList == null || userAvailabilityList.isEmpty()) ? null : userAvailabilityList.get(0);
+        int daysAvailable = getAvailableDays(userAvailability, fromDate, toDate);
+        
+        if(daysAvailable >= dcf.getSessions()) {
+            exactDays(userAvailability, fromDate, toDate, userProfile, dcf);
+        } else {
+            //Distribute days and assign activities
+        }
+        
+    }
     	
+    private void exactDays(UserAvailability userAvailability, Date startDate, Date endDate, UserProfile userProfile, Dcf dcf) throws Exception {
+        List<Activity> activityList = activityDao.findByObjetiveIdAndModalityId(userProfile.getObjetiveId().getObjetiveId(), 
+                userProfile.getModalityId().getModalityId());
+        List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
+        String pattern = dcf.getPattern();
+        //Start date
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);  
+        //End date
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+        String[] parts = pattern.split("-");
+        int length = parts.length;   
+        String code = "";
+        
+        List<Activity> list = new ArrayList<>(activityList.size());
+        for(Activity act: activityList) list.add(act);
+        
+        TrainingPlan trainingPlan = new TrainingPlan();
+        trainingPlan.setName(userProfile.getObjetiveId().getName()+"-"+userProfile.getModalityId().getName()+"-"+userProfile.getUserProfileId());
+        trainingPlan.setCreationDate(startDate);
+        trainingPlan.setEndDate(endDate);
+        
+        TrainingPlanUser planUser = new TrainingPlanUser();
+        planUser.setTrainingPlanId(trainingPlan);
+        planUser.setUserId(userProfile.getUserId());
+        planUser.setStateId(new State(StateEnum.ACTIVE.getId()));
+        
+        TrainingPlanWorkout workout = new TrainingPlanWorkout();
+        int pivotDay;
+        Activity activity =  new Activity();
+        int i = 0;
+        boolean planWorkout =false;
+        while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
+            if(i<length) {
+                code = parts[i];
+            } else {
+                i = 0;
+                code = parts[i];
+            }
+            workout = new TrainingPlanWorkout();
+            activity = getActivityByPC(list,activityList, code);
+            pivotDay = startCal.get(Calendar.DAY_OF_WEEK);
+            if (pivotDay == Calendar.SUNDAY && userAvailability.getSunday()) {
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            }else if(pivotDay == Calendar.MONDAY && userAvailability.getMonday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            }else if(pivotDay == Calendar.TUESDAY && userAvailability.getTuesday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            }else if(pivotDay == Calendar.WEDNESDAY && userAvailability.getWednesday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            }else if(pivotDay == Calendar.THURSDAY && userAvailability.getThursday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            }else if(pivotDay == Calendar.FRIDAY && userAvailability.getFriday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            }else if(pivotDay == Calendar.SATURDAY && userAvailability.getSaturday()) {
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            }
+            if(planWorkout) {
+                list.remove(activity);
+                planWorkout = false;
+                i++;
+            }
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+        } 
+        trainingPlanDao.create(trainingPlan);
+        trainingPlanUserDao.create(planUser);
+        trainingPlanWorkoutDao.createList(workouts);
+    }
+    
+    private Activity getActivityByPC(List<Activity> activityList,List<Activity> originalList, String pattern) {
+        Activity act = new Activity();
+        for (Activity activity : activityList) {
+            if(activity.getPhysiologicalCapacityId().getCode().equals(pattern)) {
+                act = activity;
+                break;
+            }
+        }
+        if (act.getActivityId() == null) {
+            for (Activity activity : originalList) {
+                if (activity.getPhysiologicalCapacityId().getCode().equals(pattern)) {
+                    act = activity;
+                    break;
+                }
+            }
+        }
+        return act;
+    }
+    
+    /**
+     * Gets the quantity of days available in a range date according to user availability
+     * @param userAvailability
+     * @param startDate
+     * @
+     * param endDate
+     * @return 
+     */
     private int getAvailableDays(UserAvailability userAvailability, Date startDate, Date endDate) {
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(startDate);        

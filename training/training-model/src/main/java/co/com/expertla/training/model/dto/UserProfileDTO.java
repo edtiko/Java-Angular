@@ -24,7 +24,7 @@ public class UserProfileDTO implements Serializable {
     private Integer discipline;
     private Integer sport;
     private Integer shoes;
-    private List<SportEquipmentDTO> bikes;
+    private Integer bikes;
     private Integer potentiometer;
     private Integer pulsometer;
     private Integer objetive;
@@ -158,11 +158,11 @@ public class UserProfileDTO implements Serializable {
         this.shoes = shoes;
     }
 
-    public List<SportEquipmentDTO> getBikes() {
+    public Integer getBikes() {
         return bikes;
     }
 
-    public void setBikes(List<SportEquipmentDTO> bikes) {
+    public void setBikes(Integer bikes) {
         this.bikes = bikes;
     }
 

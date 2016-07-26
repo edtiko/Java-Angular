@@ -1,6 +1,7 @@
 package co.com.expertla.training.service;
 
 import co.com.expertla.training.model.dto.UserProfileDTO;
+import co.com.expertla.training.model.entities.UserProfile;
 
 /**
  * Service for User Profile <br>
@@ -11,7 +12,7 @@ import co.com.expertla.training.model.dto.UserProfileDTO;
 public interface UserProfileService {
 
     /**
-     * Busca user profile por user Id <br>
+     * Busca user profile dto por user Id <br>
      * Creation Date : <br>
      * date 14/07/2016 <br>
      * @author Angela Ramírez
@@ -19,7 +20,7 @@ public interface UserProfileService {
      * @param id
      * @return
      */
-    public UserProfileDTO findByUserId(Integer id) throws Exception;
+    public UserProfileDTO findDTOByUserId(Integer id) throws Exception;
     
     /**
      * Modifica la información user profile <br>
@@ -32,4 +33,14 @@ public interface UserProfileService {
      */
     public UserProfileDTO merge(UserProfileDTO userProfileDTO) throws Exception;
     
+    /**
+     * Busca user profile por user Id <br>
+     * Creation Date : <br>
+     * date 14/07/2016 <br>
+     * @author Angela Ramírez
+     * @throws Exception
+     * @param id
+     * @return
+     */
+    public UserProfile findByUserId(Integer id) throws Exception;
 }

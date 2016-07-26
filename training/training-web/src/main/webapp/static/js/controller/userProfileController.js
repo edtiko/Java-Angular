@@ -18,12 +18,20 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
             discipline:'',
             sport:'',
             shoes:'',
-            bikes:[],
+            bikes:'',
             potentiometer:'',
             pulsometer:'',
             objetive:'',
             modality:'',
-            availability: [] 
+            availability:  [
+                {day:'Lunes',checked:false},
+                {day:'Martes',checked:false},
+                {day:'Miercoles',checked:false},
+                {day:'Jueves',checked:false},
+                {day:'Viernes',checked:false},
+                {day:'Sabado',checked:false},
+                {day:'Domingo',checked:false}
+            ] 
         };
         
         $scope.disciplines =[];
@@ -42,8 +50,9 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
                 {day:'Viernes',checked:false},
                 {day:'Sabado',checked:false},
                 {day:'Domingo',checked:false}
-            ] 
-        $scope.metricSystems = [{id:1,name:'Metrico Decimal'},{id:'2',name:"Anglosajón"}];
+            ]; 
+        $scope.indBike = '';
+        $scope.metricSystems = [{id:1,name:'Metrico Decimal'},{id:'0',name:"Anglosajón"}];
 
         this.mergeUserProfile = function (userProfile) {
             UserProfileService.mergeProfile(userProfile).then(
@@ -58,11 +67,28 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
             );
         };
         
+        this.generatePlan = function (userProfile) {
+            UserProfileService.generatePlan(userProfile).then(
+                    function (d) {
+//                        $scope.userProfile = d;
+//                        this.findById(userProfile);
+                    },
+                    function (errResponse) {
+                        console.error('Error while merging the profile');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        
         this.findById = function (userProfile) {
             UserProfileService.getProfile(userProfile).then(
                     function (d) {
                         $scope.userProfile = d;
-//                        this.getModalitiesByDisciplineId($scope.userProfile.discipline);
+                        if($scope.userProfile.bikes != '') {
+                            $scope.indBike = 1;
+                        }
+                        var disc = $scope.userProfile.discipline;
+                        $scope.getModalitiesByDisciplineId(disc);
                     },
                     function (errResponse) {
                         console.error('Error while fetching the profile');
@@ -179,11 +205,10 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
         };
         this.getObjetives();
         
-        this.getModalitiesByDisciplineId = function (id) {
+        $scope.getModalitiesByDisciplineId = function (id) {
             ModalityService.getModalitiesByDisciplineId(id).then(
                     function (d) {
                         $scope.modalities = d;
-//                        $scope.objetives.unshift({objetiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
                     },
                     function (errResponse) {
                         console.error('Error while modalities');
