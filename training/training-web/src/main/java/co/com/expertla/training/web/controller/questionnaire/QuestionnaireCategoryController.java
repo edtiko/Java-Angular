@@ -5,7 +5,7 @@ import co.com.expertla.training.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
-import co.com.expertla.training.model.dto.QuestionCategoryDto;
+import co.com.expertla.training.model.dto.QuestionCategoryDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.QuestionnaireCategory;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
@@ -192,7 +192,7 @@ public class QuestionnaireCategoryController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            QuestionCategoryDto questionnaireCategoryList = questionnaireCategoryService.findAll(sePaginator);
+            QuestionCategoryDTO questionnaireCategoryList = questionnaireCategoryService.findAll(sePaginator);
             responseService.setOutput(questionnaireCategoryList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -220,7 +220,7 @@ public class QuestionnaireCategoryController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            QuestionCategoryDto questionCategoryDto= questionnaireCategoryService.findByQuestionnaireId(questionnaireQuestion);
+            QuestionCategoryDTO questionCategoryDto= questionnaireCategoryService.findByQuestionnaireId(questionnaireQuestion);
             if (questionCategoryDto != null) {
                 responseService.setOutput(questionCategoryDto);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -253,7 +253,7 @@ public class QuestionnaireCategoryController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            QuestionCategoryDto questionCategoryDto= questionnaireCategoryService.findByQuestionnaireParentCategoryId(questionnaireQuestion);
+            QuestionCategoryDTO questionCategoryDto= questionnaireCategoryService.findByQuestionnaireParentCategoryId(questionnaireQuestion);
             if (questionCategoryDto != null) {
                 responseService.setOutput(questionCategoryDto);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());

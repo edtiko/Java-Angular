@@ -5,7 +5,7 @@ import co.com.expertla.training.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
-import co.com.expertla.training.model.dto.QuestionnaireDto;
+import co.com.expertla.training.model.dto.QuestionnaireDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.util.ResponseService;
@@ -227,9 +227,9 @@ public class QuestionnaireController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            List<QuestionnaireDto> questionnaireList = questionnaireService.findQuestionnaireDtoByQuestionnaireId(questionnaire);
+            List<QuestionnaireDTO> questionnaireList = questionnaireService.findQuestionnaireDtoByQuestionnaireId(questionnaire);
             if (questionnaireList != null && !questionnaireList.isEmpty()) {
-                QuestionnaireDto questionnaireObj = questionnaireList.get(0);
+                QuestionnaireDTO questionnaireObj = questionnaireList.get(0);
                 responseService.setOutput(questionnaireObj);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
             } else {

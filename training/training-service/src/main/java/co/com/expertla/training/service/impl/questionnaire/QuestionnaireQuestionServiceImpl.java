@@ -5,14 +5,14 @@ import co.com.expertla.training.dao.questionnaire.DataTypeDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireQuestionDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireResponseDao;
 import co.com.expertla.training.dao.questionnaire.ResponseOptionDao;
-import co.com.expertla.training.model.dto.QuestionOptionDto;
-import co.com.expertla.training.model.dto.QuestionnaireQuestionDto;
-import co.com.expertla.training.model.dto.QuestionnaireQuestionFormatDto;
-import co.com.expertla.training.model.dto.QuestionnaireResponseDto;
-import co.com.expertla.training.model.dto.ResponseOptionDto;
+import co.com.expertla.training.model.dto.QuestionDTO;
+import co.com.expertla.training.model.dto.QuestionOptionDTO;
+import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
+import co.com.expertla.training.model.dto.QuestionnaireQuestionFormatDTO;
+import co.com.expertla.training.model.dto.QuestionnaireResponseDTO;
+import co.com.expertla.training.model.dto.ResponseOptionDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.DataType;
-import co.com.expertla.training.model.entities.Question;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.entities.QuestionnaireResponse;
@@ -72,16 +72,16 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     }
     
     @Override
-    public List<QuestionnaireQuestionDto> findByCategoryIdAndQuestionnaireIdAndUserId(QuestionnaireResponse questionnaireResponseParam) throws Exception {
-        List<QuestionnaireQuestionFormatDto> resultList = questionnaireQuestionDao.findByCategoryIdAndQuestionnaireId(questionnaireResponseParam);
-        List<QuestionnaireQuestionDto> questionnaireQuestionList = new ArrayList<>();
-        HashMap<Integer, Question> questionMap = new HashMap<>();
-        HashMap<Integer, QuestionnaireQuestionDto> questionnaireQuestionMap = new HashMap<>();
-        QuestionnaireQuestionDto  questionnaireQuestionDto = new QuestionnaireQuestionDto();
-        Question question = new Question();
-        QuestionOptionDto questionOption = new QuestionOptionDto();
+    public List<QuestionnaireQuestionDTO> findByCategoryIdAndQuestionnaireIdAndUserId(QuestionnaireResponse questionnaireResponseParam) throws Exception {
+        List<QuestionnaireQuestionFormatDTO> resultList = questionnaireQuestionDao.findByCategoryIdAndQuestionnaireId(questionnaireResponseParam);
+        List<QuestionnaireQuestionDTO> questionnaireQuestionList = new ArrayList<>();
+        HashMap<Integer, QuestionDTO> questionMap = new HashMap<>();
+        HashMap<Integer, QuestionnaireQuestionDTO> questionnaireQuestionMap = new HashMap<>();
+        QuestionnaireQuestionDTO  questionnaireQuestionDto = new QuestionnaireQuestionDTO();
+        QuestionDTO question = new QuestionDTO();
+        QuestionOptionDTO questionOption = new QuestionOptionDTO();
         DataType dataType = new DataType();
-        QuestionnaireResponseDto questionnaireResponseDto = new QuestionnaireResponseDto();
+        QuestionnaireResponseDTO questionnaireResponseDto = new QuestionnaireResponseDTO();
         if (resultList != null && !resultList.isEmpty()) {
             HashMap<Integer, String> map = buildDataTypeHash();
             List<Integer> questionnaireQuestionIds = obtainQuestionnaireQuestionIds(resultList);
@@ -134,9 +134,9 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
      * @return
      * @throws Exception 
      */
-    private List<Integer> obtainQuestionnaireQuestionIds(List<QuestionnaireQuestionFormatDto> list) {
+    private List<Integer> obtainQuestionnaireQuestionIds(List<QuestionnaireQuestionFormatDTO> list) {
         List<Integer> ids = new ArrayList<>();
-        HashMap<Integer,QuestionnaireQuestionFormatDto> map = new HashMap<>();
+        HashMap<Integer,QuestionnaireQuestionFormatDTO> map = new HashMap<>();
         list.stream().filter((obj) -> (!map.containsKey(obj.getQuestionnaireQuestionId()))).map((obj) -> {
             map.put(obj.getQuestionnaireQuestionId(), obj);
             return obj;
@@ -166,13 +166,13 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
         return ids;
     } 
     
-    private void category(Question question, QuestionnaireQuestionDto questionnaireQuestionDto, QuestionnaireResponseDto questionnaireResponseDto,
-            QuestionnaireQuestionFormatDto objDto,HashMap<Integer, QuestionnaireQuestionDto> questionnaireQuestionMap, List<QuestionnaireQuestionDto> questionnaireQuestionList,
-            HashMap<Integer, Question> questionMap,DataType dataType,HashMap<Integer, String> map, QuestionOptionDto questionOption) {
+    private void category(QuestionDTO question, QuestionnaireQuestionDTO questionnaireQuestionDto, QuestionnaireResponseDTO questionnaireResponseDto,
+            QuestionnaireQuestionFormatDTO objDto,HashMap<Integer, QuestionnaireQuestionDTO> questionnaireQuestionMap, List<QuestionnaireQuestionDTO> questionnaireQuestionList,
+            HashMap<Integer, QuestionDTO> questionMap,DataType dataType,HashMap<Integer, String> map, QuestionOptionDTO questionOption) {
                 
-                question = new Question();
-                questionnaireQuestionDto = new QuestionnaireQuestionDto();
-                questionnaireResponseDto = new QuestionnaireResponseDto();
+                question = new QuestionDTO();
+                questionnaireQuestionDto = new QuestionnaireQuestionDTO();
+                questionnaireResponseDto = new QuestionnaireResponseDTO();
                 //If the map of questionnaireQuestion doesn't contain the questionnaire question, creates the questionnaireQuestion
                 //And add it to the map and the list, otherwise just obtain it from the map
                 if(!questionnaireQuestionMap.containsKey(objDto.getQuestionnaireQuestionId())) {
@@ -204,11 +204,10 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                 if (objDto.getQuestionOptionId() != null) {
                     if (!questionnaireQuestionDto.getHashOption().containsKey(objDto.getQuestionOptionId())) {
                         //Build the question option object
-                        questionOption = new QuestionOptionDto();
+                        questionOption = new QuestionOptionDTO();
                         questionOption.setName(objDto.getQuestionOptionName());
                         questionOption.setQuestionOptionId(objDto.getQuestionOptionId());
                         questionOption.setStateId(objDto.getStateId());
-                        questionOption.setLabel(objDto.getQuestionOptionlabel());
                         questionnaireQuestionDto.getQuestionOptionList().add(questionOption);
                         questionnaireQuestionDto.getHashOption().put(questionOption.getQuestionOptionId(), questionnaireQuestionDto.getQuestionOptionList().size() - 1);
                     }
@@ -222,17 +221,13 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
      * @param dataType
      * @return 
      */
-    private Question buildQuestionObject(QuestionnaireQuestionFormatDto objDto, DataType dataType) {
-        Question question = new Question();
-        question.setCreationDate(objDto.getQuestionDate());
-        question.setDataTypeId(dataType);
+    private QuestionDTO buildQuestionObject(QuestionnaireQuestionFormatDTO objDto, DataType dataType) {
+        QuestionDTO question = new QuestionDTO();
+        question.setDataTypeId(dataType.getDataTypeId());
         question.setDescription(objDto.getQuestionDesc());
-        question.setIndAdditional(objDto.getIndAdditional());
         question.setName(objDto.getQuestionName());
         question.setQuestionId(objDto.getQuestionId());
         question.setQuestionType(objDto.getQuestionType());
-        question.setStateId(objDto.getStateId());
-        question.setUnit(objDto.getUnit());
         return question;
     }
     
@@ -241,10 +236,10 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
      * @param responseList
      * @param questionnaireQuestionMap 
      */
-    private void buildQuestionnaireResponse(List<QuestionnaireResponse> responseList, HashMap<Integer, QuestionnaireQuestionDto> questionnaireQuestionMap) {
-        QuestionnaireResponseDto questionnaireResponseDto; 
+    private void buildQuestionnaireResponse(List<QuestionnaireResponse> responseList, HashMap<Integer, QuestionnaireQuestionDTO> questionnaireQuestionMap) {
+        QuestionnaireResponseDTO questionnaireResponseDto; 
         for (QuestionnaireResponse obj : responseList) {
-            questionnaireResponseDto = new QuestionnaireResponseDto();
+            questionnaireResponseDto = new QuestionnaireResponseDTO();
             questionnaireResponseDto.setCreationDate(obj.getCreationDate());
             questionnaireResponseDto.setQuestionnaireResponseId(obj.getQuestionnaireResponseId());
             questionnaireResponseDto.setResponse(obj.getResponse());
@@ -258,18 +253,18 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
      * @param responseOptionList
      * @param questionnaireQuestionMap 
      */
-    private void buildResponseOption(List<ResponseOption> responseOptionList, HashMap<Integer, QuestionnaireQuestionDto> questionnaireQuestionMap) {
+    private void buildResponseOption(List<ResponseOption> responseOptionList, HashMap<Integer, QuestionnaireQuestionDTO> questionnaireQuestionMap) {
         if (responseOptionList != null && !responseOptionList.isEmpty()) {
-            QuestionOptionDto questionOption;
-            ResponseOptionDto responseOptionDto;
-            QuestionnaireResponseDto questionnaireResponseDto;
-            QuestionnaireQuestionDto questionnaireQuestionDto;
+            QuestionOptionDTO questionOption;
+            ResponseOptionDTO responseOptionDto;
+            QuestionnaireResponseDTO questionnaireResponseDto;
+            QuestionnaireQuestionDTO questionnaireQuestionDto;
             for (ResponseOption objResponse : responseOptionList) {
-                questionOption = new QuestionOptionDto();
+                questionOption = new QuestionOptionDTO();
                 questionOption.setName(objResponse.getQuestionOptionId().getName());
                 questionOption.setQuestionOptionId(objResponse.getQuestionOptionId().getQuestionOptionId());
                 questionOption.setStateId(objResponse.getQuestionOptionId().getStateId());
-                responseOptionDto = new ResponseOptionDto();
+                responseOptionDto = new ResponseOptionDTO();
                 responseOptionDto.setQuestionOptionId(questionOption);
                 responseOptionDto.setResponseOptionId(objResponse.getResponseOptionId());
                 questionnaireQuestionDto = questionnaireQuestionMap.get(objResponse.getQuestionnaireResponseId().getQuestionnaireQuestionId().getQuestionnaireQuestionId());

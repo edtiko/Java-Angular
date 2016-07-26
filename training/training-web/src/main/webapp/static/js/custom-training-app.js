@@ -5,10 +5,10 @@ var trainingApp = angular.module('trainingApp', ['ngRoute', 'frontendServices', 
         .config(function ($routeProvider) {
             $routeProvider
 
-                    .when('/login', {
+                    /*.when('/login', {
                         templateUrl: 'static/views/login.html',
                         controller: 'UserController'
-                    })
+                    })*/
                     // route for the home page
                     .when('/data-person', {
                         templateUrl: 'static/views/datosPersonales/user.html',
@@ -16,9 +16,9 @@ var trainingApp = angular.module('trainingApp', ['ngRoute', 'frontendServices', 
                     })
 
                     // route for the about page
-                    .when('/about', {
-                        templateUrl: 'static/views/about.html',
-                        controller: 'aboutController'
+                    .when('/encuesta', {
+                        templateUrl: 'static/views/questionnaire/survey.html',
+                        controller: 'SurveyController'
                     })
 
                     // route for the contact page
@@ -61,9 +61,26 @@ trainingApp.controller('mainController', function ($scope) {
 
 });
 
-trainingApp.controller('aboutController', function ($scope) {
-    $scope.message = 'Look! I am an about page.';
-});
+trainingApp.controller('SurveyController', ['$scope', 'SurveyService', function ($scope, SurveyService)  {
+
+    var self = this;
+    self.encuesta = {};
+    self.sePaginator = { initialRow: "1", maxRow: "10"};
+
+     self.getAllQuestionnaireQuestion = function (paginator) {
+            SurveyService.getAllQuestionnaireQuestion(paginator)
+                    .then(
+                            function (response) {
+                                //self.encuesta = response;
+                                console.log(response);
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching Currencies');
+                            }
+                    );
+        };
+    self.getAllQuestionnaireQuestion(self.sePaginator);    
+}]);
 
 trainingApp.controller('contactController', function ($scope) {
     $scope.message = 'Contact us! JK. This is just a demo.';

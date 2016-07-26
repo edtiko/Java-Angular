@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.questionnaire;
 
-import co.com.expertla.training.model.dto.QuestionCategoryDto;
+import co.com.expertla.training.model.dto.QuestionCategoryDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.QuestionnaireCategory;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
@@ -55,7 +55,7 @@ public interface QuestionnaireCategoryService {
      * @return
      * @throws Exception 
      */
-    public QuestionCategoryDto findAll(SePaginator sePaginator) throws Exception;
+    public QuestionCategoryDTO findAll(SePaginator sePaginator) throws Exception;
     /**
      * Gets all the records from questionnaireCategory by its id <br>
      * Creation Info:  <br>
@@ -81,7 +81,7 @@ public interface QuestionnaireCategoryService {
      * @return
      * @throws Exception 
      */
-    public QuestionCategoryDto findByQuestionnaireId(QuestionnaireQuestion questionnaireQuestion) throws Exception;
+    public QuestionCategoryDTO findByQuestionnaireId(QuestionnaireQuestion questionnaireQuestion) throws Exception;
     /**
      * Gets all the categories belonging to the category parent id <br>
      * Creation Info:  <br>
@@ -91,6 +91,6 @@ public interface QuestionnaireCategoryService {
      * @return
      * @throws Exception 
      */
-    public QuestionCategoryDto findByQuestionnaireParentCategoryId(QuestionnaireQuestion questionnaireQuestion) throws Exception;
+    public QuestionCategoryDTO findByQuestionnaireParentCategoryId(QuestionnaireQuestion questionnaireQuestion) throws Exception;
   
 }

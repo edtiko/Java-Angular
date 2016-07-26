@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.questionnaire;
 
-import co.com.expertla.training.model.dto.QuestionnaireQuestionDto;
+import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
@@ -96,5 +96,5 @@ public interface QuestionnaireQuestionService {
      * @return
      * @throws Exception 
      */
-    public List<QuestionnaireQuestionDto> findByCategoryIdAndQuestionnaireIdAndUserId(QuestionnaireResponse questionnaireResponse) throws Exception;
+    public List<QuestionnaireQuestionDTO> findByCategoryIdAndQuestionnaireIdAndUserId(QuestionnaireResponse questionnaireResponse) throws Exception;
 }

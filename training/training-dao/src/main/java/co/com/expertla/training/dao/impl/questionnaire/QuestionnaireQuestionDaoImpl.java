@@ -4,7 +4,7 @@ import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireQuestionDao;
 import co.com.expertla.training.enums.Status;
-import co.com.expertla.training.model.dto.QuestionnaireQuestionFormatDto;
+import co.com.expertla.training.model.dto.QuestionnaireQuestionFormatDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
@@ -36,7 +36,7 @@ public class QuestionnaireQuestionDaoImpl extends BaseDAOImpl<QuestionnaireQuest
     public List<QuestionnaireQuestion> findAll(SePaginator sePaginator) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select u FROM QuestionnaireQuestion u ");
-        builder.append("WHERE u.seStatusId.seStatusId = ").append(Status.ACTIVE.getName());
+        builder.append("WHERE u.stateId = ").append(Status.ACTIVE.getName());
         setPageNumber(sePaginator.getInitialRow());
         setPageSize(sePaginator.getMaxRow());
         return createQuery(builder.toString());
@@ -77,7 +77,7 @@ public class QuestionnaireQuestionDaoImpl extends BaseDAOImpl<QuestionnaireQuest
     }
     
     @Override
-    public List<QuestionnaireQuestionFormatDto> findByCategoryIdAndQuestionnaireId(QuestionnaireResponse questionnaireResponse) throws DAOException {
+    public List<QuestionnaireQuestionFormatDTO> findByCategoryIdAndQuestionnaireId(QuestionnaireResponse questionnaireResponse) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select @rownum/*'*/:=/*'*/@rownum+1 AS questionnaireQuestionFormatDtoId,q.question_id as questionId, q.data_type_id as dataTypeId, ");
         builder.append("q.se_status_id as questionStatus, q.name as questionName, q.description as questionDesc, q.unit, q.ind_additional as indAdditional,q.question_type as questionType,q.creation_date as questionDate, ");
@@ -100,9 +100,9 @@ public class QuestionnaireQuestionDaoImpl extends BaseDAOImpl<QuestionnaireQuest
         builder.append(questionnaireResponse.getQuestionnaireQuestionId().getQuestionnaireCategoryId().getQuestionnaireCategoryId());
         builder.append(" and qq.questionnaire_id = ");
         builder.append(questionnaireResponse.getQuestionnaireQuestionId().getQuestionnaireId().getQuestionnaireId());
-        final Query query = getEntityManager().createNativeQuery(builder.toString(),QuestionnaireQuestionFormatDto.class);
+        final Query query = getEntityManager().createNativeQuery(builder.toString(),QuestionnaireQuestionFormatDTO.class);
 
-        List<QuestionnaireQuestionFormatDto> resultList = query.getResultList();
+        List<QuestionnaireQuestionFormatDTO> resultList = query.getResultList();
         
         return resultList;
     }

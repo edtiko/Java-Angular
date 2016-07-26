@@ -1,7 +1,7 @@
 package co.com.expertla.training.dao.questionnaire;
 
 import co.com.expertla.base.jpa.DAOException;
-import co.com.expertla.training.model.dto.QuestionnaireFormatDto;
+import co.com.expertla.training.model.dto.QuestionnaireFormatDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.Questionnaire;
 import java.util.List;
@@ -89,6 +89,6 @@ public interface QuestionnaireDao {
      * @return
      * @throws DAOException 
      */
-    public List<QuestionnaireFormatDto> findQuestionnaireDtoByQuestionnaireId(Questionnaire questionnaire) throws DAOException;
+    public List<QuestionnaireFormatDTO> findQuestionnaireDtoByQuestionnaireId(Questionnaire questionnaire) throws DAOException;
 
 }

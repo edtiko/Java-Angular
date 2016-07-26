@@ -5,7 +5,7 @@ import co.com.expertla.training.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
-import co.com.expertla.training.model.dto.QuestionnaireQuestionDto;
+import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.Question;
 import co.com.expertla.training.model.entities.QuestionnaireResponse;
@@ -224,7 +224,7 @@ public class QuestionController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
             
-            List<QuestionnaireQuestionDto> questionList = questionnaireQuestionService.findByCategoryIdAndQuestionnaireIdAndUserId(questionnaireResponse);
+            List<QuestionnaireQuestionDTO> questionList = questionnaireQuestionService.findByCategoryIdAndQuestionnaireIdAndUserId(questionnaireResponse);
             if(questionList != null && !questionList.isEmpty()) {
                 responseService.setOutput(questionList);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());

@@ -1,7 +1,7 @@
 package co.com.expertla.training.service.impl.questionnaire;
 
 import co.com.expertla.training.dao.questionnaire.QuestionnaireCategoryDao;
-import co.com.expertla.training.model.dto.QuestionCategoryDto;
+import co.com.expertla.training.model.dto.QuestionCategoryDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.QuestionnaireCategory;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
@@ -33,9 +33,9 @@ public class QuestionnaireCategoryServiceImpl implements QuestionnaireCategorySe
     }
 
     @Override
-    public QuestionCategoryDto findAll(SePaginator sePaginator) throws Exception {
+    public QuestionCategoryDTO findAll(SePaginator sePaginator) throws Exception {
         List<QuestionnaireCategory> resultList = questionnaireCategoryDao.findAll(sePaginator);
-        QuestionCategoryDto dtoObject = new QuestionCategoryDto();
+        QuestionCategoryDTO dtoObject = new QuestionCategoryDTO();
         dtoObject.setCategoryAmount(resultList.size());
         dtoObject.setQuestionnaireCategoryList(resultList);
         return dtoObject;
@@ -47,9 +47,9 @@ public class QuestionnaireCategoryServiceImpl implements QuestionnaireCategorySe
     }
 
     @Override
-    public QuestionCategoryDto findByQuestionnaireId(QuestionnaireQuestion questionnaireQuestion) throws Exception {
+    public QuestionCategoryDTO findByQuestionnaireId(QuestionnaireQuestion questionnaireQuestion) throws Exception {
         List<QuestionnaireCategory> categoryList = questionnaireCategoryDao.findByQuestionnaireId(questionnaireQuestion);
-        QuestionCategoryDto dtoObject = new QuestionCategoryDto();
+        QuestionCategoryDTO dtoObject = new QuestionCategoryDTO();
         if (categoryList != null && !categoryList.isEmpty()) {
             List<Integer> idList = categoryListToIntegerList(categoryList);
             List<QuestionnaireCategory> categoryChildrenList = questionnaireCategoryDao.findCategoryChildrenByQuestionnaireCategoryId(idList);
@@ -67,9 +67,9 @@ public class QuestionnaireCategoryServiceImpl implements QuestionnaireCategorySe
     }
 
     @Override
-    public QuestionCategoryDto findByQuestionnaireParentCategoryId(QuestionnaireQuestion questionnaireQuestion) throws Exception {
+    public QuestionCategoryDTO findByQuestionnaireParentCategoryId(QuestionnaireQuestion questionnaireQuestion) throws Exception {
         List<QuestionnaireCategory> categoryList = questionnaireCategoryDao.findByQuestionnaireParentCategoryId(questionnaireQuestion);
-        QuestionCategoryDto dtoObject = new QuestionCategoryDto();
+        QuestionCategoryDTO dtoObject = new QuestionCategoryDTO();
  
         dtoObject.setCategoryAmount(categoryList.size());
         dtoObject.setQuestionnaireCategoryList(categoryList);

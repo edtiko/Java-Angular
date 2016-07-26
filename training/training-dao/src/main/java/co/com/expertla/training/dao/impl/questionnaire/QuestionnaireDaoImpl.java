@@ -3,7 +3,7 @@ package co.com.expertla.training.dao.impl.questionnaire;
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireDao;
-import co.com.expertla.training.model.dto.QuestionnaireFormatDto;
+import co.com.expertla.training.model.dto.QuestionnaireFormatDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.Questionnaire;
 import java.util.List;
@@ -69,7 +69,7 @@ public class QuestionnaireDaoImpl extends BaseDAOImpl<Questionnaire> implements 
     }
     
     @Override
-    public List<QuestionnaireFormatDto> findQuestionnaireDtoByQuestionnaireId(Questionnaire questionnaire) throws DAOException {
+    public List<QuestionnaireFormatDTO> findQuestionnaireDtoByQuestionnaireId(Questionnaire questionnaire) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select @rownum/*'*/:=/*'*/@rownum+1 AS questionnaireFormatDtoId, f.questionnaire_id as questionnaireId,f.provider_id as providerId,f.se_status_id as questionnaireStatus, ");
         builder.append("f.name as questionnaireName,f.creation_date as questionnaireDate, ");
@@ -95,9 +95,9 @@ public class QuestionnaireDaoImpl extends BaseDAOImpl<Questionnaire> implements 
         builder.append("WHERE f.questionnaire_id=");
         builder.append(questionnaire.getQuestionnaireId());
         
-        final Query query = getEntityManager().createNativeQuery(builder.toString(),QuestionnaireFormatDto.class);
+        final Query query = getEntityManager().createNativeQuery(builder.toString(),QuestionnaireFormatDTO.class);
 
-        List<QuestionnaireFormatDto> resultList = query.getResultList();
+        List<QuestionnaireFormatDTO> resultList = query.getResultList();
         
         return resultList;
     }

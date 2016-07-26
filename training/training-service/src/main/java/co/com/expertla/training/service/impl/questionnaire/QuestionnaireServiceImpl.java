@@ -2,11 +2,12 @@ package co.com.expertla.training.service.impl.questionnaire;
 
 import co.com.expertla.training.dao.questionnaire.DataTypeDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireDao;
-import co.com.expertla.training.model.dto.QuestionOptionDto;
-import co.com.expertla.training.model.dto.QuestionnaireCategoryDto;
-import co.com.expertla.training.model.dto.QuestionnaireDto;
-import co.com.expertla.training.model.dto.QuestionnaireFormatDto;
-import co.com.expertla.training.model.dto.QuestionnaireQuestionDto;
+import co.com.expertla.training.model.dto.QuestionDTO;
+import co.com.expertla.training.model.dto.QuestionOptionDTO;
+import co.com.expertla.training.model.dto.QuestionnaireCategoryDTO;
+import co.com.expertla.training.model.dto.QuestionnaireDTO;
+import co.com.expertla.training.model.dto.QuestionnaireFormatDTO;
+import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.DataType;
 import co.com.expertla.training.model.entities.Question;
@@ -66,28 +67,28 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
     }
     
     @Override
-    public List<QuestionnaireDto> findQuestionnaireDtoByQuestionnaireId(Questionnaire questionnaire) throws Exception {
-        List<QuestionnaireFormatDto> resultList = questionnaireDao.findQuestionnaireDtoByQuestionnaireId(questionnaire);
-        List<QuestionnaireDto> questionnaireList = new ArrayList<>();
-        QuestionnaireDto questionnaireDto = new QuestionnaireDto();
-        QuestionnaireQuestionDto qQuestionDto;
-        QuestionnaireCategoryDto questionnaireCategoryDto;
-        Question question;
+    public List<QuestionnaireDTO> findQuestionnaireDtoByQuestionnaireId(Questionnaire questionnaire) throws Exception {
+        List<QuestionnaireFormatDTO> resultList = questionnaireDao.findQuestionnaireDtoByQuestionnaireId(questionnaire);
+        List<QuestionnaireDTO> questionnaireList = new ArrayList<>();
+        QuestionnaireDTO questionnaireDto = new QuestionnaireDTO();
+        QuestionnaireQuestionDTO qQuestionDto;
+        QuestionnaireCategoryDTO questionnaireCategoryDto;
+        QuestionDTO question;
         QuestionnaireResponse questionnaireResponse;
-        QuestionOptionDto questionOption;
+        QuestionOptionDTO questionOption;
         DataType dataType;
         Integer categoryAmount = 0;
         Integer questionAmount = 0;
         Integer responseAmount = 0;
         if (resultList != null && !resultList.isEmpty()) {
             HashMap<Integer, String> map = buildDataTypeHash();
-            for (QuestionnaireFormatDto objDto : resultList) {
+            for (QuestionnaireFormatDTO objDto : resultList) {
                 //Create questionnaireDto Object
-                questionnaireCategoryDto = new QuestionnaireCategoryDto();
-                qQuestionDto = new QuestionnaireQuestionDto();
-                question = new Question();
+                questionnaireCategoryDto = new QuestionnaireCategoryDTO();
+                qQuestionDto = new QuestionnaireQuestionDTO();
+                question = new QuestionDTO();
                 questionnaireResponse = new QuestionnaireResponse();
-                questionOption = new QuestionOptionDto();
+                questionOption = new QuestionOptionDTO();
                 questionnaireDto.setCreationDate(objDto.getQuestionnaireDate());
                 questionnaireDto.setName(objDto.getQuestionnaireName());
                 questionnaireDto.setQuestionnaireId(objDto.getQuestionnaireId());
@@ -108,17 +109,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
                 if (!questionnaireCategoryDto.getHashQuestion().containsKey(objDto.getQuestionnaireQuestionId())) {
                     questionAmount = questionAmount + 1;
                     //Build the question object
-                    question.setCreationDate(objDto.getQuestionDate());
+                    //question.setCreationDate(objDto.getQuestionDate());
                     dataType = new DataType();
                     dataType.setName(map.get(objDto.getDataTypeId()));
                     dataType.setDataTypeId(objDto.getDataTypeId());
-                    question.setDataTypeId(dataType);
+                    question.setDataTypeId(dataType.getDataTypeId());
                     question.setDescription(objDto.getQuestionDesc());
-                    question.setIndAdditional(objDto.getIndAdditional());
+                    //question.setIndAdditional(objDto.getIndAdditional());
                     question.setName(objDto.getQuestionName());
                     question.setQuestionId(objDto.getQuestionId());
                     question.setQuestionType(objDto.getQuestionType());
-                    question.setUnit(objDto.getUnit());
+                    //question.setUnit(objDto.getUnit());
                     //Builde the questionnaire question and add it to the list
                     qQuestionDto.setQuestionId(question);
                     qQuestionDto.setCreationDate(objDto.getQuestionnaireQuestionDate());

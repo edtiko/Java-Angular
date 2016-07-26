@@ -15,25 +15,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST Web Service of QuestionnaireQuestion <br>
  * Creation Info:  <br>
- * date 15/08/2015 <br>
- * @author Angela Ramirez
+ * date 26/07/2016 <br>
+ * @author Edwin Gómez
  */
 @RequestMapping("/questionnaireQuestion")
+@RestController
 public class QuestionnaireQuestionController {
 
     @Autowired
     private QuestionnaireQuestionService questionnaireQuestionService;
 
 
-    @RequestMapping(value = "/create/", method = RequestMethod.POST)
+    @RequestMapping(value = "/create/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Response create(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -68,7 +71,7 @@ public class QuestionnaireQuestionController {
     }
 
 
-    @RequestMapping(value = "/update/", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Response updateQuestionnaireQuestion(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -111,7 +114,7 @@ public class QuestionnaireQuestionController {
     }
 
 
-    @RequestMapping(value = "/delete/", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Response deleteQuestionnaireQuestion(@RequestBody List<QuestionnaireQuestion> questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -151,7 +154,7 @@ public class QuestionnaireQuestionController {
     }
 
 
-    @RequestMapping(value = "/get/by/id/", method = RequestMethod.POST)
+    @RequestMapping(value = "/get/by/id/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Response getQuestionnaireQuestionById(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -185,7 +188,7 @@ public class QuestionnaireQuestionController {
     }
 
 
-    @RequestMapping(value = "/get/all/", method = RequestMethod.POST)
+    @RequestMapping(value = "/get/all/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Response getAllQuestionnaireQuestion(@RequestBody SePaginator sePaginator) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -205,7 +208,7 @@ public class QuestionnaireQuestionController {
     }
     
   
-    @RequestMapping(value = "/get/by/questionnaireId/", method = RequestMethod.POST)
+    @RequestMapping(value = "/get/by/questionnaireId/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Response getByQuestionnaireId(@RequestBody Questionnaire questionnaire) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();

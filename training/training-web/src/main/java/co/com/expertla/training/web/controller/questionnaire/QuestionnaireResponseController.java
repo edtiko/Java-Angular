@@ -4,8 +4,8 @@ import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.exception.TrainingException;
-import co.com.expertla.training.model.dto.QuestionnaireQuestionDto;
-import co.com.expertla.training.model.dto.QuestionnaireResponseDto;
+import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
+import co.com.expertla.training.model.dto.QuestionnaireResponseDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import co.com.expertla.training.model.util.ResponseService;
@@ -47,7 +47,7 @@ public class QuestionnaireResponseController {
      */
 
     @RequestMapping(value = "/create/", method = RequestMethod.POST)
-    public @ResponseBody Response create(@RequestBody List<QuestionnaireResponseDto> questionnaireResponseList) {
+    public @ResponseBody Response create(@RequestBody List<QuestionnaireResponseDTO> questionnaireResponseList) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -218,7 +218,7 @@ public class QuestionnaireResponseController {
      */
 
     @RequestMapping(value = "/get/by/questionnaireCategoryId/", method = RequestMethod.POST)
-    public @ResponseBody Response getQuestionnaireResponseByQuestionnaireCategoryId(@RequestBody QuestionnaireQuestionDto questionnaireQuestion) {
+    public @ResponseBody Response getQuestionnaireResponseByQuestionnaireCategoryId(@RequestBody QuestionnaireQuestionDTO questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
 
