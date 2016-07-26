@@ -145,4 +145,9 @@ public class UserServiceImpl implements UserService {
         return userDao.isUser(username, password);
     }
 
+    @Override
+    public void saveProfilePhoto(byte[] bytes, Integer userId) {
+        userDao.saveProfilePhoto(bytes, userId);
+    }
+
 }

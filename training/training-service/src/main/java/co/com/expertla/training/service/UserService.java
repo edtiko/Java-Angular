@@ -41,4 +41,6 @@ public interface UserService {
     
     public boolean isUser(String username, String password);
 
+    public void saveProfilePhoto(byte[] bytes, Integer userId);
+
 }

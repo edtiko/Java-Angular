@@ -110,4 +110,16 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
             return null;
         }
     }
+
+    @Override
+    public void saveProfilePhoto(byte[] bytes, Integer userId) {
+          try {
+              User user = findById(userId);
+              user.setProfilePhoto(bytes);
+              merge(user);
+        } catch (DAOException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   
+    }
 }
