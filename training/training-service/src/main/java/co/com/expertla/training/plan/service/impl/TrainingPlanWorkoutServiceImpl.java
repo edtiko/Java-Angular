@@ -28,6 +28,8 @@ import co.com.expertla.training.plan.service.TrainingPlanWorkoutService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
 * TrainingPlanWorkoutService <br>
@@ -59,6 +61,8 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     
     @Autowired
     private TrainingPlanUserDao trainingPlanUserDao;
+    
+    private HashSet<Date> datesTaken;
 
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
@@ -77,6 +81,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             exactDays(userAvailability, fromDate, toDate, userProfile, dcf);
         } else {
             //Distribute days and assign activities
+            extraDays(userAvailability, fromDate, toDate, userProfile, dcf,(dcf.getSessions() - daysAvailable));
         }
         
     }
@@ -122,7 +127,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 code = parts[i];
             }
             workout = new TrainingPlanWorkout();
-            activity = getActivityByPC(list,activityList, code);
+            activity = getActivityByPC(list,activityList, code, false);
             pivotDay = startCal.get(Calendar.DAY_OF_WEEK);
             if (pivotDay == Calendar.SUNDAY && userAvailability.getSunday()) {
                 workout.setTrainingPlanId(trainingPlan);
@@ -136,31 +141,31 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 workout.setWorkoutDate(startCal.getTime());
                 workouts.add(workout);
                 planWorkout = true;
-            }else if(pivotDay == Calendar.TUESDAY && userAvailability.getTuesday()){
+            } else if(pivotDay == Calendar.TUESDAY && userAvailability.getTuesday()){
                 workout.setTrainingPlanId(trainingPlan);
                 workout.setActivityId(activity);
                 workout.setWorkoutDate(startCal.getTime());
                 workouts.add(workout);
                 planWorkout = true;
-            }else if(pivotDay == Calendar.WEDNESDAY && userAvailability.getWednesday()){
+            } else if(pivotDay == Calendar.WEDNESDAY && userAvailability.getWednesday()){
                 workout.setTrainingPlanId(trainingPlan);
                 workout.setActivityId(activity);
                 workout.setWorkoutDate(startCal.getTime());
                 workouts.add(workout);
                 planWorkout = true;
-            }else if(pivotDay == Calendar.THURSDAY && userAvailability.getThursday()){
+            } else if(pivotDay == Calendar.THURSDAY && userAvailability.getThursday()){
                 workout.setTrainingPlanId(trainingPlan);
                 workout.setActivityId(activity);
                 workout.setWorkoutDate(startCal.getTime());
                 workouts.add(workout);
                 planWorkout = true;
-            }else if(pivotDay == Calendar.FRIDAY && userAvailability.getFriday()){
+            } else if(pivotDay == Calendar.FRIDAY && userAvailability.getFriday()){
                 workout.setTrainingPlanId(trainingPlan);
                 workout.setActivityId(activity);
                 workout.setWorkoutDate(startCal.getTime());
                 workouts.add(workout);
                 planWorkout = true;
-            }else if(pivotDay == Calendar.SATURDAY && userAvailability.getSaturday()) {
+            } else if(pivotDay == Calendar.SATURDAY && userAvailability.getSaturday()) {
                 workout.setTrainingPlanId(trainingPlan);
                 workout.setActivityId(activity);
                 workout.setWorkoutDate(startCal.getTime());
@@ -179,7 +184,116 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         trainingPlanWorkoutDao.createList(workouts);
     }
     
-    private Activity getActivityByPC(List<Activity> activityList,List<Activity> originalList, String pattern) {
+     private void extraDays(UserAvailability userAvailability, Date startDate, Date endDate, UserProfile userProfile, Dcf dcf, Integer sessionsLeft) throws Exception {
+        List<Activity> activityList = activityDao.findByObjetiveIdAndModalityId(userProfile.getObjetiveId().getObjetiveId(), 
+                userProfile.getModalityId().getModalityId());
+        List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
+        String pattern = dcf.getPattern();
+        //Start date
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);  
+        //End date
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+        String[] parts = pattern.split("-");
+        int length = parts.length;   
+        String code = "";
+        
+        List<Activity> list = new ArrayList<>(activityList.size());
+        activityList.stream().forEach((act) -> {
+            list.add(act);
+        });
+        
+        TrainingPlan trainingPlan = new TrainingPlan();
+        trainingPlan.setName(userProfile.getObjetiveId().getName()+"-"+userProfile.getModalityId().getName()+"-"+userProfile.getUserProfileId());
+        trainingPlan.setCreationDate(startDate);
+        trainingPlan.setEndDate(endDate);
+        
+        TrainingPlanUser planUser = new TrainingPlanUser();
+        planUser.setTrainingPlanId(trainingPlan);
+        planUser.setUserId(userProfile.getUserId());
+        planUser.setStateId(new State(StateEnum.ACTIVE.getId()));
+        
+        TrainingPlanWorkout workout = new TrainingPlanWorkout();
+        int pivotDay;
+        Activity activity =  new Activity();
+        int i = 0;
+        boolean planWorkout =false;
+        Boolean originalList = false;
+        while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
+            if(i<length) {
+                code = parts[i];
+            } else {
+                i = 0;
+                code = parts[i];
+            }
+            workout = new TrainingPlanWorkout();
+            activity = getActivityByPC(list,activityList, code, originalList);
+            pivotDay = startCal.get(Calendar.DAY_OF_WEEK);
+            if (pivotDay == Calendar.SUNDAY && (userAvailability.getSunday() || sessionsLeft > 0)) {
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+                sessionsLeft--;
+            }else if(pivotDay == Calendar.MONDAY && userAvailability.getMonday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            } else if(pivotDay == Calendar.TUESDAY && (userAvailability.getTuesday() || sessionsLeft > 0)){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+                sessionsLeft--;
+            } else if(pivotDay == Calendar.WEDNESDAY && userAvailability.getWednesday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            } else if(pivotDay == Calendar.THURSDAY && (userAvailability.getThursday() || sessionsLeft > 0)){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+                sessionsLeft--;
+            } else if(pivotDay == Calendar.FRIDAY && userAvailability.getFriday()){
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+            } else if(pivotDay == Calendar.SATURDAY && (userAvailability.getSaturday() || sessionsLeft > 0)) {
+                workout.setTrainingPlanId(trainingPlan);
+                workout.setActivityId(activity);
+                workout.setWorkoutDate(startCal.getTime());
+                workouts.add(workout);
+                planWorkout = true;
+                sessionsLeft--;
+            }
+            if(planWorkout) {
+                list.remove(activity);
+                planWorkout = false;
+                i++;
+            }
+            if(originalList) {
+                activityList.remove(activity);
+                originalList = false;
+            }
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
+        } 
+        trainingPlanDao.create(trainingPlan);
+        trainingPlanUserDao.create(planUser);
+        trainingPlanWorkoutDao.createList(workouts);
+    }
+    
+    private Activity getActivityByPC(List<Activity> activityList,List<Activity> originalList, String pattern, Boolean original) {
         Activity act = new Activity();
         for (Activity activity : activityList) {
             if(activity.getPhysiologicalCapacityId().getCode().equals(pattern)) {
@@ -191,6 +305,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             for (Activity activity : originalList) {
                 if (activity.getPhysiologicalCapacityId().getCode().equals(pattern)) {
                     act = activity;
+                    original = true;
                     break;
                 }
             }
