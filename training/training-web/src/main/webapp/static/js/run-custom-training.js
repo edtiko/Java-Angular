@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+var $contextPath = "http://localhost:8085/training/";
 require.config({
     paths: {
         angular: '../bower_components/angular/angular',
@@ -14,8 +14,15 @@ require.config({
         angularBoostrap: '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
         csrfInterceptor: '../bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
         lodash: "../bower_components/lodash/dist/lodash",
-        frontendServices: 'frontend-services',
-        trainingApp: "custom-training-app"
+        trainingApp: "custom-training-app",
+        userService: "datosPersonales/service/userService",
+        disciplineService: "perfil/service/disciplineService",
+        modalityService: "perfil/service/modalityService",
+        objectiveService: "perfil/service/objectiveService",
+        sportEquipmentService: "perfil/service/sportEquipmentService",
+        sportService: "perfil/service/sportService",
+        userProfileService: "perfil/service/userProfileService",
+        app: "routeResolver"
     },
     shim: {
         angular: {
@@ -39,16 +46,38 @@ require.config({
         angularMessages: {
             deps: ['angular']
         },
-        frontendServices: {
-            deps: ['angular', 'lodash']
+        userService: {
+            deps: ['angular', 'trainingApp']
+        },
+        disciplineService: {
+            deps: ['angular', 'trainingApp']
+        },
+        modalityService: {
+            deps: ['angular', 'trainingApp']
+        },
+        objectiveService: {
+            deps: ['angular', 'trainingApp']
+        },
+        sportEquipmentService: {
+            deps: ['angular', 'trainingApp']
+        },
+        sportService: {
+            deps: ['angular', 'trainingApp']
+        },
+        userProfileService: {
+            deps: ['angular', 'trainingApp']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'frontendServices','angularBoostrap']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
+        },
+        app: {
+            deps: ['trainingApp', 'userService', 'disciplineService', 
+                'modalityService', 'objectiveService', 'sportEquipmentService', 'sportService', 'userProfileService']
         }
     }
 });
 
-require(['trainingApp'], function () {
+require(['app'], function () {
 
     angular.bootstrap(document.getElementById('trainingApp'), ['trainingApp']);
 

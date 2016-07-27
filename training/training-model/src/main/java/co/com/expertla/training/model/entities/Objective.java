@@ -6,7 +6,7 @@
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,13 +22,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "objective")
-@NamedQueries({
-    @NamedQuery(name = "Objective.findAll", query = "SELECT o FROM Objective o"),
-    @NamedQuery(name = "Objective.findByObjectiveId", query = "SELECT o FROM Objective o WHERE o.objectiveId = :objectiveId"),
-    @NamedQuery(name = "Objective.findByName", query = "SELECT o FROM Objective o WHERE o.name = :name"),
-    @NamedQuery(name = "Objective.findByLevel", query = "SELECT o FROM Objective o WHERE o.level = :level"),
-    @NamedQuery(name = "Objective.findByMinSessions", query = "SELECT o FROM Objective o WHERE o.minSessions = :minSessions"),
-    @NamedQuery(name = "Objective.findByMaxSessions", query = "SELECT o FROM Objective o WHERE o.maxSessions = :maxSessions")})
 public class Objective implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,11 +42,11 @@ public class Objective implements Serializable {
     @Column(name = "max_sessions")
     private int maxSessions;
     @OneToMany(mappedBy = "objectiveId")
-    private List<Activity> activityList;
+    private Collection<Activity> activityCollection;
     @OneToMany(mappedBy = "objectiveId")
-    private List<Dcf> dcfList;
+    private Collection<Dcf> dcfCollection;
     @OneToMany(mappedBy = "objectiveId")
-    private List<UserProfile> userProfileList;
+    private Collection<UserProfile> userProfileCollection;
 
     public Objective() {
     }
@@ -110,28 +103,28 @@ public class Objective implements Serializable {
         this.maxSessions = maxSessions;
     }
 
-    public List<Activity> getActivityList() {
-        return activityList;
+    public Collection<Activity> getActivityCollection() {
+        return activityCollection;
     }
 
-    public void setActivityList(List<Activity> activityList) {
-        this.activityList = activityList;
+    public void setActivityCollection(Collection<Activity> activityCollection) {
+        this.activityCollection = activityCollection;
     }
 
-    public List<Dcf> getDcfList() {
-        return dcfList;
+    public Collection<Dcf> getDcfCollection() {
+        return dcfCollection;
     }
 
-    public void setDcfList(List<Dcf> dcfList) {
-        this.dcfList = dcfList;
+    public void setDcfCollection(Collection<Dcf> dcfCollection) {
+        this.dcfCollection = dcfCollection;
     }
 
-    public List<UserProfile> getUserProfileList() {
-        return userProfileList;
+    public Collection<UserProfile> getUserProfileCollection() {
+        return userProfileCollection;
     }
 
-    public void setUserProfileList(List<UserProfile> userProfileList) {
-        this.userProfileList = userProfileList;
+    public void setUserProfileCollection(Collection<UserProfile> userProfileCollection) {
+        this.userProfileCollection = userProfileCollection;
     }
 
     @Override
@@ -156,7 +149,7 @@ public class Objective implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.Objective[ objectiveId=" + objectiveId + " ]";
+        return "co.com.expertla.training.model.entities.Objetive[ objectiveId=" + objectiveId + " ]";
     }
     
 }

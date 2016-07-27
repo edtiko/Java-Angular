@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.model.entities.User;
-import co.com.expertla.training.dao.UserDao;
+import co.com.expertla.training.user.dao.UserDao;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;
@@ -143,6 +143,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isUser(String username, String password) {
         return userDao.isUser(username, password);
+    }
+
+    @Override
+    public void saveProfilePhoto(byte[] bytes, Integer userId) {
+        userDao.saveProfilePhoto(bytes, userId);
     }
 
 }

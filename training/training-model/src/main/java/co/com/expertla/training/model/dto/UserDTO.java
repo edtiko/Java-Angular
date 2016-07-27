@@ -68,7 +68,7 @@ public class UserDTO {
 
    public UserDTO(Integer userId, String name, String lastName, String email, Date birthDate, String address,
                    String sex, BigInteger weight, String phone, String cellphone, Integer cityId, 
-                   Short stateId, String login, String facebookPage, String postalCode, Integer federalStateId, Integer countryId) {
+                   Short stateId, String login, String facebookPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -86,6 +86,7 @@ public class UserDTO {
         this.postalCode = postalCode;
         this.federalStateId = federalStateId;
         this.countryId = countryId;
+        this.profilePhoto = profilePhoto;
         
     }
 
@@ -95,7 +96,7 @@ public class UserDTO {
                            user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId()!=null?user.getCityId().getCityId():null), 
                            user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getPostalCode(), 
                            user.getCityId()!=null?user.getCityId().getFederalStateId().getFederalStateId():null, 
-                           user.getCityId()!=null?user.getCityId().getFederalStateId().getCountryId().getCountryId():null);
+                           user.getCityId()!=null?user.getCityId().getFederalStateId().getCountryId().getCountryId():null, user.getProfilePhoto());
     }
     
       public static List<UserDTO> mapFromUsersEntities(List<User> users) {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
@@ -17,13 +12,18 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author Edwin G
- */
+* Modality <br>
+* Creation Date : <br>
+* date 21/07/2016 <br>
+* @author Angela Ramírez
+**/
 @Entity
 @Table(name = "modality")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Modality.findAll", query = "SELECT m FROM Modality m"),
     @NamedQuery(name = "Modality.findByModalityId", query = "SELECT m FROM Modality m WHERE m.modalityId = :modalityId"),
@@ -42,7 +42,7 @@ public class Modality implements Serializable {
     @ManyToOne
     private Discipline disciplineId;
     @OneToMany(mappedBy = "modalityId")
-    private Collection<Activity> activityCollection;
+    private Collection<Dcf> dcfCollection;
 
     public Modality() {
     }
@@ -80,12 +80,13 @@ public class Modality implements Serializable {
         this.disciplineId = disciplineId;
     }
 
-    public Collection<Activity> getActivityCollection() {
-        return activityCollection;
+    @XmlTransient
+    public Collection<Dcf> getDcfCollection() {
+        return dcfCollection;
     }
 
-    public void setActivityCollection(Collection<Activity> activityCollection) {
-        this.activityCollection = activityCollection;
+    public void setDcfCollection(Collection<Dcf> dcfCollection) {
+        this.dcfCollection = dcfCollection;
     }
 
     @Override
@@ -112,5 +113,5 @@ public class Modality implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.Modality[ modalityId=" + modalityId + " ]";
     }
-    
+
 }

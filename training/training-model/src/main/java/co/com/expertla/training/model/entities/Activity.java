@@ -31,9 +31,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name")})
 public class Activity implements Serializable {
 
-    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
-    @ManyToOne
-    private Objective objectiveId;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,9 +43,9 @@ public class Activity implements Serializable {
     @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
     @ManyToOne
     private Modality modalityId;
-    @JoinColumn(name = "objetive_id", referencedColumnName = "objetive_id")
+    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
     @ManyToOne
-    private Objetive objetiveId;
+    private Objective objectiveId;
     @JoinColumn(name = "physiological_capacity_id", referencedColumnName = "physiological_capacity_id")
     @ManyToOne
     private PhysiologicalCapacity physiologicalCapacityId;
@@ -91,12 +88,12 @@ public class Activity implements Serializable {
         this.modalityId = modalityId;
     }
 
-    public Objetive getObjetiveId() {
-        return objetiveId;
+    public Objective getObjectiveId() {
+        return objectiveId;
     }
 
-    public void setObjetiveId(Objetive objetiveId) {
-        this.objetiveId = objetiveId;
+    public void setObjectiveId(Objective objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
     public PhysiologicalCapacity getPhysiologicalCapacityId() {
@@ -140,12 +137,5 @@ public class Activity implements Serializable {
         return "co.com.expertla.training.model.entities.Activity[ activityId=" + activityId + " ]";
     }
 
-    public Objective getObjectiveId() {
-        return objectiveId;
-    }
-
-    public void setObjectiveId(Objective objectiveId) {
-        this.objectiveId = objectiveId;
-    }
     
 }

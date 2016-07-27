@@ -77,7 +77,6 @@
     <class>co.com.expertla.training.model.entities.MembershipDiscount</class>
     <class>co.com.expertla.training.model.entities.Question</class>
     <class>co.com.expertla.training.model.entities.Country</class>
-    <class>co.com.expertla.training.model.entities.Objetive</class>
     <class>co.com.expertla.training.model.entities.User</class>
     <class>co.com.expertla.training.model.entities.SportEquipmentType</class>
     <class>co.com.expertla.training.model.entities.Membership</class>
@@ -92,6 +91,9 @@
     <class>co.com.expertla.training.model.entities.Objective</class>
     <class>co.com.expertla.training.model.entities.QuestionnaireUser</class>
     <class>co.com.expertla.training.model.entities.Injury</class>
+    <class>co.com.expertla.training.model.entities.UserAvailability</class>
+    <class>co.com.expertla.training.model.entities.DcfDetail</class>
+
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->
