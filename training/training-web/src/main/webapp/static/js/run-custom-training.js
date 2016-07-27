@@ -6,14 +6,14 @@
 var $contextPath = "http://localhost:8080/training/";
 require.config({
     paths: {
-        angular: '../bower_components/angular/angular',
-        angularMessages: '../bower_components/angular-messages/angular-messages',
-        angularRoute: '../bower_components/angular-route/angular-route',
-        angularAnimate: '../bower_components/angular-animate/angular-animate.min',
-        angularTouch: '../bower_components/angular-touch/angular-touch.min',
-        angularBoostrap: '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
-        csrfInterceptor: '../bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
-        lodash: "../bower_components/lodash/dist/lodash",
+        angular: 'lib/angular.min',
+        angularMessages: 'lib/angular-messages.min',
+        angularRoute: 'lib/angular-route.min',
+        angularAnimate: 'lib/angular-animate.min',
+        angularTouch: 'lib/angular-touch.min',
+        angularBoostrap: 'lib/ui-bootstrap-tpls.min',
+        csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
+        lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         disciplineService: "perfil/service/disciplineService",
