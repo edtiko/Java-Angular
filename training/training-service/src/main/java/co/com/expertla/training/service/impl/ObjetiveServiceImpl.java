@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl;
 
-import co.com.expertla.training.dao.ObjetiveDao;
+import co.com.expertla.training.configuration.dao.ObjetiveDao;
 import co.com.expertla.training.model.dto.ObjetiveDTO;
 import co.com.expertla.training.service.ObjetiveService;
 import java.util.List;

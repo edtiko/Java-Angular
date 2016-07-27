@@ -1,6 +1,3 @@
-/**
- *
- */
 package co.com.expertla.training.plan.dao.impl;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
@@ -10,7 +7,9 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.plan.dao.TrainingPlanWorkoutDao;
+import java.util.ArrayList;
 import java.util.Date;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import org.springframework.stereotype.Repository;
@@ -26,6 +25,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout> implements TrainingPlanWorkoutDao {
 
+    private final int batchSize = 10;
+    
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
         StringBuilder sql = new StringBuilder();
@@ -46,4 +47,34 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         return list;
     }
 
+    @Override
+    public List<TrainingPlanWorkout> createList (List<TrainingPlanWorkout> list) throws Exception {
+        List<TrainingPlanWorkout> listCreated = bulkSave(list);
+        return listCreated;
+    }
+    
+    private <T extends TrainingPlanWorkout> List<T> bulkSave(List<T> entities) {
+        final List<T> savedEntities = new ArrayList<>(entities.size());
+        int i = 0;
+        for (T t : entities) {
+            savedEntities.add(persistOrMerge(t));
+            i++;
+            if (i % batchSize == 0) {
+                // Flush a batch of inserts and release memory.
+                this.getEntityManager().flush();
+                this.getEntityManager().clear();
+            }
+        }
+        return savedEntities;
+    }
+ 
+    private <T extends TrainingPlanWorkout> T persistOrMerge(T t) {
+        if (t.getTrainingPlanWorkoutId()== null) {
+            getEntityManager().persist(t);
+            return t;
+        } else {
+            getEntityManager().merge(t);
+            return t;
+        }
+    }
 }

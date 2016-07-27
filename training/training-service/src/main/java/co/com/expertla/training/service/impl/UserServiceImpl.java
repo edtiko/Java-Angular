@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.model.entities.User;
-import co.com.expertla.training.dao.UserDao;
+import co.com.expertla.training.user.dao.UserDao;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;

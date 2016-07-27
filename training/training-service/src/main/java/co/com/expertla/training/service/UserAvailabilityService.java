@@ -37,6 +37,14 @@ public interface UserAvailabilityService {
     public UserAvailability findByUserId(Integer id) throws Exception;
     
     /**
+     * Crea UserAvailability
+     * @param userAvailability
+     * @return
+     * @throws Exception 
+     */
+    public UserAvailability create(UserAvailability userAvailability) throws Exception;
+    
+    /**
      * Modifica UserAvailability<br>
      * Creation Date : <br>
      * date 18/07/2016 <br>

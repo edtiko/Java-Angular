@@ -44,6 +44,19 @@ var $contextPath = "http://localhost:8085/training-web/";
                             );
             },
          
+            generatePlan: function(userProfile){
+                    return $http.post($contextPath+'trainingPlanWorkout/generate/planWorkout/for/user',userProfile)
+                            .then(
+                                    function(response){
+                                        return response.data.entity.output;
+                                    }, 
+                                    function(errResponse){
+                                        console.error(userProfile);
+                                        console.error('Error while getting plan');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            }
         };
  
 }]);

@@ -1,27 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author Edwin G
- */
+* PhysiologicalCapacity <br>
+* Creation Date : <br>
+* date 21/07/2016 <br>
+* @author Angela Ramírez
+**/
 @Entity
 @Table(name = "physiological_capacity")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PhysiologicalCapacity.findAll", query = "SELECT p FROM PhysiologicalCapacity p"),
     @NamedQuery(name = "PhysiologicalCapacity.findByPhysiologicalCapacityId", query = "SELECT p FROM PhysiologicalCapacity p WHERE p.physiologicalCapacityId = :physiologicalCapacityId"),
@@ -36,10 +33,8 @@ public class PhysiologicalCapacity implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "physiologicalCapacityId")
-    private Collection<Activity> activityCollection;
-    @OneToMany(mappedBy = "physiologicalCapacityId")
-    private Collection<Dcf> dcfCollection;
+    @Column(name = "code")
+    private String code;
 
     public PhysiologicalCapacity() {
     }
@@ -69,20 +64,12 @@ public class PhysiologicalCapacity implements Serializable {
         this.name = name;
     }
 
-    public Collection<Activity> getActivityCollection() {
-        return activityCollection;
+    public String getCode() {
+        return code;
     }
 
-    public void setActivityCollection(Collection<Activity> activityCollection) {
-        this.activityCollection = activityCollection;
-    }
-
-    public Collection<Dcf> getDcfCollection() {
-        return dcfCollection;
-    }
-
-    public void setDcfCollection(Collection<Dcf> dcfCollection) {
-        this.dcfCollection = dcfCollection;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -109,5 +96,5 @@ public class PhysiologicalCapacity implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.PhysiologicalCapacity[ physiologicalCapacityId=" + physiologicalCapacityId + " ]";
     }
-    
+
 }
