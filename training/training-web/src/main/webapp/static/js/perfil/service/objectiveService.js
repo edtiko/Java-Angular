@@ -1,17 +1,16 @@
 'use strict';
  
-trainingApp.factory('SportService', ['$http', '$q', function($http, $q){
-var $contextPath = "http://localhost:8085/training-web/";
+trainingApp.factory('ObjectiveService', ['$http', '$q', function($http, $q){
     return {
 
-            getSports: function(){
-                    return $http.get($contextPath+'sport/get/all')
+            getObjetives: function(){
+                    return $http.get($contextPath+'objective/get/all')
                             .then(
                                     function(response){
                                         return response.data.entity.output;
                                     }, 
                                     function(errResponse){
-                                        console.error('Error while getting sports');
+                                        console.error('Error while getting objectives');
                                         return $q.reject(errResponse);
                                     }
                             );

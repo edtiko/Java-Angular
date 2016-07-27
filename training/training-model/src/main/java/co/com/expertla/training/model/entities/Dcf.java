@@ -42,9 +42,9 @@ public class Dcf implements Serializable {
     @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
     @ManyToOne
     private Modality modalityId;
-    @JoinColumn(name = "objetive_id", referencedColumnName = "objetive_id")
+    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
     @ManyToOne
-    private Objetive objetiveId;
+    private Objective objectiveId;
 
     public Dcf() {
     }
@@ -91,12 +91,12 @@ public class Dcf implements Serializable {
         this.modalityId = modalityId;
     }
 
-    public Objetive getObjetiveId() {
-        return objetiveId;
+    public Objective getObjectiveId() {
+        return objectiveId;
     }
 
-    public void setObjetiveId(Objetive objetiveId) {
-        this.objetiveId = objetiveId;
+    public void setObjectiveId(Objective objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
     @Override

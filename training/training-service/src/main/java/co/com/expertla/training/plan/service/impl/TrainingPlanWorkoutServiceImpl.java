@@ -68,7 +68,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     @Override
     public void generatePlan(Integer id,Date fromDate, Date toDate) throws Exception {
         UserProfile userProfile = userProfileDao.findByUserId(id);
-        Dcf dcf = dcfDao.findByObjetiveIdAndModalityId(userProfile.getObjetiveId().getObjetiveId(), userProfile.getModalityId().getModalityId());
+        Dcf dcf = dcfDao.findByObjetiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), userProfile.getModalityId().getModalityId());
         List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(id);
         UserAvailability userAvailability =(userAvailabilityList == null || userAvailabilityList.isEmpty()) ? null : userAvailabilityList.get(0);
         int daysAvailable = getAvailableDays(userAvailability, fromDate, toDate);
@@ -82,7 +82,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     }
     	
     private void exactDays(UserAvailability userAvailability, Date startDate, Date endDate, UserProfile userProfile, Dcf dcf) throws Exception {
-        List<Activity> activityList = activityDao.findByObjetiveIdAndModalityId(userProfile.getObjetiveId().getObjetiveId(), 
+        List<Activity> activityList = activityDao.findByObjetiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), 
                 userProfile.getModalityId().getModalityId());
         List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
         String pattern = dcf.getPattern();
@@ -100,7 +100,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         for(Activity act: activityList) list.add(act);
         
         TrainingPlan trainingPlan = new TrainingPlan();
-        trainingPlan.setName(userProfile.getObjetiveId().getName()+"-"+userProfile.getModalityId().getName()+"-"+userProfile.getUserProfileId());
+        trainingPlan.setName(userProfile.getObjectiveId().getName()+"-"+userProfile.getModalityId().getName()+"-"+userProfile.getUserProfileId());
         trainingPlan.setCreationDate(startDate);
         trainingPlan.setEndDate(endDate);
         

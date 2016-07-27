@@ -20,10 +20,12 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
             $routeProvider
 
-//                    .when('/login', {
-//                        templateUrl: 'static/views/login.html',
-//                        controller: 'UserController'
-//                    })
+                    .when('/profile', {
+                        templateUrl: 'static/views/perfil/user-profile.html',
+                        controller: 'UserProfileController'
+                    })
+                    
+                    .when('/profile', route.resolve('user-profile', 'perfil/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
 

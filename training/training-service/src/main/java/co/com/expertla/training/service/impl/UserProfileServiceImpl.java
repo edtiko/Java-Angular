@@ -13,7 +13,7 @@ import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.EquipmentUserProfile;
 import co.com.expertla.training.model.entities.Modality;
-import co.com.expertla.training.model.entities.Objetive;
+import co.com.expertla.training.model.entities.Objective;
 import co.com.expertla.training.model.entities.Sport;
 import co.com.expertla.training.model.entities.SportEquipment;
 import co.com.expertla.training.model.entities.User;
@@ -181,7 +181,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setAgeSport(dto.getAgeSport());
         userProfile.setIndPower(dto.getIndPower());
         userProfile.setIndPulsometer(dto.getIndPulsometer());
-        userProfile.setObjetiveId(new Objetive(dto.getObjetive()));
+        userProfile.setObjectiveId(new Objective(dto.getObjetive()));
         userProfile.setPower(dto.getPower());
         userProfile.setPpm(dto.getPpm());
         userProfile.setSportsAchievements(dto.getSportsAchievements());

@@ -1,8 +1,7 @@
 package co.com.expertla.training.web.configuration.controller;
 
-import co.com.expertla.training.model.dto.ObjetiveDTO;
+import co.com.expertla.training.model.dto.ObjectiveDTO;
 import co.com.expertla.training.model.entities.ResponseService;
-import co.com.expertla.training.service.ObjetiveService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
 import javax.ws.rs.core.Response;
@@ -13,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import co.com.expertla.training.service.ObjectiveService;
 
 /**
 * Controller for Objetive <br>
@@ -21,21 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 * @author Angela Ramírez
 **/
 @RestController()
-public class ObjetiveController {
+public class ObjectiveController {
     
     @Autowired
-    private ObjetiveService objetiveService;
+    private ObjectiveService objectiveService;
     
-    @RequestMapping(value = "objetive/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "objective/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getAll() {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
-            List<ObjetiveDTO> objetives = objetiveService.findAll();
-            responseService.setOutput(objetives);
+            List<ObjectiveDTO> objectives = objectiveService.findAll();
+            responseService.setOutput(objectives);
             return Response.status(Response.Status.OK).entity(responseService).build();
         }   catch (Exception e) {
-            Logger.getLogger(ObjetiveController.class.getName()).log(Priority.FATAL, null, e);
+            Logger.getLogger(ObjectiveController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());

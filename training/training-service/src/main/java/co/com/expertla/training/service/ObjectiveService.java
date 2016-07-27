@@ -1,6 +1,6 @@
 package co.com.expertla.training.service;
 
-import co.com.expertla.training.model.dto.ObjetiveDTO;
+import co.com.expertla.training.model.dto.ObjectiveDTO;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  * @author Angela Ramírez
 *
  */
-public interface ObjetiveService {
+public interface ObjectiveService {
 
     /**
      * Trae todos los registros de objetive <br>
@@ -21,5 +21,5 @@ public interface ObjetiveService {
      * @throws Exception
      * @return
      */
-    public List<ObjetiveDTO> findAll() throws Exception;
+    public List<ObjectiveDTO> findAll() throws Exception;
 }

@@ -1,8 +1,8 @@
 'use strict';
 
 trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService', 'DisciplineService', 'SportService','SportEquipmentService',
-    'ObjetiveService','ModalityService',
-    function ($scope, UserProfileService,DisciplineService,SportService,SportEquipmentService, ObjetiveService,ModalityService) {
+    'ObjectiveService','ModalityService',
+    function ($scope, UserProfileService,DisciplineService,SportService,SportEquipmentService, ObjectiveService,ModalityService) {
         
         $scope.userProfile = {
             userProfileId: null,
@@ -192,7 +192,7 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
         this.getPotentiometers();
         
         this.getObjetives = function () {
-            ObjetiveService.getObjetives().then(
+            ObjectiveService.getObjetives().then(
                     function (d) {
                         $scope.objetives = d;
                         $scope.objetives.unshift({objetiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});

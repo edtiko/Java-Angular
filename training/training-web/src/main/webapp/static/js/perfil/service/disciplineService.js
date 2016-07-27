@@ -1,7 +1,6 @@
 'use strict';
  
 trainingApp.factory('DisciplineService', ['$http', '$q', function($http, $q){
-var $contextPath = "http://localhost:8085/training-web/";
     return {
 
             getSportDisciplines: function(){

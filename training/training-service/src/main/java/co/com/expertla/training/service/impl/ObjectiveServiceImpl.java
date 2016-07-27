@@ -1,13 +1,13 @@
 package co.com.expertla.training.service.impl;
 
-import co.com.expertla.training.configuration.dao.ObjetiveDao;
-import co.com.expertla.training.model.dto.ObjetiveDTO;
-import co.com.expertla.training.service.ObjetiveService;
+import co.com.expertla.training.model.dto.ObjectiveDTO;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import co.com.expertla.training.service.ObjectiveService;
+import co.com.expertla.training.configuration.dao.ObjectiveDao;
 
 /**
 * Service for Discipline <br>
@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 **/
 @Service("objetiveService")
 @Transactional
-public class ObjetiveServiceImpl implements ObjetiveService {
+public class ObjectiveServiceImpl implements ObjectiveService {
            
     @Autowired
-    private ObjetiveDao objetiveDao;
+    private ObjectiveDao objetiveDao;
 
     @Override
-    public List<ObjetiveDTO> findAll() throws Exception {
+    public List<ObjectiveDTO> findAll() throws Exception {
         return objetiveDao.findAll();
     }
  

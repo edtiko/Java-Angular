@@ -56,9 +56,9 @@ public class UserProfile implements Serializable {
     private String sportsAchievements;
     @Column(name = "about_me")
     private String aboutMe;
-    @JoinColumn(name = "objetive_id", referencedColumnName = "objetive_id")
+    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
     @ManyToOne
-    private Objetive objetiveId;
+    private Objective objectiveId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
@@ -143,12 +143,12 @@ public class UserProfile implements Serializable {
         this.aboutMe = aboutMe;
     }
 
-    public Objetive getObjetiveId() {
-        return objetiveId;
+    public Objective getObjectiveId() {
+        return objectiveId;
     }
 
-    public void setObjetiveId(Objetive objetiveId) {
-        this.objetiveId = objetiveId;
+    public void setObjectiveId(Objective objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
     public User getUserId() {

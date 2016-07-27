@@ -1,8 +1,8 @@
 package co.com.expertla.training.configuration.dao;
 
 import co.com.expertla.base.jpa.BaseDAO;
-import co.com.expertla.training.model.dto.ObjetiveDTO;
-import co.com.expertla.training.model.entities.Objetive;
+import co.com.expertla.training.model.dto.ObjectiveDTO;
+import co.com.expertla.training.model.entities.Objective;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
 * date 18/07/2016 <br>
 * @author Angela Ramírez
 **/
-public interface ObjetiveDao extends BaseDAO<Objetive>{
+public interface ObjectiveDao extends BaseDAO<Objective>{
 	
     /**
      * Trae todos los registros de Objetive <br>
@@ -21,6 +21,6 @@ public interface ObjetiveDao extends BaseDAO<Objetive>{
      * @throws Exception
      * @return
      */
-    public List<ObjetiveDTO> findAll() throws Exception;
+    public List<ObjectiveDTO> findAll() throws Exception;
         
 }

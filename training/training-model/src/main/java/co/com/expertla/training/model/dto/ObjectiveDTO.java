@@ -2,7 +2,7 @@ package co.com.expertla.training.model.dto;
 
 import java.io.Serializable;
 
-public class ObjetiveDTO implements Serializable {
+public class ObjectiveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Integer objetiveId;
@@ -11,14 +11,14 @@ public class ObjetiveDTO implements Serializable {
     private int minSessions;
     private int maxSessions;
 
-    public ObjetiveDTO() {
+    public ObjectiveDTO() {
     }
 
-    public ObjetiveDTO(Integer objetiveId) {
+    public ObjectiveDTO(Integer objetiveId) {
         this.objetiveId = objetiveId;
     }
 
-    public ObjetiveDTO(Integer objetiveId, String name, int level, int minSessions, int maxSessions) {
+    public ObjectiveDTO(Integer objetiveId, String name, int level, int minSessions, int maxSessions) {
         this.objetiveId = objetiveId;
         this.name = name;
         this.level = level;

@@ -16,6 +16,12 @@ require.config({
         lodash: "../bower_components/lodash/dist/lodash",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
+        disciplineService: "perfil/service/disciplineService",
+        modalityService: "perfil/service/modalityService",
+        objectiveService: "perfil/service/objectiveService",
+        sportEquipmentService: "perfil/service/sportEquipmentService",
+        sportService: "perfil/service/sportService",
+        userProfileService: "perfil/service/userProfileService",
         app: "routeResolver"
     },
     shim: {
@@ -43,11 +49,30 @@ require.config({
         userService: {
             deps: ['angular', 'trainingApp']
         },
+        disciplineService: {
+            deps: ['angular', 'trainingApp']
+        },
+        modalityService: {
+            deps: ['angular', 'trainingApp']
+        },
+        objectiveService: {
+            deps: ['angular', 'trainingApp']
+        },
+        sportEquipmentService: {
+            deps: ['angular', 'trainingApp']
+        },
+        sportService: {
+            deps: ['angular', 'trainingApp']
+        },
+        userProfileService: {
+            deps: ['angular', 'trainingApp']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
         },
         app: {
-            deps: ['trainingApp', 'userService']
+            deps: ['trainingApp', 'userService', 'disciplineService', 
+                'modalityService', 'objectiveService', 'sportEquipmentService', 'sportService', 'userProfileService']
         }
     }
 });

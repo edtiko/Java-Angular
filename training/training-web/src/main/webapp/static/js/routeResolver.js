@@ -36,13 +36,22 @@ define([], function () {
                     path = '';
 
                 var routeDef = {};
-                var baseNameController = baseName && baseName[0].toUpperCase() + baseName.slice(1);
+                var indexBase = baseName.indexOf("-");
+                var baseController = baseName.replace("-", "");
+                var baseNameController = baseController && baseController[0].toUpperCase() + baseController.slice(1);
+                
+                
+                if(indexBase > 0) {
+                    baseNameController = baseNameController.slice(0, indexBase) + baseNameController[indexBase].toUpperCase() + baseNameController.slice(indexBase+1);
+                    baseController = baseController.slice(0, indexBase) + baseController[indexBase].toUpperCase() + baseController.slice(indexBase+1);
+                }
+                
                 routeDef.controller = baseNameController + 'Controller';
                 routeDef.secure = (secure) ? secure : false;
                 routeDef.resolve = {
                     load: ['$q', '$rootScope', function ($q, $rootScope) {
                             var dependencies = [routeConfig.getControllersDirectory() + path +
-                                        "/" + 'controller' + "/" + baseName + 'Controller.js'];
+                                        "/" + 'controller' + "/" + baseController + 'Controller.js'];
                             return resolveDependencies($q, $rootScope, dependencies);
                         }]
                 };

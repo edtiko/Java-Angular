@@ -1,7 +1,6 @@
 'use strict';
  
 trainingApp.factory('ModalityService', ['$http', '$q', function($http, $q){
-var $contextPath = "http://localhost:8085/training-web/";
     return {
             
             getAll: function(id){

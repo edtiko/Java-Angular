@@ -21,21 +21,14 @@ import javax.persistence.Table;
  * @author Edwin G
  */
 @Entity
-@Table(name = "objetive")
-@NamedQueries({
-    @NamedQuery(name = "Objetive.findAll", query = "SELECT o FROM Objetive o"),
-    @NamedQuery(name = "Objetive.findByObjetiveId", query = "SELECT o FROM Objetive o WHERE o.objetiveId = :objetiveId"),
-    @NamedQuery(name = "Objetive.findByName", query = "SELECT o FROM Objetive o WHERE o.name = :name"),
-    @NamedQuery(name = "Objetive.findByLevel", query = "SELECT o FROM Objetive o WHERE o.level = :level"),
-    @NamedQuery(name = "Objetive.findByMinSessions", query = "SELECT o FROM Objetive o WHERE o.minSessions = :minSessions"),
-    @NamedQuery(name = "Objetive.findByMaxSessions", query = "SELECT o FROM Objetive o WHERE o.maxSessions = :maxSessions")})
-public class Objetive implements Serializable {
+@Table(name = "objective")
+public class Objective implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "objetive_id")
-    private Integer objetiveId;
+    @Column(name = "objective_id")
+    private Integer objectiveId;
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
@@ -48,34 +41,34 @@ public class Objetive implements Serializable {
     @Basic(optional = false)
     @Column(name = "max_sessions")
     private int maxSessions;
-    @OneToMany(mappedBy = "objetiveId")
+    @OneToMany(mappedBy = "objectiveId")
     private Collection<Activity> activityCollection;
-    @OneToMany(mappedBy = "objetiveId")
+    @OneToMany(mappedBy = "objectiveId")
     private Collection<Dcf> dcfCollection;
-    @OneToMany(mappedBy = "objetiveId")
+    @OneToMany(mappedBy = "objectiveId")
     private Collection<UserProfile> userProfileCollection;
 
-    public Objetive() {
+    public Objective() {
     }
 
-    public Objetive(Integer objetiveId) {
-        this.objetiveId = objetiveId;
+    public Objective(Integer objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
-    public Objetive(Integer objetiveId, String name, int level, int minSessions, int maxSessions) {
-        this.objetiveId = objetiveId;
+    public Objective(Integer objectiveId, String name, int level, int minSessions, int maxSessions) {
+        this.objectiveId = objectiveId;
         this.name = name;
         this.level = level;
         this.minSessions = minSessions;
         this.maxSessions = maxSessions;
     }
 
-    public Integer getObjetiveId() {
-        return objetiveId;
+    public Integer getObjectiveId() {
+        return objectiveId;
     }
 
-    public void setObjetiveId(Integer objetiveId) {
-        this.objetiveId = objetiveId;
+    public void setObjectiveId(Integer objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
     public String getName() {
@@ -137,18 +130,18 @@ public class Objetive implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (objetiveId != null ? objetiveId.hashCode() : 0);
+        hash += (objectiveId != null ? objectiveId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Objetive)) {
+        if (!(object instanceof Objective)) {
             return false;
         }
-        Objetive other = (Objetive) object;
-        if ((this.objetiveId == null && other.objetiveId != null) || (this.objetiveId != null && !this.objetiveId.equals(other.objetiveId))) {
+        Objective other = (Objective) object;
+        if ((this.objectiveId == null && other.objectiveId != null) || (this.objectiveId != null && !this.objectiveId.equals(other.objectiveId))) {
             return false;
         }
         return true;
@@ -156,7 +149,7 @@ public class Objetive implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.Objetive[ objetiveId=" + objetiveId + " ]";
+        return "co.com.expertla.training.model.entities.Objetive[ objectiveId=" + objectiveId + " ]";
     }
     
 }
