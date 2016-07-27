@@ -46,9 +46,8 @@ public class Questionnaire implements Serializable {
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
@@ -92,11 +91,11 @@ public class Questionnaire implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

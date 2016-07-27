@@ -47,6 +47,12 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.3.2</version>
         </dependency>
+        
+        <dependency>
+            <groupId>co.com.expertla.base</groupId>
+            <artifactId>ExpertBaseEjb</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>

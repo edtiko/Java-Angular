@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     13/07/2016 4:02:59 p. m.                     */
+/* Created on:     27/07/2016 9:17:42 a. m.                     */
 /*==============================================================*/
 
 
@@ -16,6 +16,8 @@ drop table data_type;
 
 drop table dcf;
 
+drop table dcf_detail;
+
 drop table discipline;
 
 drop table discipline_user;
@@ -23,6 +25,8 @@ drop table discipline_user;
 drop table equipment_user_profile;
 
 drop table federal_state;
+
+drop table injury;
 
 drop table membership;
 
@@ -36,7 +40,7 @@ drop table membership_user;
 
 drop table modality;
 
-drop table objetive;
+drop table objective;
 
 drop table option_type;
 
@@ -55,6 +59,8 @@ drop table questionnaire_question;
 drop table questionnaire_response;
 
 drop table questionnaire_resp_history;
+
+drop table questionnaire_user;
 
 drop table question_option;
 
@@ -80,13 +86,47 @@ drop table training_plan_user;
 
 drop table training_plan_workout;
 
-drop table user_training;
+drop table user_availability;
 
 drop table user_profile;
 
 drop table user_sport;
 
+drop table user_training;
+
 drop table video_user;
+
+drop sequence discipline_user_seq;
+
+drop sequence equipment_user_profile_seq;
+
+drop sequence training_plan_seq;
+
+drop sequence training_plan_user_seq;
+
+drop sequence training_plan_workout_seq;
+
+drop sequence user_availability_seq;
+
+drop sequence user_profile_seq;
+
+drop sequence user_sport_seq;
+
+create sequence discipline_user_seq;
+
+create sequence equipment_user_profile_seq;
+
+create sequence training_plan_seq;
+
+create sequence training_plan_user_seq;
+
+create sequence training_plan_workout_seq;
+
+create sequence user_availability_seq;
+
+create sequence user_profile_seq;
+
+create sequence user_sport_seq;
 
 /*==============================================================*/
 /* Table: activity                                              */
@@ -95,7 +135,7 @@ create table activity (
    activity_id          integer              not null,
    physiological_capacity_id integer              null,
    modality_id          integer              null,
-   objetive_id          integer              null,
+   objective_id         integer              null,
    name                 varchar(200)         not null,
    constraint pk_activity primary key (activity_id)
 );
@@ -142,14 +182,26 @@ create table data_type (
 /*==============================================================*/
 create table dcf (
    dcf_id               integer              not null,
-   physiological_capacity_id integer              null,
-   objetive_id          integer              null,
-   percentage           integer              not null,
+   objective_id         integer              null,
+   modality_id          integer              null,
+   pattern              text                 not null,
+   sessions             integer              not null,
    constraint pk_dcf primary key (dcf_id)
 );
 
 comment on table dcf is
 'Esta tabla guardará la Distribución porcentual de las Capacidades Fisiológicas para la generación de los planes';
+
+/*==============================================================*/
+/* Table: dcf_detail                                            */
+/*==============================================================*/
+create table dcf_detail (
+   dcf_detail_id        integer              not null,
+   physiological_capacity_id integer              null,
+   dcf_id               integer              null,
+   percentage           integer              not null,
+   constraint pk_dcf_detail primary key (dcf_detail_id)
+);
 
 /*==============================================================*/
 /* Table: discipline                                            */
@@ -165,7 +217,7 @@ create table discipline (
 /* Table: discipline_user                                       */
 /*==============================================================*/
 create table discipline_user (
-   discipline_user_id   integer              not null,
+   discipline_user_id   serial               not null,
    discipline           integer              null,
    user_id              integer              null,
    constraint pk_discipline_user primary key (discipline_user_id)
@@ -175,7 +227,7 @@ create table discipline_user (
 /* Table: equipment_user_profile                                */
 /*==============================================================*/
 create table equipment_user_profile (
-   equipment_user_profile_id integer              not null,
+   equipment_user_profile_id serial               not null,
    user_profile_id      integer              null,
    sport_equipment_id   integer              null,
    constraint pk_equipment_user_profile primary key (equipment_user_profile_id)
@@ -189,6 +241,16 @@ create table federal_state (
    country_id           integer              null,
    name                 varchar(200)         null,
    constraint pk_federal_state primary key (federal_state_id)
+);
+
+/*==============================================================*/
+/* Table: injury                                                */
+/*==============================================================*/
+create table injury (
+   injury_id            integer              not null,
+   injury_parent_id     integer              null,
+   name                 varchar(200)         not null,
+   constraint pk_injury primary key (injury_id)
 );
 
 /*==============================================================*/
@@ -276,15 +338,15 @@ create table modality (
 );
 
 /*==============================================================*/
-/* Table: objetive                                              */
+/* Table: objective                                             */
 /*==============================================================*/
-create table objetive (
-   objetive_id          integer              not null,
+create table objective (
+   objective_id         integer              not null,
    name                 varchar(200)         not null,
    level                short                not null,
    min_sessions         integer              not null,
    max_sessions         integer              not null,
-   constraint pk_objetive primary key (objetive_id)
+   constraint pk_objective primary key (objective_id)
 );
 
 /*==============================================================*/
@@ -321,6 +383,7 @@ create table payment_method (
 create table physiological_capacity (
    physiological_capacity_id integer              not null,
    name                 varchar(200)         not null,
+   code                 varchar(5)           null,
    constraint pk_physiological_capacity primary key (physiological_capacity_id)
 );
 
@@ -353,8 +416,8 @@ A - Automated';
 /*==============================================================*/
 create table questionnaire (
    questionnaire_id     integer              not null,
-   user_id              integer              null,
    state_id             integer              null,
+   discipline_id        integer              null,
    name                 varchar(500)         not null,
    creation_date        date                 not null,
    constraint pk_questionnaire primary key (questionnaire_id)
@@ -411,6 +474,16 @@ create table questionnaire_resp_history (
    user_questionnaire_id integer              null,
    creation_date        date                 null,
    constraint pk_questionnaire_resp_history primary key (questionnaire_resp_history_id)
+);
+
+/*==============================================================*/
+/* Table: questionnaire_user                                    */
+/*==============================================================*/
+create table questionnaire_user (
+   questionnaire_user_id integer              not null,
+   questionnaire_id     integer              null,
+   user_training_id     integer              null,
+   constraint pk_questionnaire_user primary key (questionnaire_user_id)
 );
 
 /*==============================================================*/
@@ -508,10 +581,10 @@ create table state (
 /* Table: training_plan                                         */
 /*==============================================================*/
 create table training_plan (
-   training_plan_id     integer              not null,
+   training_plan_id     serial               not null,
    name                 varchar(500)         not null,
    description          varchar(5000)        null,
-   duration             decimal(10,2)        not null,
+   duration             decimal(10,2)        null,
    creation_date        date                 not null,
    end_date             date                 not null,
    constraint pk_training_plan primary key (training_plan_id)
@@ -521,7 +594,7 @@ create table training_plan (
 /* Table: training_plan_user                                    */
 /*==============================================================*/
 create table training_plan_user (
-   training_plan_user_id integer              not null,
+   training_plan_user_id serial               not null,
    user_id              integer              null,
    training_plan_id     integer              null,
    state_id             integer              null,
@@ -532,7 +605,7 @@ create table training_plan_user (
 /* Table: training_plan_workout                                 */
 /*==============================================================*/
 create table training_plan_workout (
-   training_plan_workout_id integer              not null,
+   training_plan_workout_id serial               not null,
    training_plan_id     integer              not null,
    activity_id          integer              not null,
    workout_date         date                 not null,
@@ -540,47 +613,30 @@ create table training_plan_workout (
 );
 
 /*==============================================================*/
-/* Table: "user_training"                                                */
+/* Table: user_availability                                     */
 /*==============================================================*/
-create table user_training (
-   user_id              integer              not null,
-   city_id              integer              null,
-   state_id             integer              null,
-   star_id              integer              null,
-   login                varchar(100)         not null,
-   password             varchar(100)         null,
-   name                 varchar(200)         not null,
-   last_name            varchar(200)         null,
-   email                varchar(100)         null,
-   birth_date           date                 null,
-   sex                  varchar(1)           null,
-   weight               decimal              null,
-   phone                varchar(50)          null,
-   cellphone            varchar(50)          null,
-   address              varchar(100)         null,
-   postal_code          varchar(50)          null,
-   profile_photo        bytea                null,
-   facebook_page        varchar(200)         null,
-   ind_metric_sys       varchar(1)           not null,
-   creation_date        date                 not null,
-   constraint pk_user primary key (user_id)
+create table user_availability (
+   user_availability_id serial               not null,
+   user_profile_id      integer              null,
+   monday               boolean              not null,
+   tuesday              boolean              not null,
+   wednesday            boolean              not null,
+   thursday             boolean              not null,
+   friday               boolean              not null,
+   saturday             boolean              not null,
+   sunday               boolean              not null,
+   constraint pk_user_availability primary key (user_availability_id)
 );
-
-comment on column user_training.star_id is
-'Es la estrella del deporte asociada al usuario';
-
-comment on column user_training.ind_metric_sys is
-'(0) Ingles (1) Metrico Decimal';
 
 /*==============================================================*/
 /* Table: user_profile                                          */
 /*==============================================================*/
 create table user_profile (
-   user_profile_id      integer              not null,
+   user_profile_id      serial               not null,
    user_id              integer              null,
-   objetive_id          integer              null,
+   objective_id         integer              null,
    ind_pulsometer       varchar(1)           null,
-   ind_power            varchar(1)           null,
+   ind_potentiometer    varchar(1)           null,
    age_sport            integer              null,
    ppm                  decimal              null,
    power                decimal              null,
@@ -592,7 +648,7 @@ create table user_profile (
 comment on column user_profile.ind_pulsometer is
 '(0) NO (1) SI';
 
-comment on column user_profile.ind_power is
+comment on column user_profile.ind_potentiometer is
 '(0) NO (1) SI';
 
 comment on column user_profile.age_sport is
@@ -614,11 +670,44 @@ comment on column user_profile.about_me is
 /* Table: user_sport                                            */
 /*==============================================================*/
 create table user_sport (
-   user_sport_id        integer              not null,
+   user_sport_id        serial               not null,
    user_profile_id      integer              null,
    sport_id             integer              null,
    constraint pk_user_sport primary key (user_sport_id)
 );
+
+/*==============================================================*/
+/* Table: user_training                                         */
+/*==============================================================*/
+create table user_training (
+   user_id              serial not null,
+   city_id              integer              null,
+   state_id             integer              null,
+   star_id              integer              null,
+   login                varchar(100)         not null,
+   password             varchar(100)         null,
+   name                 varchar(200)         not null,
+   last_name            varchar(200)         null,
+   email                varchar(100)         null,
+   birth_date           date                 null,
+   sex                  varchar(1)           null,
+   weight               decimal              null,
+   phone                varchar(50)          null,
+   cellphone            varchar(50)          null,
+   address              varchar(100)         null,
+   postal_code          varchar(50)          null,
+   profile_photo        bytea                null,
+   facebook_page        varchar(200)         null,
+   ind_metric_sys       varchar(1)           not null,
+   creation_date        date                 not null,
+   constraint pk_user_training primary key (user_id)
+);
+
+comment on column user_training.star_id is
+'Es la estrella del deporte asociada al usuario';
+
+comment on column user_training.ind_metric_sys is
+'(0) Ingles (1) Metrico Decimal';
 
 /*==============================================================*/
 /* Table: video_user                                            */
@@ -643,8 +732,8 @@ alter table activity
       on delete restrict on update restrict;
 
 alter table activity
-   add constraint fk_activity_reference_objetive foreign key (objetive_id)
-      references objetive (objetive_id)
+   add constraint fk_activity_reference_objectiv foreign key (objective_id)
+      references objective (objective_id)
       on delete restrict on update restrict;
 
 alter table city
@@ -653,13 +742,23 @@ alter table city
       on delete restrict on update restrict;
 
 alter table dcf
-   add constraint fk_dcf_reference_physiolo foreign key (physiological_capacity_id)
-      references physiological_capacity (physiological_capacity_id)
+   add constraint fk_dcf_reference_objectiv foreign key (objective_id)
+      references objective (objective_id)
       on delete restrict on update restrict;
 
 alter table dcf
-   add constraint fk_dcf_reference_objetive foreign key (objetive_id)
-      references objetive (objetive_id)
+   add constraint fk_dcf_reference_modality foreign key (modality_id)
+      references modality (modality_id)
+      on delete restrict on update restrict;
+
+alter table dcf_detail
+   add constraint fk_dcf_deta_reference_physiolo foreign key (physiological_capacity_id)
+      references physiological_capacity (physiological_capacity_id)
+      on delete restrict on update restrict;
+
+alter table dcf_detail
+   add constraint fk_dcf_deta_reference_dcf foreign key (dcf_id)
+      references dcf (dcf_id)
       on delete restrict on update restrict;
 
 alter table discipline_user
@@ -685,6 +784,11 @@ alter table equipment_user_profile
 alter table federal_state
    add constraint fk_fede_state_country foreign key (country_id)
       references country (country_id)
+      on delete restrict on update restrict;
+
+alter table injury
+   add constraint fk_injury_reference_injury foreign key (injury_parent_id)
+      references injury (injury_id)
       on delete restrict on update restrict;
 
 alter table membership
@@ -748,8 +852,8 @@ alter table question
       on delete restrict on update restrict;
 
 alter table questionnaire
-   add constraint fk_questna_user foreign key (user_id)
-      references user_training (user_id)
+   add constraint fk_question_questionn_discipli foreign key (discipline_id)
+      references discipline (discipline_id)
       on delete restrict on update restrict;
 
 alter table questionnaire
@@ -803,7 +907,17 @@ alter table questionnaire_response
       on delete restrict on update restrict;
 
 alter table questionnaire_response
-   add constraint fk_question_reference_user foreign key (user_id)
+   add constraint fk_question_reference_user_tra foreign key (user_id)
+      references user_training (user_id)
+      on delete restrict on update restrict;
+
+alter table questionnaire_user
+   add constraint fk_question_reference_question foreign key (questionnaire_id)
+      references questionnaire (questionnaire_id)
+      on delete restrict on update restrict;
+
+alter table questionnaire_user
+   add constraint fk_question_reference_user_tra foreign key (user_training_id)
       references user_training (user_id)
       on delete restrict on update restrict;
 
@@ -882,29 +996,19 @@ alter table training_plan_workout
       references activity (activity_id)
       on delete restrict on update restrict;
 
-alter table "user"
-   add constraint fk_user_city foreign key (city_id)
-      references city (city_id)
+alter table user_availability
+   add constraint fk_user_ava_reference_user_pro foreign key (user_profile_id)
+      references user_profile (user_profile_id)
       on delete restrict on update restrict;
 
-alter table "user"
-   add constraint fk_user_state foreign key (state_id)
-      references state (state_id)
-      on delete restrict on update restrict;
-
-alter table "user"
-   add constraint fk_user_reference_user foreign key (star_id)
+alter table user_profile
+   add constraint fk_user_pro_reference_user_tra foreign key (user_id)
       references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table user_profile
-   add constraint fk_user_pro_reference_user foreign key (user_id)
-      references user_training (user_id)
-      on delete restrict on update restrict;
-
-alter table user_profile
-   add constraint fk_user_pro_reference_objetive foreign key (objetive_id)
-      references objetive (objetive_id)
+   add constraint fk_user_pro_reference_objectiv foreign key (objective_id)
+      references objective (objective_id)
       on delete restrict on update restrict;
 
 alter table user_sport
@@ -915,6 +1019,21 @@ alter table user_sport
 alter table user_sport
    add constraint fk_user_spo_reference_sport foreign key (sport_id)
       references sport (sport_id)
+      on delete restrict on update restrict;
+
+alter table user_training
+   add constraint fk_user_city foreign key (city_id)
+      references city (city_id)
+      on delete restrict on update restrict;
+
+alter table user_training
+   add constraint fk_user_state foreign key (state_id)
+      references state (state_id)
+      on delete restrict on update restrict;
+
+alter table user_training
+   add constraint fk_user_tra_reference_user_tra foreign key (star_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table video_user

@@ -57,9 +57,8 @@ public class QuestionnaireQuestion implements Serializable {
     @JoinColumn(name = "questionnaire_category_id", referencedColumnName = "questionnaire_category_id")
     @ManyToOne
     private QuestionnaireCategory questionnaireCategoryId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
 
     public QuestionnaireQuestion() {
     }
@@ -130,11 +129,11 @@ public class QuestionnaireQuestion implements Serializable {
         this.questionnaireCategoryId = questionnaireCategoryId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

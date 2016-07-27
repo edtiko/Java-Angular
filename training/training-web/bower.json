@@ -1,0 +1,22 @@
+{
+  "name": "custom-training",
+  "version": "1.0",
+  "authors": [
+    "edwin.gomez@expertla.com"
+  ],
+  "description": "Spring MVC | AngularJs project - Custom training",
+  "dependencies": {
+    "angular": "1.5.7",
+    "angular-messages": "1.5.7",
+    "lodash": "2.4.1",
+    "pure": "0.5.0",
+    "requirejs": "2.1.15",
+    "spring-security-csrf-token-interceptor": "0.1.5",
+    "angular-route": "1.5.7",
+    "angular-animate": "1.5.7",
+    "angular-touch": "1.5.7",
+    "font-awesome": "4.0.0",
+    "angular-ui-bootstrap": "2.0.0",
+    "angular-surveys": "^0.8.0"
+  }
+}

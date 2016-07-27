@@ -15,7 +15,19 @@ import java.util.List;
 public interface UserDao extends BaseDAO<User>{
 	
 	User findById(Integer id);
+       User findUserByUsername(String userName);
         
         List<User> findAllUsers();
 
+    public Integer saveUser(User user);
+    
+   public Integer updateUser(User user);
+
+    public void deleteUser(User user);
+
+    public boolean isUser(String username, String password);
+
+    public void saveProfilePhoto(byte[] bytes, Integer userId);
+
+    
 }

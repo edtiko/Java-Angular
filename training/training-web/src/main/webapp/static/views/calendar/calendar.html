@@ -1,0 +1,63 @@
+<div class="page-header">
+
+    <div class="pull-left form-inline">
+        <div class="btn-group">
+            <button class="btn btn-primary" data-calendar-nav="prev"><< Anterior</button>
+            <button class="btn" data-calendar-nav="today">Hoy</button>
+            <button class="btn btn-primary" data-calendar-nav="next">Siguiente >></button>
+        </div>
+    </div>    
+    <div class="pull-right form-inline">
+        <div class="btn-group">
+            <button class="btn btn-primary" data-calendar-view="year">A&ntilde;o</button>
+            <button class="btn btn-primary active" data-calendar-view="month">Mes</button>
+            <button class="btn btn-primary" data-calendar-view="week">Semana</button>
+            <button class="btn btn-primary" data-calendar-view="day">D&iacute;a</button>
+        </div>
+    </div>
+    <center><h3></h3></center>
+</div>
+
+<div id="calendar"></div>
+
+<div class="modal fade" id="events-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Actividad</h3>
+            </div>
+            <div class="modal-body" style="height: 400px">
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-events-modal" ng-controller="calendarController as ctr">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Actividad</h3>
+            </div>
+            <div id="add-events-modal-body" style="height: 400px"  >
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="static/js/calendar/language/es-CO.js"></script>
+<!--<script type="text/javascript" src="static/js/lib/jquery.min.js"></script>-->
+<script type="text/javascript" src="static/js/lib/underscore-min.js"></script>
+<!--<script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>-->
+<script type="text/javascript" src="static/js/lib/calendar.js"></script>
+<script type="text/javascript" src="static/js/calendar/controller/calendarInit.js"></script>

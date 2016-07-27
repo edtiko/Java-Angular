@@ -44,6 +44,9 @@
         <property name="jndiName" value="java:/trainingDS" />
         <property name="resourceRef" value="true" />        
     </bean>   
+    <bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+
 
 
 </beans>

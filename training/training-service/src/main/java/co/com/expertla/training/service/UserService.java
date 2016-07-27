@@ -1,11 +1,13 @@
 /**
- * 
+ *
  */
 package co.com.expertla.training.service;
 
+import co.com.expertla.training.model.dto.CityDTO;
+import co.com.expertla.training.model.dto.CountryDTO;
+import co.com.expertla.training.model.dto.FederalStateDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
-
-import co.com.expertla.training.model.entities.User;
 
 /**
  * @author Edwin G
@@ -13,21 +15,32 @@ import co.com.expertla.training.model.entities.User;
  */
 public interface UserService {
 
-	User findById(Integer id);
+    UserDTO findById(Integer id);
 
-	User findByName(String name);
-	
-	User findUserByUsername(String username);
+    UserDTO findByName(String name);
 
-	Integer saveUser(User user);
+    UserDTO findUserByUsername(String username);
 
-	int updateUser(User user);
+    Integer saveUser(UserDTO user);
 
-	Integer deleteUserById(Integer id);
+    int updateUser(UserDTO user);
 
-	List<User> findAllUsers();
+    void deleteUserById(Integer id);
 
-	void deleteAllUsers();
+    List<UserDTO> findAllUsers();
 
-	public boolean isUserExist(User user);
+    void deleteAllUsers();
+
+    public boolean isUserExist(UserDTO user);
+
+    public List<CountryDTO> findAllCountries();
+
+    public List<FederalStateDTO> findStatesByCountry(Integer countryId);
+
+    public List<CityDTO> findCitiesByState(Integer stateId);
+    
+    public boolean isUser(String username, String password);
+
+    public void saveProfilePhoto(byte[] bytes, Integer userId);
+
 }
