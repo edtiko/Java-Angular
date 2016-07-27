@@ -4,7 +4,6 @@ import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +11,8 @@ import java.util.List;
 
 
 public class QuestionnaireQuestionDTO {
+    
+    private Integer number;
     private Integer questionnaireQuestionId;
     private QuestionnaireDTO questionnaireId;
     private int questionOrder;
@@ -120,6 +121,14 @@ public class QuestionnaireQuestionDTO {
 
     public void setQuestionnaireResponseList(Collection<QuestionnaireResponse> questionnaireResponseList) {
         this.questionnaireResponseList = questionnaireResponseList;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
     
     

@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://localhost:8080/training/";
 require.config({
     paths: {
         angular: '../bower_components/angular/angular',
@@ -22,6 +22,7 @@ require.config({
         sportEquipmentService: "perfil/service/sportEquipmentService",
         sportService: "perfil/service/sportService",
         userProfileService: "perfil/service/userProfileService",
+        surveyService: "questionnaire/service/surveyService",
         app: "routeResolver"
     },
     shim: {
@@ -67,12 +68,15 @@ require.config({
         userProfileService: {
             deps: ['angular', 'trainingApp']
         },
+        surveyService: {
+            deps: ['angular', 'trainingApp']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
         },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService', 
-                'modalityService', 'objectiveService', 'sportEquipmentService', 'sportService', 'userProfileService']
+                'modalityService', 'objectiveService', 'sportEquipmentService', 'sportService', 'userProfileService','surveyService']
         }
     }
 });

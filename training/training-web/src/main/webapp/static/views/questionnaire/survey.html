@@ -4,7 +4,7 @@
    
         <div ng-repeat="question in survey">
              <div class="form-group">
-            <label> {{question.questionId.name}}</label>
+            <label>{{$index + 1}}. {{question.questionId.name}}</label>
             <div ng-switch="question.questionId.dataType">
                 <div ng-switch-when="text">
                     <input type="text" class="form-control input-sm" name="name">

@@ -298,7 +298,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     public List<QuestionnaireQuestionDTO> findByUserId(SePaginator sePaginator, Integer disciplineId) throws Exception {
         List<QuestionnaireQuestion> list = questionnaireQuestionDao.findByDisciplineId(sePaginator, disciplineId);
         List<QuestionnaireQuestionDTO> listResult = new ArrayList<>();
-        
+   
           if (list != null && !list.isEmpty()) {
               list.stream().forEach((questionnaireQuestion) -> {
                   QuestionnaireQuestionDTO q = new QuestionnaireQuestionDTO();
@@ -308,6 +308,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                   List<QuestionOptionDTO> questionOptionList =  questionnaireQuestion.getQuestionId().getQuestionOptionCollection().stream().map(QuestionOptionDTO::mapFromQuestionOptionEntity).collect(Collectors.toList());
                   questionDto.setQuestionOptionList(questionOptionList);
                   //List<QuestionOptionDTO> questionOptionList =StreamSupport.stream(questionnaireQuestion.getQuestionId().getQuestionOptionCollection().spliterator(), false).map(QuestionOptionDTO::mapFromQuestionOptionEntity).collect(Collectors.toList());
+                 
                   q.setQuestionnaireQuestionId(questionnaireQuestion.getQuestionnaireQuestionId());
                   q.setQuestionId(questionDto);
                   q.setQuestionOrder(questionnaireQuestion.getQuestionOrder());

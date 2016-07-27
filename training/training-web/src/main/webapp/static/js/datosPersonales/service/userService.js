@@ -1,4 +1,5 @@
-trainingApp.factory('UserService', ['$http', '$q', function($http, $q){
+  'use strict';
+  trainingApp.service('UserService', ['$http','$q', function($http, $q) {
                 return {
                     getUserInfo: function () {
                         var deferred = $q.defer();
