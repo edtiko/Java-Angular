@@ -37,6 +37,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "UserProfile.findByAboutMe", query = "SELECT u FROM UserProfile u WHERE u.aboutMe = :aboutMe")})
 public class UserProfile implements Serializable {
 
+    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
+    @ManyToOne
+    private Objective objectiveId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -193,6 +197,14 @@ public class UserProfile implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.UserProfile[ userProfileId=" + userProfileId + " ]";
+    }
+
+    public Objective getObjectiveId() {
+        return objectiveId;
+    }
+
+    public void setObjectiveId(Objective objectiveId) {
+        this.objectiveId = objectiveId;
     }
     
 }

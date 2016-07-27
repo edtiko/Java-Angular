@@ -32,6 +32,15 @@ public class QuestionnaireCategoryDTO {
         this.hashQuestion = new HashMap<>();
     }
     
+    public QuestionnaireCategoryDTO(Integer questionnaireCategoryId, String name) {
+        this.questionnaireCategoryId = questionnaireCategoryId;
+        this.name = name;
+    }
+    
+     public static QuestionnaireCategoryDTO mapFromQuestionnaireCategoryEntity(QuestionnaireCategory e) {
+        return new QuestionnaireCategoryDTO(e.getQuestionnaireCategoryId(), e.getName());
+    }
+    
     public Integer getQuestionnaireCategoryId() {
         return questionnaireCategoryId;
     }

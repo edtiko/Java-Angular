@@ -68,6 +68,8 @@ public interface QuestionOptionDao {
      */
     public List<QuestionOption> findByQuestionOptionId(QuestionOption questionOption) throws DAOException;
     
+    public List<QuestionOption> findByQuestionId(Integer questionId) throws DAOException;
+    
     /**
      * Gets all the records from questionOption by name <br>
      * Creation Info:<br> 

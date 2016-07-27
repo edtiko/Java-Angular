@@ -53,6 +53,8 @@ public interface QuestionnaireQuestionService {
      * @throws Exception 
      */
     public List<QuestionnaireQuestion> findAll(SePaginator sePaginator) throws Exception;
+    
+   public List<QuestionnaireQuestionDTO> findByUserId(SePaginator sePaginator, Integer disciplineId) throws Exception;
     /**
      * Gets all the records from questionnaireQuestion by its id <br>
      * Creation Info:  <br>

@@ -64,20 +64,22 @@ trainingApp.controller('mainController', function ($scope) {
 trainingApp.controller('SurveyController', ['$scope', 'SurveyService', function ($scope, SurveyService)  {
 
     var self = this;
-    self.encuesta = {};
+        $scope.maxRow = 5;
+        $scope.survey = {};
     self.sePaginator = { initialRow: "1", maxRow: "10"};
 
-     self.getAllQuestionnaireQuestion = function (paginator) {
-            SurveyService.getAllQuestionnaireQuestion(paginator)
-                    .then(
-                            function (response) {
-                                //self.encuesta = response;
-                                console.log(response);
-                            },
-                            function (errResponse) {
-                                console.error('Error while fetching Currencies');
-                            }
-                    );
+        self.getAllQuestionnaireQuestion = function (paginator) {
+            SurveyService.getAllQuestionnaireQuestion(paginator).then(
+                    function (response) {
+                        angular.forEach(response.data.entity.output, function (value, key) {
+                            $scope.survey[key] = value;
+                        });
+                    console.log($scope.survey);
+                    },
+                    function (errResponse) {
+                        console.error('Error while fetching Currencies');
+                    }
+            );
         };
     self.getAllQuestionnaireQuestion(self.sePaginator);    
 }]);

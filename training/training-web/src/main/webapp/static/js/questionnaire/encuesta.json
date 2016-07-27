@@ -1,0 +1,14 @@
+{
+   "questionnaireQuestionId": "",
+   "questionOrder": "",
+   "questionId":{
+       "questionId": "",
+       "name":"",
+       "questionType":"",
+       "dataTypeId":""
+   },
+   "questionnaireResponse":[],
+   "questionOptionList":[],
+   "questionnaireCategoryId":""
+   
+}

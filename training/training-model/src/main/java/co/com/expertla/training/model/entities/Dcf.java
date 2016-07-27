@@ -28,6 +28,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "Dcf.findByPercentage", query = "SELECT d FROM Dcf d WHERE d.percentage = :percentage")})
 public class Dcf implements Serializable {
 
+    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
+    @ManyToOne
+    private Objective objectiveId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -110,6 +114,14 @@ public class Dcf implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.Dcf[ dcfId=" + dcfId + " ]";
+    }
+
+    public Objective getObjectiveId() {
+        return objectiveId;
+    }
+
+    public void setObjectiveId(Objective objectiveId) {
+        this.objectiveId = objectiveId;
     }
     
 }

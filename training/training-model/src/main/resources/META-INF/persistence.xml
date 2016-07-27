@@ -89,6 +89,9 @@
     <class>co.com.expertla.training.model.entities.Sport</class>
     <class>co.com.expertla.training.model.entities.Dcf</class>
     <class>co.com.expertla.training.model.entities.Brand</class>
+    <class>co.com.expertla.training.model.entities.Objective</class>
+    <class>co.com.expertla.training.model.entities.QuestionnaireUser</class>
+    <class>co.com.expertla.training.model.entities.Injury</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

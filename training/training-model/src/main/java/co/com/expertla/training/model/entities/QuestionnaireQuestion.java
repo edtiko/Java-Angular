@@ -34,6 +34,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "QuestionnaireQuestion.findByCreationDate", query = "SELECT q FROM QuestionnaireQuestion q WHERE q.creationDate = :creationDate")})
 public class QuestionnaireQuestion implements Serializable {
 
+    @Column(name = "state_id")
+    private Short stateId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -57,8 +60,6 @@ public class QuestionnaireQuestion implements Serializable {
     @JoinColumn(name = "questionnaire_category_id", referencedColumnName = "questionnaire_category_id")
     @ManyToOne
     private QuestionnaireCategory questionnaireCategoryId;
-    @Column(name = "state_id")
-    private Short stateId;
 
     public QuestionnaireQuestion() {
     }
@@ -161,5 +162,7 @@ public class QuestionnaireQuestion implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.QuestionnaireQuestion[ questionnaireQuestionId=" + questionnaireQuestionId + " ]";
     }
+
+
     
 }

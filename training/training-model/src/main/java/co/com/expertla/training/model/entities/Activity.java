@@ -31,6 +31,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name")})
 public class Activity implements Serializable {
 
+    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
+    @ManyToOne
+    private Objective objectiveId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -134,6 +138,14 @@ public class Activity implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.Activity[ activityId=" + activityId + " ]";
+    }
+
+    public Objective getObjectiveId() {
+        return objectiveId;
+    }
+
+    public void setObjectiveId(Objective objectiveId) {
+        this.objectiveId = objectiveId;
     }
     
 }

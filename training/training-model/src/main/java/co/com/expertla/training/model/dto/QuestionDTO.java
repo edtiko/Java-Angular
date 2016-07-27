@@ -6,6 +6,7 @@
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.Question;
+import java.util.List;
 
 /**
  *
@@ -17,24 +18,25 @@ public class QuestionDTO {
     private String name;
     private String description;
     private String questionType;
-    private Integer dataTypeId;
+    private String dataType;
+    private List<QuestionOptionDTO> questionOptionList;
     
     public QuestionDTO() {
     }
 
-   public QuestionDTO(Integer questionId, String name, String description, String questionType, Integer dataTypeId) {
+   public QuestionDTO(Integer questionId, String name, String description, String questionType, String dataType) {
         this.questionId = questionId;
         this.description = description;
         this.name = name;
         this.questionType = questionType;
-        this.dataTypeId = dataTypeId;
+        this.dataType = dataType;
 
         
     }
 
 
     public static QuestionDTO mapFromQuestionEntity(Question question) {
-        return new QuestionDTO(question.getQuestionId(), question.getName(), question.getDescription(), question.getQuestionType(), question.getDataTypeId().getDataTypeId());
+        return new QuestionDTO(question.getQuestionId(), question.getName(), question.getDescription(), question.getQuestionType(), question.getDataTypeId().getName());
     }
 
     public Integer getQuestionId() {
@@ -69,12 +71,20 @@ public class QuestionDTO {
         this.questionType = questionType;
     }
 
-    public Integer getDataTypeId() {
-        return dataTypeId;
+    public String getDataType() {
+        return dataType;
     }
 
-    public void setDataTypeId(Integer dataTypeId) {
-        this.dataTypeId = dataTypeId;
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+    
+    public List<QuestionOptionDTO> getQuestionOptionList() {
+        return questionOptionList;
+    }
+
+    public void setQuestionOptionList(List<QuestionOptionDTO> questionOptionList) {
+        this.questionOptionList = questionOptionList;
     }
     
     

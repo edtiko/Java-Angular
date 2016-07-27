@@ -2,11 +2,13 @@ package co.com.expertla.training.service.impl.questionnaire;
 
 
 import co.com.expertla.training.dao.questionnaire.DataTypeDao;
+import co.com.expertla.training.dao.questionnaire.QuestionOptionDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireQuestionDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireResponseDao;
 import co.com.expertla.training.dao.questionnaire.ResponseOptionDao;
 import co.com.expertla.training.model.dto.QuestionDTO;
 import co.com.expertla.training.model.dto.QuestionOptionDTO;
+import co.com.expertla.training.model.dto.QuestionnaireCategoryDTO;
 import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
 import co.com.expertla.training.model.dto.QuestionnaireQuestionFormatDTO;
 import co.com.expertla.training.model.dto.QuestionnaireResponseDTO;
@@ -19,8 +21,10 @@ import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import co.com.expertla.training.model.entities.ResponseOption;
 import co.com.expertla.training.service.questionnaire.QuestionnaireQuestionService;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +39,8 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     private QuestionnaireResponseDao questionnaireResponseDao;
     @Autowired
     private ResponseOptionDao responseOptionDao;
+    @Autowired
+    private QuestionOptionDao questionOptionDao;
     
     @Override
     public QuestionnaireQuestion create(QuestionnaireQuestion questionnaireQuestion) throws Exception {
@@ -53,6 +59,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
 
     @Override
     public List<QuestionnaireQuestion> findAll(SePaginator sePaginator) throws Exception {
+
         return questionnaireQuestionDao.findAll(sePaginator);
     }
 
@@ -146,6 +153,18 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
         return ids;
     } 
     
+     private List<Integer> getQuestionnaireQuestionIds(List<QuestionnaireQuestion> list) {
+        List<Integer> ids = new ArrayList<>();
+        HashMap<Integer,QuestionnaireQuestion> map = new HashMap<>();
+        list.stream().filter((obj) -> (!map.containsKey(obj.getQuestionnaireQuestionId()))).map((obj) -> {
+            map.put(obj.getQuestionnaireQuestionId(), obj);
+            return obj;
+        }).forEach((obj) -> {
+            ids.add(obj.getQuestionnaireQuestionId());
+        });
+        return ids;
+    } 
+    
     /**
      * Gets a list of the unique questionnaireResponseIds <br>
      * Creation Info:  <br>
@@ -208,8 +227,8 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                         questionOption.setName(objDto.getQuestionOptionName());
                         questionOption.setQuestionOptionId(objDto.getQuestionOptionId());
                         questionOption.setStateId(objDto.getStateId());
-                        questionnaireQuestionDto.getQuestionOptionList().add(questionOption);
-                        questionnaireQuestionDto.getHashOption().put(questionOption.getQuestionOptionId(), questionnaireQuestionDto.getQuestionOptionList().size() - 1);
+                        //questionnaireQuestionDto.getQuestionOptionList().add(questionOption);
+                        //questionnaireQuestionDto.getHashOption().put(questionOption.getQuestionOptionId(), questionnaireQuestionDto.getQuestionOptionList().size() - 1);
                     }
                 }
                 questionnaireQuestionDto.setQuestionId(question);
@@ -223,7 +242,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
      */
     private QuestionDTO buildQuestionObject(QuestionnaireQuestionFormatDTO objDto, DataType dataType) {
         QuestionDTO question = new QuestionDTO();
-        question.setDataTypeId(dataType.getDataTypeId());
+        //question.setDataTypeId(dataType.getDataTypeId());
         question.setDescription(objDto.getQuestionDesc());
         question.setName(objDto.getQuestionName());
         question.setQuestionId(objDto.getQuestionId());
@@ -273,5 +292,34 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                 questionnaireQuestionDto.setQuestionnaireResponse(questionnaireResponseDto);
             }
         }
+    }
+
+    @Override
+    public List<QuestionnaireQuestionDTO> findByUserId(SePaginator sePaginator, Integer disciplineId) throws Exception {
+        List<QuestionnaireQuestion> list = questionnaireQuestionDao.findByDisciplineId(sePaginator, disciplineId);
+        List<QuestionnaireQuestionDTO> listResult = new ArrayList<>();
+        
+          if (list != null && !list.isEmpty()) {
+              list.stream().forEach((questionnaireQuestion) -> {
+                  QuestionnaireQuestionDTO q = new QuestionnaireQuestionDTO();
+                  QuestionDTO questionDto = QuestionDTO.mapFromQuestionEntity(questionnaireQuestion.getQuestionId());
+                  QuestionnaireCategoryDTO categoryDTO = QuestionnaireCategoryDTO.mapFromQuestionnaireCategoryEntity(questionnaireQuestion.getQuestionnaireCategoryId());
+                  Collection<QuestionnaireResponse> questionnaireResponseList = questionnaireQuestion.getQuestionnaireResponseCollection();
+                  List<QuestionOptionDTO> questionOptionList =  questionnaireQuestion.getQuestionId().getQuestionOptionCollection().stream().map(QuestionOptionDTO::mapFromQuestionOptionEntity).collect(Collectors.toList());
+                  questionDto.setQuestionOptionList(questionOptionList);
+                  //List<QuestionOptionDTO> questionOptionList =StreamSupport.stream(questionnaireQuestion.getQuestionId().getQuestionOptionCollection().spliterator(), false).map(QuestionOptionDTO::mapFromQuestionOptionEntity).collect(Collectors.toList());
+                  q.setQuestionnaireQuestionId(questionnaireQuestion.getQuestionnaireQuestionId());
+                  q.setQuestionId(questionDto);
+                  q.setQuestionOrder(questionnaireQuestion.getQuestionOrder());
+                  q.setQuestionnaireResponseList(questionnaireResponseList);
+                  q.setQuestionnaireCategoryId(categoryDTO);
+                  listResult.add(q);
+            });
+  
+            
+            
+        }
+        
+        return listResult;
     }
 }
