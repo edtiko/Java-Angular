@@ -36,12 +36,13 @@ define([], function () {
                     path = '';
 
                 var routeDef = {};
-                routeDef.controller = baseName + 'Controller';
+                var baseNameController = baseName && baseName[0].toUpperCase() + baseName.slice(1);
+                routeDef.controller = baseNameController + 'Controller';
                 routeDef.secure = (secure) ? secure : false;
                 routeDef.resolve = {
                     load: ['$q', '$rootScope', function ($q, $rootScope) {
                             var dependencies = [routeConfig.getControllersDirectory() + path +
-                                        baseName + "/" + 'controller' + "/" + baseName + '_controller.js'];
+                                        "/" + 'controller' + "/" + baseName + 'Controller.js'];
                             return resolveDependencies($q, $rootScope, dependencies);
                         }]
                 };
@@ -52,6 +53,7 @@ define([], function () {
             },
                     resolveDependencies = function ($q, $rootScope, dependencies) {
                         var defer = $q.defer();
+
                         require(dependencies, function () {
                             defer.resolve();
                             $rootScope.$apply();
@@ -62,7 +64,7 @@ define([], function () {
 
             return {
                 resolve: resolve
-            }
+            };
         }(this.routeConfig);
 
     };

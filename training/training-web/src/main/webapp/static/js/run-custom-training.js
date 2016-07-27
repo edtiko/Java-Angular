@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+var $contextPath = "http://localhost:8085/training/";
 require.config({
     paths: {
         angular: '../bower_components/angular/angular',
@@ -14,9 +14,8 @@ require.config({
         angularBoostrap: '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
         csrfInterceptor: '../bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
         lodash: "../bower_components/lodash/dist/lodash",
-        frontendServices: 'frontend-services',
         trainingApp: "custom-training-app",
-        calendarController: "calendar/controller/calendar_controller",
+        userService: "datosPersonales/service/userService",
         app: "routeResolver"
     },
     shim: {
@@ -41,15 +40,14 @@ require.config({
         angularMessages: {
             deps: ['angular']
         },
-        frontendServices: {
-            deps: ['angular', 'lodash']
+        userService: {
+            deps: ['angular', 'trainingApp']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 
-                'frontendServices','angularBoostrap']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
         },
         app: {
-            deps: ['trainingApp']
+            deps: ['trainingApp', 'userService']
         }
     }
 });
