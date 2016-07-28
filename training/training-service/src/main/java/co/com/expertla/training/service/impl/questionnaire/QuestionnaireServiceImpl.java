@@ -113,7 +113,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
                     dataType = new DataType();
                     dataType.setName(map.get(objDto.getDataTypeId()));
                     dataType.setDataTypeId(objDto.getDataTypeId());
-                    question.setDataTypeId(dataType.getDataTypeId());
+                    //question.setDataTypeId(dataType.getDataTypeId());
                     question.setDescription(objDto.getQuestionDesc());
                     //question.setIndAdditional(objDto.getIndAdditional());
                     question.setName(objDto.getQuestionName());
@@ -146,8 +146,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
                         questionOption.setName(objDto.getQuestionOptionName());
                         questionOption.setQuestionOptionId(objDto.getQuestionOptionId());
                        // questionOption.setSeStatusId(new SeStatus(objDto.getQuestionOptionStatus()));
-                        qQuestionDto.getQuestionOptionList().add(questionOption);
-                        qQuestionDto.getHashOption().put(questionOption.getQuestionOptionId(), qQuestionDto.getQuestionOptionList().size() - 1);
+                        //qQuestionDto.getQuestionOptionList().add(questionOption);
+                        //qQuestionDto.getHashOption().put(questionOption.getQuestionOptionId(), qQuestionDto.getQuestionOptionList().size() - 1);
                     }
 
                 }

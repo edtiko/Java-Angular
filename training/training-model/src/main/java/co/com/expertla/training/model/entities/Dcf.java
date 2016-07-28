@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dcf.findBySessions", query = "SELECT d FROM Dcf d WHERE d.sessions = :sessions")})
 public class Dcf implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -124,4 +125,5 @@ public class Dcf implements Serializable {
         return "co.com.expertla.training.model.entities.Dcf[ dcfId=" + dcfId + " ]";
     }
 
+    
 }

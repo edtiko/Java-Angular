@@ -1,6 +1,6 @@
-angular.module('frontendServices', [])
+var trainingService = angular.module('frontendServices', []);
 
-    .service('UserService', ['$http','$q', function($http, $q) {
+    trainingService.service('UserService', ['$http','$q', function($http, $q) {
         return {
              getUserInfo: function() {
                 var deferred = $q.defer();
@@ -137,18 +137,4 @@ angular.module('frontendServices', [])
         };
     }
 
-])
-        .service('SurveyService', ['$http','$q', function($http, $q) {
-        return {
-             getAllQuestionnaireQuestion: function(paginator) {
-
-                $http.post('http://localhost:8080/training/questionnaireQuestion/get/all/',paginator)
-                    .then(
-                    function (response) {
-                       return response;
-                    }
-                        );
-
-            }
-        };
-    }]);
+]);

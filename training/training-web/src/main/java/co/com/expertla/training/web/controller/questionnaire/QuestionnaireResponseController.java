@@ -230,7 +230,7 @@ public class QuestionnaireResponseController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            List<QuestionnaireResponse> questionnaireResponseList = questionnaireResponseService.findByQuestionnaireCategoryId(questionnaireQuestion.getQuestionnaireCategoryId());
+            List<QuestionnaireResponse> questionnaireResponseList = questionnaireResponseService.findByQuestionnaireCategoryId(1);
             if (questionnaireResponseList != null && !questionnaireResponseList.isEmpty()) {
                 QuestionnaireResponse questionnaireResponseObj = questionnaireResponseList.get(0);
                 responseService.setOutput(questionnaireResponseObj);

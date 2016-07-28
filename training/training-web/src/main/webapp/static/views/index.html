@@ -1,63 +1,65 @@
 <!DOCTYPE html>
-
+ 
 <!-- define angular app -->
 <html>
-
-<head>
-  <!-- SCROLLS -->
-  <link rel="stylesheet" href="static/bower_components/pure/grids-responsive.css">
-  <link rel="stylesheet" href="static/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="static/bower_components/font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="static/bower_components/pure/pure.css">
-  <link rel="stylesheet" href="static/css/app.css" >
-</head>
-
-<!-- define angular controller -->
-<body class="pure-skin-theme" ng-controller="mainController" id="trainingApp">
-
-  <nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">Custom Pro Training</a>
-      </div>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#encuesta"><i class="fa fa-home"></i> Encuesta</a></li>
-        <li><a href="#about"><i class="fa fa-calendar"></i> Calendario</a></li>
-        <li role="presentation" class="dropdown" uib-dropdown>
-            <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-user"></i> 
-                Cuenta
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" uib-dropdown-menu> 
-                <li><a href="#data-person">Datos Personales</a></li> 
-                <li><a href="#profile">Perfil</a></li> 
-            </ul>
-        </li>
-        <li><a class="logout" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <div id="main" class="container">
-  
-    <!-- angular templating -->
-		<!-- this is where content will be injected -->
-    <div ng-view style="" ></div>
-    
-  </div>
-  
-  <footer class="text-center">
-    <p>View the tutorial on <a href="http://scotch.io/tutorials/javascript/single-page-apps-with-angularjs-routing-and-templating">Scotch.io</a></p>
-  
-    <p>View a tutorial on <a href="http://scotch.io/tutorials/javascript/animating-angularjs-apps-ngview">Animating Your Angular Single Page App</a></p>
-  </footer>
-      <!-- SPELLS -->
-  <script type="text/javascript" data-main="static/js/run-custom-training"
-        src="static/bower_components/requirejs/require.js"></script>
-  <!--<script type="text/javascript" src="static/js/service/user_service.js"></script>
-  <script type="text/javascript" src="static/js/controller/user_controller.js"></script> -->
-</body>
-
+ 
+    <head>
+        <!-- SCROLLS -->
+        <link rel="stylesheet" href="static/css/grids-responsive.css">
+        <link rel="stylesheet" href="static/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="static/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="static/css/pure.css">
+        <link rel="stylesheet" href="static/css/app.css" >
+        <link rel="stylesheet" href="static/css/flaticon.css">
+        <link rel="stylesheet" href="static/css/calendar.css">
+    </head>
+ 
+    <!-- define angular controller -->
+    <body class="pure-skin-theme" ng-controller="mainController" id="trainingApp">
+ 
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Custom Pro Training</a>
+                </div>
+ 
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#encuesta"><i class="fa fa-home"></i> Encuesta</a></li>
+                    <li><a href="#calendar"><i class="fa fa-calendar"></i> Calendario</a></li>
+                    <li role="presentation" class="dropdown" uib-dropdown>
+                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i> 
+                            Cuenta
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" uib-dropdown-menu> 
+                            <li><a href="#data-person">Datos Personales</a></li> 
+                            <li><a href="#profile">Perfil</a></li> 
+                        </ul>
+                    </li>
+                    <li><a class="logout" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
+                </ul>
+            </div>
+        </nav>
+ 
+        <div id="main" class="container">
+ 
+            <!-- angular templating -->
+            <!-- this is where content will be injected -->
+            <div ng-view style="" ></div>
+ 
+        </div>
+ 
+        <footer class="text-center">
+            <p>View the tutorial on <a href="http://scotch.io/tutorials/javascript/single-page-apps-with-angularjs-routing-and-templating">Scotch.io</a></p>
+ 
+            <p>View a tutorial on <a href="http://scotch.io/tutorials/javascript/animating-angularjs-apps-ngview">Animating Your Angular Single Page App</a></p>
+        </footer>
+        <!-- SPELLS -->
+        <script type="text/javascript" data-main="static/js/run-custom-training"
+        src="static/js/lib/require.js"></script>
+        <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
+        <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
+    </body>
+ 
 </html>

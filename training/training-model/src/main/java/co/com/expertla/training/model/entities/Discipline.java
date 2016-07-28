@@ -7,6 +7,7 @@ package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +29,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "Discipline.findByName", query = "SELECT d FROM Discipline d WHERE d.name = :name"),
     @NamedQuery(name = "Discipline.findByDescription", query = "SELECT d FROM Discipline d WHERE d.description = :description")})
 public class Discipline implements Serializable {
+
+    @OneToMany(mappedBy = "disciplineId")
+    private List<Questionnaire> questionnaireList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -113,6 +117,14 @@ public class Discipline implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.Discipline[ disciplineId=" + disciplineId + " ]";
+    }
+
+    public List<Questionnaire> getQuestionnaireList() {
+        return questionnaireList;
+    }
+
+    public void setQuestionnaireList(List<Questionnaire> questionnaireList) {
+        this.questionnaireList = questionnaireList;
     }
     
 }

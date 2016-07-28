@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "UserProfile.findByAboutMe", query = "SELECT u FROM UserProfile u WHERE u.aboutMe = :aboutMe")})
 public class UserProfile implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)@SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_seq", allocationSize = 1)
@@ -200,6 +201,8 @@ public class UserProfile implements Serializable {
         return "co.com.expertla.training.model.entities.UserProfile[ userProfileId=" + userProfileId + " ]";
     }
 
+
+
     @XmlTransient
     public Collection<UserAvailability> getUserAvailabilityCollection() {
         return userAvailabilityCollection;
@@ -215,6 +218,7 @@ public class UserProfile implements Serializable {
 
     public void setModalityId(Modality modalityId) {
         this.modalityId = modalityId;
+
     }
     
 }

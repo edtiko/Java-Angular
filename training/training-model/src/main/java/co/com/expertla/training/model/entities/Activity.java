@@ -31,6 +31,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name")})
 public class Activity implements Serializable {
 
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -135,5 +136,6 @@ public class Activity implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.Activity[ activityId=" + activityId + " ]";
     }
+
     
 }
