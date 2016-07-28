@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
@@ -11,8 +6,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,12 +28,6 @@ public class Objective implements Serializable {
     @Basic(optional = false)
     @Column(name = "level")
     private int level;
-    @Basic(optional = false)
-    @Column(name = "min_sessions")
-    private int minSessions;
-    @Basic(optional = false)
-    @Column(name = "max_sessions")
-    private int maxSessions;
     @OneToMany(mappedBy = "objectiveId")
     private Collection<Activity> activityCollection;
     @OneToMany(mappedBy = "objectiveId")
@@ -59,8 +46,6 @@ public class Objective implements Serializable {
         this.objectiveId = objectiveId;
         this.name = name;
         this.level = level;
-        this.minSessions = minSessions;
-        this.maxSessions = maxSessions;
     }
 
     public Integer getObjectiveId() {
@@ -85,22 +70,6 @@ public class Objective implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public int getMinSessions() {
-        return minSessions;
-    }
-
-    public void setMinSessions(int minSessions) {
-        this.minSessions = minSessions;
-    }
-
-    public int getMaxSessions() {
-        return maxSessions;
-    }
-
-    public void setMaxSessions(int maxSessions) {
-        this.maxSessions = maxSessions;
     }
 
     public Collection<Activity> getActivityCollection() {
@@ -149,7 +118,7 @@ public class Objective implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.Objetive[ objectiveId=" + objectiveId + " ]";
+        return "co.com.expertla.training.model.entities.Objective[ objectiveId=" + objectiveId + " ]";
     }
     
 }

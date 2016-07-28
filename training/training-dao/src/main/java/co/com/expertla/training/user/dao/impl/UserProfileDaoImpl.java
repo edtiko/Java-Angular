@@ -25,13 +25,13 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.UserProfileDTO(u.userProfileId, u.indPulsometer, u.indPower, ");
         sql.append("u.ageSport,u.ppm,u.power,u.sportsAchievements,u.aboutMe,u.userId.userId, u.userId.indMetricSys, du.discipline.disciplineId, ");
-        sql.append("s.sportId.sportId,eq.sportEquipmentId.sportEquipmentId, u.objetiveId.objetiveId, u.modalityId.modalityId) ");
-        sql.append("FROM UserProfile u, DisciplineUser du, UserSport s, EquipmentUserProfile eq, Objetive o, Modality m ");
+        sql.append("s.sportId.sportId,eq.sportEquipmentId.sportEquipmentId, u.objectiveId.objectiveId, u.modalityId.modalityId) ");
+        sql.append("FROM UserProfile u, DisciplineUser du, UserSport s, EquipmentUserProfile eq, Objective o, Modality m ");
         sql.append("WHERE u.userId.userId = :id ");
         sql.append("AND du.userId.userId = u.userId.userId ");
         sql.append("AND s.userProfileId.userProfileId = u.userProfileId ");
         sql.append("AND eq.userProfileId.userProfileId = u.userProfileId ");
-        sql.append("AND o.objetiveId = u.objetiveId.objetiveId ");
+        sql.append("AND o.objectiveId = u.objectiveId.objectiveId ");
         sql.append("AND m.modalityId = u.modalityId.modalityId ");
         sql.append("AND eq.sportEquipmentId.sportEquipmentTypeId.sportEquipmentTypeId = :runningShoes");
         Query query = getEntityManager().createQuery(sql.toString());

@@ -23,15 +23,15 @@ public interface ActivityDao extends BaseDAO<Activity>{
     public List<Activity> findAll() throws Exception;
     
     /**
-     * Trae todos los registros de Activity  por modality Id y objetive Id<br>
+     * Trae todos los registros de Activity  por modality Id y objective Id<br>
      * Creation Date : <br>
      * date 21/07/2016 <br>
      * @author Angela Ramírez
-     * @param objetiveId
+     * @param objectiveId
      * @param modalityId
      * @throws Exception
      * @return
      */
-    public List<Activity> findByObjetiveIdAndModalityId(Integer objetiveId,Integer modalityId) throws Exception;
+    public List<Activity> findByObjectiveIdAndModalityId(Integer objectiveId,Integer modalityId) throws Exception;
         
 }

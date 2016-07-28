@@ -15,16 +15,16 @@ import co.com.expertla.training.configuration.dao.ObjectiveDao;
 * date 18/07/2016 <br>
 * @author Angela Ramírez
 **/
-@Service("objetiveService")
+@Service("objectiveService")
 @Transactional
 public class ObjectiveServiceImpl implements ObjectiveService {
            
     @Autowired
-    private ObjectiveDao objetiveDao;
+    private ObjectiveDao objectiveDao;
 
     @Override
     public List<ObjectiveDTO> findAll() throws Exception {
-        return objetiveDao.findAll();
+        return objectiveDao.findAll();
     }
  
 }

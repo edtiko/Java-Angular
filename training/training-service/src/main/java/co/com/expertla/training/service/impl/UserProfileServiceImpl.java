@@ -181,7 +181,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setAgeSport(dto.getAgeSport());
         userProfile.setIndPower(dto.getIndPower());
         userProfile.setIndPulsometer(dto.getIndPulsometer());
-        userProfile.setObjectiveId(new Objective(dto.getObjetive()));
+        userProfile.setObjectiveId(new Objective(dto.getObjective()));
         userProfile.setPower(dto.getPower());
         userProfile.setPpm(dto.getPpm());
         userProfile.setSportsAchievements(dto.getSportsAchievements());

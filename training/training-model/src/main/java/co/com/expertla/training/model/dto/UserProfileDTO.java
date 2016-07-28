@@ -27,7 +27,7 @@ public class UserProfileDTO implements Serializable {
     private Integer bikes;
     private Integer potentiometer;
     private Integer pulsometer;
-    private Integer objetive;
+    private Integer objective;
     private List<UserAvailabilityDTO> availability;
     private Integer modality;
 
@@ -50,7 +50,7 @@ public class UserProfileDTO implements Serializable {
         this.discipline = discipline;
         this.sport = sport;
         this.shoes = shoes;
-        this.objetive = objetive;
+        this.objective = objetive;
         this.modality = modality;
     }
 
@@ -182,12 +182,12 @@ public class UserProfileDTO implements Serializable {
         this.pulsometer = pulsometer;
     }
 
-    public Integer getObjetive() {
-        return objetive;
+    public Integer getObjective() {
+        return objective;
     }
 
-    public void setObjetive(Integer objetive) {
-        this.objetive = objetive;
+    public void setObjective(Integer objective) {
+        this.objective = objective;
     }
 
     public List<UserAvailabilityDTO> getAvailability() {

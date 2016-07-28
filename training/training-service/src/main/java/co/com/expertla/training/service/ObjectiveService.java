@@ -4,7 +4,7 @@ import co.com.expertla.training.model.dto.ObjectiveDTO;
 import java.util.List;
 
 /**
- * Service for Objetive <br>
+ * Service for Objective <br>
  * Creation Date : <br>
  * date 18/07/2016 <br>
  *
@@ -14,7 +14,7 @@ import java.util.List;
 public interface ObjectiveService {
 
     /**
-     * Trae todos los registros de objetive <br>
+     * Trae todos los registros de objective <br>
      * Creation Date : <br>
      * date 18/07/2016 <br>
      * @author Angela Ramírez

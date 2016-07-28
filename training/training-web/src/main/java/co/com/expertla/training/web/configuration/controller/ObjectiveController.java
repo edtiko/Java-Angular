@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.com.expertla.training.service.ObjectiveService;
 
 /**
-* Controller for Objetive <br>
+* Controller for Objective <br>
 * Creation Date : <br>
 * date 18/07/2016 <br>
 * @author Angela Ramírez

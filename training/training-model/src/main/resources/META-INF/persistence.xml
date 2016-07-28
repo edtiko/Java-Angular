@@ -26,7 +26,7 @@
     <class>co.com.expertla.training.model.QuestionnaireResponse</class>
     <class>co.com.expertla.training.model.Workout</class>
     <class>co.com.expertla.training.model.FederalState</class>
-    <class>co.com.expertla.training.model.Objetive</class>
+    <class>co.com.expertla.training.model.Objective</class>
     <class>co.com.expertla.training.model.VideoUser</class>
     <class>co.com.expertla.training.model.MembershipPrice</class>
     <class>co.com.expertla.training.model.QuestionnaireRespHistory</class>
