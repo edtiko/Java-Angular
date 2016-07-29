@@ -74,7 +74,7 @@ public class QuestionOptionController {
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-            List<QuestionOption> questionOptionList = questionOptionService.findByQuestionOptionId(questionOption);
+            List<QuestionOption> questionOptionList = questionOptionService.findByQuestionOptionId(questionOption.getQuestionOptionId());
             if (questionOptionList != null && !questionOptionList.isEmpty()) {
                 questionOptionService.merge(questionOption);
                 strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.QUESTION_OPTION_PROPERTIES, "questionOptionUpdated"));
@@ -120,7 +120,7 @@ public class QuestionOptionController {
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             for (QuestionOption questionOption : listQuestionOption) {
-                List<QuestionOption> questionOptionList = questionOptionService.findByQuestionOptionId(questionOption);
+                List<QuestionOption> questionOptionList = questionOptionService.findByQuestionOptionId(questionOption.getQuestionOptionId());
 
                 if (questionOptionList != null && !questionOptionList.isEmpty()) {
                     QuestionOption objQuestionOption = questionOptionList.get(0);
@@ -158,7 +158,7 @@ public class QuestionOptionController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            List<QuestionOption> questionOptionList = questionOptionService.findByQuestionOptionId(questionOption);
+            List<QuestionOption> questionOptionList = questionOptionService.findByQuestionOptionId(questionOption.getQuestionOptionId());
             if (questionOptionList != null && !questionOptionList.isEmpty()) {
                 QuestionOption questionOptionObj = questionOptionList.get(0);
                 responseService.setOutput(questionOptionObj);

@@ -415,7 +415,7 @@ A - Automated';
 /* Table: questionnaire                                         */
 /*==============================================================*/
 create table questionnaire (
-   questionnaire_id     integer              not null,
+   questionnaire_id     serial              not null,
    state_id             integer              null,
    discipline_id        integer              null,
    name                 varchar(500)         not null,
@@ -427,7 +427,7 @@ create table questionnaire (
 /* Table: questionnaire_category                                */
 /*==============================================================*/
 create table questionnaire_category (
-   questionnaire_category_id integer              not null,
+   questionnaire_category_id serial              not null,
    state_id             integer              null,
    parent_questionnaire_category_i integer              null,
    name                 varchar(500)         not null,
@@ -440,7 +440,7 @@ create table questionnaire_category (
 /* Table: questionnaire_question                                */
 /*==============================================================*/
 create table questionnaire_question (
-   questionnaire_question_id integer              not null,
+   questionnaire_question_id serial              not null,
    questionnaire_id     integer              null,
    questionnaire_category_id integer              null,
    question_id          integer              null,
@@ -454,8 +454,8 @@ create table questionnaire_question (
 /* Table: questionnaire_response                                */
 /*==============================================================*/
 create table questionnaire_response (
-   questionnaire_response_id integer              not null,
-   questionnaire_question_id integer              null,
+   questionnaire_response_id serial         not null,
+   questionnaire_question_id integer         null,
    response_type_id     integer              null,
    question_option_id   integer              null,
    user_id              integer              null,
@@ -468,7 +468,7 @@ create table questionnaire_response (
 /* Table: questionnaire_resp_history                            */
 /*==============================================================*/
 create table questionnaire_resp_history (
-   questionnaire_resp_history_id integer              not null,
+   questionnaire_resp_history_id serial              not null,
    questionnaire_response_id integer              null,
    question_option_id   integer              null,
    user_questionnaire_id integer              null,
@@ -480,7 +480,7 @@ create table questionnaire_resp_history (
 /* Table: questionnaire_user                                    */
 /*==============================================================*/
 create table questionnaire_user (
-   questionnaire_user_id integer              not null,
+   questionnaire_user_id serial              not null,
    questionnaire_id     integer              null,
    user_training_id     integer              null,
    constraint pk_questionnaire_user primary key (questionnaire_user_id)
@@ -490,7 +490,7 @@ create table questionnaire_user (
 /* Table: question_option                                       */
 /*==============================================================*/
 create table question_option (
-   question_option_id   integer              not null,
+   question_option_id   serial              not null,
    question_id          integer              null,
    option_type_id       integer              not null,
    state_id             integer              null,
@@ -504,7 +504,7 @@ create table question_option (
 /* Table: response_option                                       */
 /*==============================================================*/
 create table response_option (
-   response_option_id   integer              not null,
+   response_option_id   serial              not null,
    questionnaire_response_id integer              null,
    question_option_id   integer              null,
    constraint pk_response_option primary key (response_option_id)

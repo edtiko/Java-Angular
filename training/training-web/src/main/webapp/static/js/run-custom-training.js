@@ -14,6 +14,7 @@ require.config({
         angularBoostrap: 'lib/ui-bootstrap-tpls.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
+        checklistModel: "lib/checklist-model",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         disciplineService: "perfil/service/disciplineService",
@@ -40,6 +41,9 @@ require.config({
         angularBoostrap:{
             exports: 'angularBoostrap', 
             deps: ['angular']
+        },
+        checklistModel:{
+           deps: ['angular'] 
         },
         csrfInterceptor: {
             deps: ['angular']
@@ -72,7 +76,7 @@ require.config({
             deps: ['angular', 'trainingApp']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel']
         },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService', 

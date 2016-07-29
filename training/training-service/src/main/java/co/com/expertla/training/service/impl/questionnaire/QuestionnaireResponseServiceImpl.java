@@ -1,5 +1,7 @@
 package co.com.expertla.training.service.impl.questionnaire;
 
+import co.com.expertla.training.dao.questionnaire.QuestionOptionDao;
+import co.com.expertla.training.dao.questionnaire.QuestionnaireQuestionDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireResponseDao;
 import co.com.expertla.training.dao.questionnaire.ResponseOptionDao;
 import co.com.expertla.training.exception.TrainingException;
@@ -7,10 +9,13 @@ import co.com.expertla.training.model.dto.QuestionnaireResponseDTO;
 import co.com.expertla.training.model.dto.ResponseOptionDTO;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.QuestionOption;
+import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import co.com.expertla.training.model.entities.ResponseOption;
+import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.UtilValidation;
 import co.com.expertla.training.service.questionnaire.QuestionnaireResponseService;
+import co.com.expertla.training.user.dao.UserDao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,12 +24,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class QuestionnaireResponseServiceImpl implements QuestionnaireResponseService{
     
     @Autowired
     private QuestionnaireResponseDao questionnaireResponseDao;
+    @Autowired
+    private QuestionnaireQuestionDao questionnaireQuestionDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private QuestionOptionDao questionOptionDao;
+    
     @Autowired
     private ResponseOptionDao responseOptionDao;
     private final UtilValidation util = new UtilValidation();
@@ -37,19 +51,19 @@ public class QuestionnaireResponseServiceImpl implements QuestionnaireResponseSe
         List<QuestionnaireResponse> listCreated = new ArrayList<>();
         if (questionnaireResponseDtoList != null && !questionnaireResponseDtoList.isEmpty()) {
 
-            Integer userId = questionnaireResponseDtoList.get(0).getUserId().getUserId();
+            Integer userId = questionnaireResponseDtoList.get(0).getUserId();
             String ids = obtainQuestionnaireQuestionId(questionnaireResponseDtoList);
 
-            Runnable taskCreateHistory = () -> {
+            /*Runnable taskCreateHistory = () -> {
                 try {
-                    createQuestionnaireResponseHistory(ids, userId);
+                    //createQuestionnaireResponseHistory(ids, userId);
                     createResponseOptionHistory(ids, userId);
                 } catch (Exception ex) {
                     Logger.getLogger(QuestionnaireResponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
             };
             // start the thread
-            new Thread(taskCreateHistory).start();
+            new Thread(taskCreateHistory).start();*/
             deleteResponseOption(ids, userId);
             deleteQuestionnaireResponse(ids, userId);
             QuestionnaireResponse questionnaireResponse = new QuestionnaireResponse();
@@ -81,11 +95,19 @@ public class QuestionnaireResponseServiceImpl implements QuestionnaireResponseSe
         errorList = validateMandatoryFields(questionnaireResponseDto);
         if (errorList == null || errorList.isEmpty()) {
             questionnaireResponse = new QuestionnaireResponse();
+            List<QuestionnaireQuestion> questionnaireQuestion = questionnaireQuestionDao.findByQuestionnaireQuestionId(questionnaireResponseDto.getQuestionnaireQuestionId());
+            User user = userDao.findById(questionnaireResponseDto.getUserId());
+            if(questionnaireResponseDto.getQuestionOptionId() != null){
+            List<QuestionOption> questionOption = questionOptionDao.findByQuestionOptionId(questionnaireResponseDto.getQuestionOptionId());
+            questionnaireResponse.setQuestionOptionId(questionOption.get(0));
+            }
+            
             questionnaireResponse.setCreationDate(new Date());
-            questionnaireResponse.setQuestionnaireQuestionId(questionnaireResponseDto.getQuestionnaireQuestionId());
+            questionnaireResponse.setQuestionnaireQuestionId(questionnaireQuestion.get(0));
             questionnaireResponse.setResponse(questionnaireResponseDto.getResponse());
-            questionnaireResponse.setResponseTypeId(questionnaireResponseDto.getResponseTypeId());
-            questionnaireResponse.setUserId(questionnaireResponseDto.getUserId());
+           
+            questionnaireResponse.setResponseTypeId(Short.parseShort("1"));
+            questionnaireResponse.setUserId(user);
             questionnaireResponseCreated.add(questionnaireResponse);
             return questionnaireResponseCreated;
         } else {
@@ -114,7 +136,7 @@ public class QuestionnaireResponseServiceImpl implements QuestionnaireResponseSe
             
             if (responseOptionList != null && !responseOptionList.isEmpty()) {
                 questionnaireResponse = new QuestionnaireResponse();
-                questionnaireResponse = map.get(questionnaireResponseDto.getUserId().getUserId()+"-"+questionnaireResponseDto.getQuestionnaireQuestionId().getQuestionnaireQuestionId());
+                questionnaireResponse = map.get(questionnaireResponseDto.getUserId()+"-"+questionnaireResponseDto.getQuestionnaireQuestionId());
                 for (ResponseOptionDTO objResponse : responseOptionList) {
                     responseOption = new ResponseOption();
                     questionOption = new QuestionOption();
@@ -172,8 +194,8 @@ public class QuestionnaireResponseServiceImpl implements QuestionnaireResponseSe
         errorList = new ArrayList<>();
         HashMap<String,Object> map = new HashMap<>();
         map.put("questionnaireQuestionId", questionnaireResponseDto.getQuestionnaireQuestionId());
-        map.put("seUserId", questionnaireResponseDto.getUserId());
-        map.put("responseTypeId",questionnaireResponseDto.getResponseTypeId());
+        map.put("userId", questionnaireResponseDto.getUserId());
+        //map.put("responseTypeId",questionnaireResponseDto.getResponseTypeId());
         return errorList = util.validateFields(map);
     }
     
@@ -193,7 +215,7 @@ public class QuestionnaireResponseServiceImpl implements QuestionnaireResponseSe
     private String obtainQuestionnaireQuestionId(List<QuestionnaireResponseDTO> list) {
         StringBuilder ids = new StringBuilder();
         list.stream().forEach((obj) -> {
-            ids.append(obj.getQuestionnaireQuestionId().getQuestionnaireQuestionId());
+            ids.append(obj.getQuestionnaireQuestionId());
             ids.append(",");
         });
         ids.deleteCharAt(ids.lastIndexOf(","));

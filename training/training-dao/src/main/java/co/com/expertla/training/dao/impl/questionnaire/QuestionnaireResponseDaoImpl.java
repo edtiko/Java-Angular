@@ -8,6 +8,7 @@ import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class QuestionnaireResponseDaoImpl extends BaseDAOImpl<QuestionnaireResponse> implements QuestionnaireResponseDao {
@@ -97,22 +98,24 @@ public class QuestionnaireResponseDaoImpl extends BaseDAOImpl<QuestionnaireRespo
     }
 
     @Override
+    @Transactional
     public void createQuestionnaireResponseHistory(String questionnaireQuestionId, Integer seUserId) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("insert into questionnaire_resp_history ");
-        builder.append("select * from questionnaire_response where se_user_id = ");
+        builder.append("select * from questionnaire_response where user_id = ");
         builder.append(seUserId);
         builder.append(" and questionnaire_question_id in (").append(questionnaireQuestionId).append(")");
         executeNativeUpdate(builder.toString());
     }
 
     @Override
+    @Transactional
     public void createResponseOptionHistory(String questionnaireQuestionIds, Integer seUserId) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("insert into response_option_history ");
         builder.append("select * from response_option ");
         builder.append("where questionnaire_response_id in ( ");
-        builder.append("select questionnaire_response_id from questionnaire_response where se_user_id = ");
+        builder.append("select questionnaire_response_id from questionnaire_response where user_id = ");
         builder.append(seUserId);
         builder.append(" and questionnaire_question_id in (").append(questionnaireQuestionIds).append("))");
         executeNativeUpdate(builder.toString());
@@ -123,7 +126,7 @@ public class QuestionnaireResponseDaoImpl extends BaseDAOImpl<QuestionnaireRespo
         StringBuilder builder = new StringBuilder();
         builder.append("delete from questionnaire_response ");
         builder.append("where questionnaire_question_id in (").append(questionnaireQuestionIds).append(") ");
-        builder.append("and se_user_id = ").append(seUserId);
+        builder.append("and user_id = ").append(seUserId);
         executeNativeUpdate(builder.toString());
     }
 
@@ -132,7 +135,7 @@ public class QuestionnaireResponseDaoImpl extends BaseDAOImpl<QuestionnaireRespo
         StringBuilder builder = new StringBuilder();
         builder.append("delete from response_option ");
         builder.append("where questionnaire_response_id in ( ");
-        builder.append("select questionnaire_response_id from questionnaire_response where se_user_id = ");
+        builder.append("select questionnaire_response_id from questionnaire_response where user_id = ");
         builder.append(seUserId);
         builder.append(" and questionnaire_question_id in (").append(questionnaireQuestionIds).append("))");
         executeNativeUpdate(builder.toString());

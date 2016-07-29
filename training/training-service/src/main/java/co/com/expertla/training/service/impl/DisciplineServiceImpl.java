@@ -27,5 +27,11 @@ public class DisciplineServiceImpl implements DisciplineService {
     public List<DisciplineDTO> findAll() throws Exception {
         return disciplineDao.findAll();
     }
+
+    @Override
+    public DisciplineDTO findByUserId(Integer userId) throws Exception {
+     
+        return disciplineDao.findByUserId(userId).get(0);
+    }
  
 }

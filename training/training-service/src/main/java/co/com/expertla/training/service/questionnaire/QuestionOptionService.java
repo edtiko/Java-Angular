@@ -60,7 +60,7 @@ public interface QuestionOptionService {
      * @return
      * @throws Exception 
      */
-    public List<QuestionOption> findByQuestionOptionId(QuestionOption questionOption) throws Exception;
+    public List<QuestionOption> findByQuestionOptionId(Integer questionOption) throws Exception;
     /**
      * Gets all the records from questionOption by name <br>
      * Creation Info:  <br>

@@ -6,7 +6,9 @@
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -99,7 +101,8 @@ public class QuestionnaireQuestion implements Serializable {
     }
 
     public Collection<QuestionnaireResponse> getQuestionnaireResponseCollection() {
-        return questionnaireResponseCollection;
+        
+        return Collections.unmodifiableList(new ArrayList<>(questionnaireResponseCollection));
     }
 
     public void setQuestionnaireResponseCollection(Collection<QuestionnaireResponse> questionnaireResponseCollection) {

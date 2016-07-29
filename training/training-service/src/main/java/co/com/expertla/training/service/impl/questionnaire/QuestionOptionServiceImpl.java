@@ -43,7 +43,7 @@ public class QuestionOptionServiceImpl implements QuestionOptionService{
         errorList = validateMandatoryFields(questionOption);
         if (errorList == null || errorList.isEmpty()) {
 
-            List<QuestionOption> questionOptionList = findByQuestionOptionId(questionOption);
+            List<QuestionOption> questionOptionList = findByQuestionOptionId(questionOption.getQuestionOptionId());
             if (questionOptionList != null && !questionOptionList.isEmpty()) {
                 QuestionOption objQuestionOption = questionOptionList.get(0);
                 if (!objQuestionOption.getName().equals(questionOption.getName())) {
@@ -77,7 +77,7 @@ public class QuestionOptionServiceImpl implements QuestionOptionService{
     }
 
     @Override
-    public List<QuestionOption> findByQuestionOptionId(QuestionOption questionOption) throws Exception {
+    public List<QuestionOption> findByQuestionOptionId(Integer questionOption) throws Exception {
         return questionOptionDao.findByQuestionOptionId(questionOption);
     }
     

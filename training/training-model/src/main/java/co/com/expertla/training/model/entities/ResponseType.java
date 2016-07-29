@@ -6,14 +6,12 @@
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -36,8 +34,7 @@ public class ResponseType implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "responseTypeId")
-    private Collection<QuestionnaireResponse> questionnaireResponseCollection;
+   
 
     public ResponseType() {
     }
@@ -65,14 +62,6 @@ public class ResponseType implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Collection<QuestionnaireResponse> getQuestionnaireResponseCollection() {
-        return questionnaireResponseCollection;
-    }
-
-    public void setQuestionnaireResponseCollection(Collection<QuestionnaireResponse> questionnaireResponseCollection) {
-        this.questionnaireResponseCollection = questionnaireResponseCollection;
     }
 
     @Override

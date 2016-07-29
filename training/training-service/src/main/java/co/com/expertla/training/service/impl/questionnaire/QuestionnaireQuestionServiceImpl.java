@@ -6,6 +6,7 @@ import co.com.expertla.training.dao.questionnaire.QuestionOptionDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireQuestionDao;
 import co.com.expertla.training.dao.questionnaire.QuestionnaireResponseDao;
 import co.com.expertla.training.dao.questionnaire.ResponseOptionDao;
+import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.QuestionDTO;
 import co.com.expertla.training.model.dto.QuestionOptionDTO;
 import co.com.expertla.training.model.dto.QuestionnaireCategoryDTO;
@@ -20,15 +21,19 @@ import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import co.com.expertla.training.model.entities.ResponseOption;
 import co.com.expertla.training.service.questionnaire.QuestionnaireQuestionService;
+import co.com.expertla.training.service.questionnaire.QuestionnaireResponseService;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionService{
     
     @Autowired
@@ -41,10 +46,22 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     private ResponseOptionDao responseOptionDao;
     @Autowired
     private QuestionOptionDao questionOptionDao;
+    @Autowired
+    private QuestionnaireResponseService questionResponseService;
     
     @Override
-    public QuestionnaireQuestion create(QuestionnaireQuestion questionnaireQuestion) throws Exception {
-        return questionnaireQuestionDao.create(questionnaireQuestion);
+    public void create(List<QuestionnaireQuestionDTO> questionnaireQuestion) throws Exception, TrainingException {
+        
+        questionnaireQuestion.stream().forEach((objDto) -> {
+             
+            try {
+                questionResponseService.create(objDto.getQuestionnaireResponseList());
+            } catch (Exception ex) {
+                Logger.getLogger(QuestionnaireQuestionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       
+        });
+
     }
 
     @Override
@@ -64,7 +81,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     }
 
     @Override
-    public List<QuestionnaireQuestion> findByQuestionnaireQuestionId(QuestionnaireQuestion questionnaireQuestion) throws Exception {
+    public List<QuestionnaireQuestion> findByQuestionnaireQuestionId(Integer questionnaireQuestion) throws Exception {
         return questionnaireQuestionDao.findByQuestionnaireQuestionId(questionnaireQuestion);
     }
     
@@ -259,11 +276,11 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
         QuestionnaireResponseDTO questionnaireResponseDto; 
         for (QuestionnaireResponse obj : responseList) {
             questionnaireResponseDto = new QuestionnaireResponseDTO();
-            questionnaireResponseDto.setCreationDate(obj.getCreationDate());
+            //questionnaireResponseDto.setCreationDate(obj.getCreationDate());
             questionnaireResponseDto.setQuestionnaireResponseId(obj.getQuestionnaireResponseId());
             questionnaireResponseDto.setResponse(obj.getResponse());
             questionnaireResponseDto.setResponseTypeId(obj.getResponseTypeId());
-            questionnaireQuestionMap.get(obj.getQuestionnaireQuestionId().getQuestionnaireQuestionId()).setQuestionnaireResponse(questionnaireResponseDto);         
+            //questionnaireQuestionMap.get(obj.getQuestionnaireQuestionId().getQuestionnaireQuestionId()).setQuestionnaireResponse(questionnaireResponseDto);         
         }
     }
     
@@ -287,16 +304,16 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                 responseOptionDto.setQuestionOptionId(questionOption);
                 responseOptionDto.setResponseOptionId(objResponse.getResponseOptionId());
                 questionnaireQuestionDto = questionnaireQuestionMap.get(objResponse.getQuestionnaireResponseId().getQuestionnaireQuestionId().getQuestionnaireQuestionId());
-                questionnaireResponseDto = questionnaireQuestionDto.getQuestionnaireResponse();
-                questionnaireResponseDto.getResponseOptionList().add(responseOptionDto);
-                questionnaireQuestionDto.setQuestionnaireResponse(questionnaireResponseDto);
+                //questionnaireResponseDto = questionnaireQuestionDto.getQuestionnaireResponse();
+                //questionnaireResponseDto.getResponseOptionList().add(responseOptionDto);
+                //questionnaireQuestionDto.setQuestionnaireResponse(questionnaireResponseDto);
             }
         }
     }
 
     @Override
-    public List<QuestionnaireQuestionDTO> findByUserId(SePaginator sePaginator, Integer disciplineId) throws Exception {
-        List<QuestionnaireQuestion> list = questionnaireQuestionDao.findByDisciplineId(sePaginator, disciplineId);
+    public List<QuestionnaireQuestionDTO> findByDisciplineId(Integer disciplineId) throws Exception {
+        List<QuestionnaireQuestion> list = questionnaireQuestionDao.findByDisciplineId(disciplineId);
         List<QuestionnaireQuestionDTO> listResult = new ArrayList<>();
    
           if (list != null && !list.isEmpty()) {
@@ -304,11 +321,11 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                   QuestionnaireQuestionDTO q = new QuestionnaireQuestionDTO();
                   QuestionDTO questionDto = QuestionDTO.mapFromQuestionEntity(questionnaireQuestion.getQuestionId());
                   QuestionnaireCategoryDTO categoryDTO = QuestionnaireCategoryDTO.mapFromQuestionnaireCategoryEntity(questionnaireQuestion.getQuestionnaireCategoryId());
-                  Collection<QuestionnaireResponse> questionnaireResponseList = questionnaireQuestion.getQuestionnaireResponseCollection();
+                  List<QuestionnaireResponseDTO> questionnaireResponseList = questionnaireQuestion.getQuestionnaireResponseCollection().stream().map(QuestionnaireResponseDTO::mapFromQuestionnaireResponseEntity).collect(Collectors.toList());
                   List<QuestionOptionDTO> questionOptionList =  questionnaireQuestion.getQuestionId().getQuestionOptionCollection().stream().map(QuestionOptionDTO::mapFromQuestionOptionEntity).collect(Collectors.toList());
+                  
+                  q.setQuestionnaire(questionnaireQuestion.getQuestionnaireId().getName());
                   questionDto.setQuestionOptionList(questionOptionList);
-                  //List<QuestionOptionDTO> questionOptionList =StreamSupport.stream(questionnaireQuestion.getQuestionId().getQuestionOptionCollection().spliterator(), false).map(QuestionOptionDTO::mapFromQuestionOptionEntity).collect(Collectors.toList());
-                 
                   q.setQuestionnaireQuestionId(questionnaireQuestion.getQuestionnaireQuestionId());
                   q.setQuestionId(questionDto);
                   q.setQuestionOrder(questionnaireQuestion.getQuestionOrder());

@@ -28,4 +28,17 @@ public class DisciplineDaoImpl extends BaseDAOImpl<Discipline> implements Discip
         return query.getResultList();
     }
 
+    @Override
+    public List<DisciplineDTO> findByUserId(Integer userd) throws Exception {
+           try {
+             StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.DisciplineDTO(d.discipline.disciplineId, d.discipline.name, d.discipline.description) ");
+        sql.append("FROM DisciplineUser d ");
+            Query query = getEntityManager().createQuery(sql.toString());
+            return query.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Discipline;
 import java.io.Serializable;
 
 /**
@@ -22,6 +23,10 @@ public class DisciplineDTO implements Serializable {
         this.disciplineId = disciplineId;
         this.name = name;
         this.description = description;
+    }
+    
+     public static DisciplineDTO mapFromDisciplineEntity(Discipline discipline) {
+        return new DisciplineDTO(discipline.getDisciplineId(), discipline.getName(), discipline.getDescription());
     }
     
     public DisciplineDTO(Integer disciplineId) {

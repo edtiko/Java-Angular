@@ -43,22 +43,22 @@ public class QuestionnaireQuestionDaoImpl extends BaseDAOImpl<QuestionnaireQuest
     }
     
     @Override
-    public List<QuestionnaireQuestion> findByDisciplineId(SePaginator sePaginator, Integer disciplineId) throws DAOException {
+    public List<QuestionnaireQuestion> findByDisciplineId(Integer disciplineId) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select u FROM QuestionnaireQuestion u ");
         builder.append(" WHERE u.questionnaireId.disciplineId.disciplineId = ").append(disciplineId);
         builder.append(" AND u.stateId = ").append(Status.ACTIVE.getName());
-        setPageNumber(sePaginator.getInitialRow());
-        setPageSize(sePaginator.getMaxRow());
+       // setPageNumber(sePaginator.getInitialRow());
+       // setPageSize(sePaginator.getMaxRow());
         return createQuery(builder.toString());
     }
 
     @Override
-    public List<QuestionnaireQuestion> findByQuestionnaireQuestionId(QuestionnaireQuestion questionnaireQuestion) throws DAOException {
+    public List<QuestionnaireQuestion> findByQuestionnaireQuestionId(Integer questionnaireQuestionId) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select u FROM QuestionnaireQuestion u ");
         builder.append("WHERE u.questionnaireQuestionId = :questionnaireQuestionId");
-        setParameter("questionnaireQuestionId", questionnaireQuestion.getQuestionnaireQuestionId());
+        setParameter("questionnaireQuestionId", questionnaireQuestionId);
         return createQuery(builder.toString());
     }
     

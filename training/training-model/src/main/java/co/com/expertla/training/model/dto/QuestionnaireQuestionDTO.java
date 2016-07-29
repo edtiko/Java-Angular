@@ -1,42 +1,41 @@
 package co.com.expertla.training.model.dto;
 
-import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.Collection;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class QuestionnaireQuestionDTO {
+public class QuestionnaireQuestionDTO  implements Serializable{
     
     private Integer number;
     private Integer questionnaireQuestionId;
     private QuestionnaireDTO questionnaireId;
+    private String questionnaire;
     private int questionOrder;
     @JsonSerialize(using=JsonDateSerializer.class)
     private Date creationDate;
     private Short stateId;
     private QuestionDTO questionId;
-    private QuestionnaireResponseDTO questionnaireResponse;
     @JsonIgnore
     private HashMap<Integer,Integer> hashOption;
-    
+    private Integer userId;
     private QuestionnaireCategoryDTO questionnaireCategoryId;
-    private Collection<QuestionnaireResponse> questionnaireResponseList;
+    private List<QuestionnaireResponseDTO> questionnaireResponseList;
     
     public QuestionnaireQuestionDTO () {
         this.hashOption = new HashMap<>();
     }
     
-     public QuestionnaireQuestionDTO(Integer questionnaireQuestionId, int questionOrder, QuestionDTO questionId, QuestionnaireResponseDTO questionnaireResponse,
+     public QuestionnaireQuestionDTO(Integer questionnaireQuestionId, int questionOrder, QuestionDTO questionId, List<QuestionnaireResponseDTO> questionnaireResponse,
                                      List<QuestionOptionDTO> questionOptionList, QuestionnaireCategoryDTO questionnaireCategoryId) {
         this.questionnaireQuestionId = questionnaireQuestionId;
         this.questionOrder = questionOrder;
         this.questionId = questionId;
-        this.questionnaireResponse = questionnaireResponse;
+        this.questionnaireResponseList = questionnaireResponse;
         this.questionnaireCategoryId = questionnaireCategoryId;
         
     }
@@ -83,12 +82,12 @@ public class QuestionnaireQuestionDTO {
         this.questionId = questionId;
     }
 
-    public QuestionnaireResponseDTO getQuestionnaireResponse() {
-        return questionnaireResponse;
+    public List<QuestionnaireResponseDTO> getQuestionnaireResponseList() {
+        return questionnaireResponseList;
     }
 
-    public void setQuestionnaireResponse(QuestionnaireResponseDTO questionnaireResponse) {
-        this.questionnaireResponse = questionnaireResponse;
+    public void setQuestionnaireResponseList(List<QuestionnaireResponseDTO> questionnaireResponse) {
+        this.questionnaireResponseList = questionnaireResponse;
     }
 
     public HashMap<Integer, Integer> getHashOption() {
@@ -115,20 +114,28 @@ public class QuestionnaireQuestionDTO {
         this.questionnaireId = questionnaireId;
     }
 
-    public Collection<QuestionnaireResponse> getQuestionnaireResponseList() {
-        return questionnaireResponseList;
-    }
-
-    public void setQuestionnaireResponseList(Collection<QuestionnaireResponse> questionnaireResponseList) {
-        this.questionnaireResponseList = questionnaireResponseList;
-    }
-
     public Integer getNumber() {
         return number;
     }
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(String questionnaire) {
+        this.questionnaire = questionnaire;
     }
     
     

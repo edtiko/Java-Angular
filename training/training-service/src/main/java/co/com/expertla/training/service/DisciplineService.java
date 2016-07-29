@@ -22,4 +22,6 @@ public interface DisciplineService {
      * @return
      */
     public List<DisciplineDTO> findAll() throws Exception;
+    
+    public DisciplineDTO findByUserId(Integer userId) throws Exception;
 }
