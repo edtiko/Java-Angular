@@ -73,12 +73,7 @@ public class UserServiceImpl implements UserService {
     
     @Transactional
     @Override
-    public Integer saveUser(UserDTO userDTO) {
-     City city = cityDao.findById(userDTO.getCityId());
-     User user = new User(userDTO.getUserId(), userDTO.getName(), userDTO.getLastName(),userDTO.getEmail(), userDTO.getBirthDate(), userDTO.getAddress(), 
-                           userDTO.getSex(), userDTO.getWeight(), userDTO.getPhone(), userDTO.getCellphone(), city, 
-                           STATE_ACTIVE, userDTO.getLogin(), userDTO.getPassword(), userDTO.getFacebookPage(), userDTO.getPostalCode(), new Date());
- 
+    public Integer saveUser(User user) throws Exception {
         return userDao.saveUser(user);
     }
 

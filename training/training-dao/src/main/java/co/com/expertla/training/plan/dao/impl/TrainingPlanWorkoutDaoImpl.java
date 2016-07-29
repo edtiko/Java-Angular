@@ -32,9 +32,9 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, ");
         sql.append("t.activityId.activityId, t.activityId.name, t.activityId.modalityId.modalityId, t.activityId.modalityId.name, ");
-        sql.append("t.activityId.objetiveId.objetiveId, t.activityId.objetiveId.name, ");
+        sql.append("t.activityId.objectiveId.objectiveId, t.activityId.objectiveId.name, ");
         sql.append("t.activityId.modalityId.disciplineId.disciplineId, t.activityId.modalityId.disciplineId.name, ");
-        sql.append("t.activityId.objetiveId.level, u.userId.userId) ");
+        sql.append("t.activityId.objectiveId.level, u.userId.userId) ");
         sql.append("FROM TrainingPlanWorkout t, TrainingPlanUser u ");
         sql.append("WHERE u.trainingPlanId.trainingPlanId = t.trainingPlanId.trainingPlanId ");
         sql.append("AND u.userId.userId = :userId ");

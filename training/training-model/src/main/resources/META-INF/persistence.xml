@@ -93,7 +93,7 @@
     <class>co.com.expertla.training.model.entities.Injury</class>
     <class>co.com.expertla.training.model.entities.UserAvailability</class>
     <class>co.com.expertla.training.model.entities.DcfDetail</class>
-
+    <class>co.com.expertla.training.model.entities.ReplaceActivity</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

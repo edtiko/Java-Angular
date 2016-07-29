@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     27/07/2016 9:17:42 a. m.                     */
+/* Created on:     27/07/2016 4:08:21 p. m.                     */
 /*==============================================================*/
 
 
@@ -344,8 +344,6 @@ create table objective (
    objective_id         integer              not null,
    name                 varchar(200)         not null,
    level                short                not null,
-   min_sessions         integer              not null,
-   max_sessions         integer              not null,
    constraint pk_objective primary key (objective_id)
 );
 

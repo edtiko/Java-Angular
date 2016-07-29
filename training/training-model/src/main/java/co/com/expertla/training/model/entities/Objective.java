@@ -36,11 +36,6 @@ public class Objective implements Serializable {
     @Column(name = "level")
     private int level;
     @Basic(optional = false)
-    @Column(name = "min_sessions")
-    private int minSessions;
-    @Basic(optional = false)
-    @Column(name = "max_sessions")
-    private int maxSessions;
     @OneToMany(mappedBy = "objectiveId")
     private Collection<Activity> activityCollection;
     @OneToMany(mappedBy = "objectiveId")
@@ -53,14 +48,6 @@ public class Objective implements Serializable {
 
     public Objective(Integer objectiveId) {
         this.objectiveId = objectiveId;
-    }
-
-    public Objective(Integer objectiveId, String name, int level, int minSessions, int maxSessions) {
-        this.objectiveId = objectiveId;
-        this.name = name;
-        this.level = level;
-        this.minSessions = minSessions;
-        this.maxSessions = maxSessions;
     }
 
     public Integer getObjectiveId() {
@@ -85,22 +72,6 @@ public class Objective implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public int getMinSessions() {
-        return minSessions;
-    }
-
-    public void setMinSessions(int minSessions) {
-        this.minSessions = minSessions;
-    }
-
-    public int getMaxSessions() {
-        return maxSessions;
-    }
-
-    public void setMaxSessions(int maxSessions) {
-        this.maxSessions = maxSessions;
     }
 
     public Collection<Activity> getActivityCollection() {
