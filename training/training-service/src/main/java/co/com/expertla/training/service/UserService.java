@@ -7,6 +7,7 @@ import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.User;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public interface UserService {
 
     UserDTO findUserByUsername(String username);
 
-    Integer saveUser(UserDTO user);
+    Integer saveUser(User user) throws Exception;
 
     int updateUser(UserDTO user);
 

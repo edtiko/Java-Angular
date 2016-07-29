@@ -22,8 +22,10 @@ require.config({
         sportEquipmentService: "perfil/service/sportEquipmentService",
         sportService: "perfil/service/sportService",
         userProfileService: "perfil/service/userProfileService",
-        surveyService: "questionnaire/service/surveyService",
-        app: "routeResolver"
+        authService: "login/service/authService",
+        mainController: "login/controller/mainController",
+        app: "routeResolver",
+		surveyService: "questionnaire/service/surveyService"
     },
     shim: {
         angular: {
@@ -68,15 +70,22 @@ require.config({
         userProfileService: {
             deps: ['angular', 'trainingApp']
         },
-        surveyService: {
+        authService: {
             deps: ['angular', 'trainingApp']
+        },
+        mainController: {
+            deps: ['angular', 'authService']
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
         },
+		surveyService: {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService', 
-                'modalityService', 'objectiveService', 'sportEquipmentService', 'sportService', 'userProfileService','surveyService']
+                'modalityService', 'objectiveService', 'sportEquipmentService', 
+                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService']
         }
     }
 });

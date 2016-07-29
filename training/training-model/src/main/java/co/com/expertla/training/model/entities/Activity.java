@@ -51,6 +51,8 @@ public class Activity implements Serializable {
     private PhysiologicalCapacity physiologicalCapacityId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
+    private Collection<ReplaceActivity> replaceActivityCollection;
 
     public Activity() {
     }
@@ -70,6 +72,14 @@ public class Activity implements Serializable {
 
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
+    }
+
+    public Collection<ReplaceActivity> getReplaceActivityCollection() {
+        return replaceActivityCollection;
+    }
+
+    public void setReplaceActivityCollection(Collection<ReplaceActivity> replaceActivityCollection) {
+        this.replaceActivityCollection = replaceActivityCollection;
     }
 
     public String getName() {

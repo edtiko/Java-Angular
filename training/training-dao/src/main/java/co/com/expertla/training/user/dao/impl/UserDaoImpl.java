@@ -58,13 +58,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     }
 
     @Override
-    public Integer saveUser(User user) {
-        try {
-            return create(user).getUserId();
-        } catch (DAOException ex) {
-            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public Integer saveUser(User user) throws Exception {
+        return create(user).getUserId();
     }
 
     @Override
@@ -93,7 +88,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
             setParameter("login", username);
             setParameter("password", password);
             List<User> query = createQuery(qlString);
-            return (query.get(0)!=null);
+            return (query.get(0) != null);
         } catch (Exception e) {
             return false;
         }
@@ -101,7 +96,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
 
     @Override
     public User findUserByUsername(String userName) {
-            try {
+        try {
             String qlString = "SELECT u FROM User u WHERE u.login = :login";
             setParameter("login", userName);
             List<User> query = createQuery(qlString);
@@ -113,13 +108,13 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
 
     @Override
     public void saveProfilePhoto(byte[] bytes, Integer userId) {
-          try {
-              User user = findById(userId);
-              user.setProfilePhoto(bytes);
-              merge(user);
+        try {
+            User user = findById(userId);
+            user.setProfilePhoto(bytes);
+            merge(user);
         } catch (DAOException ex) {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-   
+
     }
 }

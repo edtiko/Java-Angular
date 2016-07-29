@@ -1,16 +1,15 @@
 (function ($) {
-
+    var user = JSON.parse(sessionStorage.getItem("userInfo"));
     "use strict";
-
     var options = {
         language: 'es-CO',
-        events_source: 'trainingPlanWorkout/get/planWorkout/by/user/1',
+        events_source: 'trainingPlanWorkout/get/planWorkout/by/user/'+user.userId,
         view: 'month',
         modal: "#events-modal",
         modal_type: 'template',
         tmpl_path: 'static/tmpls/',
         tmpl_cache: false,
-        day: '2016-07-15',
+        day: getDate(),
         onAfterEventsLoad: function (events) {
             if (!events) {
                 return;
