@@ -60,6 +60,8 @@ public class UserDTO {
     private Integer federalStateId;
 
     private Integer countryId;
+    
+    private Integer disciplineId;
 
     public UserDTO() {
     }
@@ -109,6 +111,14 @@ public class UserDTO {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getDisciplineId() {
+        return disciplineId;
+    }
+
+    public void setDisciplineId(Integer disciplineId) {
+        this.disciplineId = disciplineId;
     }
 
     public String getLogin() {
