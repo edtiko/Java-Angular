@@ -63,8 +63,8 @@ trainingApp.factory('UserService', ['$http', '$q', function($http, $q){
                                         }
                                 );
                     },
-                    fetchAllUsers: function () {
-                        return $http.get($contextPath + '/user/')
+                    getUserById: function (id) {
+                        return $http.get($contextPath + '/user/'+id)
                                 .then(
                                         function (response) {
                                             return response.data;

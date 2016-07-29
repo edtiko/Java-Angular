@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import co.com.expertla.training.plan.service.TrainingPlanWorkoutService;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +64,11 @@ public class TrainingPlanWorkoutController {
                 trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
                 trainingPlanWorkoutDto.setClassName("event-" + trainingPlanWorkoutDto.getDiscipline().toLowerCase());
             });
+            
+            if(list == null) {
+                list = new ArrayList();
+            }
+            
             calendarEventDto.setSuccess(1);
             calendarEventDto.setResult(list);
             return calendarEventDto;

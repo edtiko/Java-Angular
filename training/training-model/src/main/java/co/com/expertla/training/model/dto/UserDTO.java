@@ -17,58 +17,56 @@ import java.util.stream.Collectors;
  * @author Edwin G
  */
 public class UserDTO {
-    
+
     private Integer userId;
 
-    
     private String login;
 
     private String password;
 
     private String name;
- 
+
     private String lastName;
-  
+
     private String email;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
- 
+
     private String sex;
 
     private BigInteger weight;
-  
+
     private String phone;
-   
+
     private String cellphone;
- 
+
     private String address;
 
     private String postalCode;
 
     private byte[] profilePhoto;
- 
+
     private String facebookPage;
 
     private String indMetricSys;
-   
+
     private Date creationDate;
 
     private Integer cityId;
 
     private Short stateId;
-    
+
     private Integer federalStateId;
-    
+
     private Integer countryId;
 
-    
     public UserDTO() {
     }
 
-   public UserDTO(Integer userId, String name, String lastName, String email, Date birthDate, String address,
-                   String sex, BigInteger weight, String phone, String cellphone, Integer cityId, 
-                   Short stateId, String login, String facebookPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
+    public UserDTO(Integer userId, String name, String lastName, String email, Date birthDate, String address,
+            String sex, BigInteger weight, String phone, String cellphone, Integer cityId,
+            Short stateId, String login, String facebookPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -87,22 +85,23 @@ public class UserDTO {
         this.federalStateId = federalStateId;
         this.countryId = countryId;
         this.profilePhoto = profilePhoto;
-        
-    }
 
+    }
 
     public static UserDTO mapFromUserEntity(User user) {
-        return new UserDTO(user.getUserId(), user.getName(), user.getLastName(),user.getEmail(), user.getBirthDate(), user.getAddress(), 
-                           user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId()!=null?user.getCityId().getCityId():null), 
-                           user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getPostalCode(), 
-                           user.getCityId()!=null?user.getCityId().getFederalStateId().getFederalStateId():null, 
-                           user.getCityId()!=null?user.getCityId().getFederalStateId().getCountryId().getCountryId():null, user.getProfilePhoto());
-    }
-    
-      public static List<UserDTO> mapFromUsersEntities(List<User> users) {
-        return users.stream().map((user) -> mapFromUserEntity(user)).collect(Collectors.toList());
+        if (user != null) {
+            return new UserDTO(user.getUserId(), user.getName(), user.getLastName(), user.getEmail(), user.getBirthDate(), user.getAddress(),
+                    user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId() != null ? user.getCityId().getCityId() : null),
+                    user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getPostalCode(),
+                    user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
+                    user.getCityId() != null ? user.getCityId().getFederalStateId().getCountryId().getCountryId() : null, user.getProfilePhoto());
+        }
+        return null;
     }
 
+    public static List<UserDTO> mapFromUsersEntities(List<User> users) {
+        return users.stream().map((user) -> mapFromUserEntity(user)).collect(Collectors.toList());
+    }
 
     public Integer getUserId() {
         return userId;
@@ -255,8 +254,7 @@ public class UserDTO {
     public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
-    
-    
+
     public Integer getFederalStateId() {
         return federalStateId;
     }
@@ -273,5 +271,4 @@ public class UserDTO {
         this.countryId = countryId;
     }
 
-    
 }

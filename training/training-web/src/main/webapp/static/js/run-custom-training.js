@@ -22,6 +22,8 @@ require.config({
         sportEquipmentService: "perfil/service/sportEquipmentService",
         sportService: "perfil/service/sportService",
         userProfileService: "perfil/service/userProfileService",
+        authService: "login/service/authService",
+        mainController: "login/controller/mainController",
         app: "routeResolver"
     },
     shim: {
@@ -67,12 +69,19 @@ require.config({
         userProfileService: {
             deps: ['angular', 'trainingApp']
         },
+        authService: {
+            deps: ['angular', 'trainingApp']
+        },
+        mainController: {
+            deps: ['angular', 'authService']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
         },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService', 
-                'modalityService', 'objectiveService', 'sportEquipmentService', 'sportService', 'userProfileService']
+                'modalityService', 'objectiveService', 'sportEquipmentService', 
+                'sportService', 'userProfileService', 'authService', 'mainController']
         }
     }
 });

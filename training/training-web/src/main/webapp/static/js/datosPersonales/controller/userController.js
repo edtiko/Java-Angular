@@ -1,5 +1,6 @@
 
-trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', function ($scope, UserService, $filter) {
+trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$window', function ($scope, UserService,
+    $filter, $window) {
         var self = this;
         self.user = {userId: null, name: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: ''};
         self.users = [];
@@ -67,11 +68,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', fu
                         );
             }
         };
-        self.fetchAllUsers = function () {
-            UserService.fetchAllUsers()
+        self.getUserById = function (id) {
+            UserService.getUserById(id)
                     .then(
                             function (d) {
-                                self.users = d;
+                                self.user = d;
                             },
                             function (errResponse) {
                                 console.error('Error while fetching Currencies');
@@ -117,8 +118,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', fu
                             }
                     );
         };
-
-        self.fetchAllUsers();
+        var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        self.getUserById(user.userId);
         self.fetchAllCountries();
 
         self.submit = function () {

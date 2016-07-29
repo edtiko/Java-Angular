@@ -7,6 +7,8 @@ import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.model.util.ResponseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +16,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
+import co.com.expertla.training.web.enums.StatusResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Response;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 
   
 @RestController
@@ -40,31 +46,6 @@ public class UserController {
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
   
-    
-   /* @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET)
-    public UserDTO getUserInfo(Principal principal) {
-        System.out.println("Entro user info");
-        UserDTO user = userService.findUserByUsername(principal.getName());
-
-        return user != null ? user : null;
-    }*/
-   //@RequestMapping(value = "/login/", method = RequestMethod.POST)
-    /*public @ResponseBody String authenticate(@PathVariable("login") String login, @PathVariable("password") String password) {
-        
-
-        
-        boolean user = userService.isUser(login, password);
-        Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
-	String res  = "false";	
-        
-        if(user){
-            res = "true";
-        }
-      return prettyGson.toJson(res);
-    }*/
-    
     	/**
 	 * Upload single file using Spring Controller
      * @param file
@@ -138,21 +119,65 @@ public class UserController {
       
       
     //-------------------Create a User--------------------------------------------------------
-      
-    @RequestMapping(value = "/user/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createUser(@RequestBody UserDTO user,    UriComponentsBuilder ucBuilder) {
-        System.out.println("Creating User " + user.getName());
-  
-        if (userService.isUserExist(user)) {
-            System.out.println("A User with name " + user.getName() + " already exist");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+    @RequestMapping(value = "user/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response createUser(@RequestBody User user) {
+            ResponseService responseService = new ResponseService();
+        try {            
+            if (userService.findUserByUsername(user.getLogin()) != null) {
+                responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            }
+            
+            user.setCreationDate(new Date());
+            userService.saveUser(user);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
         }
-  
-        userService.saveUser(user);
-  
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getUserId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+    
+    @RequestMapping(value = "user/autenticate/{login}", method = RequestMethod.GET)
+    public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletResponse response) {
+            ResponseService responseService = new ResponseService();
+        try {      
+            UserDTO userDto = userService.findUserByUsername(login);
+            if (userDto == null) {
+                responseService.setOutput("El usuario " + login + " no existe");
+                response.sendRedirect("http://localhost/wordpress/wp-login.php?action=login&err_int=q");
+                return null;
+            }
+            
+            session.setAttribute("user" , userDto);
+            response.sendRedirect("http://localhost:8085/training/");
+            return null;
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "user/getUserSession", method = RequestMethod.GET)
+    public Response getUserSession(HttpSession session, HttpServletResponse response) {
+            ResponseService responseService = new ResponseService();
+        try {      
+            responseService.setOutput(session.getAttribute("user"));
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error interno");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
     }
   
      
