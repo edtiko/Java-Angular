@@ -21,7 +21,7 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
             bikes:'',
             potentiometer:'',
             pulsometer:'',
-            objetive:'',
+            objective:'',
             modality:'',
             availability:  [
                 {day:'Lunes',checked:false},
@@ -40,31 +40,34 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
         $scope.bikes = [];
         $scope.pulsometers = [];
         $scope.potentiometers = [];
-        $scope.objetives = [];
+        $scope.objectives = [];
         $scope.modalities = [];
-        $scope.days = [
-                {day:'Lunes',checked:false},
-                {day:'Martes',checked:false},
-                {day:'Miercoles',checked:false},
-                {day:'Jueves',checked:false},
-                {day:'Viernes',checked:false},
-                {day:'Sabado',checked:false},
-                {day:'Domingo',checked:false}
-            ]; 
         $scope.indBike = '';
         $scope.metricSystems = [{id:1,name:'Metrico Decimal'},{id:'0',name:"Anglosajón"}];
 
-        this.mergeUserProfile = function (userProfile) {
-            UserProfileService.mergeProfile(userProfile).then(
-                    function (d) {
-                        $scope.userProfile = d;
-//                        this.findById(userProfile);
-                    },
-                    function (errResponse) {
-                        console.error('Error while merging the profile');
-                        console.error(errResponse);
-                    }
-            );
+        this.createOrMergeUserProfile = function (userProfile) {
+            if (userProfile.userProfileId == null) {
+                UserProfileService.createProfile(userProfile).then(
+                        function (d) {
+                            $scope.userProfile = d;
+                        },
+                        function (errResponse) {
+                            console.error('Error while creating the profile');
+                            console.error(errResponse);
+                        }
+                );
+
+            } else {
+                UserProfileService.mergeProfile(userProfile).then(
+                        function (d) {
+                            $scope.userProfile = d;
+                        },
+                        function (errResponse) {
+                            console.error('Error while merging the profile');
+                            console.error(errResponse);
+                        }
+                );
+            }
         };
         
         this.generatePlan = function (userProfile) {
@@ -84,7 +87,7 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
             UserProfileService.getProfile(userProfile).then(
                     function (d) {
                         $scope.userProfile = d;
-                        if($scope.userProfile.bikes != '') {
+                        if($scope.userProfile.bikes != null && $scope.userProfile.bikes != -1) {
                             $scope.indBike = 1;
                         }
                         var disc = $scope.userProfile.discipline;
@@ -95,15 +98,6 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
                         console.error(errResponse);
                     }                        
             );
-//            ModalityService.getModalitiesByDisciplineId(userProfile.discipline).then(
-//                    function (d) {
-//                        $scope.modalities = d;
-//                    },
-//                    function (errResponse) {
-//                        console.error('Error while modalities');
-//                        console.error(errResponse);
-//                    }
-//            );
         };
         
         this.getSportDisciplines = function () {
@@ -191,19 +185,19 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
         };
         this.getPotentiometers();
         
-        this.getObjetives = function () {
-            ObjectiveService.getObjetives().then(
+        this.getObjectives = function () {
+            ObjectiveService.getObjectives().then(
                     function (d) {
-                        $scope.objetives = d;
-                        $scope.objetives.unshift({objetiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
+                        $scope.objectives = d;
+                        $scope.objectives.unshift({objectiveId:-1,name:'Seleccione',level:''});
                     },
                     function (errResponse) {
-                        console.error('Error while objetives');
+                        console.error('Error while objectives');
                         console.error(errResponse);
                     }
             );
         };
-        this.getObjetives();
+        this.getObjectives();
         
         $scope.getModalitiesByDisciplineId = function (id) {
             ModalityService.getModalitiesByDisciplineId(id).then(
@@ -221,7 +215,7 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
             ModalityService.getAll().then(
                     function (d) {
                         $scope.modalities = d;
-//                        $scope.objetives.unshift({objetiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
+//                        $scope.objectives.unshift({objectiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
                     },
                     function (errResponse) {
                         console.error('Error while modalities');

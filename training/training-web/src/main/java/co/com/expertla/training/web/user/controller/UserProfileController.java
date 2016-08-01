@@ -76,4 +76,30 @@ public class UserProfileController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
     }
+    
+    @RequestMapping(value = "userProfile/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response createUserProfile(@RequestBody UserProfileDTO userProfile) {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        try {
+//            if (userProfile == null) {
+//                strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "nullParameters"));
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+//                return Response.status(Response.Status.OK).entity(responseService).build();
+//            }
+            
+            userProfileService.create(userProfile);
+            UserProfileDTO user = userProfileService.findDTOByUserId(userProfile.getUserId());
+            responseService.setOutput(user);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }   catch (Exception e) {
+            Logger.getLogger(UserProfileController.class.getName()).log(Priority.FATAL, null, e);
+//            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
 }

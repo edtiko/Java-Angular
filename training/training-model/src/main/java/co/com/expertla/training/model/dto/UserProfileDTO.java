@@ -33,10 +33,10 @@ public class UserProfileDTO implements Serializable {
 
     public UserProfileDTO() {
     }
-
+    
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
-            BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys, Integer discipline, 
-            Integer sport,Integer shoes, Integer objetive, Integer modality) {
+            BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,  
+            Integer objective, Integer modality) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -47,10 +47,7 @@ public class UserProfileDTO implements Serializable {
         this.aboutMe = aboutMe;
         this.userId = userId;
         this.indMetricSys = indMetricSys;
-        this.discipline = discipline;
-        this.sport = sport;
-        this.shoes = shoes;
-        this.objective = objetive;
+        this.objective = objective;
         this.modality = modality;
     }
 

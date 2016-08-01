@@ -8,7 +8,7 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary" ng-click="profileCtrl.findById(profileCtrl.userProfile)" >Consultar</button>
+    <button class="btn btn-primary" ng-click="profileCtrl.findById(userProfile)" >Consultar</button>
 
     <div class="row"> 
         <div class="form-group col-md-12">
@@ -53,7 +53,7 @@
             <label class="col-md-2 control-lable">&iquest;Tienes bicicleta? </label>
             <div class=" col-md-3">
                 <input id="bicicleta" type="radio" name="bicicleta" ng-model="indBike" ng-value="'1'"> Si
-                <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'0'"> No
+                <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'-1'"> No
             </div>
             <div  ng-show="indBike == 1">
                 <label class="col-md-2 control-lable">&iquest;Cu&aacute;l?</label>
@@ -82,8 +82,8 @@
         <div class="form-group col-md-12">
             <label class="col-md-2 control-lable">Objetivo</label>
             <div class=" col-md-3">
-                <select class="form-control" style=" display: inline" ng-model="userProfile.objetive"
-                        ng-options="o.objetiveId as o.name for o in objetives">
+                <select class="form-control" style=" display: inline" ng-model="userProfile.objective"
+                        ng-options="o.objectiveId as o.name for o in objectives">
                     <option> Seleccione </option>
                 </select>
             </div>
@@ -155,7 +155,7 @@
 
     <div class="row"> 
         <div class="form-group col-md-12">
-            <label class="col-md-2 control-lable">&iquest;Practicas otros deportes?</label>
+            <label class="col-md-2 control-lable">&iquest;Practicas otro deportes?</label>
             <div class=" col-md-3">
                 <select class="form-control" style=" display: inline" ng-model="userProfile.sport"
                         ng-options="s.sportId as s.name for s in sports">
@@ -197,7 +197,7 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary" ng-click="profileCtrl.mergeUserProfile(userProfile)"> Guardar </button>
+    <button class="btn btn-primary" ng-click="profileCtrl.createOrMergeUserProfile(userProfile)"> Guardar </button>
     <button class="btn btn-primary" ng-click="profileCtrl.findById(profileCtrl.userProfile)" >Limpiar</button>
     <button class="btn btn-primary" ng-click="profileCtrl.generatePlan(userProfile)"> Generar </button>
 </div>

@@ -216,7 +216,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         Activity activity =  new Activity();
         int i = 0;
         boolean planWorkout =false;
-        Boolean originalList = false;
+        boolean originalList = false;
         while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
             if(i<length) {
                 code = parts[i];
@@ -290,7 +290,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         trainingPlanWorkoutDao.createList(workouts);
     }
     
-    private Activity getActivityByPC(List<Activity> activityList,List<Activity> originalList, String pattern, Boolean original) {
+    private Activity getActivityByPC(List<Activity> activityList,List<Activity> originalList, String pattern, boolean original) {
         Activity act = new Activity();
         for (Activity activity : activityList) {
             if(activity.getPhysiologicalCapacityId().getCode().equals(pattern)) {

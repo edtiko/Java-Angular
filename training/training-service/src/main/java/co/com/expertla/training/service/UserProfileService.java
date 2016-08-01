@@ -23,6 +23,16 @@ public interface UserProfileService {
     public UserProfileDTO findDTOByUserId(Integer id) throws Exception;
     
     /**
+     * Crea la información user profile <br>
+     * Creation Date : <br>
+     * date 14/07/2016 <br>
+     * @author Angela Ramírez
+     * @param userProfileDTO
+     * @throws Exception
+     */
+    public void create(UserProfileDTO userProfileDTO) throws Exception;
+    
+    /**
      * Modifica la información user profile <br>
      * Creation Date : <br>
      * date 14/07/2016 <br>
