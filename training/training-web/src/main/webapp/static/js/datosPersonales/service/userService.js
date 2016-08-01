@@ -140,19 +140,24 @@
                                 );
                     },
                     uploadFileToUrl: function (file, userId) {
-                        if (file != null && userId != null) {
+                     
                             var fd = new FormData();
                             fd.append('file', file);
                             fd.append('userId', userId);
-                            $http.post($contextPath + '/uploadFile/' + userId, fd, {
+                            return $http.post($contextPath + '/uploadFile/' + userId, fd, {
                                 transformRequest: angular.identity,
                                 headers: {'Content-Type': undefined}
                             })
-                                    .success(function () {
-                                    })
-                                    .error(function () {
-                                    });
-                        }
+                               .then(
+                                        function (response) {
+                                            return response.data;
+                                        },
+                                        function (errResponse) {
+                                            console.error('Error while upload image');
+                                            return $q.reject(errResponse);
+                                        }
+                                );      
+                        
                     }
                 };
             }]);

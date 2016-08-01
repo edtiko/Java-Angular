@@ -22,7 +22,7 @@
     </style>
 
 
-      <div class="generic-container" ng-controller="UserController as ctrl">
+    <div class="generic-container" ng-show="appReady" id="user-container" ng-controller="UserController as ctrl">
           <div class="panel panel-default">
               <div class="panel-heading"><span class="lead">Datos Personales</span></div>
               <div class="panel-body">
@@ -160,7 +160,7 @@
                               <label class="col-md-2 control-lable" for="picture">Foto de Perfil:</label>
                               <div class="col-md-7">
                                   <input type="file" file-model="myFile" ng-model="ctrl.user.profile_photo" id="picture" class="form-control input-sm" placeholder="Seleccione una foto"/>
-                                  <button class="btn btn-default btn-sm" ng-click="uploadFile()">subir foto</button>
+                                  <button type="button" class="btn btn-default btn-sm" ng-click="uploadFile()">subir foto</button>
                               </div>
                           </div>
                       </div>

@@ -3,7 +3,11 @@
 .ontop {
     height: 100px;
     position: absolute;
-    top: 138px;
-    left: 70%;
+    top: 66px;
+    left: 77%;
+    z-index:2;
+}
+#user-container{
+    position: relative;
 }
 

@@ -42,10 +42,6 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
         });
 
-trainingApp.controller('SurveyController', ['$scope', 'SurveyService', function ($scope, SurveyService) {
-
-});
-
 trainingApp.directive('fileModel', ['$parse', function ($parse) {
         return {
             restrict: 'A',

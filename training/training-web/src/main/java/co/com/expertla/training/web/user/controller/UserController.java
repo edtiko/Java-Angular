@@ -3,6 +3,8 @@
  */
 package co.com.expertla.training.web.user.controller;
 
+import co.com.expertla.base.util.MessageUtil;
+import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
@@ -54,18 +56,29 @@ public class UserController {
 	 */
     @RequestMapping(value = "/uploadFile/{userId}", method = RequestMethod.POST)
     public @ResponseBody
-    String uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
+    Response uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 userService.saveProfilePhoto(bytes, userId);
-                return "You successfully uploaded file=" ;
+                strResponse.append("Imagen cargada correctamente.");
+                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+                responseService.setOutput(strResponse);
+                return Response.status(Response.Status.OK).entity(responseService).build();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
-                return "You failed to upload  => " + e.getMessage();
+                responseService.setOutput(strResponse);
+                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+                responseService.setDetail(e.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
             }
         } else {
-            return "You failed to upload  because the file was empty.";
+            strResponse.append("Imagen cargada esta vacia.");
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
 

@@ -1,7 +1,4 @@
-<div class="generic-container" ng-controller="SurveyController as ctrl">
-      <div class="alert alert-success" ng-show="showSuccessAlert">
-        <button type="button" class="close" data-ng-click="switchBool('showSuccessAlert')">x</button> <strong>{{successTextAlert}}</strong>
-      </div>
+<div class="generic-container" ng-show="appReady" ng-controller="SurveyController as ctrl">
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">{{survey[0].questionnaire}}</span></div>
         <div class="panel-body">
@@ -16,13 +13,13 @@
                                 <div class="col-md-7">
                                     <div ng-switch="question.questionId.dataType">
                                         <div ng-switch-when="text">
-                                            <input type="text"  ng-required="question.questionId.questionType=='O'" name="{{question.questionId.name}}" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)" class="form-control input-sm" >
+                                            <input type="text"  ng-required="question.questionId.questionType=='M'" name="{{question.questionId.name}}" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)" class="form-control input-sm" >
                                         </div>
                                         <div ng-switch-when="number">
-                                            <input type="number" ng-required="question.questionId.questionType=='O'" ng-model="survey[$index].questionnaireResponseList[0].response" class="form-control input-sm" >
+                                            <input type="number" string-to-number ng-required="question.questionId.questionType=='M'" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)" class="form-control input-sm" >
                                         </div>
                                         <div ng-switch-when="select" >
-                                            <select ng-required="question.questionId.questionType=='O'" class="form-control input-sm" ng-options="q.questionOptionId as q.name for q in question.questionId.questionOptionList" ng-change="setValue($index)" data-ng-model="survey[$index].questionnaireResponseList[0].questionOptionId">
+                                            <select ng-required="question.questionId.questionType=='M'" class="form-control input-sm" ng-options="q.questionOptionId as q.name for q in question.questionId.questionOptionList" ng-change="setValue($index)" data-ng-model="survey[$index].questionnaireResponseList[0].questionOptionId">
                                                 <option value="">Seleccione una opci&oacute;n..</option>
                                             </select>
                                         </div>
@@ -41,7 +38,7 @@
                                         <div ng-switch-when="radio">
                                             <div ng-repeat="questionOption in question.questionId.questionOptionList">
                                                 <div class="radio">
-                                                    <label><input ng-required="question.questionId.questionType=='O'" type="radio" ng-click="setValue($parent.$index)" ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId" name="option{{question.questionId.questionId}}" value="{{questionOption.questionOptionId}}">{{questionOption.name}}</label>
+                                                    <label><input ng-required="question.questionId.questionType=='M'" type="radio" ng-click="setValue($parent.$index)" ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId" name="option{{question.questionId.questionId}}" value="{{questionOption.questionOptionId}}">{{questionOption.name}}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -64,3 +61,4 @@
             </div>
         </div>
     </div>
+</div>

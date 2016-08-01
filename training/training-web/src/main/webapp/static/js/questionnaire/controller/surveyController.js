@@ -1,37 +1,33 @@
-trainingApp.controller('SurveyController', ['$scope', 'surveyService', function ($scope, surveyService)  {
+trainingApp.controller('SurveyController', ['$scope', 'surveyService', '$window', function ($scope, surveyService, $window) {
 
-    var self = this;
+        var self = this;
         $scope.maxRow = 5;
         $scope.survey = [];
         $scope.questionnaireResponseList = {};
+        $scope.user = JSON.parse($window.sessionStorage.getItem("userInfo"));
         self.questionnaireResponse = {
             questionnaireResponseId: '',
             response: '',
             questionOptionId: '',
-            userId : '',
+            userId: '',
             checked: true,
-            questionnaireQuestionId:'',
+            questionnaireQuestionId: '',
             reponseTypeId: '1'
-            
+
         };
-        $scope.showSuccessAlert = false;
-        $scope.successTextAlert = "";
-        
-        $scope.switchBool = function (value) {
-            $scope[value] = !$scope[value];
-        };
-        
+
         $scope.setValue = function ($index) {
             var response = $scope.survey[$index].questionnaireResponseList[0];
+            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             if (response != null && response.response !== 'undefined' || response.questionOptionId !== "") {
-                response.userId = 2; //UserId Quemado- Cambiar con el usuario logueado
+                response.userId = $scope.user.userId; 
                 response.questionnaireQuestionId = $scope.survey[$index].questionnaireQuestionId;
                 response.reponseTypeId = 1;
             } else {
                 response = angular.copy(self.questionnaireResponse);
-                response.userId = 2; //UserId Quemado- Cambiar con el usuario logueado
+                response.userId = $scope.user.userId; 
                 response.questionnaireQuestionId = $scope.survey[$index].questionnaireQuestionId;
-                response.reponseTypeId = 1;
+                response.reponseTypeId = user.userId;
                 $scope.survey[$index].questionnaireResponseList.push(response);
             }
 
@@ -42,15 +38,15 @@ trainingApp.controller('SurveyController', ['$scope', 'surveyService', function 
             var idx = $scope.getIdx($parentIndex, value);
             if (idx !== "" && response[idx].checked) {
                 response[idx].checked = false;
-                response.splice(idx,1);
+                response.splice(idx, 1);
             } else if (idx !== "" && !response[idx].checked) {
                 response[idx].checked = true;
             } else if (idx !== "") {
                 response.questionOptionId = value;
             } else {
                 response = angular.copy(self.questionnaireResponse);
-                response.userId = 2; //UserId Quemado- Cambiar con el usuario logueado
-                response.questionnaireQuestionId= $scope.survey[$parentIndex].questionnaireQuestionId;
+                response.userId = $scope.user.userId;
+                response.questionnaireQuestionId = $scope.survey[$parentIndex].questionnaireQuestionId;
                 response.questionOptionId = value;
                 response.reponseTypeId = 1;
                 $scope.survey[$parentIndex].questionnaireResponseList.push(response);
@@ -68,41 +64,45 @@ trainingApp.controller('SurveyController', ['$scope', 'surveyService', function 
 
             return res;
         };
-        
-          $scope.getResponse= function ($parentIndex, value) {
+
+        $scope.getResponse = function ($parentIndex, value) {
             var response = $scope.survey[$parentIndex].questionnaireResponseList;
             var res = false;
             angular.forEach(response, function (v, key) {
                 if (v.questionOptionId == value) {
-                    res= true;
+                    res = true;
                 }
             });
 
-             return res;
+            return res;
         };
-        
-    self.userId = 2;
 
-        self.getAllQuestionnaireQuestion = function (userId) {
-            surveyService.getAllQuestionnaireQuestion(userId).then(
-                    function (response) {
-                        angular.forEach(response.data.entity.output, function (value, key) {
-                            $scope.survey[key] = value;
-                        });
-                    console.log($scope.survey);
-                    },
-                    function (errResponse) {
-                        console.error('Error while fetching Currencies');
-                    }
-            );
+
+        self.getAllQuestionnaireQuestion = function () {
+            if ($scope.appReady) {
+                var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                surveyService.getAllQuestionnaireQuestion(user.userId).then(
+                        function (response) {
+                            angular.forEach(response.data.entity.output, function (value, key) {
+                                $scope.survey[key] = value;
+                            });
+                            console.log($scope.survey);
+                        },
+                        function (errResponse) {
+                            console.error('Error while fetching Currencies');
+                        }
+                );
+            } else {
+                $scope.showMessage("El usuario no se encuentra logueado.", "error");
+            }
         };
-        
+
         self.create = function (survey) {
             surveyService.create(survey)
                     .then(
-                            function(message){
-                                $scope.showSuccessAlert = true;
-                                $scope.successTextAlert = "Respuestas registradas satisfactoriamente.";
+                            function (message) {
+
+                                $scope.showMessage("Respuestas registradas satisfactoriamente.");
                                 self.getAllQuestionnaireQuestion(self.userId);
                             },
                             function (errResponse) {
@@ -111,16 +111,15 @@ trainingApp.controller('SurveyController', ['$scope', 'surveyService', function 
                     );
         };
 
-        
-         self.reset = function () {
-            $scope.survey = {};
-            $scope.myForm.$setPristine(); //reset Form
+
+        self.reset = function () {
+            self.getAllQuestionnaireQuestion();
         };
-        
-         self.submit = function () {
+
+        self.submit = function () {
             self.create($scope.survey);
             //console.log($scope.survey);
             //self.reset();
         };
-    self.getAllQuestionnaireQuestion(self.userId);    
-}]);
+        self.getAllQuestionnaireQuestion();
+    }]);

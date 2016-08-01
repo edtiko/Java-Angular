@@ -36,6 +36,10 @@ require.config({
             exports: 'ngRoute', 
             deps: ['angular']
         },
+        angularAnimate:{
+             exports: 'ngAnimate', 
+            deps: ['angular']  
+        },
         angularTouch:{
             exports: 'angularTouch', 
             deps: ['angular']
@@ -81,7 +85,7 @@ require.config({
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel','angularAnimate']
         },
 		surveyService: {
             deps: ['angular', 'trainingApp']

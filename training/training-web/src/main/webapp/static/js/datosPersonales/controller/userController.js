@@ -59,7 +59,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                                     if (response != "") {
                                         $scope.dataImage = "data:image/png;base64," + response;
                                     } else {
-                                        $scope.dataImage = "static/img/profile-default.png"
+                                        $scope.dataImage = "static/img/profile-default.png";
                                     }
                                 },
                                 function (errResponse) {
@@ -68,22 +68,35 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                         );
             }
         };
-        self.getUserById = function (id) {
-            UserService.getUserById(id)
+        self.getUserById = function () {
+            
+            if($scope.appReady){
+           var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            UserService.getUserById(user.userId)
                     .then(
                             function (d) {
                                 self.user = d;
+                                $scope.getStatesByCountry(self.user.countryId);
+                                $scope.getCitiesByState(self.user.federalStateId);
+                                $scope.getImageProfile(id);
+                                var date = self.user.birthDate.split("/");
+                                $scope.dt = new Date(date[2], date[1] - 1, date[0]);
                             },
                             function (errResponse) {
                                 console.error('Error while fetching Currencies');
                             }
                     );
+        }else{
+            $scope.showMessage("El usuario no se encuentra logueado.","error");
+        }
         };
 
         self.createUser = function (user) {
             UserService.createUser(user)
                     .then(
-                            self.fetchAllUsers,
+                            function (msg) {
+                                $scope.showMessage("Usuario registrado correctamente.");
+                            },
                             function (errResponse) {
                                 console.error('Error while creating User.');
                             }
@@ -93,7 +106,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         self.updateUser = function (user, id) {
             UserService.updateUser(user, id)
                     .then(
-                            self.fetchAllUsers,
+                     function (msg) {
+                                $scope.showMessage("Usuario registrado correctamente.");
+                            },
                             function (errResponse) {
                                 console.error('Error while updating User.');
                             }
@@ -118,9 +133,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                             }
                     );
         };
-        var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-        self.getUserById(user.userId);
+       
         self.fetchAllCountries();
+        self.getUserById();
+        
 
         self.submit = function () {
             if (self.user.userId === null) {
@@ -130,7 +146,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 self.updateUser(self.user, self.user.userId);
                 console.log('User updated with id ', self.user.userId);
             }
-            self.reset();
         };
 
         self.edit = function (id) {
@@ -171,10 +186,26 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         };
 
         $scope.uploadFile = function () {
+            
             var file = $scope.myFile;
-            console.log('file is ');
-            console.dir(file);
-            UserService.uploadFileToUrl(file, self.user.userId);
+            if (self.user.userId != "" && file != null) {
+               
+                console.log('file is ');
+                console.dir(file);
+                UserService.uploadFileToUrl(file, self.user.userId)
+                 .then(
+                     function (msg) {
+                                $scope.showMessage("Imagen cargada correctamente.");
+                                $scope.getImageProfile(self.user.userId);
+                                
+                            },
+                            function (errResponse) {
+                                console.error('Error while upload image user.');
+                            }
+                    );
+            } else {
+                $scope.showMessage("Debe seleccionar una imagen.","error");
+            }
         };
 
     }]);
