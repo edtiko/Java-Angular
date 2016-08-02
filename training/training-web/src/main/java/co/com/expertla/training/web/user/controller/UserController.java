@@ -3,12 +3,12 @@
  */
 package co.com.expertla.training.web.user.controller;
 
-import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.Discipline;
+import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
 
@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
+import co.com.expertla.training.user.dao.DisciplineUserDao;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.io.IOException;
 import java.util.Date;
@@ -48,6 +49,10 @@ public class UserController {
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
   
+    
+    @Autowired
+    DisciplineUserDao disciplineUserDao;
+
     	/**
 	 * Upload single file using Spring Controller
      * @param file
@@ -133,9 +138,15 @@ public class UserController {
       
     //-------------------Create a User--------------------------------------------------------
     @RequestMapping(value = "user/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response createUser(@RequestBody User user) {
+    public Response createUser(@RequestBody UserDTO userDTO) {
             ResponseService responseService = new ResponseService();
-        try {            
+        try {           
+            User user = new User();
+            user.setLogin(userDTO.getLogin());
+            user.setName(userDTO.getName());
+            user.setPassword(userDTO.getPassword());
+            user.setEmail(userDTO.getEmail());
+            user.setIndMetricSys(userDTO.getIndMetricSys());
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
@@ -143,7 +154,11 @@ public class UserController {
             }
             
             user.setCreationDate(new Date());
-            userService.saveUser(user);
+            Integer userId = userService.saveUser(user);
+            DisciplineUser disciplineUser = new DisciplineUser();
+            disciplineUser.setUserId(new User(userId));
+            disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
+            disciplineUserDao.create(disciplineUser);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {
@@ -154,6 +169,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
+
     
     @RequestMapping(value = "user/autenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletResponse response) {
@@ -162,12 +178,12 @@ public class UserController {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
-                response.sendRedirect("http://localhost/wordpress/wp-login.php?action=login&err_int=q");
+                response.sendRedirect("http://expertla.com.co/cpt/registro-atleta/");
                 return null;
             }
             
             session.setAttribute("user" , userDto);
-            response.sendRedirect("http://localhost:8085/training/");
+            response.sendRedirect("http://181.143.227.220:8086/training/");
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
