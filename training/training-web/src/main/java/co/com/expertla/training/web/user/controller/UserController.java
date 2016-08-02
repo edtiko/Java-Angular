@@ -11,6 +11,7 @@ import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.DisciplineUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
-import co.com.expertla.training.user.dao.DisciplineUserDao;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.io.IOException;
 import java.util.Date;
@@ -51,7 +51,7 @@ public class UserController {
   
     
     @Autowired
-    DisciplineUserDao disciplineUserDao;
+    DisciplineUserService disciplineUserService;
 
     	/**
 	 * Upload single file using Spring Controller
@@ -158,7 +158,7 @@ public class UserController {
             DisciplineUser disciplineUser = new DisciplineUser();
             disciplineUser.setUserId(new User(userId));
             disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
-            disciplineUserDao.create(disciplineUser);
+            disciplineUserService.create(disciplineUser);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {

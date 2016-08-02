@@ -8,7 +8,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
         $scope.switchBool = function (value) {
             $scope[value] = !$scope[value];
         };
-        
+
         $scope.showMessage = function (msg, type) {
             $scope.successTextAlert = msg;
             var e = angular.element('#messages');
@@ -108,9 +108,8 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
         ;
 
         this.setUserSession = function () {
-            AuthService.setUserSession().then(
+            AuthService.setUserSession($scope).then(
                     function (d) {
-                        console.debug(d);
                     },
                     function (errResponse) {
                         console.error('Error while merging the profile');
@@ -122,26 +121,26 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
 
         this.getUserSession = function () {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if(user != null){
+            if (user != null) {
                 $scope.appReady = true;
             }
             return user;
         };
     }]);
 
-trainingApp.directive('stringToNumber', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, ngModel) {
-      ngModel.$parsers.push(function(value) {
-        return '' + value;
-      });
-      ngModel.$formatters.push(function(value) {
-        return parseFloat(value);
-      });
-    }
-  };
-  });
+trainingApp.directive('stringToNumber', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function (value) {
+                return '' + value;
+            });
+            ngModel.$formatters.push(function (value) {
+                return parseFloat(value);
+            });
+        }
+    };
+});
 
 function getDate() {
     var d = new Date();

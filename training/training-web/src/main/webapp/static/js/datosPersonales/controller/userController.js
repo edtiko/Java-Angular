@@ -78,9 +78,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                                 self.user = d;
                                 $scope.getStatesByCountry(self.user.countryId);
                                 $scope.getCitiesByState(self.user.federalStateId);
-                                $scope.getImageProfile(id);
-                                var date = self.user.birthDate.split("/");
-                                $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+                                $scope.getImageProfile(user.userId);
+                                
+                                if(self.user.birthDate != null) {
+                                    var date = self.user.birthDate.split("/");
+                                    $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+                                }
+                                
                             },
                             function (errResponse) {
                                 console.error('Error while fetching Currencies');
