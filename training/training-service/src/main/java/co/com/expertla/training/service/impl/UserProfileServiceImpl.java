@@ -296,7 +296,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         
         userDao.merge(user);
         disciplineUserDao.merge(discipline);
-        return findDTOByUserId(userProfile.getUserId().getUserId());
+        return null;
     }
     
     @Override
@@ -329,7 +329,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
         } else if (!new Integer(-1).equals(dto.getPulsometer())) {
             pulsometer = new EquipmentUserProfile();
-            pulsometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             pulsometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
         }
         return pulsometer;

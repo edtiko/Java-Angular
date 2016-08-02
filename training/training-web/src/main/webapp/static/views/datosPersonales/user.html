@@ -185,15 +185,6 @@
         <div class="panel-heading"><span class="lead">Datos Deportivos</span></div>
         <div class="panel-body">  
             <div class="formcontainer" > 
-                <div class="row"> 
-                    <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Consultar por Id</label>
-                        <div class=" col-md-3">
-                            <input ng-model="userProfile.userId" type="text" class="form-control input-sm" style=" display: inline">
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-primary" ng-click="findById(userProfile)" >Consultar</button>
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
@@ -257,7 +248,11 @@
                         <div class=" col-md-3">
                             <div ng-repeat="d in userProfile.availability">
                                 <label>{{d.day}}</label>
-                                <input type="checkbox" ng-model="availability[d]" value="{{d}}" ng-checked="{{d.checked}}">
+                                <input type="checkbox" ng-model="availability[d]" value="{{d}}" ng-checked="{{d.checked}}"
+                                       ng-checked="getAvailabilityResponse($parent.$index, d)"
+                                       ng-click="setAvailabilityResponse($parent.$index, $index, d)"
+                                       
+                                       >
                             </div>
                         </div>
                     </div>
@@ -267,8 +262,8 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-lable">Objetivo</label>
                         <div class=" col-md-3">
-                            <select class="form-control" style=" display: inline" ng-model="userProfile.objetive"
-                                    ng-options="o.objetiveId as o.name for o in objetives">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.objective"
+                                    ng-options="o.objectiveId as o.name for o in objectives">
                                 <option> Seleccione </option>
                             </select>
                         </div>
@@ -382,8 +377,8 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-primary" ng-click="mergeUserProfile(userProfile)"> Guardar </button>
-                <button class="btn btn-primary" ng-click="findById(userProfile)" >Limpiar</button>
+                <button class="btn btn-primary" ng-click="createOrMergeUserProfile(userProfile)"> Guardar </button>
+                <button class="btn btn-primary" ng-click="resetProfile()" >Limpiar</button>
                 <button class="btn btn-primary" ng-click="generatePlan(userProfile)"> Generar </button>
             </div>
         </div>

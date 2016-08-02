@@ -1,7 +1,7 @@
 
-trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$window','UserProfileService', 'DisciplineService', 'SportService','SportEquipmentService',
-    'ObjectiveService','ModalityService', 'surveyService', function ($scope, UserService,
-    $filter, $window, UserProfileService,DisciplineService,SportService,SportEquipmentService, ObjectiveService,ModalityService, surveyService) {
+trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$window', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
+    'ObjectiveService', 'ModalityService', 'surveyService', function ($scope, UserService,
+            $filter, $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService) {
         var self = this;
         $scope.user = {userId: null, name: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: ''};
         $scope.users = [];
@@ -69,32 +69,53 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                         );
             }
         };
-        self.getUserById = function () {
-            
-            if($scope.appReady){
-           //var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-           var userId = 2;
-            UserService.getUserById(userId)
-                    .then(
-                            function (d) {
 
-                                self.user = d;
-                                $scope.getStatesByCountry(self.user.countryId);
-                                $scope.getCitiesByState(self.user.federalStateId);
-                                $scope.getImageProfile(user.userId);
-                                
-                                if(self.user.birthDate != null) {
-                                    var date = self.user.birthDate.split("/");
-                                    $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+        $scope.resetProfile = function () {
+            self.getUserById();
+        };
+
+        self.getUserById = function () {
+
+            if ($scope.appReady) {
+                var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                UserService.getUserById(user.userId)
+                        .then(
+                                function (d) {
+
+                                    self.user = d;
+                                    $scope.getStatesByCountry(self.user.countryId);
+                                    $scope.getCitiesByState(self.user.federalStateId);
+                                    $scope.getImageProfile(user.userId);
+
+                                    if (self.user.birthDate != null) {
+                                        var date = self.user.birthDate.split("/");
+                                        $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching Currencies');
                                 }
-                            },
-                            function (errResponse) {
-                                console.error('Error while fetching Currencies');
+                        );
+
+
+                UserProfileService.getProfile(user).then(
+                        function (d) {
+                            $scope.userProfile = d;
+                            if ($scope.userProfile.bikes != null && $scope.userProfile.bikes != -1) {
+                                $scope.indBike = 1;
                             }
-                    );
-        }else{
-            $scope.showMessage("El usuario no se encuentra logueado.","error");
-        }
+                            var disc = $scope.userProfile.discipline;
+                            $scope.getModalitiesByDisciplineId(disc);
+                        },
+                        function (errResponse) {
+                            console.error('Error while fetching the profile');
+                            console.error(errResponse);
+                        }
+                );
+
+            } else {
+                $scope.showMessage("El usuario no se encuentra logueado.", "error");
+            }
         };
 
         self.createUser = function (user) {
@@ -112,7 +133,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         self.updateUser = function (user, id) {
             UserService.updateUser(user, id)
                     .then(
-                     function (msg) {
+                            function (msg) {
                                 $scope.showMessage("Usuario registrado correctamente.");
                             },
                             function (errResponse) {
@@ -139,10 +160,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                             }
                     );
         };
-       
+
         self.fetchAllCountries();
         self.getUserById();
-        
+
 
         $scope.submitUser = function () {
             if ($scope.user.userId === null) {
@@ -192,30 +213,30 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         };
 
         $scope.uploadFile = function () {
-            
+
             var file = $scope.myFile;
             if ($scope.user.userId != "" && file != null) {
-               
+
                 console.log('file is ');
                 console.dir(file);
                 UserService.uploadFileToUrl(file, $scope.user.userId)
-                 .then(
-                     function (msg) {
-                                $scope.showMessage("Imagen cargada correctamente.");
-                                $scope.getImageProfile($scope.user.userId);
-                                
-                            },
-                            function (errResponse) {
-                                console.error('Error while upload image user.');
-                            }
-                    );
+                        .then(
+                                function (msg) {
+                                    $scope.showMessage("Imagen cargada correctamente.");
+                                    $scope.getImageProfile($scope.user.userId);
+
+                                },
+                                function (errResponse) {
+                                    console.error('Error while upload image user.');
+                                }
+                        );
             } else {
-                $scope.showMessage("Debe seleccionar una imagen.","error");
+                $scope.showMessage("Debe seleccionar una imagen.", "error");
             }
         };
-        
+
         // Controller User-Profile //
-          $scope.userProfile = {
+        $scope.userProfile = {
             userProfileId: null,
             indPulsometer: '',
             indPower: '',
@@ -225,60 +246,72 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             sportsAchievements: '',
             aboutMe: '',
             userId: '',
-            indMetricSys:'-1',
-            discipline:'',
-            sport:'',
-            shoes:'',
-            bikes:'',
-            potentiometer:'',
-            pulsometer:'',
-            objetive:'',
-            modality:'',
-            availability:  [
-                {day:'Lunes',checked:false},
-                {day:'Martes',checked:false},
-                {day:'Miercoles',checked:false},
-                {day:'Jueves',checked:false},
-                {day:'Viernes',checked:false},
-                {day:'Sabado',checked:false},
-                {day:'Domingo',checked:false}
-            ] 
+            indMetricSys: '-1',
+            discipline: '',
+            sport: '',
+            shoes: '',
+            bikes: '',
+            potentiometer: '',
+            pulsometer: '',
+            objective: '',
+            modality: '',
+            availability: [
+                {day: 'Lunes', checked: false},
+                {day: 'Martes', checked: false},
+                {day: 'Miercoles', checked: false},
+                {day: 'Jueves', checked: false},
+                {day: 'Viernes', checked: false},
+                {day: 'Sabado', checked: false},
+                {day: 'Domingo', checked: false}
+            ]
         };
-        
-        $scope.disciplines =[];
+
+        $scope.disciplines = [];
         $scope.sports = [];
         $scope.shoes = [];
         $scope.bikes = [];
         $scope.pulsometers = [];
         $scope.potentiometers = [];
-        $scope.objetives = [];
+        $scope.objectives = [];
         $scope.modalities = [];
         $scope.days = [
-                {day:'Lunes',checked:false},
-                {day:'Martes',checked:false},
-                {day:'Miercoles',checked:false},
-                {day:'Jueves',checked:false},
-                {day:'Viernes',checked:false},
-                {day:'Sabado',checked:false},
-                {day:'Domingo',checked:false}
-            ]; 
+            {day: 'Lunes', checked: false},
+            {day: 'Martes', checked: false},
+            {day: 'Miercoles', checked: false},
+            {day: 'Jueves', checked: false},
+            {day: 'Viernes', checked: false},
+            {day: 'Sabado', checked: false},
+            {day: 'Domingo', checked: false}
+        ];
         $scope.indBike = '';
-        $scope.metricSystems = [{id:1,name:'Metrico Decimal'},{id:'0',name:"Anglosajón"}];
+        $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosajón"}];
 
-        this.mergeUserProfile = function (userProfile) {
-            UserProfileService.mergeProfile(userProfile).then(
-                    function (d) {
-                        $scope.userProfile = d;
-//                        this.findById(userProfile);
-                    },
-                    function (errResponse) {
-                        console.error('Error while merging the profile');
-                        console.error(errResponse);
-                    }
-            );
+        $scope.createOrMergeUserProfile = function (userProfile) {
+            if (userProfile.userProfileId == null) {
+                UserProfileService.createProfile(userProfile).then(
+                        function (d) {
+                            $scope.userProfile = d;
+                        },
+                        function (errResponse) {
+                            console.error('Error while creating the profile');
+                            console.error(errResponse);
+                        }
+                );
+
+            } else {
+                UserProfileService.mergeProfile(userProfile).then(
+                        function (d) {
+                            $scope.userProfile = d;
+                        },
+                        function (errResponse) {
+                            console.error('Error while merging the profile');
+                            console.error(errResponse);
+                        }
+                );
+            }
         };
-        
-        this.generatePlan = function (userProfile) {
+
+        $scope.generatePlan = function (userProfile) {
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
 //                        $scope.userProfile = d;
@@ -290,33 +323,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                     }
             );
         };
-        
-        this.findById = function (userProfile) {
-            UserProfileService.getProfile(userProfile).then(
-                    function (d) {
-                        $scope.userProfile = d;
-                        if($scope.userProfile.bikes != '') {
-                            $scope.indBike = 1;
-                        }
-                        var disc = $scope.userProfile.discipline;
-                        $scope.getModalitiesByDisciplineId(disc);
-                    },
-                    function (errResponse) {
-                        console.error('Error while fetching the profile');
-                        console.error(errResponse);
-                    }                        
-            );
-//            ModalityService.getModalitiesByDisciplineId(userProfile.discipline).then(
-//                    function (d) {
-//                        $scope.modalities = d;
-//                    },
-//                    function (errResponse) {
-//                        console.error('Error while modalities');
-//                        console.error(errResponse);
-//                    }
-//            );
-        };
-        
+
         this.getSportDisciplines = function () {
             DisciplineService.getSportDisciplines().then(
                     function (d) {
@@ -329,13 +336,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             );
         };
         this.getSportDisciplines();
-        
+
         this.getSports = function () {
             SportService.getSports().then(
                     function (d) {
                         $scope.sports = d;
-                        $scope.sports.unshift({sportId:-1,name:'Seleccione'});
-                        $scope.userProfile.sport=-1;
+                        $scope.sports.unshift({sportId: -1, name: 'Seleccione'});
+                        $scope.userProfile.sport = -1;
                     },
                     function (errResponse) {
                         console.error('Error while sports');
@@ -344,13 +351,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             );
         };
         this.getSports();
-        
+
         this.getRunningShoes = function () {
             SportEquipmentService.getRunningShoes().then(
                     function (d) {
                         $scope.shoes = d;
-                        $scope.shoes.unshift({sportEquipmentId:-1,name:'Seleccione',brand:'Seleccione'});
-                        $scope.userProfile.shoes=-1;
+                        $scope.shoes.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
+                        $scope.userProfile.shoes = -1;
                     },
                     function (errResponse) {
                         console.error('Error while running shoes ');
@@ -359,12 +366,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             );
         };
         this.getRunningShoes();
-        
+
         this.getBikes = function () {
             SportEquipmentService.getBikes().then(
                     function (d) {
                         $scope.bikes = d;
-                        $scope.bikes.unshift({sportEquipmentId:'',name:'Seleccione',brand:'Seleccione'});
+                        $scope.bikes.unshift({sportEquipmentId: '', name: 'Seleccione', brand: 'Seleccione'});
                     },
                     function (errResponse) {
                         console.error('Error while bikes');
@@ -373,12 +380,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             );
         };
         this.getBikes();
-        
+
         this.getPulsometers = function () {
             SportEquipmentService.getPulsometers().then(
                     function (d) {
                         $scope.pulsometers = d;
-                        $scope.pulsometers.unshift({sportEquipmentId:-1,name:'Seleccione',brand:'Seleccione'});
+                        $scope.pulsometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
                     },
                     function (errResponse) {
                         console.error('Error while pulsometers');
@@ -387,12 +394,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             );
         };
         this.getPulsometers();
-        
+
         this.getPotentiometers = function () {
             SportEquipmentService.getPotentiometers().then(
                     function (d) {
                         $scope.potentiometers = d;
-                        $scope.potentiometers.unshift({sportEquipmentId:-1,name:'Seleccione',brand:'Seleccione'});
+                        $scope.potentiometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
                     },
                     function (errResponse) {
                         console.error('Error while potentiometers');
@@ -401,21 +408,21 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             );
         };
         this.getPotentiometers();
-        
-        this.getObjetives = function () {
-            ObjectiveService.getObjetives().then(
+
+        this.getObjectives = function () {
+            ObjectiveService.getObjectives().then(
                     function (d) {
-                        $scope.objetives = d;
-                        $scope.objetives.unshift({objetiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
+                        $scope.objectives = d;
+                        $scope.objectives.unshift({objectiveId: -1, name: 'Seleccione', level: ''});
                     },
                     function (errResponse) {
-                        console.error('Error while objetives');
+                        console.error('Error while objectives');
                         console.error(errResponse);
                     }
             );
         };
-        this.getObjetives();
-        
+        this.getObjectives();
+
         $scope.getModalitiesByDisciplineId = function (id) {
             ModalityService.getModalitiesByDisciplineId(id).then(
                     function (d) {
@@ -427,12 +434,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                     }
             );
         };
-        
+
         this.getModalities = function () {
             ModalityService.getAll().then(
                     function (d) {
                         $scope.modalities = d;
-//                        $scope.objetives.unshift({objetiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
+//                        $scope.objectives.unshift({objectiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
                     },
                     function (errResponse) {
                         console.error('Error while modalities');
@@ -441,10 +448,49 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             );
         };
         this.getModalities();
-        
-        
+
+        $scope.getAvailabilityIdx = function ($parentIndex, value) {
+            var response = $scope.userProfile.availability;
+            var res = '';
+            angular.forEach(response, function (v, key) {
+                if (v == value) {
+                    res = key;
+                }
+            });
+
+            return res;
+        };
+
+        $scope.getAvailabilityResponse = function ($parentIndex, value) {
+            var response = $scope.userProfile.availability;
+            var res = false;
+            angular.forEach(response, function (v, key) {
+                if (v == value) {
+                    res = true;
+                }
+            });
+
+            return res;
+        };
+
+
+
+        $scope.setAvailabilityResponse = function ($parentIndex, $index, value) {
+            var response = $scope.userProfile.availability;
+            var idx = $scope.getAvailabilityIdx($parentIndex, value);
+            if (idx !== "" && response[idx].checked) {
+                response[idx].checked = false;
+                response.splice(idx, 1);
+            } else if (idx !== "" && !response[idx].checked) {
+                response[idx].checked = true;
+            } else if (idx !== "") {
+                response = value;
+            }
+        };
+
+
         // Survey Controller //
-        
+
         $scope.survey = [];
         $scope.questionnaireResponseList = {};
         $scope.user = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -459,29 +505,29 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
 
         };
         $scope.categories = [];
-        
+
         $scope.inCategories = function (id) {
-         
-                var i = 0, len = $scope.categories.length;
-                for (; i < len; i++) {
-                    if (+$scope.categories[i].questionnaireCategoryId == +id) {
-                        return true;
-                    }
+
+            var i = 0, len = $scope.categories.length;
+            for (; i < len; i++) {
+                if (+$scope.categories[i].questionnaireCategoryId == +id) {
+                    return true;
                 }
-                return false;
-            
+            }
+            return false;
+
         };
 
         $scope.setValue = function ($index) {
             var response = $scope.survey[$index].questionnaireResponseList[0];
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             if (response != null && response.response !== 'undefined' || response.questionOptionId !== "") {
-                response.userId = $scope.user.userId; 
+                response.userId = $scope.user.userId;
                 response.questionnaireQuestionId = $scope.survey[$index].questionnaireQuestionId;
                 response.reponseTypeId = 1;
             } else {
                 response = angular.copy(self.questionnaireResponse);
-                response.userId = $scope.user.userId; 
+                response.userId = $scope.user.userId;
                 response.questionnaireQuestionId = $scope.survey[$index].questionnaireQuestionId;
                 response.reponseTypeId = user.userId;
                 $scope.survey[$index].questionnaireResponseList.push(response);
@@ -541,9 +587,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                         function (response) {
                             angular.forEach(response.data.entity.output, function (value, key) {
                                 $scope.survey[key] = value;
-                                if(!$scope.inCategories(value.questionnaireCategoryId.questionnaireCategoryId)){
-                                $scope.categories.push(value.questionnaireCategoryId);
-                            }
+                                if (value.questionnaireCategoryId != undefined && value.questionnaireCategoryId.questionnaireCategoryId != undefined) {
+                                    if (!$scope.inCategories(value.questionnaireCategoryId.questionnaireCategoryId)) {
+                                        $scope.categories.push(value.questionnaireCategoryId);
+                                    }
+                                }
                             });
                             console.log($scope.survey);
                             console.log($scope.categories);

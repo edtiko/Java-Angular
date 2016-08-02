@@ -183,7 +183,8 @@ public class UserController {
             }
             
             session.setAttribute("user" , userDto);
-            response.sendRedirect("http://181.143.227.220:8086/training/");
+//            response.sendRedirect("http://181.143.227.220:8086/training/");
+response.sendRedirect("http://localhost:8085/training/");
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
