@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
@@ -11,8 +6,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,7 +28,6 @@ public class Objective implements Serializable {
     @Basic(optional = false)
     @Column(name = "level")
     private int level;
-    @Basic(optional = false)
     @OneToMany(mappedBy = "objectiveId")
     private Collection<Activity> activityCollection;
     @OneToMany(mappedBy = "objectiveId")
@@ -48,6 +40,12 @@ public class Objective implements Serializable {
 
     public Objective(Integer objectiveId) {
         this.objectiveId = objectiveId;
+    }
+
+    public Objective(Integer objectiveId, String name, int level, int minSessions, int maxSessions) {
+        this.objectiveId = objectiveId;
+        this.name = name;
+        this.level = level;
     }
 
     public Integer getObjectiveId() {
@@ -120,7 +118,7 @@ public class Objective implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.Objetive[ objectiveId=" + objectiveId + " ]";
+        return "co.com.expertla.training.model.entities.Objective[ objectiveId=" + objectiveId + " ]";
     }
     
 }

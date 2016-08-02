@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.service.UserProfileService;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,6 +61,27 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public UserProfileDTO findDTOByUserId(Integer id) throws  Exception {
         UserProfileDTO userProfile = userProfileDao.findDTOByUserId(id);
+        if(userProfile == null) {
+            List<UserAvailabilityDTO> dtoList = new ArrayList<>();
+            userProfile = new UserProfileDTO();
+            User user = userDao.findById(id);
+            userProfile.setUserId(id);
+            DisciplineUser discipline = disciplineUserDao.findByUserId(id);
+            if(discipline != null) {
+                userProfile.setDiscipline(discipline.getDiscipline().getDisciplineId());
+            }
+            userProfile.setIndMetricSys(user.getIndMetricSys());
+            initialAvailability(dtoList);
+            userProfile.setAvailability(dtoList);
+            return userProfile;
+        }
+        //RunnignShoes
+        List<SportEquipmentDTO> listShoes = equipmentUserProfileDao.findDTORunningShoesByUserId(id);
+        if(listShoes != null && !listShoes.isEmpty()) {
+            userProfile.setShoes(listShoes.get(0).getSportEquipmentId());
+        } else {
+            userProfile.setShoes(-1);
+        }
         //Bikes
         List<SportEquipmentDTO> listBikes = equipmentUserProfileDao.findDTOBikesByUserId(id);
         if(listBikes != null && !listBikes.isEmpty()) {
@@ -81,11 +103,116 @@ public class UserProfileServiceImpl implements UserProfileService {
         } else {
             userProfile.setPotentiometer(-1);
         }
-        
         List<UserAvailabilityDTO> availability = userAvailabilityService.findDtoByUserId(id);
+        if(availability == null || availability.isEmpty()) {
+            initialAvailability(availability);
+        }
         userProfile.setAvailability(availability);
+        UserSport sport = userSportDao.findByUserId(id);
+        if(sport != null) {
+            userProfile.setSport(sport.getSportId().getSportId());
+        } else {
+            userProfile.setSport(-1);
+        }
+        DisciplineUser discipline = disciplineUserDao.findByUserId(id);
+        userProfile.setDiscipline(discipline.getDiscipline().getDisciplineId());
         return userProfile;
         
+    }
+    
+    private void initialAvailability (List<UserAvailabilityDTO> dtoList) {
+        UserAvailabilityDTO dto = new UserAvailabilityDTO();
+        dto.setDay("Lunes");
+        dto.setChecked(false);
+        dtoList.add(dto);
+        dto = new UserAvailabilityDTO();
+        dto.setDay("Martes");
+        dto.setChecked(false);
+        dtoList.add(dto);
+        dto = new UserAvailabilityDTO();
+        dto.setDay("Miercoles");
+        dto.setChecked(false);
+        dtoList.add(dto);
+        dto = new UserAvailabilityDTO();
+        dto.setDay("Jueves");
+        dto.setChecked(false);
+        dtoList.add(dto);
+        dto = new UserAvailabilityDTO();
+        dto.setDay("Viernes");
+        dto.setChecked(false);
+        dtoList.add(dto);
+        dto = new UserAvailabilityDTO();
+        dto.setDay("Sabado");
+        dto.setChecked(false);
+        dtoList.add(dto);
+        dto = new UserAvailabilityDTO();
+        dto.setDay("Domingo");
+        dto.setChecked(false);
+        dtoList.add(dto);
+    }
+    
+    @Override
+    public void create(UserProfileDTO dto) throws Exception {
+        List<EquipmentUserProfile> sportEquipments = new ArrayList<>();
+        EquipmentUserProfile equipment = new EquipmentUserProfile();
+        UserProfile userProfile = new UserProfile();
+        userProfile.setIndPulsometer(dto.getIndPulsometer() == null ? null : dto.getIndPulsometer());
+        userProfile.setIndPower(dto.getIndPower() == null ? null : dto.getIndPower());
+        if("1".equals(dto.getIndPulsometer())) {
+            equipment.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
+            equipment.setUserProfileId(userProfile);
+            sportEquipments.add(equipment);
+        }
+        
+        if("1".equals(dto.getIndPower())) {
+            equipment = new EquipmentUserProfile();
+            equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            equipment.setUserProfileId(userProfile);
+            sportEquipments.add(equipment);
+        }
+        
+        if(!new Integer(-1).equals(dto.getBikes())) {
+            equipment = new EquipmentUserProfile();
+            equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            equipment.setUserProfileId(userProfile);
+            sportEquipments.add(equipment);
+        }
+        
+        if(!new Integer(-1).equals(dto.getShoes())) {
+            equipment = new EquipmentUserProfile();
+            equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            equipment.setUserProfileId(userProfile);
+            sportEquipments.add(equipment);
+        }
+        userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
+        UserAvailability availability = new UserAvailability();
+        buildUserAvailabilityObject(dto, availability);
+        userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
+        userProfile.setAgeSport(dto.getAgeSport());
+        userProfile.setPpm(dto.getPpm());
+        userProfile.setPower(dto.getPower());
+        userProfile.setSportsAchievements(dto.getSportsAchievements());
+        userProfile.setAboutMe(dto.getAboutMe());
+        userProfile.setUserId(new User(dto.getUserId()));
+        userProfile.setUserProfileId(dto.getUserProfileId());
+        User user = userDao.findById(dto.getUserId());
+        user.setIndMetricSys(dto.getIndMetricSys());
+        
+        UserSport sport = new UserSport();
+        if(!new Integer(-1).equals(dto.getSport())) {
+            sport.setSportId(new Sport(dto.getSport()));
+            sport.setUserProfileId(userProfile);
+        }
+        
+        userDao.merge(user);
+        userProfileDao.create(userProfile);
+        if(!sportEquipments.isEmpty()) {
+            for (EquipmentUserProfile sportEquipment : sportEquipments) {
+                equipmentUserProfileDao.create(sportEquipment);
+            }
+        }
+        userSportDao.create(sport);
+        userAvailabilityService.create(availability);
     }
     
     @Override
@@ -133,36 +260,37 @@ public class UserProfileServiceImpl implements UserProfileService {
         //Pulsometer
         if(pulsometer != null && pulsometer.getEquipmentUserProfileId() != null) {
             equipmentUserProfileDao.merge(pulsometer);   
-        } else {
+        } else if (pulsometer != null){
             equipmentUserProfileDao.create(pulsometer);
         }
         //Potentiometer
         if(potentiometer != null && potentiometer.getEquipmentUserProfileId() != null) {
             equipmentUserProfileDao.merge(potentiometer);   
-        } else {
+        } else if (potentiometer != null){
             equipmentUserProfileDao.create(potentiometer);
         }
         //RunningShoes
         if(runningShoes != null && runningShoes.getEquipmentUserProfileId() != null) {
             equipmentUserProfileDao.merge(runningShoes);   
-        } else {
+        } else if(runningShoes != null){
             equipmentUserProfileDao.create(runningShoes);
         }
         //Bike 
         if(bike != null && bike.getEquipmentUserProfileId() !=null) {
             equipmentUserProfileDao.merge(bike);
-        } else {
+        } else if(bike != null){
             equipmentUserProfileDao.create(bike);
         }
         //User Availability 
         if(availability != null && availability.getUserAvailabilityId() != null) {
             userAvailabilityService.merge(availability);
-        } else {
+        } else if(availability != null){
+            availability.setUserProfileId(userProfile);
             userAvailabilityService.create(availability);
         }
         if(sport != null && sport.getUserSportId() != null) {
             userSportDao.merge(sport);
-        } else {
+        } else if (sport != null){
             userSportDao.create(sport);
         }
         
@@ -181,13 +309,13 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setAgeSport(dto.getAgeSport());
         userProfile.setIndPower(dto.getIndPower());
         userProfile.setIndPulsometer(dto.getIndPulsometer());
-        userProfile.setObjectiveId(new Objective(dto.getObjetive()));
+        userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
         userProfile.setPower(dto.getPower());
         userProfile.setPpm(dto.getPpm());
         userProfile.setSportsAchievements(dto.getSportsAchievements());
         userProfile.setUserId(new User(dto.getUserId()));
         userProfile.setUserProfileId(dto.getUserProfileId());
-        userProfile.setModalityId(new Modality(dto.getModality()));
+        userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
     }
     
     /**
@@ -197,9 +325,9 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return 
      */
     private EquipmentUserProfile buildPulsometerObject(UserProfileDTO dto, EquipmentUserProfile pulsometer) {
-        if (!dto.getPulsometer().equals(-1) && pulsometer != null) {
+        if (pulsometer != null && !new Integer(-1).equals(dto.getPulsometer()) ) {
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
-        } else if (!dto.getPulsometer().equals(-1)) {
+        } else if (!new Integer(-1).equals(dto.getPulsometer())) {
             pulsometer = new EquipmentUserProfile();
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             pulsometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -214,9 +342,9 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return 
      */
     private EquipmentUserProfile buildPotentiometerObject(UserProfileDTO dto, EquipmentUserProfile potentiometer) {
-        if (!dto.getPotentiometer().equals(-1) && potentiometer != null) {
+        if (potentiometer != null && !new Integer(-1).equals(dto.getPotentiometer())) {
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
-        } else if(!dto.getPotentiometer().equals(-1)){
+        } else if(!new Integer(-1).equals(dto.getPotentiometer())){
             potentiometer = new EquipmentUserProfile();
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             potentiometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -231,9 +359,9 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return 
      */
     private EquipmentUserProfile buildRunningShoesObject(UserProfileDTO dto, EquipmentUserProfile runningShoes) {
-        if (!dto.getShoes().equals(-1) && runningShoes != null) {
+        if (runningShoes != null && !new Integer(-1).equals(dto.getShoes())) {
             runningShoes.setSportEquipmentId(new SportEquipment(dto.getShoes()));
-        } else if(!dto.getPotentiometer().equals(-1)){
+        } else if(!new Integer(-1).equals(dto.getPotentiometer())){
             runningShoes = new EquipmentUserProfile();
             runningShoes.setSportEquipmentId(new SportEquipment(dto.getShoes()));
             runningShoes.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -248,9 +376,9 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return 
      */
     private EquipmentUserProfile buildBikeObject(UserProfileDTO dto, EquipmentUserProfile bike) {
-        if (!dto.getBikes().equals(-1) && bike != null) {
+        if (bike != null && !new Integer(-1).equals(dto.getBikes())) {
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
-        } else if(!dto.getPotentiometer().equals(-1)){
+        } else if(!new Integer(-1).equals(dto.getPotentiometer())){
             bike = new EquipmentUserProfile();
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
             bike.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -267,7 +395,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     private UserAvailability buildUserAvailabilityObject(UserProfileDTO dto, UserAvailability availability) {
         if(availability == null ) {
             availability = new UserAvailability();
-            availability.setUserProfileId(new UserProfile(dto.getUserProfileId()));
         }
         
         List<UserAvailabilityDTO> list = dto.getAvailability();
@@ -310,9 +437,9 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return 
      */
     private UserSport buildUserSport (UserProfileDTO dto, UserSport sport) {
-        if(!dto.getSport().equals(-1) && sport != null) {
+        if(!new Integer(-1).equals(dto.getSport()) && sport != null) {
             sport.setSportId(new Sport(dto.getSport())); 
-        } else if (!dto.getSport().equals(-1)) {
+        } else if (!new Integer(-1).equals(dto.getSport()) ) {
             sport = new UserSport();
             sport.setUserProfileId(new UserProfile(dto.getUserProfileId()));
             sport.setSportId(new Sport(dto.getSport()));

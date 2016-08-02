@@ -6,7 +6,7 @@ import co.com.expertla.training.model.entities.Objective;
 import java.util.List;
 
 /**
-* Dao for Objetive <br>
+* Dao for Objective <br>
 * Creation Date : <br>
 * date 18/07/2016 <br>
 * @author Angela Ramírez
@@ -14,7 +14,7 @@ import java.util.List;
 public interface ObjectiveDao extends BaseDAO<Objective>{
 	
     /**
-     * Trae todos los registros de Objetive <br>
+     * Trae todos los registros de Objective <br>
      * Creation Date : <br>
      * date 18/07/2016 <br>
      * @author Angela Ramírez

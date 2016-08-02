@@ -1,8 +1,8 @@
-package co.com.expertla.training.service.impl;
+package co.com.expertla.training.configuration.service.impl;
 
 import co.com.expertla.training.configuration.dao.SportDao;
 import co.com.expertla.training.model.dto.SportDTO;
-import co.com.expertla.training.service.SportService;
+import co.com.expertla.training.configuration.service.SportService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

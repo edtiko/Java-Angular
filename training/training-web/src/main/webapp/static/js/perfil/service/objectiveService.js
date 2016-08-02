@@ -3,7 +3,7 @@
 trainingApp.factory('ObjectiveService', ['$http', '$q', function($http, $q){
     return {
 
-            getObjetives: function(){
+            getObjectives: function(){
                     return $http.get($contextPath+'objective/get/all')
                             .then(
                                     function(response){

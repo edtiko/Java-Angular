@@ -2,7 +2,6 @@ package co.com.expertla.training.plan.dao;
 
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.entities.Dcf;
-import java.util.List;
 
 /**
 * Dao for Dcf (Distribucion porcentual de Capacidades Fisiologicas) <br>
@@ -13,15 +12,15 @@ import java.util.List;
 public interface DcfDao extends BaseDAO<Dcf>{
 	
     /**
-     * Trae todos los registros de dcf por objetive id y modality Id <br>
+     * Trae todos los registros de dcf por objective id y modality Id <br>
      * Creation Date : <br>
      * date 19/07/2016 <br>
      * @author Angela Ramírez
-     * @param objetiveId
+     * @param objectiveId
      * @param modalityId
      * @throws Exception
      * @return
      */
-    public Dcf findByObjetiveIdAndModalityId(Integer objetiveId, Integer modalityId) throws Exception;
+    public Dcf findByObjectiveIdAndModalityId(Integer objectiveId, Integer modalityId) throws Exception;
         
 }

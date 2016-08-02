@@ -19,14 +19,14 @@ import javax.persistence.Query;
 public class DcfDaoImpl extends BaseDAOImpl<Dcf> implements DcfDao {
 
     @Override
-    public Dcf findByObjetiveIdAndModalityId(Integer objetiveId, Integer modalityId) throws Exception {      
+    public Dcf findByObjectiveIdAndModalityId(Integer objectiveId, Integer modalityId) throws Exception {      
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT d ");
         sql.append("FROM Dcf d ");
-        sql.append("WHERE d.objetiveId.objetiveId = :objetiveId ");
+        sql.append("WHERE d.objectiveId.objectiveId = :objectiveId ");
         sql.append("AND d.modalityId.modalityId = :modalityId ");
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("objetiveId",objetiveId);
+        query.setParameter("objectiveId",objectiveId);
         query.setParameter("modalityId",modalityId);
         List<Dcf> list = query.getResultList();
         return  (list == null || list.isEmpty()) ? null : list.get(0);
