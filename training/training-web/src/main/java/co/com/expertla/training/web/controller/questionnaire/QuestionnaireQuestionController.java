@@ -9,7 +9,7 @@ import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.service.DisciplineService;
+import co.com.expertla.training.configuration.service.DisciplineService;
 import co.com.expertla.training.service.questionnaire.QuestionnaireQuestionService;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
