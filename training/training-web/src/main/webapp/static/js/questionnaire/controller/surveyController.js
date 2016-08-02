@@ -15,6 +15,19 @@ trainingApp.controller('SurveyController', ['$scope', 'surveyService', '$window'
             reponseTypeId: '1'
 
         };
+        $scope.categories = [];
+        
+        $scope.inCategories = function (id) {
+         
+                var i = 0, len = $scope.categories.length;
+                for (; i < len; i++) {
+                    if (+$scope.categories[i].questionnaireCategoryId == +id) {
+                        return true;
+                    }
+                }
+                return false;
+            
+        };
 
         $scope.setValue = function ($index) {
             var response = $scope.survey[$index].questionnaireResponseList[0];
@@ -80,13 +93,17 @@ trainingApp.controller('SurveyController', ['$scope', 'surveyService', '$window'
 
         self.getAllQuestionnaireQuestion = function () {
             if ($scope.appReady) {
-                var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-                surveyService.getAllQuestionnaireQuestion(user.userId).then(
+                //var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                surveyService.getAllQuestionnaireQuestion(2).then(
                         function (response) {
                             angular.forEach(response.data.entity.output, function (value, key) {
                                 $scope.survey[key] = value;
+                                if(!$scope.inCategories(value.questionnaireCategoryId.questionnaireCategoryId)){
+                                $scope.categories.push(value.questionnaireCategoryId);
+                            }
                             });
                             console.log($scope.survey);
+                            console.log($scope.categories);
                         },
                         function (errResponse) {
                             console.error('Error while fetching Currencies');

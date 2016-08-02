@@ -3,7 +3,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
 
         $scope.showSuccessAlert = false;
         $scope.successTextAlert = "";
-        $scope.appReady = false;
+        $scope.appReady = true;
 
         $scope.switchBool = function (value) {
             $scope[value] = !$scope[value];
