@@ -178,7 +178,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             sportEquipments.add(equipment);
         }
         
-        if(!new Integer(-1).equals(dto.getShoes())) {
+        if(dto.getShoes()!= null && !new Integer(-1).equals(dto.getShoes())) {
             equipment = new EquipmentUserProfile();
             equipment.setSportEquipmentId(new SportEquipment(dto.getShoes()));
             equipment.setUserProfileId(userProfile);
