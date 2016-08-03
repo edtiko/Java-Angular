@@ -284,7 +284,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             {day: 'Domingo', checked: false}
         ];
         $scope.indBike = '';
-        $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosajón"}];
+        $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
 
         $scope.createOrMergeUserProfile = function (userProfile) {
             if (userProfile.userProfileId == null) {

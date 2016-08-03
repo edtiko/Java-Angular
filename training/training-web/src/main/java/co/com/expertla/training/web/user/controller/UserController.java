@@ -187,8 +187,7 @@ public class UserController {
             }
             
             session.setAttribute("user" , userDto);
-            response.sendRedirect(request.getRequestURL().toString() + "/training/");
-//response.sendRedirect("http://localhost:8085/training/");
+            response.sendRedirect(request.getRequestURL() + "/../../../");
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
