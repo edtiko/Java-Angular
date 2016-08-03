@@ -200,9 +200,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         };
 
 
-        self.resetUser = function () {
+        $scope.resetUser = function () {
             $scope.user = {userId: null, name: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: ''};
-            $scope.myForm.$setPristine(); //reset Form
+            $scope.myFormUser.$setPristine(); //reset Form
         };
 
         self.login = function () {
