@@ -11,10 +11,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         $scope.dateAsString = null;
         $scope.dt = null;
         $scope.dataImage = "static/img/profile-default.png";
-        $scope.sexOptions = {
-            m: "Masculino",
-            f: "Femenino"
-        };
+        $scope.sexOptions = [
+            {code:"m",sex: "Masculino"},
+            {code:"f",sex: "Femenino"}
+        ];
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
                     .then(
@@ -284,13 +284,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             {day: 'Domingo', checked: false}
         ];
         $scope.indBike = '';
-        $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosajón"}];
+        $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
 
         $scope.createOrMergeUserProfile = function (userProfile) {
             if (userProfile.userProfileId == null) {
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
+                            $scope.showMessage("Perfil Creado satisfactoriamente.");
+                            
                         },
                         function (errResponse) {
                             console.error('Error while creating the profile');
@@ -302,6 +304,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserProfileService.mergeProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
+                            $scope.showMessage("Perfil editado satisfactoriamente.");
                         },
                         function (errResponse) {
                             console.error('Error while merging the profile');
@@ -316,6 +319,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                     function (d) {
 //                        $scope.userProfile = d;
 //                        this.findById(userProfile);
+
+                        $scope.showMessage("Plan de entrenamiento generado satisfactoriamente.");
                     },
                     function (errResponse) {
                         console.error('Error while merging the profile');
@@ -480,7 +485,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             var idx = $scope.getAvailabilityIdx($parentIndex, value);
             if (idx !== "" && response[idx].checked) {
                 response[idx].checked = false;
-                response.splice(idx, 1);
             } else if (idx !== "" && !response[idx].checked) {
                 response[idx].checked = true;
             } else if (idx !== "") {
