@@ -3,8 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
-//var $contextPath = "http://181.143.227.220:8086/training/";
+//var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
     paths: {
         angular: 'lib/angular.min',
