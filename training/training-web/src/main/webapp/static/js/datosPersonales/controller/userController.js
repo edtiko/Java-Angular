@@ -11,10 +11,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         $scope.dateAsString = null;
         $scope.dt = null;
         $scope.dataImage = "static/img/profile-default.png";
-        $scope.sexOptions = {
-            m: "Masculino",
-            f: "Femenino"
-        };
+        $scope.sexOptions = [
+            {code:"m",sex: "Masculino"},
+            {code:"f",sex: "Femenino"}
+        ];
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
                     .then(
