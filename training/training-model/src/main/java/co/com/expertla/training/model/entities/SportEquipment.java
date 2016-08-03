@@ -8,6 +8,7 @@ package co.com.expertla.training.model.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,6 +30,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "SportEquipment.findBySportEquipmentId", query = "SELECT s FROM SportEquipment s WHERE s.sportEquipmentId = :sportEquipmentId"),
     @NamedQuery(name = "SportEquipment.findByName", query = "SELECT s FROM SportEquipment s WHERE s.name = :name")})
 public class SportEquipment implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sportEquipmentId")
+    private Collection<ModelEquipment> modelEquipmentCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -122,6 +126,14 @@ public class SportEquipment implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.SportEquipment[ sportEquipmentId=" + sportEquipmentId + " ]";
+    }
+
+    public Collection<ModelEquipment> getModelEquipmentCollection() {
+        return modelEquipmentCollection;
+    }
+
+    public void setModelEquipmentCollection(Collection<ModelEquipment> modelEquipmentCollection) {
+        this.modelEquipmentCollection = modelEquipmentCollection;
     }
     
 }

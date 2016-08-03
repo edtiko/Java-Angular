@@ -13,6 +13,7 @@ import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.EquipmentUserProfile;
 import co.com.expertla.training.model.entities.Modality;
+import co.com.expertla.training.model.entities.ModelEquipment;
 import co.com.expertla.training.model.entities.Objective;
 import co.com.expertla.training.model.entities.Sport;
 import co.com.expertla.training.model.entities.SportEquipment;
@@ -161,14 +162,22 @@ public class UserProfileServiceImpl implements UserProfileService {
         if("1".equals(dto.getIndPulsometer())) {
             equipment.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             equipment.setUserProfileId(userProfile);
-            sportEquipments.add(equipment);
+            
+            if(dto.getModelPulsometer() != null){
+                equipment.setModelEquipmentId(new ModelEquipment(dto.getModelPulsometer()));
+            }
+             sportEquipments.add(equipment);
         }
         
         if("1".equals(dto.getIndPower())) {
             equipment = new EquipmentUserProfile();
             equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             equipment.setUserProfileId(userProfile);
-            sportEquipments.add(equipment);
+            
+             if(dto.getModelPotentiometer() != null){
+                equipment.setModelEquipmentId(new ModelEquipment(dto.getModelPotentiometer()));
+            }
+             sportEquipments.add(equipment);
         }
         
         if(dto.getBikes() != null && !new Integer(-1).equals(dto.getBikes())) {

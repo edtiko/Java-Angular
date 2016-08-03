@@ -252,7 +252,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             shoes: '',
             bikes: '',
             potentiometer: '',
+            modelPotentiometer:'',
             pulsometer: '',
+            modelPulsometer: '',
             objective: '',
             modality: '',
             availability: [
@@ -272,6 +274,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         $scope.bikes = [];
         $scope.pulsometers = [];
         $scope.potentiometers = [];
+        $scope.modelsPotentiometer = [];
+        $scope.modelsPulsometer = [];
         $scope.objectives = [];
         $scope.modalities = [];
         $scope.days = [
@@ -490,6 +494,30 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             } else if (idx !== "") {
                 response = value;
             }
+        };
+        
+          $scope.getModelsPotentiometer = function (sportEquipmentId) {
+            SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
+                    function (d) {
+                        $scope.modelsPotentiometer = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while models potentiometer');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        
+         $scope.getModelsPulsometer = function (sportEquipmentId) {
+            SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
+                    function (d) {
+                        $scope.modelsPulsometer = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while models pulsometer');
+                        console.error(errResponse);
+                    }
+            );
         };
 
 

@@ -53,6 +53,12 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "User.findByCreationDate", query = "SELECT u FROM User u WHERE u.creationDate = :creationDate")})
 public class User implements Serializable {
 
+    @Column(name = "state_id")
+    private Short stateId;
+    @Lob
+    @Column(name = "profile_photo")
+    private byte[] profilePhoto;
+
     private static final long serialVersionUID = 1L;
     @Id
     @SequenceGenerator(name = "user_training_user_id_seq", sequenceName = "user_training_user_id_seq", allocationSize = 1)
@@ -86,9 +92,6 @@ public class User implements Serializable {
     private String address;
     @Column(name = "postal_code")
     private String postalCode;
-    @Lob
-    @Column(name = "profile_photo")
-    private byte[] profilePhoto;
     @Column(name = "facebook_page")
     private String facebookPage;
     @Basic(optional = false)
@@ -114,8 +117,6 @@ public class User implements Serializable {
     @ManyToOne
     private City cityId;
     
-    @Column(name = "state_id")
-    private Short stateId;
     @OneToMany(mappedBy = "starId")
     private Collection<User> userCollection;
     @JoinColumn(name = "star_id", referencedColumnName = "user_id")

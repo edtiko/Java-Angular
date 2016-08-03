@@ -66,6 +66,18 @@ trainingApp.factory('SportEquipmentService', ['$http', '$q', function($http, $q)
                                         return $q.reject(errResponse);
                                     }
                             );
+            },
+            getModelsBySportEquipmentId: function(sportEquipmentId){
+                    return $http.get($contextPath+'sportEquipment/get/potentiometers/model/'+sportEquipmentId)
+                            .then(
+                                    function(response){
+                                        return response.data.entity.output;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while getting models');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
             }
         };
  

@@ -26,7 +26,9 @@ public class UserProfileDTO implements Serializable {
     private Integer shoes;
     private Integer bikes;
     private Integer potentiometer;
+    private Integer modelPotentiometer;
     private Integer pulsometer;
+    private Integer modelPulsometer;
     private Integer objective;
     private List<UserAvailabilityDTO> availability;
     private Integer modality;
@@ -202,5 +204,23 @@ public class UserProfileDTO implements Serializable {
     public void setModality(Integer modality) {
         this.modality = modality;
     }
+
+    public Integer getModelPotentiometer() {
+        return modelPotentiometer;
+    }
+
+    public void setModelPotentiometer(Integer modelPotentiometer) {
+        this.modelPotentiometer = modelPotentiometer;
+    }
+
+    public Integer getModelPulsometer() {
+        return modelPulsometer;
+    }
+
+    public void setModelPulsometer(Integer modelPulsometer) {
+        this.modelPulsometer = modelPulsometer;
+    }
+    
+    
     
 }

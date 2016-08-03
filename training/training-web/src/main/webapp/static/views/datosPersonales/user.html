@@ -1,4 +1,4 @@
-<div class="generic-container" ng-show="appReady" id="user-container">
+<div class="container" ng-show="appReady" id="user-container">
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Personales</span></div>
         <div class="panel-body">
@@ -163,7 +163,7 @@
     </div>
 </div>
 <hr>
-<div id="userProfileDiv">
+<div id="userProfileDiv" class="container">
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Deportivos</span></div>
         <div class="panel-body">  
@@ -180,7 +180,15 @@
                             <label class="col-md-2 control-lable">&iquest;Cu&aacute;l?</label>
                             <div class="col-md-3">
                                 <select class="form-control" style=" display: inline" ng-model="userProfile.pulsometer"
+                                        ng-change="getModelsPulsometer(userProfile.pulsometer)"
                                         ng-options="p.sportEquipmentId as p.brand for p in pulsometers">
+                                    <option> Seleccione </option>
+                                </select>
+                            </div>
+                            <label class="col-md-2 control-lable">Modelo:</label>
+                            <div class="col-md-3">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.modelPulsometer"
+                                        ng-options="p.modelEquipmentId as p.name for p in modelsPulsometer">
                                     <option> Seleccione </option>
                                 </select>
                             </div>
@@ -199,7 +207,15 @@
                             <label class="col-md-2 control-lable">&iquest;Cu&aacute;l?</label>
                             <div class=" col-md-3">
                                 <select class="form-control" style=" display: inline" ng-model="userProfile.potentiometer"
+                                        ng-change="getModelsPotentiometer(userProfile.potentiometer)"
                                         ng-options="p.sportEquipmentId as p.brand for p in potentiometers">
+                                    <option> Seleccione </option>
+                                </select>
+                            </div>
+                            <label class="col-md-2 control-lable">Modelo:</label>
+                            <div class="col-md-3">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.modelPotentiometer"
+                                        ng-options="p.modelEquipmentId as p.name for p in modelsPotentiometer">
                                     <option> Seleccione </option>
                                 </select>
                             </div>
@@ -367,7 +383,7 @@
     </div>
 </div>
 <hr>
-<div id="surveyDiv">
+<div id="surveyDiv" class="container">
     <form  class="form-horizontal" name="myFormSurvey">
         <div ng-repeat="category in categories">
             <div class="panel panel-default">

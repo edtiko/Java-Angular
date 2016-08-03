@@ -237,6 +237,7 @@ create table equipment_user_profile (
    equipment_user_profile_id serial               not null,
    user_profile_id      integer              null,
    sport_equipment_id   integer              null,
+   model_equipment_id   integer              null,
    constraint pk_equipment_user_profile primary key (equipment_user_profile_id)
 );
 
@@ -729,13 +730,30 @@ comment on column user_training.ind_metric_sys is
 /* Table: video_user                                            */
 /*==============================================================*/
 create table video_user (
-   video_user_id        integer              not null,
+   video_user_id        serial              not null,
    user_id              integer              not null,
    state_id             integer              null,
    url                  varchar(200)         not null,
    creation_date        date                 null,
    constraint pk_video_user primary key (video_user_id)
 );
+
+/*==============================================================*/
+/* Table: model_equipment                                            */
+/*==============================================================*/
+create table model_equipment (
+   model_equipment_id        serial              not null,
+   sport_equipment_id              integer not null,
+   name                  varchar(500)              not null,
+   state_id             integer              null,
+   creation_date        date                 null,
+   constraint pk_model_equipment primary key (model_equipment_id)
+);
+
+alter table model_equipment
+   add constraint fk_model_equipment_reference_sport_eq foreign key (sport_equipment_id)
+      references sport_equipment (sport_equipment_id)
+      on delete restrict on update restrict;
 
 alter table activity
    add constraint fk_activity_reference_physiolo foreign key (physiological_capacity_id)
@@ -795,6 +813,11 @@ alter table equipment_user_profile
 alter table equipment_user_profile
    add constraint fk_equipmen_reference_sport_eq foreign key (sport_equipment_id)
       references sport_equipment (sport_equipment_id)
+      on delete restrict on update restrict;
+	  
+alter table equipment_user_profile
+   add constraint fk_equipmen_reference_model_eq foreign key (model_equipment_id)
+      references model_equipment (model_equipment_id)
       on delete restrict on update restrict;
 
 alter table federal_state
@@ -991,6 +1014,7 @@ alter table sport_equipment
    add constraint fk_sport_eq_reference_brand foreign key (brand_id)
       references brand (brand_id)
       on delete restrict on update restrict;
+	 
 
 alter table training_plan_user
    add constraint fk_train_plan_user_user foreign key (user_id)
