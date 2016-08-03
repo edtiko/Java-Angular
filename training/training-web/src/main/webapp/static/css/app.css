@@ -3,7 +3,22 @@
 .ontop {
     height: 100px;
     position: absolute;
-    top: 138px;
-    left: 70%;
+    top: 66px;
+    left: 77%;
+    z-index:2;
+}
+#user-container{
+    position: relative;
 }
 
+hr {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+  border-style: solid none;
+  border-width: 1px 0;
+  margin: 18px 0;
+}

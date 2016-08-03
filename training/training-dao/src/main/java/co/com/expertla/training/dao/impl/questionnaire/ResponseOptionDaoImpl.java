@@ -9,6 +9,7 @@ import co.com.expertla.training.model.entities.ResponseOption;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
@@ -23,6 +24,7 @@ public class ResponseOptionDaoImpl extends BaseDAOImpl<ResponseOption> implement
     }
     
     @Override
+    @Transactional
     public List<ResponseOption> create(List<ResponseOption> responseOption) throws DAOException {
       
         List<ResponseOption> listCreated = bulkSave(responseOption);

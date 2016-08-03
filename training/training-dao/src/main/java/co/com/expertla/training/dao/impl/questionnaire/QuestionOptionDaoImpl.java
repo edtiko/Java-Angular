@@ -37,11 +37,11 @@ public class QuestionOptionDaoImpl extends BaseDAOImpl<QuestionOption> implement
     }
 
     @Override
-    public List<QuestionOption> findByQuestionOptionId(QuestionOption questionOption) throws DAOException {
+    public List<QuestionOption> findByQuestionOptionId(Integer questionOptionId) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select u FROM QuestionOption u ");
         builder.append("WHERE u.questionOptionId = :questionOptionId");
-        setParameter("questionOptionId", questionOption.getQuestionOptionId());
+        setParameter("questionOptionId", questionOptionId);
         return createQuery(builder.toString());
     }
     

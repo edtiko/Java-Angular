@@ -7,7 +7,7 @@ trainingApp.factory('UserProfileService', ['$http', '$q', function($http, $q){
                     return $http.post($contextPath+'userProfile/create',userProfile)
                             .then(
                                     function(response){
-                                        return response.data;
+                                        return response.data.entity.output;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while creating userProfile');
@@ -30,6 +30,7 @@ trainingApp.factory('UserProfileService', ['$http', '$q', function($http, $q){
             },
              
             getProfile: function(userProfile){
+                
                     return $http.post($contextPath+'userProfile/get/by/id',userProfile)
                             .then(
                                     function(response){
@@ -47,7 +48,7 @@ trainingApp.factory('UserProfileService', ['$http', '$q', function($http, $q){
                     return $http.post($contextPath+'trainingPlanWorkout/generate/planWorkout/for/user',userProfile)
                             .then(
                                     function(response){
-                                        return response.data.entity.output;
+                                        return response;
                                     }, 
                                     function(errResponse){
                                         console.error(userProfile);

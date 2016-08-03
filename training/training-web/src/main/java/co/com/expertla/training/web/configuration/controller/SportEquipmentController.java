@@ -2,7 +2,7 @@ package co.com.expertla.training.web.configuration.controller;
 
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import co.com.expertla.training.model.entities.ResponseService;
-import co.com.expertla.training.service.SportEquipmentService;
+import co.com.expertla.training.configuration.service.SportEquipmentService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
 import javax.ws.rs.core.Response;

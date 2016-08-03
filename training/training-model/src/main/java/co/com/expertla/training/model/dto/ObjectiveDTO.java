@@ -5,34 +5,31 @@ import java.io.Serializable;
 public class ObjectiveDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Integer objetiveId;
+    private Integer objectiveId;
     private String name;
     private int level;
-    private int minSessions;
-    private int maxSessions;
 
     public ObjectiveDTO() {
     }
 
     public ObjectiveDTO(Integer objetiveId) {
-        this.objetiveId = objetiveId;
+        this.objectiveId = objetiveId;
     }
 
-    public ObjectiveDTO(Integer objetiveId, String name, int level, int minSessions, int maxSessions) {
-        this.objetiveId = objetiveId;
+    public ObjectiveDTO(Integer objetiveId, String name, int level) {
+        this.objectiveId = objetiveId;
         this.name = name;
         this.level = level;
-        this.minSessions = minSessions;
-        this.maxSessions = maxSessions;
     }
 
-    public Integer getObjetiveId() {
-        return objetiveId;
+    public Integer getObjectiveId() {
+        return objectiveId;
     }
 
-    public void setObjetiveId(Integer objetiveId) {
-        this.objetiveId = objetiveId;
+    public void setObjectiveId(Integer objectiveId) {
+        this.objectiveId = objectiveId;
     }
+
 
     public String getName() {
         return name;
@@ -48,22 +45,6 @@ public class ObjectiveDTO implements Serializable {
 
     public void setLevel(int level) {
         this.level = level;
-    }
-
-    public int getMinSessions() {
-        return minSessions;
-    }
-
-    public void setMinSessions(int minSessions) {
-        this.minSessions = minSessions;
-    }
-
-    public int getMaxSessions() {
-        return maxSessions;
-    }
-
-    public void setMaxSessions(int maxSessions) {
-        this.maxSessions = maxSessions;
     }
     
 }

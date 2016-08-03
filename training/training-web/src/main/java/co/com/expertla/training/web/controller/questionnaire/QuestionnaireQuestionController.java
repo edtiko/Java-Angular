@@ -6,10 +6,10 @@ import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
-import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.configuration.service.DisciplineService;
 import co.com.expertla.training.service.questionnaire.QuestionnaireQuestionService;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,28 +30,29 @@ import org.springframework.web.bind.annotation.RestController;
  * date 26/07/2016 <br>
  * @author Edwin Gómez
  */
-@RequestMapping("/questionnaireQuestion")
+@RequestMapping("questionnaireQuestion")
 @RestController
 public class QuestionnaireQuestionController {
 
     @Autowired
     private QuestionnaireQuestionService questionnaireQuestionService;
+    @Autowired
+    private DisciplineService disciplineService;
 
 
-    @RequestMapping(value = "/create/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response create(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
+    @RequestMapping(value = "/create/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Response create(@RequestBody List<QuestionnaireQuestionDTO> questionnaireQuestionList) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            if (questionnaireQuestion == null) {
+            if (questionnaireQuestionList == null) {
                 strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "nullParameters"));
                 responseService.setOutput(strResponse);
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            questionnaireQuestion.setStateId(Short.parseShort(Status.ACTIVE.getName()));
-            questionnaireQuestionService.create(questionnaireQuestion);
+            questionnaireQuestionService.create(questionnaireQuestionList);
             strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.QUESTIONNAIRE_QUESTION_PROPERTIES, "questionnaireQuestionCreated"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -83,7 +85,7 @@ public class QuestionnaireQuestionController {
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-            List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireQuestionId(questionnaireQuestion);
+            List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireQuestionId(questionnaireQuestion.getQuestionnaireQuestionId());
             if (questionnaireQuestionList != null && !questionnaireQuestionList.isEmpty()) {
                 questionnaireQuestionService.merge(questionnaireQuestion);
                 strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.QUESTIONNAIRE_QUESTION_PROPERTIES, "questionnaireQuestionUpdated"));
@@ -129,7 +131,7 @@ public class QuestionnaireQuestionController {
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             for (QuestionnaireQuestion objQuestionnaireQuestion : questionnaireQuestion) {
-                List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireQuestionId(objQuestionnaireQuestion);
+                List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireQuestionId(objQuestionnaireQuestion.getQuestionnaireQuestionId());
                 if (questionnaireQuestionList != null && !questionnaireQuestionList.isEmpty()) {
                     QuestionnaireQuestion questionnaireQuestionObj = questionnaireQuestionList.get(0);
                     questionnaireQuestionObj.setStateId(Short.parseShort(Status.DELETE.getName()));
@@ -167,7 +169,7 @@ public class QuestionnaireQuestionController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireQuestionId(questionnaireQuestion);
+            List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireQuestionId(questionnaireQuestion.getQuestionnaireQuestionId());
             if (questionnaireQuestionList != null && !questionnaireQuestionList.isEmpty()) {
                 QuestionnaireQuestion questionnaireQuestionObj = questionnaireQuestionList.get(0);
                 responseService.setOutput(questionnaireQuestionObj);
@@ -189,15 +191,23 @@ public class QuestionnaireQuestionController {
     }
 
 
-    @RequestMapping(value = "/get/all/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response getAllQuestionnaireQuestion(@RequestBody SePaginator sePaginator) {
+    @RequestMapping(value = "/get/questionnaire/user/{userId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Response getAllQuestionnaireQuestion(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<QuestionnaireQuestionDTO> questionnaireQuestionList = questionnaireQuestionService.findByUserId(sePaginator, 2);
+            Integer disciplineId = disciplineService.findByUserId(userId).getDisciplineId();
+            if(disciplineId == null){
+            strResponse.append("No existe una disciplina asociada al usuario recibido");
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return Response.status(Response.Status.NOT_FOUND).entity(responseService).build();
+            }else{
+            List<QuestionnaireQuestionDTO> questionnaireQuestionList = questionnaireQuestionService.findByDisciplineId(disciplineId);
             responseService.setOutput(questionnaireQuestionList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
+            }
         } catch (Exception e) {
             Logger.getLogger(QuestionnaireQuestionController.class.getName()).log(Level.SEVERE, null, e);
             strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));

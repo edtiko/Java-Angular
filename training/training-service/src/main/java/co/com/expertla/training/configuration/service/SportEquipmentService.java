@@ -1,4 +1,4 @@
-package co.com.expertla.training.service;
+package co.com.expertla.training.configuration.service;
 
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import java.util.List;

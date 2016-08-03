@@ -23,7 +23,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/profile', route.resolve('user-profile', 'perfil/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
-
+            
+                    .when('/encuesta', route.resolve('survey', 'questionnaire/'))
+ 
                     // route for the about page
                     .when('/about', {
                         templateUrl: 'static/views/about.html',
@@ -39,30 +41,6 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     });
 
         });
-
-trainingApp.controller('SurveyController', ['$scope', 'SurveyService', function ($scope, SurveyService) {
-
-        var self = this;
-        $scope.maxRow = 5;
-        $scope.survey = {};
-        self.sePaginator = {initialRow: "1", maxRow: "10"};
-
-        self.getAllQuestionnaireQuestion = function (paginator) {
-            SurveyService.getAllQuestionnaireQuestion(paginator).then(
-                    function (response) {
-                        angular.forEach(response.data.entity.output, function (value, key) {
-                            $scope.survey[key] = value;
-                        });
-                        console.log($scope.survey);
-                    },
-                    function (errResponse) {
-                        console.error('Error while fetching Currencies');
-                    }
-            );
-        };
-        self.getAllQuestionnaireQuestion(self.sePaginator);
-    }]);
-
 
 trainingApp.directive('fileModel', ['$parse', function ($parse) {
         return {

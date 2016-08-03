@@ -28,14 +28,14 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     }
     
     @Override
-    public List<Activity> findByObjetiveIdAndModalityId(Integer objetiveId, Integer modalityId) throws Exception {      
+    public List<Activity> findByObjectiveIdAndModalityId(Integer objectiveId, Integer modalityId) throws Exception {      
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT a ");
         sql.append("FROM Activity a ");
-        sql.append("WHERE a.objetiveId.objetiveId = :objetiveId ");
+        sql.append("WHERE a.objectiveId.objectiveId = :objectiveId ");
         sql.append("AND a.modalityId.modalityId = :modalityId ");
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("objetiveId", objetiveId);
+        query.setParameter("objectiveId", objectiveId);
         query.setParameter("modalityId", modalityId);
         return query.getResultList();
     }

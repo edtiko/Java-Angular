@@ -1,4 +1,4 @@
-package co.com.expertla.training.service;
+package co.com.expertla.training.configuration.service;
 
 import co.com.expertla.training.model.dto.DisciplineDTO;
 import java.util.List;
@@ -22,4 +22,6 @@ public interface DisciplineService {
      * @return
      */
     public List<DisciplineDTO> findAll() throws Exception;
+    
+    public DisciplineDTO findByUserId(Integer userId) throws Exception;
 }

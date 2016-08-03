@@ -281,4 +281,12 @@ public class UserDTO {
         this.countryId = countryId;
     }
 
+    public Integer getDisciplineId() {
+        return disciplineId;
+    }
+
+    public void setDisciplineId(Integer disciplineId) {
+        this.disciplineId = disciplineId;
+    }
+
 }

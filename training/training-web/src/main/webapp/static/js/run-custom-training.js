@@ -3,7 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+//var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
     paths: {
         angular: 'lib/angular.min',
@@ -14,6 +15,7 @@ require.config({
         angularBoostrap: 'lib/ui-bootstrap-tpls.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
+        checklistModel: "lib/checklist-model",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         disciplineService: "perfil/service/disciplineService",
@@ -24,7 +26,8 @@ require.config({
         userProfileService: "perfil/service/userProfileService",
         authService: "login/service/authService",
         mainController: "login/controller/mainController",
-        app: "routeResolver"
+        app: "routeResolver",
+		surveyService: "questionnaire/service/surveyService"
     },
     shim: {
         angular: {
@@ -34,6 +37,10 @@ require.config({
             exports: 'ngRoute', 
             deps: ['angular']
         },
+        angularAnimate:{
+             exports: 'ngAnimate', 
+            deps: ['angular']  
+        },
         angularTouch:{
             exports: 'angularTouch', 
             deps: ['angular']
@@ -41,6 +48,9 @@ require.config({
         angularBoostrap:{
             exports: 'angularBoostrap', 
             deps: ['angular']
+        },
+        checklistModel:{
+           deps: ['angular'] 
         },
         csrfInterceptor: {
             deps: ['angular']
@@ -76,12 +86,15 @@ require.config({
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel','angularAnimate']
+        },
+		surveyService: {
+            deps: ['angular', 'trainingApp']
         },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService', 
                 'modalityService', 'objectiveService', 'sportEquipmentService', 
-                'sportService', 'userProfileService', 'authService', 'mainController']
+                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService']
         }
     }
 });

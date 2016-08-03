@@ -11,12 +11,15 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,7 +39,8 @@ public class QuestionnaireResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @SequenceGenerator(name = "questionnaire_response_questionnaire_response_id_seq", sequenceName = "questionnaire_response_questionnaire_response_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "questionnaire_response_questionnaire_response_id_seq")
     @Column(name = "questionnaire_response_id")
     private Integer questionnaireResponseId;
     @Column(name = "response")
@@ -50,9 +54,8 @@ public class QuestionnaireResponse implements Serializable {
     @JoinColumn(name = "questionnaire_question_id", referencedColumnName = "questionnaire_question_id")
     @ManyToOne
     private QuestionnaireQuestion questionnaireQuestionId;
-    @JoinColumn(name = "response_type_id", referencedColumnName = "response_type_id")
-    @ManyToOne
-    private ResponseType responseTypeId;
+    @Column(name = "response_type_id")
+    private Short responseTypeId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
@@ -106,11 +109,11 @@ public class QuestionnaireResponse implements Serializable {
         this.questionnaireQuestionId = questionnaireQuestionId;
     }
 
-    public ResponseType getResponseTypeId() {
+    public Short getResponseTypeId() {
         return responseTypeId;
     }
 
-    public void setResponseTypeId(ResponseType responseTypeId) {
+    public void setResponseTypeId(Short responseTypeId) {
         this.responseTypeId = responseTypeId;
     }
 

@@ -40,6 +40,8 @@ public class Activity implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    @Column(name = "description")
+    private String description;
     @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
     @ManyToOne
     private Modality modalityId;
@@ -120,6 +122,14 @@ public class Activity implements Serializable {
 
     public void setTrainingPlanWorkoutCollection(Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection) {
         this.trainingPlanWorkoutCollection = trainingPlanWorkoutCollection;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

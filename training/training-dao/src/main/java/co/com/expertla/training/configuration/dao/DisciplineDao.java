@@ -22,5 +22,7 @@ public interface DisciplineDao extends BaseDAO<Discipline>{
      * @return
      */
     public List<DisciplineDTO> findAll() throws Exception;
+
+    public List<DisciplineDTO> findByUserId(Integer userId)throws Exception;
         
 }

@@ -11,6 +11,7 @@ import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.DisciplineUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,12 +19,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
-import co.com.expertla.training.user.dao.DisciplineUserDao;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Response;
@@ -48,11 +49,11 @@ public class UserController {
     
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
-    
+  
     
     @Autowired
-    DisciplineUserDao disciplineUserDao;
-  
+    DisciplineUserService disciplineUserService;
+
     	/**
 	 * Upload single file using Spring Controller
      * @param file
@@ -61,18 +62,29 @@ public class UserController {
 	 */
     @RequestMapping(value = "/uploadFile/{userId}", method = RequestMethod.POST)
     public @ResponseBody
-    String uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
+    Response uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 userService.saveProfilePhoto(bytes, userId);
-                return "You successfully uploaded file=" ;
+                strResponse.append("Imagen cargada correctamente.");
+                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+                responseService.setOutput(strResponse);
+                return Response.status(Response.Status.OK).entity(responseService).build();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
-                return "You failed to upload  => " + e.getMessage();
+                responseService.setOutput(strResponse);
+                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+                responseService.setDetail(e.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
             }
         } else {
-            return "You failed to upload  because the file was empty.";
+            strResponse.append("Imagen cargada esta vacia.");
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
 
@@ -136,6 +148,9 @@ public class UserController {
             user.setPassword(userDTO.getPassword());
             user.setEmail(userDTO.getEmail());
             user.setIndMetricSys(userDTO.getIndMetricSys());
+            user.setPhone(userDTO.getPhone());
+            user.setLastName(userDTO.getLastName());
+            user.setSex(userDTO.getSex());
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
@@ -147,7 +162,7 @@ public class UserController {
             DisciplineUser disciplineUser = new DisciplineUser();
             disciplineUser.setUserId(new User(userId));
             disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
-            disciplineUserDao.create(disciplineUser);
+            disciplineUserService.create(disciplineUser);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {
@@ -158,20 +173,21 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
+
     
-    @RequestMapping(value = "user/autenticate/{login}", method = RequestMethod.GET)
-    public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletResponse response) {
+    @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
+    public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
             ResponseService responseService = new ResponseService();
         try {      
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
-                response.sendRedirect("http://localhost/wordpress/wp-login.php?action=login&err_int=q");
+                response.sendRedirect("http://expertla.com.co/cpt/registro-atleta/");
                 return null;
             }
             
             session.setAttribute("user" , userDto);
-            response.sendRedirect("http://localhost:8085/training/");
+            response.sendRedirect(request.getRequestURL() + "/../../../");
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);

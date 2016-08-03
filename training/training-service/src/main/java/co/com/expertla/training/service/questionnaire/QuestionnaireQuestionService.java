@@ -20,7 +20,7 @@ public interface QuestionnaireQuestionService {
      * @return the questionnaireQuestion created
      * @throws Exception 
      */
-    public QuestionnaireQuestion create(QuestionnaireQuestion questionnaireQuestion) throws Exception;
+    public void create(List<QuestionnaireQuestionDTO> questionnaireQuestion) throws Exception;
     /**
      * Modify questionnaireQuestion <br>
      * Creation Info:  <br>
@@ -54,7 +54,7 @@ public interface QuestionnaireQuestionService {
      */
     public List<QuestionnaireQuestion> findAll(SePaginator sePaginator) throws Exception;
     
-   public List<QuestionnaireQuestionDTO> findByUserId(SePaginator sePaginator, Integer disciplineId) throws Exception;
+   public List<QuestionnaireQuestionDTO> findByDisciplineId(Integer disciplineId) throws Exception;
     /**
      * Gets all the records from questionnaireQuestion by its id <br>
      * Creation Info:  <br>
@@ -65,7 +65,7 @@ public interface QuestionnaireQuestionService {
      * @return
      * @throws Exception 
      */
-    public List<QuestionnaireQuestion> findByQuestionnaireQuestionId(QuestionnaireQuestion questionnaireQuestion) throws Exception; 	
+    public List<QuestionnaireQuestion> findByQuestionnaireQuestionId(Integer questionnaireQuestion) throws Exception; 	
     /**
      * Gets the records from questionnaireQuestion by questionnaireId and Category id <br>
      * Creation Info:  <br>

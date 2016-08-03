@@ -22,5 +22,5 @@ public interface SportDao extends BaseDAO<Sport>{
      * @return
      */
     public List<SportDTO> findAll() throws Exception;
-        
+    
 }

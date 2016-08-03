@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     27/07/2016 4:08:21 p. m.                     */
+/* Created on:     03/08/2016 10:30:40 a. m.                    */
 /*==============================================================*/
 
 
@@ -64,6 +64,8 @@ drop table questionnaire_user;
 
 drop table question_option;
 
+drop table replace_activity;
+
 drop table response_option;
 
 drop table response_type;
@@ -112,6 +114,8 @@ drop sequence user_profile_seq;
 
 drop sequence user_sport_seq;
 
+drop sequence user_training_user_id_seq;
+
 create sequence discipline_user_seq;
 
 create sequence equipment_user_profile_seq;
@@ -128,6 +132,8 @@ create sequence user_profile_seq;
 
 create sequence user_sport_seq;
 
+create sequence user_training_user_id_seq;
+
 /*==============================================================*/
 /* Table: activity                                              */
 /*==============================================================*/
@@ -136,7 +142,8 @@ create table activity (
    physiological_capacity_id integer              null,
    modality_id          integer              null,
    objective_id         integer              null,
-   name                 varchar(200)         not null,
+   name                 varchar(800)         not null,
+   description          varchar(1000)        null,
    constraint pk_activity primary key (activity_id)
 );
 
@@ -458,7 +465,7 @@ create table questionnaire_response (
    question_option_id   integer              null,
    user_id              integer              null,
    response             varchar(2000)        null,
-   creation_date        datetime             null,
+   creation_date        date                 null,
    constraint pk_questionnaire_response primary key (questionnaire_response_id)
 );
 
@@ -496,6 +503,16 @@ create table question_option (
    name                 varchar(2000)        not null,
    description          varchar(2000)        null,
    constraint pk_question_option primary key (question_option_id)
+);
+
+/*==============================================================*/
+/* Table: replace_activity                                      */
+/*==============================================================*/
+create table replace_activity (
+   replace_activity_id  serial not null,
+   activity_id          integer              null,
+   name                 varchar(800)         not null,
+   constraint pk_replace_activity primary key (replace_activity_id)
 );
 
 /*==============================================================*/
@@ -633,6 +650,7 @@ create table user_profile (
    user_profile_id      serial               not null,
    user_id              integer              null,
    objective_id         integer              null,
+   modality_id          integer              null,
    ind_pulsometer       varchar(1)           null,
    ind_potentiometer    varchar(1)           null,
    age_sport            integer              null,
@@ -939,6 +957,11 @@ alter table question_option
       references question_option (question_option_id)
       on delete restrict on update restrict;
 
+alter table replace_activity
+   add constraint fk_replace__reference_activity foreign key (activity_id)
+      references activity (activity_id)
+      on delete restrict on update restrict;
+
 alter table response_option
    add constraint fk_resp_option_quest_opt foreign key (question_option_id)
       references question_option (question_option_id)
@@ -1007,6 +1030,11 @@ alter table user_profile
 alter table user_profile
    add constraint fk_user_pro_reference_objectiv foreign key (objective_id)
       references objective (objective_id)
+      on delete restrict on update restrict;
+
+alter table user_profile
+   add constraint fk_user_pro_reference_modality foreign key (modality_id)
+      references modality (modality_id)
       on delete restrict on update restrict;
 
 alter table user_sport

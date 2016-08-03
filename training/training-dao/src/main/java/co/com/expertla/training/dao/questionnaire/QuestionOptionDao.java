@@ -62,11 +62,11 @@ public interface QuestionOptionDao {
      * date 15/08/2015 <br>
      * @author Angela Ramirez
      * 
-     * @param questionOption
+     * @param questionOptionId
      * @return
      * @throws DAOException 
      */
-    public List<QuestionOption> findByQuestionOptionId(QuestionOption questionOption) throws DAOException;
+    public List<QuestionOption> findByQuestionOptionId(Integer questionOptionId) throws DAOException;
     
     public List<QuestionOption> findByQuestionId(Integer questionId) throws DAOException;
     
