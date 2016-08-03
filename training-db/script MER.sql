@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     27/07/2016 4:08:21 p. m.                     */
+/* Created on:     03/08/2016 9:20:05 a. m.                     */
 /*==============================================================*/
 
 
@@ -64,6 +64,8 @@ drop table questionnaire_user;
 
 drop table question_option;
 
+drop table replace_activity;
+
 drop table response_option;
 
 drop table response_type;
@@ -112,6 +114,8 @@ drop sequence user_profile_seq;
 
 drop sequence user_sport_seq;
 
+drop sequence user_training_user_id_seq;
+
 create sequence discipline_user_seq;
 
 create sequence equipment_user_profile_seq;
@@ -128,6 +132,8 @@ create sequence user_profile_seq;
 
 create sequence user_sport_seq;
 
+create sequence user_training_user_id_seq;
+
 /*==============================================================*/
 /* Table: activity                                              */
 /*==============================================================*/
@@ -136,7 +142,7 @@ create table activity (
    physiological_capacity_id integer              null,
    modality_id          integer              null,
    objective_id         integer              null,
-   name                 varchar(200)         not null,
+   name                 varchar(800)         not null,
    constraint pk_activity primary key (activity_id)
 );
 
@@ -413,7 +419,7 @@ A - Automated';
 /* Table: questionnaire                                         */
 /*==============================================================*/
 create table questionnaire (
-   questionnaire_id     serial              not null,
+   questionnaire_id     integer              not null,
    state_id             integer              null,
    discipline_id        integer              null,
    name                 varchar(500)         not null,
@@ -425,7 +431,7 @@ create table questionnaire (
 /* Table: questionnaire_category                                */
 /*==============================================================*/
 create table questionnaire_category (
-   questionnaire_category_id serial              not null,
+   questionnaire_category_id integer              not null,
    state_id             integer              null,
    parent_questionnaire_category_i integer              null,
    name                 varchar(500)         not null,
@@ -438,7 +444,7 @@ create table questionnaire_category (
 /* Table: questionnaire_question                                */
 /*==============================================================*/
 create table questionnaire_question (
-   questionnaire_question_id serial              not null,
+   questionnaire_question_id integer              not null,
    questionnaire_id     integer              null,
    questionnaire_category_id integer              null,
    question_id          integer              null,
@@ -452,13 +458,13 @@ create table questionnaire_question (
 /* Table: questionnaire_response                                */
 /*==============================================================*/
 create table questionnaire_response (
-   questionnaire_response_id serial         not null,
-   questionnaire_question_id integer         null,
+   questionnaire_response_id integer              not null,
+   questionnaire_question_id integer              null,
    response_type_id     integer              null,
    question_option_id   integer              null,
    user_id              integer              null,
    response             varchar(2000)        null,
-   creation_date        datetime             null,
+   creation_date        date                 null,
    constraint pk_questionnaire_response primary key (questionnaire_response_id)
 );
 
@@ -466,7 +472,7 @@ create table questionnaire_response (
 /* Table: questionnaire_resp_history                            */
 /*==============================================================*/
 create table questionnaire_resp_history (
-   questionnaire_resp_history_id serial              not null,
+   questionnaire_resp_history_id integer              not null,
    questionnaire_response_id integer              null,
    question_option_id   integer              null,
    user_questionnaire_id integer              null,
@@ -478,7 +484,7 @@ create table questionnaire_resp_history (
 /* Table: questionnaire_user                                    */
 /*==============================================================*/
 create table questionnaire_user (
-   questionnaire_user_id serial              not null,
+   questionnaire_user_id integer              not null,
    questionnaire_id     integer              null,
    user_training_id     integer              null,
    constraint pk_questionnaire_user primary key (questionnaire_user_id)
@@ -488,7 +494,7 @@ create table questionnaire_user (
 /* Table: question_option                                       */
 /*==============================================================*/
 create table question_option (
-   question_option_id   serial              not null,
+   question_option_id   integer              not null,
    question_id          integer              null,
    option_type_id       integer              not null,
    state_id             integer              null,
@@ -499,10 +505,20 @@ create table question_option (
 );
 
 /*==============================================================*/
+/* Table: replace_activity                                      */
+/*==============================================================*/
+create table replace_activity (
+   replace_activity_id  serial not null,
+   activity_id          integer              null,
+   name                 varchar(800)         not null,
+   constraint pk_replace_activity primary key (replace_activity_id)
+);
+
+/*==============================================================*/
 /* Table: response_option                                       */
 /*==============================================================*/
 create table response_option (
-   response_option_id   serial              not null,
+   response_option_id   integer              not null,
    questionnaire_response_id integer              null,
    question_option_id   integer              null,
    constraint pk_response_option primary key (response_option_id)
@@ -633,6 +649,7 @@ create table user_profile (
    user_profile_id      serial               not null,
    user_id              integer              null,
    objective_id         integer              null,
+   modality_id          integer              null,
    ind_pulsometer       varchar(1)           null,
    ind_potentiometer    varchar(1)           null,
    age_sport            integer              null,
@@ -939,6 +956,11 @@ alter table question_option
       references question_option (question_option_id)
       on delete restrict on update restrict;
 
+alter table replace_activity
+   add constraint fk_replace__reference_activity foreign key (activity_id)
+      references activity (activity_id)
+      on delete restrict on update restrict;
+
 alter table response_option
    add constraint fk_resp_option_quest_opt foreign key (question_option_id)
       references question_option (question_option_id)
@@ -1007,6 +1029,11 @@ alter table user_profile
 alter table user_profile
    add constraint fk_user_pro_reference_objectiv foreign key (objective_id)
       references objective (objective_id)
+      on delete restrict on update restrict;
+
+alter table user_profile
+   add constraint fk_user_pro_reference_modality foreign key (modality_id)
+      references modality (modality_id)
       on delete restrict on update restrict;
 
 alter table user_sport
