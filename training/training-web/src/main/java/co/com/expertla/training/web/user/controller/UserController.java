@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.Response;
@@ -174,8 +175,8 @@ public class UserController {
     }
 
     
-    @RequestMapping(value = "user/autenticate/{login}", method = RequestMethod.GET)
-    public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletResponse response) {
+    @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
+    public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
             ResponseService responseService = new ResponseService();
         try {      
             UserDTO userDto = userService.findUserByUsername(login);
@@ -186,8 +187,7 @@ public class UserController {
             }
             
             session.setAttribute("user" , userDto);
-//            response.sendRedirect("http://181.143.227.220:8086/training/");
-response.sendRedirect("http://localhost:8085/training/");
+            response.sendRedirect(request.getRequestURL() + "/../../../");
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
