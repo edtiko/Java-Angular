@@ -291,6 +291,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
+                            $scope.showMessage("Perfil Creado satisfactoriamente.");
+                            
                         },
                         function (errResponse) {
                             console.error('Error while creating the profile');
@@ -302,6 +304,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserProfileService.mergeProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
+                            $scope.showMessage("Perfil editado satisfactoriamente.");
                         },
                         function (errResponse) {
                             console.error('Error while merging the profile');
@@ -316,6 +319,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                     function (d) {
 //                        $scope.userProfile = d;
 //                        this.findById(userProfile);
+
+                        $scope.showMessage("Plan de entrenamiento generado satisfactoriamente.");
                     },
                     function (errResponse) {
                         console.error('Error while merging the profile');
