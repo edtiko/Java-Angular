@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     03/08/2016 9:20:05 a. m.                     */
+/* Created on:     03/08/2016 10:30:40 a. m.                    */
 /*==============================================================*/
 
 
@@ -143,6 +143,7 @@ create table activity (
    modality_id          integer              null,
    objective_id         integer              null,
    name                 varchar(800)         not null,
+   description          varchar(1000)        null,
    constraint pk_activity primary key (activity_id)
 );
 
