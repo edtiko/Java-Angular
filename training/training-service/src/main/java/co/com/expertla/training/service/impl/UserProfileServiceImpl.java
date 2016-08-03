@@ -171,22 +171,23 @@ public class UserProfileServiceImpl implements UserProfileService {
             sportEquipments.add(equipment);
         }
         
-        if(!new Integer(-1).equals(dto.getBikes())) {
+        if(dto.getBikes() != null && !new Integer(-1).equals(dto.getBikes())) {
             equipment = new EquipmentUserProfile();
-            equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            equipment.setSportEquipmentId(new SportEquipment(dto.getBikes()));
             equipment.setUserProfileId(userProfile);
             sportEquipments.add(equipment);
         }
         
         if(!new Integer(-1).equals(dto.getShoes())) {
             equipment = new EquipmentUserProfile();
-            equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            equipment.setSportEquipmentId(new SportEquipment(dto.getShoes()));
             equipment.setUserProfileId(userProfile);
             sportEquipments.add(equipment);
         }
         userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
         UserAvailability availability = new UserAvailability();
         buildUserAvailabilityObject(dto, availability);
+        availability.setUserProfileId(userProfile);
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
         userProfile.setAgeSport(dto.getAgeSport());
         userProfile.setPpm(dto.getPpm());

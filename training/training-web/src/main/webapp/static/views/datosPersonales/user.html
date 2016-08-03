@@ -166,7 +166,8 @@
                     </div>
                     <div class="form-group col-md-12">
                         <div class="form-actions">
-                            <button type="button" ng-click="submitUser()"  class="btn btn-primary btn-sm" ng-disabled="myFormUser.$invalid">Guardar</button>
+                            <!--<button type="button" ng-click="submitUser()"  class="btn btn-primary btn-sm" ng-disabled="myFormUser.$invalid">Guardar</button>-->
+                            <button type="button" ng-click="submitUser()"  class="btn btn-primary btn-sm">Guardar</button>
                             <button type="button" ng-click="resetUser()" class="btn btn-warning btn-sm" ng-disabled="myFormUser.$pristine">Limpiar</button>
                         </div>
                     </div>
@@ -229,7 +230,7 @@
                         <label class="col-md-2 control-lable">&iquest;Tienes bicicleta? </label>
                         <div class=" col-md-3">
                             <input id="bicicleta" type="radio" name="bicicleta" ng-model="indBike" ng-value="'1'"> Si
-                            <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'0'"> No
+                            <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'-1'"> No
                         </div>
                         <div  ng-show="indBike == 1">
                             <label class="col-md-2 control-lable">&iquest;Cu&aacute;l?</label>
@@ -276,7 +277,6 @@
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.shoes"
                                     ng-options="shoe.sportEquipmentId as shoe.brand for shoe in shoes">
-                                <option> Seleccione </option>
                             </select>
                         </div>
                     </div>
