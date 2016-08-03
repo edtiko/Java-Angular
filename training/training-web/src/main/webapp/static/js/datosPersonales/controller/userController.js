@@ -480,7 +480,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             var idx = $scope.getAvailabilityIdx($parentIndex, value);
             if (idx !== "" && response[idx].checked) {
                 response[idx].checked = false;
-                response.splice(idx, 1);
             } else if (idx !== "" && !response[idx].checked) {
                 response[idx].checked = true;
             } else if (idx !== "") {
