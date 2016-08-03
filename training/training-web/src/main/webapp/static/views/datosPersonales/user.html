@@ -72,7 +72,7 @@
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="sex">Sexo:</label>
                             <div class="col-md-7">
-                                <select id="sex" ng-model="user.sex" ng-options="k as v for (k,v) in sexOptions" class="form-control"></select>
+                                <select id="sex" ng-model="user.sex" ng-options="k.code as k.sex for k in sexOptions" class="form-control"></select>
                             </div>
                         </div>
                     </div>
