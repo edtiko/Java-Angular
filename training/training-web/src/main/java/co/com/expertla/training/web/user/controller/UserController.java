@@ -147,6 +147,9 @@ public class UserController {
             user.setPassword(userDTO.getPassword());
             user.setEmail(userDTO.getEmail());
             user.setIndMetricSys(userDTO.getIndMetricSys());
+            user.setPhone(userDTO.getPhone());
+            user.setLastName(userDTO.getLastName());
+            user.setSex(userDTO.getSex());
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
