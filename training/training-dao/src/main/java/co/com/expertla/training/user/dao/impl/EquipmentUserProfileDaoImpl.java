@@ -64,7 +64,7 @@ public class EquipmentUserProfileDaoImpl extends BaseDAOImpl<EquipmentUserProfil
     public List<SportEquipmentDTO> findDTOPulsometersByUserId(Integer id) throws Exception {    
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.SportEquipmentDTO(eq.sportEquipmentId.sportEquipmentId, ");
-        sql.append("eq.sportEquipmentId.name, eq.sportEquipmentId.brandId.name) ");
+        sql.append("eq.sportEquipmentId.name, eq.sportEquipmentId.brandId.name, eq.modelEquipmentId) ");
         sql.append("FROM EquipmentUserProfile eq ");
         sql.append("WHERE eq.userProfileId.userId.userId =:id ");
         sql.append("AND eq.sportEquipmentId.sportEquipmentTypeId.sportEquipmentTypeId =:type ");
@@ -78,7 +78,7 @@ public class EquipmentUserProfileDaoImpl extends BaseDAOImpl<EquipmentUserProfil
     public List<SportEquipmentDTO> findDTOPotentiometersByUserId(Integer id) throws Exception {    
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.SportEquipmentDTO(eq.sportEquipmentId.sportEquipmentId, ");
-        sql.append("eq.sportEquipmentId.name, eq.sportEquipmentId.brandId.name) ");
+        sql.append("eq.sportEquipmentId.name, eq.sportEquipmentId.brandId.name, eq.modelEquipmentId) ");
         sql.append("FROM EquipmentUserProfile eq ");
         sql.append("WHERE eq.userProfileId.userId.userId =:id ");
         sql.append("AND eq.sportEquipmentId.sportEquipmentTypeId.sportEquipmentTypeId =:type ");

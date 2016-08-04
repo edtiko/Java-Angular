@@ -39,8 +39,9 @@ public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)@SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
+    @Basic(optional = false)
+    @SequenceGenerator(name = "user_profile_user_profile_id_seq", sequenceName = "user_profile_user_profile_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_user_profile_id_seq")
     @Column(name = "user_profile_id")
     private Integer userProfileId;
     @Column(name = "ind_pulsometer")

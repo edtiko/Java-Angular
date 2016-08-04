@@ -96,6 +96,9 @@ public class UserServiceImpl implements UserService {
        user.setCityId(city);
        user.setPostalCode(userDTO.getPostalCode());
        user.setFacebookPage(userDTO.getFacebookPage());
+       user.setTwitterPage(userDTO.getTwitterPage());
+       user.setInstagramPage(userDTO.getInstagramPage());
+       user.setWebPage(userDTO.getWebPage());
        user.setCreationDate(new Date());
        
        

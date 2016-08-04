@@ -4,6 +4,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
         $scope.showSuccessAlert = false;
         $scope.successTextAlert = "";
         $scope.appReady = true;
+        $scope.dt = new Date();
 
         $scope.switchBool = function (value) {
             $scope[value] = !$scope[value];
@@ -49,13 +50,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
                     mode = data.mode;
             return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
         }
-
-        /*$scope.toggleMin = function () {
-         $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
-         $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
-         };
-         
-         $scope.toggleMin();*/
 
         $scope.open = function () {
             $scope.popup.opened = true;

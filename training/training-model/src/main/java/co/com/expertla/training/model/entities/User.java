@@ -94,6 +94,12 @@ public class User implements Serializable {
     private String postalCode;
     @Column(name = "facebook_page")
     private String facebookPage;
+    @Column(name = "twitter_page")
+    private String twitterPage;
+    @Column(name = "instagram_page")
+    private String instagramPage;
+    @Column(name = "web_page")
+    private String webPage;
     @Basic(optional = false)
     @Column(name = "ind_metric_sys")
     private String indMetricSys;
@@ -116,7 +122,7 @@ public class User implements Serializable {
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     @ManyToOne
     private City cityId;
-    
+
     @OneToMany(mappedBy = "starId")
     private Collection<User> userCollection;
     @JoinColumn(name = "star_id", referencedColumnName = "user_id")
@@ -130,9 +136,9 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-      public User(Integer userId, String name, String lastName, String email, Date birthDate, String address,
-                   String sex, BigInteger weight, String phone, String cellphone, City cityId, 
-                   Short stateId, String login, String password, String facebookPage, String postalCode, Date creationDate) {
+    public User(Integer userId, String name, String lastName, String email, Date birthDate, String address,
+            String sex, BigInteger weight, String phone, String cellphone, City cityId,
+            Short stateId, String login, String password, String facebookPage, String postalCode, Date creationDate) {
         this.userId = userId;
         this.login = login;
         this.password = password;
@@ -150,7 +156,7 @@ public class User implements Serializable {
         this.facebookPage = facebookPage;
         this.postalCode = postalCode;
         this.creationDate = creationDate;
-        
+
     }
 
     public Integer getUserId() {
@@ -273,6 +279,30 @@ public class User implements Serializable {
         this.facebookPage = facebookPage;
     }
 
+    public String getTwitterPage() {
+        return twitterPage;
+    }
+
+    public void setTwitterPage(String twitterPage) {
+        this.twitterPage = twitterPage;
+    }
+
+    public String getInstagramPage() {
+        return instagramPage;
+    }
+
+    public void setInstagramPage(String instagramPage) {
+        this.instagramPage = instagramPage;
+    }
+
+    public String getWebPage() {
+        return webPage;
+    }
+
+    public void setWebPage(String webPage) {
+        this.webPage = webPage;
+    }
+    
     public String getIndMetricSys() {
         return indMetricSys;
     }
@@ -393,5 +423,5 @@ public class User implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.User[ userId=" + userId + " ]";
     }
-    
+
 }

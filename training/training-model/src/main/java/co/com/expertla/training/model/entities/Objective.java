@@ -17,12 +17,6 @@ import javax.persistence.Table;
 @Table(name = "objective")
 public class Objective implements Serializable {
 
-    @Basic(optional = false)
-    @Column(name = "min_sessions")
-    private int minSessions;
-    @Basic(optional = false)
-    @Column(name = "max_sessions")
-    private int maxSessions;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -128,20 +122,5 @@ public class Objective implements Serializable {
         return "co.com.expertla.training.model.entities.Objective[ objectiveId=" + objectiveId + " ]";
     }
 
-    public int getMinSessions() {
-        return minSessions;
-    }
-
-    public void setMinSessions(int minSessions) {
-        this.minSessions = minSessions;
-    }
-
-    public int getMaxSessions() {
-        return maxSessions;
-    }
-
-    public void setMaxSessions(int maxSessions) {
-        this.maxSessions = maxSessions;
-    }
     
 }

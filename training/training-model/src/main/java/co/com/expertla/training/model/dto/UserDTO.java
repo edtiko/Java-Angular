@@ -49,6 +49,10 @@ public class UserDTO {
 
     private String facebookPage;
 
+    private String instagramPage;
+    private String twitterPage;
+    private String webPage;
+
     private String indMetricSys;
 
     private Date creationDate;
@@ -60,7 +64,7 @@ public class UserDTO {
     private Integer federalStateId;
 
     private Integer countryId;
-    
+
     private Integer disciplineId;
 
     public UserDTO() {
@@ -68,7 +72,7 @@ public class UserDTO {
 
     public UserDTO(Integer userId, String name, String lastName, String email, Date birthDate, String address,
             String sex, BigInteger weight, String phone, String cellphone, Integer cityId,
-            Short stateId, String login, String facebookPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
+            Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -83,6 +87,9 @@ public class UserDTO {
         this.cityId = cityId;
         this.stateId = stateId;
         this.facebookPage = facebookPage;
+        this.instagramPage = instagramPage;
+        this.twitterPage = twitterPage;
+        this.webPage = webPage;
         this.postalCode = postalCode;
         this.federalStateId = federalStateId;
         this.countryId = countryId;
@@ -94,7 +101,7 @@ public class UserDTO {
         if (user != null) {
             return new UserDTO(user.getUserId(), user.getName(), user.getLastName(), user.getEmail(), user.getBirthDate(), user.getAddress(),
                     user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId() != null ? user.getCityId().getCityId() : null),
-                    user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getPostalCode(),
+                    user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getCountryId().getCountryId() : null, user.getProfilePhoto());
         }
@@ -223,6 +230,30 @@ public class UserDTO {
 
     public void setFacebookPage(String facebookPage) {
         this.facebookPage = facebookPage;
+    }
+
+    public String getInstagramPage() {
+        return instagramPage;
+    }
+
+    public void setInstagramPage(String instagramPage) {
+        this.instagramPage = instagramPage;
+    }
+
+    public String getTwitterPage() {
+        return twitterPage;
+    }
+
+    public void setTwitterPage(String twitterPage) {
+        this.twitterPage = twitterPage;
+    }
+
+    public String getWebPage() {
+        return webPage;
+    }
+
+    public void setWebPage(String webPage) {
+        this.webPage = webPage;
     }
 
     public String getIndMetricSys() {

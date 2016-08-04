@@ -3,7 +3,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
     'ObjectiveService', 'ModalityService', 'surveyService', function ($scope, UserService,
             $filter, $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService) {
         var self = this;
-        $scope.user = {userId: null, name: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: ''};
+        $scope.user = {userId: null, name: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '',instagramPage: '',twitterPage: '',webPage: '', countryId: '', profilePhoto: ''};
         $scope.users = [];
         $scope.countries = [];
         $scope.states = [];
@@ -82,13 +82,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                         .then(
                                 function (d) {
 
-                                    self.user = d;
-                                    $scope.getStatesByCountry(self.user.countryId);
-                                    $scope.getCitiesByState(self.user.federalStateId);
-                                    $scope.getImageProfile(user.userId);
+                                    $scope.user = d;
+                                    $scope.getStatesByCountry($scope.user.countryId);
+                                    $scope.getCitiesByState($scope.user.federalStateId);
+                                    $scope.getImageProfile($scope.user.userId);
 
-                                    if (self.user.birthDate != null) {
-                                        var date = self.user.birthDate.split("/");
+                                    if ($scope.user.birthDate != null) {
+                                        var date = $scope.user.birthDate.split("/");
                                         $scope.dt = new Date(date[2], date[1] - 1, date[0]);
                                     }
                                 },
@@ -106,6 +106,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                             }
                             var disc = $scope.userProfile.discipline;
                             $scope.getModalitiesByDisciplineId(disc);
+                            
+                            if($scope.userProfile.potentiometer != ""){
+                                $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
+                            }
+                            if($scope.userProfile.potentiometer != ""){
+                                $scope.getModelsPulsometer($scope.userProfile.pulsometer);
+                            }
+                                
+                            
                         },
                         function (errResponse) {
                             console.error('Error while fetching the profile');
@@ -119,6 +128,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         };
 
         self.createUser = function (user) {
+            user.birthDate = $scope.dt;
             UserService.createUser(user)
                     .then(
                             function (msg) {
@@ -131,6 +141,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         };
 
         self.updateUser = function (user, id) {
+            user.birthDate = $scope.dt;
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
@@ -500,6 +511,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
                     function (d) {
                         $scope.modelsPotentiometer = d;
+                        $scope.modelsPotentiometer.unshift({modelEquipmentId: -1, name: 'Seleccione'});
                     },
                     function (errResponse) {
                         console.error('Error while models potentiometer');
@@ -512,6 +524,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
                     function (d) {
                         $scope.modelsPulsometer = d;
+                        $scope.modelsPulsometer.unshift({modelEquipmentId: -1, name: 'Seleccione'});
                     },
                     function (errResponse) {
                         console.error('Error while models pulsometer');

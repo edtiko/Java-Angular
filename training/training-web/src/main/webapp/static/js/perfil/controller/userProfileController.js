@@ -45,7 +45,7 @@ trainingApp.controller('UserProfileController', ['$scope', 'UserProfileService',
         $scope.indBike = '';
         $scope.metricSystems = [{id:1,name:'Metrico Decimal'},{id:'0',name:"Anglosajón"}];
 
-        this.createOrMergeUserProfile = function (userProfile) {
+        this.createOrMergeUserProfile = function (userProfile) {         
             if (userProfile.userProfileId == null) {
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {

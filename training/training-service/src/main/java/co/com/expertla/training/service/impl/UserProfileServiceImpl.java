@@ -94,6 +94,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         List<SportEquipmentDTO> listPulsometer = equipmentUserProfileDao.findDTOPulsometersByUserId(id);
         if(listPulsometer != null && !listPulsometer.isEmpty()) {
             userProfile.setPulsometer(listPulsometer.get(0).getSportEquipmentId());
+            userProfile.setModelPulsometer(listPulsometer.get(0).getModelEquipmentId());
         } else {
             userProfile.setPulsometer(-1);
         }
@@ -101,6 +102,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         List<SportEquipmentDTO> listPotentiometer = equipmentUserProfileDao.findDTOPotentiometersByUserId(id);
         if(listPotentiometer != null && !listPotentiometer.isEmpty()) {
             userProfile.setPotentiometer(listPotentiometer.get(0).getSportEquipmentId());
+            userProfile.setModelPotentiometer(listPotentiometer.get(0).getModelEquipmentId());
         } else {
             userProfile.setPotentiometer(-1);
         }
@@ -337,10 +339,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildPulsometerObject(UserProfileDTO dto, EquipmentUserProfile pulsometer) {
         if (pulsometer != null && !new Integer(-1).equals(dto.getPulsometer()) ) {
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
+             if(dto.getModelPulsometer() != null){
+                pulsometer.setModelEquipmentId(new ModelEquipment(dto.getModelPulsometer()));
+            }
         } else if (!new Integer(-1).equals(dto.getPulsometer())) {
             pulsometer = new EquipmentUserProfile();
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             pulsometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
+             if(dto.getModelPulsometer() != null){
+                pulsometer.setModelEquipmentId(new ModelEquipment(dto.getModelPulsometer()));
+            }
         }
         return pulsometer;
     }
@@ -354,10 +362,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildPotentiometerObject(UserProfileDTO dto, EquipmentUserProfile potentiometer) {
         if (potentiometer != null && !new Integer(-1).equals(dto.getPotentiometer())) {
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            if(dto.getModelPotentiometer() != null){
+                potentiometer.setModelEquipmentId(new ModelEquipment(dto.getModelPotentiometer()));
+            }
         } else if(!new Integer(-1).equals(dto.getPotentiometer())){
             potentiometer = new EquipmentUserProfile();
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             potentiometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
+              if(dto.getModelPotentiometer() != null){
+                potentiometer.setModelEquipmentId(new ModelEquipment(dto.getModelPotentiometer()));
+            }
         }
         return potentiometer;
     }
@@ -371,7 +385,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildRunningShoesObject(UserProfileDTO dto, EquipmentUserProfile runningShoes) {
         if (runningShoes != null && !new Integer(-1).equals(dto.getShoes())) {
             runningShoes.setSportEquipmentId(new SportEquipment(dto.getShoes()));
-        } else if(!new Integer(-1).equals(dto.getPotentiometer())){
+        } else if(!new Integer(-1).equals(dto.getShoes())){
             runningShoes = new EquipmentUserProfile();
             runningShoes.setSportEquipmentId(new SportEquipment(dto.getShoes()));
             runningShoes.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -388,7 +402,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildBikeObject(UserProfileDTO dto, EquipmentUserProfile bike) {
         if (bike != null && !new Integer(-1).equals(dto.getBikes())) {
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
-        } else if(!new Integer(-1).equals(dto.getPotentiometer())){
+        } else if(!new Integer(-1).equals(dto.getBikes())){
             bike = new EquipmentUserProfile();
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
             bike.setUserProfileId(new UserProfile(dto.getUserProfileId()));
