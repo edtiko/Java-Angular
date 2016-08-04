@@ -202,6 +202,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
         userProfile.setAgeSport(dto.getAgeSport());
         userProfile.setPpm(dto.getPpm());
+        userProfile.setVo2Running(dto.getVo2Running());
+        userProfile.setVo2Ciclismo(dto.getVo2Ciclismo());
         userProfile.setPower(dto.getPower());
         userProfile.setSportsAchievements(dto.getSportsAchievements());
         userProfile.setAboutMe(dto.getAboutMe());
@@ -326,6 +328,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setPpm(dto.getPpm());
         userProfile.setSportsAchievements(dto.getSportsAchievements());
         userProfile.setUserId(new User(dto.getUserId()));
+        userProfile.setVo2Running(dto.getVo2Running());
+        userProfile.setVo2Ciclismo(dto.getVo2Ciclismo());
         userProfile.setUserProfileId(dto.getUserProfileId());
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
     }

@@ -620,6 +620,8 @@ create table user_profile (
    ind_potentiometer    varchar(1)           null,
    age_sport            integer              null,
    ppm                  decimal              null,
+   vo2_running          integer   null,
+   vo2_ciclismo          integer   null,
    ind_power                decimal              null,
    sports_achievements  varchar(1000)        null,
    about_me             varchar(1000)        null,

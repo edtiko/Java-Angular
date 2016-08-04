@@ -267,6 +267,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             pulsometer: '',
             modelPulsometer: '',
             objective: '',
+            vo2Running: '',
+            vo2Ciclismo: '',
             modality: '',
             availability: [
                 {day: 'Lunes', checked: false},

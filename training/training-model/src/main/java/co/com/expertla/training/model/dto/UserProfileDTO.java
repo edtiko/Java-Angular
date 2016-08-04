@@ -32,13 +32,15 @@ public class UserProfileDTO implements Serializable {
     private Integer objective;
     private List<UserAvailabilityDTO> availability;
     private Integer modality;
+    private Integer vo2Running;
+    private Integer vo2Ciclismo;
 
     public UserProfileDTO() {
     }
     
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
             BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,  
-            Integer objective, Integer modality) {
+            Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -51,6 +53,8 @@ public class UserProfileDTO implements Serializable {
         this.indMetricSys = indMetricSys;
         this.objective = objective;
         this.modality = modality;
+        this.vo2Running = vo2Running;
+        this.vo2Ciclismo = vo2Ciclismo;
     }
 
     public Integer getUserProfileId() {
@@ -219,6 +223,22 @@ public class UserProfileDTO implements Serializable {
 
     public void setModelPulsometer(Integer modelPulsometer) {
         this.modelPulsometer = modelPulsometer;
+    }
+
+    public Integer getVo2Running() {
+        return vo2Running;
+    }
+
+    public void setVo2Running(Integer vo2Running) {
+        this.vo2Running = vo2Running;
+    }
+
+    public Integer getVo2Ciclismo() {
+        return vo2Ciclismo;
+    }
+
+    public void setVo2Ciclismo(Integer vo2Ciclismo) {
+        this.vo2Ciclismo = vo2Ciclismo;
     }
     
     
