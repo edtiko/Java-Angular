@@ -37,4 +37,15 @@ public interface TrainingPlanWorkoutDao {
      * @throws Exception 
      */
     public List<TrainingPlanWorkout> createList (List<TrainingPlanWorkout> list) throws Exception;
+    
+    /**
+     * crea TrainingPlanWorkout <br>
+     * Info. Creación: <br>
+     * fecha 05/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanWorkout
+     * @return 
+     * @throws Exception 
+     */
+    public TrainingPlanWorkout createTrainingPlanWorkout(TrainingPlanWorkout trainingPlanWorkout) throws Exception;
 }

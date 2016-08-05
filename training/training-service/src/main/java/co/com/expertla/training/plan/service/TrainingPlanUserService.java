@@ -1,18 +1,22 @@
-package co.com.expertla.training.plan.dao;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package co.com.expertla.training.plan.service;
 
-import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import java.util.List;
 
 /**
- * Dao for Training Plan User <br>
+ * Service for Training Plan User <br>
  * Creation Date : <br>
- * date 25/07/2016 <br>
+ * date 05/08/2016 <br>
  *
- * @author Angela Ramírez
+ * @author Andres Felipe Lopez Rodriguez
 *
  */
-public interface TrainingPlanUserDao extends BaseDAO<TrainingPlanUser> {
+public interface TrainingPlanUserService {
     
     /**
      * Obtiene el plan activo por usuario <br>

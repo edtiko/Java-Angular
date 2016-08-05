@@ -82,6 +82,11 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         }
         
     }
+    
+    @Override
+    public TrainingPlanWorkout create(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        return trainingPlanWorkoutDao.createTrainingPlanWorkout(trainingPlanWorkout);
+    }
     	
     private void exactDays(UserAvailability userAvailability, Date startDate, Date endDate, UserProfile userProfile, Dcf dcf) throws Exception {
         List<Activity> activityList = activityDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), 

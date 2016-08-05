@@ -191,7 +191,7 @@ public class UserController {
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al crear usuario");
+            responseService.setOutput("Error interno");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();

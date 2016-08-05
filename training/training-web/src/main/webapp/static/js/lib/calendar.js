@@ -1187,8 +1187,11 @@ if (!String.prototype.formatNum) {
 //                    return false;
 //                })
                 ;
-
-        var slider = $(document.createElement('div')).attr('id', 'cal-slide-box');
+        var tr = document.createElement('tr');
+        var td = document.createElement('td');
+        tr.appendChild(td);
+        var slider = $(td).attr('id', 'cal-slide-box');
+        $(td).attr('colspan', '8');
         slider.hide().click(function (event) {
             event.stopPropagation();
         });
