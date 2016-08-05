@@ -27,36 +27,39 @@ require.config({
         authService: "login/service/authService",
         mainController: "login/controller/mainController",
         app: "routeResolver",
-		surveyService: "questionnaire/service/surveyService"
+        sockjs: "lib/sockjs.min",
+        stompWebsocket: "lib/stomp.min",
+        surveyService: "questionnaire/service/surveyService",
+        chatService: "chat/service/chatService"
     },
     shim: {
         angular: {
             exports: "angular"
         },
         angularRoute: {
-            exports: 'ngRoute', 
+            exports: 'ngRoute',
             deps: ['angular']
         },
-        angularAnimate:{
-             exports: 'ngAnimate', 
-            deps: ['angular']  
-        },
-        angularTouch:{
-            exports: 'angularTouch', 
+        angularAnimate: {
+            exports: 'ngAnimate',
             deps: ['angular']
         },
-        angularBoostrap:{
-            exports: 'angularBoostrap', 
+        angularTouch: {
+            exports: 'angularTouch',
             deps: ['angular']
         },
-        checklistModel:{
-           deps: ['angular'] 
+        angularBoostrap: {
+            exports: 'angularBoostrap',
+            deps: ['angular']
+        },
+        checklistModel: {
+            deps: ['angular']
         },
         csrfInterceptor: {
             deps: ['angular']
         },
         angularMessages: {
-            exports: 'ngMessages', 
+            exports: 'ngMessages',
             deps: ['angular']
         },
         userService: {
@@ -87,15 +90,18 @@ require.config({
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel','angularAnimate']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket']
         },
-		surveyService: {
+        surveyService: {
+            deps: ['angular', 'trainingApp']
+        },
+        chatService: {
             deps: ['angular', 'trainingApp']
         },
         app: {
-            deps: ['trainingApp', 'userService', 'disciplineService', 
-                'modalityService', 'objectiveService', 'sportEquipmentService', 
-                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService']
+            deps: ['trainingApp', 'userService', 'disciplineService',
+                'modalityService', 'objectiveService', 'sportEquipmentService',
+                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService', 'chatService']
         }
     }
 });

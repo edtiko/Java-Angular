@@ -6,6 +6,8 @@ package co.com.expertla.training.web.user.controller;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
+import co.com.expertla.training.model.dto.Message;
+import co.com.expertla.training.model.dto.OutputMessage;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
@@ -32,6 +34,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -294,6 +298,12 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(cities, HttpStatus.OK);
+    }
+    
+    @MessageMapping("/chat")
+    @SendTo("/topic/message")
+    public OutputMessage sendMessage(Message message) {
+        return new OutputMessage(message, new Date());
     }
     
      @ExceptionHandler(Exception.class)

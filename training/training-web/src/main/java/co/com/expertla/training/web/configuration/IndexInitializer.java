@@ -1,9 +1,9 @@
-/**
- * 
- */
 package co.com.expertla.training.web.configuration;
 
-
+import java.nio.charset.StandardCharsets;
+import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -14,26 +14,32 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  *
  */
 public class IndexInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-  
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setInitParameter("dispatchOptionsRequest", "true");
+        registration.setAsyncSupported(true);
+    }
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { IndexConfiguration.class};
+        return new Class[]{WebSocketConfig.class};
     }
-   
+
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return null;
+        return new Class< ?>[] { IndexConfiguration.class };
     }
-   
+
     @Override
     protected String[] getServletMappings() {
-        return new String[] { "/" };
+        return new String[]{"/"};
     }
-     
-    /*@Override
+
+    @Override
     protected Filter[] getServletFilters() {
-        Filter [] singleton = { new CORSFilter() };
-        return singleton;
-    }*/
-  
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding(StandardCharsets.UTF_8.name());
+        return new Filter[]{characterEncodingFilter};
+    }
 }
