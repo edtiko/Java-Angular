@@ -112,7 +112,7 @@ public class TrainingPlanWorkoutController {
     }
     
     @RequestMapping(value = "trainingPlanWorkout/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> createPlanWorkout(@RequestBody PlanWorkoutDTO planWorkoutDTO) {
+    public ResponseEntity<ResponseService> createActivityPlanWorkout(@RequestBody PlanWorkoutDTO planWorkoutDTO) {
             ResponseService responseService = new ResponseService();
         try {           
             List<TrainingPlanUser> listTrainingPlanUser = trainingPlanUserService.getPlanWorkoutByUser(planWorkoutDTO.getUserId());
@@ -130,6 +130,52 @@ public class TrainingPlanWorkoutController {
                 trainingPlanWorkoutService.create(planWorkout);
             }
             
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear plan");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "trainingPlanWorkout/createPlan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> createPlanWorkout(@RequestBody PlanWorkoutDTO planWorkoutDTO) {
+            ResponseService responseService = new ResponseService();
+        try {           
+            TrainingPlanWorkout trainingPlanWorkout = new TrainingPlanWorkout();
+            trainingPlanWorkout.setTrainingPlanWorkoutId(planWorkoutDTO.getTrainingPlanWorkoutId());
+            List<TrainingPlanWorkout> listTrainingPlanUser = trainingPlanWorkoutService.getById(trainingPlanWorkout);
+            
+            
+            if(listTrainingPlanUser != null && !listTrainingPlanUser.isEmpty()) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date activityDate = dateFormat.parse(planWorkoutDTO.getActivityDate());
+                responseService.setOutput("actividad creada en el plan exitosamente");
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
+                planWorkout.setActivityId(listTrainingPlanUser.get(0).getActivityId());
+                planWorkout.setTrainingPlanId(listTrainingPlanUser.get(0).getTrainingPlanId());
+                planWorkout.setWorkoutDate(activityDate);
+                trainingPlanWorkoutService.create(planWorkout);
+            }
+            
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear plan");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "trainingPlanWorkout/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> deletePlanWorkout(@RequestBody TrainingPlanWorkout trainingPlanWorkout) {
+            ResponseService responseService = new ResponseService();
+        try {           
+            trainingPlanWorkoutService.delete(trainingPlanWorkout);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);

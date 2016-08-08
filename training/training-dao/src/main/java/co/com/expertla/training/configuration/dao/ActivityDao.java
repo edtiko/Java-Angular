@@ -72,5 +72,18 @@ public interface ActivityDao extends BaseDAO<Activity> {
      * @return
      */
     public List<Activity> findByObjectiveIdAndModalityId(Integer objectiveId, Integer modalityId) throws Exception;
+    
+    
+    /**
+     * Obtiene todos los registros de activity por la disciplina del usuario <br>
+     * Info. Creación: <br>
+     * fecha 08/08/2016 <br>
+     *
+     * @author Andres Felipe Lopez Rodriguez
+     * @param usuarioId
+     * @return
+     * @throws Exception
+     */
+    public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception;
 
 }

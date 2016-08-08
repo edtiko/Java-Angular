@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +31,7 @@ public class ActivityController {
 
     /**
      * Crea activity <br>
-     * Info. Creaci贸n: <br>
+     * Info. Creaci髇: <br>
      * fecha 5/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
@@ -55,7 +56,7 @@ public class ActivityController {
 
     /**
      * Modifica activity <br>
-     * Info. Creaci贸n: <br>
+     * Info. Creaci髇: <br>
      * fecha 5/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
@@ -80,7 +81,7 @@ public class ActivityController {
 
     /**
      * Elimina activity <br>
-     * Info. Creaci贸n: <br>
+     * Info. Creaci髇: <br>
      * fecha 5/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
@@ -105,10 +106,9 @@ public class ActivityController {
     
     /**
      * Consulta activity <br>
-     * Info. Creaci贸n: <br>
+     * Info. Creaci髇: <br>
      * fecha 5/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param activity
      * @return
      */
     @RequestMapping(value = "/activity/", method = RequestMethod.GET)
@@ -122,6 +122,31 @@ public class ActivityController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al eliminar activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta activity por disciplina del usuario <br>
+     * Info. Creaci髇: <br>
+     * fecha 08/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/activity/by/discipline/user/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listByDisciplineUser(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<Activity> activityList = activityService.findByUserDiscipline(userId);
+            responseService.setOutput(activityList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar activity");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

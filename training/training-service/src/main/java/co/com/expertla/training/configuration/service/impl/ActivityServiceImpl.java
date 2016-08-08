@@ -56,4 +56,9 @@ public class ActivityServiceImpl implements ActivityService {
         return activityDao.findByFiltro(activity);
     }
 
+    @Override
+    public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception {
+        return activityDao.findByUserDiscipline(usuarioId);
+    }
+
 }

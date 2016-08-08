@@ -119,10 +119,28 @@ function drop(ev) {
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
     var userId = user.userId;
     var data = ev.dataTransfer.getData("text");
-    var rcData = data.split('_');
-    var activityId = rcData[1];
-    var date = $(ev.target).attr("data-event-date");
-    var objActivity = {'userId' : userId, 'activityId' : activityId, 'activityDate' : date};
+    if(data != undefined && (data.indexOf('cal') !== -1 || data.indexOf('act') !== -1)) {
+        var rcData = data.split('_');
+        var activityId = rcData[1];
+        var date = $(ev.target).attr("data-event-date");
+        var objActivity = {'userId' : userId, 'activityId' : activityId, 'activityDate' : date};
+        
+        if(data.indexOf('act') !== -1) {
+            createActivity(objActivity);
+        } else if(data.indexOf('cal') !== -1) {
+            var date = $(ev.target).attr("data-event-date");
+            objActivity = {'userId' : userId, 'trainingPlanWorkoutId' : activityId, 'activityDate' : date};
+            var dataEventId = $(ev.target).attr("data-event-id");
+            if(dataEventId != undefined && dataEventId.indexOf('cal') !== -1) {
+                createPlan(objActivity, true);
+            } else {
+                deletePlan(objActivity);
+            }
+        }
+    }
+}
+
+function createActivity(objActivity) {
     $.ajax({
             url: $contextPath + 'trainingPlanWorkout/create',
             contentType: "application/json; charset=utf-8",
@@ -133,8 +151,34 @@ function drop(ev) {
         }).error(function (html) {
             console.debug(html);
         });
-    
-    console.debug(activityId);
-    console.debug(ev.target);
-    console.debug(date);
+}
+
+function createPlan(objActivity, isDetelePlan) {
+    $.ajax({
+            url: $contextPath + 'trainingPlanWorkout/createPlan',
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            data: JSON.stringify(objActivity)
+        }).success(function (html) {
+            if(isDetelePlan) {
+                deletePlan(objActivity);
+            } else {
+                initCalendar();
+            }
+        }).error(function (html) {
+            console.debug(html);
+        });
+}
+
+function deletePlan(objActivity) {
+    $.ajax({
+            url: $contextPath + 'trainingPlanWorkout/delete',
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            data: JSON.stringify(objActivity)
+        }).success(function (html) {
+            initCalendar();
+        }).error(function (html) {
+            console.debug(html);
+        });
 }

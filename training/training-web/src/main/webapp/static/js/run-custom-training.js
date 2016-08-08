@@ -24,33 +24,34 @@ require.config({
         sportEquipmentService: "perfil/service/sportEquipmentService",
         sportService: "perfil/service/sportService",
         userProfileService: "perfil/service/userProfileService",
+        calendarService: "calendar/service/calendarService",
         authService: "login/service/authService",
         mainController: "login/controller/mainController",
         app: "routeResolver",
-		surveyService: "questionnaire/service/surveyService"
+        surveyService: "questionnaire/service/surveyService"
     },
     shim: {
         angular: {
             exports: "angular"
         },
         angularRoute: {
-            exports: 'ngRoute', 
+            exports: 'ngRoute',
             deps: ['angular']
         },
-        angularAnimate:{
-             exports: 'ngAnimate', 
-            deps: ['angular']  
-        },
-        angularTouch:{
-            exports: 'angularTouch', 
+        angularAnimate: {
+            exports: 'ngAnimate',
             deps: ['angular']
         },
-        angularBoostrap:{
-            exports: 'angularBoostrap', 
+        angularTouch: {
+            exports: 'angularTouch',
             deps: ['angular']
         },
-        checklistModel:{
-           deps: ['angular'] 
+        angularBoostrap: {
+            exports: 'angularBoostrap',
+            deps: ['angular']
+        },
+        checklistModel: {
+            deps: ['angular']
         },
         csrfInterceptor: {
             deps: ['angular']
@@ -82,19 +83,23 @@ require.config({
         authService: {
             deps: ['angular', 'trainingApp']
         },
+        calendarService: {
+            deps: ['angular', 'trainingApp']
+        },
         mainController: {
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel','angularAnimate']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate']
         },
-		surveyService: {
+        surveyService: {
             deps: ['angular', 'trainingApp']
         },
         app: {
-            deps: ['trainingApp', 'userService', 'disciplineService', 
-                'modalityService', 'objectiveService', 'sportEquipmentService', 
-                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService']
+            deps: ['trainingApp', 'userService', 'disciplineService',
+                'modalityService', 'objectiveService', 'sportEquipmentService',
+                'sportService', 'userProfileService', 'authService',
+                'mainController', 'surveyService', 'calendarService']
         }
     }
 });

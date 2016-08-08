@@ -55,6 +55,17 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
 
         return createQuery(builder.toString());
     }
+    
+    @Override
+    public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from Activity a, DisciplineUser du ");
+        builder.append("WHERE a.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");
+        builder.append("AND du.userId.userId = :userId ");
+        setParameter("userId", usuarioId);
+        
+        return createQuery(builder.toString());
+    }
 
     @Override
     public List<Activity> findByObjectiveIdAndModalityId(Integer objectiveId, Integer modalityId) throws Exception {

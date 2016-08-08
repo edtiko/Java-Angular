@@ -41,6 +41,27 @@ public interface TrainingPlanWorkoutService {
      * @throws Exception 
      */
     public TrainingPlanWorkout create(TrainingPlanWorkout trainingPlanWorkout) throws Exception;
+    
+    /**
+     * elimina TrainingPlanWorkout <br>
+     * Info. Creación: <br>
+     * fecha 08/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanWorkout
+     * @throws Exception 
+     */
+    public void delete(TrainingPlanWorkout trainingPlanWorkout) throws Exception;
+    
+    /**
+     * Obtiene el plan de entrenamiento por id <br>
+     * Info. Creación: <br>
+     * fecha 08/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanWorkout
+     * @return 
+     * @throws Exception 
+     */
+    public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception;
 
  
 }

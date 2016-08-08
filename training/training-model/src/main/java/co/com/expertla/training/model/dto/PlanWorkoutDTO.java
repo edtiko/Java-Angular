@@ -13,6 +13,7 @@ public class PlanWorkoutDTO {
     private Integer userId;
     private Integer activityId;
     private String activityDate;
+    private Integer trainingPlanWorkoutId;
 
     public Integer getUserId() {
         return userId;
@@ -36,6 +37,14 @@ public class PlanWorkoutDTO {
 
     public void setActivityDate(String activityDate) {
         this.activityDate = activityDate;
+    }
+
+    public Integer getTrainingPlanWorkoutId() {
+        return trainingPlanWorkoutId;
+    }
+
+    public void setTrainingPlanWorkoutId(Integer trainingPlanWorkoutId) {
+        this.trainingPlanWorkoutId = trainingPlanWorkoutId;
     }
     
     

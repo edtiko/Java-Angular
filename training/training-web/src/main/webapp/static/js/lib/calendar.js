@@ -987,7 +987,7 @@ if (!String.prototype.formatNum) {
     Calendar.prototype._update = function () {
         var self = this;
 
-        $('*[data-toggle="tooltip"]').tooltip({container: this.options.tooltip_container});
+        $('*[data-toggle="tooltip"]').tooltip();
 
         $('*[data-cal-date]').click(function () {
             var view = $(this).data('cal-view');

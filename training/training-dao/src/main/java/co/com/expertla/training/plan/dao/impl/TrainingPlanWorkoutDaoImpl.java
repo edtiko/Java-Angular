@@ -82,4 +82,13 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
             return t;
         }
     }
+
+    @Override
+    public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t FROM TrainingPlanWorkout t ");
+        sql.append("WHERE t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
+        setParameter("trainingPlanWorkoutId", trainingPlanWorkout.getTrainingPlanWorkoutId());
+        return createQuery(sql.toString());
+    }
 }
