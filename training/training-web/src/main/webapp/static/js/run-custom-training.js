@@ -29,8 +29,13 @@ require.config({
         app: "routeResolver",
         sockjs: "lib/sockjs.min",
         stompWebsocket: "lib/stomp.min",
+        ngCamRecorder: "lib/vaRecorder/ngCamRecorder",
+        recorder: "lib/vaRecorder/recorder",
+        whammy: "lib/vaRecorder/whammy",
+        viRecorder: "lib/vaRecorder/VIRecorder",
         surveyService: "questionnaire/service/surveyService",
-        chatService: "chat/service/chatService"
+        chatService: "chat/service/chatService",
+        videoService: "video/service/videoService"
     },
     shim: {
         angular: {
@@ -38,6 +43,10 @@ require.config({
         },
         angularRoute: {
             exports: 'ngRoute',
+            deps: ['angular']
+        },
+        ngCamRecorder: {
+            exports: 'ngCamRecorder',
             deps: ['angular']
         },
         angularAnimate: {
@@ -90,7 +99,7 @@ require.config({
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket','ngCamRecorder','recorder','whammy','viRecorder']
         },
         surveyService: {
             deps: ['angular', 'trainingApp']
@@ -98,10 +107,13 @@ require.config({
         chatService: {
             deps: ['angular', 'trainingApp']
         },
+        videoService: {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
-                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService', 'chatService']
+                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService', 'chatService','videoService']
         }
     }
 });
