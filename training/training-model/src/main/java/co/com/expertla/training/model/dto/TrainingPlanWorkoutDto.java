@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,8 +23,8 @@ public class TrainingPlanWorkoutDto {
     private String modality;
     private Integer disciplineId;
     private String discipline;
-    private Integer objetiveId;
-    private String objetive;
+    private Integer objectiveId;
+    private String objective;
     private int level;
     private Integer userId;
 
@@ -38,7 +33,7 @@ public class TrainingPlanWorkoutDto {
 
     public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
             Integer activityId, String activity, Integer modalityId, String modality,
-            Integer objetiveId, String objetive, Integer disciplineId, String discipline, Integer level, Integer userId) {
+            Integer objectiveId, String objective, Integer disciplineId, String discipline, Integer level, Integer userId) {
         this.id = trainingPlanWorkoutId;
         this.workoutDate = workoutDate;
         this.activityId = activityId;
@@ -47,8 +42,8 @@ public class TrainingPlanWorkoutDto {
         this.modality = modality;
         this.disciplineId = disciplineId;
         this.discipline = discipline;
-        this.objetiveId = objetiveId;
-        this.objetive = objetive;
+        this.objectiveId = objectiveId;
+        this.objective = objective;
         this.level = level;
         this.userId = userId;
     }
@@ -109,20 +104,20 @@ public class TrainingPlanWorkoutDto {
         this.discipline = discipline;
     }
 
-    public Integer getObjetiveId() {
-        return objetiveId;
+    public Integer getObjectiveId() {
+        return objectiveId;
     }
 
-    public void setObjetiveId(Integer objetiveId) {
-        this.objetiveId = objetiveId;
+    public void setObjectiveId(Integer objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
-    public String getObjetive() {
-        return objetive;
+    public String getObjective() {
+        return objective;
     }
 
-    public void setObjetive(String objetive) {
-        this.objetive = objetive;
+    public void setObjective(String objective) {
+        this.objective = objective;
     }
 
     public int getLevel() {

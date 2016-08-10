@@ -1,18 +1,17 @@
-package co.com.expertla.training.plan.dao;
+package co.com.expertla.training.plan.service;
 
-import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
 import java.util.List;
 
 /**
-* Dao for Training Plan User <br>
+* Service for TrainingPlanUserService <br>
 * Creation Date : <br>
-* date 25/07/2016 <br>
+* date 08/08/2016 <br>
 * @author Angela Ramírez
 **/
-public interface TrainingPlanUserDao extends BaseDAO<TrainingPlanUser>{
-
+public interface TrainingPlanUserService {
+     
     /**
      * Obtiene el TrainingPlanUser por user Id <br>
      * Creation Date : <br>
@@ -23,4 +22,5 @@ public interface TrainingPlanUserDao extends BaseDAO<TrainingPlanUser>{
      * @throws Exception 
      */
     public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception;
+ 
 }

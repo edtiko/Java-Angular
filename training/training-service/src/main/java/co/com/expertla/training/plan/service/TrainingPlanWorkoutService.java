@@ -26,7 +26,13 @@ public interface TrainingPlanWorkoutService {
      */
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception;
     
-    
+    /**
+     * Genera el plan de entrenamiento para el usuario
+     * @param id
+     * @param fromDate
+     * @param toDate
+     * @throws Exception 
+     */
     public void generatePlan(Integer id,Date fromDate, Date toDate) throws Exception;
 
  

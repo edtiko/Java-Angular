@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.expertla.training.service;
+package co.com.expertla.training.configuration.service;
 
 import co.com.expertla.training.model.dto.ModelEquipmentDTO;
 import java.util.List;

@@ -371,7 +371,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildRunningShoesObject(UserProfileDTO dto, EquipmentUserProfile runningShoes) {
         if (runningShoes != null && !new Integer(-1).equals(dto.getShoes())) {
             runningShoes.setSportEquipmentId(new SportEquipment(dto.getShoes()));
-        } else if(!new Integer(-1).equals(dto.getPotentiometer())){
+        } else if(!new Integer(-1).equals(dto.getShoes())){
             runningShoes = new EquipmentUserProfile();
             runningShoes.setSportEquipmentId(new SportEquipment(dto.getShoes()));
             runningShoes.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -388,7 +388,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildBikeObject(UserProfileDTO dto, EquipmentUserProfile bike) {
         if (bike != null && !new Integer(-1).equals(dto.getBikes())) {
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
-        } else if(!new Integer(-1).equals(dto.getPotentiometer())){
+        } else if(!new Integer(-1).equals(dto.getBikes())){
             bike = new EquipmentUserProfile();
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
             bike.setUserProfileId(new UserProfile(dto.getUserProfileId()));
