@@ -62,6 +62,8 @@ public class UserDTO {
     private Integer countryId;
     
     private Integer disciplineId;
+    
+    private String typeUser;
 
     public UserDTO() {
     }
@@ -111,6 +113,14 @@ public class UserDTO {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getTypeUser() {
+        return typeUser;
+    }
+
+    public void setTypeUser(String typeUser) {
+        this.typeUser = typeUser;
     }
 
     public Integer getDisciplineId() {

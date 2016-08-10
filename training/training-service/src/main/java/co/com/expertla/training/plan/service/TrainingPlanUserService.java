@@ -1,23 +1,56 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.plan.service;
 
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import java.util.List;
 
 /**
- * Service for Training Plan User <br>
- * Creation Date : <br>
- * date 05/08/2016 <br>
- *
- * @author Andres Felipe Lopez Rodriguez
-*
- */
+* TrainingPlanUser Service <br>
+* Info. Creación: <br>
+* fecha 10/08/2016 <br>
+* @author Andres Felipe Lopez Rodriguez
+**/
 public interface TrainingPlanUserService {
     
+
+    /**
+     * Crea trainingPlanUser <br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @return 
+     * @throws Exception 
+     */
+    public TrainingPlanUser create(TrainingPlanUser trainingPlanUser) throws Exception;
+    /**
+     * Modifica trainingPlanUser <br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @throws Exception 
+     */
+    public TrainingPlanUser store(TrainingPlanUser trainingPlanUser) throws Exception;
+    /**
+     * Elimina trainingPlanUser<br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @return 
+     * @throws Exception 
+     */
+    public void remove(TrainingPlanUser trainingPlanUser) throws Exception;
+    /**
+     * Obtiene todos los registros de trainingPlanUser <br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @return
+     * @throws Exception 
+     */
+    public List<TrainingPlanUser> findAll() throws Exception;
+
     /**
      * Obtiene el plan activo por usuario <br>
      * Info. Creación: <br>
@@ -28,4 +61,29 @@ public interface TrainingPlanUserService {
      * @throws Exception 
      */
     public List<TrainingPlanUser> getPlanWorkoutByUser(Integer userId) throws Exception;
+    /**
+     * Obtiene todos los registros de trainingPlanUser por su id <br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @return
+     * @throws Exception 
+     */
+    public List<TrainingPlanUser> findByTrainingPlanUser(TrainingPlanUser trainingPlanUser) throws Exception;   
+
+    /**
+     * Obtiene todos los registros de trainingPlanUser por el filtro del usuario <br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @return
+     * @throws Exception 
+     */
+    public List<TrainingPlanUser> findByFiltro(TrainingPlanUser trainingPlanUser) throws Exception; 
+
+
+
+    
 }
