@@ -24,6 +24,7 @@ require.config({
         sportEquipmentService: "perfil/service/sportEquipmentService",
         sportService: "perfil/service/sportService",
         userProfileService: "perfil/service/userProfileService",
+        calendarService: "calendar/service/calendarService",
         authService: "login/service/authService",
         mainController: "login/controller/mainController",
         app: "routeResolver",
@@ -49,10 +50,6 @@ require.config({
             exports: 'ngRoute',
             deps: ['angular']
         },
-        ngCamRecorder: {
-            exports: 'ngCamRecorder',
-            deps: ['angular']
-        },
         angularAnimate: {
             exports: 'ngAnimate',
             deps: ['angular']
@@ -61,8 +58,15 @@ require.config({
             exports: 'angularTouch',
             deps: ['angular']
         },
+ ngCamRecorder: {
+            exports: 'ngCamRecorder',
+            deps: ['angular']
+        },
         angularBoostrap: {
             exports: 'angularBoostrap',
+            deps: ['angular']
+        },
+        checklistModel: {
             deps: ['angular']
         },
         checklistModel: {
@@ -103,6 +107,9 @@ require.config({
         authService: {
             deps: ['angular', 'trainingApp']
         },
+        calendarService: {
+            deps: ['angular', 'trainingApp']
+        },
         mainController: {
             deps: ['angular', 'authService']
         },
@@ -124,7 +131,8 @@ require.config({
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
-                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService', 'chatService','videoService','videochatService']
+                'sportService', 'userProfileService', 'authService',
+                'mainController', 'surveyService', 'calendarService', 'chatService','videoService','videochatService']
         }
     }
 });

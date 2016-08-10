@@ -82,6 +82,16 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         }
         
     }
+    
+    @Override
+    public TrainingPlanWorkout create(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        return trainingPlanWorkoutDao.createTrainingPlanWorkout(trainingPlanWorkout);
+    }
+    
+    @Override
+    public void delete(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        trainingPlanWorkoutDao.remove(trainingPlanWorkout, trainingPlanWorkout.getTrainingPlanWorkoutId());
+    }
     	
     private void exactDays(UserAvailability userAvailability, Date startDate, Date endDate, UserProfile userProfile, Dcf dcf) throws Exception {
         List<Activity> activityList = activityDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), 
@@ -349,6 +359,11 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         } 
 
         return availableDays;
+    }
+
+    @Override
+    public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        return trainingPlanWorkoutDao.getById(trainingPlanWorkout);
     }
 
     

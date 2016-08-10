@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -81,6 +82,7 @@ public class Modality implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Dcf> getDcfCollection() {
         return dcfCollection;
     }

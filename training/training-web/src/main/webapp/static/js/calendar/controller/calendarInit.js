@@ -1,41 +1,5 @@
 (function ($) {
-    var user = JSON.parse(sessionStorage.getItem("userInfo"));
-    "use strict";
-    var options = {
-        language: 'es-CO',
-        events_source: 'trainingPlanWorkout/get/planWorkout/by/user/'+user.userId,
-        view: 'month',
-        modal: "#events-modal",
-        modal_type: 'template',
-        tmpl_path: 'static/tmpls/',
-        tmpl_cache: false,
-        day: getDate(),
-        onAfterEventsLoad: function (events) {
-            if (!events) {
-                return;
-            }
-            var list = $('#eventlist');
-            list.html('');
-
-            $.each(events, function (key, val) {
-                $(document.createElement('li'))
-                        .html('<a>' + val.title + '</a>')
-                        .appendTo(list);
-            });
-        },
-        onAfterViewLoad: function (view) {
-            $('.page-header h3').text(this.getTitle());
-            $('.btn-group button').removeClass('active');
-            $('button[data-calendar-view="' + view + '"]').addClass('active');
-        },
-        classes: {
-            months: {
-                general: 'label'
-            }
-        }
-    };
-
-    var calendar = $('#calendar').calendar(options);
+    var calendar = initCalendar();
 
     $('.btn-group button[data-calendar-nav]').each(function () {
         var $this = $(this);
@@ -51,7 +15,7 @@
             type: 'GET',
             async: false
         }).done(function (html) {
-            $('#add-events-modal-body').html((html));            
+            $('#add-events-modal-body').html((html));
             $('#add-events-modal').modal();
             compileAngularElement('#add-events-modal-body');
         });
@@ -99,3 +63,122 @@
 //		e.stopPropagation();
     });
 }(jQuery));
+
+function initCalendar() {
+    var user = JSON.parse(sessionStorage.getItem("userInfo"));
+    "use strict";
+    var options = {
+        language: 'es-CO',
+        events_source: 'trainingPlanWorkout/get/planWorkout/by/user/' + user.userId,
+        view: 'month',
+        modal: "#events-modal",
+        modal_type: 'template',
+        tmpl_path: 'static/tmpls/',
+        tmpl_cache: false,
+        day: getDate(),
+        onAfterEventsLoad: function (events) {
+            if (!events) {
+                return;
+            }
+            var list = $('#eventlist');
+            list.html('');
+
+            $.each(events, function (key, val) {
+                $(document.createElement('li'))
+                        .html('<a>' + val.title + '</a>')
+                        .appendTo(list);
+            });
+        },
+        onAfterViewLoad: function (view) {
+            $('.page-header h3').text(this.getTitle());
+            $('.btn-group button').removeClass('active');
+            $('button[data-calendar-view="' + view + '"]').addClass('active');
+        },
+        classes: {
+            months: {
+                general: 'label'
+            }
+        }
+    };
+
+    var calendar = $('#calendar').calendar(options);
+    return calendar;
+}
+
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var user = JSON.parse(sessionStorage.getItem("userInfo"));
+    var userId = user.userId;
+    var data = ev.dataTransfer.getData("text");
+    if(data != undefined && (data.indexOf('cal') !== -1 || data.indexOf('act') !== -1)) {
+        var rcData = data.split('_');
+        var activityId = rcData[1];
+        var date = $(ev.target).attr("data-event-date");
+        var objActivity = {'userId' : userId, 'activityId' : activityId, 'activityDate' : date};
+        
+        if(data.indexOf('act') !== -1) {
+            createActivity(objActivity);
+        } else if(data.indexOf('cal') !== -1) {
+            var date = $(ev.target).attr("data-event-date");
+            objActivity = {'userId' : userId, 'trainingPlanWorkoutId' : activityId, 'activityDate' : date};
+            var dataEventId = $(ev.target).attr("data-event-id");
+            if(dataEventId != undefined && dataEventId.indexOf('cal') !== -1) {
+                createPlan(objActivity, true);
+            } else {
+                deletePlan(objActivity);
+            }
+        }
+    }
+}
+
+function createActivity(objActivity) {
+    $.ajax({
+            url: $contextPath + 'trainingPlanWorkout/create',
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            data: JSON.stringify(objActivity)
+        }).success(function (html) {
+            initCalendar();
+        }).error(function (html) {
+            console.debug(html);
+        });
+}
+
+function createPlan(objActivity, isDetelePlan) {
+    $.ajax({
+            url: $contextPath + 'trainingPlanWorkout/createPlan',
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            data: JSON.stringify(objActivity)
+        }).success(function (html) {
+            if(isDetelePlan) {
+                deletePlan(objActivity);
+            } else {
+                initCalendar();
+            }
+        }).error(function (html) {
+            console.debug(html);
+        });
+}
+
+function deletePlan(objActivity) {
+    $.ajax({
+            url: $contextPath + 'trainingPlanWorkout/delete',
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            data: JSON.stringify(objActivity)
+        }).success(function (html) {
+            initCalendar();
+        }).error(function (html) {
+            console.debug(html);
+        });
+}

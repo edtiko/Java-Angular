@@ -1,18 +1,46 @@
-package co.com.expertla.training.plan.dao;
+package co.com.expertla.training.plan.service;
 
-import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import java.util.List;
 
 /**
-* TrainingPlanUser Dao <br>
+* TrainingPlanUser Service <br>
 * Info. Creación: <br>
 * fecha 10/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
-public interface TrainingPlanUserDao extends BaseDAO<TrainingPlanUser> {
+public interface TrainingPlanUserService {
     
-    
+
+    /**
+     * Crea trainingPlanUser <br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @return 
+     * @throws Exception 
+     */
+    public TrainingPlanUser create(TrainingPlanUser trainingPlanUser) throws Exception;
+    /**
+     * Modifica trainingPlanUser <br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @throws Exception 
+     */
+    public TrainingPlanUser store(TrainingPlanUser trainingPlanUser) throws Exception;
+    /**
+     * Elimina trainingPlanUser<br>
+     * Info. Creación: <br>
+     * fecha 10/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlanUser
+     * @return 
+     * @throws Exception 
+     */
+    public void remove(TrainingPlanUser trainingPlanUser) throws Exception;
     /**
      * Obtiene todos los registros de trainingPlanUser <br>
      * Info. Creación: <br>
@@ -55,4 +83,7 @@ public interface TrainingPlanUserDao extends BaseDAO<TrainingPlanUser> {
      */
     public List<TrainingPlanUser> findByFiltro(TrainingPlanUser trainingPlanUser) throws Exception; 
 
+
+
+    
 }

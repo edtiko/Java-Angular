@@ -20,11 +20,12 @@
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/">Custom Pro Training</a>
+                    <a class="navbar-brand" href="http://181.143.227.220:8081/cpt">Custom Pro Training</a>
                 </div>
- 
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#escritorio"><i class="fa fa-home"></i> Escritorio</a></li>
+                
+                <div style="position:relative;top:10px;font-size:22px;width:500px;left:300px;height:30px">Bienvenido {{userLogin}}</div>
+                
+                <ul class="nav navbar-nav navbar-right" style="position:relative;top:-25px">
                     <li><a href="#calendar"><i class="fa fa-calendar"></i> Calendario</a></li>
                      <li><a href="#chat"><i class="fa fa-comments" aria-hidden="true"></i> Mensajes</a></li>
                      <li><a href="#video"><i class="fa fa-video-camera" aria-hidden="true"></i> Cargar Video</a></li>
@@ -36,8 +37,8 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" uib-dropdown-menu> 
-                            <li><a href="#data-person">Configuraci&oacute;n de Perfil</a></li> 
-                            <li><a href="#conf-account">Configuraci&oacute;n de Cuenta</a></li> 
+                            <li><a href="#data-person">Configuración de Perfil</a></li> 
+                             <li><a href="#conf-account">Configuración de Cuenta</a></li> 
                         </ul>
                     </li>
                     <li><a class="logout" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Cerrar Sesi&oacute;n</a></li>

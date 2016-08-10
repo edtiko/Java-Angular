@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -83,7 +84,7 @@ public class Dcf implements Serializable {
     public void setSessions(int sessions) {
         this.sessions = sessions;
     }
-
+    
     public Modality getModalityId() {
         return modalityId;
     }

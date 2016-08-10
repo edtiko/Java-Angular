@@ -4,7 +4,8 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
         $scope.showSuccessAlert = false;
         $scope.successTextAlert = "";
         $scope.appReady = true;
-        $scope.dt = new Date();
+        $scope.userLogin = "";
+		$scope.dt = new Date();
         $scope.session = {apiKey:'',sessionId:'', token:''};
         
         this.getSessionOpenTok = function(){
@@ -132,6 +133,10 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
                 $scope.appReady = true;
             }
             return user;
+        };
+        
+        $scope.logout = function () {
+            window.location = 'http://181.143.227.220:8081/cpt/my-account/customer-logout/';
         };
     }]);
 
