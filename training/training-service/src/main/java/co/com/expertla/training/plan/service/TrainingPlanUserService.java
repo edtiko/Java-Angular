@@ -1,7 +1,7 @@
 package co.com.expertla.training.plan.service;
 
 import co.com.expertla.training.model.entities.TrainingPlanUser;
-<<<<<<< HEAD
+import co.com.expertla.training.model.entities.User;
 import java.util.List;
 
 /**
@@ -84,21 +84,6 @@ public interface TrainingPlanUserService {
      */
     public List<TrainingPlanUser> findByFiltro(TrainingPlanUser trainingPlanUser) throws Exception; 
 
-
-
-    
-=======
-import co.com.expertla.training.model.entities.User;
-import java.util.List;
-
-/**
-* Service for TrainingPlanUserService <br>
-* Creation Date : <br>
-* date 08/08/2016 <br>
-* @author Angela Ramírez
-**/
-public interface TrainingPlanUserService {
-     
     /**
      * Obtiene el TrainingPlanUser por user Id <br>
      * Creation Date : <br>
@@ -110,5 +95,4 @@ public interface TrainingPlanUserService {
      */
     public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception;
  
->>>>>>> origin/RF-PP-003_perfil
 }
