@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.expertla.training.plan.service.impl;
+package co.com.expertla.training.configuration.service.impl;
 
 import co.com.expertla.training.model.dto.ModelEquipmentDTO;
-import co.com.expertla.training.service.ModelEquipmentService;
+import co.com.expertla.training.configuration.service.ModelEquipmentService;
 import co.com.expertla.training.user.dao.ModelEquipmentDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -62,6 +62,13 @@ public class UserAvailability implements Serializable {
     private UserProfile userProfileId;
 
     public UserAvailability() {
+        this.monday = false;
+        this.tuesday = false;
+        this.wednesday = false;
+        this.thursday = false;
+        this.friday = false;
+        this.saturday = false;
+        this.sunday = false;
     }
 
     public UserAvailability(Integer userAvailabilityId) {
@@ -162,7 +169,8 @@ public class UserAvailability implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.UserAvailability[ userAvailabilityId=" + userAvailabilityId + " ]";
+        return "userAvailabilityId=Monday: " + monday + ", Tuesday: " + tuesday
+                +",Wednesday: "+wednesday+",Thursday: "+thursday+",Friday: "+friday+",Saturday: "+saturday+",Sunday: "+sunday+" ]";
     }
 
 }

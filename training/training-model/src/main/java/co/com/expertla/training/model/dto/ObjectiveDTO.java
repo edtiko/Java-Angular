@@ -12,12 +12,12 @@ public class ObjectiveDTO implements Serializable {
     public ObjectiveDTO() {
     }
 
-    public ObjectiveDTO(Integer objetiveId) {
-        this.objectiveId = objetiveId;
+    public ObjectiveDTO(Integer objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
-    public ObjectiveDTO(Integer objetiveId, String name, int level) {
-        this.objectiveId = objetiveId;
+    public ObjectiveDTO(Integer objectiveId, String name, int level) {
+        this.objectiveId = objectiveId;
         this.name = name;
         this.level = level;
     }

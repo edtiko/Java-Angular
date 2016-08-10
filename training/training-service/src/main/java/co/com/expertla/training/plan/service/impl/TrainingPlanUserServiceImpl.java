@@ -1,22 +1,40 @@
 package co.com.expertla.training.plan.service.impl;
 
 import co.com.expertla.training.model.entities.TrainingPlanUser;
+<<<<<<< HEAD
 import co.com.expertla.training.plan.dao.TrainingPlanUserDao;
 import co.com.expertla.training.plan.service.TrainingPlanUserService;
 import java.util.List;
+=======
+import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.plan.dao.TrainingPlanUserDao;
+import co.com.expertla.training.plan.service.TrainingPlanUserService;
+import java.util.List;
+
+>>>>>>> origin/RF-PP-003_perfil
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
 /**
 * TrainingPlanUser Service Impl <br>
 * Info. Creación: <br>
 * fecha 10/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
+=======
+
+/**
+* Service for Training Plan User <br>
+* Creation Date : <br>
+* date 08/08/2016 <br>
+* @author Angela Ramírez
+>>>>>>> origin/RF-PP-003_perfil
 **/
 @Service("trainingPlanUserService")
 @Transactional
 public class TrainingPlanUserServiceImpl implements TrainingPlanUserService {
+<<<<<<< HEAD
 
     @Autowired
     private TrainingPlanUserDao trainingPlanUserDao;
@@ -57,4 +75,15 @@ public class TrainingPlanUserServiceImpl implements TrainingPlanUserService {
         return trainingPlanUserDao.findByFiltro(trainingPlanUser);
     }
 
+=======
+    
+    @Autowired
+    private TrainingPlanUserDao trainingPlanUserDao;
+           
+    @Override
+    public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception {
+        return trainingPlanUserDao.getTrainingPlanUserByUser(user);
+    }
+ 
+>>>>>>> origin/RF-PP-003_perfil
 }

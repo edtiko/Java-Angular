@@ -101,13 +101,13 @@ public class TrainingPlanWorkoutController {
             
             Calendar startCal = Calendar.getInstance();
             startCal.setTime(new Date());
+            startCal.add(Calendar.DAY_OF_MONTH, 1);
             Date startDate = startCal.getTime();
-            startCal.add(Calendar.DAY_OF_MONTH, 30);
+            startCal.add(Calendar.DAY_OF_MONTH, 29);
             Date endDate = startCal.getTime();
             trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
         }   catch (Exception e) {
             Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, e);
-//            return calendarEventDto;
         }
     }
     
