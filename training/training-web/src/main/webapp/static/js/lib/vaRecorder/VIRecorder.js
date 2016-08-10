@@ -313,7 +313,7 @@ var VIRecorder = (function(){
                 uploadBlobs(blobdataa.blobchunk, blobdataa.upname); 
                 
             }else{
-                functononupload(BlobSlizeArray.length , BlobSlizeArray.length);
+                functononupload(BlobSlizeArray.length , BlobSlizeArray.length, xhr.responseText);
             }
         };
         xhr.send(fd);
@@ -325,7 +325,7 @@ var VIRecorder = (function(){
     function uploadComplete(evt) {
             lg("Upload Success");
             if (evt.target.responseText != ""){
-               alert(evt.target.responseText);
+               lg(evt.target.responseText);
             }
     }
 

@@ -6,7 +6,7 @@ trainingApp.controller("VideoController", ['$scope','videoService', function($sc
                 webpquality     : 0.7, 
                 framerate       : 15,  
                 videoWidth      : 500,
-                videoHeight     : 375,            
+                videoHeight     : 375           
             },
 
             recfuncConf :{
@@ -16,13 +16,14 @@ trainingApp.controller("VideoController", ['$scope','videoService', function($sc
                 recordingtime : 17,
                 requestparam : "filename",
                 videoname : "video.webm",
-                audioname : "audio.wav", 
+                audioname : "audio.wav"
             },
 
             output :{
                 recordingthumb : null,
-               	recordinguploaded : function(){
-               		alert("uploaded");
+               	recordinguploaded : function(data){
+                    //console.log(data);
+               	   $scope.showMessage("Video cargado correctamente.");
                	}
             },
 

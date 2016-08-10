@@ -7,6 +7,7 @@ import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.Message;
+import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.OutputMessage;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.Discipline;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
+import com.opentok.OpenTok;
+import com.opentok.exception.OpenTokException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +48,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
   
 @RestController
@@ -52,7 +57,10 @@ public class UserController {
   
     
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
-    public static final String ROOT = "upload-dir";
+    public static final String ROOT = "c:/upload-video/";
+    private static final String apiKey = "45634832";
+    private static final String apiSecret = "547b77a30287725ef942607913540d1eef48a161";
+    private static OpenTok opentok;
     
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
@@ -322,8 +330,8 @@ public class UserController {
         StringBuilder strResponse = new StringBuilder();
         if (!file.isEmpty()) {
             try {
-                byte[] bytes = file.getBytes();
-                Files.copy(file.getInputStream(), Paths.get(ROOT, file.getOriginalFilename()));
+                //byte[] bytes = file.getBytes();
+                Files.copy(file.getInputStream(), Paths.get(ROOT, filename));
                 strResponse.append("video cargado correctamente.");
                 responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
                 responseService.setOutput(strResponse);
@@ -341,6 +349,29 @@ public class UserController {
             responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
+    }
+    
+    @RequestMapping(value = "/session/opentok", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getSessionOpenTok(HttpSession session, HttpServletResponse response) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            opentok = new OpenTok(Integer.parseInt(apiKey), apiSecret);
+            String sessionId = opentok.createSession().getSessionId();
+            String token = opentok.generateToken(sessionId);
+            OpenTokDTO openTok =  new OpenTokDTO(apiKey, sessionId, token);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setOutput(openTok);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (NumberFormatException | OpenTokException e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
     }
   
 }

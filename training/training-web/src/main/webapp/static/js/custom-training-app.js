@@ -3,7 +3,7 @@
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
-var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute', 'ui.bootstrap','ngMessages','ngCamRecorder'])
+var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute', 'ui.bootstrap','ngMessages','ngCamRecorder','opentok'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide) {
 
             var route = routeResolverProvider.route;
@@ -29,6 +29,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/chat', route.resolve('chat', 'chat/'))
                     
                     .when('/video', route.resolve('video', 'video/'))
+                    
+                    .when('/videochat', route.resolve('videochat', 'videochat/'))
  
                     // route for the about page
                     .when('/about', {

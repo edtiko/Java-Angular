@@ -120,13 +120,13 @@ vaRecorder.directive("ngcamcecorder" , function(){
                         videoname :             $scope.configuration.recfuncConf.videoname,
                         audioname :             $scope.configuration.recfuncConf.audioname
                 };
-                virec.uploadData( uploadoptions , function(totalchunks, currentchunk){
+                virec.uploadData( uploadoptions , function(totalchunks, currentchunk, data){
                       $scope.$apply(function(){
                             $scope.uploadpresentage = parseInt(((currentchunk/totalchunks)*100));
                             if(totalchunks == currentchunk){
                                     $scope.uploadpresentage =false;
                                      if($scope.configuration.output.recordinguploaded){
-                                      $scope.configuration.output.recordinguploaded();
+                                      $scope.configuration.output.recordinguploaded(data);
                                     }
                             }
                       });

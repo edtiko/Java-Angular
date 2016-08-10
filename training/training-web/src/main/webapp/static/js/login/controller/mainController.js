@@ -5,6 +5,18 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
         $scope.successTextAlert = "";
         $scope.appReady = true;
         $scope.dt = new Date();
+        $scope.session = {apiKey:'',sessionId:'', token:''};
+        
+        this.getSessionOpenTok = function(){
+            AuthService.getSessionOpenTok($scope).then(
+                    function (d) {
+                    },
+                    function (errResponse) {
+                        console.error('Error while get session open tok');
+                        console.error(errResponse);
+                    }
+            );
+        };
 
         $scope.switchBool = function (value) {
             $scope[value] = !$scope[value];
@@ -112,6 +124,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
             );
         };
         this.setUserSession();
+        this.getSessionOpenTok();
 
         this.getUserSession = function () {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));

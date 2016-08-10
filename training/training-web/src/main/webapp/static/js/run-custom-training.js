@@ -35,7 +35,11 @@ require.config({
         viRecorder: "lib/vaRecorder/VIRecorder",
         surveyService: "questionnaire/service/surveyService",
         chatService: "chat/service/chatService",
-        videoService: "video/service/videoService"
+        videoService: "video/service/videoService",
+        videochatService: "videochat/service/videochatService",
+        opentok: "lib/opentok.min",
+        opentokAngular: "lib/opentok-angular",
+        opentokLayout: "lib/opentok-layout.min"
     },
     shim: {
         angular: {
@@ -62,6 +66,10 @@ require.config({
             deps: ['angular']
         },
         checklistModel: {
+            deps: ['angular']
+        },
+        opentokAngular: {
+            exports: 'opentok',
             deps: ['angular']
         },
         csrfInterceptor: {
@@ -99,7 +107,7 @@ require.config({
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket','ngCamRecorder','recorder','whammy','viRecorder']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket','ngCamRecorder','recorder','whammy','viRecorder','opentok','opentokAngular','opentokLayout']
         },
         surveyService: {
             deps: ['angular', 'trainingApp']
@@ -110,10 +118,13 @@ require.config({
         videoService: {
             deps: ['angular', 'trainingApp']
         },
+        videochatService: {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
-                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService', 'chatService','videoService']
+                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService', 'chatService','videoService','videochatService']
         }
     }
 });
