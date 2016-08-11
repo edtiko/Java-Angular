@@ -109,7 +109,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
         if (resultList != null && !resultList.isEmpty()) {
             HashMap<Integer, String> map = buildDataTypeHash();
             List<Integer> questionnaireQuestionIds = obtainQuestionnaireQuestionIds(resultList);
-            List<QuestionnaireResponse> responseList = questionnaireResponseDao.findByUserIdAndQuestionnaireQuestionId(questionnaireQuestionIds, questionnaireResponseParam.getUserId().getUserId());
+           // List<QuestionnaireResponse> responseList = questionnaireResponseDao.findByUserIdAndQuestionnaireQuestionId(questionnaireQuestionIds, questionnaireResponseParam.getUserId().getUserId());
             List<Integer> questionnaireResponseIds = new ArrayList<>();
             questionnaireResponseIds.add(0);
             
@@ -120,12 +120,12 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                         map,
                         questionOption);
             });
-            if(responseList !=null && !responseList.isEmpty()){
+           /* if(responseList !=null && !responseList.isEmpty()){
                 questionnaireResponseIds = obtainQuestionnaireResponseIds(responseList);
                 buildQuestionnaireResponse(responseList, questionnaireQuestionMap);
                 List<ResponseOption> responseOptionList = responseOptionDao.findByQuestionnaireResponseIds(questionnaireResponseIds);
                 buildResponseOption(responseOptionList, questionnaireQuestionMap);
-            }
+            }*/
             
             
         }
@@ -317,11 +317,14 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
         List<QuestionnaireQuestionDTO> listResult = new ArrayList<>();
    
           if (list != null && !list.isEmpty()) {
-              list.stream().forEach((questionnaireQuestion) -> {
+              for (QuestionnaireQuestion questionnaireQuestion : list) {
+                  
                   QuestionnaireQuestionDTO q = new QuestionnaireQuestionDTO();
                   QuestionDTO questionDto = QuestionDTO.mapFromQuestionEntity(questionnaireQuestion.getQuestionId());
                   QuestionnaireCategoryDTO categoryDTO = QuestionnaireCategoryDTO.mapFromQuestionnaireCategoryEntity(questionnaireQuestion.getQuestionnaireCategoryId());
-                  List<QuestionnaireResponseDTO> questionnaireResponseList = questionnaireQuestion.getQuestionnaireResponseCollection().stream().map(QuestionnaireResponseDTO::mapFromQuestionnaireResponseEntity).collect(Collectors.toList());
+                  //List<QuestionnaireResponseDTO> questionnaireResponseList = questionnaireQuestion.getQuestionnaireResponseCollection().stream().map(QuestionnaireResponseDTO::mapFromQuestionnaireResponseEntity).collect(Collectors.toList());
+                  List<QuestionnaireResponse> questionnaireResponse =  questionnaireResponseDao.findByUserIdAndQuestionnaireQuestionId(questionnaireQuestion.getQuestionnaireQuestionId(), userId);
+                  List<QuestionnaireResponseDTO> questionnaireResponseList = questionnaireResponse.stream().map(QuestionnaireResponseDTO::mapFromQuestionnaireResponseEntity).collect(Collectors.toList());
                   List<QuestionOptionDTO> questionOptionList =  questionnaireQuestion.getQuestionId().getQuestionOptionCollection().stream().map(QuestionOptionDTO::mapFromQuestionOptionEntity).collect(Collectors.toList());
                   
                   q.setQuestionnaire(questionnaireQuestion.getQuestionnaireId().getName());
@@ -332,7 +335,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
                   q.setQuestionnaireResponseList(questionnaireResponseList);
                   q.setQuestionnaireCategoryId(categoryDTO);
                   listResult.add(q);
-            });
+            }
   
             
             

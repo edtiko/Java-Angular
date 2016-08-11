@@ -2,8 +2,6 @@ package co.com.expertla.training.dao.questionnaire;
 
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.SePaginator;
-import co.com.expertla.training.model.entities.QuestionnaireCategory;
-import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.entities.QuestionnaireResponse;
 import java.util.List;
 
@@ -117,7 +115,7 @@ public interface QuestionnaireResponseDao {
      * @return
      * @throws DAOException 
      */
-    public List<QuestionnaireResponse> findByUserIdAndQuestionnaireQuestionId(List<Integer> questionnaireQuestionId, Integer seUserId) throws DAOException;
+    public List<QuestionnaireResponse> findByUserIdAndQuestionnaireQuestionId(Integer questionnaireQuestionId, Integer seUserId) throws DAOException;
 
     /**
      * Creates the history of the questionnaire response by questionnaireQuestion and userId <br>
