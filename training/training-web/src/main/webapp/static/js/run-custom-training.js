@@ -3,10 +3,12 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8080/training/";
+var $contextPath = "http://localhost:8085/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
+    waitSeconds: 200,
     paths: {
+        
         angular: 'lib/angular.min',
         angularMessages: 'lib/angular-messages.min',
         angularRoute: 'lib/angular-route.min',
@@ -18,14 +20,16 @@ require.config({
         checklistModel: "lib/checklist-model",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
-        disciplineService: "perfil/service/disciplineService",
-        modalityService: "perfil/service/modalityService",
-        objectiveService: "perfil/service/objectiveService",
-        sportEquipmentService: "perfil/service/sportEquipmentService",
-        sportService: "perfil/service/sportService",
-        userProfileService: "perfil/service/userProfileService",
+        userProfileService: "datosPersonales/service/userProfileService",
+        disciplineService: "configuration/service/disciplineService",
+        modalityService: "configuration/service/modalityService",
+        objectiveService: "configuration/service/objectiveService",
+        sportEquipmentService: "configuration/service/sportEquipmentService",
+        sportService: "configuration/service/sportService",
         authService: "login/service/authService",
         mainController: "login/controller/mainController",
+        dashboardService: "dashboard/service/dashboardService",
+        visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         app: "routeResolver",
 		surveyService: "questionnaire/service/surveyService"
     },
@@ -86,6 +90,12 @@ require.config({
         mainController: {
             deps: ['angular', 'authService']
         },
+        dashboardService: {
+            deps: ['angular', 'trainingApp']
+        },
+        visibleFieldsUserService: {
+            deps: ['angular','trainingApp']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel','angularAnimate']
         },
@@ -95,7 +105,7 @@ require.config({
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService', 
                 'modalityService', 'objectiveService', 'sportEquipmentService', 
-                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService']
+                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService','dashboardService','visibleFieldsUserService']
         }
     }
 });
