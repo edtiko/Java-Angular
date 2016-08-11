@@ -224,7 +224,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
 
 
         $scope.resetUser = function () {
-            $scope.user = {userId: null, firstName: '', secondName:'', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: '', age:''};
+            $scope.user = { firstName: '', secondName:'', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: '', age:''};
+            $scope.dt = null;
             $scope.myFormUser.$setPristine(); //reset Form
         };
         
@@ -697,7 +698,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
 
 
         $scope.resetSurvey = function () {
-            self.getAllQuestionnaireQuestion();
+            //self.getAllQuestionnaireQuestion();
+            angular.forEach($scope.survey, function (value, key) {
+                angular.forEach(value.questionnaireResponseList, function (v, k) {
+                    v.questionOptionId  = "";
+                    v.response = "";
+
+
+                });
+            });
         };
 
         $scope.submitSurvey = function () {
