@@ -26,41 +26,65 @@ require.config({
         objectiveService: "configuration/service/objectiveService",
         sportEquipmentService: "configuration/service/sportEquipmentService",
         sportService: "configuration/service/sportService",
+        calendarService: "calendar/service/calendarService",
         authService: "login/service/authService",
         mainController: "login/controller/mainController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         app: "routeResolver",
-		surveyService: "questionnaire/service/surveyService"
+        sockjs: "lib/sockjs.min",
+        stompWebsocket: "lib/stomp.min",
+        ngCamRecorder: "lib/vaRecorder/ngCamRecorder",
+        recorder: "lib/vaRecorder/recorder",
+        whammy: "lib/vaRecorder/whammy",
+        viRecorder: "lib/vaRecorder/VIRecorder",
+        surveyService: "questionnaire/service/surveyService",
+        chatService: "chat/service/chatService",
+        videoService: "video/service/videoService",
+        videochatService: "videochat/service/videochatService",
+        opentok: "lib/opentok.min",
+        opentokAngular: "lib/opentok-angular",
+        opentokLayout: "lib/opentok-layout.min"
     },
     shim: {
         angular: {
             exports: "angular"
         },
         angularRoute: {
-            exports: 'ngRoute', 
+            exports: 'ngRoute',
             deps: ['angular']
         },
-        angularAnimate:{
-             exports: 'ngAnimate', 
-            deps: ['angular']  
-        },
-        angularTouch:{
-            exports: 'angularTouch', 
+        angularAnimate: {
+            exports: 'ngAnimate',
             deps: ['angular']
         },
-        angularBoostrap:{
-            exports: 'angularBoostrap', 
+        angularTouch: {
+            exports: 'angularTouch',
             deps: ['angular']
         },
-        checklistModel:{
-           deps: ['angular'] 
+ ngCamRecorder: {
+            exports: 'ngCamRecorder',
+            deps: ['angular']
+        },
+        angularBoostrap: {
+            exports: 'angularBoostrap',
+            deps: ['angular']
+        },
+        checklistModel: {
+            deps: ['angular']
+        },
+        checklistModel: {
+            deps: ['angular']
+        },
+        opentokAngular: {
+            exports: 'opentok',
+            deps: ['angular']
         },
         csrfInterceptor: {
             deps: ['angular']
         },
         angularMessages: {
-            exports: 'ngMessages', 
+            exports: 'ngMessages',
             deps: ['angular']
         },
         userService: {
@@ -87,6 +111,9 @@ require.config({
         authService: {
             deps: ['angular', 'trainingApp']
         },
+        calendarService: {
+            deps: ['angular', 'trainingApp']
+        },
         mainController: {
             deps: ['angular', 'authService']
         },
@@ -97,16 +124,25 @@ require.config({
             deps: ['angular','trainingApp']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap','checklistModel','angularAnimate']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket','ngCamRecorder','recorder','whammy','viRecorder','opentok','opentokAngular','opentokLayout']
         },
-		surveyService: {
+        surveyService: {
+            deps: ['angular', 'trainingApp']
+        },
+        chatService: {
+            deps: ['angular', 'trainingApp']
+        },
+        videoService: {
+            deps: ['angular', 'trainingApp']
+        },
+        videochatService: {
             deps: ['angular', 'trainingApp']
         },
         app: {
-            deps: ['trainingApp', 'userService', 'disciplineService', 
-                'modalityService', 'objectiveService', 'sportEquipmentService', 
-                'sportService', 'userProfileService', 'authService', 'mainController', 'surveyService','dashboardService','visibleFieldsUserService']
-        }
+            deps: ['trainingApp', 'userService', 'disciplineService',
+                'modalityService', 'objectiveService', 'sportEquipmentService',
+                'sportService', 'userProfileService', 'authService',
+                'mainController', 'surveyService', 'calendarService', 'chatService','videoService','videochatService','dashboardService','visibleFieldsUserService']        }
     }
 });
 

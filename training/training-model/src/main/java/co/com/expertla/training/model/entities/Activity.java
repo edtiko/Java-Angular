@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -115,7 +116,7 @@ public class Activity implements Serializable {
     public void setPhysiologicalCapacityId(PhysiologicalCapacity physiologicalCapacityId) {
         this.physiologicalCapacityId = physiologicalCapacityId;
     }
-
+    @JsonIgnore
     public Collection<TrainingPlanWorkout> getTrainingPlanWorkoutCollection() {
         return trainingPlanWorkoutCollection;
     }

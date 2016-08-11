@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "objective")
 public class Objective implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -71,7 +73,7 @@ public class Objective implements Serializable {
     public void setLevel(int level) {
         this.level = level;
     }
-
+    @JsonIgnore
     public Collection<Activity> getActivityCollection() {
         return activityCollection;
     }
@@ -79,7 +81,7 @@ public class Objective implements Serializable {
     public void setActivityCollection(Collection<Activity> activityCollection) {
         this.activityCollection = activityCollection;
     }
-
+    @JsonIgnore
     public Collection<Dcf> getDcfCollection() {
         return dcfCollection;
     }
@@ -87,7 +89,7 @@ public class Objective implements Serializable {
     public void setDcfCollection(Collection<Dcf> dcfCollection) {
         this.dcfCollection = dcfCollection;
     }
-
+    @JsonIgnore
     public Collection<UserProfile> getUserProfileCollection() {
         return userProfileCollection;
     }
@@ -120,5 +122,6 @@ public class Objective implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.Objective[ objectiveId=" + objectiveId + " ]";
     }
+
     
 }

@@ -39,8 +39,9 @@ public class UserProfile implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)@SequenceGenerator(name = "user_profile_seq", sequenceName = "user_profile_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_seq")
+    @Basic(optional = false)
+    @SequenceGenerator(name = "user_profile_user_profile_id_seq", sequenceName = "user_profile_user_profile_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_profile_user_profile_id_seq")
     @Column(name = "user_profile_id")
     private Integer userProfileId;
     @Column(name = "ind_pulsometer")
@@ -51,6 +52,10 @@ public class UserProfile implements Serializable {
     private Integer ageSport;
     @Column(name = "ppm")
     private BigInteger ppm;
+    @Column(name = "vo2_running")
+    private Integer vo2Running;
+    @Column(name = "vo2_ciclismo")
+    private Integer vo2Ciclismo;
     @Column(name = "power")
     private BigInteger power;
     @Column(name = "sports_achievements")
@@ -160,6 +165,22 @@ public class UserProfile implements Serializable {
         this.userId = userId;
     }
 
+    public Integer getVo2Running() {
+        return vo2Running;
+    }
+
+    public void setVo2Running(Integer vo2Running) {
+        this.vo2Running = vo2Running;
+    }
+
+    public Integer getVo2Ciclismo() {
+        return vo2Ciclismo;
+    }
+
+    public void setVo2Ciclismo(Integer vo2Ciclismo) {
+        this.vo2Ciclismo = vo2Ciclismo;
+    }
+    
     public Collection<UserSport> getUserSportCollection() {
         return userSportCollection;
     }

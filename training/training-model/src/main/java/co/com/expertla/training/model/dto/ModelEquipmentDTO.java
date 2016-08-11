@@ -22,7 +22,7 @@ public class ModelEquipmentDTO implements Serializable{
         
     }
     
-    public ModelEquipmentDTO(Integer modelEquipmentId, Integer sportEquipmentId, String name){
+    public ModelEquipmentDTO(Integer modelEquipmentId,  String name, Integer sportEquipmentId){
         this.modelEquipmentId = modelEquipmentId;
         this.sportEquipmentId = sportEquipmentId;
         this.name = name;

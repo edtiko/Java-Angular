@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="//code.ionicframework.com/ionicons/1.4.1/css/ionicons.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/5.14.2/codemirror.css" media="screen" title="no title" charset="utf-8">
+
+<style type="text/css" media="screen">
+    ot-publisher,ot-subscriber,ot-layout {
+        display: block;
+        overflow: hidden;
+    }
+    ot-layout {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+
+<div class="container">
+    <ot-layout props="{animate:true,bigFixedRatio:true}">
+        <ot-subscriber ng-repeat="stream in streams| filter:notMine"
+                       stream="stream"
+                       props="{style: {nameDisplayMode: 'off'}}"
+                       ng-class="{OT_big: (expanded == undefined && stream.name == 'screen') || expanded}"
+                       ng-dblclick="$emit('changeSize')">
+            <subscriber-stats stream="stream"></subscriber-stats>
+            <restrict-framerate></restrict-framerate>
+            <mute-video mute-subscriber></mute-video>
+            <expand-button></expand-button>
+        </ot-subscriber>
+    </ot-layout>
+    <div id="facePublisher"
+         draggable="true">
+        <ot-publisher id="facePublisher"
+                      props="facePublisherProps">
+        </ot-publisher>
+        <mute-video publisher-id="facePublisher" mute-publisher></mute-video>
+    </div>
+</div>

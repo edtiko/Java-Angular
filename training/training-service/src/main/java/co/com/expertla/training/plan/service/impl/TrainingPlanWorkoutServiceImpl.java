@@ -661,4 +661,19 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         return availableDays;
     }
 
+	@Override
+    public TrainingPlanWorkout create(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        return trainingPlanWorkoutDao.createTrainingPlanWorkout(trainingPlanWorkout);
+    }
+    
+    @Override
+    public void delete(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        trainingPlanWorkoutDao.remove(trainingPlanWorkout, trainingPlanWorkout.getTrainingPlanWorkoutId());
+    }
+
+	@Override
+    public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        return trainingPlanWorkoutDao.getById(trainingPlanWorkout);
+    }
+
 }

@@ -5,6 +5,19 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
         $scope.successTextAlert = "";
         $scope.appReady = true;
         $scope.fields = [];
+		$scope.dt = new Date();
+        $scope.session = {apiKey:'',sessionId:'', token:''};
+        
+        this.getSessionOpenTok = function(){
+            AuthService.getSessionOpenTok($scope).then(
+                    function (d) {
+                    },
+                    function (errResponse) {
+                        console.error('Error while get session open tok');
+                        console.error(errResponse);
+                    }
+            );
+        };
 
         $scope.switchBool = function (value) {
             $scope[value] = !$scope[value];
@@ -50,13 +63,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                     mode = data.mode;
             return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
         }
-
-        /*$scope.toggleMin = function () {
-         $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
-         $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
-         };
-         
-         $scope.toggleMin();*/
 
         $scope.open = function () {
             $scope.popup.opened = true;
@@ -119,6 +125,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
             );
         };
         this.setUserSession();
+        this.getSessionOpenTok();
 
         this.getUserSession = function () {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -143,7 +150,10 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                         );
             }
         };
-    }]);
+        
+        $scope.logout = function () {
+            window.location = 'http://181.143.227.220:8081/cpt/my-account/customer-logout/';
+        };    }]);
 
 trainingApp.directive('stringToNumber', function () {
     return {

@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -77,7 +78,7 @@ public class Discipline implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    @JsonIgnore
     public Collection<Modality> getModalityCollection() {
         return modalityCollection;
     }
@@ -85,7 +86,7 @@ public class Discipline implements Serializable {
     public void setModalityCollection(Collection<Modality> modalityCollection) {
         this.modalityCollection = modalityCollection;
     }
-
+    @JsonIgnore
     public Collection<DisciplineUser> getDisciplineUserCollection() {
         return disciplineUserCollection;
     }
@@ -118,7 +119,7 @@ public class Discipline implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.Discipline[ disciplineId=" + disciplineId + " ]";
     }
-
+    @JsonIgnore
     public List<Questionnaire> getQuestionnaireList() {
         return questionnaireList;
     }

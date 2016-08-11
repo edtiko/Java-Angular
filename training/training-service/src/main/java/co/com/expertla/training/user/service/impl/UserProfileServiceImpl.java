@@ -95,6 +95,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         List<SportEquipmentDTO> listPulsometer = equipmentUserProfileDao.findDTOPulsometersByUserId(id);
         if(listPulsometer != null && !listPulsometer.isEmpty()) {
             userProfile.setPulsometer(listPulsometer.get(0).getSportEquipmentId());
+            userProfile.setModelPulsometer(listPulsometer.get(0).getModelEquipmentId());
         } else {
             userProfile.setPulsometer(-1);
         }
@@ -102,6 +103,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         List<SportEquipmentDTO> listPotentiometer = equipmentUserProfileDao.findDTOPotentiometersByUserId(id);
         if(listPotentiometer != null && !listPotentiometer.isEmpty()) {
             userProfile.setPotentiometer(listPotentiometer.get(0).getSportEquipmentId());
+            userProfile.setModelPotentiometer(listPotentiometer.get(0).getModelEquipmentId());
         } else {
             userProfile.setPotentiometer(-1);
         }
@@ -201,6 +203,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
         userProfile.setAgeSport(dto.getAgeSport());
         userProfile.setPpm(dto.getPpm());
+        userProfile.setVo2Running(dto.getVo2Running());
+        userProfile.setVo2Ciclismo(dto.getVo2Ciclismo());
         userProfile.setPower(dto.getPower());
         userProfile.setSportsAchievements(dto.getSportsAchievements());
         userProfile.setAboutMe(dto.getAboutMe());
@@ -325,6 +329,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setPpm(dto.getPpm());
         userProfile.setSportsAchievements(dto.getSportsAchievements());
         userProfile.setUserId(new User(dto.getUserId()));
+        userProfile.setVo2Running(dto.getVo2Running());
+        userProfile.setVo2Ciclismo(dto.getVo2Ciclismo());
         userProfile.setUserProfileId(dto.getUserProfileId());
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
     }
@@ -338,10 +344,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildPulsometerObject(UserProfileDTO dto, EquipmentUserProfile pulsometer) {
         if (pulsometer != null && !new Integer(-1).equals(dto.getPulsometer()) ) {
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
+             if(dto.getModelPulsometer() != null){
+                pulsometer.setModelEquipmentId(new ModelEquipment(dto.getModelPulsometer()));
+            }
         } else if (!new Integer(-1).equals(dto.getPulsometer())) {
             pulsometer = new EquipmentUserProfile();
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             pulsometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
+             if(dto.getModelPulsometer() != null){
+                pulsometer.setModelEquipmentId(new ModelEquipment(dto.getModelPulsometer()));
+            }
         }
         return pulsometer;
     }
@@ -355,10 +367,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildPotentiometerObject(UserProfileDTO dto, EquipmentUserProfile potentiometer) {
         if (potentiometer != null && !new Integer(-1).equals(dto.getPotentiometer())) {
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
+            if(dto.getModelPotentiometer() != null){
+                potentiometer.setModelEquipmentId(new ModelEquipment(dto.getModelPotentiometer()));
+            }
         } else if(!new Integer(-1).equals(dto.getPotentiometer())){
             potentiometer = new EquipmentUserProfile();
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             potentiometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
+              if(dto.getModelPotentiometer() != null){
+                potentiometer.setModelEquipmentId(new ModelEquipment(dto.getModelPotentiometer()));
+            }
         }
         return potentiometer;
     }

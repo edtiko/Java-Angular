@@ -31,7 +31,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, ");
-        sql.append("t.activityId.activityId, t.activityId.name, t.activityId.modalityId.modalityId, t.activityId.modalityId.name, ");
+        sql.append("t.activityId.activityId, t.activityId.name, t.activityId.description, t.activityId.modalityId.modalityId, t.activityId.modalityId.name, ");
         sql.append("t.activityId.objectiveId.objectiveId, t.activityId.objectiveId.name, ");
         sql.append("t.activityId.modalityId.disciplineId.disciplineId, t.activityId.modalityId.disciplineId.name, ");
         sql.append("t.activityId.objectiveId.level, u.userId.userId) ");
@@ -51,6 +51,11 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     public List<TrainingPlanWorkout> createList (List<TrainingPlanWorkout> list) throws Exception {
         List<TrainingPlanWorkout> listCreated = bulkSave(list);
         return listCreated;
+    }
+    
+    @Override
+    public TrainingPlanWorkout createTrainingPlanWorkout (TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        return create(trainingPlanWorkout);
     }
     
     private <T extends TrainingPlanWorkout> List<T> bulkSave(List<T> entities) {
@@ -76,5 +81,14 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
             getEntityManager().merge(t);
             return t;
         }
+    }
+
+    @Override
+    public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t FROM TrainingPlanWorkout t ");
+        sql.append("WHERE t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
+        setParameter("trainingPlanWorkoutId", trainingPlanWorkout.getTrainingPlanWorkoutId());
+        return createQuery(sql.toString());
     }
 }

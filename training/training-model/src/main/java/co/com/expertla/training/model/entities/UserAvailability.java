@@ -38,8 +38,9 @@ public class UserAvailability implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)@SequenceGenerator(name = "user_availability_seq", sequenceName = "user_availability_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_availability_seq")
+    @Basic(optional = false)
+    @SequenceGenerator(name = "user_availability_user_availability_id_seq", sequenceName = "user_availability_user_availability_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_availability_user_availability_id_seq")
     @Column(name = "user_availability_id")
     private Integer userAvailabilityId;
     @Column(name = "monday")

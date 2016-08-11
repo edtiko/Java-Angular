@@ -3,15 +3,27 @@
  */
 package co.com.expertla.training.web.user.controller;
 
+import co.com.expertla.training.enums.StateEnum;
+import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
+import co.com.expertla.training.model.dto.Message;
+import co.com.expertla.training.model.dto.OpenTokDTO;
+import co.com.expertla.training.model.dto.OutputMessage;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
+import co.com.expertla.training.model.entities.Role;
+import co.com.expertla.training.model.entities.RoleUser;
+import co.com.expertla.training.model.entities.State;
+import co.com.expertla.training.model.entities.TrainingPlan;
+import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.user.service.DisciplineUserService;
+import co.com.expertla.training.plan.service.TrainingPlanUserService;
+import co.com.expertla.training.security.service.RoleUserService;
+import co.com.expertla.training.service.DisciplineUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.user.service.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
+import com.opentok.OpenTok;
+import com.opentok.exception.OpenTokException;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +46,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +55,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
   
 @RestController
@@ -46,6 +66,10 @@ public class UserController {
   
     
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
+    public static final String ROOT = "c:/upload-video/";
+    private static final String apiKey = "45634832";
+    private static final String apiSecret = "547b77a30287725ef942607913540d1eef48a161";
+    private static OpenTok opentok;
     
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
@@ -54,6 +78,11 @@ public class UserController {
     @Autowired
     DisciplineUserService disciplineUserService;
 
+    @Autowired
+    RoleUserService roleUserService;
+    
+    @Autowired
+    TrainingPlanUserService trainingPlanUserService;
     	/**
 	 * Upload single file using Spring Controller
      * @param file
@@ -151,6 +180,17 @@ public class UserController {
             user.setPhone(userDTO.getPhone());
             user.setLastName(userDTO.getLastName());
             user.setSex(userDTO.getSex());
+            
+            Role role = new Role();
+            
+            if(userDTO.getTypeUser().equals("atleta")) {
+                role.setRoleId(1);
+            } else if(userDTO.getTypeUser().equals("coach")) {
+                role.setRoleId(2);
+            } else {
+              role.setRoleId(3);   
+            }
+            
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
@@ -163,6 +203,17 @@ public class UserController {
             disciplineUser.setUserId(new User(userId));
             disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
             disciplineUserService.create(disciplineUser);
+            RoleUser roleUser = new RoleUser();
+            roleUser.setRoleId(role);
+            roleUser.setUserId(user);
+            roleUserService.create(roleUser);
+            
+            TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+            trainingPlanUser.setStateId(new State(StateEnum.ACTIVE.getId()));
+            trainingPlanUser.setUserId(user);
+            trainingPlanUser.setTrainingPlanId(new TrainingPlan(1));//Plan basico por defecto
+            trainingPlanUserService.create(trainingPlanUser);
+            
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {
@@ -191,7 +242,7 @@ public class UserController {
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al crear usuario");
+            responseService.setOutput("Error interno");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -296,10 +347,67 @@ public class UserController {
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
     
+    @MessageMapping("/chat")
+    @SendTo("/topic/message")
+    public OutputMessage sendMessage(Message message) {
+        return new OutputMessage(message, new Date());
+    }
+    
      @ExceptionHandler(Exception.class)
     public ResponseEntity<String> errorHandler(Exception exc) {
         LOGGER.error(exc.getMessage(), exc);
         return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    
+    @RequestMapping(value = "/video/upload", method = RequestMethod.POST)
+    public @ResponseBody
+    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        if (!file.isEmpty()) {
+            try {
+                //byte[] bytes = file.getBytes();
+                Files.copy(file.getInputStream(), Paths.get(ROOT, filename));
+                strResponse.append("video cargado correctamente.");
+                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+                responseService.setOutput(strResponse);
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                responseService.setOutput(strResponse);
+                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+                responseService.setDetail(e.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            }
+        } else {
+            strResponse.append("Video cargado esta vacio.");
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "/session/opentok", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getSessionOpenTok(HttpSession session, HttpServletResponse response) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            opentok = new OpenTok(Integer.parseInt(apiKey), apiSecret);
+            String sessionId = opentok.createSession().getSessionId();
+            String token = opentok.generateToken(sessionId);
+            OpenTokDTO openTok =  new OpenTokDTO(apiKey, sessionId, token);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setOutput(openTok);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (NumberFormatException | OpenTokException e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
     }
   
 }

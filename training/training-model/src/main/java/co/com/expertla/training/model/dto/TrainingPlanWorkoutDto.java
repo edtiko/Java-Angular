@@ -19,6 +19,7 @@ public class TrainingPlanWorkoutDto {
     private String className;
     private Integer activityId;
     private String title;
+    private String activityDescription;
     private Integer modalityId;
     private String modality;
     private Integer disciplineId;
@@ -32,12 +33,13 @@ public class TrainingPlanWorkoutDto {
     }
 
     public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
-            Integer activityId, String activity, Integer modalityId, String modality,
+            Integer activityId, String activity, String activityDescription, Integer modalityId, String modality,
             Integer objectiveId, String objective, Integer disciplineId, String discipline, Integer level, Integer userId) {
         this.id = trainingPlanWorkoutId;
         this.workoutDate = workoutDate;
         this.activityId = activityId;
         this.title = activity;
+        this.activityDescription = activityDescription;
         this.modalityId = modalityId;
         this.modality = modality;
         this.disciplineId = disciplineId;
@@ -174,6 +176,14 @@ public class TrainingPlanWorkoutDto {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getActivityDescription() {
+        return activityDescription;
+    }
+
+    public void setActivityDescription(String activityDescription) {
+        this.activityDescription = activityDescription;
     }
     
     

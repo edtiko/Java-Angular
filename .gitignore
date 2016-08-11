@@ -28,3 +28,4 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+training/training-web/src/main/webapp/static/bower_components/

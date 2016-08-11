@@ -115,7 +115,7 @@
                                 );
                     },
                     updateUser: function (user, id) {
-                        //user.birthDate = user.birthDate.getDate()+'/'+(user.birthDate.getMonth() + 1)+'/'+user.birthDate.getFullYear();
+                        user.birthDate = user.birthDate.getDate()+'/'+(user.birthDate.getMonth() + 1)+'/'+user.birthDate.getFullYear();
                         return $http.put($contextPath + '/user/' + id, user)
                                 .then(
                                         function (response) {
