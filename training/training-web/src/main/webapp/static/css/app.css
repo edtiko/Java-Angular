@@ -27,6 +27,10 @@ body{
     margin-right: 5%;
 }
 
+.circular {
+    border-radius: 50%;
+}
+
 input.ng-dirty.ng-invalid-required, input.ng-invalid-email {
     border:  solid 1px #a94442;
 }

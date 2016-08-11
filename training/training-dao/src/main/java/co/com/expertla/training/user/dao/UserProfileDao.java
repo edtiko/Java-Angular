@@ -1,6 +1,7 @@
 package co.com.expertla.training.user.dao;
 
 import co.com.expertla.base.jpa.BaseDAO;
+import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
 import co.com.expertla.training.model.entities.UserProfile;
 
@@ -34,4 +35,15 @@ public interface UserProfileDao extends BaseDAO<UserProfile> {
      * @return
      */
     public UserProfile findByUserId(Integer id) throws Exception;
+    
+    /**
+     * Busca Dashboard dto por user Id <br>
+     * Creation Date : <br>
+     * date 10/08/2016 <br>
+     * @author Angela Ramírez
+     * @throws Exception
+     * @param id
+     * @return
+     */
+    public DashboardDTO findDashboardDTOByUserId(Integer id) throws Exception;
 }

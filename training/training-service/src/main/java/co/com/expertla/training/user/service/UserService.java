@@ -1,7 +1,7 @@
 /**
  *
  */
-package co.com.expertla.training.service;
+package co.com.expertla.training.user.service;
 
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;

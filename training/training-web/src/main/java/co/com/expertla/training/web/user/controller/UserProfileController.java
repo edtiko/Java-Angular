@@ -1,8 +1,9 @@
 package co.com.expertla.training.web.user.controller;
 
+import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
 import co.com.expertla.training.model.entities.ResponseService;
-import co.com.expertla.training.service.UserProfileService;
+import co.com.expertla.training.user.service.UserProfileService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
@@ -96,6 +97,27 @@ public class UserProfileController {
         }   catch (Exception e) {
             Logger.getLogger(UserProfileController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    
+    @RequestMapping(value = "dashboard/get/by/id", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response findDashboardById(@RequestBody UserProfileDTO userProfile) {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        try {
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+            
+            DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userProfile.getUserId());
+            responseService.setOutput(dashboard);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }   catch (Exception e) {
+            Logger.getLogger(UserProfileController.class.getName()).log(Priority.FATAL, null, e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());

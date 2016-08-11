@@ -1,9 +1,9 @@
-package co.com.expertla.training.service.impl;
+package co.com.expertla.training.user.service.impl;
 
 import co.com.expertla.training.user.dao.UserAvailabilityDao;
 import co.com.expertla.training.model.dto.UserAvailabilityDTO;
 import co.com.expertla.training.model.entities.UserAvailability;
-import co.com.expertla.training.service.UserAvailabilityService;
+import co.com.expertla.training.user.service.UserAvailabilityService;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -23,14 +23,13 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.plan.service.TrainingPlanUserService;
 import co.com.expertla.training.security.service.RoleUserService;
-import co.com.expertla.training.service.DisciplineUserService;
-
+import co.com.expertla.training.user.service.DisciplineUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import co.com.expertla.training.service.UserService;
+import co.com.expertla.training.user.service.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import com.opentok.OpenTok;
 import com.opentok.exception.OpenTokException;

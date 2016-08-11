@@ -1,13 +1,15 @@
 // create the controller and inject Angular's $scope
-trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
-  
+trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleFieldsUserService', '$window', function ($scope, AuthService, VisibleFieldsUserService, $window) {
+
         $scope.successTextAlert = "";
+        $scope.fields = [];
+        $scope.dt = new Date();
         $scope.appReady = true;
         $scope.userLogin = "";
 
         $scope.switchBool = function (id) {
-             var e = angular.element('#'+id);
-             e.hide();
+            var e = angular.element('#' + id);
+            e.hide();
             //$scope[value] = !$scope[value];
         };
 
@@ -38,7 +40,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
             startingDay: 1
         };
 
- 
+
         /*$scope.toggleMin = function () {
          $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
          $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
@@ -62,7 +64,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
             opened: false
         };
 
-  
+
 
         this.setUserSession = function () {
             AuthService.setUserSession($scope).then(
@@ -83,7 +85,23 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
             }
             return user;
         };
-        
+
+        $scope.getVisibleFieldsUserByUser = function () {
+            var user = JSON.parse(sessionStorage.getItem("userInfo"));
+            if (user != null) {
+                VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
+                        .then(
+                                function (response) {
+                                    $scope.fields = response;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching Visible Fields');
+                                    console.error(errResponse);
+                                }
+                        );
+            }
+        };
+
         $scope.logout = function () {
             window.location = 'http://181.143.227.220:8081/cpt/my-account/customer-logout/';
         };

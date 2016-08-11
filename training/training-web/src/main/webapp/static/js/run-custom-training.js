@@ -3,11 +3,12 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//var $contextPath = "http://localhost:8080/training/";
-var $contextPath = "http://181.143.227.220:8086/training/";
+var $contextPath = "http://localhost:8085/training/";
+//var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
     waitSeconds: 200,
     paths: {
+        
         angular: 'lib/angular.min',
         angularMessages: 'lib/angular-messages.min',
         angularRoute: 'lib/angular-route.min',
@@ -18,16 +19,18 @@ require.config({
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
-        disciplineService: "perfil/service/disciplineService",
-        modalityService: "perfil/service/modalityService",
-        objectiveService: "perfil/service/objectiveService",
-        sportEquipmentService: "perfil/service/sportEquipmentService",
-        sportService: "perfil/service/sportService",
-        userProfileService: "perfil/service/userProfileService",
+        userProfileService: "datosPersonales/service/userProfileService",
+        disciplineService: "configuration/service/disciplineService",
+        modalityService: "configuration/service/modalityService",
+        objectiveService: "configuration/service/objectiveService",
+        sportEquipmentService: "configuration/service/sportEquipmentService",
+        sportService: "configuration/service/sportService",
         calendarService: "calendar/service/calendarService",
         authService: "login/service/authService",
         surveyService: "questionnaire/service/surveyService",
         mainController: "login/controller/mainController",
+        dashboardService: "dashboard/service/dashboardService",
+        visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         app: "routeResolver",
         sockjs: "lib/sockjs.min",
         stompWebsocket: "lib/stomp.min",
@@ -108,6 +111,12 @@ require.config({
         mainController: {
             deps: ['angular', 'authService']
         },
+        dashboardService: {
+            deps: ['angular', 'trainingApp']
+        },
+        visibleFieldsUserService: {
+            deps: ['angular','trainingApp']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute',
                 'angularBoostrap', 'angularAnimate'
@@ -135,10 +144,10 @@ require.config({
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
-                'mainController', 'surveyService', 'calendarService'
+                'mainController', 'surveyService', 'calendarService',
+                ,'visibleFieldsUserService','utilService', 'dashboardService'
 //                'chatService','videoService','videochatService'
-            ]
-        }
+            ] }
     }
 });
 

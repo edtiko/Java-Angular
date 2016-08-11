@@ -1,0 +1,281 @@
+<div class="container" ng-show="appReady" id="dashboard-container">
+    <div>
+
+        <div>
+            <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;left: 50%;position: absolute;top: 80px;">
+            <h1 style="left: 50%;position: absolute;top: 320px;"> {{user.name}} {{user.lastName}}</h1>
+        </div>
+        <div>
+            <a href="#calendar">
+                <img data-ng-src="static/img/calendar_icon.jpg" style="height: 100px; width: 150px;left: 45%;position: absolute;bottom: 20%;">
+                <h2 style="left: 47%;position: absolute;bottom:10%;"> Calendario </h2>
+            </a>
+        </div>
+        <div>
+            <a href="#">
+                <img data-ng-src="static/img/graphic_icon.jpg" style="height: 100px; width: 150px;left: 68%;position: absolute;bottom: 20%;">
+                <h2 style="left: 65%;position: absolute;bottom:10%;"> Gr&aacute;ficas de Desempe&ntilde;o </h2>
+            </a>
+        </div>
+        <div>
+            <a href="#data-person" class="btn btn-primary" style="left: 73%;position: absolute;top: 335px;">
+                Editar Perfil
+            </a>
+        </div>
+        
+        <div>   
+            <div class="panel-group" style="width: 40%;">
+                <!--Datos Personales Title-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a data-toggle="collapse" href="/#collapse1" > Datos Personales </a> 
+                        </h3>
+                    </div>
+                </div>
+                <!--Panel de Datos Personales-->
+                <div style="margin-top: 2%;" class="panel-collapse collapse in" id="collapse1">
+                    <div class="row" ng-show="visibleField('user_training','email')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Correo Electr&oacute;nico</span>
+                            <div class="col-md-5">
+                                {{user.email}}
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_training','sex')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Sexo</span>
+                            <div class="col-md-5" ng-show="user.sex=='f'">
+                                Femenino
+                            </div>
+
+                            <div class="col-md-5" ng-show="user.sex=='m'">
+                                Masculino
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_training','phone')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Tel&eacute;fono Fijo</span>
+                            <div class="col-md-5">
+                                {{user.phone}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_training','cellphone')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Celular</span>
+                            <div class="col-md-5">
+                                {{user.cellphone}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" >
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Pa&iacute;s</span>
+                            <div class="col-md-5">
+                                {{user.country}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Estado</span>
+                            <div class="col-md-5">
+                                {{user.federalState}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Ciudad</span>
+                            <div class="col-md-5">
+                                {{user.city}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_training','address')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Direcci&oacute;n</span>
+                            <div class="col-md-5">
+                                {{user.address}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_training','postal_code')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">C&oacute;digo Postal</span>
+                            <div class="col-md-5">
+                                {{user.postalCode}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_training','birth_date')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Fecha de Nacimiento</span>
+                            <div class="col-md-5">
+                                {{user.birthDate}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_training','facebook_page')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">P&aacute;gina de Facebook </span>
+                            <div class="col-md-5">
+                                {{user.facebookPage}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Datos Deportivos Title-->
+                <div class="panel panel-default" ng-show="visibleField('user_profile',null)" >
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a data-toggle="collapse" href="/#collapse2" > Datos Deportivos </a> 
+                        </h3>
+                    </div>
+                </div>
+                <!--Datos Deportivos Panel-->
+                <div  style="margin-top: 2%"  class="panel-collapse collapse" id="collapse2">
+                    <div class="row" ng-show="visibleField('user_profile','pulsometer')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Puls&oacute;metro</span>
+                            <div class="col-md-5">
+                                {{user.pulsometer}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile','potentiometer')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Potenci&oacute;metro</span>
+                            <div class="col-md-5">
+                                {{user.potentiometer}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile','bike')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Bicicleta</span>
+                            <div class="col-md-5">
+                                {{user.bikes}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'user_availability')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Disponibilidad de Tiempo</span>
+                            <div class="col-md-5">
+                                {{user.availability}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'objective')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Objetivo</span>
+                            <div class="col-md-5">
+                                {{user.objective}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'shoes')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Zapato Deportivo</span>
+                            <div class="col-md-5">
+                                {{user.shoes}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'discipline')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Disciplina Deportiva</span>
+                            <div class="col-md-5">
+                                {{user.discipline}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'modality')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Modalidad</span>
+                            <div class="col-md-5">
+                                {{user.modality}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'ageSport')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Edad Deportiva</span>
+                            <div class="col-md-5">
+                                {{user.ageSport}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'ppm')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Ppm</span>
+                            <div class="col-md-5">
+                                {{user.ppm}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'power')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Potencia</span>
+                            <div class="col-md-5">
+                                {{user.power}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'sport')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Otro Deporte</span>
+                            <div class="col-md-5">
+                                {{user.sport}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'sports_achievements')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Logros Deportivos </span>
+                            <div class="col-md-5">
+                                {{user.sportsAchievements}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" ng-show="visibleField('user_profile', 'aboutMe')">
+                        <div class="form-group col-md-12">
+                            <span class="col-md-5">Acerca de m&iacute;</span>
+                            <div class="col-md-5">
+                                {{user.aboutMe}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

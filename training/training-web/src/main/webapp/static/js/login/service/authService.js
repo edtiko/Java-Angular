@@ -8,6 +8,7 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
                                 $scope.appReady = true;
                                 $scope.userLogin = res.data.entity.output.login;
                                 $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+                                $scope.getVisibleFieldsUserByUser();
                             }
                             return res;
                         }, function (errResponse) {
