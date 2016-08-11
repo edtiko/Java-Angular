@@ -73,6 +73,9 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @Column(name = "second_name")
+    private String secondName;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "email")
@@ -190,6 +193,15 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+    
 
     public String getLastName() {
         return lastName;

@@ -158,6 +158,21 @@
                                         }
                                 );      
                         
-                    }
+            },
+            isImage: function (src) {
+
+                var deferred = $q.defer();
+                var res = false;
+                var image = new Image();
+                image.onerror = function () {
+                    deferred.resolve(false);
+                };
+                image.onload = function () {
+                    deferred.resolve(true);
+                };
+                image.src = src;
+
+                return deferred.promise;
+            }
                 };
             }]);

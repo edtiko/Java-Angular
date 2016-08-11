@@ -1,12 +1,13 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
-
-        $scope.showSuccessAlert = false;
+  
         $scope.successTextAlert = "";
         $scope.appReady = true;
         $scope.userLogin = "";
-		$scope.dt = new Date();
         $scope.session = {apiKey:'',sessionId:'', token:''};
+        $scope.showSuccessAlertUser = false;
+        $scope.showSuccessAlertDeportivos = false;
+        $scope.showSuccessAlertEncuesta = false;
         
         this.getSessionOpenTok = function(){
             AuthService.getSessionOpenTok($scope).then(
@@ -19,14 +20,15 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
             );
         };
 
-        $scope.switchBool = function (value) {
-            $scope[value] = !$scope[value];
+        $scope.switchBool = function (id) {
+             var e = angular.element('#'+id);
+             e.hide();
+            //$scope[value] = !$scope[value];
         };
 
         $scope.showMessage = function (msg, type) {
             $scope.successTextAlert = msg;
-            var e = angular.element('#messages');
-            $scope.showSuccessAlert = true;
+            var e = angular.element('.messages');
             if (type === 'error') {
                 e.removeClass('alert-success');
                 e.addClass('alert-danger');
@@ -35,7 +37,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
                 e.removeClass('alert-danger');
                 e.addClass('alert-success');
             }
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            //document.body.scrollTop = document.documentElement.scrollTop = 0;
 
         };
 

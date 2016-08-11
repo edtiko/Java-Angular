@@ -312,8 +312,8 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
     }
 
     @Override
-    public List<QuestionnaireQuestionDTO> findByDisciplineId(Integer disciplineId) throws Exception {
-        List<QuestionnaireQuestion> list = questionnaireQuestionDao.findByDisciplineId(disciplineId);
+    public List<QuestionnaireQuestionDTO> findByDisciplineId(Integer disciplineId, Integer userId) throws Exception {
+        List<QuestionnaireQuestion> list = questionnaireQuestionDao.findByDisciplineId(disciplineId, userId);
         List<QuestionnaireQuestionDTO> listResult = new ArrayList<>();
    
           if (list != null && !list.isEmpty()) {
