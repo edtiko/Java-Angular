@@ -7,6 +7,7 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
                             if (res.data.entity.output != null) {
                                 $scope.appReady = true;
                                 $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+                                $scope.getVisibleFieldsUserByUser();
                             }
                             return res;
                         }, function (errResponse) {

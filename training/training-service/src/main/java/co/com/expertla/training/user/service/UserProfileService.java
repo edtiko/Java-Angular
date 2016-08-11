@@ -1,5 +1,6 @@
-package co.com.expertla.training.service;
+package co.com.expertla.training.user.service;
 
+import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
 import co.com.expertla.training.model.entities.UserProfile;
 
@@ -53,4 +54,16 @@ public interface UserProfileService {
      * @return
      */
     public UserProfile findByUserId(Integer id) throws Exception;
+    
+    
+    /**
+     * Busca Dashboard dto por user Id <br>
+     * Creation Date : <br>
+     * date 10/08/2016 <br>
+     * @author Angela Ramírez
+     * @throws Exception
+     * @param id
+     * @return
+     */
+    public DashboardDTO findDashboardDTOByUserId(Integer id) throws Exception;
 }

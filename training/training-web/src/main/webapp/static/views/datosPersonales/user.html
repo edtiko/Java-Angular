@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="uname">Nombres:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="text" ng-model="user.name" id="uname" name="uname" class="form-control input-sm" placeholder="Ingrese su Nombre" required="" ng-minlength="3"/>
                                 <div class="has-error" ng-messages="myFormUser.uname.$error">
                                     <div ng-message="required">Este es un campo requerido</div>
@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="lname">Apellidos:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="text" ng-model="user.lastName" id="lname" name="lname" class="form-control input-sm" placeholder="Ingrese su Apellido" required ng-minlength="3"/>
                                 <div class="has-error" ng-messages="myFormUser.lname.$error">
                                     <div ng-message="required">Este es un campo requerido</div>
@@ -33,48 +33,51 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="email">Correo Electr&oacute;nico:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="email" ng-model="user.email" id="email" name="email" class="email form-control input-sm" placeholder="Ingrese su Correo" required/>
                          
                                 <div class="has-error" ng-messages="myFormUser.email.$error">
                                     <div ng-message="required">Este es un campo requerido</div>
                                     <div ng-message="email">Su correo es invalido</div>
                                 </div>
-                                
                             </div>
+                            <input  style="margin-top: 1%" type="checkbox" ng-checked="visibleField('user_training','email')"> Mostrar 
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="sex">Sexo:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <select id="sex" ng-model="user.sex" ng-options="k.code as k.sex for k in sexOptions" class="form-control"></select>
                                  <div class="has-error" ng-messages="myFormUser.sex.$error">
                                     <div ng-message="required">Este es un campo requerido</div>
                                 </div>
                             </div>
+                            <input  style="margin-top: 1%" type="checkbox" ng-checked="visibleField('user_training','sex')"> Mostrar
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="phone">Tel&eacute;fono fijo:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="text" ng-model="user.phone" id="phone" class="form-control input-sm" placeholder="Ingrese su Tel&eacute;fono"/>
                             </div>
+                            <input   style="margin-top: 1%"type="checkbox" ng-checked="visibleField('user_training','phone')"> Mostrar
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="cellphone">Celular:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="text" ng-model="user.cellphone" id="cellphone" class="form-control input-sm" placeholder="Ingrese su Celular"/>
                             </div>
+                            <input   style="margin-top: 1%"type="checkbox" ng-checked="visibleField('user_training','cellphone')"> Mostrar
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="country">Pa&iacute;s:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <select ng-init="" placeholder="Ingrese su País" id="country" ng-model="user.countryId" ng-options="country.countryId as country.name for country in countries" ng-change="getStatesByCountry(user.countryId)" class="form-control"></select>
                             </div>
                         </div>
@@ -82,7 +85,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="state">Estado:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <select id="state"  ng-model="user.federalStateId" ng-options="state.federalStateId as state.name for state in states" ng-change="getCitiesByState(user.federalStateId)" class="form-control"></select>
                             </div>
                         </div>
@@ -90,7 +93,7 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="city">Ciudad:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <select id="city" ng-model="user.cityId" ng-options="city.cityId as city.name for city in cities" ng-change="" class="form-control"></select>
                             </div>
                         </div>
@@ -98,24 +101,26 @@
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="address">Direcci&oacute;n:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="text" ng-model="user.address" id="address" class="form-control input-sm" placeholder="Ingrese su Direcci&oacute;n"/>
                             </div>
+                            <input  style="margin-top: 1%" type="checkbox" ng-checked="visibleField('user_training','address')"> Mostrar
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="postalCode">C&oacute;digo Postal:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="text" ng-model="user.postalCode" id="postalCode" class="form-control input-sm" placeholder="Ingrese su C&oacute;digo Postal"/>
                             </div>
+                            <input  style="margin-top: 1%" type="checkbox" ng-checked="visibleField('user_training','postal_code')"> Mostrar
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="birthDate">Fecha de Nacimiento:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <p class="input-group">
                                     <input type="text" id="birthDate" name="birthDate" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" placeholder="Ingrese su Fecha de Nacimiento" datepicker-options="dateOptions" ng-required="true" close-text="Close" maxlength="10"/>
                                     <span class="input-group-btn">
@@ -127,20 +132,22 @@
                                 </div>
 
                             </div>
+                            <input  style="margin-top: 2%" type="checkbox" ng-checked="visibleField('user_training','birth_date')"> Mostrar
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="postalCode">P&aacute;gina de Facebook:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="text" ng-model="user.facebookPage" id="postalCode" class="form-control input-sm" placeholder="Ingrese su P&aacute;gina de Facebook"/>
                             </div>
+                            <input  style="margin-top: 1%" type="checkbox" ng-checked="visibleField('user_training','facebook_page')"> Mostrar
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="picture">Foto de Perfil:</label>
-                            <div class="col-md-7">
+                            <div class="col-md-6">
                                 <input type="file" file-model="myFile" ng-model="user.profile_photo" id="picture" class="form-control input-sm" placeholder="Seleccione una foto"/>
                                 <button type="button" class="btn btn-default btn-sm" ng-click="uploadFile()">subir foto</button>
                             </div>
@@ -171,7 +178,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">&iquest;Tienes pulsometro? </label>
+                        <label class="col-md-2 control-lable">&iquest;Tienes puls&oacute;metro? </label>
                         <div class="col-md-3">
                             <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'1'"> Si
                             <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'0'"> No
@@ -198,7 +205,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">&iquest;Tienes potenciometro?</label>
+                        <label class="col-md-2 control-lable">&iquest;Tienes potenci&oacute;metro?</label>
                         <div class=" col-md-3">
                             <input  type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'1'"> Si
                             <input type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'0'"> No

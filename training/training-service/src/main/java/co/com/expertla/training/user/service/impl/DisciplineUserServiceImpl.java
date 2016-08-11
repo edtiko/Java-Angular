@@ -1,7 +1,7 @@
-package co.com.expertla.training.service.impl;
+package co.com.expertla.training.user.service.impl;
 
 import co.com.expertla.training.model.entities.DisciplineUser;
-import co.com.expertla.training.service.DisciplineUserService;
+import co.com.expertla.training.user.service.DisciplineUserService;
 import co.com.expertla.training.user.dao.DisciplineUserDao;
 
 import org.springframework.beans.factory.annotation.Autowired;

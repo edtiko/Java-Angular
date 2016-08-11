@@ -3,6 +3,7 @@ package co.com.expertla.training.user.dao.impl;
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.user.dao.UserProfileDao;
 import co.com.expertla.training.enums.SportEquipmentTypeEnum;
+import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
 import java.util.List;
 
@@ -44,6 +45,22 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", id);
         List<UserProfile> list = query.getResultList();
+        return (list == null || list.isEmpty()) ?  null :list.get(0);
+    }
+    
+    @Override
+    public DashboardDTO findDashboardDTOByUserId(Integer id) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.DashboardDTO(u.userId.userId, u.userId.name, u.userId.lastName, ");
+        sql.append("u.userId.email,u.userId.birthDate,u.userId.sex,u.userId.weight,u.userId.phone,u.userId.cellphone,u.userId.address, ");
+        sql.append("u.userId.postalCode,u.userId.profilePhoto,u.userId.facebookPage, u.userId.indMetricSys,u.userId.cityId.name,u.userId.cityId.federalStateId.name, ");
+        sql.append("u.userId.cityId.federalStateId.countryId.name,u.ageSport, u.ppm, u.power, u.sportsAchievements, u.aboutMe, o.name, u.modalityId.name )");
+        sql.append("FROM UserProfile u ");
+        sql.append("LEFT JOIN u.objectiveId o ");
+        sql.append("WHERE u.userId.userId = :id ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("id", id);
+        List<DashboardDTO> list = query.getResultList();
         return (list == null || list.isEmpty()) ?  null :list.get(0);
     }
 

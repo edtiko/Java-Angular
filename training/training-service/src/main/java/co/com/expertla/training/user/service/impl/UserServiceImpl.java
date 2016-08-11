@@ -1,7 +1,7 @@
 /**
  *
  */
-package co.com.expertla.training.service.impl;
+package co.com.expertla.training.user.service.impl;
 
 import co.com.expertla.training.dao.CityDao;
 import co.com.expertla.training.dao.CountryDao;
@@ -16,7 +16,7 @@ import co.com.expertla.training.user.dao.UserDao;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;
-import co.com.expertla.training.service.UserService;
+import co.com.expertla.training.user.service.UserService;
 import java.util.Date;
 import java.util.stream.Collectors;
 import co.com.expertla.training.dao.FederalStateDao;

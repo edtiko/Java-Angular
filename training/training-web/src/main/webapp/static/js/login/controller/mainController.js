@@ -1,9 +1,10 @@
 // create the controller and inject Angular's $scope
-trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
+trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleFieldsUserService', '$window', function ($scope, AuthService, VisibleFieldsUserService, $window) {
 
         $scope.showSuccessAlert = false;
         $scope.successTextAlert = "";
         $scope.appReady = true;
+        $scope.fields = [];
 
         $scope.switchBool = function (value) {
             $scope[value] = !$scope[value];
@@ -125,6 +126,22 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
                 $scope.appReady = true;
             }
             return user;
+        };
+        
+        $scope.getVisibleFieldsUserByUser = function () {
+            var user = JSON.parse(sessionStorage.getItem("userInfo"));
+            if (user != null) {
+                VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
+                        .then(
+                                function (response) {
+                                    $scope.fields = response;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching Visible Fields');
+                                    console.error(errResponse);
+                                }
+                        );
+            }
         };
     }]);
 

@@ -321,9 +321,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         $scope.generatePlan = function (userProfile) {
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
-//                        $scope.userProfile = d;
-//                        this.findById(userProfile);
-
                         $scope.showMessage("Plan de entrenamiento generado satisfactoriamente.");
                     },
                     function (errResponse) {
@@ -448,7 +445,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             ModalityService.getAll().then(
                     function (d) {
                         $scope.modalities = d;
-//                        $scope.objectives.unshift({objectiveId:-1,name:'Seleccione',level:'',maxSessions:'',minSessions:''});
                     },
                     function (errResponse) {
                         console.error('Error while modalities');
@@ -663,4 +659,20 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         };
         self.getAllQuestionnaireQuestion();
 
+        $scope.visibleField = function (tableName, columnName) {
+            if(columnName != null) {
+                for (var i = 0; i < $scope.fields.length; i++) {
+                    if ($scope.fields[i].tableName == tableName && $scope.fields[i].columnName == columnName) {
+                        return true;
+                    }
+                }
+            } else {
+                for (var i = 0; i < $scope.fields.length; i++) {
+                    if ($scope.fields[i].tableName == tableName) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
     }]);

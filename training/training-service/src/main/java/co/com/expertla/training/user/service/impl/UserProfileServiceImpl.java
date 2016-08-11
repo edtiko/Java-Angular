@@ -1,4 +1,4 @@
-package co.com.expertla.training.service.impl;
+package co.com.expertla.training.user.service.impl;
 
 import co.com.expertla.training.user.dao.DisciplineUserDao;
 import co.com.expertla.training.user.dao.EquipmentUserProfileDao;
@@ -6,6 +6,7 @@ import co.com.expertla.training.user.dao.UserDao;
 import co.com.expertla.training.user.dao.UserProfileDao;
 import co.com.expertla.training.user.dao.UserSportDao;
 import co.com.expertla.training.enums.SportEquipmentTypeEnum;
+import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import co.com.expertla.training.model.dto.UserAvailabilityDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
@@ -21,13 +22,13 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.entities.UserAvailability;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.UserSport;
-import co.com.expertla.training.service.UserAvailabilityService;
+import co.com.expertla.training.user.service.UserAvailabilityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.com.expertla.training.service.UserProfileService;
+import co.com.expertla.training.user.service.UserProfileService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -466,5 +467,85 @@ public class UserProfileServiceImpl implements UserProfileService {
     private DisciplineUser buildDisciplineUser (UserProfileDTO dto, DisciplineUser discipline) {
         discipline.setDiscipline(new Discipline(dto.getDiscipline()));
         return discipline;
+    }
+    
+    @Override
+    public DashboardDTO findDashboardDTOByUserId(Integer id) throws Exception {
+        DashboardDTO dashboard = userProfileDao.findDashboardDTOByUserId(id);
+        //RunnignShoes
+        List<SportEquipmentDTO> listShoes = equipmentUserProfileDao.findDTORunningShoesByUserId(id);
+        if(listShoes != null && !listShoes.isEmpty()) {
+            dashboard.setShoes(listShoes.get(0).getBrand());
+        } else {
+            dashboard.setShoes("");
+        }
+        //Bikes
+        List<SportEquipmentDTO> listBikes = equipmentUserProfileDao.findDTOBikesByUserId(id);
+        if(listBikes != null && !listBikes.isEmpty()) {
+            dashboard.setBikes(listBikes.get(0).getBrand());
+        } else {
+            dashboard.setBikes("");
+        }
+        //Pulsometer
+        List<SportEquipmentDTO> listPulsometer = equipmentUserProfileDao.findDTOPulsometersByUserId(id);
+        if(listPulsometer != null && !listPulsometer.isEmpty()) {
+            dashboard.setPulsometer(listPulsometer.get(0).getBrand());
+        } else {
+            dashboard.setPulsometer("");
+        }
+        //Potentiometer
+        List<SportEquipmentDTO> listPotentiometer = equipmentUserProfileDao.findDTOPotentiometersByUserId(id);
+        if(listPotentiometer != null && !listPotentiometer.isEmpty()) {
+            dashboard.setPotentiometer(listPotentiometer.get(0).getBrand());
+        } else {
+            dashboard.setPotentiometer("");
+        }
+        StringBuilder userAvailability = new StringBuilder("");
+        List<UserAvailabilityDTO> availability = userAvailabilityService.findDtoByUserId(id);
+        if(availability != null && !availability.isEmpty()) {
+            for (UserAvailabilityDTO dto : availability) {
+                if(dto.getDay().equals("Lunes") && dto.getChecked()) {
+                    userAvailability.append("Lunes");
+                    userAvailability.append(",");
+                }
+                
+                if(dto.getDay().equals("Martes") && dto.getChecked()) {
+                    userAvailability.append("Martes");
+                    userAvailability.append(",");
+                }
+                if(dto.getDay().equals("Miercoles") && dto.getChecked()) {
+                    userAvailability.append("Miercoles");
+                    userAvailability.append(",");
+                }
+                if(dto.getDay().equals("Jueves") && dto.getChecked()) {
+                    userAvailability.append("Jueves");
+                    userAvailability.append(",");
+                }
+                if(dto.getDay().equals("Viernes") && dto.getChecked()) {
+                    userAvailability.append("Viernes");
+                    userAvailability.append(",");
+                }
+                if(dto.getDay().equals("Sabado") && dto.getChecked()) {
+                    userAvailability.append("Sabado");
+                    userAvailability.append(",");
+                }
+                if(dto.getDay().equals("Domingo") && dto.getChecked()) {
+                    userAvailability.append("Domingo");
+                    userAvailability.append(",");
+                }
+            }
+            userAvailability.deleteCharAt(userAvailability.lastIndexOf(","));
+        }
+        dashboard.setAvailability(userAvailability.toString());
+        UserSport sport = userSportDao.findByUserId(id);
+        if(sport != null) {
+            dashboard.setSport(sport.getSportId().getName());
+        } else {
+            dashboard.setSport("");
+        }
+        DisciplineUser discipline = disciplineUserDao.findByUserId(id);
+        dashboard.setDiscipline(discipline.getDiscipline().getName());
+        
+        return dashboard;
     }
 }
