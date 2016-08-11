@@ -27,11 +27,8 @@
                 
                 <ul class="nav navbar-nav navbar-right" style="position:relative;top:-25px">
                     <li><a href="#calendar"><i class="fa fa-calendar"></i> Calendario</a></li>
-                     <li><a href="#chat"><i class="fa fa-comments" aria-hidden="true"></i> Mensajes</a></li>
-                     <li><a href="#video"><i class="fa fa-video-camera" aria-hidden="true"></i> Cargar Video</a></li>
-                     <li><a href="#videochat"><i class="fa fa-video-camera" aria-hidden="true"></i> Video Chat</a></li>
                     <li role="presentation" class="dropdown" uib-dropdown>
-                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">
+                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user"></i> 
                             Cuenta
                             <span class="caret"></span>
@@ -41,19 +38,19 @@
                              <li><a href="#conf-account">Configuración de Cuenta</a></li> 
                         </ul>
                     </li>
-                    <li><a class="logout" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Cerrar Sesi&oacute;n</a></li>
+                    <li><a class="logout" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
                     
                 </ul>
             </div>
         </nav>
  
-        <div id="main" >
-            <div class="alert container" id="messages" ng-show="showSuccessAlert">
+        <div id="main" class="container">
+            <div class="alert" id="messages" ng-show="showSuccessAlert">
                 <button type="button" class="close" data-ng-click="switchBool('showSuccessAlert')">x</button> <strong>{{successTextAlert}}</strong>
             </div>
             <!-- angular templating -->
             <!-- this is where content will be injected -->
-            <div ng-view style=""></div>
+            <div ng-view style="" ></div>
  
         </div>
  

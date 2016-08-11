@@ -5,19 +5,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
         $scope.successTextAlert = "";
         $scope.appReady = true;
         $scope.userLogin = "";
-		$scope.dt = new Date();
-        $scope.session = {apiKey:'',sessionId:'', token:''};
-        
-        this.getSessionOpenTok = function(){
-            AuthService.getSessionOpenTok($scope).then(
-                    function (d) {
-                    },
-                    function (errResponse) {
-                        console.error('Error while get session open tok');
-                        console.error(errResponse);
-                    }
-            );
-        };
 
         $scope.switchBool = function (value) {
             $scope[value] = !$scope[value];
@@ -63,6 +50,13 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
                     mode = data.mode;
             return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
         }
+
+        /*$scope.toggleMin = function () {
+         $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+         $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+         };
+         
+         $scope.toggleMin();*/
 
         $scope.open = function () {
             $scope.popup.opened = true;
@@ -125,7 +119,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
             );
         };
         this.setUserSession();
-        this.getSessionOpenTok();
 
         this.getUserSession = function () {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));

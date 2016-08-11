@@ -3,9 +3,10 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8080/training/";
-//var $contextPath = "http://181.143.227.220:8086/training/";
+//var $contextPath = "http://localhost:8080/training/";
+var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
+    waitSeconds: 200,
     paths: {
         angular: 'lib/angular.min',
         angularMessages: 'lib/angular-messages.min',
@@ -15,7 +16,6 @@ require.config({
         angularBoostrap: 'lib/ui-bootstrap-tpls.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
-        checklistModel: "lib/checklist-model",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         disciplineService: "perfil/service/disciplineService",
@@ -26,6 +26,7 @@ require.config({
         userProfileService: "perfil/service/userProfileService",
         calendarService: "calendar/service/calendarService",
         authService: "login/service/authService",
+        surveyService: "questionnaire/service/surveyService",
         mainController: "login/controller/mainController",
         app: "routeResolver",
         sockjs: "lib/sockjs.min",
@@ -34,7 +35,6 @@ require.config({
         recorder: "lib/vaRecorder/recorder",
         whammy: "lib/vaRecorder/whammy",
         viRecorder: "lib/vaRecorder/VIRecorder",
-        surveyService: "questionnaire/service/surveyService",
         chatService: "chat/service/chatService",
         videoService: "video/service/videoService",
         videochatService: "videochat/service/videochatService",
@@ -58,18 +58,12 @@ require.config({
             exports: 'angularTouch',
             deps: ['angular']
         },
- ngCamRecorder: {
+        ngCamRecorder: {
             exports: 'ngCamRecorder',
             deps: ['angular']
         },
         angularBoostrap: {
             exports: 'angularBoostrap',
-            deps: ['angular']
-        },
-        checklistModel: {
-            deps: ['angular']
-        },
-        checklistModel: {
             deps: ['angular']
         },
         opentokAngular: {
@@ -114,7 +108,12 @@ require.config({
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket','ngCamRecorder','recorder','whammy','viRecorder','opentok','opentokAngular','opentokLayout']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute',
+                'angularBoostrap', 'angularAnimate'
+//                'sockjs', 
+//                'stompWebsocket','ngCamRecorder','recorder',
+//                'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
+            ]
         },
         surveyService: {
             deps: ['angular', 'trainingApp']
@@ -132,7 +131,9 @@ require.config({
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
-                'mainController', 'surveyService', 'calendarService', 'chatService','videoService','videochatService']
+                'mainController', 'surveyService', 'calendarService'
+//                'chatService','videoService','videochatService'
+            ]
         }
     }
 });
