@@ -95,6 +95,7 @@
     <class>co.com.expertla.training.model.entities.DcfDetail</class>
     <class>co.com.expertla.training.model.entities.ReplaceActivity</class>
     <class>co.com.expertla.training.model.entities.ModelEquipment</class>
+    <class>co.com.expertla.training.model.entities.VisibleFieldsUser</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->
