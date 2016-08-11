@@ -24,7 +24,9 @@ public class UserDTO {
 
     private String password;
 
-    private String name;
+    private String firstName;
+    
+    private String secondName;
 
     private String lastName;
 
@@ -72,12 +74,13 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(Integer userId, String name, String lastName, String email, Date birthDate, String address,
+    public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
             String sex, BigInteger weight, String phone, String cellphone, Integer cityId,
             Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
         this.login = login;
-        this.name = name;
+        this.firstName = firstName;
+        this.secondName = secondName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.address = address;
@@ -101,7 +104,7 @@ public class UserDTO {
 
     public static UserDTO mapFromUserEntity(User user) {
         if (user != null) {
-            return new UserDTO(user.getUserId(), user.getName(), user.getLastName(), user.getEmail(), user.getBirthDate(), user.getAddress(),
+            return new UserDTO(user.getUserId(), user.getName(), user.getSecondName(), user.getLastName(), user.getEmail(), user.getBirthDate(), user.getAddress(),
                     user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId() != null ? user.getCityId().getCityId() : null),
                     user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
@@ -154,12 +157,20 @@ public class UserDTO {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getLastName() {

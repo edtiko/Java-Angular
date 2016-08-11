@@ -670,6 +670,7 @@ create table user_training (
    login                varchar(100)         not null,
    password             varchar(100)         null,
    name                 varchar(200)         not null,
+   second_name          varchar(200)         not null,
    last_name            varchar(200)         null,
    email                varchar(100)         null,
    birth_date           date                 null,

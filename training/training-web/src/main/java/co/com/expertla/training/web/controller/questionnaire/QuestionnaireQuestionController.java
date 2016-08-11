@@ -203,7 +203,7 @@ public class QuestionnaireQuestionController {
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.NOT_FOUND).entity(responseService).build();
             }else{
-            List<QuestionnaireQuestionDTO> questionnaireQuestionList = questionnaireQuestionService.findByDisciplineId(disciplineId);
+            List<QuestionnaireQuestionDTO> questionnaireQuestionList = questionnaireQuestionService.findByDisciplineId(disciplineId, userId);
             responseService.setOutput(questionnaireQuestionList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();

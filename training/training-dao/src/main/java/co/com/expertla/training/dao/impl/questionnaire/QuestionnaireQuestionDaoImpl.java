@@ -43,9 +43,11 @@ public class QuestionnaireQuestionDaoImpl extends BaseDAOImpl<QuestionnaireQuest
     }
     
     @Override
-    public List<QuestionnaireQuestion> findByDisciplineId(Integer disciplineId) throws DAOException {
+    public List<QuestionnaireQuestion> findByDisciplineId(Integer disciplineId, Integer userId) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select u FROM QuestionnaireQuestion u ");
+        builder.append(" left join u.questionnaireResponseCollection r ");
+        builder.append(" on r.userId.userId = ").append(userId);
         builder.append(" WHERE u.questionnaireId.disciplineId.disciplineId = ").append(disciplineId);
         builder.append(" AND u.stateId = ").append(Status.ACTIVE.getName());
        // setPageNumber(sePaginator.getInitialRow());

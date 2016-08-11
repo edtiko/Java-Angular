@@ -82,7 +82,8 @@ public class UserServiceImpl implements UserService {
     public int updateUser(UserDTO userDTO) {
        User user = userDao.findById(userDTO.getUserId());
        City city = cityDao.findById(userDTO.getCityId());
-       user.setName(userDTO.getName());
+       user.setName(userDTO.getFirstName());
+       user.setSecondName(userDTO.getSecondName());
        user.setLogin(userDTO.getLogin());
        user.setPassword(userDTO.getPassword());
        user.setLastName(userDTO.getLastName());
@@ -115,7 +116,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserExist(UserDTO user) {
-        return findByName(user.getName()) != null;
+        return findByName(user.getFirstName()) != null;
     }
 
     @Override

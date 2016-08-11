@@ -40,7 +40,8 @@ require.config({
         videochatService: "videochat/service/videochatService",
         opentok: "lib/opentok.min",
         opentokAngular: "lib/opentok-angular",
-        opentokLayout: "lib/opentok-layout.min"
+        opentokLayout: "lib/opentok-layout.min",
+        utilService: "lib/utilService"
     },
     shim: {
         angular: {
@@ -125,6 +126,9 @@ require.config({
             deps: ['angular', 'trainingApp']
         },
         videochatService: {
+            deps: ['angular', 'trainingApp']
+        },
+        utilService: {
             deps: ['angular', 'trainingApp']
         },
         app: {
