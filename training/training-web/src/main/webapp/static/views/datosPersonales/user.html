@@ -1,3 +1,6 @@
+<div class="alert container messages" id="msg-user" ng-show="showSuccessAlertUser">
+    <button type="button" class="close" data-ng-click="switchBool('msg-user')">x</button> <strong>{{successTextAlert}}</strong>
+</div>
 <div class="container" ng-show="appReady" id="user-container">
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Personales</span></div>
@@ -7,13 +10,19 @@
                     <input type="hidden" ng-model="user.userId" />
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label class="col-md-2 control-lable" for="uname">Nombres:</label>
+                            <label class="col-md-2 control-lable" for="uname">Primer Nombre:</label>
                             <div class="col-md-6">
-                                <input type="text" ng-model="user.name" id="uname" name="uname" class="form-control input-sm" placeholder="Ingrese su Nombre" required="" ng-minlength="3"/>
+                                <input type="text" ng-model="user.firstName" id="uname" name="uname" class="form-control input-sm" placeholder="Ingrese su Primer Nombre" required="" ng-minlength="3"/>
                                 <div class="has-error" ng-messages="myFormUser.uname.$error">
                                     <div ng-message="required">Este es un campo requerido</div>
                                     <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-lable" for="secondName">Segundo Nombre:</label>
+                            <div class="col-md-7">
+                                <input type="text" ng-model="user.secondName" id="secondName" name="secondName" class="form-control input-sm" placeholder="Ingrese su Segundo Nombre"  ng-minlength="3"/>
                             </div>
                         </div>
                     </div>
@@ -38,7 +47,7 @@
 
                                 <div class="has-error" ng-messages="myFormUser.email.$error">
                                     <div ng-message="required">Este es un campo requerido</div>
-                                    <div ng-message="email">Su correo es invalido</div>
+                                    <div ng-message="email">Su correo es inv&aacute;lido</div>
                                 </div>
 
                             </div>
@@ -55,6 +64,8 @@
                                 </div>
                             </div>
                             <input  style="margin-top: 1%" type="checkbox" ng-checked="visibleField('user_training','sex')"> Mostrar
+                            <label class="col-md-1 control-lable">Edad:</label>
+                            <span>{{user.age}}</span>
                         </div>
                     </div>
                     <div class="row">
@@ -130,6 +141,7 @@
                                 </p>
                                 <div class="has-error" ng-messages="myFormUser.birthDate.$error">
                                     <div ng-message="required">Este es un campo requerido</div>
+                                    <div ng-message="date">Este campo es inv&aacute;lido</div>
                                 </div>
 
                             </div>
@@ -173,7 +185,7 @@
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="picture">Foto de Perfil:</label>
                             <div class="col-md-6">
-                                <input type="file" file-model="myFile" ng-model="user.profile_photo" id="picture" class="form-control input-sm" placeholder="Seleccione una foto"/>
+                                <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" class="form-control input-sm" placeholder="Seleccione una foto"/>
                                 <button type="button" class="btn btn-default btn-sm" ng-click="uploadFile()">subir foto</button>
                             </div>
                         </div>
@@ -196,6 +208,9 @@
 </div>
 <hr>
 <div id="userProfileDiv" class="container">
+    <div class="alert container messages" id="msg-datos" ng-show="showSuccessAlertDeportivos">
+        <button type="button" class="close" data-ng-click="switchBool('msg-datos')">x</button> <strong>{{successTextAlert}}</strong>
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Deportivos</span></div>
         <div class="panel-body">  
@@ -238,7 +253,7 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-lable">Edad Deportiva</label>
                         <div class=" col-md-3">
-                            <input type="text" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ageSport">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ageSport">
                         </div>
                     </div>
                 </div>
@@ -320,11 +335,11 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-lable">Ppm</label>
                         <div class=" col-md-3">
-                            <input type="text" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ppm">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ppm">
                         </div>
                     </div>
                 </div>
-                 <div class="row"> 
+                <div class="row"> 
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-lable">VO2 Running</label>
                         <div class=" col-md-3">
@@ -332,7 +347,7 @@
                         </div>
                     </div>
                 </div>
-                 <div class="row"> 
+                <div class="row"> 
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-lable">VO2 Ciclismo</label>
                         <div class=" col-md-3">
@@ -371,7 +386,7 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-lable">Potencia</label>
                         <div class=" col-md-3">
-                            <input type="text" class="form-control input-sm" style=" display: inline" ng-model="userProfile.power">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.power">
                         </div>
                     </div>
                 </div>
@@ -431,6 +446,9 @@
 </div>
 <hr>
 <div id="surveyDiv" class="container">
+    <div class="alert container messages"  id="messages-encuesta" ng-show="showSuccessAlertEncuesta">
+        <button type="button" class="close" data-ng-click="switchBool('messages-encuesta')">x</button> <strong>{{successTextAlert}}</strong>
+    </div>
     <form  class="form-horizontal" name="myFormSurvey">
         <div ng-repeat="category in categories">
             <div class="panel panel-default">

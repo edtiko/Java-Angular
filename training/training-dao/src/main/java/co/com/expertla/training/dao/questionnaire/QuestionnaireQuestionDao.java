@@ -58,7 +58,7 @@ public interface QuestionnaireQuestionDao {
      */
     public List<QuestionnaireQuestion> findAll(SePaginator sePaginator) throws DAOException;
     
-    public List<QuestionnaireQuestion> findByDisciplineId(Integer disciplineId) throws DAOException;
+    public List<QuestionnaireQuestion> findByDisciplineId(Integer disciplineId, Integer userId) throws DAOException;
 	
     /**
      * Gets all the records from questionnaireQuestion by its id <br>

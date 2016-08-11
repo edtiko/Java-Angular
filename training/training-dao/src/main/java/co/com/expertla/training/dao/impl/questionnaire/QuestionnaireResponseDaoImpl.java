@@ -87,10 +87,10 @@ public class QuestionnaireResponseDaoImpl extends BaseDAOImpl<QuestionnaireRespo
     }
 
     @Override
-    public List<QuestionnaireResponse> findByUserIdAndQuestionnaireQuestionId(List<Integer> questionnaireQuestionId, Integer userId) throws DAOException {
+    public List<QuestionnaireResponse> findByUserIdAndQuestionnaireQuestionId(Integer questionnaireQuestionId, Integer userId) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select u FROM QuestionnaireResponse u ");
-        builder.append("WHERE u.questionnaireQuestionId.questionnaireQuestionId in :questionnaireQuestionId ");
+        builder.append("WHERE u.questionnaireQuestionId.questionnaireQuestionId = :questionnaireQuestionId ");
         builder.append("AND u.userId.userId = :userId");
         setParameter("userId", userId);
         setParameter("questionnaireQuestionId", questionnaireQuestionId);

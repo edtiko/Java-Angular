@@ -173,7 +173,8 @@ public class UserController {
         try {           
             User user = new User();
             user.setLogin(userDTO.getLogin());
-            user.setName(userDTO.getName());
+            user.setName(userDTO.getFirstName());
+            user.setSecondName(userDTO.getSecondName());
             user.setPassword(userDTO.getPassword());
             user.setEmail(userDTO.getEmail());
             user.setIndMetricSys(userDTO.getIndMetricSys());

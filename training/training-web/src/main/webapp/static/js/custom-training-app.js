@@ -3,7 +3,7 @@
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
-var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute', 'ui.bootstrap','ngMessages','ngCamRecorder','opentok'])
+var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute', 'ui.bootstrap','ngMessages','ngCamRecorder'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide) {
 
             var route = routeResolverProvider.route;
