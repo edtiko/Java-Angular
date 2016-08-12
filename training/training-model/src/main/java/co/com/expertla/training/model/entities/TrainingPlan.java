@@ -59,8 +59,7 @@ public class TrainingPlan implements Serializable {
     private Date endDate;
     @OneToMany(mappedBy = "trainingPlanId")
     private Collection<TrainingPlanUser> trainingPlanUserCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanId")
-    private Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection;
+    
 
     public TrainingPlan() {
     }
@@ -131,14 +130,6 @@ public class TrainingPlan implements Serializable {
 
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
-    }
-
-    public Collection<TrainingPlanWorkout> getTrainingPlanWorkoutCollection() {
-        return trainingPlanWorkoutCollection;
-    }
-
-    public void setTrainingPlanWorkoutCollection(Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection) {
-        this.trainingPlanWorkoutCollection = trainingPlanWorkoutCollection;
     }
 
     @Override

@@ -125,7 +125,7 @@ public class TrainingPlanWorkoutController {
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
                 planWorkout.setActivityId(new Activity(planWorkoutDTO.getActivityId()));
-                planWorkout.setTrainingPlanId(listTrainingPlanUser.get(0).getTrainingPlanId());
+                planWorkout.setTrainingPlanUserId(listTrainingPlanUser.get(0));
                 planWorkout.setWorkoutDate(activityDate);
                 trainingPlanWorkoutService.create(planWorkout);
             }
@@ -156,7 +156,7 @@ public class TrainingPlanWorkoutController {
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
                 planWorkout.setActivityId(listTrainingPlanUser.get(0).getActivityId());
-                planWorkout.setTrainingPlanId(listTrainingPlanUser.get(0).getTrainingPlanId());
+                planWorkout.setTrainingPlanUserId(listTrainingPlanUser.get(0).getTrainingPlanUserId());
                 planWorkout.setWorkoutDate(activityDate);
                 trainingPlanWorkoutService.create(planWorkout);
             }

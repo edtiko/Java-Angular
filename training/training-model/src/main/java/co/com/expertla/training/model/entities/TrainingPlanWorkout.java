@@ -42,9 +42,9 @@ public class TrainingPlanWorkout implements Serializable {
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id")
     @ManyToOne(optional = false)
     private Activity activityId;
-    @JoinColumn(name = "training_plan_id", referencedColumnName = "training_plan_id")
+    @JoinColumn(name = "training_plan_user_id", referencedColumnName = "training_plan_user_id")
     @ManyToOne(optional = false)
-    private TrainingPlan trainingPlanId;
+    private TrainingPlanUser trainingPlanUserId;
 
     public TrainingPlanWorkout() {
     }
@@ -82,12 +82,12 @@ public class TrainingPlanWorkout implements Serializable {
         this.activityId = activityId;
     }
 
-    public TrainingPlan getTrainingPlanId() {
-        return trainingPlanId;
+    public TrainingPlanUser getTrainingPlanUserId() {
+        return trainingPlanUserId;
     }
 
-    public void setTrainingPlanId(TrainingPlan trainingPlanId) {
-        this.trainingPlanId = trainingPlanId;
+    public void setTrainingPlanUserId(TrainingPlanUser trainingPlanUserId) {
+        this.trainingPlanUserId = trainingPlanUserId;
     }
 
     @Override

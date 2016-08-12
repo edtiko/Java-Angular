@@ -397,7 +397,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
             activity = getActivityByPC(list, activityList, code, originalList);
             workout = new TrainingPlanWorkout();
-            workout.setTrainingPlanId(trainingPlan);
+            workout.setTrainingPlanUserId(planUser);
             workout.setActivityId(activity);
             workout.setWorkoutDate(startCal.getTime());
             pivotDay = startCal.get(Calendar.DAY_OF_WEEK);
@@ -487,7 +487,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }    
             activity = getActivityByPC(list, activityList, code, originalList);
             workout = new TrainingPlanWorkout();
-            workout.setTrainingPlanId(trainingPlan);
+            workout.setTrainingPlanUserId(planUser);
             workout.setActivityId(activity);
             workout.setWorkoutDate(startCal.getTime());
             pivotDay = startCal.get(Calendar.DAY_OF_WEEK);

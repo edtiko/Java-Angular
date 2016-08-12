@@ -238,7 +238,7 @@ public class UserController {
             }
             
             session.setAttribute("user" , userDto);
-            response.sendRedirect(request.getRequestURL() + "/../../../");
+            response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
