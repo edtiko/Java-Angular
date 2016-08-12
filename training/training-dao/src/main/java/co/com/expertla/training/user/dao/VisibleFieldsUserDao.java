@@ -22,5 +22,26 @@ public interface VisibleFieldsUserDao extends BaseDAO<VisibleFieldsUser>{
      * @return
      */
     public List<VisibleFieldsUser> findByUserId(Integer id) throws Exception;
+    
+    /**
+     * Crea la lista VisibleFieldsUser <br>
+     * Creation Date : <br>
+     * date 10/08/2016 <br>
+     * @author Angela Ramírez
+     * @param visibleFieldsUser
+     * @return
+     * @throws Exception 
+     */
+    public List<VisibleFieldsUser> createList(List<VisibleFieldsUser> visibleFieldsUser) throws Exception;
+    
+    /**
+     * Elimina los VisibleFieldsUser por user Id <br>
+     * Creation Date : <br>
+     * date 10/08/2016 <br>
+     * @author Angela Ramírez
+     * @param id
+     * @throws Exception 
+     */
+    public void deleteFieldsByUser(Integer id) throws Exception;
         
 }

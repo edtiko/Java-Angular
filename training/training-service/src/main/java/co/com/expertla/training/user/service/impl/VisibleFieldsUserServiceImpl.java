@@ -36,4 +36,11 @@ public class VisibleFieldsUserServiceImpl implements VisibleFieldsUserService {
     public VisibleFieldsUser merge(VisibleFieldsUser visibleFieldsUser) throws Exception {
         return visibleFieldsUserDao.merge(visibleFieldsUser);
     }
+    
+    @Override
+    public List<VisibleFieldsUser> createList(List<VisibleFieldsUser> visibleFieldsUser,Integer userId) throws Exception {
+        visibleFieldsUserDao.deleteFieldsByUser(userId);
+        List<VisibleFieldsUser> list = visibleFieldsUserDao.createList(visibleFieldsUser);
+        return list;
+    }
 }

@@ -14,7 +14,7 @@ public interface VisibleFieldsUserService {
     /**
      * Trae todos los registros de VisibleFieldsUser por user Id <br>
      * Creation Date : <br>
-     * date 18/07/2016 <br>
+     * date 10/08/2016 <br>
      * @author Angela Ramírez
      * @param id
      * @throws Exception
@@ -25,7 +25,7 @@ public interface VisibleFieldsUserService {
     /**
      * Crea VisibleFieldsUser <br>
      * Creation Date : <br>
-     * date 18/07/2016 <br>
+     * date 10/08/2016 <br>
      * @author Angela Ramírez
      * @param visibleFieldsUser
      * @return
@@ -34,9 +34,21 @@ public interface VisibleFieldsUserService {
     public VisibleFieldsUser create(VisibleFieldsUser visibleFieldsUser) throws Exception;
     
     /**
+     * Crea VisibleFieldsUser <br>
+     * Creation Date : <br>
+     * date 10/08/2016 <br>
+     * @author Angela Ramírez
+     * @param visibleFieldsUser
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<VisibleFieldsUser> createList(List<VisibleFieldsUser> visibleFieldsUser, Integer userId) throws Exception;
+    
+    /**
      * Modifica VisibleFieldsUser<br>
      * Creation Date : <br>
-     * date 18/07/2016 <br>
+     * date 10/08/2016 <br>
      * @author Angela Ramírez
      * @param visibleFieldsUser
      * @throws Exception
