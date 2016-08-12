@@ -3,11 +3,11 @@
 .ontop {
     height: 100px;
     position: absolute;
-    top: 66px;
-    left: 77%;
-    z-index:2;
+    top: 170px;
+    left: 66%;
+    z-index: 2;
 }
-#user-container{
+.container-fluid{
     position: relative;
 }
 

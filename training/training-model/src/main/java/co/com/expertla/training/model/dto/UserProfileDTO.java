@@ -26,9 +26,13 @@ public class UserProfileDTO implements Serializable {
     private Integer shoes;
     private Integer bikes;
     private Integer potentiometer;
+    private String  otherPotentiometer;
     private Integer modelPotentiometer;
+    private String  otherModelPotentiometer;
     private Integer pulsometer;
+    private String  otherPulsometer;
     private Integer modelPulsometer;
+    private String  otherModelPulsometer;
     private Integer objective;
     private List<UserAvailabilityDTO> availability;
     private Integer modality;
@@ -239,6 +243,38 @@ public class UserProfileDTO implements Serializable {
 
     public void setVo2Ciclismo(Integer vo2Ciclismo) {
         this.vo2Ciclismo = vo2Ciclismo;
+    }
+
+    public String getOtherPotentiometer() {
+        return otherPotentiometer;
+    }
+
+    public void setOtherPotentiometer(String otherPotentiometer) {
+        this.otherPotentiometer = otherPotentiometer;
+    }
+
+    public String getOtherModelPotentiometer() {
+        return otherModelPotentiometer;
+    }
+
+    public void setOtherModelPotentiometer(String otherModelPotentiometer) {
+        this.otherModelPotentiometer = otherModelPotentiometer;
+    }
+
+    public String getOtherPulsometer() {
+        return otherPulsometer;
+    }
+
+    public void setOtherPulsometer(String otherPulsometer) {
+        this.otherPulsometer = otherPulsometer;
+    }
+
+    public String getOtherModelPulsometer() {
+        return otherModelPulsometer;
+    }
+
+    public void setOtherModelPulsometer(String otherModelPulsometer) {
+        this.otherModelPulsometer = otherModelPulsometer;
     }
     
     

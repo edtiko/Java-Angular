@@ -195,6 +195,13 @@ public class UserProfileServiceImpl implements UserProfileService {
             equipment.setUserProfileId(userProfile);
             sportEquipments.add(equipment);
         }
+        
+        if(dto.getOtherPulsometer() != null && dto.getOtherModelPulsometer() != null){
+         
+        }
+        if(dto.getOtherPotentiometer() != null && dto.getOtherModelPotentiometer() != null){
+         
+        }
         userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
         UserAvailability availability = new UserAvailability();
         buildUserAvailabilityObject(dto, availability);
