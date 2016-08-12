@@ -1,5 +1,5 @@
 // create the controller and inject Angular's $scope
-trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', function ($scope, AuthService, $window) {
+trainingApp.controller('mainController', ['$scope', 'AuthService', '$window','ngDialog', function ($scope, AuthService, $window, ngDialog) {
   
         $scope.successTextAlert = "";
         $scope.appReady = true;
@@ -27,17 +27,13 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', '$window', fu
         };
 
         $scope.showMessage = function (msg, type) {
-            $scope.successTextAlert = msg;
-            var e = angular.element('.messages');
-            if (type === 'error') {
-                e.removeClass('alert-success');
-                e.addClass('alert-danger');
-
-            } else {
-                e.removeClass('alert-danger');
-                e.addClass('alert-success');
-            }
-            //document.body.scrollTop = document.documentElement.scrollTop = 0;
+            $scope.message = msg;
+            
+            ngDialog.open({
+                template: 'static/tmpls/dialogConfirmation.html',
+                className: 'ngdialog-theme-plain',
+                scope: $scope
+            });
 
         };
 

@@ -1,6 +1,3 @@
-<div class="alert container messages" id="msg-user" ng-show="showSuccessAlertUser">
-    <button type="button" class="close" data-ng-click="switchBool('msg-user')">x</button> <strong>{{successTextAlert}}</strong>
-</div>
 <div class="container" ng-show="appReady" id="user-container">
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Personales</span></div>
@@ -200,9 +197,6 @@
 </div>
 <hr>
 <div id="userProfileDiv" class="container">
-    <div class="alert container messages" id="msg-datos" ng-show="showSuccessAlertDeportivos">
-        <button type="button" class="close" data-ng-click="switchBool('msg-datos')">x</button> <strong>{{successTextAlert}}</strong>
-    </div>
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Deportivos</span></div>
         <div class="panel-body">  
@@ -430,7 +424,7 @@
 
 
                 <button class="btn btn-primary" ng-click="createOrMergeUserProfile(userProfile)"> Guardar </button>
-                <button class="btn btn-primary" ng-click="resetProfile()" >Limpiar</button>
+                <button class="btn btn-warning btn-sm" ng-click="resetProfile()" >Limpiar</button>
                 <button class="btn btn-primary" ng-click="generatePlan(userProfile)"> Generar </button>
             </div>
         </div>
@@ -438,9 +432,6 @@
 </div>
 <hr>
 <div id="surveyDiv" class="container">
-    <div class="alert container messages"  id="messages-encuesta" ng-show="showSuccessAlertEncuesta">
-        <button type="button" class="close" data-ng-click="switchBool('messages-encuesta')">x</button> <strong>{{successTextAlert}}</strong>
-    </div>
     <form  class="form-horizontal" name="myFormSurvey">
         <div ng-repeat="category in categories">
             <div class="panel panel-default">

@@ -1,7 +1,7 @@
 
 trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$window', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService', function ($scope, UserService,
-            $filter, $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService) {
+    'ObjectiveService', 'ModalityService', 'surveyService','ngDialog', function ($scope, UserService,
+            $filter, $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,ngDialog) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName:'', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '',instagramPage: '',twitterPage: '',webPage: '', countryId: '', profilePhoto: '', age:''};
         $scope.users = [];
@@ -155,8 +155,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
-                                //$scope.showMessage("Usuario registrado correctamente.");
-                                $window.alert("Usuario registrado correctamente.");
+                                $scope.showMessage("Usuario registrado correctamente.");
+                           
                             },
                             function (errResponse) {
                                 console.error('Error while updating User.');
@@ -257,8 +257,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserService.uploadFileToUrl(file, $scope.user.userId)
                         .then(
                                 function (msg) {
-                                    //$scope.showMessage("Imagen cargada correctamente.");
-                                    $window.alert("Imagen cargada correctamente.");
+                                    $scope.showMessage("Imagen cargada correctamente.");
                                     $scope.getImageProfile($scope.user.userId);
 
                                 },
@@ -334,8 +333,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
-                            //$scope.showMessage("Perfil Creado satisfactoriamente.");
-                            $window.alert("Perfil Creado satisfactoriamente.");
+                            $scope.showMessage("Perfil Creado satisfactoriamente.");
                         },
                         function (errResponse) {
                             console.error('Error while creating the profile');
@@ -347,8 +345,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserProfileService.mergeProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
-                            //$scope.showMessage("Perfil editado satisfactoriamente.");
-                            $window.alert("Perfil editado satisfactoriamente.");
+                            $scope.showMessage("Perfil editado satisfactoriamente.");
                         },
                         function (errResponse) {
                             console.error('Error while merging the profile');
@@ -364,8 +361,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
 //                        $scope.userProfile = d;
 //                        this.findById(userProfile);
 
-                        //$scope.showMessage("Plan de entrenamiento generado satisfactoriamente.");
-                         $window.alert("Plan de entrenamiento generado satisfactoriamente.");
+                        $scope.showMessage("Plan de entrenamiento generado satisfactoriamente.");
                     },
                     function (errResponse) {
                         console.error('Error while merging the profile');
@@ -686,8 +682,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                     .then(
                             function (message) {
 
-                                //$scope.showMessage("Respuestas registradas satisfactoriamente.");
-                                $window.alert("Respuestas registradas satisfactoriamente.");
+                                $scope.showMessage("Respuestas registradas satisfactoriamente.");
                                 self.getAllQuestionnaireQuestion(self.userId);
                             },
                             function (errResponse) {

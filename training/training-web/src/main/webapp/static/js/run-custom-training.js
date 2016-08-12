@@ -15,7 +15,6 @@ require.config({
         angularBoostrap: 'lib/ui-bootstrap-tpls.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
-        checklistModel: "lib/checklist-model",
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         disciplineService: "perfil/service/disciplineService",
@@ -41,7 +40,8 @@ require.config({
         opentok: "lib/opentok.min",
         opentokAngular: "lib/opentok-angular",
         opentokLayout: "lib/opentok-layout.min",
-        utilService: "lib/utilService"
+        utilService: "lib/utilService",
+        ngDialog: "lib/ngDialog.min"
     },
     shim: {
         angular: {
@@ -59,18 +59,16 @@ require.config({
             exports: 'angularTouch',
             deps: ['angular']
         },
- ngCamRecorder: {
+        ngDialog:{
+          exports: 'ngDialog',
+          deps: ['angular']
+        },
+        ngCamRecorder: {
             exports: 'ngCamRecorder',
             deps: ['angular']
         },
         angularBoostrap: {
             exports: 'angularBoostrap',
-            deps: ['angular']
-        },
-        checklistModel: {
-            deps: ['angular']
-        },
-        checklistModel: {
             deps: ['angular']
         },
         opentokAngular: {
@@ -115,7 +113,7 @@ require.config({
             deps: ['angular', 'authService']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'checklistModel', 'angularAnimate', 'sockjs', 'stompWebsocket','ngCamRecorder','recorder','whammy','viRecorder']
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularBoostrap', 'angularAnimate', 'sockjs', 'stompWebsocket','ngCamRecorder','recorder','whammy','viRecorder', 'ngDialog']
         },
         surveyService: {
             deps: ['angular', 'trainingApp']
