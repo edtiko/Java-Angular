@@ -74,6 +74,25 @@ public class DashboardDTO {
         this.objective = objective;
         this.modality = modality;
     }
+    
+    public DashboardDTO(Integer userId, String name, String lastName, String email, Date birthDate, String sex, BigInteger weight,
+            String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
+            String indMetricSys) {
+        this.userId = userId;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.sex = sex;
+        this.weight = weight;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.profilePhoto = profilePhoto;
+        this.facebookPage = facebookPage;
+        this.indMetricSys = indMetricSys;
+    }
 
     public Integer getUserId() {
         return userId;

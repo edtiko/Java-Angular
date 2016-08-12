@@ -58,9 +58,24 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         sql.append("FROM UserProfile u ");
         sql.append("LEFT JOIN u.objectiveId o ");
         sql.append("WHERE u.userId.userId = :id ");
+        
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", id);
         List<DashboardDTO> list = query.getResultList();
+        
+        if(list == null || list.isEmpty()) {
+            sql = new StringBuilder();
+            sql.append("SELECT new co.com.expertla.training.model.dto.DashboardDTO(u.userId, u.name, u.lastName, ");
+            sql.append("u.email,u.birthDate,u.sex,u.weight,u.phone,u.cellphone,u.address, ");
+            sql.append("u.postalCode,u.profilePhoto,u.facebookPage, u.indMetricSys ");
+            sql.append(" ) ");
+            sql.append("FROM User u ");
+            sql.append("WHERE u.userId = :id ");
+            query = getEntityManager().createQuery(sql.toString());
+            query.setParameter("id", id);
+            list = query.getResultList();
+        }
+        
         return (list == null || list.isEmpty()) ?  null :list.get(0);
     }
 
