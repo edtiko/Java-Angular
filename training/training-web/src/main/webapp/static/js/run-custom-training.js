@@ -44,7 +44,8 @@ require.config({
         opentok: "lib/opentok.min",
         opentokAngular: "lib/opentok-angular",
         opentokLayout: "lib/opentok-layout.min",
-        utilService: "lib/utilService"
+        utilService: "lib/utilService",
+        ngDialog: "lib/ngDialog.min"
     },
     shim: {
         angular: {
@@ -61,6 +62,10 @@ require.config({
         angularTouch: {
             exports: 'angularTouch',
             deps: ['angular']
+        },
+        ngDialog:{
+          exports: 'ngDialog',
+          deps: ['angular']
         },
         ngCamRecorder: {
             exports: 'ngCamRecorder',
@@ -119,7 +124,7 @@ require.config({
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute',
-                'angularBoostrap', 'angularAnimate'
+                'angularBoostrap', 'angularAnimate', 'ngDialog'
 //                'sockjs', 
 //                'stompWebsocket','ngCamRecorder','recorder',
 //                'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
