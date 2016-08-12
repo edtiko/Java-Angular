@@ -1,7 +1,7 @@
 
-trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$window', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService','ngDialog', function ($scope, UserService,'VisibleFieldsUserService',
-            $filter, $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,ngDialog,VisibleFieldsUserService) {
+trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
+    'ObjectiveService', 'ModalityService', 'surveyService','VisibleFieldsUserService', function ($scope, UserService,
+            $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,VisibleFieldsUserService) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
@@ -301,8 +301,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             bikes: '',
             potentiometer: '',
             modelPotentiometer: '',
+            otherPotentiometer: '',
+            otherModelPotentiometer: '',
             pulsometer: '',
+            otherPulsometer: '',
             modelPulsometer: '',
+            otherModelPulsometer: '',
             objective: '',
             vo2Running: '',
             vo2Ciclismo: '',
@@ -451,7 +455,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             SportEquipmentService.getPulsometers().then(
                     function (d) {
                         $scope.pulsometers = d;
-                        $scope.pulsometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
+                        $scope.pulsometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'}, {sportEquipmentId: -2, name: 'Otro', brand: 'Otro'});
                     },
                     function (errResponse) {
                         console.error('Error while pulsometers');
@@ -465,7 +469,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
             SportEquipmentService.getPotentiometers().then(
                     function (d) {
                         $scope.potentiometers = d;
-                        $scope.potentiometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
+                        $scope.potentiometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'}, {sportEquipmentId: -2, name: 'Otro', brand: 'Otro'});
                     },
                     function (errResponse) {
                         console.error('Error while potentiometers');
@@ -551,21 +555,35 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 response = value;
             }
         };
-
+        
         $scope.getModelsPotentiometer = function (sportEquipmentId) {
-            SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
-                    function (d) {
-                        $scope.modelsPotentiometer = d;
-                        $scope.modelsPotentiometer.unshift({modelEquipmentId: -1, name: 'Seleccione'});
-                    },
-                    function (errResponse) {
-                        console.error('Error while models potentiometer');
-                        console.error(errResponse);
-                    }
-            );
+            if (sportEquipmentId === -2) { //another potentiometer
+                $scope.showAnotherPotentiometer = true;
+                $scope.showModelPotentiometer = false;
+            } else {
+                $scope.showAnotherPotentiometer = false;
+                $scope.showModelPotentiometer = true;
+                SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
+                        function (d) {
+                            $scope.modelsPotentiometer = d;
+                            $scope.modelsPotentiometer.unshift({modelEquipmentId: -1, name: 'Seleccione'});
+                        },
+                        function (errResponse) {
+                            console.error('Error while models potentiometer');
+                            console.error(errResponse);
+                        }
+                );
+            }
         };
+        
+         $scope.getModelsPulsometer = function (sportEquipmentId) {
+             if(sportEquipmentId === -2){ //another pulsometer
+                 $scope.showAnotherPulsometer = true;
+                 $scope.showModelPulsometer = false;
+             }else{
+                  $scope.showAnotherPulsometer = false;
+                  $scope.showModelPulsometer = true;
 
-        $scope.getModelsPulsometer = function (sportEquipmentId) {
             SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
                     function (d) {
                         $scope.modelsPulsometer = d;
@@ -576,6 +594,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                         console.error(errResponse);
                     }
             );
+         }
         };
 
         $scope.visibleField = function (tableName, columnName) {

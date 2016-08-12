@@ -1,0 +1,283 @@
+    <div class="panel panel-default">
+        <div class="panel-heading"><span class="lead">Datos Deportivos</span></div>
+        <div class="panel-body">  
+            <div class="formcontainer" > 
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Objetivo</label>
+                        <div class=" col-md-3">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.objective"
+                                    ng-options="o.objectiveId as o.name for o in objectives">
+                                <option> Seleccione </option>
+                            </select>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','objective')"
+                                    ng-checked="visibleField('user_profile','objective')"> Mostrar
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Disciplina Deportiva</label>
+                        <div class=" col-md-3">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.discipline"
+                                    ng-options="disc.disciplineId as disc.name for disc in disciplines" ng-change="getModalitiesByDisciplineId(userProfile.discipline)">
+                                <option selected="selected"> Seleccione </option>
+                            </select>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','discipline')"
+                                    ng-checked="visibleField('user_profile','discipline')"> Mostrar
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Modalidad</label>
+                        <div class=" col-md-3">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.modality"
+                                    ng-options="m.modalityId as m.name for m in modalities">
+                                <option> Seleccione </option>
+                            </select>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','modality')"
+                                    ng-checked="visibleField('user_profile','modality')"> Mostrar
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Edad Deportiva</label>
+                        <div class=" col-md-3">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ageSport">
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','age_sport')"
+                                    ng-checked="visibleField('user_profile','age_sport')"> Mostrar
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Disponibilidad</label>
+                        <div class=" col-md-7">
+                            <div ng-repeat="d in userProfile.availability"  style="display: inline">
+                                <input type="checkbox" ng-model="availability[d]" value="{{d}}" ng-checked="{{d.checked}}"
+                                       ng-checked="getAvailabilityResponse($parent.$index, d)"
+                                       ng-click="setAvailabilityResponse($parent.$index, $index, d)">
+                                <label>{{d.day}}</label>
+                                &nbsp;
+                            </div>
+                        </div>
+                        <input   type="checkbox" ng-click="setVisibleField($event,'user_profile','user_availability')"
+                                    ng-checked="visibleField('user_profile','user_availability')"> Mostrar
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">&iquest;Practicas otros deportes?</label>
+                        <div class=" col-md-3">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.sport"
+                                    ng-options="s.sportId as s.name for s in sports">
+                                <option> Seleccione </option>
+                            </select>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','sport')"
+                                    ng-checked="visibleField('user_profile','sport')"> Mostrar
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Logros Deportivos</label>
+                        <div class=" col-md-3">
+                            <textarea class="ng-invalid form-control" ng-model="userProfile.sportsAchievements" 
+                                      style=" display: inline; resize: none">
+                            </textarea>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','sports_achievements')"
+                                    ng-checked="visibleField('user_profile','sports_achievements')"> Mostrar
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Acerca de m&iacute;</label>
+                        <div class=" col-md-3">
+                            <textarea class="form-control" style=" display: inline;resize: none" ng-model="userProfile.aboutMe"></textarea>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','about_me')"
+                                    ng-checked="visibleField('user_profile','about_me')"> Mostrar
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">&iquest;Tienes pulsometro? </label>
+                        <div class="col-md-3">
+                            <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'1'"> Si
+                            <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'0'"> No
+                        </div>
+                        <div ng-show="userProfile.indPulsometer == 1">
+                             <label class="col-md-1 control-lable">&iquest;Cu&aacute;l?</label>
+                            <div class="col-md-3">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.pulsometer"
+                                        ng-change="getModelsPulsometer(userProfile.pulsometer)"
+                                        ng-options="p.sportEquipmentId as p.brand for p in pulsometers">
+                                </select>
+                            </div>
+                            <div ng-show="showModelPulsometer">
+                            <label class="col-md-1 control-lable">Modelo</label>
+                            
+                            <div class="col-md-3">
+                                <select  class="form-control" style=" display: inline" ng-model="userProfile.modelPulsometer"
+                                        ng-options="p.modelEquipmentId as p.name for p in modelsPulsometer">
+                                </select>
+                            </div>
+                            </div>
+                              <div ng-show="showAnotherPulsometer">
+                                     <div class="col-md-2">
+                                         <input type="text" placeholder="Que Marca?" class="form-control" ng-model="userProfile.otherPulsometer">
+                                     </div>
+                                   <div class="col-md-2">
+                                    <input  class="form-control" placeholder="Que Modelo?" type="text" ng-model="userProfile.otherModelPulsometer">
+                                   </div>
+                                </div>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','pulsometer')"
+                                    ng-checked="visibleField('user_profile','pulsometer')"> Mostrar
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Ppm</label>
+                        <div class=" col-md-3">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ppm">
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','ppm')"
+                                    ng-checked="visibleField('user_profile','ppm')"> Mostrar
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">VO2 Running</label>
+                        <div class=" col-md-3">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.vo2Running">
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','vo2_running')"
+                                    ng-checked="visibleField('user_profile','vo2_running')"> Mostrar
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">VO2 Ciclismo</label>
+                        <div class=" col-md-3">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.vo2Ciclismo">
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','vo2_ciclismo')"
+                                    ng-checked="visibleField('user_profile','vo2_ciclismo')"> Mostrar
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">&iquest;Tienes potenciometro?</label>
+                        <div class=" col-md-3">
+                            <input  type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'1'"> Si
+                            <input type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'0'"> No
+                        </div>
+                        <div ng-show="userProfile.indPower == 1">
+                           <label class="col-md-1 control-lable">&iquest;Cu&aacute;l?</label>
+                            <div class=" col-md-3">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.potentiometer"
+                                        ng-change="getModelsPotentiometer(userProfile.potentiometer)"
+                                        ng-options="p.sportEquipmentId as p.brand for p in potentiometers">
+                                    <option> Seleccione </option>
+                                </select>
+                            </div>
+                             <div ng-show="showModelPotentiometer">
+                            <label class="col-md-1 control-lable">Modelo</label>
+                            <div class="col-md-3">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.modelPotentiometer"
+                                        ng-options="p.modelEquipmentId as p.name for p in modelsPotentiometer">
+                                    <option> Seleccione </option>
+                                </select>
+                            </div>
+                             </div>
+                              <div ng-show="showAnotherPotentiometer">
+                                     <div class="col-md-2">
+                                         <input type="text" placeholder="Que Marca?" class="form-control" ng-model="userProfile.otherPotentiometer">
+                                     </div>
+                                   <div class="col-md-2">
+                                    <input  class="form-control" placeholder="Que Modelo?" type="text" ng-model="userProfile.otherModelPotentiometer">
+                                   </div>
+                                </div>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','potentiometer')"
+                                    ng-checked="visibleField('user_profile','potentiometer')"> Mostrar
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Potencia</label>
+                        <div class=" col-md-3">
+                            <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.power">
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','power')"
+                                    ng-checked="visibleField('user_profile','power')"> Mostrar
+                    </div>
+                </div>
+
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">&iquest;Tienes bicicleta? </label>
+                        <div class=" col-md-3">
+                            <input id="bicicleta" type="radio" name="bicicleta" ng-model="indBike" ng-value="'1'"> Si
+                            <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'-1'"> No
+                        </div>
+                        <div  ng-show="indBike == 1">
+                            <label class="col-md-1 control-lable">&iquest;Cu&aacute;l?</label>
+                            <div class=" col-md-3">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.bike"
+                                        ng-options="b.brand for b in bikes track by b.brand">
+                                </select>
+                            </div>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','bike')"
+                                    ng-checked="visibleField('user_profile','bike')"> Mostrar
+                    </div>
+                </div>
+
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">&iquest;Qu&eacute; tipo de zapatilla usas?</label>
+                        <div class=" col-md-3">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.shoes"
+                                    ng-options="shoe.sportEquipmentId as shoe.brand for shoe in shoes">
+                            </select>
+                        </div>
+                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','shoes')"
+                                    ng-checked="visibleField('user_profile','shoes')"> Mostrar
+                    </div>
+                </div>
+
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-lable">Sistema de medici&oacute;n </label>
+                        <div class=" col-md-3">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.indMetricSys">
+                                <option value="" hidden></option>
+                                <option value="-1"> Seleccione </option>
+                                <option ng-repeat="metricSys in metricSystems" value="{{metricSys.id}}">{{metricSys.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary btn-sm" ng-click="createOrMergeUserProfile(userProfile)"> Guardar </button>
+                <button class="btn btn-warning btn-sm" ng-click="resetProfile()" >Limpiar</button>
+                <button class="btn btn-primary btn-sm" ng-click="generatePlan(userProfile)"> Generar </button>
+            </div>
+        </div>
+    </div>
