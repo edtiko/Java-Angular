@@ -246,9 +246,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
         $scope.uploadFile = function () {
 
             var file = $scope.myFile;
-            if($scope.isImage(file.type)){
-                //$scope.showMessage("Debe seleccionar una imagen valida.", "error"); 
-                $window.alert("Debe seleccionar una imagen valida.");
+            if(file !== undefined && $scope.isImage(file.type)){
+                $scope.showMessage("Debe seleccionar una imagen valida.", "error"); 
+                //$window.alert("Debe seleccionar una imagen valida.");
             }
             else if ($scope.user.userId != "" && file != null) {
 
@@ -266,8 +266,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                                 }
                         );
             } else {
-                //$scope.showMessage("Debe seleccionar una imagen.", "error");
-                 $window.alert("Debe seleccionar una imagen.");
+                $scope.showMessage("Debe seleccionar una imagen.", "error");
             }
         };
 
