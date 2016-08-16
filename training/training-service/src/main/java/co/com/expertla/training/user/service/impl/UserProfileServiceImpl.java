@@ -29,13 +29,13 @@ import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.UserSport;
 import co.com.expertla.training.user.service.UserAvailabilityService;
 import co.com.expertla.training.user.service.UserProfileService;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service for User Profile <br>
@@ -184,7 +184,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfile userProfile = new UserProfile();
         userProfile.setIndPulsometer(dto.getIndPulsometer() == null ? null : dto.getIndPulsometer());
         userProfile.setIndPower(dto.getIndPower() == null ? null : dto.getIndPower());
-
+        
         if("1".equals(dto.getIndPulsometer()) && !new Integer(-2).equals(dto.getPulsometer())) {
             equipment.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             equipment.setUserProfileId(userProfile);

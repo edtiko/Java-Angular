@@ -300,8 +300,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             shoes: '',
             bikes: '',
             potentiometer: '',
-            modelPotentiometer: '',
             otherPotentiometer: '',
+            modelPotentiometer:'',
             otherModelPotentiometer: '',
             pulsometer: '',
             otherPulsometer: '',
@@ -599,7 +599,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
              }else{
                   $scope.showAnotherPulsometer = false;
                   $scope.showModelPulsometer = true;
-
             SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
                     function (d) {
                         $scope.modelsPulsometer = d;
