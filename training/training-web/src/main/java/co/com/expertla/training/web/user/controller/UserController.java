@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package co.com.expertla.training.web.user.controller;
 
@@ -59,35 +59,34 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-  
 @RestController
 public class UserController {
-  
-    
+
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
     public static final String ROOT = "c:/upload-video/";
     private static final String apiKey = "45634832";
     private static final String apiSecret = "547b77a30287725ef942607913540d1eef48a161";
     private static OpenTok opentok;
-    
+
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
-  
-    
+
     @Autowired
     DisciplineUserService disciplineUserService;
 
     @Autowired
     RoleUserService roleUserService;
-    
+
     @Autowired
     TrainingPlanUserService trainingPlanUserService;
-    	/**
-	 * Upload single file using Spring Controller
+
+    /**
+     * Upload single file using Spring Controller
+     *
      * @param file
      * @param userId
-     * @return 
-	 */
+     * @return
+     */
     @RequestMapping(value = "/uploadFile/{userId}", method = RequestMethod.POST)
     public @ResponseBody
     Response uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
@@ -136,22 +135,18 @@ public class UserController {
             return null;
         }
     }
-     
+
     //-------------------Retrieve All Users--------------------------------------------------------
-      
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<List<UserDTO>> listAllUsers() {
         List<UserDTO> users = userService.findAllUsers();
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
-  
-  
-     
+
     //-------------------Retrieve Single User--------------------------------------------------------
-      
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Integer userId) {
         System.out.println("Fetching User with id " + userId);
@@ -162,14 +157,12 @@ public class UserController {
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-  
-      
-      
+
     //-------------------Create a User--------------------------------------------------------
     @RequestMapping(value = "user/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response createUser(@RequestBody UserDTO userDTO) {
-            ResponseService responseService = new ResponseService();
-        try {           
+        ResponseService responseService = new ResponseService();
+        try {
             User user = new User();
             user.setLogin(userDTO.getLogin());
             user.setName(userDTO.getFirstName());
@@ -180,40 +173,45 @@ public class UserController {
             user.setPhone(userDTO.getPhone());
             user.setLastName(userDTO.getLastName());
             user.setSex(userDTO.getSex());
+
             
-            Role role = new Role();
-            
-            if(userDTO.getTypeUser().equals("atleta")) {
-                role.setRoleId(1);
-            } else if(userDTO.getTypeUser().equals("coach")) {
-                role.setRoleId(2);
-            } else {
-              role.setRoleId(3);   
-            }
-            
+
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-            
+
             user.setCreationDate(new Date());
             Integer userId = userService.saveUser(user);
             DisciplineUser disciplineUser = new DisciplineUser();
             disciplineUser.setUserId(new User(userId));
             disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
             disciplineUserService.create(disciplineUser);
-            RoleUser roleUser = new RoleUser();
-            roleUser.setRoleId(role);
-            roleUser.setUserId(user);
-            roleUserService.create(roleUser);
             
+            if (userDTO.getTypeUser() != null) {
+                Role role = new Role();
+                if (userDTO.getTypeUser().equals("atleta")) {
+                    role.setRoleId(1);
+                } else if (userDTO.getTypeUser().equals("coach")) {
+                    role.setRoleId(2);
+                } else {
+                    role.setRoleId(3);
+                }
+                
+                RoleUser roleUser = new RoleUser();
+                roleUser.setRoleId(role);
+                roleUser.setUserId(user);
+                roleUserService.create(roleUser);
+            }
+            
+
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
             trainingPlanUser.setStateId(new State(StateEnum.ACTIVE.getId()));
             trainingPlanUser.setUserId(user);
             trainingPlanUser.setTrainingPlanId(new TrainingPlan(1));//Plan basico por defecto
             trainingPlanUserService.create(trainingPlanUser);
-            
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {
@@ -225,19 +223,18 @@ public class UserController {
         }
     }
 
-    
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-            ResponseService responseService = new ResponseService();
-        try {      
+        ResponseService responseService = new ResponseService();
+        try {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
                 response.sendRedirect("http://expertla.com.co/cpt/registro-atleta/");
                 return null;
             }
-            
-            session.setAttribute("user" , userDto);
+
+            session.setAttribute("user", userDto);
             response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
             return null;
         } catch (Exception ex) {
@@ -248,11 +245,11 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/getUserSession", method = RequestMethod.GET)
     public Response getUserSession(HttpSession session, HttpServletResponse response) {
-            ResponseService responseService = new ResponseService();
-        try {      
+        ResponseService responseService = new ResponseService();
+        try {
             responseService.setOutput(session.getAttribute("user"));
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {
@@ -263,102 +260,89 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-  
-     
-      
+
     //------------------- Update a User --------------------------------------------------------
-      
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT)
     public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Integer userId, @RequestBody UserDTO user) {
         System.out.println("Updating User " + userId);
-          
+
         UserDTO currentUser = userService.findById(userId);
-          
-        if (currentUser==null) {
+
+        if (currentUser == null) {
             System.out.println("User with id " + userId + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-          
         userService.updateUser(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-  
-     
-     
+
     //------------------- Delete a User --------------------------------------------------------
-      
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<UserDTO> deleteUser(@PathVariable("userId") Integer userId) {
         System.out.println("Fetching & Deleting User with id " + userId);
-  
+
         UserDTO user = userService.findById(userId);
         if (user == null) {
             System.out.println("Unable to delete. User with id " + userId + " not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-  
+
         userService.deleteUserById(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-  
-      
-     
+
     //------------------- Delete All Users --------------------------------------------------------
-      
     @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
     public ResponseEntity<UserDTO> deleteAllUsers() {
         System.out.println("Deleting All Users");
-  
+
         userService.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    
-    
-        //-------------------Retrieve All Countries--------------------------------------------------------
-    
-      @RequestMapping(value = "/countries/", method = RequestMethod.GET)
+
+    //-------------------Retrieve All Countries--------------------------------------------------------
+    @RequestMapping(value = "/countries/", method = RequestMethod.GET)
     public ResponseEntity<List<CountryDTO>> listAllCountries() {
         List<CountryDTO> countries = userService.findAllCountries();
-        if(countries.isEmpty()){
+        if (countries.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(countries, HttpStatus.OK);
     }
-    
-          //-------------------Retrieve States--------------------------------------------------------
+
+    //-------------------Retrieve States--------------------------------------------------------
     @RequestMapping(value = "/states/{countryId}", method = RequestMethod.GET)
     public ResponseEntity<List<FederalStateDTO>> getStatesByCountry(@PathVariable("countryId") Integer countryId) {
         List<FederalStateDTO> states = userService.findStatesByCountry(countryId);
-        if(states.isEmpty()){
+        if (states.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(states, HttpStatus.OK);
     }
-    
-            //-------------------Retrieve Cities--------------------------------------------------------
-      
+
+    //-------------------Retrieve Cities--------------------------------------------------------
     @RequestMapping(value = "/cities/{stateId}", method = RequestMethod.GET)
     public ResponseEntity<List<CityDTO>> listAllCountries(@PathVariable("stateId") Integer stateId) {
         List<CityDTO> cities = userService.findCitiesByState(stateId);
-        if(cities.isEmpty()){
+        if (cities.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<>(cities, HttpStatus.OK);
     }
-    
+
     @MessageMapping("/chat")
     @SendTo("/topic/message")
     public OutputMessage sendMessage(Message message) {
         return new OutputMessage(message, new Date());
     }
-    
-     @ExceptionHandler(Exception.class)
+
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<String> errorHandler(Exception exc) {
         LOGGER.error(exc.getMessage(), exc);
         return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
     }
-    
+
     @RequestMapping(value = "/video/upload", method = RequestMethod.POST)
     public @ResponseBody
     Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename) {
@@ -386,7 +370,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "/session/opentok", method = RequestMethod.GET)
     public @ResponseBody
     Response getSessionOpenTok(HttpSession session, HttpServletResponse response) {
@@ -396,7 +380,7 @@ public class UserController {
             opentok = new OpenTok(Integer.parseInt(apiKey), apiSecret);
             String sessionId = opentok.createSession().getSessionId();
             String token = opentok.generateToken(sessionId);
-            OpenTokDTO openTok =  new OpenTokDTO(apiKey, sessionId, token);
+            OpenTokDTO openTok = new OpenTokDTO(apiKey, sessionId, token);
             responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
             responseService.setOutput(openTok);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -409,5 +393,5 @@ public class UserController {
         }
 
     }
-  
+
 }
