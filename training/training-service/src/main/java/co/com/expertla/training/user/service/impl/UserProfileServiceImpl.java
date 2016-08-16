@@ -1,5 +1,8 @@
 package co.com.expertla.training.user.service.impl;
 
+import co.com.expertla.training.configuration.dao.BrandDao;
+import co.com.expertla.training.configuration.dao.ModelEquipmentDao;
+import co.com.expertla.training.configuration.dao.SportEquipmentDao;
 import co.com.expertla.training.user.dao.DisciplineUserDao;
 import co.com.expertla.training.user.dao.EquipmentUserProfileDao;
 import co.com.expertla.training.user.dao.UserDao;
@@ -10,6 +13,7 @@ import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import co.com.expertla.training.model.dto.UserAvailabilityDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
+import co.com.expertla.training.model.entities.Brand;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.EquipmentUserProfile;
@@ -18,19 +22,20 @@ import co.com.expertla.training.model.entities.ModelEquipment;
 import co.com.expertla.training.model.entities.Objective;
 import co.com.expertla.training.model.entities.Sport;
 import co.com.expertla.training.model.entities.SportEquipment;
+import co.com.expertla.training.model.entities.SportEquipmentType;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.entities.UserAvailability;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.UserSport;
 import co.com.expertla.training.user.service.UserAvailabilityService;
+import co.com.expertla.training.user.service.UserProfileService;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.com.expertla.training.user.service.UserProfileService;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Service for User Profile <br>
@@ -61,6 +66,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Autowired
     private UserDao userDao;
+
+    
+    @Autowired
+    private SportEquipmentDao sportEquipmentDao;
+    
+    @Autowired
+    private BrandDao brandDao;
+    
+    @Autowired
+    private ModelEquipmentDao modelEquipmentDao;
+    
 
     @Override
     public UserProfileDTO findDTOByUserId(Integer id) throws Exception {
@@ -168,7 +184,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfile userProfile = new UserProfile();
         userProfile.setIndPulsometer(dto.getIndPulsometer() == null ? null : dto.getIndPulsometer());
         userProfile.setIndPower(dto.getIndPower() == null ? null : dto.getIndPower());
-        if ("1".equals(dto.getIndPulsometer())) {
+
+        if("1".equals(dto.getIndPulsometer()) && !new Integer(-2).equals(dto.getPulsometer())) {
             equipment.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             equipment.setUserProfileId(userProfile);
 
@@ -177,8 +194,8 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
             sportEquipments.add(equipment);
         }
-
-        if ("1".equals(dto.getIndPower())) {
+        
+        if("1".equals(dto.getIndPower()) && !new Integer(-2).equals(dto.getPotentiometer())) {
             equipment = new EquipmentUserProfile();
             equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             equipment.setUserProfileId(userProfile);
@@ -203,12 +220,53 @@ public class UserProfileServiceImpl implements UserProfileService {
             sportEquipments.add(equipment);
         }
         
-        if(dto.getOtherPulsometer() != null && dto.getOtherModelPulsometer() != null){
-         
+        if (dto.getOtherModelPulsometer() != null && dto.getOtherPulsometer() != null && !"".equals(dto.getOtherPulsometer()) && !"".equals(dto.getOtherModelPulsometer())) {
+            SportEquipment newSportEquipment = new SportEquipment();
+            Brand newBrand = new Brand();
+            ModelEquipment newModel = new ModelEquipment();
+            EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
+            newBrand.setName(dto.getOtherPulsometer());
+            brandDao.create(newBrand);
+            
+            newSportEquipment.setName("Other Pulsometer");
+            newSportEquipment.setBrandId(newBrand);
+            newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.PULSOMETER.getId()));
+            sportEquipmentDao.create(newSportEquipment);
+            
+            newModel.setName(dto.getOtherModelPulsometer());
+            newModel.setSportEquipmentId(newSportEquipment);
+            modelEquipmentDao.create(newModel);
+            
+            equipmentUser.setModelEquipmentId(newModel);
+            equipmentUser.setSportEquipmentId(newSportEquipment);
+            equipmentUser.setUserProfileId(userProfile);
+            sportEquipments.add(equipmentUser);
+            
+            
         }
-        if(dto.getOtherPotentiometer() != null && dto.getOtherModelPotentiometer() != null){
-         
+        if (dto.getOtherPotentiometer() != null && dto.getOtherModelPotentiometer() != null && !"".equals(dto.getOtherPotentiometer()) && !"".equals(dto.getOtherModelPotentiometer())) {
+            SportEquipment newSportEquipment = new SportEquipment();
+            Brand newBrand = new Brand();
+            ModelEquipment newModel = new ModelEquipment();
+            EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
+            newBrand.setName(dto.getOtherPotentiometer());
+            brandDao.create(newBrand);
+
+            newSportEquipment.setName("Other Potentiometer");
+            newSportEquipment.setBrandId(newBrand);
+            newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.POTENTIOMETER.getId()));
+            sportEquipmentDao.create(newSportEquipment);
+
+            newModel.setName(dto.getOtherModelPotentiometer());
+            newModel.setSportEquipmentId(newSportEquipment);
+            modelEquipmentDao.create(newModel);
+
+            equipmentUser.setModelEquipmentId(newModel);
+            equipmentUser.setSportEquipmentId(newSportEquipment);
+            equipmentUser.setUserProfileId(userProfile);
+            sportEquipments.add(equipmentUser);
         }
+        
         userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
         UserAvailability availability = new UserAvailability();
         buildUserAvailabilityObject(dto, availability);
@@ -297,6 +355,63 @@ public class UserProfileServiceImpl implements UserProfileService {
         } else if (potentiometer != null) {
             equipmentUserProfileDao.create(potentiometer);
         }
+       //Other Pulsometer
+        if (dto.getOtherModelPulsometer() != null && dto.getOtherPulsometer() != null && !"".equals(dto.getOtherPulsometer()) && !"".equals(dto.getOtherModelPulsometer())) {
+            SportEquipment newSportEquipment = new SportEquipment();
+            Brand newBrand = new Brand();
+            ModelEquipment newModel = new ModelEquipment();
+            EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
+            newBrand.setName(dto.getOtherPulsometer());
+            brandDao.create(newBrand);
+
+            newSportEquipment.setName("Other Pulsometer");
+            newSportEquipment.setBrandId(newBrand);
+            newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.PULSOMETER.getId()));
+            sportEquipmentDao.create(newSportEquipment);
+
+            newModel.setName(dto.getOtherModelPulsometer());
+            newModel.setSportEquipmentId(newSportEquipment);
+            modelEquipmentDao.create(newModel);
+
+            equipmentUser.setModelEquipmentId(newModel);
+            equipmentUser.setSportEquipmentId(newSportEquipment);
+            equipmentUser.setUserProfileId(userProfile);
+            if(pulsometer != null && pulsometer.getEquipmentUserProfileId() != null){
+                equipmentUser.setEquipmentUserProfileId(pulsometer.getEquipmentUserProfileId());
+               equipmentUserProfileDao.merge(equipmentUser);
+            }else{
+               equipmentUserProfileDao.create(equipmentUser);  
+            }
+
+        }
+        //Other Potentiometer
+        if (dto.getOtherPotentiometer() != null && dto.getOtherModelPotentiometer() != null && !"".equals(dto.getOtherPotentiometer()) && !"".equals(dto.getOtherModelPotentiometer())) {
+            SportEquipment newSportEquipment = new SportEquipment();
+            Brand newBrand = new Brand();
+            ModelEquipment newModel = new ModelEquipment();
+            EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
+            newBrand.setName(dto.getOtherPotentiometer());
+            brandDao.create(newBrand);
+
+            newSportEquipment.setName("Other Potentiometer");
+            newSportEquipment.setBrandId(newBrand);
+            newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.POTENTIOMETER.getId()));
+            sportEquipmentDao.create(newSportEquipment);
+
+            newModel.setName(dto.getOtherModelPotentiometer());
+            newModel.setSportEquipmentId(newSportEquipment);
+            modelEquipmentDao.create(newModel);
+
+            equipmentUser.setModelEquipmentId(newModel);
+            equipmentUser.setSportEquipmentId(newSportEquipment);
+            equipmentUser.setUserProfileId(userProfile);
+            if (potentiometer != null && potentiometer.getEquipmentUserProfileId() != null) {
+                equipmentUser.setEquipmentUserProfileId(potentiometer.getEquipmentUserProfileId());
+                equipmentUserProfileDao.merge(equipmentUser);
+            } else {
+                equipmentUserProfileDao.create(equipmentUser);
+            }
+        }
         //RunningShoes
         if (runningShoes != null && runningShoes.getEquipmentUserProfileId() != null) {
             equipmentUserProfileDao.merge(runningShoes);
@@ -356,12 +471,12 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return
      */
     private EquipmentUserProfile buildPulsometerObject(UserProfileDTO dto, EquipmentUserProfile pulsometer) {
-        if (pulsometer != null && !new Integer(-1).equals(dto.getPulsometer())) {
+        if (pulsometer != null && !new Integer(-1).equals(dto.getPulsometer()) && !new Integer(-2).equals(dto.getPulsometer()) ) {
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             if (dto.getModelPulsometer() != null) {
                 pulsometer.setModelEquipmentId(new ModelEquipment(dto.getModelPulsometer()));
             }
-        } else if (!new Integer(-1).equals(dto.getPulsometer())) {
+        } else if (!new Integer(-1).equals(dto.getPulsometer()) && !new Integer(-2).equals(dto.getPulsometer())) {
             pulsometer = new EquipmentUserProfile();
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             pulsometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -380,12 +495,12 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return
      */
     private EquipmentUserProfile buildPotentiometerObject(UserProfileDTO dto, EquipmentUserProfile potentiometer) {
-        if (potentiometer != null && !new Integer(-1).equals(dto.getPotentiometer())) {
+        if (potentiometer != null && !new Integer(-1).equals(dto.getPotentiometer()) && !new Integer(-2).equals(dto.getPotentiometer())) {
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             if (dto.getModelPotentiometer() != null) {
                 potentiometer.setModelEquipmentId(new ModelEquipment(dto.getModelPotentiometer()));
             }
-        } else if (!new Integer(-1).equals(dto.getPotentiometer())) {
+        } else if(!new Integer(-1).equals(dto.getPotentiometer()) && !new Integer(-2).equals(dto.getPotentiometer())){
             potentiometer = new EquipmentUserProfile();
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             potentiometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));

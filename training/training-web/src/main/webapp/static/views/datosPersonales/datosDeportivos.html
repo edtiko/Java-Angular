@@ -133,10 +133,10 @@
                             </div>
                               <div ng-show="showAnotherPulsometer">
                                      <div class="col-md-2">
-                                         <input type="text" placeholder="Que Marca?" class="form-control" ng-model="userProfile.otherPulsometer">
+                                         <input type="text" name="otherPulsometer" placeholder="Que Marca?" ng-required="showAnotherPulsometer" class="form-control" ng-model="userProfile.otherPulsometer">
                                      </div>
                                    <div class="col-md-2">
-                                    <input  class="form-control" placeholder="Que Modelo?" type="text" ng-model="userProfile.otherModelPulsometer">
+                                    <input  class="form-control" name="otherModelPulsometer" placeholder="Que Modelo?" ng-required="showAnotherPulsometer" type="text" ng-model="userProfile.otherModelPulsometer">
                                    </div>
                                 </div>
                         </div>
@@ -203,10 +203,10 @@
                              </div>
                               <div ng-show="showAnotherPotentiometer">
                                      <div class="col-md-2">
-                                         <input type="text" placeholder="Que Marca?" class="form-control" ng-model="userProfile.otherPotentiometer">
+                                         <input type="text" placeholder="Que Marca?" ng-required="showAnotherPotentiometer" class="form-control" ng-model="userProfile.otherPotentiometer">
                                      </div>
                                    <div class="col-md-2">
-                                    <input  class="form-control" placeholder="Que Modelo?" type="text" ng-model="userProfile.otherModelPotentiometer">
+                                    <input  class="form-control" placeholder="Que Modelo?" ng-required="showAnotherPotentiometer" type="text" ng-model="userProfile.otherModelPotentiometer">
                                    </div>
                                 </div>
                         </div>
