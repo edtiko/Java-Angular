@@ -43,6 +43,8 @@ public class Sport implements Serializable {
     private Collection<UserSport> userSportCollection;
     @OneToMany(mappedBy = "sportId")
     private Collection<Activity> activityCollection;
+    @Column(name = "ind_discipline_sport")
+    private String indDisciplineSport;
 
     public Sport() {
     }
@@ -62,6 +64,14 @@ public class Sport implements Serializable {
 
     public void setSportId(Integer sportId) {
         this.sportId = sportId;
+    }
+
+    public String getIndDisciplineSport() {
+        return indDisciplineSport;
+    }
+
+    public void setIndDisciplineSport(String indDisciplineSport) {
+        this.indDisciplineSport = indDisciplineSport;
     }
 
     public String getName() {
