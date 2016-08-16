@@ -8,6 +8,7 @@ public class DashboardDTO {
 
     private Integer userId;
     private String name;
+    private String secondName;
     private String lastName;
     private String email;
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -40,17 +41,24 @@ public class DashboardDTO {
     private String objective;
     private String availability;
     private String modality;
+    private String twitterPage;
+    private String instagramPage;
+    private String webPage;
+    private Integer vo2Running;
+    private Integer vo2Ciclismo;
 
 
     public DashboardDTO() {
     }
 
-    public DashboardDTO(Integer userId, String name, String lastName, String email, Date birthDate, String sex, BigInteger weight,
+    public DashboardDTO(Integer userId, String name,String secondName, String lastName, String email, Date birthDate, String sex, BigInteger weight,
             String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
             String indMetricSys, String city, String federalState, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
-            String sportsAchievements, String aboutMe, String objective, String modality) {
+            String sportsAchievements, String aboutMe, String objective, String modality, String twitterPage, String instagramPage, 
+            String webPage, Integer vo2Running, Integer vo2Ciclismo) {
         this.userId = userId;
         this.name = name;
+        this.secondName = secondName;
         this.lastName = lastName;
         this.email = email;
         this.birthDate = birthDate;
@@ -73,6 +81,11 @@ public class DashboardDTO {
         this.aboutMe = aboutMe;
         this.objective = objective;
         this.modality = modality;
+        this.twitterPage = twitterPage;
+        this.instagramPage = instagramPage;
+        this.webPage = webPage;
+        this.vo2Running = vo2Running;
+        this.vo2Ciclismo = vo2Ciclismo;
     }
     
     public DashboardDTO(Integer userId, String name, String lastName, String email, Date birthDate, String sex, BigInteger weight,
@@ -358,5 +371,52 @@ public class DashboardDTO {
         this.modality = modality;
     }
 
-    
+    public String getTwitterPage() {
+        return twitterPage;
+    }
+
+    public void setTwitterPage(String twitterPage) {
+        this.twitterPage = twitterPage;
+    }
+
+    public String getInstagramPage() {
+        return instagramPage;
+    }
+
+    public void setInstagramPage(String instagramPage) {
+        this.instagramPage = instagramPage;
+    }
+
+    public String getWebPage() {
+        return webPage;
+    }
+
+    public void setWebPage(String webPage) {
+        this.webPage = webPage;
+    }
+
+    public Integer getVo2Running() {
+        return vo2Running;
+    }
+
+    public void setVo2Running(Integer vo2Running) {
+        this.vo2Running = vo2Running;
+    }
+
+    public Integer getVo2Ciclismo() {
+        return vo2Ciclismo;
+    }
+
+    public void setVo2Ciclismo(Integer vo2Ciclismo) {
+        this.vo2Ciclismo = vo2Ciclismo;
+    }
+
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
 }

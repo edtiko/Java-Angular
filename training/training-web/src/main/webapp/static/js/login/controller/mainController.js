@@ -3,6 +3,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
 
         $scope.successTextAlert = "";
         $scope.fields = [];
+        $scope.visibleFields = [];
         $scope.dt = new Date();
         $scope.appReady = true;
         $scope.userLogin = "";
@@ -62,7 +63,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
 
 
 
-        this.setUserSession = function () {
+        $scope.setUserSession = function () {
             AuthService.setUserSession($scope).then(
                     function (d) {
                     },
@@ -72,7 +73,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                     }
             );
         };
-        this.setUserSession();
+        $scope.setUserSession();
 
         this.getUserSession = function () {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -89,6 +90,11 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                         .then(
                                 function (response) {
                                     $scope.fields = response;
+                                    for (var i = 0; i < $scope.fields.length; i++) {
+                                        if (!$scope.inFieldsArray({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId}, $scope.visibleFields)) {
+                                            $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});
+                                        }
+                                    }
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching Visible Fields');
@@ -96,6 +102,21 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                                 }
                         );
             }
+        };
+        
+        $scope.inFieldsArray = function (field, array) {
+            var length = array.length;
+            for (var i = 0; i < length; i++) {
+                if (array[i].tableName == field.tableName && array[i].columnName == field.columnName)
+                    return true;
+            }
+            return false;
+        };
+        
+        $scope.calculateAge = function (birthday) { // birthday is a date
+            var ageDifMs = Date.now() - birthday.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
         };
 
         $scope.logout = function () {

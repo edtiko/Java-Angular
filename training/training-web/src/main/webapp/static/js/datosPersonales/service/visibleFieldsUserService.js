@@ -3,8 +3,8 @@
 trainingApp.factory('VisibleFieldsUserService', ['$http', '$q', function($http, $q){
     return {
             
-            createVisibleFieldsUser: function(visibleFieldsUser) {
-                    return $http.post($contextPath+'visibleFieldsUser/create',visibleFieldsUser)
+            createVisibleFieldsUser: function(userId,visibleFieldsUser) {
+                    return $http.post($contextPath+'visibleFieldsUser/create/'+userId,visibleFieldsUser)
                             .then(
                                     function(response){
                                         return response.data.entity.output;

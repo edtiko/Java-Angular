@@ -2,13 +2,13 @@
 
 trainingApp.controller('DashboardController', ['$scope', 'UserService','DashboardService',
     function ($scope, UserService, DashboardService) {
-        $scope.user = {userId: null, name: '', lastName: '', email: '', sex: '',
+        $scope.user = {userId: null, name: '',secondName: '', lastName: '', email: '', sex: '',age:'',
             weight: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
             ageSport: '', ppm: '', power: '', sportsAchievements: '',
             aboutMe: '', indMetricSys: '',discipline: '', sport: '', shoes: '', bikes: '',potentiometer: '',
             modelPotentiometer:'', pulsometer: '', modelPulsometer: '', objective: '', modality: '',
-            availability: ''
+            availability: '', twitterPage: '', instagramPage:'',webPage:'',vo2Running:'',vo2Ciclismo:''
         };
         $scope.profileImage = "static/img/profile-default.png";
         
@@ -20,6 +20,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService','Dashboar
                 DashboardService.getDashboard(user).then(
                         function (d) {
                             $scope.user = d;
+
+                            if ($scope.user.birthDate != null) {
+                                var date = $scope.user.birthDate.split("/");
+                                $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+                                $scope.user.age = $scope.calculateAge($scope.dt);
+                            }
                             $scope.getImageProfile(user.userId);
                         },
                         function (errResponse) {
