@@ -47,6 +47,8 @@ public class Discipline implements Serializable {
     private Collection<Modality> modalityCollection;
     @OneToMany(mappedBy = "discipline")
     private Collection<DisciplineUser> disciplineUserCollection;
+    @OneToMany(mappedBy = "disciplineId")
+    private Collection<DisciplineSport> disciplineSportCollection;
 
     public Discipline() {
     }
@@ -86,6 +88,15 @@ public class Discipline implements Serializable {
     public void setModalityCollection(Collection<Modality> modalityCollection) {
         this.modalityCollection = modalityCollection;
     }
+    @JsonIgnore
+    public Collection<DisciplineSport> getDisciplineSportCollection() {
+        return disciplineSportCollection;
+    }
+
+    public void setDisciplineSportCollection(Collection<DisciplineSport> disciplineSportCollection) {
+        this.disciplineSportCollection = disciplineSportCollection;
+    }
+    
     @JsonIgnore
     public Collection<DisciplineUser> getDisciplineUserCollection() {
         return disciplineUserCollection;

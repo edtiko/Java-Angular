@@ -96,6 +96,8 @@
     <class>co.com.expertla.training.model.entities.ReplaceActivity</class>
     <class>co.com.expertla.training.model.entities.ModelEquipment</class>
     <class>co.com.expertla.training.model.entities.VisibleFieldsUser</class>
+    <class>co.com.expertla.training.model.entities.DisciplineSport</class>
+    
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->
