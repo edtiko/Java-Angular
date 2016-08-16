@@ -336,6 +336,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
+                             self.getEquipments();
                             $scope.showMessage("Perfil Creado satisfactoriamente.");
                         },
                         function (errResponse) {
@@ -348,7 +349,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 UserProfileService.mergeProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
+                            self.getEquipments();
                             $scope.showMessage("Perfil editado satisfactoriamente.");
+                       
                         },
                         function (errResponse) {
                             console.error('Error while merging the profile');
@@ -357,7 +360,20 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$filter', '$
                 );
             }
         };
-
+      self.getEquipments = function(){
+          this.getPotentiometers();
+          this.getPulsometers();
+            $scope.showAnotherPotentiometer = false;
+            $scope.showAnotherPulsometer = false;
+            $scope.showModelPotentiometer = true;
+            if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
+                $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
+            }
+            if ($scope.userProfile.pulsometer != "" && $scope.userProfile.pulsometer != null) {
+                $scope.getModelsPulsometer($scope.userProfile.pulsometer);
+            }
+      };
+      
         $scope.generatePlan = function (userProfile) {
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
