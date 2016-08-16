@@ -38,13 +38,15 @@ public class UserProfileDTO implements Serializable {
     private Integer modality;
     private Integer vo2Running;
     private Integer vo2Ciclismo;
+    private Integer environmentId;
+    private Integer weatherId;
 
     public UserProfileDTO() {
     }
     
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
             BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,  
-            Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo) {
+            Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -59,6 +61,8 @@ public class UserProfileDTO implements Serializable {
         this.modality = modality;
         this.vo2Running = vo2Running;
         this.vo2Ciclismo = vo2Ciclismo;
+        this.environmentId = environmentId;
+        this.weatherId = weatherId;
     }
 
     public Integer getUserProfileId() {
@@ -275,6 +279,22 @@ public class UserProfileDTO implements Serializable {
 
     public void setOtherModelPulsometer(String otherModelPulsometer) {
         this.otherModelPulsometer = otherModelPulsometer;
+    }
+
+    public Integer getEnvironmentId() {
+        return environmentId;
+    }
+
+    public void setEnvironmentId(Integer environmentId) {
+        this.environmentId = environmentId;
+    }
+
+    public Integer getWeatherId() {
+        return weatherId;
+    }
+
+    public void setWeatherId(Integer weatherId) {
+        this.weatherId = weatherId;
     }
     
     

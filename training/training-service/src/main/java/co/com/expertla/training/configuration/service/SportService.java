@@ -1,6 +1,8 @@
 package co.com.expertla.training.configuration.service;
 
+import co.com.expertla.training.model.dto.EnvironmentDTO;
 import co.com.expertla.training.model.dto.SportDTO;
+import co.com.expertla.training.model.dto.WeatherDTO;
 import java.util.List;
 
 /**
@@ -21,4 +23,7 @@ public interface SportService {
      * @return
      */
     public List<SportDTO> findAll() throws Exception;
+    
+    public List<EnvironmentDTO> findEntornos() throws Exception;
+    public List<WeatherDTO> findClimas() throws Exception;
 }

@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      PostgreSQL 8                                 */
-/* Created on:     12/08/2016 8:14:52 a. m.                     */
+/* Created on:     03/08/2016 10:30:40 a. m.                    */
 /*==============================================================*/
 
 
@@ -98,55 +98,16 @@ drop table user_training;
 
 drop table video_user;
 
-drop sequence discipline_user_seq;
-
-drop sequence equipment_user_profile_seq;
-
-drop sequence role_user_seq;
-
-drop sequence training_plan_seq;
-
-drop sequence training_plan_user_seq;
-
-drop sequence training_plan_workout_seq;
-
-drop sequence user_availability_seq;
-
-drop sequence user_profile_seq;
-
-drop sequence user_sport_seq;
-
-drop sequence user_training_user_id_seq;
-
-create sequence discipline_user_seq;
-
-create sequence equipment_user_profile_seq;
-
-create sequence role_user_seq;
-
-create sequence training_plan_seq;
-
-create sequence training_plan_user_seq;
-
-create sequence training_plan_workout_seq;
-
-create sequence user_availability_seq;
-
-create sequence user_profile_seq;
-
-create sequence user_sport_seq;
-
-create sequence user_training_user_id_seq;
-
 /*==============================================================*/
 /* Table: activity                                              */
 /*==============================================================*/
 create table activity (
-   activity_id          integer              not null,
+   activity_id          serial              not null,
    physiological_capacity_id integer              null,
    modality_id          integer              null,
    objective_id         integer              null,
    name                 varchar(800)         not null,
+   description          varchar(1000)        null,
    constraint pk_activity primary key (activity_id)
 );
 
@@ -154,7 +115,7 @@ create table activity (
 /* Table: brand                                                 */
 /*==============================================================*/
 create table brand (
-   brand_id             integer              not null,
+   brand_id             serial              not null,
    name                 varchar(500)         not null,
    constraint pk_brand primary key (brand_id)
 );
@@ -163,7 +124,7 @@ create table brand (
 /* Table: city                                                  */
 /*==============================================================*/
 create table city (
-   city_id              integer              not null,
+   city_id              serial              not null,
    federal_state_id     integer              null,
    name                 varchar(200)         null,
    constraint pk_city primary key (city_id)
@@ -173,7 +134,7 @@ create table city (
 /* Table: country                                               */
 /*==============================================================*/
 create table country (
-   country_id           integer              not null,
+   country_id           serial              not null,
    name                 varchar(200)         null,
    constraint pk_country primary key (country_id)
 );
@@ -182,7 +143,7 @@ create table country (
 /* Table: data_type                                             */
 /*==============================================================*/
 create table data_type (
-   data_type_id         integer              not null,
+   data_type_id         serial              not null,
    name                 varchar(200)         not null,
    constraint pk_data_type primary key (data_type_id)
 );
@@ -191,7 +152,7 @@ create table data_type (
 /* Table: dcf                                                   */
 /*==============================================================*/
 create table dcf (
-   dcf_id               integer              not null,
+   dcf_id               serial              not null,
    objective_id         integer              null,
    modality_id          integer              null,
    pattern              text                 not null,
@@ -206,7 +167,7 @@ comment on table dcf is
 /* Table: dcf_detail                                            */
 /*==============================================================*/
 create table dcf_detail (
-   dcf_detail_id        integer              not null,
+   dcf_detail_id        serial              not null,
    physiological_capacity_id integer              null,
    dcf_id               integer              null,
    percentage           integer              not null,
@@ -217,7 +178,7 @@ create table dcf_detail (
 /* Table: discipline                                            */
 /*==============================================================*/
 create table discipline (
-   discipline_id        integer              not null,
+   discipline_id        serial              not null,
    name                 varchar(100)         null,
    description          varchar(200)         null,
    constraint pk_discipline primary key (discipline_id)
@@ -240,6 +201,7 @@ create table equipment_user_profile (
    equipment_user_profile_id serial               not null,
    user_profile_id      integer              null,
    sport_equipment_id   integer              null,
+   model_equipment_id   integer              null,
    constraint pk_equipment_user_profile primary key (equipment_user_profile_id)
 );
 
@@ -247,7 +209,7 @@ create table equipment_user_profile (
 /* Table: federal_state                                         */
 /*==============================================================*/
 create table federal_state (
-   federal_state_id     integer              not null,
+   federal_state_id     serial              not null,
    country_id           integer              null,
    name                 varchar(200)         null,
    constraint pk_federal_state primary key (federal_state_id)
@@ -257,7 +219,7 @@ create table federal_state (
 /* Table: injury                                                */
 /*==============================================================*/
 create table injury (
-   injury_id            integer              not null,
+   injury_id            serial              not null,
    injury_parent_id     integer              null,
    name                 varchar(200)         not null,
    constraint pk_injury primary key (injury_id)
@@ -267,7 +229,7 @@ create table injury (
 /* Table: membership                                            */
 /*==============================================================*/
 create table membership (
-   membership_id        integer              not null,
+   membership_id        serial              not null,
    state_id             integer              null,
    membership_promo_id  integer              null,
    name                 varchar(200)         not null,
@@ -281,7 +243,7 @@ create table membership (
 /* Table: membership_discount                                   */
 /*==============================================================*/
 create table membership_discount (
-   membership_discount_id integer              not null,
+   membership_discount_id serial              not null,
    discount             decimal(10,2)        not null,
    percentage           decimal(10,2)        null,
    start_date           date                 null,
@@ -294,7 +256,7 @@ create table membership_discount (
 /* Table: membership_price                                      */
 /*==============================================================*/
 create table membership_price (
-   membership_price_id  integer              not null,
+   membership_price_id  serial              not null,
    membership_id        integer              not null,
    membership_discount_id integer              null,
    price                decimal(10,2)        not null,
@@ -312,7 +274,7 @@ comment on column membership_price.start_date is
 /* Table: membership_promotion                                  */
 /*==============================================================*/
 create table membership_promotion (
-   membership_promo_id  integer              not null,
+   membership_promo_id  serial              not null,
    code                 varchar(200)         not null,
    percentage           decimal(10,1)        null,
    type                 varchar(200)         null,
@@ -329,7 +291,7 @@ create table membership_promotion (
 /* Table: membership_user                                       */
 /*==============================================================*/
 create table membership_user (
-   membership_user_id   interger             not null,
+   membership_user_id   serial             not null,
    user_id              integer              null,
    membership_id        integer              null,
    payment_method_id    integer              null,
@@ -341,7 +303,7 @@ create table membership_user (
 /* Table: modality                                              */
 /*==============================================================*/
 create table modality (
-   modality_id          integer              not null,
+   modality_id          serial              not null,
    discipline_id        integer              null,
    name                 varchar(200)         not null,
    constraint pk_modality primary key (modality_id)
@@ -351,7 +313,7 @@ create table modality (
 /* Table: objective                                             */
 /*==============================================================*/
 create table objective (
-   objective_id         integer              not null,
+   objective_id         serial              not null,
    name                 varchar(200)         not null,
    level                short                not null,
    constraint pk_objective primary key (objective_id)
@@ -361,7 +323,7 @@ create table objective (
 /* Table: option_type                                           */
 /*==============================================================*/
 create table option_type (
-   option_type_id       integer              not null,
+   option_type_id       serial              not null,
    name                 varchar(100)         not null,
    constraint pk_option_type primary key (option_type_id)
 );
@@ -373,7 +335,7 @@ comment on table option_type is
 /* Table: payment_method                                        */
 /*==============================================================*/
 create table payment_method (
-   payment_metod_id     integer              not null,
+   payment_metod_id     serial              not null,
    country_id           integer              not null,
    name                 varchar(100)         not null,
    description          varchar(200)         null,
@@ -389,7 +351,7 @@ create table payment_method (
 /* Table: physiological_capacity                                */
 /*==============================================================*/
 create table physiological_capacity (
-   physiological_capacity_id integer              not null,
+   physiological_capacity_id serial              not null,
    name                 varchar(200)         not null,
    code                 varchar(5)           null,
    constraint pk_physiological_capacity primary key (physiological_capacity_id)
@@ -399,7 +361,7 @@ create table physiological_capacity (
 /* Table: question                                              */
 /*==============================================================*/
 create table question (
-   question_id          integer              not null,
+   question_id          serial              not null,
    data_type_id         integer              null,
    state_id             integer              null,
    name                 varchar(2000)        not null,
@@ -423,7 +385,7 @@ A - Automated';
 /* Table: questionnaire                                         */
 /*==============================================================*/
 create table questionnaire (
-   questionnaire_id     integer              not null,
+   questionnaire_id     serial              not null,
    state_id             integer              null,
    discipline_id        integer              null,
    name                 varchar(500)         not null,
@@ -435,7 +397,7 @@ create table questionnaire (
 /* Table: questionnaire_category                                */
 /*==============================================================*/
 create table questionnaire_category (
-   questionnaire_category_id integer              not null,
+   questionnaire_category_id serial              not null,
    state_id             integer              null,
    parent_questionnaire_category_i integer              null,
    name                 varchar(500)         not null,
@@ -448,7 +410,7 @@ create table questionnaire_category (
 /* Table: questionnaire_question                                */
 /*==============================================================*/
 create table questionnaire_question (
-   questionnaire_question_id integer              not null,
+   questionnaire_question_id serial              not null,
    questionnaire_id     integer              null,
    questionnaire_category_id integer              null,
    question_id          integer              null,
@@ -462,7 +424,7 @@ create table questionnaire_question (
 /* Table: questionnaire_response                                */
 /*==============================================================*/
 create table questionnaire_response (
-   questionnaire_response_id integer              not null,
+   questionnaire_response_id serial              not null,
    questionnaire_question_id integer              null,
    response_type_id     integer              null,
    question_option_id   integer              null,
@@ -476,7 +438,7 @@ create table questionnaire_response (
 /* Table: questionnaire_resp_history                            */
 /*==============================================================*/
 create table questionnaire_resp_history (
-   questionnaire_resp_history_id integer              not null,
+   questionnaire_resp_history_id serial              not null,
    questionnaire_response_id integer              null,
    question_option_id   integer              null,
    user_questionnaire_id integer              null,
@@ -488,7 +450,7 @@ create table questionnaire_resp_history (
 /* Table: questionnaire_user                                    */
 /*==============================================================*/
 create table questionnaire_user (
-   questionnaire_user_id integer              not null,
+   questionnaire_user_id serial              not null,
    questionnaire_id     integer              null,
    user_training_id     integer              null,
    constraint pk_questionnaire_user primary key (questionnaire_user_id)
@@ -498,7 +460,7 @@ create table questionnaire_user (
 /* Table: question_option                                       */
 /*==============================================================*/
 create table question_option (
-   question_option_id   integer              not null,
+   question_option_id   serial              not null,
    question_id          integer              null,
    option_type_id       integer              not null,
    state_id             integer              null,
@@ -522,7 +484,7 @@ create table replace_activity (
 /* Table: response_option                                       */
 /*==============================================================*/
 create table response_option (
-   response_option_id   integer              not null,
+   response_option_id   serial              not null,
    questionnaire_response_id integer              null,
    question_option_id   integer              null,
    constraint pk_response_option primary key (response_option_id)
@@ -532,7 +494,7 @@ create table response_option (
 /* Table: response_type                                         */
 /*==============================================================*/
 create table response_type (
-   response_type_id     integer              not null,
+   response_type_id     serial              not null,
    name                 varchar(100)         not null,
    constraint pk_response_type primary key (response_type_id)
 );
@@ -541,7 +503,7 @@ create table response_type (
 /* Table: role                                                  */
 /*==============================================================*/
 create table role (
-   role_id              integer              not null,
+   role_id              serial              not null,
    name                 varchar(100)         not null,
    constraint pk_role primary key (role_id)
 );
@@ -550,7 +512,7 @@ create table role (
 /* Table: role_user                                             */
 /*==============================================================*/
 create table role_user (
-   role_user_id         serial               not null,
+   role_user_id         serial              not null,
    user_id              integer              null,
    role_id              integer              null,
    constraint pk_role_user primary key (role_user_id)
@@ -560,7 +522,7 @@ create table role_user (
 /* Table: sport                                                 */
 /*==============================================================*/
 create table sport (
-   sport_id             integer              not null,
+   sport_id             serial              not null,
    name                 varchar(200)         not null,
    constraint pk_sport primary key (sport_id)
 );
@@ -569,7 +531,7 @@ create table sport (
 /* Table: sport_equipment                                       */
 /*==============================================================*/
 create table sport_equipment (
-   sport_equipment_id   integer              not null,
+   sport_equipment_id   serial              not null,
    sport_equipment_type_id integer              null,
    brand_id             integer              null,
    name                 varchar(200)         not null,
@@ -580,7 +542,7 @@ create table sport_equipment (
 /* Table: sport_equipment_type                                  */
 /*==============================================================*/
 create table sport_equipment_type (
-   sport_equipment_type_id integer              not null,
+   sport_equipment_type_id serial              not null,
    name                 varchar(200)         not null,
    constraint pk_sport_equipment_type primary key (sport_equipment_type_id)
 );
@@ -589,7 +551,7 @@ create table sport_equipment_type (
 /* Table: state                                                 */
 /*==============================================================*/
 create table state (
-   state_id             integer              not null,
+   state_id             serial              not null,
    name                 varchar(100)         not null,
    description          varchar(200)         null,
    constraint pk_state primary key (state_id)
@@ -624,8 +586,8 @@ create table training_plan_user (
 /*==============================================================*/
 create table training_plan_workout (
    training_plan_workout_id serial               not null,
+   training_plan_id     integer              not null,
    activity_id          integer              not null,
-   training_plan_user_id int4                 null,
    workout_date         date                 not null,
    constraint pk_training_plan_workout primary key (training_plan_workout_id)
 );
@@ -658,9 +620,13 @@ create table user_profile (
    ind_potentiometer    varchar(1)           null,
    age_sport            integer              null,
    ppm                  decimal              null,
-   power                decimal              null,
+   vo2_running          integer   null,
+   vo2_ciclismo          integer   null,
+   ind_power                decimal              null,
    sports_achievements  varchar(1000)        null,
    about_me             varchar(1000)        null,
+   environment_id       integer              not null,
+   weather_id           integer              not null,
    constraint pk_user_profile primary key (user_profile_id)
 );
 
@@ -706,6 +672,7 @@ create table user_training (
    login                varchar(100)         not null,
    password             varchar(100)         null,
    name                 varchar(200)         not null,
+   second_name          varchar(200)         not null,
    last_name            varchar(200)         null,
    email                varchar(100)         null,
    birth_date           date                 null,
@@ -717,6 +684,9 @@ create table user_training (
    postal_code          varchar(50)          null,
    profile_photo        bytea                null,
    facebook_page        varchar(200)         null,
+   twitter_page        varchar(200)         null,
+   instagram_page        varchar(200)         null,
+   web_page             varchar(200)         null,
    ind_metric_sys       varchar(1)           not null,
    creation_date        date                 not null,
    constraint pk_user_training primary key (user_id)
@@ -732,13 +702,59 @@ comment on column user_training.ind_metric_sys is
 /* Table: video_user                                            */
 /*==============================================================*/
 create table video_user (
-   video_user_id        integer              not null,
+   video_user_id        serial              not null,
    user_id              integer              not null,
    state_id             integer              null,
    url                  varchar(200)         not null,
    creation_date        date                 null,
    constraint pk_video_user primary key (video_user_id)
 );
+
+/*==============================================================*/
+/* Table: model_equipment                                            */
+/*==============================================================*/
+create table model_equipment (
+   model_equipment_id        serial              not null,
+   sport_equipment_id              integer not null,
+   name                  varchar(500)              not null,
+   state_id             integer              null,
+   creation_date        date                 null,
+   constraint pk_model_equipment primary key (model_equipment_id)
+);
+
+/*==============================================================*/
+/* Table: environment                                           */
+/*==============================================================*/
+create table environment (
+   environment_id        serial              not null,
+   name                  varchar(500)              not null,
+   state_id             integer              null,
+   creation_date        date                 null,
+   constraint pk_environment primary key (environment_id)
+);
+
+create table environment (
+   environment_id        serial              not null,
+   name                  varchar(500)              not null,
+   state_id             integer              null,
+   creation_date        date                 null,
+   constraint pk_environment primary key (environment_id)
+);
+
+create table weather (
+   weather_id        serial              not null,
+   name                  varchar(500)              not null,
+   state_id             integer              null,
+   creation_date        date                 null,
+   constraint pk_weather primary key (weather_id)
+);
+
+
+
+alter table model_equipment
+   add constraint fk_model_equipment_reference_sport_eq foreign key (sport_equipment_id)
+      references sport_equipment (sport_equipment_id)
+      on delete restrict on update restrict;
 
 alter table activity
    add constraint fk_activity_reference_physiolo foreign key (physiological_capacity_id)
@@ -798,6 +814,11 @@ alter table equipment_user_profile
 alter table equipment_user_profile
    add constraint fk_equipmen_reference_sport_eq foreign key (sport_equipment_id)
       references sport_equipment (sport_equipment_id)
+      on delete restrict on update restrict;
+	  
+alter table equipment_user_profile
+   add constraint fk_equipmen_reference_model_eq foreign key (model_equipment_id)
+      references model_equipment (model_equipment_id)
       on delete restrict on update restrict;
 
 alter table federal_state
@@ -994,6 +1015,7 @@ alter table sport_equipment
    add constraint fk_sport_eq_reference_brand foreign key (brand_id)
       references brand (brand_id)
       on delete restrict on update restrict;
+	 
 
 alter table training_plan_user
    add constraint fk_train_plan_user_user foreign key (user_id)
@@ -1011,13 +1033,13 @@ alter table training_plan_user
       on delete restrict on update restrict;
 
 alter table training_plan_workout
-   add constraint fk_training_reference_activity foreign key (activity_id)
-      references activity (activity_id)
+   add constraint fk_train_plan_wkout_train foreign key (training_plan_id)
+      references training_plan (training_plan_id)
       on delete restrict on update restrict;
 
 alter table training_plan_workout
-   add constraint fk_training_reference_training foreign key (training_plan_user_id)
-      references training_plan_user (training_plan_user_id)
+   add constraint fk_training_reference_activity foreign key (activity_id)
+      references activity (activity_id)
       on delete restrict on update restrict;
 
 alter table user_availability
@@ -1039,6 +1061,16 @@ alter table user_profile
    add constraint fk_user_pro_reference_modality foreign key (modality_id)
       references modality (modality_id)
       on delete restrict on update restrict;
+	  
+alter table user_profile
+   add constraint fk_user_pro_reference_environment foreign key (environment_id)
+      references environment (environment_id)
+      on delete restrict on update restrict;
+	  
+alter table user_profile
+   add constraint fk_user_pro_reference_weather foreign key (weather_id)
+      references weather (weather_id)
+      on delete restrict on update restrict;	  
 
 alter table user_sport
    add constraint fk_user_spo_reference_user_pro foreign key (user_profile_id)

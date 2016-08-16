@@ -3,6 +3,8 @@ package co.com.expertla.training.configuration.service.impl;
 import co.com.expertla.training.configuration.dao.SportDao;
 import co.com.expertla.training.model.dto.SportDTO;
 import co.com.expertla.training.configuration.service.SportService;
+import co.com.expertla.training.model.dto.EnvironmentDTO;
+import co.com.expertla.training.model.dto.WeatherDTO;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,16 @@ public class SportServiceImpl implements SportService {
     @Override
     public List<SportDTO> findAll() throws Exception {
         return sportDao.findAll();
+    }
+    
+    @Override
+    public List<EnvironmentDTO> findEntornos() throws Exception {
+        return sportDao.findEntornos();
+    }
+    
+     @Override
+    public List<WeatherDTO> findClimas() throws Exception {
+        return sportDao.findClimas();
     }
  
 }

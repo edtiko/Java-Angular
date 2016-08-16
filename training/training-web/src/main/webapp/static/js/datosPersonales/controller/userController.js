@@ -115,7 +115,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                             if ($scope.userProfile.pulsometer != "" && $scope.userProfile.pulsometer != null) {
                                 $scope.getModelsPulsometer($scope.userProfile.pulsometer);
                             }
-
+                            $scope.calculateZone();
+                            $scope.calculatePpm();
 
                         },
                         function (errResponse) {
@@ -311,6 +312,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             vo2Running: '',
             vo2Ciclismo: '',
             modality: '',
+            environmentId: '',
+            weatherId: '',
             availability: [
                 {day: 'Lunes', checked: false},
                 {day: 'Martes', checked: false},
@@ -332,6 +335,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.modelsPulsometer = [];
         $scope.objectives = [];
         $scope.modalities = [];
+        $scope.entornos = [];
+        $scope.climas = [];
         $scope.days = [
             {day: 'Lunes', checked: false},
             {day: 'Martes', checked: false},
@@ -533,7 +538,33 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             );
         };
         this.getModalities();
+        
+          this.getEntornos = function () {
+            SportService.getEntornos().then(
+                    function (d) {
+                        $scope.entornos = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error get entornos');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        this.getEntornos();
 
+  this.getClimas = function () {
+            SportService.getClimas().then(
+                    function (d) {
+                        $scope.climas = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error get entornos');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        this.getClimas();
+        
         $scope.getAvailabilityIdx = function ($parentIndex, value) {
             var response = $scope.userProfile.availability;
             var res = '';
@@ -637,7 +668,34 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     break;
                 }
             }
-        }
+        };
+        
+        $scope.calculateZone = function () {
+            if ($scope.userProfile.power !== "") {
+                $scope.ftp56 = ($scope.userProfile.power * 56) / 100;
+                $scope.ftp75 = ($scope.userProfile.power * 75) / 100;
+                $scope.ftp76 = ($scope.userProfile.power * 76) / 100;
+                $scope.ftp90 = ($scope.userProfile.power * 90) / 100;
+                $scope.ftp91 = ($scope.userProfile.power * 91) / 100;
+                $scope.ftp105 = ($scope.userProfile.power * 105) / 100;
+                $scope.ftp106 = ($scope.userProfile.power * 106) / 100;
+                $scope.ftp120 = ($scope.userProfile.power * 120) / 100;
+            }
+        };
+        $scope.calculatePpm = function () {
+            if ($scope.userProfile.ppm !== "") {
+                $scope.ppm81 = ($scope.userProfile.ppm * 81) / 100;
+                $scope.ppm89 = ($scope.userProfile.ppm * 89) / 100;
+                $scope.ppm90 = ($scope.userProfile.ppm * 90) / 100;
+                $scope.ppm93 = ($scope.userProfile.ppm * 93) / 100;
+                $scope.ppm94 = ($scope.userProfile.ppm * 94) / 100;
+                $scope.ppm99 = ($scope.userProfile.ppm * 99) / 100;
+                $scope.ppm100 = ($scope.userProfile.ppm * 100) / 100;
+                $scope.ppm102 = ($scope.userProfile.ppm * 102) / 100;
+                $scope.ppm103 = ($scope.userProfile.ppm * 103) / 100;
+                $scope.ppm106 = ($scope.userProfile.ppm * 106) / 100;
+            }
+        };
 
         // Survey Controller //
 

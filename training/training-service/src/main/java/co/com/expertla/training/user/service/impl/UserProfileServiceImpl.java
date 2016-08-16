@@ -16,6 +16,7 @@ import co.com.expertla.training.model.dto.UserProfileDTO;
 import co.com.expertla.training.model.entities.Brand;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
+import co.com.expertla.training.model.entities.Environment;
 import co.com.expertla.training.model.entities.EquipmentUserProfile;
 import co.com.expertla.training.model.entities.Modality;
 import co.com.expertla.training.model.entities.ModelEquipment;
@@ -27,6 +28,7 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.entities.UserAvailability;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.UserSport;
+import co.com.expertla.training.model.entities.Weather;
 import co.com.expertla.training.user.service.UserAvailabilityService;
 import co.com.expertla.training.user.service.UserProfileService;
 
@@ -281,6 +283,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setAboutMe(dto.getAboutMe());
         userProfile.setUserId(new User(dto.getUserId()));
         userProfile.setUserProfileId(dto.getUserProfileId());
+        userProfile.setEnvironmentId(new Environment(dto.getEnvironmentId()));
+        userProfile.setWeatherId(new Weather(dto.getWeatherId()));
         User user = userDao.findById(dto.getUserId());
         user.setIndMetricSys(dto.getIndMetricSys());
 
@@ -460,6 +464,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setVo2Running(dto.getVo2Running());
         userProfile.setVo2Ciclismo(dto.getVo2Ciclismo());
         userProfile.setUserProfileId(dto.getUserProfileId());
+        userProfile.setEnvironmentId(new Environment(dto.getEnvironmentId()));
+        userProfile.setWeatherId(new Weather(dto.getWeatherId()));
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
     }
 

@@ -65,6 +65,15 @@ public class UserProfile implements Serializable {
     @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
     @ManyToOne
     private Objective objectiveId;
+    
+    @JoinColumn(name = "weather_id", referencedColumnName = "weather_id")
+    @ManyToOne
+    private Weather weatherId;
+    
+    @JoinColumn(name = "environment_id", referencedColumnName = "environment_id")
+    @ManyToOne
+    private Environment environmentId;
+    
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
@@ -165,6 +174,23 @@ public class UserProfile implements Serializable {
         this.userId = userId;
     }
 
+    public Weather getWeatherId() {
+        return weatherId;
+    }
+
+    public void setWeatherId(Weather weatherId) {
+        this.weatherId = weatherId;
+    }
+
+    public Environment getEnvironmentId() {
+        return environmentId;
+    }
+
+    public void setEnvironmentId(Environment environmentId) {
+        this.environmentId = environmentId;
+    }
+
+    
     public Integer getVo2Running() {
         return vo2Running;
     }
