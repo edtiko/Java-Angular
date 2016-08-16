@@ -56,6 +56,9 @@ public class Activity implements Serializable {
     private Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "activityId")
     private Collection<ReplaceActivity> replaceActivityCollection;
+    @JoinColumn(name = "sport_id", referencedColumnName = "sport_id")
+    @ManyToOne
+    private Sport sportId;
 
     public Activity() {
     }
@@ -91,6 +94,14 @@ public class Activity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Sport getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(Sport sportId) {
+        this.sportId = sportId;
     }
 
     public Modality getModalityId() {

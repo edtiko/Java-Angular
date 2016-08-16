@@ -34,7 +34,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         sql.append("t.activityId.activityId, t.activityId.name, t.activityId.description, t.activityId.modalityId.modalityId, t.activityId.modalityId.name, ");
         sql.append("t.activityId.objectiveId.objectiveId, t.activityId.objectiveId.name, ");
         sql.append("t.activityId.modalityId.disciplineId.disciplineId, t.activityId.modalityId.disciplineId.name, ");
-        sql.append("t.activityId.objectiveId.level, u.userId.userId) ");
+        sql.append("t.activityId.objectiveId.level, u.userId.userId, t.activityId.sportId.icon) ");
         sql.append("FROM TrainingPlanWorkout t, TrainingPlanUser u ");
         sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
         sql.append("AND u.userId.userId = :userId ");

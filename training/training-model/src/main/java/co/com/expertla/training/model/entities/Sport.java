@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -36,8 +37,12 @@ public class Sport implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    @Column(name = "icon")
+    private String icon;
     @OneToMany(mappedBy = "sportId")
     private Collection<UserSport> userSportCollection;
+    @OneToMany(mappedBy = "sportId")
+    private Collection<Activity> activityCollection;
 
     public Sport() {
     }
@@ -67,12 +72,29 @@ public class Sport implements Serializable {
         this.name = name;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+    
+    @JsonIgnore
     public Collection<UserSport> getUserSportCollection() {
         return userSportCollection;
     }
 
     public void setUserSportCollection(Collection<UserSport> userSportCollection) {
         this.userSportCollection = userSportCollection;
+    }
+    @JsonIgnore
+    public Collection<Activity> getActivityCollection() {
+        return activityCollection;
+    }
+
+    public void setActivityCollection(Collection<Activity> activityCollection) {
+        this.activityCollection = activityCollection;
     }
 
     @Override

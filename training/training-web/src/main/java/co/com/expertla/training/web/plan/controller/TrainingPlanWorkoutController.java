@@ -76,7 +76,7 @@ public class TrainingPlanWorkoutController {
             list.stream().forEach((trainingPlanWorkoutDto) -> {
                 trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
                 trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
-                trainingPlanWorkoutDto.setClassName("event-" + trainingPlanWorkoutDto.getDiscipline().toLowerCase());
+                trainingPlanWorkoutDto.setClassName(trainingPlanWorkoutDto.getSportIcon());
             });
             
             if(list == null) {
