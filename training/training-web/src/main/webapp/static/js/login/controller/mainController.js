@@ -4,7 +4,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
         $scope.successTextAlert = "";
         $scope.fields = [];
         $scope.visibleFields = [];
-        $scope.dt = new Date();
         $scope.appReady = true;
         $scope.userLogin = "";
 
@@ -26,7 +25,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
         };
 
         $scope.clear = function () {
-            $scope.dt = null;
         };
 
         $scope.dateOptions = {
@@ -47,10 +45,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
 
         $scope.open = function () {
             $scope.popup.opened = true;
-        };
-
-        $scope.setDate = function (year, month, day) {
-            $scope.dt = new Date(year, month, day);
         };
 
         $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];

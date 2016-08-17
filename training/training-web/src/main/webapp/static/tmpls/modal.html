@@ -1,3 +1,7 @@
+<script>
+    compileAngularElement('#events-modal');
+</script>
+
 <% 	event.date_start = new Date(parseInt(event.start));
 event.date_end = new Date(parseInt(event.end)); %>
 <table id = "event-meta" class= "pull-left" style="width:80%">
@@ -18,6 +22,11 @@ event.date_end = new Date(parseInt(event.end)); %>
     <tr>
         <td>Descripci&oacute;n:</td>
         <td><textarea rows="5" style="width:80%"><%= event.activityDescription %></textarea></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button type="button" ng-click="changeTrainingPow()"  class="btn btn-primary btn-sm">{{labelTrainingPow}}</button>
+        </td>
     </tr>
 </table>
 
@@ -62,7 +71,6 @@ event.date_end = new Date(parseInt(event.end)); %>
     <div class="row">
         <div class="form-group col-md-12">
             <input type="button"  value="Guardar" class="btn btn-primary btn-sm">
-            <button type="button" class="btn btn-warning btn-sm">Limpiar</button>
         </div>
     </div>
 
