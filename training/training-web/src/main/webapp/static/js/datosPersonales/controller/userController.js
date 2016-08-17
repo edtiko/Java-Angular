@@ -432,7 +432,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             SportService.getSports().then(
                     function (d) {
                         $scope.sports = d;
-                        $scope.sports.unshift({sportId: -1, name: 'Seleccione'});
+                        
+                        if($scope.sports != "") {
+                            $scope.sports.unshift({sportId: -1, name: 'Seleccione'});
+                        }
                         $scope.userProfile.sport = -1;
                     },
                     function (errResponse) {
