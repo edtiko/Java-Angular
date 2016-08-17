@@ -707,7 +707,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         dashboard.setAvailability(userAvailability.toString());
         UserSport sport = userSportDao.findByUserId(id);
-        if (sport != null) {
+        if (sport != null && sport.getSportId() != null) {
             dashboard.setSport(sport.getSportId().getName());
         } else {
             dashboard.setSport("");

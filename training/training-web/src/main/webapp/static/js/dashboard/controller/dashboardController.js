@@ -17,6 +17,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService','Dashboar
 
             if ($scope.appReady) {
                 var user = JSON.parse(sessionStorage.getItem("userInfo"));
+                
+                if(user == null || user == undefined) {
+                    $scope.setUserSession();
+                }
+                
                 DashboardService.getDashboard(user).then(
                         function (d) {
                             $scope.user = d;
