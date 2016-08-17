@@ -4,7 +4,6 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
         $scope.successTextAlert = "";
         $scope.fields = [];
         $scope.visibleFields = [];
-        $scope.dt = new Date();
         $scope.appReady = true;
         $scope.userLogin = "";
 
@@ -114,9 +113,11 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
         };
         
         $scope.calculateAge = function (birthday) { // birthday is a date
+            if(birthday != null){
             var ageDifMs = Date.now() - birthday.getTime();
             var ageDate = new Date(ageDifMs); // miliseconds from epoch
             return Math.abs(ageDate.getUTCFullYear() - 1970);
+        }
         };
 
         $scope.logout = function () {

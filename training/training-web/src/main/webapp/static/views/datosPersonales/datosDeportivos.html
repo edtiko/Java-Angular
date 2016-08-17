@@ -1,10 +1,10 @@
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Deportivos</span></div>
         <div class="panel-body">  
-            <div class="formcontainer" > 
+            <form class="form-horizontal" > 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Objetivo</label>
+                        <label class="col-md-2 control-label">Objetivo</label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.objective"
                                     ng-options="o.objectiveId as o.name for o in objectives">
@@ -17,7 +17,7 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Disciplina Deportiva</label>
+                        <label class="col-md-2 control-label">Disciplina Deportiva</label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.discipline"
                                     ng-options="disc.disciplineId as disc.name for disc in disciplines" ng-change="getModalitiesByDisciplineId(userProfile.discipline)">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Modalidad</label>
+                        <label class="col-md-2 control-label">Modalidad</label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.modality"
                                     ng-options="m.modalityId as m.name for m in modalities">
@@ -43,7 +43,7 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Entorno Geogr&aacute;fico</label>
+                        <label class="col-md-2 control-label">Entorno Geogr&aacute;fico</label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.environmentId"
                                     ng-options="m.environmentId as m.name for m in entornos">
@@ -56,7 +56,7 @@
                 </div>
                  <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Clima predominante en sus entrenamientos</label>
+                        <label class="col-md-2 control-label">Clima predominante en sus entrenamientos</label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.weatherId"
                                     ng-options="m.weatherId as m.name for m in climas">
@@ -70,7 +70,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Edad Deportiva</label>
+                        <label class="col-md-2 control-label">Edad Deportiva</label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ageSport">
                         </div>
@@ -81,7 +81,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Disponibilidad</label>
+                        <label class="col-md-2 control-label">Disponibilidad</label>
                         <div class=" col-md-7">
                             <div ng-repeat="d in userProfile.availability"  style="display: inline">
                                 <input type="checkbox" ng-model="availability[d]" value="{{d}}" ng-checked="{{d.checked}}"
@@ -98,7 +98,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">&iquest;Practicas otros deportes?</label>
+                        <label class="col-md-2 control-label">&iquest;Practicas otros deportes?</label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.sport"
                                     ng-options="s.sportId as s.name for s in sports">
@@ -112,7 +112,7 @@
 <!--
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Logros Deportivos</label>
+                        <label class="col-md-2 control-label">Logros Deportivos</label>
                         <div class=" col-md-3">
                             <textarea class="ng-invalid form-control" ng-model="userProfile.sportsAchievements" 
                                       style=" display: inline; resize: none">
@@ -125,7 +125,7 @@
 -->
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Acerca de m&iacute;</label>
+                        <label class="col-md-2 control-label">Acerca de m&iacute;</label>
                         <div class=" col-md-3">
                             <textarea class="form-control" style=" display: inline;resize: none" ng-model="userProfile.aboutMe"></textarea>
                         </div>
@@ -136,13 +136,13 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">&iquest;Tienes pulsometro? </label>
+                        <label class="col-md-2 control-label">&iquest;Tienes pulsometro? </label>
                         <div class="col-md-2">
                             <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'1'"> Si
                             <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'0'"> No
                         </div>
                         <div ng-show="userProfile.indPulsometer == 1">
-                             <label class="col-md-1 control-lable">&iquest;Cu&aacute;l?</label>
+                             <label class="col-md-1 control-label">&iquest;Cu&aacute;l?</label>
                             <div class="col-md-2">
                                 <select class="form-control" style=" display: inline" ng-model="userProfile.pulsometer"
                                         ng-change="getModelsPulsometer(userProfile.pulsometer)"
@@ -150,7 +150,7 @@
                                 </select>
                             </div>
                             <div ng-show="showModelPulsometer">
-                            <label class="col-md-1 control-lable">Modelo</label>
+                            <label class="col-md-1 control-label">Modelo</label>
                             
                             <div class="col-md-2">
                                 <select  class="form-control" style=" display: inline" ng-model="userProfile.modelPulsometer"
@@ -174,7 +174,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Ppm</label>
+                        <label class="col-md-2 control-label">Ppm</label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ppm" ng-blur="calculatePpm()" >
                         </div>
@@ -221,13 +221,13 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">&iquest;Tienes potenciometro?</label>
+                        <label class="col-md-2 control-label">&iquest;Tienes potenciometro?</label>
                         <div class=" col-md-2">
                             <input  type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'1'"> Si
                             <input type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'0'"> No
                         </div>
                         <div ng-show="userProfile.indPower == 1">
-                           <label class="col-md-1 control-lable">&iquest;Cu&aacute;l?</label>
+                           <label class="col-md-1 control-label">&iquest;Cu&aacute;l?</label>
                             <div class=" col-md-2">
                                 <select class="form-control" style=" display: inline" ng-model="userProfile.potentiometer"
                                         ng-change="getModelsPotentiometer(userProfile.potentiometer)"
@@ -236,7 +236,7 @@
                                 </select>
                             </div>
                              <div ng-show="showModelPotentiometer">
-                            <label class="col-md-1 control-lable">Modelo</label>
+                            <label class="col-md-1 control-label">Modelo</label>
                             <div class="col-md-2">
                                 <select class="form-control" style=" display: inline" ng-model="userProfile.modelPotentiometer"
                                         ng-options="p.modelEquipmentId as p.name for p in modelsPotentiometer">
@@ -259,7 +259,7 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Potencia</label>
+                        <label class="col-md-2 control-label">Potencia</label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.power" ng-blur="calculateZone()">
                         </div>
@@ -301,7 +301,7 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">VO2 M&aacute;ximo Running</label>
+                        <label class="col-md-2 control-label">VO2 M&aacute;ximo Running</label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.vo2Running">
                         </div>
@@ -311,7 +311,7 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">VO2 M&aacute;ximo Ciclismo</label>
+                        <label class="col-md-2 control-label">VO2 M&aacute;ximo Ciclismo</label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.vo2Ciclismo">
                         </div>
@@ -322,16 +322,24 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">&iquest;Tienes bicicleta? </label>
-                        <div class=" col-md-3">
+                        <label class="col-md-2 control-label">&iquest;Tienes bicicleta? </label>
+                        <div class=" col-md-2">
                             <input id="bicicleta" type="radio" name="bicicleta" ng-model="indBike" ng-value="'1'"> Si
                             <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'-1'"> No
                         </div>
                         <div  ng-show="indBike == 1">
-                            <label class="col-md-1 control-lable">&iquest;Cu&aacute;l?</label>
-                            <div class=" col-md-3">
-                                <select class="form-control" style=" display: inline" ng-model="userProfile.bike"
-                                        ng-options="b.brand for b in bikes track by b.brand">
+                            <label class="col-md-1 control-label">&iquest;Cu&aacute;l?</label>
+                            <div class=" col-md-2">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.bikes"
+                                        ng-change="getModelsBike(userProfile.bikes)"
+                                       ng-options="p.sportEquipmentId as p.brand for p in bikes">
+                                </select>
+                            </div>
+                            <label class="col-md-1 control-label">Modelo</label>
+                            <div class="col-md-2">
+                                <select class="form-control" style=" display: inline" ng-model="userProfile.modelBike"
+                                        ng-options="p.modelEquipmentId as p.name for p in modelsBike">
+                                    <option> Seleccione </option>
                                 </select>
                             </div>
                         </div>
@@ -343,7 +351,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">&iquest;Qu&eacute; tipo de zapato para correr usas?</label>
+                        <label class="col-md-2 control-label">&iquest;Qu&eacute; tipo de zapato para correr usas?</label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.shoes"
                                     ng-options="shoe.sportEquipmentId as shoe.brand for shoe in shoes">
@@ -357,7 +365,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-lable">Sistema de medici&oacute;n </label>
+                        <label class="col-md-2 control-label">Sistema de medici&oacute;n </label>
                         <div class=" col-md-3">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.indMetricSys">
                                 <option value="" hidden></option>
@@ -372,6 +380,6 @@
                 <button class="btn btn-primary btn-sm" ng-click="createOrMergeUserProfile(userProfile)"> Guardar </button>
                 <button class="btn btn-warning btn-sm" ng-click="resetProfile()" >Limpiar</button>
                 <button class="btn btn-primary btn-sm" ng-click="generatePlan(userProfile)"> Generar </button>
-            </div>
+            </form>
         </div>
     </div>

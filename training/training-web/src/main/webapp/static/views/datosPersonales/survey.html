@@ -7,7 +7,7 @@
                         <div ng-repeat="question in survey" ng-if="question.questionnaireCategoryId.questionnaireCategoryId === category.questionnaireCategoryId">
                             <div class="form-group">
 
-                                <label>{{$index + 1}}. {{question.questionId.name}}</label>
+                                <label class="control-label">{{$index + 1}}. {{question.questionId.name}}</label>
                                 <div class="row">
                                     <div class="col-md-7">
                                         <div ng-switch="question.questionId.dataType">
@@ -25,7 +25,7 @@
                                             <div ng-switch-when="checkbox">
                                                 <div ng-repeat="questionOption in question.questionId.questionOptionList">
                                                     <div class="checkbox">
-                                                        <label><input type="checkbox" 
+                                                        <label class="control-label"><input type="checkbox" 
                                                                       ng-model="survey[$parentIndex].questionnaireResponseList[$index].checked"
                                                                       ng-checked="getResponse($parent.$index, questionOption.questionOptionId)"
                                                                       ng-click="setResponse($parent.$index, $index, questionOption.questionOptionId)"

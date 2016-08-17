@@ -25,6 +25,7 @@ public class UserProfileDTO implements Serializable {
     private Integer sport;
     private Integer shoes;
     private Integer bikes;
+    private Integer modelBike;
     private Integer potentiometer;
     private String  otherPotentiometer;
     private Integer modelPotentiometer;
@@ -295,6 +296,14 @@ public class UserProfileDTO implements Serializable {
 
     public void setWeatherId(Integer weatherId) {
         this.weatherId = weatherId;
+    }
+
+    public Integer getModelBike() {
+        return modelBike;
+    }
+
+    public void setModelBike(Integer modelBike) {
+        this.modelBike = modelBike;
     }
     
     

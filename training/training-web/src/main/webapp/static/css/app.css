@@ -30,6 +30,17 @@ body{
 .circular {
     border-radius: 50%;
 }
+.circular-icon {
+    border-radius: 50%;
+    border-width: 1px 0;
+    border-color: #C0C1C3 -moz-use-text-color #C0C1C3;
+    border-style: solid none;
+}
+
+.icon-disabled{
+  opacity: 0.45; 
+  cursor: not-allowed;
+}
 
 input.ng-dirty.ng-invalid-required, input.ng-invalid-email {
     border:  solid 1px #a94442;

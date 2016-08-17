@@ -108,6 +108,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         List<SportEquipmentDTO> listBikes = equipmentUserProfileDao.findDTOBikesByUserId(id);
         if (listBikes != null && !listBikes.isEmpty()) {
             userProfile.setBikes(listBikes.get(0).getSportEquipmentId());
+            userProfile.setModelBike(listBikes.get(0).getModelEquipmentId());
         } else {
             userProfile.setBikes(-1);
         }
@@ -212,6 +213,9 @@ public class UserProfileServiceImpl implements UserProfileService {
             equipment = new EquipmentUserProfile();
             equipment.setSportEquipmentId(new SportEquipment(dto.getBikes()));
             equipment.setUserProfileId(userProfile);
+            if (dto.getModelBike() != null) {
+                equipment.setModelEquipmentId(new ModelEquipment(dto.getModelBike()));
+            }
             sportEquipments.add(equipment);
         }
 
@@ -545,10 +549,16 @@ public class UserProfileServiceImpl implements UserProfileService {
     private EquipmentUserProfile buildBikeObject(UserProfileDTO dto, EquipmentUserProfile bike) {
         if (bike != null && !new Integer(-1).equals(dto.getBikes())) {
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
+            if (dto.getModelBike() != null) {
+                bike.setModelEquipmentId(new ModelEquipment(dto.getModelBike()));
+            }
         } else if (!new Integer(-1).equals(dto.getBikes())) {
             bike = new EquipmentUserProfile();
             bike.setSportEquipmentId(new SportEquipment(dto.getBikes()));
             bike.setUserProfileId(new UserProfile(dto.getUserProfileId()));
+            if (dto.getModelBike() != null) {
+                bike.setModelEquipmentId(new ModelEquipment(dto.getModelBike()));
+            }
         }
         return bike;
     }

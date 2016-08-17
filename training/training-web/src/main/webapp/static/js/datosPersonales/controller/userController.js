@@ -74,6 +74,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.resetProfile = function () {
             self.getUserById();
         };
+        $scope.showAge = function(date){
+          $scope.user.age = $scope.calculateAge(date);  
+        };
 
         self.getUserById = function () {
 
@@ -114,6 +117,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                             }
                             if ($scope.userProfile.pulsometer != "" && $scope.userProfile.pulsometer != null) {
                                 $scope.getModelsPulsometer($scope.userProfile.pulsometer);
+                            }
+                            if($scope.userProfile.bikes != "" && $scope.userProfile.bikes != null){
+                                $scope.getModelsBike($scope.userProfile.bikes);
                             }
                             $scope.calculateZone();
                             $scope.calculatePpm();
@@ -206,7 +212,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             if ($scope.user.userId === null) {
                 console.log('Saving New User', $scope.user);
                 self.createUser($scope.user);
-                $scope.user.age = $scope.calculateAge($scope.dt);
+                $scope.user.age = $scope.calculateAge();
             } else {
                 self.updateUser($scope.user, $scope.user.userId);
                 console.log('User updated with id ', $scope.user.userId);
@@ -258,9 +264,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 
         };
 
-        $scope.uploadFile = function () {
+        $scope.uploadFile = function (file) {
 
-            var file = $scope.myFile;
+            //var file = $scope.myFile;
             if(file !== undefined && $scope.isImage(file.type)){
                 $scope.showMessage("Debe seleccionar una imagen valida.", "error"); 
                 //$window.alert("Debe seleccionar una imagen valida.");
@@ -300,6 +306,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             sport: '',
             shoes: '',
             bikes: '',
+            modelBike: '',
             potentiometer: '',
             otherPotentiometer: '',
             modelPotentiometer:'',
@@ -389,9 +396,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             );
             
         };
-      self.getEquipments = function(){
-          this.getPotentiometers();
-          this.getPulsometers();
+        self.getEquipments = function () {
+            this.getPotentiometers();
+            this.getPulsometers();
             $scope.showAnotherPotentiometer = false;
             $scope.showAnotherPulsometer = false;
             $scope.showModelPotentiometer = true;
@@ -401,7 +408,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             if ($scope.userProfile.pulsometer != "" && $scope.userProfile.pulsometer != null) {
                 $scope.getModelsPulsometer($scope.userProfile.pulsometer);
             }
-      };
+            if ($scope.userProfile.bikes != "" && $scope.userProfile.bikes != null) {
+                $scope.getModelsBike($scope.userProfile.bikes);
+            }
+        };
       
         $scope.generatePlan = function (userProfile) {
             UserProfileService.generatePlan(userProfile).then(
@@ -645,7 +655,21 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             );
          }
         };
-
+        
+         $scope.getModelsBike = function (sportEquipmentId) {
+                SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
+                        function (d) {
+                            $scope.modelsBike = d;
+                            $scope.modelsBike.unshift({modelEquipmentId: -1, name: 'Seleccione'});
+                        },
+                        function (errResponse) {
+                            console.error('Error while models bikes');
+                            console.error(errResponse);
+                        }
+                );
+            
+        };
+ 
         $scope.visibleField = function (tableName, columnName) {
                 for (var i = 0; i < $scope.fields.length; i++) {
                     if ($scope.fields[i].tableName == tableName && $scope.fields[i].columnName == columnName) {
