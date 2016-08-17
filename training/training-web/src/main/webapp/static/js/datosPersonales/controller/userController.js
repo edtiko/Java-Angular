@@ -9,7 +9,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.states = [];
         $scope.cities = [];
         $scope.dateAsString = null;
-        $scope.dt = null;
+        $scope.birthdateDt = null;
         $scope.dataImage = "static/img/profile-default.png";
         $scope.sexOptions = [
             {code: "m", sex: "Masculino"},
@@ -93,8 +93,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 
                                     if ($scope.user.birthDate != null) {
                                         var date = $scope.user.birthDate.split("/");
-                                        $scope.dt = new Date(date[2], date[1] - 1, date[0]);
-                                        $scope.user.age = $scope.calculateAge($scope.dt);
+                                        $scope.birthdateDt = new Date(date[2], date[1] - 1, date[0]);
+                                        $scope.user.age = $scope.calculateAge($scope.birthdateDt);
                                     }
                                 },
                                 function (errResponse) {
@@ -138,7 +138,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
 
         self.createUser = function (user) {
-            user.birthDate = $scope.dt;
+            user.birthDate = $scope.birthdateDt;
             UserService.createUser(user)
                     .then(
                             function (msg) {
@@ -162,7 +162,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
 
         self.updateUser = function (user, id) {
-            user.birthDate = $scope.dt;
+            user.birthDate = $scope.birthdateDt;
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
@@ -227,7 +227,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     $scope.getCitiesByState($scope.users[i].federalStateId);
                     $scope.getImageProfile(id);
                     var date = $scope.users[i].birthDate.split("/");
-                    $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+                    $scope.birthdateDt = new Date(date[2], date[1] - 1, date[0]);
 
                     $scope.user = angular.copy($scope.users[i]);
                     break;
@@ -246,7 +246,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 
         $scope.resetUser = function () {
             $scope.user = {firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: '', age: ''};
-            $scope.dt = null;
+            $scope.birthdateDt = null;
             $scope.myFormUser.$setPristine(); //reset Form
         };
 

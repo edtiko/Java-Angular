@@ -25,10 +25,10 @@ public class SportDaoImpl extends BaseDAOImpl<Sport> implements SportDao {
     public List<SportDTO> findAll() throws Exception {      
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.SportDTO(s.sportId,s.name) ");        
-        sql.append("Where s.indDisciplineSport = 0 ");
         sql.append("FROM Sport s ");
-        sql.append("Where s.indDisciplineSport = 0 ");
+        sql.append("Where s.indDisciplineSport = :sport ");
         Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("sport", "0");
         return query.getResultList();
     }
     

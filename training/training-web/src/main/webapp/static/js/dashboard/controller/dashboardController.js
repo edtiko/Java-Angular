@@ -28,8 +28,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService','Dashboar
 
                             if ($scope.user.birthDate != null) {
                                 var date = $scope.user.birthDate.split("/");
-                                $scope.dt = new Date(date[2], date[1] - 1, date[0]);
-                                $scope.user.age = $scope.calculateAge($scope.dt);
+                                var birthdate = new Date(date[2], date[1] - 1, date[0]);
+                                $scope.user.age = $scope.calculateAge(birthdate);
                             }
                             $scope.getImageProfile(user.userId);
                         },
