@@ -9,7 +9,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.states = [];
         $scope.cities = [];
         $scope.dateAsString = null;
-        $scope.dt = null;
+        $scope.birthdateDt = null;
         $scope.dataImage = "static/img/profile-default.png";
         $scope.sexOptions = [
             {code: "m", sex: "Masculino"},
@@ -75,7 +75,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             self.getUserById();
         };
         $scope.showAge = function(date){
-          $scope.user.age = $scope.calculateAge(date);  
+            $scope.birthdateDt = date;
+            $scope.user.age = $scope.calculateAge(date);  
         };
 
         self.getUserById = function () {
@@ -93,8 +94,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 
                                     if ($scope.user.birthDate != null) {
                                         var date = $scope.user.birthDate.split("/");
-                                        $scope.dt = new Date(date[2], date[1] - 1, date[0]);
-                                        $scope.user.age = $scope.calculateAge($scope.dt);
+                                        $scope.birthdateDt = new Date(date[2], date[1] - 1, date[0]);
+                                        $scope.user.age = $scope.calculateAge($scope.birthdateDt);
                                     }
                                 },
                                 function (errResponse) {
@@ -132,18 +133,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                 );
 
             } else {
-                //$scope.showMessage("El usuario no se encuentra logueado.", "error");
-                $window.alert("El usuario no se encuentra logueado.");
+                $scope.showMessage("El usuario no se encuentra logueado.", "error");
             }
         };
 
         self.createUser = function (user) {
-            user.birthDate = $scope.dt;
+            user.birthDate = $scope.birthdateDt;
             UserService.createUser(user)
                     .then(
                             function (msg) {
-                                //$scope.showMessage("Usuario registrado correctamente.");
-                                $window.alert("Usuario registrado correctamente.");
+                                $scope.getVisibleFieldsUserByUser();
+                                $scope.showMessage("Usuario registrado correctamente.");
                             },
                             function (errResponse) {
                                 console.error('Error while creating User.');
@@ -162,10 +162,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
 
         self.updateUser = function (user, id) {
-            user.birthDate = $scope.dt;
+            user.birthDate = $scope.birthdateDt;
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
+                                $scope.getVisibleFieldsUserByUser();
                                 $scope.showMessage("Usuario registrado correctamente.");
                            
                             },
@@ -212,7 +213,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             if ($scope.user.userId === null) {
                 console.log('Saving New User', $scope.user);
                 self.createUser($scope.user);
-                $scope.user.age = $scope.calculateAge();
+                $scope.user.age = $scope.calculateAge($scope.birthdateDt);
             } else {
                 self.updateUser($scope.user, $scope.user.userId);
                 console.log('User updated with id ', $scope.user.userId);
@@ -227,7 +228,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     $scope.getCitiesByState($scope.users[i].federalStateId);
                     $scope.getImageProfile(id);
                     var date = $scope.users[i].birthDate.split("/");
-                    $scope.dt = new Date(date[2], date[1] - 1, date[0]);
+                    $scope.birthdateDt = new Date(date[2], date[1] - 1, date[0]);
 
                     $scope.user = angular.copy($scope.users[i]);
                     break;
@@ -246,7 +247,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 
         $scope.resetUser = function () {
             $scope.user = {firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: '', age: ''};
-            $scope.dt = null;
+            $scope.birthdateDt = null;
             $scope.myFormUser.$setPristine(); //reset Form
         };
 
@@ -416,7 +417,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.generatePlan = function (userProfile) {
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
-                        $scope.showMessage("Plan de entrenamiento generado satisfactoriamente.");
+                        $scope.showMessage(d.data.output);
                     },
                     function (errResponse) {
                         console.error('Error while merging the profile');
@@ -565,7 +566,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         this.getEntornos();
 
-  this.getClimas = function () {
+        this.getClimas = function () {
             SportService.getClimas().then(
                     function (d) {
                         $scope.climas = d;

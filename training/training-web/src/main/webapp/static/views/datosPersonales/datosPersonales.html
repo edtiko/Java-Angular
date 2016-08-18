@@ -64,7 +64,26 @@
                                     ng-checked="visibleField('user_training','sex')"> Mostrar
                         </div>
                     </div>
-                    
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-label" for="birthDate" style="margin-top: 2%">Fecha de Nacimiento</label>
+                            <div class="col-md-6">
+                                <p class="input-group">
+                                    <input type="text" id="birthDate" name="birthDate" ng-blur="showAge(this.birthdateDt)" class="form-control" uib-datepicker-popup="{{format}}" ng-model="birthdateDt" is-open="popup.opened" placeholder="Ingrese su Fecha de Nacimiento" datepicker-options="dateOptions" ng-required="true" close-text="Close" maxlength="10"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                                <div class="has-error" ng-messages="myFormUser.birthDate.$error">
+                                    <div ng-message="required">Este es un campo requerido</div>
+                                    <div ng-message="date">Este campo es inv&aacute;lido</div>
+                                </div>
+
+                            </div>
+                            <input  style="margin-top: 2%" type="checkbox" ng-click="setVisibleField($event,'user_training','birth_date')"
+                                    ng-checked="visibleField('user_training','birth_date')"> Mostrar
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-label">Edad</label>
@@ -141,26 +160,7 @@
                                     ng-checked="visibleField('user_training','postal_code')"> Mostrar
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-12">
-                            <label class="col-md-2 control-label" for="birthDate" style="margin-top: 2%">Fecha de Nacimiento</label>
-                            <div class="col-md-6">
-                                <p class="input-group">
-                                    <input type="text" id="birthDate" name="birthDate" ng-blur="showAge(this.dt)" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" placeholder="Ingrese su Fecha de Nacimiento" datepicker-options="dateOptions" ng-required="true" close-text="Close" maxlength="10"/>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                </p>
-                                <div class="has-error" ng-messages="myFormUser.birthDate.$error">
-                                    <div ng-message="required">Este es un campo requerido</div>
-                                    <div ng-message="date">Este campo es inv&aacute;lido</div>
-                                </div>
-
-                            </div>
-                            <input  style="margin-top: 2%" type="checkbox" ng-click="setVisibleField($event,'user_training','birht_date')"
-                                    ng-checked="visibleField('user_training','birth_date')"> Mostrar
-                        </div>
-                    </div>
+                    
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-label" for="facebookPage">P&aacute;gina de Facebook</label>
@@ -232,7 +232,6 @@
                         <div class="form-actions">
                             <!--<button type="button" ng-click="submitUser()"  class="btn btn-primary btn-sm" ng-disabled="myFormUser.$invalid">Guardar</button>-->
                             <input type="submit" ng-click="submitUser()"  class="btn btn-primary btn-sm" value="Guardar" ng-disabled="myFormUser.$invalid">
-                            <button type="button" ng-click="resetUser()" class="btn btn-warning btn-sm" >Limpiar</button>
                         </div>
                     </div>
 

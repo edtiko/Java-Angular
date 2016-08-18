@@ -703,11 +703,14 @@ public class UserProfileServiceImpl implements UserProfileService {
                     userAvailability.append(",");
                 }
             }
-            userAvailability.deleteCharAt(userAvailability.lastIndexOf(","));
+            
+            if(userAvailability.length() > 0) {
+                userAvailability.deleteCharAt(userAvailability.lastIndexOf(","));
+            }
         }
         dashboard.setAvailability(userAvailability.toString());
         UserSport sport = userSportDao.findByUserId(id);
-        if (sport != null) {
+        if (sport != null && sport.getSportId() != null) {
             dashboard.setSport(sport.getSportId().getName());
         } else {
             dashboard.setSport("");

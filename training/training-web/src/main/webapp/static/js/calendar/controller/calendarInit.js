@@ -40,9 +40,6 @@
         calendar.view();
     });
 
-    $('#events-in-modal').click(function () {
-        calendar.setOptions({modal: "#events-modal"});
-    });
     $('#format-12-hours').change(function () {
         var val = $(this).is(':checked') ? true : false;
         calendar.setOptions({format12: val});

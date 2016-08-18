@@ -68,7 +68,16 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     @Override
     public void generatePlan(Integer id, Date fromDate, Date toDate) throws Exception {
         UserProfile userProfile = userProfileDao.findByUserId(id);
-        Dcf dcf = dcfDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), userProfile.getModalityId().getModalityId());
+        Dcf dcf = null;
+        if(userProfile.getModalityId() != null && userProfile.getObjectiveId() != null) {
+            dcf = dcfDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), userProfile.getModalityId().getModalityId());
+        }
+        
+        
+        if(dcf == null) {
+            throw new Exception("No se puede generar plan, no existe configuración para el objetivo y la modalidad seleccionada");
+        }
+        
         List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(id);
         UserAvailability userAvailability = (userAvailabilityList == null || userAvailabilityList.isEmpty()) ? null : userAvailabilityList.get(0);
         UserAvailability modifiedAvailability = new UserAvailability();
