@@ -213,7 +213,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             if ($scope.user.userId === null) {
                 console.log('Saving New User', $scope.user);
                 self.createUser($scope.user);
-                $scope.user.age = $scope.calculateAge();
+                $scope.user.age = $scope.calculateAge($scope.birthdateDt);
             } else {
                 self.updateUser($scope.user, $scope.user.userId);
                 console.log('User updated with id ', $scope.user.userId);
