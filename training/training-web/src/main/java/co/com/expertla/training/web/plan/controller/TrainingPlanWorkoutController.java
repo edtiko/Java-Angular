@@ -94,8 +94,8 @@ public class TrainingPlanWorkoutController {
     }
     
     @RequestMapping(value = "trainingPlanWorkout/generate/planWorkout/for/user", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile) {
-        StringBuilder strResponse = new StringBuilder();
+    public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile) {
+        ResponseService responseService = new ResponseService();
         try {
             
             Calendar startCal = Calendar.getInstance();
@@ -105,8 +105,15 @@ public class TrainingPlanWorkoutController {
             startCal.add(Calendar.DAY_OF_MONTH, 29);
             Date endDate = startCal.getTime();
             trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
+            responseService.setOutput("Plan de entrenamiento generado satisfactoriamente.");
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }   catch (Exception e) {
             Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, e);
+            responseService.setOutput(e.getMessage());
+            responseService.setDetail(e.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
     

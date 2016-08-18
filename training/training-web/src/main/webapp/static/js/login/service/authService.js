@@ -4,12 +4,16 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
                 var deferred = $q.defer();
                 $http.get($contextPath + '/user/getUserSession')
                         .then(function (res) {
-                            if (res.data.entity.output != null) {
-                                $scope.appReady = true;
-                                $scope.userLogin = res.data.entity.output.login;
-                                $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
-                                $scope.getVisibleFieldsUserByUser();
+                            if (res.data.entity.output == null) {
+                                $scope.showMessage("El usuario no se encuentra logueado");
+                                $scope.logout();
+                                return res;
                             }
+
+                            $scope.appReady = true;
+                            $scope.userLogin = res.data.entity.output.login;
+                            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+                            $scope.getVisibleFieldsUserByUser();
                             return res;
                         }, function (errResponse) {
                             console.error('Error while getting');
@@ -18,7 +22,7 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
 
                 return deferred.promise;
             },
-               getSessionOpenTok: function ($scope) {
+            getSessionOpenTok: function ($scope) {
                 var deferred = $q.defer();
                 $http.get($contextPath + '/session/opentok')
                         .then(function (res) {

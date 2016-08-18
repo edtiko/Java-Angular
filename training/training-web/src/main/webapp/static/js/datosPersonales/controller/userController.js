@@ -75,7 +75,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             self.getUserById();
         };
         $scope.showAge = function(date){
-          $scope.user.age = $scope.calculateAge(date);  
+            $scope.birthdateDt = date;
+            $scope.user.age = $scope.calculateAge(date);  
         };
 
         self.getUserById = function () {
@@ -132,8 +133,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                 );
 
             } else {
-                //$scope.showMessage("El usuario no se encuentra logueado.", "error");
-                $window.alert("El usuario no se encuentra logueado.");
+                $scope.showMessage("El usuario no se encuentra logueado.", "error");
             }
         };
 
@@ -142,8 +142,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             UserService.createUser(user)
                     .then(
                             function (msg) {
-                                //$scope.showMessage("Usuario registrado correctamente.");
-                                $window.alert("Usuario registrado correctamente.");
+                                $scope.getVisibleFieldsUserByUser();
+                                $scope.showMessage("Usuario registrado correctamente.");
                             },
                             function (errResponse) {
                                 console.error('Error while creating User.');
@@ -166,6 +166,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
+                                $scope.getVisibleFieldsUserByUser();
                                 $scope.showMessage("Usuario registrado correctamente.");
                            
                             },
@@ -416,7 +417,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.generatePlan = function (userProfile) {
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
-                        $scope.showMessage("Plan de entrenamiento generado satisfactoriamente.");
+                        $scope.showMessage(d.data.output);
                     },
                     function (errResponse) {
                         console.error('Error while merging the profile');
@@ -565,7 +566,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         this.getEntornos();
 
-  this.getClimas = function () {
+        this.getClimas = function () {
             SportService.getClimas().then(
                     function (d) {
                         $scope.climas = d;
