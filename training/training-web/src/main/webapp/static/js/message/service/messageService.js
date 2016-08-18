@@ -1,4 +1,4 @@
-trainingApp.service("chatService",['$q','$timeout', function($q, $timeout) {
+trainingApp.service("messageService",['$q','$timeout','$http', function($q, $timeout,$http) {
     
     var service = {}, listener = $q.defer(), socket = {
       client: null,
@@ -18,13 +18,21 @@ trainingApp.service("chatService",['$q','$timeout', function($q, $timeout) {
       var id = Math.floor(Math.random() * 1000000);
       socket.stomp.send(service.CHAT_BROKER, {
         priority: 9
-      }, JSON.stringify({
-        message: message,
-        id: id
-      }));
+      }, JSON.stringify(message));
       messageIds.push(id);
     };
-    
+        service.getAssignedAthletes = function (coachId) {
+            $http.get($contextPath + '/get/athletes/' + coachId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching athletes');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
     var reconnect = function() {
       $timeout(function() {
         initialize();
@@ -44,7 +52,7 @@ trainingApp.service("chatService",['$q','$timeout', function($q, $timeout) {
     
     var startListener = function() {
       socket.stomp.subscribe(service.CHAT_TOPIC, function(data) {
-        listener.notify(getMessage(data.body));
+        listener.notify(getMessage(data.output.body));
       });
     };
     

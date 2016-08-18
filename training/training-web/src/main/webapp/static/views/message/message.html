@@ -1,0 +1,30 @@
+
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="static/css/chat.css">
+
+<div class="container">
+    <div class="col-md-4">
+        <uib-tabset active="activePill" vertical="true" type="pills">
+            <uib-tab index="0" heading="Vertical 1">Vertical content 1</uib-tab>
+            <uib-tab index="1" heading="Vertical 2">Vertical content 2</uib-tab>
+        </uib-tabset>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body" style="height: 500px">
+                <p ng-repeat="message in messages| orderBy:'time':true" class="message">
+                    <time>{{message.time| date:'HH:mm'}}</time>
+                    <span ng-class="{self: message.self}">{{message.message}}</span>
+                </p>
+            </div>
+        </div>
+        <hr />
+        <form ng-submit="addMessage()" name="messageForm">
+            <input type="text" placeholder="Compose a new message..." ng-model="planMessage.message" />
+            <div class="info">
+                <span class="count" ng-bind="max - message.length" ng-class="{danger: message.length > max}">140</span>
+                <button ng-disabled="message.length > max || message.length === 0">Send</button>
+            </div>
+        </form>
+    </div>
+</div>

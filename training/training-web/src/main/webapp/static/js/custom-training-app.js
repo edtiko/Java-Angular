@@ -25,13 +25,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
             
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
+                    
+                    .when('/message', route.resolve('message', 'message/'))
  
-                    // route for the about page
-                    .when('/about', {
-                        templateUrl: 'static/views/about.html',
-                        controller: 'aboutController'
-                    })
-
                     .when('/calendar', route.resolve('calendar', 'calendar/'))
 
                     // route for the contact page

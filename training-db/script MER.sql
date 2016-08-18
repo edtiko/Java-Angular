@@ -733,14 +733,9 @@ create table environment (
    constraint pk_environment primary key (environment_id)
 );
 
-create table environment (
-   environment_id        serial              not null,
-   name                  varchar(500)              not null,
-   state_id             integer              null,
-   creation_date        date                 null,
-   constraint pk_environment primary key (environment_id)
-);
-
+/*==============================================================*/
+/* Table: weather                                               */
+/*==============================================================*/
 create table weather (
    weather_id        serial              not null,
    name                  varchar(500)              not null,
@@ -749,7 +744,66 @@ create table weather (
    constraint pk_weather primary key (weather_id)
 );
 
+/*==============================================================*/
+/* Table: start_team                                            */
+/*==============================================================*/
+create table start_team (
+   start_team_id         serial  not null,
+   start_user_id         integer not null,
+   coach_user_id         integer not null,
+   state_id              integer     null,
+   creation_date         date        null,
+   constraint pk_start_team primary key (start_team_id)
+);
 
+/*==============================================================*/
+/* Table: coach_assigned_plan                                   */
+/*==============================================================*/
+create table coach_assigned_plan (
+   coach_assigned_plan_id     serial             not null,
+   start_team_id              integer            not null,
+   training_plan_user_id      integer            not null,
+   state_id                   integer            null,
+   creation_date              date               null,
+   constraint pk_coach_assigned_plan primary key (coach_assigned_plan_id)
+);
+
+/*==============================================================*/
+/* Table: plan_message                                          */
+/*==============================================================*/
+create table plan_message (
+   plan_message_id           serial  not null,
+   coach_assigned_plan_id    integer not null,
+   message                   varchar(5000),
+   state_id                  integer  null,
+   creation_date             date     null,
+   constraint pk_plan_message primary key (plan_message_id)
+);
+
+alter table start_team
+add constraint fk_start_team_start_reference_user foreign key (start_user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table start_team
+add constraint fk_start_team_coach_reference_user foreign key (coach_user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table coach_assigned_plan
+add constraint fk_coach_assigned_plan_reference_start_team foreign key (start_team_id)
+references start_team (start_team_id)
+on delete restrict on update restrict;
+	  
+alter table coach_assigned_plan
+add constraint fk_coach_assigned_plan_reference_plan_user foreign key (training_plan_user_id)
+references training_plan_user (training_plan_user_id)
+on delete restrict on update restrict;
+
+alter table plan_message
+add constraint fk_plan_message_reference_assigned_plan foreign key (coach_assigned_plan_id)
+references coach_assigned_plan (coach_assigned_plan_id)
+on delete restrict on update restrict;
 
 alter table model_equipment
    add constraint fk_model_equipment_reference_sport_eq foreign key (sport_equipment_id)
