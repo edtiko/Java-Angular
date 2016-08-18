@@ -9,7 +9,7 @@ import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.configuration.service.DisciplineService;
+import co.com.expertla.training.service.configuration.DisciplineService;
 import co.com.expertla.training.service.questionnaire.QuestionnaireQuestionService;
 import java.util.List;
 import java.util.logging.Level;
