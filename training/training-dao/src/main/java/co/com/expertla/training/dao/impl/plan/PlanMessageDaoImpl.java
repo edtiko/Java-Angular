@@ -12,11 +12,13 @@ import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.entities.PlanMessage;
 import java.util.List;
 import javax.persistence.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Edwin G
  */
+@Repository
 public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements PlanMessageDao {
 
     @Override
@@ -24,7 +26,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.PlanMessageDTO(m.planMessageId,m.message) ");        
         sql.append("FROM PlanMessage m ");
-        sql.append("Where m.coachAssignedPlanId = :coachAssignedPlanId ");
+        sql.append("Where m.coachAssignedPlanId.coachAssignedPlanId = :coachAssignedPlanId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("coachAssignedPlanId", coachAssignedPlanId);
         return query.getResultList();

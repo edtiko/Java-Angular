@@ -13,7 +13,6 @@ import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.Role;
 import co.com.expertla.training.model.entities.RoleUser;
-import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
@@ -200,7 +199,7 @@ public class UserController {
             
 
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
-            trainingPlanUser.setStateId(new State(StateEnum.ACTIVE.getId()));
+            trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
             trainingPlanUser.setUserId(user);
             trainingPlanUser.setTrainingPlanId(new TrainingPlan(1));//Plan basico por defecto
             trainingPlanUserService.create(trainingPlanUser);

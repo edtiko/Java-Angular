@@ -14,6 +14,8 @@ public class PlanMessageDTO {
     private Integer id;
     private String message;
     private Integer coachAssignedPlanId;
+    private Integer athleteUserId;
+    private Integer coachUserId;
 
     public PlanMessageDTO() {
 
@@ -47,5 +49,23 @@ public class PlanMessageDTO {
     public void setCoachAssignedPlanId(Integer coachAssignedPlanId) {
         this.coachAssignedPlanId = coachAssignedPlanId;
     }
+
+    public Integer getAthleteUserId() {
+        return athleteUserId;
+    }
+
+    public void setAthleteUserId(Integer athleteUserId) {
+        this.athleteUserId = athleteUserId;
+    }
+
+    public Integer getCoachUserId() {
+        return coachUserId;
+    }
+
+    public void setCoachUserId(Integer coachUserId) {
+        this.coachUserId = coachUserId;
+    }
+    
+    
 
 }

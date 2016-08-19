@@ -4,9 +4,8 @@
 
 <div class="container">
     <div class="col-md-4">
-        <uib-tabset active="activePill" vertical="true" type="pills">
-            <uib-tab index="0" heading="Vertical 1">Vertical content 1</uib-tab>
-            <uib-tab index="1" heading="Vertical 2">Vertical content 2</uib-tab>
+        <uib-tabset active="activePill" vertical="true" type="pills" >
+            <uib-tab ng-repeat="a in athletes" index="$index" heading="{{a.athleteUserId.firstName}}" ng-click="selectChat(a.id)"></uib-tab>
         </uib-tabset>
     </div>
     <div class="col-md-8">
@@ -20,10 +19,10 @@
         </div>
         <hr />
         <form ng-submit="addMessage()" name="messageForm">
-            <input type="text" placeholder="Compose a new message..." ng-model="planMessage.message" />
+            <input type="text" placeholder="Escriba aquí..." ng-model="planMessage.message" />
             <div class="info">
-                <span class="count" ng-bind="max - message.length" ng-class="{danger: message.length > max}">140</span>
-                <button ng-disabled="message.length > max || message.length === 0">Send</button>
+                <span class="count" ng-bind="max - planMessage.message.length" ng-class="{danger: planMessage.message.length > max}">140</span>
+                <button ng-disabled="planMessage.message.length > max || planMessage.message.length === 0">Send</button>
             </div>
         </form>
     </div>

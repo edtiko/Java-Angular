@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -35,6 +37,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "StartTeam.findByCreationDate", query = "SELECT s FROM StartTeam s WHERE s.creationDate = :creationDate")})
 public class StartTeam implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startTeamId")
+    private Collection<CoachAssignedPlan> coachAssignedPlanCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,8 +51,12 @@ public class StartTeam implements Serializable {
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startTeamId")
-    private Collection<CoachAssignedPlan> coachAssignedPlanCollection;
+    @JoinColumn(name = "start_user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private User startUserId;
+    @JoinColumn(name = "coach_user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private User coachUserId;
 
     public StartTeam() {
     }
@@ -80,12 +89,20 @@ public class StartTeam implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public Collection<CoachAssignedPlan> getCoachAssignedPlanCollection() {
-        return coachAssignedPlanCollection;
+    public User getStartUserId() {
+        return startUserId;
     }
 
-    public void setCoachAssignedPlanCollection(Collection<CoachAssignedPlan> coachAssignedPlanCollection) {
-        this.coachAssignedPlanCollection = coachAssignedPlanCollection;
+    public void setStartUserId(User startUserId) {
+        this.startUserId = startUserId;
+    }
+
+    public User getCoachUserId() {
+        return coachUserId;
+    }
+
+    public void setCoachUserId(User coachUserId) {
+        this.coachUserId = coachUserId;
     }
 
     @Override
@@ -111,6 +128,14 @@ public class StartTeam implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.StartTeam[ startTeamId=" + startTeamId + " ]";
+    }
+
+    public Collection<CoachAssignedPlan> getCoachAssignedPlanCollection() {
+        return coachAssignedPlanCollection;
+    }
+
+    public void setCoachAssignedPlanCollection(Collection<CoachAssignedPlan> coachAssignedPlanCollection) {
+        this.coachAssignedPlanCollection = coachAssignedPlanCollection;
     }
     
 }

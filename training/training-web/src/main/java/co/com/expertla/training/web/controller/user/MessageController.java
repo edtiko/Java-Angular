@@ -14,8 +14,11 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,27 +35,23 @@ public class MessageController {
     private static final Logger LOGGER = Logger.getLogger(MessageController.class);
     
     @Autowired
-    PlanMessageService planMessageService;
+    private PlanMessageService planMessageService;
+    
+    @Autowired 
+    private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/chat")
-    @SendTo("/topic/message")
-    public Response sendMessage(PlanMessageDTO message) {
-        ResponseService responseService = new ResponseService();
-        StringBuilder strResponse = new StringBuilder();
+    @MessageMapping("/chat/{userId}")
+    //@SendTo("/topic/message")
+    public void sendMessage(@Payload PlanMessageDTO message, @DestinationVariable("userId") Integer userId) {
+        
         try {
             planMessageService.saveMessage(message);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
-            responseService.setOutput(new OutputMessage(message, new Date()));
-            return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
-            responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+         
         }
-     
-        
+        simpMessagingTemplate.convertAndSend("/queue/message/"+userId, new OutputMessage(message, new Date()));
+        //return new OutputMessage(message, new Date());
     }
     
     @RequestMapping(value = "/get/messages/{coachAssignedPlanId}", method = RequestMethod.GET)

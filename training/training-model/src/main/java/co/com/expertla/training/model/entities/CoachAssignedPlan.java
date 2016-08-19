@@ -6,10 +6,8 @@
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,8 +48,9 @@ public class CoachAssignedPlan implements Serializable {
     @JoinColumn(name = "start_team_id", referencedColumnName = "start_team_id")
     @ManyToOne(optional = false)
     private StartTeam startTeamId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coachAssignedPlanId")
-    private Collection<PlanMessage> planMessageCollection;
+    @JoinColumn(name = "training_plan_user_id", referencedColumnName = "training_plan_user_id")
+    @ManyToOne(optional = false)
+    private TrainingPlanUser trainingPlanUserId;
 
     public CoachAssignedPlan() {
     }
@@ -93,12 +91,12 @@ public class CoachAssignedPlan implements Serializable {
         this.startTeamId = startTeamId;
     }
 
-    public Collection<PlanMessage> getPlanMessageCollection() {
-        return planMessageCollection;
+    public TrainingPlanUser getTrainingPlanUserId() {
+        return trainingPlanUserId;
     }
 
-    public void setPlanMessageCollection(Collection<PlanMessage> planMessageCollection) {
-        this.planMessageCollection = planMessageCollection;
+    public void setTrainingPlanUserId(TrainingPlanUser trainingPlanUserId) {
+        this.trainingPlanUserId = trainingPlanUserId;
     }
 
     @Override
