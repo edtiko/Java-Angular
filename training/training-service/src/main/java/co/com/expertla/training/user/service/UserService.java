@@ -1,6 +1,3 @@
-/**
- *
- */
 package co.com.expertla.training.user.service;
 
 import co.com.expertla.training.model.dto.CityDTO;
@@ -44,4 +41,33 @@ public interface UserService {
 
     public void saveProfilePhoto(byte[] bytes, Integer userId);
 
+    /**
+     * Trae todos los registros de user training con su disciplina <br>
+     * Creation Date : <br>
+     * date 18/08/2016 <br>
+     * @author Angela Ramírez
+     * @throws Exception
+     * @return dto
+     */
+    public List<UserDTO> findAllUsersWithDiscipline() throws Exception;
+    
+    /**
+     * Crea un usuario interno <br>
+     * Creation Date : <br>
+     * date 18/08/2016 <br>
+     * @author Angela Ramírez
+     * @param user
+     * @throws Exception
+     */
+    public void createInternalUser(UserDTO user) throws Exception;
+    
+    /**
+     * Edita un usuario y su disciplina <br>
+     * Creation Date : <br>
+     * date 18/08/2016 <br>
+     * @author Angela Ramírez
+     * @param user
+     * @throws Exception
+     */
+    public void editInternalUser(UserDTO user) throws Exception;
 }

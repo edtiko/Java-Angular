@@ -1,10 +1,6 @@
-/**
- *
- */
 package co.com.expertla.training.web.user.controller;
 
 import co.com.expertla.training.enums.StateEnum;
-import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
@@ -56,8 +52,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 public class UserController {
@@ -392,6 +386,55 @@ public class UserController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
 
+    }
+    
+    @RequestMapping(value = "user/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response findUsersWithDiscipline() {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserDTO> list = userService.findAllUsersWithDiscipline();
+            responseService.setOutput(list);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "user/create/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response createInternalUser(@RequestBody UserDTO userDTO) {
+        ResponseService responseService = new ResponseService();
+        try {
+            userService.createInternalUser(userDTO);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "user/merge/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response mergeInternalUser(@RequestBody UserDTO userDTO) {
+        ResponseService responseService = new ResponseService();
+        try {
+            userService.editInternalUser(userDTO);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
     }
 
 }

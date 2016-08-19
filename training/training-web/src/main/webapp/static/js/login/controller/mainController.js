@@ -15,12 +15,20 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
 
         $scope.showMessage = function (msg, type) {
             $scope.message = msg;
-            
-            ngDialog.open({
-                template: 'static/tmpls/dialogConfirmation.html',
-                className: 'ngdialog-theme-plain',
-                scope: $scope
-            });
+            //1 es un tooltip
+            if (type == 1) {
+                ngDialog.open({
+                    template: 'static/tmpls/tooltip.html',
+                    className: 'ngdialog-theme-plain',
+                    scope: $scope
+                });
+            } else {
+                ngDialog.open({
+                    template: 'static/tmpls/dialogConfirmation.html',
+                    className: 'ngdialog-theme-plain',
+                    scope: $scope
+                });
+            }
 
         };
 

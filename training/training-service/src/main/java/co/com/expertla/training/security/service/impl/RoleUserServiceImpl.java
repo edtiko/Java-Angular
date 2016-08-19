@@ -56,4 +56,8 @@ public class RoleUserServiceImpl implements RoleUserService {
         return roleUserDao.findByFiltro(roleUser);
     }
 
+    @Override
+    public List<RoleUser> findByUserId(Integer id) throws Exception {
+        return roleUserDao.findByUserId(id);
+    }
 }

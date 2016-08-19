@@ -1,15 +1,17 @@
     <div class="panel panel-default">
         <div class="panel-heading"><span class="lead">Datos Deportivos</span></div>
         <div class="panel-body">  
-            <form class="form-horizontal" > 
+            <form class="form-horizontal" name="formProfile" novalidate> 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Objetivo</label>
+                        <label class="col-md-2 control-label">Objetivo *</label>
                         <div class=" col-md-3">
-                            <select class="form-control" style=" display: inline" ng-model="userProfile.objective"
-                                    ng-options="o.objectiveId as o.name for o in objectives">
-                                <option> Seleccione </option>
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.objective" required
+                                    ng-options="o.objectiveId as o.name for o in objectives" id="objective" name="objective">
                             </select>
+                            <div class="has-error" ng-messages="formProfile.objective.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
                         </div>
                         <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','objective')"
                                     ng-checked="visibleField('user_profile','objective')"> Mostrar
@@ -17,12 +19,15 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Disciplina Deportiva</label>
+                        <label class="col-md-2 control-label">Disciplina Deportiva *</label>
                         <div class=" col-md-3">
-                            <select class="form-control" style=" display: inline" ng-model="userProfile.discipline"
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.discipline" id="discipline" name="discipline" required
                                     ng-options="disc.disciplineId as disc.name for disc in disciplines" ng-change="getModalitiesByDisciplineId(userProfile.discipline)">
                                 <option selected="selected"> Seleccione </option>
                             </select>
+                            <div class="has-error" ng-messages="formProfile.discipline.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
                         </div>
                         <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','discipline')"
                                     ng-checked="visibleField('user_profile','discipline')"> Mostrar
@@ -30,12 +35,15 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Modalidad</label>
+                        <label class="col-md-2 control-label">Modalidad *</label>
                         <div class=" col-md-3">
-                            <select class="form-control" style=" display: inline" ng-model="userProfile.modality"
-                                    ng-options="m.modalityId as m.name for m in modalities">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.modality" id="modality" name="modality"
+                                    ng-options="m.modalityId as m.name for m in modalities" required>
                                 <option> Seleccione </option>
                             </select>
+                            <div class="has-error" ng-messages="formProfile.modality.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
                         </div>
                         <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','modality')"
                                     ng-checked="visibleField('user_profile','modality')"> Mostrar
@@ -43,12 +51,19 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Entorno Geogr&aacute;fico</label>
+                        <label class="col-md-2 control-label">Entorno Geogr&aacute;fico *
+                            <a ng-click="showTooltipEnvironment()">
+                                <img data-ng-src="static/img/info-icon.png"  data-err-src="static/img/info-icon.png" style="height: 10px; width: 10px;"/>
+                            </a>
+                        </label>
                         <div class=" col-md-3">
-                            <select class="form-control" style=" display: inline" ng-model="userProfile.environmentId"
-                                    ng-options="m.environmentId as m.name for m in entornos">
+                            <select class="form-control" style=" display: inline" ng-model="userProfile.environmentId" required
+                                    ng-options="m.environmentId as m.name for m in entornos" id="environment" name="environment">
                                 <option> Seleccione </option>
                             </select>
+                            <div class="has-error" ng-messages="formProfile.environment.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
                         </div>
                         <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','environmentId')"
                                     ng-checked="visibleField('user_profile','environmentId')"> Mostrar
@@ -56,21 +71,30 @@
                 </div>
                  <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Clima predominante en sus entrenamientos</label>
-                        <div class=" col-md-3">
+                        <label class="col-md-2 control-label">Clima predominante en sus entrenamientos *
+                            <a ng-click="showTooltipWeather()">
+                                <img data-ng-src="static/img/info-icon.png"  data-err-src="static/img/info-icon.png" style="height: 10px; width: 10px;"/>
+                            </a></label>
+                        <div class=" col-md-3" style="margin-top: 1%">
                             <select class="form-control" style=" display: inline" ng-model="userProfile.weatherId"
-                                    ng-options="m.weatherId as m.name for m in climas">
+                                    ng-options="m.weatherId as m.name for m in climas" id="weather" name="weather" required>
                                 <option> Seleccione </option>
                             </select>
+                            <div class="has-error" ng-messages="formProfile.weather.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
                         </div>
-                        <input  style="margin-top: 1%" type="checkbox" ng-click="setVisibleField($event,'user_profile','weatherId')"
+                        <input  style="margin-top: 2%" type="checkbox" ng-click="setVisibleField($event,'user_profile','weatherId')"
                                     ng-checked="visibleField('user_profile','weatherId')"> Mostrar
                     </div>
                 </div>
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Edad Deportiva</label>
+                        <label class="col-md-2 control-label">Edad Deportiva
+                            <a ng-click="showTooltipSportAge()">
+                                <img data-ng-src="static/img/info-icon.png"  data-err-src="static/img/info-icon.png" style="height: 10px; width: 10px;"/>
+                            </a></label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ageSport">
                         </div>
@@ -81,7 +105,7 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Disponibilidad</label>
+                        <label class="col-md-2 control-label">Disponibilidad *</label>
                         <div class=" col-md-7">
                             <div ng-repeat="d in userProfile.availability"  style="display: inline">
                                 <input type="checkbox" ng-model="availability[d]" value="{{d}}" ng-checked="{{d.checked}}"
@@ -139,7 +163,7 @@
                         <label class="col-md-2 control-label">&iquest;Tienes pulsometro? </label>
                         <div class="col-md-2">
                             <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'1'"> Si
-                            <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'0'"> No
+                            <input type="radio" name="pulsometro" ng-model="userProfile.indPulsometer" ng-value="'0'" checked> No
                         </div>
                         <div ng-show="userProfile.indPulsometer == 1">
                              <label class="col-md-1 control-label">&iquest;Cu&aacute;l?</label>
@@ -174,7 +198,10 @@
 
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Ppm</label>
+                        <label class="col-md-2 control-label">Ppm
+                            <a ng-click="showTooltipPpm()">
+                                <img data-ng-src="static/img/info-icon.png"  data-err-src="static/img/info-icon.png" style="height: 10px; width: 10px;"/>
+                            </a></label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ppm" ng-blur="calculatePpm()" >
                         </div>
@@ -192,28 +219,28 @@
                             <tbody>
                                 <tr>
                                     <td>2</td>
-                                    <td>{{ppm81}}%</td>
-                                    <td>{{ppm89}}%</td>
+                                    <td>{{ppm81}}</td>
+                                    <td>{{ppm89}}</td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td>{{ppm90}}%</td>
-                                    <td>{{ppm93}}%</td>
+                                    <td>{{ppm90}}</td>
+                                    <td>{{ppm93}}</td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td>{{ppm94}}%</td>
-                                    <td>{{ppm99}}%</td>
+                                    <td>{{ppm94}}</td>
+                                    <td>{{ppm99}}</td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td>{{ppm100}}%</td>
-                                    <td>{{ppm102}}%</td>
+                                    <td>{{ppm100}}</td>
+                                    <td>{{ppm102}}</td>
                                 </tr>
                                  <tr>
                                     <td>6</td>
-                                    <td>{{ppm103}}%</td>
-                                    <td>{{ppm106}}%</td>
+                                    <td>{{ppm103}}</td>
+                                    <td>{{ppm106}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -224,7 +251,7 @@
                         <label class="col-md-2 control-label">&iquest;Tienes potenciometro?</label>
                         <div class=" col-md-2">
                             <input  type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'1'"> Si
-                            <input type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'0'"> No
+                            <input type="radio" name="potenciometro" ng-model="userProfile.indPower" ng-value="'0'" checked> No
                         </div>
                         <div ng-show="userProfile.indPower == 1">
                            <label class="col-md-1 control-label">&iquest;Cu&aacute;l?</label>
@@ -259,7 +286,10 @@
                 </div>
                 <div class="row"> 
                     <div class="form-group col-md-12">
-                        <label class="col-md-2 control-label">Potencia</label>
+                        <label class="col-md-2 control-label">Potencia
+                            <a ng-click="showTooltipPower()">
+                                <img data-ng-src="static/img/info-icon.png"  data-err-src="static/img/info-icon.png" style="height: 10px; width: 10px;"/>
+                            </a></label>
                         <div class=" col-md-3">
                             <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.power" ng-blur="calculateZone()">
                         </div>
@@ -277,23 +307,23 @@
                             <tbody>
                                 <tr>
                                     <td>2 Aer&oacute;bico</td>
-                                    <td>{{ftp56}}%</td>
-                                    <td>{{ftp75}}%</td>
+                                    <td>{{ftp56}}</td>
+                                    <td>{{ftp75}}</td>
                                 </tr>
                                 <tr>
                                     <td>3 Tempo</td>
-                                    <td>{{ftp76}}%</td>
-                                    <td>{{ftp90}}%</td>
+                                    <td>{{ftp76}}</td>
+                                    <td>{{ftp90}}</td>
                                 </tr>
                                 <tr>
                                     <td>4 Umbral</td>
-                                    <td>{{ftp91}}%</td>
-                                    <td>{{ftp105}}%</td>
+                                    <td>{{ftp91}}</td>
+                                    <td>{{ftp105}}</td>
                                 </tr>
                                 <tr>
                                     <td>5 VO2 Max</td>
-                                    <td>{{ftp106}}%</td>
-                                    <td>{{ftp120}}%</td>
+                                    <td>{{ftp106}}</td>
+                                    <td>{{ftp120}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -325,7 +355,7 @@
                         <label class="col-md-2 control-label">&iquest;Tienes bicicleta? </label>
                         <div class=" col-md-2">
                             <input id="bicicleta" type="radio" name="bicicleta" ng-model="indBike" ng-value="'1'"> Si
-                            <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'-1'"> No
+                            <input type="radio" name="bicicleta"  ng-model="indBike" ng-value="'-1'" checked> No
                         </div>
                         <div  ng-show="indBike == 1">
                             <label class="col-md-1 control-label">&iquest;Cu&aacute;l?</label>
@@ -377,7 +407,7 @@
                 </div>
 
 
-                <button class="btn btn-primary btn-sm" ng-click="createOrMergeUserProfile(userProfile)"> Guardar </button>
+                <button class="btn btn-primary btn-sm" ng-click="createOrMergeUserProfile(userProfile)"  ng-disabled="formProfile.$invalid"> Guardar </button>
                 <button class="btn btn-primary btn-sm" ng-click="generatePlan(userProfile)"> Generar Plan</button>
             </form>
         </div>

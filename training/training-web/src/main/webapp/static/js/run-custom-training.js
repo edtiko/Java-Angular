@@ -45,7 +45,8 @@ require.config({
         opentokAngular: "lib/opentok-angular",
         opentokLayout: "lib/opentok-layout.min",
         utilService: "lib/utilService",
-        ngDialog: "lib/ngDialog.min"
+        ngDialog: "lib/ngDialog.min",
+        roleService: "security/service/roleService"
     },
     shim: {
         angular: {
@@ -145,12 +146,15 @@ require.config({
         utilService: {
             deps: ['angular', 'trainingApp']
         },
+        roleService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                ,'visibleFieldsUserService','utilService', 'dashboardService'
+                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService'
 //                'chatService','videoService','videochatService'
             ] }
     }

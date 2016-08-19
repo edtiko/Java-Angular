@@ -25,6 +25,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
             
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
+            
+                    .when('/register-user', route.resolve('registerUser', 'security/'))
  
                     // route for the about page
                     .when('/about', {

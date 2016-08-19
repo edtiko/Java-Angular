@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.User;
@@ -70,8 +65,24 @@ public class UserDTO {
     private Integer disciplineId;
     
     private String typeUser;
+    private Integer roleId;
 
     public UserDTO() {
+    }
+
+    public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
+            String phone, Integer disciplineId, Short stateId, Integer roleId) {
+        this.userId = userId;
+        this.login = login;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.email = email;
+        this.sex = sex;
+        this.phone = phone;
+        this.disciplineId = disciplineId;
+        this.stateId = stateId;
+        this.roleId = roleId;
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
@@ -331,6 +342,14 @@ public class UserDTO {
 
     public void setCountryId(Integer countryId) {
         this.countryId = countryId;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
 }

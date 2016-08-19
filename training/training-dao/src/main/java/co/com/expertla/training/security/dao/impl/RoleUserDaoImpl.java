@@ -1,9 +1,11 @@
 package co.com.expertla.training.security.dao.impl;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.RoleUser;
 import co.com.expertla.training.security.dao.RoleUserDao;
 import java.util.List;
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -52,6 +54,18 @@ public class RoleUserDaoImpl extends BaseDAOImpl<RoleUser> implements RoleUserDa
         
 
         return createQuery(builder.toString());
+    }
+    
+    @Override
+    public List<RoleUser> findByUserId(Integer id) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT r ");
+        sql.append("FROM RoleUser r ");
+        sql.append("WHERE r.userId.userId = :id ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("id", id);
+        List<RoleUser> list = query.getResultList();
+        return list;
     }
 
 }

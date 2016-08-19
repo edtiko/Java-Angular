@@ -34,7 +34,7 @@ public class CountryDaoImpl extends BaseDAOImpl<Country> implements CountryDao{
     @Override
     public List<Country> findAllCountries() {
         try {
-            String qlString = "SELECT u FROM Country u ";
+            String qlString = "SELECT u FROM Country u order by u.name";
             List<Country> query = createQuery(qlString);
             return query;
         } catch (Exception e) {

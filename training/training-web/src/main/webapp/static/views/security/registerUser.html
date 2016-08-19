@@ -1,0 +1,166 @@
+<div class="panel panel-default">
+    <div class="panel-heading"><span class="lead">Creaci&oacute;n de Usuario </span></div>
+    <div class="panel-body">
+        <div class="container-fluid">
+            <form  name="formUser" class="form-horizontal" novalidate>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="userName">Nombre de Usuario *</label>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="user.login" id="userName" name="userName" class="form-control input-sm" placeholder="Ingrese su Nombre de Usuario " required/>
+                            <div class="has-error" ng-messages="formUser.userName.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="uname">Primer Nombre *</label>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="user.firstName" id="uname" name="uname" class="form-control input-sm" placeholder="Ingrese su Primer Nombre" required="" ng-minlength="3"/>
+                            <div class="has-error" ng-messages="formUser.uname.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                                <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="secondName">Segundo Nombre</label>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="user.secondName" id="secondName" name="secondName" class="form-control input-sm" placeholder="Ingrese su Segundo Nombre"  ng-minlength="3"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="lname">Apellidos *</label>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="user.lastName" id="lname" name="lname" class="form-control input-sm" placeholder="Ingrese su Apellido" required ng-minlength="3"/>
+                            <div class="has-error" ng-messages="formUser.lname.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                                <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="email">Correo Electr&oacute;nico *</label>
+                        <div class="col-md-6">
+                            <input type="email" ng-model="user.email" id="email" name="email" class="email form-control input-sm" placeholder="Ingrese su Correo" required/>
+
+                            <div class="has-error" ng-messages="formUser.email.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                                <div ng-message="email">Su correo es inv&aacute;lido</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label">Disciplina Deportiva *</label>
+                        <div class=" col-md-6">
+                            <select class="form-control" style=" display: inline" ng-model="user.discipline" id="discipline" name="discipline" required
+                                    ng-options="disc.disciplineId as disc.name for disc in disciplines">
+                            </select>
+                            <div class="has-error" ng-messages="formUser.discipline.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="sex">Sexo *</label>
+                        <div class="col-md-6">
+                            <select id="sex" name="sex" ng-model="user.sex" ng-options="k.code as k.sex for k in sexOptions" class="form-control" required>
+                            </select>
+                            <div class="has-error" ng-messages="formUser.sex.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="phone">Tel&eacute;fono fijo</label>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="user.phone" id="phone" class="form-control input-sm" placeholder="Ingrese su Tel&eacute;fono"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="country">Pa&iacute;s *</label>
+                        <div class="col-md-6">
+                            <select ng-init="" placeholder="Ingrese su País" id="country" ng-model="user.countryId" name="country" required
+                                    ng-options="country.countryId as country.name for country in countries" ng-change="getStatesByCountry(user.countryId)" class="form-control">                 
+                            </select>
+                            <div class="has-error" ng-messages="formUser.country.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label">Rol *</label>
+                        <div class=" col-md-6">
+                            <select class="form-control" style=" display: inline" ng-model="user.roleId" id="role" name="role" required
+                                    ng-options="r.roleId as r.name for r in roles">
+                            </select>
+                            <div class="has-error" ng-messages="formUser.role.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <div class="form-actions">
+                        <input type="submit" ng-click="submitUser()"  class="btn btn-primary btn-sm" value="Guardar" ng-disabled="formUser.$invalid">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading"><span class="lead">Lista de Usuarios </span></div>
+    <div class="tablecontainer">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre de Usuario</th>
+                    <th>Primer Nombre</th>
+                    <th>Segundo Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th width="20%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="u in users">
+                    <td><span>{{u.login}}</span></td>
+                    <td><span>{{u.firstName}}</span></td>
+                    <td><span>{{u.secondName}}</span></td>
+                    <td><span>{{u.lastName}}</span></td>
+                    <td><span>{{u.email}}</span></td>
+                    <td>
+                        <button type="button" ng-click="editUser(u.userId)" class="btn btn-success custom-width">Editar</button>  
+                        <button ng-show="u.stateId == 1" type="button" ng-click="inactivate(u.userId)" class="btn btn-danger custom-width">Inactivar</button>
+                        <button ng-show="u.stateId == 0" type="button" ng-click="inactivate(u.userId)" class="btn btn-success custom-width">Activar</button>
+                        <!--<button type="button" ng-click="remove(u.user_id)" class="btn btn-danger custom-width">Eliminar</button>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

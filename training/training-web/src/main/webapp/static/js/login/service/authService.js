@@ -11,7 +11,11 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
                             }
 
                             $scope.appReady = true;
-                            $scope.userLogin = res.data.entity.output.login;
+                            if(res.data.entity.output.secondName == null || res.data.entity.output.secondName == 'undefined') {
+                                $scope.userLogin = res.data.entity.output.firstName +" "+ res.data.entity.output.lastName;
+                            } else {
+                                $scope.userLogin = res.data.entity.output.firstName+" "+ res.data.entity.output.secondName +" "+ res.data.entity.output.lastName;
+                            }
                             $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
                             $scope.getVisibleFieldsUserByUser();
                             return res;

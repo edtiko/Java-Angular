@@ -1,6 +1,3 @@
-/**
- *
- */
 package co.com.expertla.training.user.service.impl;
 
 import co.com.expertla.training.dao.CityDao;
@@ -22,6 +19,12 @@ import java.util.stream.Collectors;
 import co.com.expertla.training.dao.FederalStateDao;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
+import co.com.expertla.training.model.entities.Discipline;
+import co.com.expertla.training.model.entities.DisciplineUser;
+import co.com.expertla.training.model.entities.Role;
+import co.com.expertla.training.model.entities.RoleUser;
+import co.com.expertla.training.security.dao.RoleUserDao;
+import co.com.expertla.training.user.dao.DisciplineUserDao;
 
 @Service("usuarioService")
 @Transactional
@@ -42,6 +45,12 @@ public class UserServiceImpl implements UserService {
     
      @Autowired
     private CountryDao countryDao;
+     
+    @Autowired
+    private DisciplineUserDao disciplineUserDao;
+     
+    @Autowired
+    private RoleUserDao roleUserDao;
 
     /* static{
         users= populateDummyUsers();
@@ -148,5 +157,61 @@ public class UserServiceImpl implements UserService {
     public void saveProfilePhoto(byte[] bytes, Integer userId) {
         userDao.saveProfilePhoto(bytes, userId);
     }
+    
+    @Override
+    public List<UserDTO> findAllUsersWithDiscipline() throws Exception {
+        return userDao.findAllUsersWithDiscipline();
+    }
+    
+    @Override
+    public void createInternalUser(UserDTO dto) throws Exception {
+        User user = new User();
+        user.setLogin(dto.getLogin());
+        user.setName(dto.getFirstName());
+        user.setSecondName(dto.getSecondName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        user.setSex(dto.getSex());
+        user.setPhone(dto.getPhone());
+        user.setCreationDate(new Date());
+        
+        DisciplineUser discipline = new DisciplineUser();
+        discipline.setUserId(user);
+        discipline.setDiscipline(new Discipline(dto.getDisciplineId()));
+        
+        RoleUser roleUser = new RoleUser();
+        roleUser.setUserId(user);
+        roleUser.setRoleId(new Role(dto.getRoleId()));
+        
+        userDao.create(user);
+        disciplineUserDao.create(discipline);
+        roleUserDao.create(roleUser);
+    }
 
+    @Override
+    public void editInternalUser(UserDTO dto) throws Exception {
+        User user = userDao.findById(dto.getUserId());
+        user.setLogin(dto.getLogin());
+        user.setName(dto.getFirstName());
+        user.setSecondName(dto.getSecondName());
+        user.setLastName(dto.getLastName());
+        user.setEmail(dto.getEmail());
+        user.setSex(dto.getSex());
+        user.setPhone(dto.getPhone());
+        
+        DisciplineUser discipline = disciplineUserDao.findByUserId(dto.getUserId());
+        if(discipline != null) {
+            discipline.setDiscipline(new Discipline(dto.getDisciplineId()));
+            disciplineUserDao.merge(discipline);
+        }
+        
+        List<RoleUser> list  = roleUserDao.findByUserId(dto.getUserId());
+        if(list != null || !list.isEmpty()) {
+            RoleUser roleUser = list.get(0);
+            roleUser.setRoleId(new Role(dto.getRoleId()));
+            roleUserDao.merge(roleUser);
+        }
+        
+        userDao.merge(user);
+    }
 }

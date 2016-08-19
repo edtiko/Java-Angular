@@ -1,10 +1,8 @@
-/**
- *
- */
 package co.com.expertla.training.user.dao.impl;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
+import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -13,6 +11,7 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.user.dao.UserDao;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Query;
 
 /**
  *
@@ -116,5 +115,18 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
             Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    @Override
+    public List<UserDTO> findAllUsersWithDiscipline() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.UserDTO(u.userId, u.login, u.name, u.secondName, u.lastName, ");
+        sql.append("u.email,u.sex,u.phone,du.discipline.disciplineId,u.stateId, r.roleId.roleId )");
+        sql.append("FROM User u, DisciplineUser du, RoleUser r ");
+        sql.append("WHERE u.userId = du.userId.userId "); 
+        sql.append("AND u.userId = r.userId.userId ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        List<UserDTO> list = query.getResultList();
+        return list;
     }
 }

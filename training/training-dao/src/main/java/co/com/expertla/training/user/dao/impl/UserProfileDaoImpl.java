@@ -2,7 +2,6 @@ package co.com.expertla.training.user.dao.impl;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.user.dao.UserProfileDao;
-import co.com.expertla.training.enums.SportEquipmentTypeEnum;
 import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
 import java.util.List;

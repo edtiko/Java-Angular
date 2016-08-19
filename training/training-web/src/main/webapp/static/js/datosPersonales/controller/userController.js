@@ -358,6 +358,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
 
         $scope.createOrMergeUserProfile = function (userProfile) {
+             if($scope.validateAvailability()) {
             if (userProfile.userProfileId == null) {
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
@@ -385,6 +386,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                         }
                 );
             }
+        } else {
+            $scope.showMessage("La disponiblidad de tiempo es un campo obligatorio");
+        }
             VisibleFieldsUserService.createVisibleFieldsUser(userProfile.userId,$scope.visibleFields).then(
                     function (msg) {
                         $scope.setUserSession();
@@ -402,6 +406,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             this.getPulsometers();
             $scope.showAnotherPotentiometer = false;
             $scope.showAnotherPulsometer = false;
+            $scope.showAnotherBike = false;
             $scope.showModelPotentiometer = true;
             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
                 $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
@@ -518,7 +523,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             ObjectiveService.getObjectives().then(
                     function (d) {
                         $scope.objectives = d;
-                        $scope.objectives.unshift({objectiveId: -1, name: 'Seleccione', level: ''});
+//                        $scope.objectives.unshift({objectiveId: -1, name: 'Seleccione', level: ''});
                     },
                     function (errResponse) {
                         console.error('Error while objectives');
@@ -725,6 +730,35 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             }
         };
 
+        $scope.validateAvailability = function () {
+            var length = $scope.userProfile.availability.length;
+            for (var i = 0; i < length; i++) {
+                if($scope.userProfile.availability[i].checked) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        
+        $scope.showTooltipEnvironment = function () {
+          $scope.showMessage("Hace enfasis a la topografia",1);  
+        };
+        
+        $scope.showTooltipWeather = function () {
+          $scope.showMessage("Clima",1);  
+        };
+        
+        $scope.showTooltipSportAge = function () {
+          $scope.showMessage("Edad",1);  
+        };
+        
+        $scope.showTooltipPpm = function () {
+          $scope.showMessage("Pulsaciones por Minuto",1);  
+        };
+        
+        $scope.showTooltipPower = function () {
+          $scope.showMessage("Cantidad de trabajo que se lleva a cabo por unidad de tiempo",1);  
+        };
         // Survey Controller //
 
         $scope.survey = [];
