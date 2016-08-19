@@ -31,7 +31,7 @@ public interface UserService {
 
     public boolean isUserExist(UserDTO user);
 
-    public List<CountryDTO> findAllCountries();
+//    public List<CountryDTO> findAllCountries();
 
     public List<FederalStateDTO> findStatesByCountry(Integer countryId);
 

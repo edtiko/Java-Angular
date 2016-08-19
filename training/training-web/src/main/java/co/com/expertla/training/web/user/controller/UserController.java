@@ -1,13 +1,14 @@
 package co.com.expertla.training.web.user.controller;
 
+import co.com.expertla.training.configuration.service.CountryService;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
-import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.Message;
 import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.OutputMessage;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.Country;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.Role;
@@ -73,6 +74,9 @@ public class UserController {
 
     @Autowired
     TrainingPlanUserService trainingPlanUserService;
+    
+    @Autowired
+    CountryService countryService;
 
     /**
      * Upload single file using Spring Controller
@@ -167,9 +171,12 @@ public class UserController {
             user.setPhone(userDTO.getPhone());
             user.setLastName(userDTO.getLastName());
             user.setSex(userDTO.getSex());
-
+            user.setStateId(StateEnum.ACTIVE.getId().shortValue());
             
-
+            if(userDTO.getCountryId() != null) {
+                user.setCountryId(new Country(userDTO.getCountryId()));
+            }
+            
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
@@ -224,7 +231,7 @@ public class UserController {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
-                response.sendRedirect("http://expertla.com.co/cpt/registro-atleta/");
+                response.sendRedirect("http://181.143.227.220:8081/cpt/my-account/customer-logout/");
                 return null;
             }
 
@@ -297,12 +304,17 @@ public class UserController {
 
     //-------------------Retrieve All Countries--------------------------------------------------------
     @RequestMapping(value = "/countries/", method = RequestMethod.GET)
-    public ResponseEntity<List<CountryDTO>> listAllCountries() {
-        List<CountryDTO> countries = userService.findAllCountries();
-        if (countries.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+    public ResponseEntity<List<Country>> listAllCountries() {
+        try {
+            List<Country> countries = countryService.findAll();
+            if (countries.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            }
+            return new ResponseEntity<>(countries, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(countries, HttpStatus.OK);
     }
 
     //-------------------Retrieve States--------------------------------------------------------

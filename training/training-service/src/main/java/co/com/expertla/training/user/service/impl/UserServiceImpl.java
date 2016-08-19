@@ -1,7 +1,7 @@
 package co.com.expertla.training.user.service.impl;
 
+import co.com.expertla.training.configuration.dao.CountryDao;
 import co.com.expertla.training.dao.CityDao;
-import co.com.expertla.training.dao.CountryDao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,24 +31,23 @@ import co.com.expertla.training.user.dao.DisciplineUserDao;
 public class UserServiceImpl implements UserService {
 
     //private static final AtomicLong counter = new AtomicLong();
-    
     public static final Short STATE_ACTIVE = 1;
 
     @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private CityDao cityDao;
-    
+
     @Autowired
     private FederalStateDao federalStateDao;
-    
-     @Autowired
+
+    @Autowired
     private CountryDao countryDao;
-     
+
     @Autowired
     private DisciplineUserDao disciplineUserDao;
-     
+
     @Autowired
     private RoleUserDao roleUserDao;
 
@@ -77,9 +76,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findUserByUsername(String username) {
-         return UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
+        return UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
     }
-    
+
     @Transactional
     @Override
     public Integer saveUser(User user) throws Exception {
@@ -89,37 +88,36 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public int updateUser(UserDTO userDTO) {
-       User user = userDao.findById(userDTO.getUserId());
-       City city = cityDao.findById(userDTO.getCityId());
-       user.setName(userDTO.getFirstName());
-       user.setSecondName(userDTO.getSecondName());
-       user.setLogin(userDTO.getLogin());
-       user.setPassword(userDTO.getPassword());
-       user.setLastName(userDTO.getLastName());
-       user.setEmail(userDTO.getEmail());
-       user.setBirthDate(userDTO.getBirthDate());
-       user.setAddress(userDTO.getAddress());
-       user.setSex(userDTO.getSex());
-       user.setWeight(userDTO.getWeight());
-       user.setPhone(userDTO.getPhone());
-       user.setCellphone(userDTO.getCellphone());
-       user.setCityId(city);
-       user.setPostalCode(userDTO.getPostalCode());
-       user.setFacebookPage(userDTO.getFacebookPage());
-       user.setTwitterPage(userDTO.getTwitterPage());
-       user.setInstagramPage(userDTO.getInstagramPage());
-       user.setWebPage(userDTO.getWebPage());
-       user.setCreationDate(new Date());
-       
-       
+        User user = userDao.findById(userDTO.getUserId());
+        City city = cityDao.findById(userDTO.getCityId());
+        user.setName(userDTO.getFirstName());
+        user.setSecondName(userDTO.getSecondName());
+        user.setLogin(userDTO.getLogin());
+        user.setPassword(userDTO.getPassword());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setBirthDate(userDTO.getBirthDate());
+        user.setAddress(userDTO.getAddress());
+        user.setSex(userDTO.getSex());
+        user.setWeight(userDTO.getWeight());
+        user.setPhone(userDTO.getPhone());
+        user.setCellphone(userDTO.getCellphone());
+        user.setCityId(city);
+        user.setPostalCode(userDTO.getPostalCode());
+        user.setFacebookPage(userDTO.getFacebookPage());
+        user.setTwitterPage(userDTO.getTwitterPage());
+        user.setInstagramPage(userDTO.getInstagramPage());
+        user.setWebPage(userDTO.getWebPage());
+        user.setCreationDate(new Date());
+
         return userDao.updateUser(user);
     }
-    
+
     @Transactional
     @Override
     public void deleteUserById(Integer id) {
 
-       User user = userDao.findById(id);
+        User user = userDao.findById(id);
         userDao.deleteUser(user);
     }
 
@@ -133,14 +131,14 @@ public class UserServiceImpl implements UserService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public List<CountryDTO> findAllCountries() {
-       return countryDao.findAllCountries().stream().map(CountryDTO::mapFromCountryEntity).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<CountryDTO> findAllCountries() {
+//        return countryDao.findAll().stream().map(CountryDTO::mapFromCountryEntity).collect(Collectors.toList());
+//    }
 
     @Override
     public List<FederalStateDTO> findStatesByCountry(Integer countryId) {
-         return federalStateDao.findStatesByCountryId(countryId).stream().map(FederalStateDTO::mapFromStateEntity).collect(Collectors.toList());
+        return federalStateDao.findStatesByCountryId(countryId).stream().map(FederalStateDTO::mapFromStateEntity).collect(Collectors.toList());
     }
 
     @Override
@@ -157,12 +155,12 @@ public class UserServiceImpl implements UserService {
     public void saveProfilePhoto(byte[] bytes, Integer userId) {
         userDao.saveProfilePhoto(bytes, userId);
     }
-    
+
     @Override
     public List<UserDTO> findAllUsersWithDiscipline() throws Exception {
         return userDao.findAllUsersWithDiscipline();
     }
-    
+
     @Override
     public void createInternalUser(UserDTO dto) throws Exception {
         User user = new User();
@@ -174,15 +172,15 @@ public class UserServiceImpl implements UserService {
         user.setSex(dto.getSex());
         user.setPhone(dto.getPhone());
         user.setCreationDate(new Date());
-        
+
         DisciplineUser discipline = new DisciplineUser();
         discipline.setUserId(user);
         discipline.setDiscipline(new Discipline(dto.getDisciplineId()));
-        
+
         RoleUser roleUser = new RoleUser();
         roleUser.setUserId(user);
         roleUser.setRoleId(new Role(dto.getRoleId()));
-        
+
         userDao.create(user);
         disciplineUserDao.create(discipline);
         roleUserDao.create(roleUser);
@@ -198,20 +196,20 @@ public class UserServiceImpl implements UserService {
         user.setEmail(dto.getEmail());
         user.setSex(dto.getSex());
         user.setPhone(dto.getPhone());
-        
+
         DisciplineUser discipline = disciplineUserDao.findByUserId(dto.getUserId());
-        if(discipline != null) {
+        if (discipline != null) {
             discipline.setDiscipline(new Discipline(dto.getDisciplineId()));
             disciplineUserDao.merge(discipline);
         }
-        
-        List<RoleUser> list  = roleUserDao.findByUserId(dto.getUserId());
-        if(list != null || !list.isEmpty()) {
+
+        List<RoleUser> list = roleUserDao.findByUserId(dto.getUserId());
+        if (list != null || !list.isEmpty()) {
             RoleUser roleUser = list.get(0);
             roleUser.setRoleId(new Role(dto.getRoleId()));
             roleUserDao.merge(roleUser);
         }
-        
+
         userDao.merge(user);
     }
 }

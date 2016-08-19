@@ -1,5 +1,6 @@
 // create the controller and inject Angular's $scope
-trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleFieldsUserService', '$window', 'ngDialog', function ($scope, AuthService, VisibleFieldsUserService, $window, ngDialog) {
+trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
+    '$window', 'ngDialog', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, ngDialog) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];
@@ -63,7 +64,22 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
             opened: false
         };
 
+        $scope.getUserSessionByResponse = function (res) {
+            if (res.data.entity.output == null) {
+                $scope.showMessage("El usuario no se encuentra logueado");
+                $scope.logout();
+                return res;
+            }
 
+            $scope.appReady = true;
+            if (res.data.entity.output.secondName == null || res.data.entity.output.secondName == 'undefined') {
+                $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.lastName;
+            } else {
+                $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
+            }
+            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+            return JSON.parse(sessionStorage.getItem("userInfo"));
+        };
 
         $scope.setUserSession = function () {
             AuthService.setUserSession($scope).then(
@@ -75,15 +91,14 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                     }
             );
         };
-        $scope.setUserSession();
 
-        this.getUserSession = function () {
-            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if (user != null) {
-                $scope.appReady = true;
-            }
-            return user;
+        $scope.getUserSession = function (fn) {
+            $http.get($contextPath + '/user/getUserSession')
+                    .then(fn, function (errResponse) {
+                        console.error('Error while getting ' + errResponse);
+                    });
         };
+        $scope.setUserSession();
 
         $scope.getVisibleFieldsUserByUser = function () {
             var user = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -105,7 +120,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                         );
             }
         };
-        
+
         $scope.inFieldsArray = function (field, array) {
             var length = array.length;
             for (var i = 0; i < length; i++) {
@@ -114,13 +129,13 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
             }
             return false;
         };
-        
+
         $scope.calculateAge = function (birthday) { // birthday is a date
-            if(birthday != null){
-            var ageDifMs = Date.now() - birthday.getTime();
-            var ageDate = new Date(ageDifMs); // miliseconds from epoch
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
-        }
+            if (birthday != null) {
+                var ageDifMs = Date.now() - birthday.getTime();
+                var ageDate = new Date(ageDifMs); // miliseconds from epoch
+                return Math.abs(ageDate.getUTCFullYear() - 1970);
+            }
         };
 
         $scope.logout = function () {

@@ -18,13 +18,13 @@
     <center><h3></h3></center>
 </div>
 
-<div style="postition:relative;left:-155px;width: 150px;height:555px;overflow-y:scroll;" valign="top">
+<div style="width: 150px;height:555px;overflow-y:scroll;" valign="top">
         <h3>Actividades</h3>
         <ul class="nav nav-pills nav-stacked" ng-repeat="a in activityList">
             <li><a id="act_{{a.activityId}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
         </ul>
 </div>
-<div id="calendar" style="position: relative;top:-555px;left:170px"></div>
+<div id="calendar" style="position: relative;top:-555px;left:170px;width: 90%"></div>
 
 
 

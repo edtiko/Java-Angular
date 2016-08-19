@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Country;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigInteger;
 import java.util.Date;
@@ -89,8 +90,9 @@ public class DashboardDTO {
     }
     
     public DashboardDTO(Integer userId, String name, String lastName, String email, Date birthDate, String sex, BigInteger weight,
-            String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
-            String indMetricSys) {
+            String phone, String cellphone, String address, 
+            String postalCode, byte[] profilePhoto, String facebookPage,
+            String indMetricSys, Country objCountry) {
         this.userId = userId;
         this.name = name;
         this.lastName = lastName;
@@ -105,6 +107,10 @@ public class DashboardDTO {
         this.profilePhoto = profilePhoto;
         this.facebookPage = facebookPage;
         this.indMetricSys = indMetricSys;
+        
+        if(objCountry != null) {
+            this.country = objCountry.getName();
+        }
     }
 
     public Integer getUserId() {

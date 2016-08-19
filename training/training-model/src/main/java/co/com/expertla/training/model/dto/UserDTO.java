@@ -119,7 +119,7 @@ public class UserDTO {
                     user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId() != null ? user.getCityId().getCityId() : null),
                     user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
-                    user.getCityId() != null ? user.getCityId().getFederalStateId().getCountryId().getCountryId() : null, user.getProfilePhoto());
+                    user.getCountryId() != null ? user.getCountryId().getCountryId() : null, user.getProfilePhoto());
         }
         return null;
     }

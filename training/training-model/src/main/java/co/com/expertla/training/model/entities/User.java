@@ -125,6 +125,9 @@ public class User implements Serializable {
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     @ManyToOne
     private City cityId;
+    @JoinColumn(name = "country_id", referencedColumnName = "country_id")
+    @ManyToOne
+    private Country countryId;
 
     @OneToMany(mappedBy = "starId")
     private Collection<User> userCollection;
@@ -160,6 +163,14 @@ public class User implements Serializable {
         this.postalCode = postalCode;
         this.creationDate = creationDate;
 
+    }
+
+    public Country getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Country countryId) {
+        this.countryId = countryId;
     }
 
     public Integer getUserId() {
