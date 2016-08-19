@@ -34,7 +34,7 @@ public class CurlServiceWordpress {
 
     public String sendData() throws IOException {
         // curl_init and url
-        URL url = new URL("http://181.143.227.220:8081/cpt/wp-json/wc/v1/products/");
+        URL url = new URL("http://181.143.227.220:8081/cpt/wc-api/v2/products?oauth_consumer_key=ck_5f3d8f11e98bce6be84270c691f26b9152ed9d46&=cs_31f632c2dc0f3a5032216630c3941914a0547a10");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         //  CURLOPT_POST
@@ -55,7 +55,7 @@ public class CurlServiceWordpress {
 "    }\n" +
 "  ]\n" +
 "}";        
-        String userpass = "ck_6ea5053d15f3652bf690cb5b13398e1141431284:cs_fec92202d7c8a19f7265f4009f5185e4cbe3bc1b";
+        String userpass = "ck_5f3d8f11e98bce6be84270c691f26b9152ed9d46:cs_31f632c2dc0f3a5032216630c3941914a0547a10";
         String basicAuth = "Basic " + new String(new Base64().encode(userpass.getBytes()));
         con.setRequestProperty ("Authorization", basicAuth);
         con.setRequestProperty("Content-Type", "application/json");
