@@ -15,7 +15,7 @@ import co.com.expertla.training.model.entities.ResponseOption;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.UtilValidation;
 import co.com.expertla.training.service.questionnaire.QuestionnaireResponseService;
-import co.com.expertla.training.user.dao.UserDao;
+import co.com.expertla.training.dao.user.UserDao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
