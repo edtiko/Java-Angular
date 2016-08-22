@@ -11,6 +11,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http','$window', func
         service.SOCKET_URL = $contextPath + "/chat";
         service.CHAT_TOPIC = "/topic/message";
         service.CHAT_BROKER = "/app/chat/";
+        service.SESSION_ID = "";
 
         service.receive = function () {
             return listener.promise;
@@ -18,7 +19,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http','$window', func
 
         service.send = function (message) {
             var id = Math.floor(Math.random() * 1000000);
-            socket.stomp.send(service.CHAT_BROKER+message.athleteUserId, {
+            var url = service.CHAT_BROKER+message.coachAssignedPlanId.id;
+            socket.stomp.send(url, {
                 priority: 9
             }, JSON.stringify(message));
             messageIds.push(id);
@@ -31,6 +33,18 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http','$window', func
                             },
                             function (errResponse) {
                                 console.error('Error while fetching athletes');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+         service.getAssignedCoach = function (athleteUserId) {
+            return $http.get($contextPath + 'get/coach/' + athleteUserId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching coach');
                                 return $q.reject(errResponse);
                             }
                     );
@@ -55,29 +69,26 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http','$window', func
         };
 
         var getMessage = function (data) {
-            var message = JSON.parse(data), out = {};
-            out.message = message.message;
-            out.time = new Date(message.time);
-            if (_.contains(messageIds, message.id)) {
-                out.self = true;
-                messageIds = _.remove(messageIds, message.id);
-            }
-            return out;
+            var message = JSON.parse(data);
+        
+            return message;
         };
 
         var startListener = function () {
-            socket.stomp.subscribe("/queue/message/"+user.userId, function (data) {
+            if(service.SESSION_ID != null){
+            socket.stomp.subscribe("/queue/message/"+service.SESSION_ID, function (data) {
                 listener.notify(getMessage(data.body));
             });
+        }
         };
-
-        var initialize = function () {
+        service.initialize = function (sessionId) {
+            service.SESSION_ID = sessionId;
             socket.client = new SockJS(service.SOCKET_URL);
             socket.stomp = Stomp.over(socket.client);
             socket.stomp.connect({}, startListener);
             socket.stomp.onclose = reconnect;
         };
 
-        initialize();
+        //initialize();
         return service;
     }]);

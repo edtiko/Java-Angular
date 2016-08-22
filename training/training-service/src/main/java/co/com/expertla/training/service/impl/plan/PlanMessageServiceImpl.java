@@ -6,11 +6,13 @@
 package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.plan.PlanMessageDao;
+import co.com.expertla.training.dao.user.UserDao;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.PlanMessage;
+import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.plan.PlanMessageService;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +30,9 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     
     @Autowired
     PlanMessageDao planMessageDao;
+    
+    @Autowired
+    UserDao userDao;
 
     @Override
     public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId) throws Exception, TrainingException {
@@ -35,13 +40,15 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     }
 
     @Override
-    public void saveMessage(PlanMessageDTO message) throws Exception, TrainingException {
+    public PlanMessageDTO saveMessage(PlanMessageDTO message) throws Exception, TrainingException {
         PlanMessage planMessage = new PlanMessage();
-        planMessage.setCoachAssignedPlanId(new CoachAssignedPlan(message.getCoachAssignedPlanId()));
+        User messageUser = userDao.findById(message.getMessageUserId().getUserId());
+        planMessage.setCoachAssignedPlanId(new CoachAssignedPlan(message.getCoachAssignedPlanId().getId()));
         planMessage.setMessage(message.getMessage());
+        planMessage.setMessageUserId(messageUser);
         planMessage.setStateId(new Integer(Status.ACTIVE.getName()));
         planMessage.setCreationDate(new Date());
-        planMessageDao.create(planMessage);
+        return PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
     }
     
 }

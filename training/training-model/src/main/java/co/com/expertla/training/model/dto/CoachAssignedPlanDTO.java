@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.User;
 
 /**
@@ -18,11 +19,23 @@ public class CoachAssignedPlanDTO {
     private UserDTO coachUserId;
     private Integer startTeamId;
     
+     public CoachAssignedPlanDTO(){
+         
+     }
+    
     public CoachAssignedPlanDTO(Integer id, User athleteUserId, User coachUserId, Integer startTeamId){
         this.id = id;
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
         this.startTeamId = startTeamId;
+    }
+    
+     public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {
+        if (e != null) {
+            return new CoachAssignedPlanDTO(e.getCoachAssignedPlanId(), e.getTrainingPlanUserId().getUserId(), 
+                    e.getStartTeamId().getCoachUserId(), e.getStartTeamId().getStartTeamId());
+        }
+        return null;
     }
     
 

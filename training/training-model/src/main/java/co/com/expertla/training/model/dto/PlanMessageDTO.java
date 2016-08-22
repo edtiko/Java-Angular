@@ -5,6 +5,12 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.PlanMessage;
+import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.model.util.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.Date;
+
 /**
  *
  * @author Edwin G
@@ -13,17 +19,27 @@ public class PlanMessageDTO {
 
     private Integer id;
     private String message;
-    private Integer coachAssignedPlanId;
-    private Integer athleteUserId;
-    private Integer coachUserId;
+    private CoachAssignedPlanDTO coachAssignedPlanId;
+    private UserDTO messageUserId;
+    @JsonSerialize(using = JsonDateSerializer.class)
+    private Date creationDate;
 
     public PlanMessageDTO() {
 
     }
 
-    public PlanMessageDTO(Integer id, String message) {
+    public PlanMessageDTO(Integer id, String message, User messageUserId, Date creationDate) {
         this.id = id;
         this.message = message;
+        this.messageUserId = UserDTO.mapFromUserEntity(messageUserId);
+        this.creationDate = creationDate;
+    }
+    
+     public static PlanMessageDTO mapFromPlanMessageEntity(PlanMessage e) {
+        if (e != null) {
+            return new PlanMessageDTO(e.getPlanMessageId(), e.getMessage(), e.getMessageUserId(), e.getCreationDate());
+        }
+        return null;
     }
 
     public String getMessage() {
@@ -42,30 +58,29 @@ public class PlanMessageDTO {
         this.id = id;
     }
 
-    public Integer getCoachAssignedPlanId() {
+    public CoachAssignedPlanDTO getCoachAssignedPlanId() {
         return coachAssignedPlanId;
     }
 
-    public void setCoachAssignedPlanId(Integer coachAssignedPlanId) {
+    public void setCoachAssignedPlanId(CoachAssignedPlanDTO coachAssignedPlanId) {
         this.coachAssignedPlanId = coachAssignedPlanId;
     }
 
-    public Integer getAthleteUserId() {
-        return athleteUserId;
+    public UserDTO getMessageUserId() {
+        return messageUserId;
     }
 
-    public void setAthleteUserId(Integer athleteUserId) {
-        this.athleteUserId = athleteUserId;
+    public void setMessageUserId(UserDTO messageUserId) {
+        this.messageUserId = messageUserId;
     }
 
-    public Integer getCoachUserId() {
-        return coachUserId;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setCoachUserId(Integer coachUserId) {
-        this.coachUserId = coachUserId;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
     
-    
-
+   
 }

@@ -24,7 +24,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     @Override
     public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.PlanMessageDTO(m.planMessageId,m.message) ");        
+        sql.append("SELECT new co.com.expertla.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate) ");        
         sql.append("FROM PlanMessage m ");
         sql.append("Where m.coachAssignedPlanId.coachAssignedPlanId = :coachAssignedPlanId ");
         Query query = getEntityManager().createQuery(sql.toString());

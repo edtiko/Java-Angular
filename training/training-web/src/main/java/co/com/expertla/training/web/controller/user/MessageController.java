@@ -5,19 +5,15 @@
  */
 package co.com.expertla.training.web.controller.user;
 
-import co.com.expertla.training.model.dto.OutputMessage;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.PlanMessageService;
-import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,17 +36,17 @@ public class MessageController {
     @Autowired 
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/chat/{userId}")
+    @MessageMapping("/chat/{sessionId}")
     //@SendTo("/topic/message")
-    public void sendMessage(@Payload PlanMessageDTO message, @DestinationVariable("userId") Integer userId) {
-        
+    public void sendMessage(PlanMessageDTO message, @DestinationVariable("sessionId") Integer sessionId) {
+        PlanMessageDTO msg = null;
         try {
-            planMessageService.saveMessage(message);
+          msg  = planMessageService.saveMessage(message);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
          
         }
-        simpMessagingTemplate.convertAndSend("/queue/message/"+userId, new OutputMessage(message, new Date()));
+        simpMessagingTemplate.convertAndSend("/queue/message/"+sessionId, msg);
         //return new OutputMessage(message, new Date());
     }
     

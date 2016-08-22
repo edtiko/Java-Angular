@@ -775,6 +775,7 @@ create table plan_message (
    plan_message_id           serial  not null,
    coach_assigned_plan_id    integer not null,
    message                   varchar(5000),
+   message_user_id           integer not null,
    state_id                  integer  null,
    creation_date             date     null,
    constraint pk_plan_message primary key (plan_message_id)
@@ -803,6 +804,11 @@ on delete restrict on update restrict;
 alter table plan_message
 add constraint fk_plan_message_reference_assigned_plan foreign key (coach_assigned_plan_id)
 references coach_assigned_plan (coach_assigned_plan_id)
+on delete restrict on update restrict;
+
+alter table plan_message
+add constraint fk_plan_message_reference_user foreign key (message_user_id)
+references user_training (user_id)
 on delete restrict on update restrict;
 
 alter table model_equipment

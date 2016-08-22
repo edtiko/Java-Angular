@@ -7,7 +7,6 @@ package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,11 +46,14 @@ public class PlanMessage implements Serializable {
     @Column(name = "state_id")
     private Integer stateId;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @JoinColumn(name = "coach_assigned_plan_id", referencedColumnName = "coach_assigned_plan_id")
     @ManyToOne(optional = false)
     private CoachAssignedPlan coachAssignedPlanId;
+    @JoinColumn(name = "message_user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private User messageUserId;
 
     public PlanMessage() {
     }
@@ -99,6 +101,15 @@ public class PlanMessage implements Serializable {
     public void setCoachAssignedPlanId(CoachAssignedPlan coachAssignedPlanId) {
         this.coachAssignedPlanId = coachAssignedPlanId;
     }
+
+    public User getMessageUserId() {
+        return messageUserId;
+    }
+
+    public void setMessageUserId(User messageUserId) {
+        this.messageUserId = messageUserId;
+    }
+    
 
     @Override
     public int hashCode() {

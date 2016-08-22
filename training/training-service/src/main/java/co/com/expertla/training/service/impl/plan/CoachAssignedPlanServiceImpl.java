@@ -28,5 +28,10 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     public List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId) throws Exception {
         return dao.findByCoachUserId(userId);
     }
+
+    @Override
+    public CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception {
+        return dao.findByAthleteUserId(userId);
+    }
     
 }

@@ -19,4 +19,6 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     
     List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId) throws DAOException;
     
+    CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws DAOException;
+    
 }

@@ -16,7 +16,7 @@ public class OutputMessage extends PlanMessageDTO {
     private Date time;
     
     public OutputMessage(PlanMessageDTO original, Date time) {
-        super(original.getId(), original.getMessage());
+        //super(original.getId(), original.getMessage(), original.getMessageUserId());
         this.time = time;
     }
     

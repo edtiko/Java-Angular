@@ -70,13 +70,16 @@ public class UserDTO {
     private Integer disciplineId;
     
     private String typeUser;
+    
+    private String fullName;
 
     public UserDTO() {
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
             String sex, BigInteger weight, String phone, String cellphone, Integer cityId,
-            Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
+            Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
+            String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -331,6 +334,14 @@ public class UserDTO {
 
     public void setCountryId(Integer countryId) {
         this.countryId = countryId;
+    }
+
+    public String getFullName() {
+        return this.firstName+" "+this.secondName+" "+this.lastName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
 }

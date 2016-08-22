@@ -17,6 +17,6 @@ public interface PlanMessageService {
 
     public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId)throws  Exception, TrainingException;
 
-    public void saveMessage(PlanMessageDTO message)throws  Exception, TrainingException;
+    public PlanMessageDTO saveMessage(PlanMessageDTO message)throws  Exception, TrainingException;
     
 }

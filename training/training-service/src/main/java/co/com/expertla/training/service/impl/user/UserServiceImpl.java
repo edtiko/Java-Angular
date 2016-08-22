@@ -20,8 +20,10 @@ import co.com.expertla.training.service.user.UserService;
 import java.util.Date;
 import java.util.stream.Collectors;
 import co.com.expertla.training.dao.FederalStateDao;
+import co.com.expertla.training.dao.security.RoleUserDao;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
+import co.com.expertla.training.model.entities.RoleUser;
 
 @Service("usuarioService")
 @Transactional
@@ -42,6 +44,9 @@ public class UserServiceImpl implements UserService {
     
      @Autowired
     private CountryDao countryDao;
+     
+     @Autowired
+     private RoleUserDao roleUserDao;
 
     /* static{
         users= populateDummyUsers();
@@ -67,8 +72,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findUserByUsername(String username) {
-         return UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
+    public UserDTO findUserByUsername(String username) throws Exception {
+        UserDTO user = UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
+        RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
+        user.setTypeUser(roleUser != null ? roleUser.getRoleId().getName():"");
+        return user;
     }
     
     @Transactional

@@ -53,5 +53,7 @@ public interface RoleUserDao extends BaseDAO<RoleUser> {
      * @throws Exception 
      */
     public List<RoleUser> findByFiltro(RoleUser roleUser) throws Exception; 
+    
+    public RoleUser findByUserId(Integer userId) throws Exception ;
 
 }

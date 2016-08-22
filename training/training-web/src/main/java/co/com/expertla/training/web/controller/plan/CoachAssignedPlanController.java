@@ -32,13 +32,33 @@ public class CoachAssignedPlanController {
     
     @RequestMapping(value = "get/athtletes/{coachUserId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessages(@PathVariable("coachUserId") Integer coachUserId) {
+    Response getAssignedAthletes(@PathVariable("coachUserId") Integer coachUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId);
             responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+    
+    @RequestMapping(value = "get/coach/{athleteUserId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getAssignedCoach(@PathVariable("athleteUserId") Integer athleteUserId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            CoachAssignedPlanDTO assignedCoach = coachService.findByAthleteUserId(athleteUserId);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setOutput(assignedCoach);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

@@ -15,5 +15,6 @@ import java.util.List;
 public interface CoachAssignedPlanService {
     
     List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId) throws Exception;
+    CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception;
     
 }
