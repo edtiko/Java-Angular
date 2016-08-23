@@ -5,7 +5,6 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http','$window', func
             stomp: null
         }, messageIds = [];
         
-         var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
         service.RECONNECT_TIMEOUT = 30000;
         service.SOCKET_URL = $contextPath + "/chat";
