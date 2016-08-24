@@ -162,7 +162,7 @@
                 <div flex="33">
                     <md-input-container class="md-block" >
                         <label>Acerca de m&iacute;</label>
-                        <textarea style=" display: inline;resize: none" ng-model="userProfile.aboutMe"></textarea>
+                        <textarea md-maxlength="500" ng-model="userProfile.aboutMe" md-select-on-focus></textarea>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileabout_me, 'user_profile', 'about_me')"
