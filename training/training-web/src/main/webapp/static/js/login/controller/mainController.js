@@ -1,6 +1,6 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
-    '$window', 'ngDialog', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, ngDialog) {
+    '$window', '$mdDialog', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];
@@ -14,7 +14,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
             //$scope[value] = !$scope[value];
         };
 
-        $scope.showMessage = function (msg, type) {
+        /*$scope.showMessage = function (msg, type) {
             $scope.message = msg;
             //1 es un tooltip
             if (type == 1) {
@@ -31,7 +31,22 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                 });
             }
 
-        };
+        };*/
+          $scope.showMessage = function(msg) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    // Modal dialogs should fully cover application
+    // to prevent interaction outside of dialog
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.querySelector('#user-container')))
+        .clickOutsideToClose(true)
+        .title('Confirmacion')
+        .textContent(msg)
+        .ariaLabel('Alert Dialog Demo')
+        .ok('Aceptar')
+        //.targetEvent(ev)
+    );
+  };
 
         $scope.clear = function () {
         };
@@ -110,6 +125,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                                     for (var i = 0; i < $scope.fields.length; i++) {
                                         if (!$scope.inFieldsArray({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId}, $scope.visibleFields)) {
                                             $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});
+                                            $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = true;
+                                        }else{
+                                          $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = false;  
                                         }
                                     }
                                 },

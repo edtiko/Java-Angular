@@ -10,21 +10,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.dao.user.UserDao;
-import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;
 import co.com.expertla.training.service.user.UserService;
 import java.util.Date;
 import java.util.stream.Collectors;
 import co.com.expertla.training.dao.FederalStateDao;
+import co.com.expertla.training.dao.security.RoleUserDao;
+import co.com.expertla.training.dao.user.DisciplineUserDao;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.Role;
 import co.com.expertla.training.model.entities.RoleUser;
-import co.com.expertla.training.security.dao.RoleUserDao;
-import co.com.expertla.training.user.dao.DisciplineUserDao;
 
 @Service("usuarioService")
 @Transactional

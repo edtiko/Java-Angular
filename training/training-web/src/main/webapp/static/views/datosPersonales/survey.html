@@ -1,62 +1,80 @@
-    <form  class="form-horizontal" name="myFormSurvey">
-        <div ng-repeat="category in categories">
-            <div class="panel panel-default">
-                <div class="panel-heading"><span class="lead">{{category.name}}</span></div>
-                <div class="panel-body">
-                    <div class="container-fluid">
-                        <div ng-repeat="question in survey" ng-if="question.questionnaireCategoryId.questionnaireCategoryId === category.questionnaireCategoryId">
-                            <div class="form-group">
+<form  name="myFormSurvey">
+    <div ng-repeat="category in categories">
+        <div class="demo-md-panel md-padding">
+            <md-content layout-padding>
+                <span class="md-headline">{{category.name}}</span>
 
-                                <label class="control-label">{{$index + 1}}. {{question.questionId.name}}</label>
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <div ng-switch="question.questionId.dataType">
-                                            <div ng-switch-when="text">
-                                                <input type="text"  ng-required="question.questionId.questionType=='M'" name="{{question.questionId.name}}" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)" class="form-control input-sm" >
-                                            </div>
-                                            <div ng-switch-when="number">
-                                                <input type="number" string-to-number ng-required="question.questionId.questionType=='M'" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)" class="form-control input-sm" >
-                                            </div>
-                                            <div ng-switch-when="select" >
-                                                <select ng-required="question.questionId.questionType=='M'" class="form-control input-sm" ng-options="q.questionOptionId as q.name for q in question.questionId.questionOptionList" ng-change="setValue($index)" data-ng-model="survey[$index].questionnaireResponseList[0].questionOptionId">
-                                                    <option value="">Seleccione una opci&oacute;n..</option>
-                                                </select>
-                                            </div>
-                                            <div ng-switch-when="checkbox">
-                                                <div ng-repeat="questionOption in question.questionId.questionOptionList">
-                                                    <div class="checkbox">
-                                                        <label class="control-label"><input type="checkbox" 
-                                                                      ng-model="survey[$parentIndex].questionnaireResponseList[$index].checked"
-                                                                      ng-checked="getResponse($parent.$index, questionOption.questionOptionId)"
-                                                                      ng-click="setResponse($parent.$index, $index, questionOption.questionOptionId)"
-                                                                      value="{{questionOption.questionOptionId}}"
-                                                                      >{{questionOption.name}}</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div ng-switch-when="radio">
-                                                <div ng-repeat="questionOption in question.questionId.questionOptionList">
-                                                    <div class="radio">
-                                                        <label><input ng-required="question.questionId.questionType=='M'" type="radio" ng-click="setValue($parent.$index)" ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId" name="option{{question.questionId.questionId}}" value="{{questionOption.questionOptionId}}">{{questionOption.name}}</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div role="alert" class="has-error" ng-show="myFormSurvey.$dirty">
-                                            <span ng-show="myFormSurvey[question.questionId.name].$error.required">Esta pregunta es obligatoria</span>
+                <div ng-repeat="question in survey" ng-if="question.questionnaireCategoryId.questionnaireCategoryId === category.questionnaireCategoryId">
 
-                                        </div>
+                    <div layout="row">
+                        <div flex="33">
+                            <label>{{$index + 1}}. {{question.questionId.name}}</label>
+                        </div>
+                    </div>
+                            <div layout="row">
+                        <div flex="33">
+                            <div ng-switch="question.questionId.dataType">
+                                <div ng-switch-when="text">
+                                    <md-input-container class="md-block" >
+
+                                        <input type="text"  ng-required="question.questionId.questionType=='M'" name="{{question.questionId.name}}" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
+                                    </md-input-container>
+                                </div>
+                                <div ng-switch-when="number">
+                                    <md-input-container class="md-block" >
+
+                                        <input type="number" string-to-number ng-required="question.questionId.questionType=='M'" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)" class="form-control input-sm" >
+                                    </md-input-container>
+                                </div>
+                                <div ng-switch-when="select" >
+                                    <md-input-container class="md-block" >
+                                        <md-select ng-required="question.questionId.questionType=='M'"  
+                                                   ng-change="setValue($index)" 
+                                                   ng-model="survey[$index].questionnaireResponseList[0].questionOptionId">
+                                            
+                                            <md-option ng-repeat="q in question.questionId.questionOptionList" value="{{q.questionOptionId}}" >
+                                                {{q.name}}
+                                            </md-option>
+                                        </md-select>
+                                    </md-input-container>   
+                                </div>
+                                <div ng-switch-when="checkbox">
+                                    <div ng-repeat="questionOption in question.questionId.questionOptionList">
+
+
+                                        <md-checkbox ng-model="survey[$parentIndex].questionnaireResponseList[$index].checked" 
+                                                     ng-checked="getResponse($parent.$index, questionOption.questionOptionId)"
+                                                     ng-value="{{questionOption.questionOptionId}}"
+                                                     ng-click="setResponse($parent.$index, $index, questionOption.questionOptionId)">
+                                            {{questionOption.name}}
+                                        </md-checkbox>
                                     </div>
+
+                                </div>
+                                <div ng-switch-when="radio">
+                                    <md-radio-group ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId">
+                                        <md-radio-button ng-repeat="questionOption in question.questionId.questionOptionList"
+                                                         ng-required="question.questionId.questionType=='M'"
+                                                         ng-click="setValue($parent.$index)"
+                                                         ng-value="{{questionOption.questionOptionId}}"
+                                                         aria-label="{{questionOption.name}}">{{questionOption.name}}</md-radio-button>
+                                    </md-radio-group>
                                 </div>
                             </div>
+                            <div role="alert" class="has-error" ng-show="myFormSurvey.$dirty">
+                                <span ng-show="myFormSurvey[question.questionId.name].$error.required">Esta pregunta es obligatoria</span>
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> <!-- categories -->
-        <div class="form-group row">
-            <div class="form-actions col-xs-12">
-                <button ng-click="submitSurvey()" type="button" class="btn btn-primary btn-sm" ng-disabled="myFormSurvey.$invalid">Guardar</button>
-            </div>
+
+            </md-content>
         </div>
-    </form>
+    </div>
+
+    <section layout="row" layout-sm="column"  layout-wrap>
+        <md-button class="md-raised md-primary" ng-click="submitSurvey()" ng-disabled="myFormSurvey.$invalid">Guardar</md-button>
+    </section>
+</form>

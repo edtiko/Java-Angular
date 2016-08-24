@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://localhost:8080/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
     waitSeconds: 200,
@@ -14,7 +14,9 @@ require.config({
         angularRoute: 'lib/angular-route.min',
         angularAnimate: 'lib/angular-animate.min',
         angularTouch: 'lib/angular-touch.min',
-        angularBoostrap: 'lib/ui-bootstrap-tpls.min',
+        angularAria: 'lib/angular-aria.min',
+        angularMaterial: 'lib/angular-material',
+        //angularBoostrap: 'lib/ui-bootstrap-tpls.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
@@ -64,6 +66,18 @@ require.config({
             exports: 'angularTouch',
             deps: ['angular']
         },
+        angularMessages: {
+            exports: 'ngMessages',
+            deps: ['angular']
+        },
+        angularAria: {
+            exports: 'ngAria',
+            deps: ['angular']
+        },
+        angularMaterial: {
+            exports: 'ngMaterial',
+            deps: ['angular']
+        },
         ngDialog:{
           exports: 'ngDialog',
           deps: ['angular']
@@ -72,10 +86,10 @@ require.config({
             exports: 'ngCamRecorder',
             deps: ['angular']
         },
-        angularBoostrap: {
+        /*angularBoostrap: {
             exports: 'angularBoostrap',
             deps: ['angular']
-        },
+        },*/
         opentokAngular: {
             exports: 'opentok',
             deps: ['angular']
@@ -83,10 +97,7 @@ require.config({
         csrfInterceptor: {
             deps: ['angular']
         },
-        angularMessages: {
-            exports: 'ngMessages',
-            deps: ['angular']
-        },
+       
         userService: {
             deps: ['angular', 'trainingApp']
         },
@@ -124,8 +135,7 @@ require.config({
             deps: ['angular','trainingApp']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute',
-                'angularBoostrap', 'angularAnimate', 'ngDialog'
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial', 'ngDialog'
 //                'sockjs', 
 //                'stompWebsocket','ngCamRecorder','recorder',
 //                'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
