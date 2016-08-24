@@ -15,7 +15,7 @@ require.config({
         angularAnimate: 'lib/angular-animate.min',
         angularTouch: 'lib/angular-touch.min',
         angularAria: 'lib/angular-aria.min',
-        angularMaterial: 'lib/angular-material.min',
+        angularMaterial: 'lib/angular-material',
         //angularBoostrap: 'lib/ui-bootstrap-tpls.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",

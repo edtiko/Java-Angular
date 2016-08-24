@@ -8,15 +8,10 @@
         <link rel="stylesheet" href="static/css/angular-material.min.css" />
         <link rel="stylesheet" href="static/css/font-awesome.min.css" />
         <link rel="stylesheet" href="static/css/app.css" >
-        <link rel="stylesheet" href="static/css/flaticon.css">
-        <link rel="stylesheet" href="static/css/calendar.css">
-        <link rel="stylesheet" href="static/css/ngDialog.min.css">
-        <link rel="stylesheet" href="static/css/ngDialog-theme-default.min.css">
-        <link rel="stylesheet" href="static/css/ngDialog-theme-plain.min.css">
     </head>
  
     <!-- define angular controller -->
-    <body class="pure-skin-theme" ng-controller="mainController" id="trainingApp">
+    <body  ng-controller="mainController" id="trainingApp">
  <!--
         <nav class="navbar navbar-default">
             <div class="container">
@@ -52,18 +47,35 @@
                  <h2 class="md-toolbar-tools">Custom Pro Training</h2>
             <md-menu-bar>
                  <md-menu>
-                     <md-button href="#dashboard"><i class="fa fa-home"></i> Bienvenido {{userLogin}}</md-button>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-home"></i> Bienvenido {{userLogin}}</button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#dashboard"> Abrir Dashboard</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
                 </md-menu>
                  <md-menu>
-                     <md-button href="#dashboard"><i class="fa fa-home"></i> Dashboard</md-button>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-home"></i>
+                         Dashboard
+                     </button>
+                     <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#dashboard"> Abrir Dashboard</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
                 </md-menu>
                  <md-menu>
-                     <md-button href="#calendar"><i class="fa fa-calendar"></i> Calendario</md-button>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-calendar"></i> Calendario</button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#calendar"> Abrir Calendario</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
                 </md-menu>
                 <md-menu>
-                    <md-button ng-click="$mdOpenMenu()">
+                    <button ng-click="$mdOpenMenu()">
                         <i class="fa fa-user"></i> Cuenta
-                    </md-button>
+                    </button>
                     <md-menu-content>
                         <md-menu-item>
                             <md-button href="#data-person"> Configuración de Perfil</md-button>
@@ -74,7 +86,12 @@
                     </md-menu-content>
                 </md-menu>
                  <md-menu>
-                     <md-button class="logout" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Cerrar Sesión</md-button>
+                     <button class="logout" ng-click="$mdOpenMenu()"><i class="fa fa-sign-out"></i> Cerrar Sesión</button>
+                      <md-menu-content>
+                        <md-menu-item>
+                            <md-button href="#" ng-click="logout()"> Cerrar Sesión</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
                 </md-menu>
             </md-menu-bar>
              </md-toolbar>
@@ -100,8 +117,6 @@
         <!-- SPELLS -->
         <script type="text/javascript" data-main="static/js/run-custom-training"
         src="static/js/lib/require.js"></script>
-        <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
     </body>
  
 </html>

@@ -1,6 +1,5 @@
-<md-content layout-padding>
-
-
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
         <span class="md-headline">Datos Personales</span>
         <form  name="myFormUser" novalidate>
             <input type="hidden" ng-model="user.userId" />
@@ -14,8 +13,13 @@
                         </div>
                     </md-input-container>
                 </div>
+                <div class="ontop">
+
+                    <img data-ng-src="{{dataImage}}"  data-err-src="static/img/profile-default.png" style="height: 250px; width: 200px;"/>
+
+                </div>
             </div>
-            <div layout="row">
+            <div layout="row" >
                 <div flex="33">
                     <md-input-container class="md-block">
                         <input type="text" ng-model="user.secondName" id="secondName" name="secondName"  placeholder="Segundo Nombre"  ng-minlength="3"/>
@@ -46,7 +50,7 @@
                         </div>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingemail" ng-change="setVisibleField($event, 'user_training', 'email')"
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingemail" ng-change="setVisibleField(user_trainingemail, 'user_training', 'email')"
                            ng-model="isActive"> Mostrar </md-switch>
             </div>
 
@@ -55,7 +59,7 @@
                     <md-input-container class="md-block" >
                         <label  for="sex">Sexo</label>
 
-                        <md-select id="sex" ng-model="user.sex" >
+                        <md-select id="sex" ng-model="user.sex" layout-margin>
                             <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
                                 {{s.sex}}
                             </md-option>
@@ -65,7 +69,7 @@
                         </div>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingsex" ng-change="setVisibleField($event, 'user_training', 'sex')">
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingsex" ng-change="setVisibleField(user_trainingsex, 'user_training', 'sex')">
                     Mostrar
                 </md-switch>
 
@@ -85,17 +89,18 @@
                         </div>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField($event, 'user_training', 'birth_date')"
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingbirth_date, 'user_training', 'birth_date')"
                            ng-model="user_trainingbirth_date">Mostrar</md-switch>
 
             </div>
             <div layout="row">
                 <div flex="33">
-                    <label>Edad</label>
-                    <span>{{user.age}}</span>
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="user.age" id="phone"  placeholder="Edad" readonly="true"/>
+                    </md-input-container>
                 </div> 
 
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField($event, 'user_training', 'age')"
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingage, 'user_training', 'age')"
                            ng-model="user_trainingage"> Mostrar </md-switch>
             </div>
             <div layout="row">
@@ -104,7 +109,7 @@
                         <input type="text" ng-model="user.phone" id="phone"  placeholder="Tel&eacute;fono fijo"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField($event, 'user_training', 'phone')"
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingphone, 'user_training', 'phone')"
                            ng-model="user_trainingphone"> Mostrar</md-switch>
 
             </div>
@@ -114,7 +119,7 @@
                         <input type="text" ng-model="user.cellphone" id="cellphone"  placeholder="Celular"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField($event, 'user_training', 'cellphone')"
+                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingcellphone, 'user_training', 'cellphone')"
                            ng-model="user_trainingcellphone"> Mostrar</md-switch>
             </div>
             <div layout="row">
@@ -164,7 +169,7 @@
                         <input type="text" ng-model="user.address" id="address" placeholder="Direcci&oacute;n"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar"  ng-change="setVisibleField($event, 'user_training', 'address')"
+                <md-switch class="md-primary" aria-label="Mostrar"  ng-change="setVisibleField(user_trainingaddress, 'user_training', 'address')"
                            ng-model="user_trainingaddress">Mostrar</md-switch>
             </div>
 
@@ -174,7 +179,7 @@
                         <input type="text" ng-model="user.postalCode" id="postalCode"  placeholder="C&oacute;digo Postal"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField($event, 'user_training', 'postal_code')"
+                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingpostal_code, 'user_training', 'postal_code')"
                            ng-model="user_trainingpostal_code"> Mostrar</md-switch>
 
             </div>
@@ -185,7 +190,7 @@
                         <input type="text" ng-model="user.facebookPage" name="facebookPage" id="facebookPage"  placeholder="P&aacute;gina de Facebook"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField($event, 'user_training', 'facebook_page')"
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingfacebook_page, 'user_training', 'facebook_page')"
                            ng-model="user_trainingfacebook_page"> Mostrar</md-switch>
             </div>
             <div layout="row">
@@ -194,7 +199,7 @@
                         <input type="text" ng-model="user.twitterPage" id="twitterPage" placeholder="P&aacute;gina de Twitter"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField($event, 'user_training', 'twitter_page')"
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingtwitter_page, 'user_training', 'twitter_page')"
                            ng-model="user_trainingtwitter_page"> Mostrar</md-switch>
             </div>
             <div layout="row">
@@ -203,7 +208,7 @@
                         <input type="text" ng-model="user.instagramPage" id="instagramPage" placeholder="P&aacute;gina de Instagram"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField($event, 'user_training', 'instagram_page')"
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_traininginstagram_page, 'user_training', 'instagram_page')"
                            ng-model="user_traininginstagram_page"> Mostrar</md-switch>
             </div>
             <div layout="row">
@@ -212,7 +217,7 @@
                         <input type="text" ng-model="user.webPage" id="webPage"  placeholder="P&aacute;gina Web"/>
                     </md-input-container>
                 </div>
-                <md-switch class="md-primary" aria-label="Mostrar" type="checkbox" ng-change="setVisibleField($event, 'user_training', 'web_page')"
+                <md-switch class="md-primary" aria-label="Mostrar" type="checkbox" ng-change="setVisibleField(user_trainingweb_page, 'user_training', 'web_page')"
                            ng-model="user_trainingweb_page"> Mostrar</md-switch>
             </div>
             <div layout="row">
@@ -220,37 +225,32 @@
                     <md-input-container class="md-block">
                         <label  for="picture">Foto de Perfil</label>
                         <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil"/>
- <md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>
+                        <md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>
 
                     </md-input-container>
 
-                   
+
                 </div>
             </div>
             <div layout="row">
                 <span class="md-subhead">&iquest;Usted posee una cuenta de usuario de estas p&aacute;ginas?</span>
-                </div>
-                <div layout="row">
+            </div>
+            <div layout="row">
 
-                    <a ng-href="https://my.garmin.com/mygarmin/login.htm" ><img data-ng-src="static/img/garmin.png" class="circular-icon" title="Garmin" style="height: 60px; width: 60px;"/></a>
-                    <a ng-href="https://www.polar.com" ><img  data-ng-src="static/img/polar.png" class="circular-icon" title="Polar" style="height: 60px; width: 60px;"/></a>
-                    <a ng-href="https://www.underarmour.com" ><img  data-ng-src="static/img/under_armour.png" class="circular-icon" title="Under Armour" style="height: 60px; width: 60px;"/></a>
-                    <img  data-ng-src="static/img/nike.png" class="circular-icon icon-disabled" title="Nike" style="height: 60px; width: 60px;"/>
-                    <img  data-ng-src="static/img/suunto.png" class="circular-icon icon-disabled" title="Suunto" style="height: 60px; width: 60px;"/>
-                    <img  data-ng-src="static/img/strava.png" class="circular-icon icon-disabled" title="Strava" style="height: 60px; width: 60px;"/>
+                <a ng-href="https://my.garmin.com/mygarmin/login.htm" ><img data-ng-src="static/img/garmin.png" class="circular-icon" title="Garmin" style="height: 60px; width: 60px;"/></a>
+                <a ng-href="https://www.polar.com" ><img  data-ng-src="static/img/polar.png" class="circular-icon" title="Polar" style="height: 60px; width: 60px;"/></a>
+                <a ng-href="https://www.underarmour.com" ><img  data-ng-src="static/img/under_armour.png" class="circular-icon" title="Under Armour" style="height: 60px; width: 60px;"/></a>
+                <img  data-ng-src="static/img/nike.png" class="circular-icon icon-disabled" title="Nike" style="height: 60px; width: 60px;"/>
+                <img  data-ng-src="static/img/suunto.png" class="circular-icon icon-disabled" title="Suunto" style="height: 60px; width: 60px;"/>
+                <img  data-ng-src="static/img/strava.png" class="circular-icon icon-disabled" title="Strava" style="height: 60px; width: 60px;"/>
 
-                </div>
-      
+            </div>
+
             <section layout="row" layout-sm="column" layout-wrap>
                 <md-button ng-click="submitUser()" ng-disabled="myFormUser.$invalid" class="md-raised md-primary">Guardar</md-button>
             </section>
 
         </form>
 
-   
-
-</md-content>
-<div class="ontop" >
-    <img data-ng-src="{{dataImage}}"  data-err-src="static/img/profile-default.png" style="height: 250px; width: 200px;"/>
+    </md-content>
 </div>
-

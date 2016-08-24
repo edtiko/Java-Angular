@@ -686,7 +686,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
 
         $scope.setVisibleField = function (value, tableName, columnName) {
-            if (value.target.checked == true) {
+            if (value === true) {
                 $scope.visibleFields.push({tableName: tableName, columnName: columnName, userId: $scope.user.userId});
             } else {
                 $scope.deleteFieldInArray({tableName: tableName, columnName: columnName, userId: $scope.user.userId}, $scope.visibleFields);
