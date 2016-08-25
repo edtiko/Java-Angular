@@ -32,7 +32,7 @@ trainingApp.controller('SurveyController', ['$scope', 'surveyService', '$window'
         $scope.setValue = function ($index) {
             var response = $scope.survey[$index].questionnaireResponseList[0];
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if (response != null && response.response !== 'undefined' || response.questionOptionId !== "") {
+            if (response != null && response.response !== 'undefined' && response.questionOptionId !== "") {
                 response.userId = $scope.user.userId; 
                 response.questionnaireQuestionId = $scope.survey[$index].questionnaireQuestionId;
                 response.reponseTypeId = 1;

@@ -17,19 +17,20 @@
                                 <div ng-switch-when="text">
                                     <md-input-container class="md-block" >
 
-                                        <input type="text"  ng-required="question.questionId.questionType=='M'" name="{{question.questionId.name}}" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
+                                        <input type="text" aria-label="Texto" ng-required="question.questionId.questionType=='M'"  ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
                                     </md-input-container>
                                 </div>
                                 <div ng-switch-when="number">
                                     <md-input-container class="md-block" >
 
-                                        <input type="number" string-to-number ng-required="question.questionId.questionType=='M'" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)" class="form-control input-sm" >
+                                        <input type="number" aria-label="Numero" string-to-number ng-required="question.questionId.questionType=='M'" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
                                     </md-input-container>
                                 </div>
                                 <div ng-switch-when="select" >
                                     <md-input-container class="md-block" >
                                         <md-select ng-required="question.questionId.questionType=='M'"  
                                                    ng-change="setValue($index)" 
+                                                   aria-label="Select"
                                                    ng-model="survey[$index].questionnaireResponseList[0].questionOptionId">
                                             
                                             <md-option ng-repeat="q in question.questionId.questionOptionList" value="{{q.questionOptionId}}" >
@@ -40,11 +41,8 @@
                                 </div>
                                 <div ng-switch-when="checkbox">
                                     <div ng-repeat="questionOption in question.questionId.questionOptionList">
-
-
-                                        <md-checkbox ng-model="survey[$parentIndex].questionnaireResponseList[$index].checked" 
+                                        <md-checkbox 
                                                      ng-checked="getResponse($parent.$index, questionOption.questionOptionId)"
-                                                     ng-value="{{questionOption.questionOptionId}}"
                                                      ng-click="setResponse($parent.$index, $index, questionOption.questionOptionId)">
                                             {{questionOption.name}}
                                         </md-checkbox>
@@ -56,7 +54,7 @@
                                         <md-radio-button ng-repeat="questionOption in question.questionId.questionOptionList"
                                                          ng-required="question.questionId.questionType=='M'"
                                                          ng-click="setValue($parent.$index)"
-                                                         ng-value="{{questionOption.questionOptionId}}"
+                                                         ng-value="questionOption.questionOptionId"
                                                          aria-label="{{questionOption.name}}">{{questionOption.name}}</md-radio-button>
                                     </md-radio-group>
                                 </div>

@@ -623,7 +623,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         
         $scope.getModelsPotentiometer = function (sportEquipmentId) {
-            if (sportEquipmentId === -2) { //another potentiometer
+            if (sportEquipmentId == -2) { //another potentiometer
                 $scope.showAnotherPotentiometer = true;
                 $scope.showModelPotentiometer = false;
             } else {
@@ -791,7 +791,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.setValue = function ($index) {
             var response = $scope.survey[$index].questionnaireResponseList[0];
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if (response != null && response.response !== 'undefined' || response.questionOptionId !== "") {
+            if (response != null && response.response !== 'undefined' && response.questionOptionId !== "") {
                 response.userId = $scope.user.userId;
                 response.questionnaireQuestionId = $scope.survey[$index].questionnaireQuestionId;
                 response.reponseTypeId = 1;
@@ -811,6 +811,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             if (idx !== "" && response[idx].checked) {
                 response[idx].checked = false;
                 response.splice(idx, 1);
+                $scope.survey[$parentIndex].userId = $scope.user.userId;
             } else if (idx !== "" && !response[idx].checked) {
                 response[idx].checked = true;
             } else if (idx !== "") {

@@ -55,6 +55,7 @@ public class QuestionnaireQuestionServiceImpl implements QuestionnaireQuestionSe
         questionnaireQuestion.stream().forEach((objDto) -> {
              
             try {
+                questionnaireResponseDao.deleteQuestionnaireResponse(objDto.getQuestionnaireQuestionId().toString(), objDto.getUserId());
                 questionResponseService.create(objDto.getQuestionnaireResponseList());
             } catch (Exception ex) {
                 Logger.getLogger(QuestionnaireQuestionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

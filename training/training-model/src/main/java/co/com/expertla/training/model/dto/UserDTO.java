@@ -2,16 +2,21 @@ package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 
 /**
  *
  * @author Edwin G
  */
 public class UserDTO {
+    private static final Logger LOGGER = Logger.getLogger(UserDTO.class);
 
     private Integer userId;
 
@@ -261,6 +266,18 @@ public class UserDTO {
 
     public byte[] getProfilePhoto() {
         return profilePhoto;
+    }
+
+    public String getProfilePhotoBase64() {
+        String base64Encoded = "";
+        try {
+            byte[] encodeBase64 = Base64.encodeBase64(this.profilePhoto);
+            base64Encoded = new String(encodeBase64, "UTF-8");
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+            return null;
+        }
+        return "data:image/png;base64,"+base64Encoded;
     }
 
     public void setProfilePhoto(byte[] profilePhoto) {
