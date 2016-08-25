@@ -41,13 +41,17 @@
             <div flex layout="column">
                 <fieldset>
             <form ng-submit="addMessage()" name="messageForm">
+                 <section layout="row" layout-sm="column" layout-wrap>
+                     <div flex="90">
                    <md-input-container class="md-block" >
                 <input type="text" placeholder="Escriba aqu&iacute;..." ng-model="planMessage.message" />
                    </md-input-container>
-                 <section layout="row" layout-sm="column" layout-wrap>
+                     </div>
+                     <div >
                     <!--<span class="count" ng-bind="max - planMessage.message.length" ng-class="{danger: planMessage.message.length > max}">140</span>
                     <button ng-disabled="planMessage.message.length > max || planMessage.message.length === 0">Enviar</button>-->
                      <md-button class="md-raised md-primary">Enviar</md-button>
+                     </div>
                  </section>
             </form>
                 </fieldset>
@@ -58,7 +62,7 @@
                 <md-card-content layout="row" layout-align="center" style="height: 500px;">
                     <div layout="column">
                         <img data-ng-src="{{dataImage}}" class="md-card-image" data-err-src="static/img/profile-default.png" style="height: 200px; width: 200px;"/> 
-                     <span class="md-headline">{{userChat}}</span>
+                     <label >{{userChat}}</label>
                     </div>
                 </md-card-content>
                 
