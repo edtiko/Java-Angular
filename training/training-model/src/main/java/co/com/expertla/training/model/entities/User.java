@@ -58,6 +58,10 @@ public class User implements Serializable {
     @Lob
     @Column(name = "profile_photo")
     private byte[] profilePhoto;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startUserId")
+    private Collection<StartTeam> startTeamCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coachUserId")
+    private Collection<StartTeam> startTeamCollection1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -163,6 +167,14 @@ public class User implements Serializable {
         this.postalCode = postalCode;
         this.creationDate = creationDate;
 
+    }
+
+    public Country getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Country countryId) {
+        this.countryId = countryId;
     }
 
     public Integer getUserId() {
@@ -406,14 +418,6 @@ public class User implements Serializable {
         this.userCollection = userCollection;
     }
 
-    public User getStarId() {
-        return starId;
-    }
-
-    public void setStarId(User starId) {
-        this.starId = starId;
-    }
-
     public Country getCountryId() {
         return countryId;
     }
@@ -445,6 +449,23 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.User[ userId=" + userId + " ]";
+    }
+
+
+    public Collection<StartTeam> getStartTeamCollection() {
+        return startTeamCollection;
+    }
+
+    public void setStartTeamCollection(Collection<StartTeam> startTeamCollection) {
+        this.startTeamCollection = startTeamCollection;
+    }
+
+    public Collection<StartTeam> getStartTeamCollection1() {
+        return startTeamCollection1;
+    }
+
+    public void setStartTeamCollection1(Collection<StartTeam> startTeamCollection1) {
+        this.startTeamCollection1 = startTeamCollection1;
     }
 
 }

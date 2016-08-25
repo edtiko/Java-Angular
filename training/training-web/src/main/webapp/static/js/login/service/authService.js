@@ -26,6 +26,7 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
 
                 return deferred.promise;
             },
+            
             getSessionOpenTok: function ($scope) {
                 var deferred = $q.defer();
                 $http.get($contextPath + '/session/opentok')

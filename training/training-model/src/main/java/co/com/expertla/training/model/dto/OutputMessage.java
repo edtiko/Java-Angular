@@ -11,12 +11,12 @@ import java.util.Date;
  *
  * @author Edwin G
  */
-public class OutputMessage extends Message {
+public class OutputMessage extends PlanMessageDTO {
 
     private Date time;
     
-    public OutputMessage(Message original, Date time) {
-        super(original.getId(), original.getMessage());
+    public OutputMessage(PlanMessageDTO original, Date time) {
+        //super(original.getId(), original.getMessage(), original.getMessageUserId());
         this.time = time;
     }
     

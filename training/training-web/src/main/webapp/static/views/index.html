@@ -5,21 +5,14 @@
  
     <head>
         <!-- SCROLLS -->
-        <link rel="stylesheet" href="static/css/grids-responsive.css">
-        <link rel="stylesheet" href="static/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="static/css/angular-material.min.css" />
         <link rel="stylesheet" href="static/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="static/css/pure.css">
         <link rel="stylesheet" href="static/css/app.css" >
-        <link rel="stylesheet" href="static/css/flaticon.css">
-        <link rel="stylesheet" href="static/css/calendar.css">
-        <link rel="stylesheet" href="static/css/ngDialog.min.css">
-        <link rel="stylesheet" href="static/css/ngDialog-theme-default.min.css">
-        <link rel="stylesheet" href="static/css/ngDialog-theme-plain.min.css">
     </head>
  
     <!-- define angular controller -->
-    <body class="pure-skin-theme" ng-controller="mainController" id="trainingApp">
- 
+    <body  ng-controller="mainController" id="trainingApp">
+ <!--
         <nav class="navbar navbar-default">
             <div class="container">
                 <div class="navbar-header">
@@ -32,6 +25,7 @@
                     <li><a href="#dashboard">Bienvenido {{userLogin}} |</a></li>
                     <li><a href="#dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
                     <li><a href="#calendar"><i class="fa fa-calendar"></i> Calendario</a></li>
+                    <li><a href="#message"><i class="fa fa-comments"></i> Mensajes</a></li>
                     <li role="presentation" class="dropdown" uib-dropdown>
                         <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">
                             <!--<i class="fa fa-user"></i>--> 
@@ -59,13 +53,75 @@
                 </ul>
             </div>
         </nav>
+ -->
  
-        <div id="main" >
+             <md-toolbar class="md-menu-toolbar">
+                 <h2 class="md-toolbar-tools">Custom Pro Training</h2>
+            <md-menu-bar>
+                 <md-menu>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-home"></i> Bienvenido {{userLogin}}</button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#dashboard"> Abrir Dashboard</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                 <md-menu>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-home"></i>
+                         Dashboard
+                     </button>
+                     <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#dashboard"> Abrir Dashboard</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                 <md-menu>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-calendar"></i> Calendario</button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#calendar"> Abrir Calendario</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu>
+                    <button ng-click="$mdOpenMenu()">
+                        <i class="fa fa-user"></i> Cuenta
+                    </button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button href="#data-person"> Configuración de Perfil</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button href="#conf-account">Configuración de Cuenta</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                 <md-menu>
+                     <button class="logout" ng-click="$mdOpenMenu()"><i class="fa fa-sign-out"></i> Cerrar Sesión</button>
+                      <md-menu-content>
+                        <md-menu-item>
+                            <md-button href="#" ng-click="logout()"> Cerrar Sesión</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-menu-bar>
+             </md-toolbar>
+      <!-- these require actual routing with ui-router or ng-route, so they won't work in the demo
+      <md-nav-item md-nav-sref="app.page4" name="page4">Page Four</md-nav-item>
+      <md-nav-item md-nav-href="#page5" name="page5">Page Five</md-nav-item>
+      -->
+
+         <div ng-view ng-show="appReady" ></div> 
+
             <!-- angular templating -->
             <!-- this is where content will be injected -->
 
-            <div ng-view ng-show="appReady"></div>
-        </div>
+            
+        
+
+ 
+       
  
 <!--        <footer class="text-center">
             <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
@@ -73,8 +129,6 @@
         <!-- SPELLS -->
         <script type="text/javascript" data-main="static/js/run-custom-training"
         src="static/js/lib/require.js"></script>
-        <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
-        <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
     </body>
  
 </html>

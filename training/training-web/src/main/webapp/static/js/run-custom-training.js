@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://localhost:8080/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
     waitSeconds: 200,
@@ -14,10 +14,14 @@ require.config({
         angularRoute: 'lib/angular-route.min',
         angularAnimate: 'lib/angular-animate.min',
         angularTouch: 'lib/angular-touch.min',
-        angularBoostrap: 'lib/ui-bootstrap-tpls.min',
+        angularAria: 'lib/angular-aria.min',
+        angularMaterial: 'lib/angular-material',
+        //angularBoostrap: 'lib/ui-bootstrap-tpls.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
+        angularAria: "lib/angular-aria.min",
+        angularMaterial: "lib/angular-material.min",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
         disciplineService: "configuration/service/disciplineService",
@@ -38,7 +42,7 @@ require.config({
         recorder: "lib/vaRecorder/recorder",
         whammy: "lib/vaRecorder/whammy",
         viRecorder: "lib/vaRecorder/VIRecorder",
-        chatService: "chat/service/chatService",
+        messageService: "message/service/messageService",
         videoService: "video/service/videoService",
         videochatService: "videochat/service/videochatService",
         opentok: "lib/opentok.min",
@@ -65,6 +69,18 @@ require.config({
             exports: 'angularTouch',
             deps: ['angular']
         },
+        angularMessages: {
+            exports: 'ngMessages',
+            deps: ['angular']
+        },
+        angularAria: {
+            exports: 'ngAria',
+            deps: ['angular']
+        },
+        angularMaterial: {
+            exports: 'ngMaterial',
+            deps: ['angular']
+        },
         ngDialog:{
           exports: 'ngDialog',
           deps: ['angular']
@@ -73,10 +89,10 @@ require.config({
             exports: 'ngCamRecorder',
             deps: ['angular']
         },
-        angularBoostrap: {
+        /*angularBoostrap: {
             exports: 'angularBoostrap',
             deps: ['angular']
-        },
+        },*/
         opentokAngular: {
             exports: 'opentok',
             deps: ['angular']
@@ -84,10 +100,7 @@ require.config({
         csrfInterceptor: {
             deps: ['angular']
         },
-        angularMessages: {
-            exports: 'ngMessages',
-            deps: ['angular']
-        },
+       
         userService: {
             deps: ['angular', 'trainingApp']
         },
@@ -125,17 +138,17 @@ require.config({
             deps: ['angular','trainingApp']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute',
-                'angularBoostrap', 'angularAnimate', 'ngDialog'
-//                'sockjs', 
-//                'stompWebsocket','ngCamRecorder','recorder',
-//                'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
+                'sockjs', 'stompWebsocket'
+//                ,'ngCamRecorder','recorder',
+//                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
+
             ]
         },
         surveyService: {
             deps: ['angular', 'trainingApp']
         },
-        chatService: {
+        messageService: {
             deps: ['angular', 'trainingApp']
         },
         videoService: {
@@ -158,9 +171,9 @@ require.config({
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService',
-                'bikeTypeService'
-//                'chatService','videoService','videochatService'
+                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService'
+//                ,'videoService','videochatService','bikeTypeService'
+
             ] }
     }
 });

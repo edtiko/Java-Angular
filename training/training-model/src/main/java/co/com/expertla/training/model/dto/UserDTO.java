@@ -68,8 +68,8 @@ public class UserDTO {
     private Integer roleId;
     private String aboutMe;
     private String urlVideo;
-
-    public UserDTO() {
+ 
+    private String fullName;    public UserDTO() {
     }
 
     public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
@@ -93,7 +93,8 @@ public class UserDTO {
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
             String sex, BigInteger weight, String phone, String cellphone, Integer cityId,
-            Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
+            Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
+            String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -125,7 +126,7 @@ public class UserDTO {
                     user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId() != null ? user.getCityId().getCityId() : null),
                     user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
-                    user.getCityId() != null ? user.getCityId().getFederalStateId().getCountryId().getCountryId() : null, user.getProfilePhoto());
+                    user.getCountryId() != null ? user.getCountryId().getCountryId() : null, user.getProfilePhoto());
         }
         return null;
     }
@@ -374,4 +375,12 @@ public class UserDTO {
         this.urlVideo = urlVideo;
     }
 
+    public String getFullName() {
+        return this.firstName+" "+this.secondName+" "+this.lastName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+
+    }
 }

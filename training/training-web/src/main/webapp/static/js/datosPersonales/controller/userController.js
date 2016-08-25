@@ -655,7 +655,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         
          $scope.getModelsPulsometer = function (sportEquipmentId) {
-             if(sportEquipmentId === -2){ //another pulsometer
+             if(sportEquipmentId == -2){ //another pulsometer
                  $scope.showAnotherPulsometer = true;
                  $scope.showModelPulsometer = false;
              }else{
@@ -704,7 +704,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
 
         $scope.setVisibleField = function (value, tableName, columnName) {
-            if (value.target.checked == true) {
+            if (value === true) {
                 $scope.visibleFields.push({tableName: tableName, columnName: columnName, userId: $scope.user.userId});
             } else {
                 $scope.deleteFieldInArray({tableName: tableName, columnName: columnName, userId: $scope.user.userId}, $scope.visibleFields);
@@ -759,23 +759,23 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         
         $scope.showTooltipEnvironment = function () {
-          $scope.showMessage("Hace enfasis a la topografia",1);  
+          return "Indique como es la topograf\u00eda del lugar en el que usted desarrollar\u00e1 las actividades deportivas";  
         };
         
         $scope.showTooltipWeather = function () {
-          $scope.showMessage("Clima",1);  
+          return "Indique cual es la condici\u00f3n atmosf\u00e9rica del lugar en el que usted desarrollar\u00e1 las actividades deportivas.";  
         };
         
         $scope.showTooltipSportAge = function () {
-          $scope.showMessage("Edad",1);  
+          return "Corresponde al tiempo (a\u00f1os) que usted ha dedicado de manera continua a la ejecuci\u00f3n de una modalidad deportiva ";  
         };
         
         $scope.showTooltipPpm = function () {
-          $scope.showMessage("Pulsaciones por Minuto",1);  
+          return "Corresponde a las pulsaciones por minuto. El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda del puls\u00f3metro guarde las pulsaciones promedio del tiempo de la prueba.";  
         };
         
         $scope.showTooltipPower = function () {
-          $scope.showMessage("Cantidad de trabajo que se lleva a cabo por unidad de tiempo",1);  
+         return "El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba.";  
         };
         
         this.getBikeTypes = function () {

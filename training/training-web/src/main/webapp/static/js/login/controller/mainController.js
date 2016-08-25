@@ -1,5 +1,6 @@
 // create the controller and inject Angular's $scope
-trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleFieldsUserService', '$window', 'ngDialog', function ($scope, AuthService, VisibleFieldsUserService, $window, ngDialog) {
+trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
+    '$window', '$mdDialog', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];
@@ -13,7 +14,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
             //$scope[value] = !$scope[value];
         };
 
-        $scope.showMessage = function (msg, type) {
+        /*$scope.showMessage = function (msg, type) {
             $scope.message = msg;
             //1 es un tooltip
             if (type == 1) {
@@ -30,7 +31,22 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                 });
             }
 
-        };
+        };*/
+          $scope.showMessage = function(msg) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    // Modal dialogs should fully cover application
+    // to prevent interaction outside of dialog
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.querySelector('#user-container')))
+        .clickOutsideToClose(true)
+        .title('Confirmacion')
+        .textContent(msg)
+        .ariaLabel('Alert Dialog Demo')
+        .ok('Aceptar')
+        //.targetEvent(ev)
+    );
+  };
 
         $scope.clear = function () {
         };
@@ -63,7 +79,22 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
             opened: false
         };
 
+        $scope.getUserSessionByResponse = function (res) {
+            if (res.data.entity.output == null) {
+                $scope.showMessage("El usuario no se encuentra logueado");
+                $scope.logout();
+                return res;
+            }
 
+            $scope.appReady = true;
+            if (res.data.entity.output.secondName == null || res.data.entity.output.secondName == 'undefined') {
+                $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.lastName;
+            } else {
+                $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
+            }
+            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+            return JSON.parse(sessionStorage.getItem("userInfo"));
+        };
 
         $scope.setUserSession = function () {
             AuthService.setUserSession($scope).then(
@@ -75,15 +106,14 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                     }
             );
         };
-        $scope.setUserSession();
 
-        this.getUserSession = function () {
-            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if (user != null) {
-                $scope.appReady = true;
-            }
-            return user;
+        $scope.getUserSession = function (fn) {
+            $http.get($contextPath + '/user/getUserSession')
+                    .then(fn, function (errResponse) {
+                        console.error('Error while getting ' + errResponse);
+                    });
         };
+        $scope.setUserSession();
 
         $scope.getVisibleFieldsUserByUser = function () {
             var user = JSON.parse(sessionStorage.getItem("userInfo"));
@@ -95,6 +125,9 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                                     for (var i = 0; i < $scope.fields.length; i++) {
                                         if (!$scope.inFieldsArray({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId}, $scope.visibleFields)) {
                                             $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});
+                                            $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = true;
+                                        }else{
+                                          $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = false;  
                                         }
                                     }
                                 },
@@ -105,7 +138,7 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
                         );
             }
         };
-        
+
         $scope.inFieldsArray = function (field, array) {
             var length = array.length;
             for (var i = 0; i < length; i++) {
@@ -114,13 +147,13 @@ trainingApp.controller('mainController', ['$scope', 'AuthService', 'VisibleField
             }
             return false;
         };
-        
+
         $scope.calculateAge = function (birthday) { // birthday is a date
-            if(birthday != null){
-            var ageDifMs = Date.now() - birthday.getTime();
-            var ageDate = new Date(ageDifMs); // miliseconds from epoch
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
-        }
+            if (birthday != null) {
+                var ageDifMs = Date.now() - birthday.getTime();
+                var ageDate = new Date(ageDifMs); // miliseconds from epoch
+                return Math.abs(ageDate.getUTCFullYear() - 1970);
+            }
         };
 
         $scope.logout = function () {

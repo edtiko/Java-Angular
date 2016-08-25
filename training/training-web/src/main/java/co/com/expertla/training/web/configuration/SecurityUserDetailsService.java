@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import co.com.expertla.training.user.service.UserService;
+import co.com.expertla.training.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,8 +40,8 @@ public class SecurityUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDTO user = usuarioService.findUserByUsername(username);
-
+        //UserDTO user = usuarioService.findUserByUsername(username);
+          UserDTO user = null;
         if (user == null) {
             String message = "Username not found" + username;
             LOGGER.info(message);
