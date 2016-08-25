@@ -1,6 +1,5 @@
 package co.com.expertla.training.service.impl.user;
 
-import co.com.expertla.training.configuration.dao.CountryDao;
 import co.com.expertla.training.dao.CityDao;
 import java.util.List;
 
@@ -29,7 +28,6 @@ import co.com.expertla.training.model.entities.RoleUser;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    //private static final AtomicLong counter = new AtomicLong();
     public static final Short STATE_ACTIVE = 1;
 
     @Autowired
@@ -40,19 +38,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private FederalStateDao federalStateDao;
-
-    @Autowired
-    private CountryDao countryDao;
+     
+     @Autowired
+     private RoleUserDao roleUserDao;
 
     @Autowired
     private DisciplineUserDao disciplineUserDao;
 
-    @Autowired
-    private RoleUserDao roleUserDao;
-
-    /* static{
-        users= populateDummyUsers();
-    }*/
     @Override
     public List<UserDTO> findAllUsers() {
         return userDao.findAllUsers().stream().map(UserDTO::mapFromUserEntity).collect(Collectors.toList());
@@ -74,8 +66,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findUserByUsername(String username) {
-        return UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
+    public UserDTO findUserByUsername(String username) throws Exception {
+        UserDTO user = UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
+        RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
+        user.setTypeUser(roleUser != null ? roleUser.getRoleId().getName():"");
+        return user;
     }
 
     @Transactional
@@ -202,9 +197,8 @@ public class UserServiceImpl implements UserService {
             disciplineUserDao.merge(discipline);
         }
 
-        List<RoleUser> list = roleUserDao.findByUserId(dto.getUserId());
-        if (list != null || !list.isEmpty()) {
-            RoleUser roleUser = list.get(0);
+       RoleUser roleUser = roleUserDao.findByUserId(dto.getUserId());
+        if (roleUser != null) {
             roleUser.setRoleId(new Role(dto.getRoleId()));
             roleUserDao.merge(roleUser);
         }

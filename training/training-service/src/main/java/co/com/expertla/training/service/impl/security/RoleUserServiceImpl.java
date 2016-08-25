@@ -57,7 +57,7 @@ public class RoleUserServiceImpl implements RoleUserService {
     }
 
     @Override
-    public List<RoleUser> findByUserId(Integer id) throws Exception {
+    public RoleUser findByUserId(Integer id) throws Exception {
         return roleUserDao.findByUserId(id);
     }
 }

@@ -17,7 +17,7 @@ public interface UserService {
 
     UserDTO findByName(String name);
 
-    UserDTO findUserByUsername(String username);
+    UserDTO findUserByUsername(String username)throws Exception;
 
     Integer saveUser(User user) throws Exception;
 

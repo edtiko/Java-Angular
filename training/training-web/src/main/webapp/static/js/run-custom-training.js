@@ -20,6 +20,8 @@ require.config({
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
+        angularAria: "lib/angular-aria.min",
+        angularMaterial: "lib/angular-material.min",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
         disciplineService: "configuration/service/disciplineService",
@@ -40,7 +42,7 @@ require.config({
         recorder: "lib/vaRecorder/recorder",
         whammy: "lib/vaRecorder/whammy",
         viRecorder: "lib/vaRecorder/VIRecorder",
-        chatService: "chat/service/chatService",
+        messageService: "message/service/messageService",
         videoService: "video/service/videoService",
         videochatService: "videochat/service/videochatService",
         opentok: "lib/opentok.min",
@@ -135,16 +137,17 @@ require.config({
             deps: ['angular','trainingApp']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial', 'ngDialog'
-//                'sockjs', 
-//                'stompWebsocket','ngCamRecorder','recorder',
-//                'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
+                'sockjs', 'stompWebsocket'
+//                ,'ngCamRecorder','recorder',
+//                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
+
             ]
         },
         surveyService: {
             deps: ['angular', 'trainingApp']
         },
-        chatService: {
+        messageService: {
             deps: ['angular', 'trainingApp']
         },
         videoService: {
@@ -164,8 +167,9 @@ require.config({
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService'
-//                'chatService','videoService','videochatService'
+                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService'
+//                ,'videoService','videochatService'
+
             ] }
     }
 });

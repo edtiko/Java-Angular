@@ -15,7 +15,6 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.entities.Dcf;
-import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
@@ -389,7 +388,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         TrainingPlanUser planUser = new TrainingPlanUser();
         planUser.setTrainingPlanId(trainingPlan);
         planUser.setUserId(userProfile.getUserId());
-        planUser.setStateId(new State(StateEnum.ACTIVE.getId()));
+        planUser.setStateId(StateEnum.ACTIVE.getId());
 
         TrainingPlanWorkout workout = new TrainingPlanWorkout();
         int pivotDay;
@@ -478,7 +477,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         TrainingPlanUser planUser = new TrainingPlanUser();
         planUser.setTrainingPlanId(trainingPlan);
         planUser.setUserId(new User(userProfile.getUserId().getUserId()));
-        planUser.setStateId(new State(StateEnum.ACTIVE.getId()));
+        planUser.setStateId(StateEnum.ACTIVE.getId());
 
         TrainingPlanWorkout workout = new TrainingPlanWorkout();
         int pivotDay;

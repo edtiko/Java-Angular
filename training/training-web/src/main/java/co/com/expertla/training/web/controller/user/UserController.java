@@ -4,16 +4,13 @@ import co.com.expertla.training.configuration.service.CountryService;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
-import co.com.expertla.training.model.dto.Message;
 import co.com.expertla.training.model.dto.OpenTokDTO;
-import co.com.expertla.training.model.dto.OutputMessage;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.Country;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.Role;
 import co.com.expertla.training.model.entities.RoleUser;
-import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
@@ -42,8 +39,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -208,7 +203,7 @@ public class UserController {
             
 
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
-            trainingPlanUser.setStateId(new State(StateEnum.ACTIVE.getId()));
+            trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
             trainingPlanUser.setUserId(user);
             trainingPlanUser.setTrainingPlanId(new TrainingPlan(1));//Plan basico por defecto
             trainingPlanUserService.create(trainingPlanUser);

@@ -92,7 +92,7 @@ public interface RoleUserService {
      * @return
      * @throws Exception 
      */
-    public List<RoleUser> findByUserId(Integer id) throws Exception; 
+    public RoleUser findByUserId(Integer id) throws Exception; 
 
     
 }

@@ -57,15 +57,16 @@ public class RoleUserDaoImpl extends BaseDAOImpl<RoleUser> implements RoleUserDa
     }
     
     @Override
-    public List<RoleUser> findByUserId(Integer id) throws Exception {
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT r ");
-        sql.append("FROM RoleUser r ");
-        sql.append("WHERE r.userId.userId = :id ");
-        Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("id", id);
+    public RoleUser findByUserId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from RoleUser a ");
+        builder.append("WHERE a.userId.userId = :userId ");
+        Query query = getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", userId);
+
         List<RoleUser> list = query.getResultList();
-        return list;
+
+        return (list == null || list.isEmpty()) ? null : list.get(0);
     }
 
 }

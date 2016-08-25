@@ -3,7 +3,7 @@
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
-var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute','ngMessages','ngMaterial' , 'ngDialog'])
+var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute','ngMessages','ngMaterial'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide) {
 
             var route = routeResolverProvider.route;
@@ -27,12 +27,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
             
                     .when('/register-user', route.resolve('registerUser', 'security/'))
- 
-                    // route for the about page
-                    .when('/about', {
-                        templateUrl: 'static/views/about.html',
-                        controller: 'aboutController'
-                    })
+                    
+                    .when('/message', route.resolve('message', 'message/'))
 
                     .when('/calendar', route.resolve('calendar', 'calendar/'))
 
