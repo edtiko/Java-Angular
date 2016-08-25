@@ -121,10 +121,12 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     public List<UserDTO> findAllUsersWithDiscipline() throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.UserDTO(u.userId, u.login, u.name, u.secondName, u.lastName, ");
-        sql.append("u.email,u.sex,u.phone,du.discipline.disciplineId,u.stateId, r.roleId.roleId )");
+        sql.append("u.email,u.sex,u.phone,du.discipline.disciplineId,u.stateId, r.roleId.roleId, u.countryId.countryId, u.profilePhoto, ");
+        sql.append(" (SELECT v.url FROM VideoUser v WHERE v.userId.userId = u.userId), (SELECT p.aboutMe FROM UserProfile p WHERE p.userId.userId =u.userId)  )");
         sql.append("FROM User u, DisciplineUser du, RoleUser r ");
         sql.append("WHERE u.userId = du.userId.userId "); 
         sql.append("AND u.userId = r.userId.userId ");
+        sql.append("ORDER BY u.name ASC ");
         Query query = getEntityManager().createQuery(sql.toString());
         List<UserDTO> list = query.getResultList();
         return list;

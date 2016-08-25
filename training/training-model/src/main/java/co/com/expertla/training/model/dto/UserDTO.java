@@ -66,12 +66,14 @@ public class UserDTO {
     
     private String typeUser;
     private Integer roleId;
+    private String aboutMe;
+    private String urlVideo;
 
     public UserDTO() {
     }
 
     public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
-            String phone, Integer disciplineId, Short stateId, Integer roleId) {
+            String phone, Integer disciplineId, Short stateId, Integer roleId, Integer countryId, byte[] profilePhoto, String urlVideo, String aboutMe) {
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -83,6 +85,10 @@ public class UserDTO {
         this.disciplineId = disciplineId;
         this.stateId = stateId;
         this.roleId = roleId;
+        this.countryId = countryId;
+        this.profilePhoto = profilePhoto;
+        this.urlVideo = urlVideo;
+        this.aboutMe = aboutMe;
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
@@ -350,6 +356,22 @@ public class UserDTO {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
+    }
+
+    public String getAboutMe() {
+        return aboutMe;
+    }
+
+    public void setAboutMe(String aboutMe) {
+        this.aboutMe = aboutMe;
+    }
+
+    public String getUrlVideo() {
+        return urlVideo;
+    }
+
+    public void setUrlVideo(String urlVideo) {
+        this.urlVideo = urlVideo;
     }
 
 }

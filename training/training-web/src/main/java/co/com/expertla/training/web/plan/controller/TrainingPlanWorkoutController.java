@@ -1,6 +1,3 @@
-/**
- * 
- */
 package co.com.expertla.training.web.plan.controller;
 
 import co.com.expertla.base.util.MessageUtil;
@@ -105,7 +102,7 @@ public class TrainingPlanWorkoutController {
             startCal.add(Calendar.DAY_OF_MONTH, 29);
             Date endDate = startCal.getTime();
             trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
-            responseService.setOutput("Plan de entrenamiento generado satisfactoriamente.");
+            responseService.setOutput("Plan de Entrenamiento generado satisfactoriamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }   catch (Exception e) {

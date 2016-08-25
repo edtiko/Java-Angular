@@ -78,6 +78,18 @@ trainingApp.factory('SportEquipmentService', ['$http', '$q', function($http, $q)
                                         return $q.reject(errResponse);
                                     }
                             );
+            },
+            getBikesByBikeTypeId: function(bikeTypeId){
+                    return $http.get($contextPath+'sportEquipment/get/bikes/by/bikeTypeId/'+bikeTypeId)
+                            .then(
+                                    function(response){
+                                        return response.data.entity;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while getting bike models');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
             }
         };
  

@@ -1,4 +1,4 @@
-package co.com.expertla.training.configuration.controller;
+package co.com.expertla.training.web.configuration.controller;
 
 import co.com.expertla.training.configuration.service.ActivityService;
 import co.com.expertla.training.model.entities.Activity;

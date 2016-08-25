@@ -13,6 +13,7 @@ import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import co.com.expertla.training.model.dto.UserAvailabilityDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
+import co.com.expertla.training.model.entities.BikeType;
 import co.com.expertla.training.model.entities.Brand;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
@@ -109,6 +110,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         if (listBikes != null && !listBikes.isEmpty()) {
             userProfile.setBikes(listBikes.get(0).getSportEquipmentId());
             userProfile.setModelBike(listBikes.get(0).getModelEquipmentId());
+            userProfile.setBikeType(listBikes.get(0).getBikeType());
         } else {
             userProfile.setBikes(-1);
         }
@@ -272,6 +274,29 @@ public class UserProfileServiceImpl implements UserProfileService {
             equipmentUser.setUserProfileId(userProfile);
             sportEquipments.add(equipmentUser);
         }
+        if (dto.getOtherBike()!= null && dto.getOtherModelBike()!= null && !"".equals(dto.getOtherBike()) && !"".equals(dto.getOtherModelBike())) {
+            SportEquipment newSportEquipment = new SportEquipment();
+            Brand newBrand = new Brand();
+            ModelEquipment newModel = new ModelEquipment();
+            EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
+            newBrand.setName(dto.getOtherBike());
+            brandDao.create(newBrand);
+            
+            newSportEquipment.setBikeTypeId(new BikeType(dto.getBikeType()));
+            newSportEquipment.setName("Other Bike");
+            newSportEquipment.setBrandId(newBrand);
+            newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.BIKES.getId()));
+            sportEquipmentDao.create(newSportEquipment);
+            
+            newModel.setName(dto.getOtherModelBike());
+            newModel.setSportEquipmentId(newSportEquipment);
+            modelEquipmentDao.create(newModel);
+            
+            equipmentUser.setModelEquipmentId(newModel);
+            equipmentUser.setSportEquipmentId(newSportEquipment);
+            equipmentUser.setUserProfileId(userProfile);
+            sportEquipments.add(equipmentUser);        
+        }
         
         userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
         UserAvailability availability = new UserAvailability();
@@ -415,6 +440,35 @@ public class UserProfileServiceImpl implements UserProfileService {
             equipmentUser.setUserProfileId(userProfile);
             if (potentiometer != null && potentiometer.getEquipmentUserProfileId() != null) {
                 equipmentUser.setEquipmentUserProfileId(potentiometer.getEquipmentUserProfileId());
+                equipmentUserProfileDao.merge(equipmentUser);
+            } else {
+                equipmentUserProfileDao.create(equipmentUser);
+            }
+        }
+        //Other Bike
+        if (dto.getOtherBike()!= null && dto.getOtherModelBike()!= null && !"".equals(dto.getOtherBike()) && !"".equals(dto.getOtherModelBike())) {
+            SportEquipment newSportEquipment = new SportEquipment();
+            Brand newBrand = new Brand();
+            ModelEquipment newModel = new ModelEquipment();
+            EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
+            newBrand.setName(dto.getOtherBike());
+            brandDao.create(newBrand);
+
+            newSportEquipment.setBikeTypeId(new BikeType(dto.getBikeType()));
+            newSportEquipment.setName("Other Bike");
+            newSportEquipment.setBrandId(newBrand);
+            newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.BIKES.getId()));
+            sportEquipmentDao.create(newSportEquipment);
+
+            newModel.setName(dto.getOtherModelBike());
+            newModel.setSportEquipmentId(newSportEquipment);
+            modelEquipmentDao.create(newModel);
+
+            equipmentUser.setModelEquipmentId(newModel);
+            equipmentUser.setSportEquipmentId(newSportEquipment);
+            equipmentUser.setUserProfileId(userProfile);
+            if (bike != null && bike.getEquipmentUserProfileId() != null) {
+                equipmentUser.setEquipmentUserProfileId(bike.getEquipmentUserProfileId());
                 equipmentUserProfileDao.merge(equipmentUser);
             } else {
                 equipmentUserProfileDao.create(equipmentUser);

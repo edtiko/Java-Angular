@@ -117,7 +117,7 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 return $http.post($contextPath + 'user/create/internal/', user)
                         .then(
                                 function (response) {
-                                    return response.data.entity.output;
+                                    return response.data.entity;
                                 },
                                 function (errResponse) {
                                     console.error('Error while creating internal user');
@@ -129,7 +129,7 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 return $http.post($contextPath + 'user/merge/internal/', user)
                         .then(
                                 function (response) {
-                                    return response.data.entity.output;
+                                    return response.data.entity;
                                 },
                                 function (errResponse) {
                                     console.error('Error while merging internal user');

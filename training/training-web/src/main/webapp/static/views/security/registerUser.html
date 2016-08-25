@@ -3,7 +3,10 @@
     <div class="panel-body">
         <div class="container-fluid">
             <form  name="formUser" class="form-horizontal" novalidate>
-
+                <input type="hidden" ng-model="user.userId" />
+                <div>
+                    <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;left: 75%;position: absolute;top: 50px;">
+                </div>
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label" for="userName">Nombre de Usuario *</label>
@@ -65,7 +68,7 @@
                     <div class="form-group col-md-12">
                         <label class="col-md-2 control-label">Disciplina Deportiva *</label>
                         <div class=" col-md-6">
-                            <select class="form-control" style=" display: inline" ng-model="user.discipline" id="discipline" name="discipline" required
+                            <select class="form-control" style=" display: inline" ng-model="user.disciplineId" id="discipline" name="discipline" required
                                     ng-options="disc.disciplineId as disc.name for disc in disciplines">
                             </select>
                             <div class="has-error" ng-messages="formUser.discipline.$error">
@@ -91,6 +94,10 @@
                         <label class="col-md-2 control-label" for="phone">Tel&eacute;fono fijo</label>
                         <div class="col-md-6">
                             <input type="text" ng-model="user.phone" id="phone" class="form-control input-sm" placeholder="Ingrese su Tel&eacute;fono"/>
+                        
+                        <div class="has-error" ng-messages="formUser.country.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -99,7 +106,7 @@
                         <label class="col-md-2 control-label" for="country">Pa&iacute;s *</label>
                         <div class="col-md-6">
                             <select ng-init="" placeholder="Ingrese su País" id="country" ng-model="user.countryId" name="country" required
-                                    ng-options="country.countryId as country.name for country in countries" ng-change="getStatesByCountry(user.countryId)" class="form-control">                 
+                                    ng-options="country.countryId as country.name for country in countries" class="form-control">                 
                             </select>
                             <div class="has-error" ng-messages="formUser.country.$error">
                                 <div ng-message="required">Este es un campo requerido</div>
@@ -120,7 +127,50 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="picture">Foto de Perfil *</label>
+                        <div class="col-md-6">
+                            <p class="input-group">
+                                <input type="file" accept="image/*" file-model="myFile" ng-model="user.profilePhoto" id="picture" name="picture" class="form-control input-sm" placeholder="Seleccione una foto"/>
+<!--                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default btn-sm" ng-click="uploadFile(myFile)"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</button>
+                                </span>-->
+                            </p>
+<!--                            <div class="has-error" ng-messages="formUser.picture.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
 
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="aboutMe">Descripci&oacute;n *</label>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="user.aboutMe" id="aboutMe" name="aboutMe" class="form-control input-sm" placeholder="Ingrese la descripci&oacute;n del usuario" required/>
+
+                            <div class="has-error" ng-messages="formUser.aboutMe.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-md-2 control-label" for="aboutMe">Url Video Presentaci&oacute;n *</label>
+                        <div class="col-md-6">
+                            <input type="text" ng-model="user.urlVideo" id="urlVideo" name="urlVideo" class="form-control input-sm" placeholder="Ingrese la url del video" required/>
+
+                            <div class="has-error" ng-messages="formUser.urlVideo.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group col-md-12">
                     <div class="form-actions">
                         <input type="submit" ng-click="submitUser()"  class="btn btn-primary btn-sm" value="Guardar" ng-disabled="formUser.$invalid">
@@ -155,8 +205,8 @@
                     <td><span>{{u.email}}</span></td>
                     <td>
                         <button type="button" ng-click="editUser(u.userId)" class="btn btn-success custom-width">Editar</button>  
-                        <button ng-show="u.stateId == 1" type="button" ng-click="inactivate(u.userId)" class="btn btn-danger custom-width">Inactivar</button>
-                        <button ng-show="u.stateId == 0" type="button" ng-click="inactivate(u.userId)" class="btn btn-success custom-width">Activar</button>
+                        <button ng-show="u.stateId == 1" type="button" ng-click="inactivateUser(u.userId)" class="btn btn-danger custom-width">Inactivar</button>
+                        <button ng-show="u.stateId == 0" type="button" ng-click="activateUser(u.userId)" class="btn btn-success custom-width">Activar</button>
                         <!--<button type="button" ng-click="remove(u.user_id)" class="btn btn-danger custom-width">Eliminar</button>-->
                     </td>
                 </tr>

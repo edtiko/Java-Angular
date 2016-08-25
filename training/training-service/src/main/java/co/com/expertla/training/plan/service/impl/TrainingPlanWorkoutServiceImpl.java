@@ -461,7 +461,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         //End date
         Calendar endCal = Calendar.getInstance();
         endCal.setTime(endDate);
-        String[] parts = pattern.split("-");
+        String[] parts = pattern.trim().split("-");
         int length = parts.length;
         String code = "";
 
@@ -626,6 +626,60 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
         }
         return act;
+    }
+    
+    /**
+     * Obtains the activities according to the pattern configured
+     * @param activityList
+     * @param index
+     * @param indexCount
+     * @param pattern
+     * @param userProfile
+     * @return
+     * @throws Exception 
+     */
+    private List<Activity> getActivitiesByPC(List<Activity> activityList, Integer index, Integer indexCount, String pattern,
+            UserProfile userProfile) throws Exception {
+        List<Activity> list = new ArrayList<>();
+        Activity act = new Activity();
+        String[] parts = pattern.trim().split(".");
+        int length = parts.length;
+        int z = 0;
+        String code = "";
+        boolean existActivity = false;
+        for (int i = index; i < activityList.size(); i++) {
+            indexCount++;
+            if (z == length) {
+                break;
+            } else if (z < length) {
+                code = parts[z];
+            }
+            if (activityList.get(index).getPhysiologicalCapacityId().getCode().equals(code)) {
+                act = activityList.get(index);
+                list.add(act);
+                existActivity = true;
+                break;
+            }
+            if (act.getActivityId() == null && indexCount.equals(activityList.size())) {
+                throw new Exception("No hay actividad configurada de " + code + " para el objetivo "+
+                        userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
+            } else if (act.getActivityId() == null) {
+                index = 0;
+            }
+            if (existActivity) {
+                z++;
+            }
+        }
+
+        return list;
+    }
+    
+    private TrainingPlanWorkout buildWorkout(TrainingPlanUser plan, Activity activity, Date date) {
+        TrainingPlanWorkout workout = new TrainingPlanWorkout();
+        workout.setTrainingPlanUserId(plan);
+        workout.setActivityId(activity);
+        workout.setWorkoutDate(date);
+        return workout;
     }
 
     /**
