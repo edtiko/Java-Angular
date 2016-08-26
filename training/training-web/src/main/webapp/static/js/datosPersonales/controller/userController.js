@@ -1,7 +1,8 @@
 
 trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService','VisibleFieldsUserService', function ($scope, UserService,
-            $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,VisibleFieldsUserService) {
+    'ObjectiveService', 'ModalityService', 'surveyService','VisibleFieldsUserService','BikeTypeService', function ($scope, UserService,
+            $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
+            VisibleFieldsUserService,BikeTypeService) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
@@ -122,6 +123,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                             if($scope.userProfile.bikes != "" && $scope.userProfile.bikes != null){
                                 $scope.getModelsBike($scope.userProfile.bikes);
                             }
+                            if($scope.userProfile.bikeType != "" && $scope.userProfile.bikeType != null) {
+                                $scope.getBikes($scope.userProfile.bikeType);
+                            }
                             $scope.calculateZone();
                             $scope.calculatePpm();
 
@@ -211,12 +215,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 
         $scope.submitUser = function () {
             if ($scope.user.userId === null) {
-                console.log('Saving New User', $scope.user);
                 self.createUser($scope.user);
-                $scope.user.age = $scope.calculateAge($scope.birthdateDt);
             } else {
                 self.updateUser($scope.user, $scope.user.userId);
-                console.log('User updated with id ', $scope.user.userId);
             }
         };
 
@@ -307,6 +308,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             sport: '',
             shoes: '',
             bikes: '',
+            otherBike: '',
+            otherModelBike: '',
             modelBike: '',
             potentiometer: '',
             otherPotentiometer: '',
@@ -330,7 +333,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                 {day: 'Viernes', checked: false},
                 {day: 'Sabado', checked: false},
                 {day: 'Domingo', checked: false}
-            ]
+            ],
+            bikeType: ''
         };
 
         $scope.disciplines = [];
@@ -356,6 +360,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         ];
         $scope.indBike = '';
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
+        $scope.bikeTypes = [];
 
         $scope.createOrMergeUserProfile = function (userProfile) {
              if($scope.validateAvailability()) {
@@ -422,10 +427,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.generatePlan = function (userProfile) {
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
-                        $scope.showMessage(d.data.output);
+                        if(d.data.detail == null) {
+                            $scope.showMessage(d.data.output);
+                        } else {
+                            $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
+                            console.log(d.data.detail);
+                        }
                     },
                     function (errResponse) {
-                        console.error('Error while merging the profile');
+                        console.error('Error while generating the training plan');
                         console.error(errResponse);
                     }
             );
@@ -477,11 +487,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         this.getRunningShoes();
 
-        this.getBikes = function () {
-            SportEquipmentService.getBikes().then(
+        $scope.getBikes = function (bikeTypeId) {
+            SportEquipmentService.getBikesByBikeTypeId(bikeTypeId).then(
                     function (d) {
-                        $scope.bikes = d;
-                        $scope.bikes.unshift({sportEquipmentId: '', name: 'Seleccione', brand: 'Seleccione'});
+                        if(d.detail == null) {
+                            $scope.bikes = d.output;
+                            $scope.bikes.unshift({sportEquipmentId: '', name: 'Seleccione', brand: 'Seleccione'});
+                            $scope.bikes.push({sportEquipmentId: -2, name: 'Otro', brand: 'Otro'});
+                            $scope.getModelsBike($scope.userProfile.bikes);
+                        } else {
+                            console.log("No se encontraron bicicletas de ese tipo");
+                        }
                     },
                     function (errResponse) {
                         console.error('Error while bikes');
@@ -489,7 +505,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     }
             );
         };
-        this.getBikes();
 
         this.getPulsometers = function () {
             SportEquipmentService.getPulsometers().then(
@@ -523,7 +538,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             ObjectiveService.getObjectives().then(
                     function (d) {
                         $scope.objectives = d;
-//                        $scope.objectives.unshift({objectiveId: -1, name: 'Seleccione', level: ''});
                     },
                     function (errResponse) {
                         console.error('Error while objectives');
@@ -608,8 +622,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             return res;
         };
 
-
-
         $scope.setAvailabilityResponse = function (value) {
             var response = $scope.userProfile.availability;
             var idx = $scope.getAvailabilityIdx(value);
@@ -663,6 +675,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         
          $scope.getModelsBike = function (sportEquipmentId) {
+             if(sportEquipmentId == -2){ //another pulsometer
+                 $scope.showAnotherBike = true;
+                 $scope.showModelBike = false;
+             }else{
+                  $scope.showAnotherBike = false;
+                  $scope.showModelBike = true;
                 SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
                         function (d) {
                             $scope.modelsBike = d;
@@ -673,7 +691,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                             console.error(errResponse);
                         }
                 );
-            
+            }
         };
  
         $scope.visibleField = function (tableName, columnName) {
@@ -759,6 +777,20 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.showTooltipPower = function () {
          return "El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba.";  
         };
+        
+        this.getBikeTypes = function () {
+            BikeTypeService.getBikeTypes().then(
+                    function (d) {
+                        $scope.bikeTypes = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while bike types');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        this.getBikeTypes();
+        
         // Survey Controller //
 
         $scope.survey = [];

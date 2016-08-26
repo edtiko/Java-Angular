@@ -50,7 +50,7 @@ public class EquipmentUserProfileDaoImpl extends BaseDAOImpl<EquipmentUserProfil
     public List<SportEquipmentDTO> findDTOBikesByUserId(Integer id) throws Exception {    
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.SportEquipmentDTO(eq.sportEquipmentId.sportEquipmentId, ");
-        sql.append("eq.sportEquipmentId.name, eq.sportEquipmentId.brandId.name, eq.modelEquipmentId) ");
+        sql.append("eq.sportEquipmentId.name, eq.sportEquipmentId.brandId.name, eq.modelEquipmentId, eq.sportEquipmentId.bikeTypeId.bikeTypeId) ");
         sql.append("FROM EquipmentUserProfile eq ");
         sql.append("WHERE eq.userProfileId.userId.userId =:id ");
         sql.append("AND eq.sportEquipmentId.sportEquipmentTypeId.sportEquipmentTypeId =:type ");

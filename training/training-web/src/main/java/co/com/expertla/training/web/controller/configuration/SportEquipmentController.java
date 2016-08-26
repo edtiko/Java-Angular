@@ -72,7 +72,7 @@ public class SportEquipmentController {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
-            List<SportEquipmentDTO> shoes = sportEquipmentService.findAllBikes();
+            List<SportEquipmentDTO> shoes = sportEquipmentService.findBikesByBikeTypeId(null);
             responseService.setOutput(shoes);
             return Response.status(Response.Status.OK).entity(responseService).build();
         }   catch (Exception e) {
@@ -132,6 +132,24 @@ public class SportEquipmentController {
         }   catch (Exception e) {
             Logger.getLogger(SportEquipmentController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "sportEquipment/get/bikes/by/bikeTypeId/{bikeTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getBikesByBikeTypeId(@PathVariable("bikeTypeId") Integer bikeTypeId) {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        try {
+            List<SportEquipmentDTO> bikes = sportEquipmentService.findBikesByBikeTypeId(bikeTypeId);
+            responseService.setOutput(bikes);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }   catch (Exception e) {
+            Logger.getLogger(SportEquipmentController.class.getName()).log(Priority.FATAL, null, e);
+            strResponse.append("Error interno del servidor");
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());

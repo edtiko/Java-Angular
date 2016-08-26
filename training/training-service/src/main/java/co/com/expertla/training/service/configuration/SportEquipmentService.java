@@ -62,4 +62,15 @@ public interface SportEquipmentService {
      * @return
      */
     public List<SportEquipmentDTO> findAllPotentiometers() throws Exception;
+    
+    /**
+     * Trae todos los registros de sport equipment que son tipo bicicleta por bike Type Id <br>
+     * Creation Date : <br>
+     * date 15/07/2016 <br>
+     * @author Angela Ramírez
+     * @param id
+     * @throws Exception
+     * @return
+     */
+    public List<SportEquipmentDTO> findBikesByBikeTypeId(Integer id) throws Exception;
 }

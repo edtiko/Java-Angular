@@ -439,17 +439,60 @@
                             </md-select>
                         </md-input-container>
                     </div>
-                </div>
-                <div layout="row"> 
-                    <div flex="33">
-                        <md-input-container class="md-block" >
-                            <label >Modelo</label>
-                            <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
-                                <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
-                                    {{m.name}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
+                    <div  ng-show="indBike == 1">
+                        <div layout="row"> 
+                            <div flex="33">
+                                <md-input-container class="md-block" >
+                                    <label>Tipo de Bicicleta</label>
+                                    <md-select  ng-model="userProfile.bikeType"
+                                                ng-change="getBikes(userProfile.bikeType)">
+                                        <md-option ng-repeat="p in bikeTypes" value="{{p.bikeTypeId}}" >
+                                            {{p.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div layout="row"> 
+                            <div flex="33">
+                                <md-input-container class="md-block" >
+                                    <label>&iquest;Cu&aacute;l?</label>
+                                    <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
+                                        <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
+                                            {{m.brand}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div layout="row" ng-show="showModelBike"> 
+                            <div flex="33">
+                                <md-input-container class="md-block" >
+                                    <label >Modelo</label>
+                                    <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
+                                        <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
+                                            {{m.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div ng-show="showAnotherBike">
+                            <div layout="row">
+                                <div flex="33">
+                                    <md-input-container class="md-block" >
+                                        <input type="text" name="otherBike" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherBike" class="form-control" ng-model="userProfile.otherBike">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div layout="row">
+                                <div flex="33">
+                                    <md-input-container class="md-block" >
+                                        <input  name="otherModelBike" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherBike" type="text" ng-model="userProfile.otherModelBike">
+                                    </md-input-container>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

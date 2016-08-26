@@ -16,6 +16,7 @@ public class SportEquipmentDTO implements Serializable {
     private String name;
     private String brand;
     private Integer modelEquipmentId;
+    private Integer bikeType;
 
     public SportEquipmentDTO() {
     }
@@ -33,6 +34,16 @@ public class SportEquipmentDTO implements Serializable {
         if(modelEquipmentId != null){
         this.modelEquipmentId = modelEquipmentId.getModelEquipmentId();
         }
+    }
+     
+    public SportEquipmentDTO(Integer sportEquipmentId, String name, String brand, ModelEquipment modelEquipmentId, Integer bikeType) {
+        this.sportEquipmentId = sportEquipmentId;
+        this.name = name;
+        this.brand = brand;
+        if(modelEquipmentId != null){
+        this.modelEquipmentId = modelEquipmentId.getModelEquipmentId();
+        }
+        this.bikeType = bikeType;
     }
 
     public SportEquipmentDTO(Integer sportEquipmentId) {
@@ -75,7 +86,13 @@ public class SportEquipmentDTO implements Serializable {
     public void setModelEquipmentId(Integer modelEquipmentId) {
         this.modelEquipmentId = modelEquipmentId;
     }
-    
-    
 
+    public Integer getBikeType() {
+        return bikeType;
+    }
+
+    public void setBikeType(Integer bikeType) {
+        this.bikeType = bikeType;
+    }
+    
 }

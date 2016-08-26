@@ -12,19 +12,19 @@
 
     <!-- define angular controller -->
     <body  ng-controller="mainController" id="trainingApp">
-        <!--
-               <nav class="navbar navbar-default">
-                   <div class="container">
-                       <div class="navbar-header">
-                           <a class="navbar-brand" href="http://181.143.227.220:8081/cpt">Custom Pro Training</a>
-                       </div>
-                       
-                       <div style="position:relative;top:10px;width:500px;height:30px;"></div>
-                       
-                       <ul class="nav navbar-nav navbar-right" style="position:relative;top:-25px">
-                           <li><a href="#dashboard">Bienvenido {{userLogin}} |</a></li>
-                           <li><a href="#dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
-                           <li><a href="#calendar"><i class="fa fa-calendar"></i> Calendario</a></li>
+ <!--
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="http://181.143.227.220:8081/cpt">Custom Pro Training</a>
+                </div>
+                
+                <div style="position:relative;top:10px;width:500px;height:30px;"></div>
+                
+                <ul class="nav navbar-nav navbar-right" style="position:relative;top:-25px">
+                    <li><a href="#dashboard">Bienvenido {{userLogin}} |</a></li>
+                    <li><a href="#dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
+                    <li><a href="#calendar"><i class="fa fa-calendar"></i> Calendario</a></li>
                            <li><a href="#message"><i class="fa fa-comments"></i> Mensajes</a></li>
                            <li role="presentation" class="dropdown" uib-dropdown>
                                <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">
@@ -43,6 +43,70 @@
                    </div>
                </nav>
         -->
+             <md-toolbar class="md-menu-toolbar">
+                 <h2 class="md-toolbar-tools">Custom Pro Training</h2>
+            <md-menu-bar>
+                 <md-menu>
+                     <button ng-click="$mdOpenMenu()"> Bienvenido {{userLogin}}</button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#dashboard"> Abrir Dashboard</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                 <md-menu>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-home"></i>
+                         Dashboard
+                     </button>
+                     <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#dashboard"> Abrir Dashboard</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                 <md-menu>
+                     <button ng-click="$mdOpenMenu()"><i class="fa fa-calendar"></i> Calendario</button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#calendar"> Abrir Calendario</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu>
+                     <button ng-click="$mdOpenMenu()">Configuración </button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#register-user"> Creación de Usuarios</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu>
+                    <button ng-click="$mdOpenMenu()">
+                        <i class="fa fa-user"></i> Cuenta
+                    </button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button href="#data-person"> Configuración de Perfil</md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button href="#conf-account">Configuración de Cuenta</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                 <md-menu>
+                     <button class="logout" ng-click="$mdOpenMenu()"><i class="fa fa-sign-out"></i> Cerrar Sesión</button>
+                      <md-menu-content>
+                        <md-menu-item>
+                            <md-button href="#" ng-click="logout()"> Cerrar Sesión</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-menu-bar>
+             </md-toolbar>
+      <!-- these require actual routing with ui-router or ng-route, so they won't work in the demo
+      <md-nav-item md-nav-sref="app.page4" name="page4">Page Four</md-nav-item>
+      <md-nav-item md-nav-href="#page5" name="page5">Page Five</md-nav-item>
+      -->
 
     <md-toolbar class="md-menu-toolbar">
         <h2 class="md-toolbar-tools">Custom Pro Training</h2>
@@ -114,18 +178,17 @@
     <!-- angular templating -->
     <!-- this is where content will be injected -->
 
-
-
-
-
-
-<!--
-    <footer class="text-center">
-        <div ng-include src="'static/views/footer.html'"></div>
-    </footer>-->
-    <!-- SPELLS -->
-    <script type="text/javascript" data-main="static/js/run-custom-training"
-    src="static/js/lib/require.js"></script>
-</body>
-
+ 
+       
+ 
+<!--        <footer class="text-center">
+            <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+        </footer>-->
+        <!-- SPELLS -->
+        <script type="text/javascript" data-main="static/js/run-custom-training"
+        src="static/js/lib/require.js"></script>
+        <script type="text/javascript" src="static/js/lib/jquery.min.js">        </script>
+    <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
+    </body>
+ 
 </html>

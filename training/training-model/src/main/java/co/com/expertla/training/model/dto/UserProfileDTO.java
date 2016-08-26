@@ -41,6 +41,9 @@ public class UserProfileDTO implements Serializable {
     private Integer vo2Ciclismo;
     private Integer environmentId;
     private Integer weatherId;
+    private String otherBike;
+    private String otherModelBike;
+    private Integer bikeType;
 
     public UserProfileDTO() {
     }
@@ -305,7 +308,29 @@ public class UserProfileDTO implements Serializable {
     public void setModelBike(Integer modelBike) {
         this.modelBike = modelBike;
     }
-    
-    
+
+    public String getOtherBike() {
+        return otherBike;
+    }
+
+    public void setOtherBike(String otherBike) {
+        this.otherBike = otherBike;
+    }
+
+    public String getOtherModelBike() {
+        return otherModelBike;
+    }
+
+    public void setOtherModelBike(String otherModelBike) {
+        this.otherModelBike = otherModelBike;
+    }
+
+    public Integer getBikeType() {
+        return bikeType;
+    }
+
+    public void setBikeType(Integer bikeType) {
+        this.bikeType = bikeType;
+    }
     
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
@@ -55,6 +50,9 @@ public class SportEquipment implements Serializable {
     private SportEquipmentType sportEquipmentTypeId;
     @OneToMany(mappedBy = "sportEquipmentId")
     private Collection<EquipmentUserProfile> equipmentUserProfileCollection;
+    @JoinColumn(name = "bike_type_id", referencedColumnName = "bike_type_id")
+    @ManyToOne
+    private BikeType bikeTypeId;
 
     public SportEquipment() {
     }
@@ -139,6 +137,14 @@ public class SportEquipment implements Serializable {
 
     public void setModelEquipmentCollection(Collection<ModelEquipment> modelEquipmentCollection) {
         this.modelEquipmentCollection = modelEquipmentCollection;
+    }
+
+    public BikeType getBikeTypeId() {
+        return bikeTypeId;
+    }
+
+    public void setBikeTypeId(BikeType bikeTypeId) {
+        this.bikeTypeId = bikeTypeId;
     }
     
 }

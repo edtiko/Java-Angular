@@ -48,4 +48,8 @@ public class SportEquipmentServiceImpl implements SportEquipmentService {
         return sportEquipmentDao.findAllPotentiometers();
     }
  
+    @Override
+    public List<SportEquipmentDTO> findBikesByBikeTypeId(Integer id) throws Exception {
+        return sportEquipmentDao.findBikesByBikeTypeId(id);
+    }
 }

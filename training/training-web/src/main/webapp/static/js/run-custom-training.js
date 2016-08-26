@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8080/training/";
+var $contextPath = "http://localhost:8085/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 require.config({
     waitSeconds: 200,
@@ -50,7 +50,8 @@ require.config({
         opentokLayout: "lib/opentok-layout.min",
         utilService: "lib/utilService",
         ngDialog: "lib/ngDialog.min",
-        roleService: "security/service/roleService"
+        roleService: "security/service/roleService",
+        bikeTypeService: "configuration/service/bikeTypeService"
     },
     shim: {
         angular: {
@@ -162,12 +163,15 @@ require.config({
         roleService: {
             deps: ['angular','trainingApp']
         },
+        bikeTypeService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService'
+                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService','bikeTypeService'
 //                ,'videoService','videochatService'
 
             ] }

@@ -3,7 +3,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             $window, DisciplineService,RoleService) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', phone: '', countryId: '',
-            disciplineId: '',stateId: '', roleId: ''};
+            disciplineId: '',stateId: '', roleId: '', profilePhoto: '', urlVideo:'',aboutMe:''};
         $scope.users = [];
         $scope.countries = [];
         $scope.sexOptions = [
@@ -12,6 +12,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         ];
         $scope.disciplines = [];
         $scope.roles = [];
+        $scope.profileImage = "static/img/profile-default.png";
         
         $scope.fetchAllUsers = function () {
             UserService.fetchAllUsers()
@@ -39,9 +40,15 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         self.createUser = function (user) {
             UserService.createInternalUser(user)
                     .then(
-                            function (msg) {
-                                $scope.fetchAllUsers();
-                                $scope.showMessage("Usuario registrado correctamente.");
+                            function (d) {
+                                if (d.detail == null) {
+                                    $scope.showMessage("Usuario registrado correctamente.");
+                                    $scope.resetUser();
+                                    $scope.profileImage = "static/img/profile-default.png";
+                                    $scope.fetchAllUsers();
+                                } else {
+                                    $scope.showMessage(d.detail);
+                                }
                             },
                             function (errResponse) {
                                 console.error('Error while creating User.');
@@ -52,9 +59,15 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         self.updateUser = function (user) {
             UserService.mergeInternalUser(user)
                     .then(
-                            function (msg) {
-                                $scope.fetchAllUsers();
-                                $scope.showMessage("Usuario editado correctamente.");
+                            function (d) {
+                                if (d.detail == null) {
+                                    $scope.resetUser();
+                                    $scope.showMessage("Usuario editado correctamente.");
+                                    $scope.profileImage = "static/img/profile-default.png";
+                                    $scope.fetchAllUsers();
+                                } else {
+                                    $scope.showMessage(d.detail);
+                                }
                             },
                             function (errResponse) {
                                 console.error('Error while updating User.');
@@ -84,6 +97,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             for (var i = 0; i < $scope.users.length; i++) {
                 if ($scope.users[i].userId === id) {
                     $scope.user = angular.copy($scope.users[i]);
+                    $scope.getImageProfile($scope.users[i].userId);
                     break;
                 }
             }
@@ -98,6 +112,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             }
             $scope.user.stateId = 0;
             self.updateUser($scope.user);
+            $scope.resetUser();
         };
         
         $scope.activateUser = function (id) {
@@ -112,8 +127,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         };
 
         self.remove = function (id) {
-            console.log('id to be deleted', id);
-            if ($scope.user.userId === id) {//clean form if the user to be deleted is shown there.
+            if ($scope.user.userId === id) {
                 self.resetUser();
             }
             self.deleteUser(id);
@@ -121,7 +135,8 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
 
 
         $scope.resetUser = function () {
-            $scope.user = {firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', countryId: '', profilePhoto: '', age: ''};
+            $scope.user = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', phone: '', countryId: '',
+            disciplineId: '',stateId: '', roleId: ''};
             $scope.formUser.$setPristine(); //reset Form
         };
 
@@ -147,6 +162,58 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                                 console.error('Error while fetching roles');
                             }
                     );
+        };
+        
+        $scope.uploadFile = function (file) {
+
+            //var file = $scope.myFile;
+            if(file !== undefined && $scope.isImage(file.type)){
+                $scope.showMessage("Debe seleccionar una imagen valida.", "error"); 
+                //$window.alert("Debe seleccionar una imagen valida.");
+            } else if ($scope.user.userId != "" && file != null) {
+
+                console.log('file is ');
+                console.dir(file);
+                UserService.uploadFileToUrl(file, $scope.user.userId)
+                        .then(
+                                function (msg) {
+                                    $scope.showMessage("Imagen cargada correctamente.");
+                                    $scope.getImageProfile($scope.user.userId);
+
+                                },
+                                function (errResponse) {
+                                    console.error('Error while upload image user.');
+                                }
+                        );
+            } else {
+                $scope.showMessage("Debe seleccionar una imagen.", "error");
+            }
+        };
+        
+        $scope.isImage = function (type) {
+            if (type.indexOf("image") !== -1) {
+                return false;
+            }
+            return true;
+        };
+        
+        
+        $scope.getImageProfile = function (userId) {
+            if (userId != null) {
+                UserService.getImageProfile(userId)
+                        .then(
+                                function (response) {
+                                    if (response != "") {
+                                        $scope.profileImage = "data:image/png;base64," + response;
+                                    } else {
+                                        $scope.profileImage = "static/img/profile-default.png";
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching Image Profile');
+                                }
+                        );
+            }
         };
         $scope.fetchAllRoles();
         $scope.fetchAllUsers();

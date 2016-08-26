@@ -72,4 +72,15 @@ public class SportEquipmentDaoImpl extends BaseDAOImpl<SportEquipment> implement
         query.setParameter("type", SportEquipmentTypeEnum.POTENTIOMETER.getId());
         return query.getResultList();
     }
+    
+    @Override
+    public List<SportEquipmentDTO> findBikesByBikeTypeId(Integer id) throws Exception {    
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.SportEquipmentDTO(s.sportEquipmentId, s.name, s.brandId.name) ");
+        sql.append("FROM SportEquipment s ");
+        sql.append("WHERE s.bikeTypeId.bikeTypeId = :type");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("type", id);
+        return query.getResultList();
+    }
 }

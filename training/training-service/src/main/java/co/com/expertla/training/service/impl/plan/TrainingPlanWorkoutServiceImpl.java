@@ -4,7 +4,6 @@ import co.com.expertla.training.configuration.dao.ActivityDao;
 import co.com.expertla.training.dao.plan.DcfDao;
 import co.com.expertla.training.dao.user.UserAvailabilityDao;
 import co.com.expertla.training.dao.user.UserProfileDao;
-import co.com.expertla.training.enums.StateEnum;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.entities.Dcf;
-import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.model.entities.UserAvailability;
@@ -23,6 +21,9 @@ import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.dao.plan.TrainingPlanDao;
 import co.com.expertla.training.dao.plan.TrainingPlanUserDao;
 import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
+import co.com.expertla.training.enums.StateEnum;
+import co.com.expertla.training.model.dto.DayDto;
+import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,601 +73,98 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             dcf = dcfDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), userProfile.getModalityId().getModalityId());
         }
         
-        
         if(dcf == null) {
             throw new Exception("No se puede generar plan, no existe configuración para el objetivo y la modalidad seleccionada");
         }
         
         List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(id);
         UserAvailability userAvailability = (userAvailabilityList == null || userAvailabilityList.isEmpty()) ? null : userAvailabilityList.get(0);
-        UserAvailability modifiedAvailability = new UserAvailability();
-        int daysAvailable = getAvailableDays(userAvailability, fromDate, toDate);
-        if (daysAvailable == dcf.getSessions()) {
-            exactDays(userAvailability, fromDate, toDate, userProfile, dcf);
-        } else if (daysAvailable > dcf.getSessions()) {
-            arrangeUserAvailability(userAvailability,modifiedAvailability, dcf.getSessions());
-            daysAvailable = getAvailableDays(modifiedAvailability, fromDate, toDate);
-            extraDays(modifiedAvailability, fromDate, toDate, userProfile, dcf, (dcf.getSessions() - daysAvailable));
+        fillAvailableDays(userAvailability);
+        // Determina la cantidad de dias disponibles del atleta
+        int daysAvailable = getAvailableDays();
+        // determina la cantidad de sesiones semanales
+        int weeklySession = dcf.getSessions()/4;
+        if (weeklySession>7){
+            weeklySession=7;
+        }
+        ArrayList<Date> dates = new ArrayList<>();
+        // Determina los posibles casos, sin son iguales, deja la asignacion como la definio el usuario
+        // en caso que sea diferente asigna mas disponibilidad o resta disponibilidad
+        if (daysAvailable!=weeklySession){
+            // Si la disponibilidad del atleta es menor que la necesaria, se debe incrementar la disponibilidad
+            if(daysAvailable<weeklySession){
+                // Modifica la disponibilidad del atleta hasta completar las sesiones requeridas
+                addSessions(daysAvailable, weeklySession);
+                // Se establece la bandera que fueron adicionadas sesiones para ser usada en la informacion al usuario
+                setSessionsAdded(true);
+                dates = getDatesPlan(fromDate);
+                assignActivities(fromDate, toDate, userProfile, dcf, dates);
+            }
+            else{
+                // Modifica la disponibilidad del atleta restandole de la disponibilidad que tenia
+                subsessions(daysAvailable, weeklySession);
+                dates = getDatesPlan(fromDate);
+                assignActivities(fromDate, toDate, userProfile, dcf, dates);
+            }
         } else {
-            arrangeUserAvailabilityWithMoreDays(userAvailability,modifiedAvailability, dcf.getSessions());
-            daysAvailable = getAvailableDays(modifiedAvailability, fromDate, toDate);
-            extraDays(modifiedAvailability, fromDate, toDate, userProfile, dcf, (dcf.getSessions() - daysAvailable));
+            dates = getDatesPlan(fromDate);
+            assignActivities(fromDate, toDate, userProfile, dcf, dates);
         }
 
-    }
-
-    /**
-     * Reparte la disponibilidad del usuario cuando tiene muchos días disponibles
-     * @param userAvailability
-     * @param modifiedAvailability
-     * @param sessions
-     * @return 
-     */
-    private UserAvailability arrangeUserAvailability(UserAvailability userAvailability,UserAvailability modifiedAvailability, Integer sessions) {
-        //number of days needed per week to achieve the goal
-        int daysPerWeek = Math.floorDiv(sessions, 4);
-        boolean dayBefore = false;
-        UserAvailability backupAvailability = new UserAvailability();
-        if (userAvailability.getSunday()) {
-            modifiedAvailability.setSunday(true);
-            daysPerWeek--;
-            dayBefore = true;
-        } else {
-            backupAvailability.setSunday(true);
-        }
-        if (userAvailability.getMonday() && daysPerWeek > 0) {
-            if (!dayBefore) {
-                modifiedAvailability.setMonday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setMonday(true);
-                dayBefore = false;
-            }
-        } else {
-            backupAvailability.setMonday(true);
-            dayBefore = false;  
-        }
-        
-        if (userAvailability.getTuesday() && daysPerWeek > 0) {
-            if (!dayBefore) {
-                modifiedAvailability.setTuesday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setTuesday(true);
-                dayBefore = false;
-            }
-        } else {
-            backupAvailability.setTuesday(true);
-            dayBefore = false;
-        }
-        
-        if (userAvailability.getWednesday() && daysPerWeek > 0) {
-            if (!dayBefore) {
-                modifiedAvailability.setWednesday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setWednesday(true);
-                dayBefore = false;
-            }
-        } else {
-            backupAvailability.setWednesday(true);
-            dayBefore = false;
-        }
-        
-        if (userAvailability.getThursday() && daysPerWeek > 0) {
-            if (!dayBefore) {
-                modifiedAvailability.setThursday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setThursday(true);
-                dayBefore = false;
-            }
-        } else {
-            backupAvailability.setThursday(true);
-            dayBefore = false;
-        }
-        
-        if (userAvailability.getFriday() && daysPerWeek > 0) {
-            if (dayBefore) {
-                modifiedAvailability.setFriday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setFriday(true);
-                dayBefore = false;
-            }
-        } else {
-            backupAvailability.setFriday(true);
-            dayBefore = false;
-        }
-        
-        if (userAvailability.getSaturday() && daysPerWeek > 0) {
-            if (!dayBefore) {
-                modifiedAvailability.setSaturday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setSaturday(true);
-                dayBefore = false;
-            }
-        } else {
-            backupAvailability.setSaturday(true);
-            dayBefore = false;
-        }
-        
-        return backupAvailability;
-    }
-
-    /**
-     * Reparte la disponibilidad del usuario cuando los días son muy pocos para cumplir el objetivo
-     * @param userAvailability
-     * @param modifiedAvailability
-     * @param sessions
-     * @return 
-     */
-    private UserAvailability arrangeUserAvailabilityWithMoreDays(UserAvailability userAvailability,UserAvailability modifiedAvailability, Integer sessions) {
-        //number of days needed per week to achieve the goal
-        int daysPerWeek = Math.floorDiv(sessions, 4);
-        boolean dayBefore = false;
-        UserAvailability backupAvailability = new UserAvailability();
-        List<Integer> daysArray = new ArrayList<>();
-        daysArray.add(userAvailability.getSunday() ? 1 : 0);
-        daysArray.add(userAvailability.getMonday()? 1 : 0);
-        daysArray.add(userAvailability.getTuesday()? 1 : 0);
-        daysArray.add(userAvailability.getWednesday()? 1 : 0);
-        daysArray.add(userAvailability.getThursday()? 1 : 0);
-        daysArray.add(userAvailability.getFriday()? 1 : 0);
-        daysArray.add(userAvailability.getSaturday()? 1 : 0);
-        
-        for (int i = 0; i < 7; i++) {
-            if(daysArray.get(i) == 1) {
-                switch (i) {
-                    case 0:
-                        modifiedAvailability.setSunday(true);
-                        daysPerWeek--;
-                        break;
-                    case 1:
-                        modifiedAvailability.setMonday(true);
-                        daysPerWeek--;
-                        break;
-                    case 2:
-                        modifiedAvailability.setTuesday(true);
-                        daysPerWeek--;
-                        break;
-                    case 3:
-                        modifiedAvailability.setWednesday(true);
-                        daysPerWeek--;
-                        break;
-                    case 4:
-                        modifiedAvailability.setThursday(true);
-                        daysPerWeek--;
-                        break;
-                    case 5:
-                        modifiedAvailability.setFriday(true);
-                        daysPerWeek--;
-                        break;
-                    case 6:
-                        modifiedAvailability.setSaturday(true);
-                        daysPerWeek--;
-                        break;
-                }
-            }
-        }
-        
-         //Sunday
-        if (modifiedAvailability.getSunday()) {
-            dayBefore = true;
-        } else {
-            backupAvailability.setSunday(true);
-        }
-        
-        //Monday
-        if(daysPerWeek > 0) {
-            if (modifiedAvailability.getMonday()) {
-                dayBefore = true;
-            } else if (!dayBefore) {
-                modifiedAvailability.setMonday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setMonday(true);
-                dayBefore = false;
-            }
-        }
-        
-        //Tuesday
-        if(daysPerWeek >0) {
-            if (modifiedAvailability.getTuesday()) {
-                dayBefore = true;
-            } else if (!dayBefore) {
-                modifiedAvailability.setTuesday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setTuesday(true);
-                dayBefore = false;
-            }
-        }
-        
-        //Wednesday
-        if(daysPerWeek >0) {
-            if (modifiedAvailability.getWednesday()) {
-                dayBefore = true;
-            } else if (!dayBefore) {
-                modifiedAvailability.setWednesday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setWednesday(true);
-                dayBefore = false;
-            }
-        }
-        
-        //Thursday
-        if(daysPerWeek >0) {
-            if (modifiedAvailability.getThursday()) {
-                dayBefore = true;
-            } else if (!dayBefore) {
-                modifiedAvailability.setThursday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setThursday(true);
-                dayBefore = false;
-            }
-        }
-
-        //Friday
-        if(daysPerWeek >0) {
-            if (modifiedAvailability.getFriday()) {
-                dayBefore = true;
-            } else if (!dayBefore) {
-                modifiedAvailability.setFriday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setFriday(true);
-                dayBefore = false;
-            }
-        }
-
-        //Saturday
-        if(daysPerWeek > 0) {
-            if (modifiedAvailability.getSaturday()) {
-                dayBefore = true;
-            } else if (!dayBefore) {
-                modifiedAvailability.setSaturday(true);
-                daysPerWeek--;
-                dayBefore = true;
-            } else {
-                backupAvailability.setSaturday(true);
-                dayBefore = false;
-            }
-        }
-                
-        return backupAvailability;
     }
     
     /**
-     * Asigna las actividades a los dias de la disponibilidad del usuario, cuando los dias disponibles cumplen con el numero de sesiones
-     * @param userAvailability
-     * @param startDate
-     * @param endDate
+     * Obtains the activities according to the pattern configured
+     * @param activityList
+     * @param index
+     * @param indexCount
+     * @param pattern
      * @param userProfile
-     * @param dcf
+     * @return
      * @throws Exception 
      */
-    private void exactDays(UserAvailability userAvailability, Date startDate, Date endDate, UserProfile userProfile, Dcf dcf) throws Exception {
-        List<Activity> activityList = activityDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(),
-                userProfile.getModalityId().getModalityId());
-        List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
-        String pattern = dcf.getPattern();
-        //Start date
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startDate);
-        //End date
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endDate);
-        String[] parts = pattern.split("-");
+    private List<Activity> getActivitiesByPC(List<Activity> activityList, Integer index, Integer indexCount, String pattern,
+            UserProfile userProfile) throws Exception {
+        List<Activity> list = new ArrayList<>();
+        Activity act = new Activity();
+        String[] parts = pattern.split("\\.");
         int length = parts.length;
+        int z = 0;
         String code = "";
-
-        List<Activity> list = new ArrayList<>(activityList.size());
-        for (Activity act : activityList) {
-            list.add(act);
+        for (int i = index; i < activityList.size(); i++) {
+            act = new Activity();
+            indexCount++;
+            if(z == length) {
+                break;
+            } else if (z < length) {
+                code = parts[z];
+            }
+            
+            index++;
+            if (activityList.get(index).getPhysiologicalCapacityId().getCode().equals(code)) {
+                act = activityList.get(index);
+                list.add(act);
+                z++;
+                continue;
+            } 
+            if (act.getActivityId() == null && indexCount.equals(activityList.size())) {
+                throw new Exception("No hay actividad configurada de " + code + " para el objetivo "+
+                        userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
+            } 
+            if (index.equals(activityList.size()) ) {
+                index = 0;
+            }
         }
 
-        TrainingPlan trainingPlan = new TrainingPlan();
-        trainingPlan.setName(userProfile.getObjectiveId().getName() + "-" + userProfile.getModalityId().getName() + "-" + userProfile.getUserProfileId());
-        trainingPlan.setCreationDate(startDate);
-        trainingPlan.setEndDate(endDate);
-
-        TrainingPlanUser planUser = new TrainingPlanUser();
-        planUser.setTrainingPlanId(trainingPlan);
-        planUser.setUserId(userProfile.getUserId());
-        planUser.setStateId(StateEnum.ACTIVE.getId());
-
-        TrainingPlanWorkout workout = new TrainingPlanWorkout();
-        int pivotDay;
-        Activity activity = new Activity();
-        int i = 0;
-        boolean planWorkout = false;
-        Boolean originalList = false;
-        while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
-            if (i < length) {
-                code = parts[i];
-            } else {
-                i = 0;
-                code = parts[i];
-            }
-            activity = getActivityByPC(list, activityList, code, originalList);
-            workout = new TrainingPlanWorkout();
-            workout.setTrainingPlanUserId(planUser);
-            workout.setActivityId(activity);
-            workout.setWorkoutDate(startCal.getTime());
-            pivotDay = startCal.get(Calendar.DAY_OF_WEEK);
-            if (pivotDay == Calendar.SUNDAY && userAvailability.getSunday()) {
-                workouts.add(workout);
-                planWorkout = true;
-            } else if (pivotDay == Calendar.MONDAY && userAvailability.getMonday()) {
-                workouts.add(workout);
-                planWorkout = true;
-            } else if (pivotDay == Calendar.TUESDAY && userAvailability.getTuesday()) {
-                workouts.add(workout);
-                planWorkout = true;
-            } else if (pivotDay == Calendar.WEDNESDAY && userAvailability.getWednesday()) {
-                workouts.add(workout);
-                planWorkout = true;
-            } else if (pivotDay == Calendar.THURSDAY && userAvailability.getThursday()) {
-                workouts.add(workout);
-                planWorkout = true;
-            } else if (pivotDay == Calendar.FRIDAY && userAvailability.getFriday()) {
-                workouts.add(workout);
-                planWorkout = true;
-            } else if (pivotDay == Calendar.SATURDAY && userAvailability.getSaturday()) {
-                workouts.add(workout);
-                planWorkout = true;
-            }
-            if (planWorkout) {
-                list.remove(activity);
-                planWorkout = false;
-                i++;
-            }
-            if (originalList) {
-                activityList.remove(activity);
-                originalList = false;
-            }
-            startCal.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        trainingPlanDao.create(trainingPlan);
-        trainingPlanUserDao.create(planUser);
-        trainingPlanWorkoutDao.createList(workouts);
+        return list;
     }
     
-     private void extraDays(UserAvailability userAvailability, Date startDate, Date endDate, UserProfile userProfile, Dcf dcf,
-            Integer sessionsLeft) throws Exception {
-        List<Activity> activityList = activityDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(),
-                userProfile.getModalityId().getModalityId());
-        List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
-        String pattern = dcf.getPattern();
-        int sessions = dcf.getSessions();
-        //Start date
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startDate);
-        //End date
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endDate);
-        String[] parts = pattern.split("-");
-        int length = parts.length;
-        String code = "";
-
-        List<Activity> list = new ArrayList<>(activityList.size());
-        activityList.stream().forEach((act) -> {
-            list.add(act);
-        });
-
-        TrainingPlan trainingPlan = new TrainingPlan();
-        trainingPlan.setName(userProfile.getObjectiveId().getName() + "-" + userProfile.getModalityId().getName() + "-" + userProfile.getUserProfileId());
-        trainingPlan.setCreationDate(startDate);
-        trainingPlan.setEndDate(endDate);
-
-        TrainingPlanUser planUser = new TrainingPlanUser();
-        planUser.setTrainingPlanId(trainingPlan);
-        planUser.setUserId(new User(userProfile.getUserId().getUserId()));
-        planUser.setStateId(StateEnum.ACTIVE.getId());
-
+    private TrainingPlanWorkout buildWorkout(TrainingPlanUser plan, Activity activity, Date date) {
         TrainingPlanWorkout workout = new TrainingPlanWorkout();
-        int pivotDay;
-        Activity activity = new Activity();
-        int i = 0;
-        boolean planWorkout = false;
-        boolean dayUsed = false;
-        Boolean originalList = false;
-        while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
-            if (i < length) {
-                code = parts[i];
-            } else {
-                i = 0;
-                code = parts[i];
-            }    
-            activity = getActivityByPC(list, activityList, code, originalList);
-            workout = new TrainingPlanWorkout();
-            workout.setTrainingPlanUserId(planUser);
-            workout.setActivityId(activity);
-            workout.setWorkoutDate(startCal.getTime());
-            pivotDay = startCal.get(Calendar.DAY_OF_WEEK);
-            if (sessions > 0) {
-
-                switch (pivotDay) {
-                    case Calendar.SUNDAY:
-                        if (userAvailability.getSunday()) {
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else if(sessionsLeft > 0 && !dayUsed) {
-                            dayUsed = true;
-                            sessionsLeft--;
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else {
-                            dayUsed = false;
-                        }   break;
-                    case Calendar.MONDAY:
-                        if (userAvailability.getMonday()) {
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else if(sessionsLeft > 0 && !dayUsed) {
-                            dayUsed = true;
-                            sessionsLeft--;
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else {
-                            dayUsed = false;
-                        }   break;
-                    case Calendar.TUESDAY:
-                        if (userAvailability.getTuesday()) {
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else if(sessionsLeft > 0 && !dayUsed) {
-                            dayUsed = true;
-                            sessionsLeft--;
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else {
-                            dayUsed = false;
-                        }   break;
-                    case Calendar.WEDNESDAY:
-                        if (userAvailability.getWednesday()) {
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else if(sessionsLeft > 0 && !dayUsed) {
-                            dayUsed = true;
-                            sessionsLeft--;
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else {
-                            dayUsed = false;
-                        }   break;
-                    case Calendar.THURSDAY:
-                        if (userAvailability.getThursday()) {
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else if(sessionsLeft > 0 && !dayUsed) {
-                            dayUsed = true;
-                            sessionsLeft--;
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else {
-                            dayUsed = false;
-                        }   break;
-                    case Calendar.FRIDAY:
-                        if (userAvailability.getFriday()) {
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else if(sessionsLeft > 0 && !dayUsed) {
-                            dayUsed = true;
-                            sessionsLeft--;
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else {
-                            dayUsed = false;
-                        }   break;
-                    case Calendar.SATURDAY:
-                        if (userAvailability.getSaturday()) {
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else if(sessionsLeft > 0 && !dayUsed) {
-                            dayUsed = true;
-                            sessionsLeft--;
-                            workouts.add(workout);
-                            planWorkout = true;
-                        } else {
-                            dayUsed = false; 
-                        }   break;
-                    default:
-                        break;
-                }
-            }
-            if (planWorkout) {
-                list.remove(activity);
-                planWorkout = false;
-                sessions--;
-                i++;
-            }
-            if (originalList) {
-                activityList.remove(activity);
-                originalList = false;
-            }
-            startCal.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        trainingPlanDao.create(trainingPlan);
-        trainingPlanUserDao.create(planUser);
-        trainingPlanWorkoutDao.createList(workouts);
-    }
-
-    private Activity getActivityByPC(List<Activity> activityList, List<Activity> originalList, String pattern, Boolean original) {
-        Activity act = new Activity();
-        for (Activity activity : activityList) {
-            if (activity.getPhysiologicalCapacityId().getCode().equals(pattern)) {
-                act = activity;
-                break;
-            }
-        }
-        if (act.getActivityId() == null) {
-            for (Activity activity : originalList) {
-                if (activity.getPhysiologicalCapacityId().getCode().equals(pattern)) {
-                    act = activity;
-                    original = true;
-                    break;
-                }
-            }
-        }
-        return act;
-    }
-
-    /**
-     * Gets the quantity of days available in a range date according to user
-     * availability
-     *
-     * @param userAvailability
-     * @param startDate
-     * @
-     * param endDate
-     * @return
-     */
-    private int getAvailableDays(UserAvailability userAvailability, Date startDate, Date endDate) {
-        Calendar startCal = Calendar.getInstance();
-        startCal.setTime(startDate);
-
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(endDate);
-
-        int availableDays = 0;
-        int pivotDay;
-        while (startCal.getTimeInMillis() <= endCal.getTimeInMillis()) {
-            pivotDay = startCal.get(Calendar.DAY_OF_WEEK);
-            //Si el dia esta (Los dias en java calendar empiezan el domingo con el 1 y terminan el sabado con el 7)
-            if (pivotDay == Calendar.SUNDAY && userAvailability.getSunday()) {
-                availableDays++;
-            } else if (pivotDay == Calendar.MONDAY && userAvailability.getMonday()) {
-                availableDays++;
-            } else if (pivotDay == Calendar.TUESDAY && userAvailability.getTuesday()) {
-                availableDays++;
-            } else if (pivotDay == Calendar.WEDNESDAY && userAvailability.getWednesday()) {
-                availableDays++;
-            } else if (pivotDay == Calendar.THURSDAY && userAvailability.getThursday()) {
-                availableDays++;
-            } else if (pivotDay == Calendar.FRIDAY && userAvailability.getFriday()) {
-                availableDays++;
-            } else if (pivotDay == Calendar.SATURDAY && userAvailability.getSaturday()) {
-                availableDays++;
-            }
-            startCal.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        return availableDays;
+        workout.setTrainingPlanUserId(plan);
+        workout.setActivityId(activity);
+        workout.setWorkoutDate(date);
+        return workout;
     }
 
 	@Override
@@ -683,5 +181,240 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
         return trainingPlanWorkoutDao.getById(trainingPlanWorkout);
     }
+    
+    
+    private ArrayList<DayDto> avalabiltyDays = new ArrayList<DayDto>();
+    private boolean sessionsAdded; // Determina si se adicionaron sesiones debido a la baja disponibilidad del atleta
 
+
+    public boolean isSessionsAdded() {
+        return sessionsAdded;
+    }
+
+    public void setSessionsAdded(boolean sessionsAdded) {
+        this.sessionsAdded = sessionsAdded;
+    }
+
+    // Obtiene las fechas del plan de acuerdo a los parametros dados
+    // Recibe:
+    // El numero de sesiones mensuales
+    // La fecha siguiente a la compra del plan
+    public ArrayList<Date> getDatesPlan(Date startDate){
+        ArrayList<Date> dates = new ArrayList<Date>(); //Lista donde se retornan las fechas del plan
+
+        // Se determina el dia de la semana de la fecha dada
+        Calendar clstartdate = Calendar.getInstance();
+        clstartdate.setTime(startDate);
+        // Se le quitan las horas a las fechas para evitar errores en la comparacion
+        clstartdate.set(Calendar.HOUR_OF_DAY, 0);
+        clstartdate.set(Calendar.MINUTE, 0);
+        clstartdate.set(Calendar.SECOND, 0);
+        clstartdate.set(Calendar.MILLISECOND, 0);
+        int startDay = clstartdate.get(Calendar.DAY_OF_WEEK);
+
+        // Se determina la inicial y la fecha final, 1 mes despuis de la inicial
+        Date dtstartdate = clstartdate.getTime();
+        clstartdate.add(Calendar.MONTH, 1);
+        Date dtPlanFinish = clstartdate.getTime();
+        
+        // Itera hasta que sea menor que la fecha de finalizacion de generacion del plan
+        Date dtIteratorDate = dtstartdate;
+        while (dtIteratorDate.before(dtPlanFinish)) {
+            // Por cada dia de la semana busca si esta disponible para el usuario
+            for(int j=startDay;j<8;j++){
+                // Se determina si tiene disponibilidad
+                if (avalabiltyDays.get(j-1).isSelected()){
+                    // Adciona la fecha a la lista
+                    dates.add(dtIteratorDate);
+                }
+                Calendar clFecha = Calendar.getInstance();
+                clFecha.setTime(dtIteratorDate);
+                clFecha.add(Calendar.DATE, 1);
+                dtIteratorDate = clFecha.getTime();
+            }
+            startDay = 1; //se pone el dia nuevamente en domingo
+        }
+        return dates;
+    }
+    
+    // Determina la cantidad de dias disponibles del Atleta
+    private int getAvailableDays(){
+        int counter=0;
+        for(DayDto dia : avalabiltyDays) {
+            if (dia.isSelected()) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    // Aumenta la disponibilidad del atleta de acuerdo a numero dado
+    private void addSessions(int availableDays, int requiredSessions){
+        // Determina el primer dia seleccionado y a partir de ahi lo hace d�a de por medio
+        // para mejorar la distribuci�n de las sesiones
+        int weekday = 0;
+        int i = 0;
+        for(DayDto dia : avalabiltyDays) {
+            if (dia.isSelected()) {
+                weekday = i + 1;
+                break;
+            }
+            i++;
+        }
+        // Itera hasta que se alcance la cantidad de sesiones requeridas
+        int iteratorDay = weekday;
+        while(availableDays < requiredSessions) {
+            // Obtiene el siguiente indice dia por medio, controlando los valores
+            switch (iteratorDay) {
+                case 6:
+                    iteratorDay = 1;
+                    break;
+                case 7:
+                    iteratorDay = 2;
+                    break;
+                default:
+                    iteratorDay = iteratorDay + 2;
+            }
+            // Valida si no esta disponible
+            if (!avalabiltyDays.get(iteratorDay - 1).isSelected()) {
+                avalabiltyDays.get(iteratorDay - 1).setSelected(true);
+                availableDays++;
+            }
+        }
+    }
+
+    // Disminuye la disponibilidad del atleta de acuerdo a numero dado
+    private void subsessions(int availableDays, int requiredSessions){
+        // Determina el primer dia seleccionado y a partir de ahi lo hace dia de por medio
+        // para mejorar la distribucion de las sesiones
+        int weekday = 0;
+        int i = 0;
+        for(DayDto dia : avalabiltyDays) {
+            if (dia.isSelected()) {
+                weekday = i + 1;
+                break;
+            }
+            i++;
+        }
+        // Itera hasta que se alcance la cantidad de sesiones requeridas
+        int iteratorDay = weekday;
+        while(requiredSessions < availableDays) {
+            // Obtiene el siguiente indice dia por medio, controlando los valores
+            switch (iteratorDay) {
+                case 6:
+                    iteratorDay = 1;
+                    break;
+                case 7:
+                    iteratorDay = 2;
+                    break;
+                default:
+                    iteratorDay = iteratorDay + 2;
+            }
+            // Valida si esta disponible
+            if (avalabiltyDays.get(iteratorDay - 1).isSelected()) {
+                avalabiltyDays.get(iteratorDay - 1).setSelected(false);
+                availableDays--;
+            }
+        }
+    }
+
+
+    // Establece la disponibilidad del dia de la semana
+    // entendido que el dia 1 es Domingo y el dia 7 es sabado
+    public void setAvailability(int intWeekday){
+        avalabiltyDays.get(intWeekday-1).setSelected(true);
+    }
+
+    
+
+    // Constructor
+    public void fillAvailableDays(UserAvailability userAvailability) {
+        setSessionsAdded(false);
+        avalabiltyDays = new ArrayList<>();
+        // Crea los 7 dias
+        DayDto objDay = new DayDto();
+        objDay.setSelected(userAvailability.getSunday());
+        avalabiltyDays.add(objDay);
+        objDay = new DayDto();
+        objDay.setSelected(userAvailability.getMonday());
+        avalabiltyDays.add(objDay);
+        objDay = new DayDto();
+        objDay.setSelected(userAvailability.getTuesday());
+        avalabiltyDays.add(objDay);
+        objDay = new DayDto();
+        objDay.setSelected(userAvailability.getWednesday());
+        avalabiltyDays.add(objDay);
+        objDay = new DayDto();
+        objDay.setSelected(userAvailability.getThursday());
+        avalabiltyDays.add(objDay);
+        objDay = new DayDto();
+        objDay.setSelected(userAvailability.getFriday());
+        avalabiltyDays.add(objDay);
+        objDay = new DayDto();
+        objDay.setSelected(userAvailability.getSaturday());
+        avalabiltyDays.add(objDay);
+    }
+
+    private void assignActivities(Date startDate,Date endDate, UserProfile userProfile, Dcf dcf,
+            ArrayList<Date> dates) throws Exception {
+        List<Activity> activityList = activityDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(),
+                userProfile.getModalityId().getModalityId());
+        if(activityList.isEmpty()) {
+            throw new Exception("No hay actividades configuradas para el objetivo "+
+                        userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
+        }
+        List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
+        String pattern = dcf.getPattern();
+        //Start date
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);
+        //End date
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+        String[] parts = pattern.trim().split("-");
+        int length = parts.length;
+        String code = "";
+
+        List<Activity> list = new ArrayList<>();
+
+        TrainingPlan trainingPlan = new TrainingPlan();
+        trainingPlan.setName(userProfile.getObjectiveId().getName() + "-" + userProfile.getModalityId().getName() + "-" + userProfile.getUserProfileId());
+        trainingPlan.setCreationDate(startDate);
+        trainingPlan.setEndDate(endDate);
+
+        TrainingPlanUser planUser = new TrainingPlanUser();
+        planUser.setTrainingPlanId(trainingPlan);
+        planUser.setUserId(new User(userProfile.getUserId().getUserId()));
+        planUser.setStateId(StateEnum.ACTIVE.getId());
+
+        TrainingPlanWorkout workout = new TrainingPlanWorkout();
+        int i = 0;
+        int indexActivity = 0;
+        int indexCount = 0;
+        for (Date date : dates) {
+            if (i < length) {
+                code = parts[i];
+                i++;
+            } else {
+                i = 0;
+                code = parts[i];
+                i++;
+            }
+            list = getActivitiesByPC(activityList, indexActivity, indexCount, code, userProfile);
+            if(list.isEmpty()) {
+                throw new Exception("No hay actividad configurada de " + code + " para el objetivo "+
+                        userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
+            } else {
+                for(Activity act: list) {
+                    workout = buildWorkout(planUser, act, date);
+                    workouts.add(workout);
+                }
+            }
+        }
+        
+        trainingPlanDao.create(trainingPlan);
+        trainingPlanUserDao.create(planUser);
+        trainingPlanWorkoutDao.createList(workouts);
+    }
+      
 }

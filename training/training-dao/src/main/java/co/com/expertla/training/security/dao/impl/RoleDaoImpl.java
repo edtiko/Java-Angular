@@ -26,7 +26,7 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.RoleDTO(r.roleId, r.name) ");
         builder.append("FROM Role r ");
-        builder.append("order by r.name desc ");
+        builder.append("order by r.name asc ");
         Query query = getEntityManager().createQuery(builder.toString());
         List<RoleDTO> list = query.getResultList();
         return list;
