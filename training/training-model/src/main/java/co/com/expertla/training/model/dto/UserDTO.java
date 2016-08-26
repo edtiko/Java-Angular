@@ -274,16 +274,17 @@ public class UserDTO {
 
     public String getProfilePhotoBase64() {
         String base64Encoded = "";
-        try {
-            byte[] encodeBase64 = Base64.encodeBase64(this.profilePhoto);
-            if(encodeBase64 != null) {
+
+        if (this.profilePhoto != null) {
+            try {
+                byte[] encodeBase64 = Base64.encodeBase64(this.profilePhoto);
                 base64Encoded = new String(encodeBase64, "UTF-8");
+            } catch (IOException e) {
+                LOGGER.error(e.getMessage(), e);
+                return null;
             }
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            return null;
         }
-        return "data:image/png;base64,"+base64Encoded;
+        return "data:image/png;base64," + base64Encoded;
     }
 
     public void setProfilePhoto(byte[] profilePhoto) {

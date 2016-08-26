@@ -115,3 +115,13 @@ overflow: hidden;
 #user-container, #userProfileDiv, #surveyDiv{
     margin: 100px;
 }
+#dashboard-container{
+    margin: 50px;
+}
+
+md-content md-tabs {
+    border: 1px solid #e1e1e1; 
+}
+#message-content{
+     border: 1px solid #e1e1e1; 
+}
