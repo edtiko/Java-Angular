@@ -43,9 +43,9 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                             function (d) {
                                 if (d.detail == null) {
                                     $scope.showMessage("Usuario registrado correctamente.");
-                                    $scope.resetUser();
                                     $scope.profileImage = "static/img/profile-default.png";
                                     $scope.fetchAllUsers();
+                                    $scope.user = d.output;
                                 } else {
                                     $scope.showMessage(d.detail);
                                 }
@@ -179,6 +179,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                                 function (msg) {
                                     $scope.showMessage("Imagen cargada correctamente.");
                                     $scope.getImageProfile($scope.user.userId);
+                                    $scope.resetUser();
 
                                 },
                                 function (errResponse) {

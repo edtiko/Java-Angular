@@ -281,7 +281,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                                 function (msg) {
                                     $scope.showMessage("Imagen cargada correctamente.");
                                     $scope.getImageProfile($scope.user.userId);
-
                                 },
                                 function (errResponse) {
                                     console.error('Error while upload image user.');

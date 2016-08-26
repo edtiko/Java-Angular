@@ -276,7 +276,9 @@ public class UserDTO {
         String base64Encoded = "";
         try {
             byte[] encodeBase64 = Base64.encodeBase64(this.profilePhoto);
-            base64Encoded = new String(encodeBase64, "UTF-8");
+            if(encodeBase64 != null) {
+                base64Encoded = new String(encodeBase64, "UTF-8");
+            }
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             return null;
