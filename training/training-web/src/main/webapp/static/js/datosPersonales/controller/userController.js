@@ -635,7 +635,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         
         $scope.getModelsPotentiometer = function (sportEquipmentId) {
-            if (sportEquipmentId === -2) { //another potentiometer
+            if (sportEquipmentId == -2) { //another potentiometer
                 $scope.showAnotherPotentiometer = true;
                 $scope.showModelPotentiometer = false;
             } else {
@@ -675,7 +675,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         
          $scope.getModelsBike = function (sportEquipmentId) {
-             if(sportEquipmentId === -2){ //another pulsometer
+             if(sportEquipmentId == -2){ //another pulsometer
                  $scope.showAnotherBike = true;
                  $scope.showModelBike = false;
              }else{

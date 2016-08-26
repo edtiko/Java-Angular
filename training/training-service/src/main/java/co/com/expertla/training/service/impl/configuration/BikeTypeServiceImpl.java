@@ -1,7 +1,7 @@
-package co.com.expertla.training.configuration.service.impl;
+package co.com.expertla.training.service.impl.configuration;
 
 import co.com.expertla.training.configuration.dao.BikeTypeDao;
-import co.com.expertla.training.configuration.service.BikeTypeService;
+import co.com.expertla.training.service.configuration.BikeTypeService;
 import co.com.expertla.training.model.entities.BikeType;
 import java.util.List;
 

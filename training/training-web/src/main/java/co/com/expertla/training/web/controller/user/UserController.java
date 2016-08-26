@@ -1,6 +1,6 @@
 package co.com.expertla.training.web.controller.user;
 
-import co.com.expertla.training.configuration.service.CountryService;
+import co.com.expertla.training.service.configuration.CountryService;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;

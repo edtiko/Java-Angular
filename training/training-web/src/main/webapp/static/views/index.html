@@ -25,17 +25,6 @@
                     <li><a href="#dashboard">Bienvenido {{userLogin}} |</a></li>
                     <li><a href="#dashboard"><i class="fa fa-home"></i> Dashboard</a></li>
                     <li><a href="#calendar"><i class="fa fa-calendar"></i> Calendario</a></li>
-                    <li><a href="#message"><i class="fa fa-comments"></i> Mensajes</a></li>
-                    <li role="presentation" class="dropdown" uib-dropdown>
-                        <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">
-                            <!--<i class="fa fa-user"></i>--> 
-                            Configuraci&oacute;n 
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" uib-dropdown-menu> 
-                             <li><a href="#register-user">Creación de Usuario</a></li> 
-                        </ul>
-                    </li>
                     <li role="presentation" class="dropdown" uib-dropdown>
                         <a href="#" class="dropdown-toggle" uib-dropdown-toggle role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user"></i> 
@@ -47,7 +36,6 @@
                              <li><a href="#conf-account">Configuración de Cuenta</a></li> 
                         </ul>
                     </li>
-                    
                     <li><a class="logout" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
                     
                 </ul>
@@ -59,7 +47,7 @@
                  <h2 class="md-toolbar-tools">Custom Pro Training</h2>
             <md-menu-bar>
                  <md-menu>
-                     <button ng-click="$mdOpenMenu()"><i class="fa fa-home"></i> Bienvenido {{userLogin}}</button>
+                     <button ng-click="$mdOpenMenu()"> Bienvenido {{userLogin}}</button>
                       <md-menu-content>
                          <md-menu-item>
                             <md-button href="#dashboard"> Abrir Dashboard</md-button>
@@ -81,6 +69,14 @@
                       <md-menu-content>
                          <md-menu-item>
                             <md-button href="#calendar"> Abrir Calendario</md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-menu>
+                     <button ng-click="$mdOpenMenu()">Configuración </button>
+                      <md-menu-content>
+                         <md-menu-item>
+                            <md-button href="#register-user"> Creación de Usuarios</md-button>
                         </md-menu-item>
                     </md-menu-content>
                 </md-menu>
@@ -129,6 +125,8 @@
         <!-- SPELLS -->
         <script type="text/javascript" data-main="static/js/run-custom-training"
         src="static/js/lib/require.js"></script>
+        <script type="text/javascript" src="static/js/lib/jquery.min.js">        </script>
+    <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
     </body>
  
 </html>

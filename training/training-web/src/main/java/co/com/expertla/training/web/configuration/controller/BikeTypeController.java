@@ -1,7 +1,7 @@
 package co.com.expertla.training.web.configuration.controller;
 
 import co.com.expertla.training.model.entities.ResponseService;
-import co.com.expertla.training.configuration.service.BikeTypeService;
+import co.com.expertla.training.service.configuration.BikeTypeService;
 import co.com.expertla.training.model.entities.BikeType;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;

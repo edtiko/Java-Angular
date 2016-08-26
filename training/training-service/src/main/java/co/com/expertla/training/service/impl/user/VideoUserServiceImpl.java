@@ -1,8 +1,8 @@
-package co.com.expertla.training.user.service.impl;
+package co.com.expertla.training.service.impl.user;
 
 import co.com.expertla.training.model.entities.VideoUser;
 import co.com.expertla.training.user.dao.VideoUserDao;
-import co.com.expertla.training.user.service.VideoUserService;
+import co.com.expertla.training.service.user.VideoUserService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

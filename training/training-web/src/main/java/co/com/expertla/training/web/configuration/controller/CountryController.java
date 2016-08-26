@@ -1,6 +1,6 @@
 package co.com.expertla.training.web.configuration.controller;
 
-import co.com.expertla.training.configuration.service.CountryService;
+import co.com.expertla.training.service.configuration.CountryService;
 import co.com.expertla.training.model.entities.Country;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;

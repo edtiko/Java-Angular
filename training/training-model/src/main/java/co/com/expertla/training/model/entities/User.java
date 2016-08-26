@@ -418,14 +418,6 @@ public class User implements Serializable {
         this.userCollection = userCollection;
     }
 
-    public Country getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(Country countryId) {
-        this.countryId = countryId;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;

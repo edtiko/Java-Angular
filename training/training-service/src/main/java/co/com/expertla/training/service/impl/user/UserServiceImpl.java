@@ -1,7 +1,6 @@
-package co.com.expertla.training.user.service.impl;
+package co.com.expertla.training.service.impl.user;
 
 import co.com.expertla.training.dao.CityDao;
-import co.com.expertla.training.dao.CountryDao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +8,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.com.expertla.training.model.entities.User;
-import co.com.expertla.training.user.dao.UserDao;
-import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;
-import co.com.expertla.training.user.service.UserService;
 import java.util.Date;
 import java.util.stream.Collectors;
 import co.com.expertla.training.dao.FederalStateDao;
+import co.com.expertla.training.dao.security.RoleUserDao;
+import co.com.expertla.training.dao.user.DisciplineUserDao;
+import co.com.expertla.training.dao.user.UserDao;
+import co.com.expertla.training.dao.user.UserProfileDao;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
@@ -28,9 +28,7 @@ import co.com.expertla.training.model.entities.RoleUser;
 import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.VideoUser;
-import co.com.expertla.training.security.dao.RoleUserDao;
-import co.com.expertla.training.user.dao.DisciplineUserDao;
-import co.com.expertla.training.user.dao.UserProfileDao;
+import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.user.dao.VideoUserDao;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -257,11 +255,10 @@ public class UserServiceImpl implements UserService {
             disciplineUserDao.merge(discipline);
         }
         
-        List<RoleUser> list  = roleUserDao.findByUserId(dto.getUserId());
-        if(list != null && !list.isEmpty()) {
-            RoleUser roleUser = list.get(0);
-            roleUser.setRoleId(new Role(dto.getRoleId()));
-            roleUserDao.merge(roleUser);
+        RoleUser role  = roleUserDao.findByUserId(dto.getUserId());
+        if(role != null) {
+            role.setRoleId(new Role(dto.getRoleId()));
+            roleUserDao.merge(role);
         }
 
         userDao.merge(user);

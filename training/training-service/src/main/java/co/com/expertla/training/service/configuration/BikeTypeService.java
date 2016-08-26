@@ -1,4 +1,4 @@
-package co.com.expertla.training.configuration.service;
+package co.com.expertla.training.service.configuration;
 
 import co.com.expertla.training.model.entities.BikeType;
 import java.util.List;

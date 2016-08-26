@@ -1,4 +1,4 @@
-package co.com.expertla.training.user.service;
+package co.com.expertla.training.service.user;
 
 import co.com.expertla.training.model.entities.VideoUser;
 import java.util.List;
