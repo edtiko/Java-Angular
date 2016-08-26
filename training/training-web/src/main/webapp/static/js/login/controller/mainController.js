@@ -115,8 +115,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
         };
         $scope.setUserSession();
 
-        $scope.getVisibleFieldsUserByUser = function () {
-            var user = JSON.parse(sessionStorage.getItem("userInfo"));
+        $scope.getVisibleFieldsUserByUser = function (user) {
             if (user != null) {
                 VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
                         .then(
@@ -173,6 +172,22 @@ trainingApp.directive('stringToNumber', function () {
             });
         }
     };
+});
+
+trainingApp.directive('schrollBottom', function () {
+  return {
+    scope: {
+      schrollBottom: "="
+    },
+    link: function (scope, element) {
+      scope.$watchCollection('schrollBottom', function (newValue) {
+        if (newValue)
+        {
+          $(element).scrollTop($(element)[0].scrollHeight);
+        }
+      });
+    }
+  };
 });
 
 function getDate() {

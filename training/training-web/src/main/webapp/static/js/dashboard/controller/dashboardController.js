@@ -1,7 +1,8 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService',
-    function ($scope, UserService, DashboardService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService','$window',
+    function ($scope, UserService, DashboardService,$window) {
+        var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
@@ -11,7 +12,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: ''
         };
         $scope.profileImage = "static/img/profile-default.png";
-
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
         $scope.getUserById = function () {
 
@@ -79,8 +80,60 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             return false;
         };
 
-        $scope.getUserSession(function (res) {
-            $scope.getUserSessionByResponse(res);
-            $scope.getUserById();
-        });
+        $scope.selectAthlete = function(coachAssignedPlanSelected){
+            var user = coachAssignedPlanSelected.athleteUserId;
+            $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
+             DashboardService.getDashboard(user).then(
+                        function (d) {
+                            $scope.user = d;
+
+                            if ($scope.user.birthDate != null) {
+                                var date = $scope.user.birthDate.split("/");
+                                var birthdate = new Date(date[2], date[1] - 1, date[0]);
+                                $scope.user.age = $scope.calculateAge(birthdate);
+                            }
+                            $scope.getVisibleFieldsUserByUser(user);
+                            $scope.getImageProfile(user.userId);
+                        },
+                        function (errResponse) {
+                            console.error('Error while fetching the dashboard');
+                            console.error(errResponse);
+                        }
+                );
+        };
+        $scope.goMessages = function(){
+              var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
+            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach' && planSelected == null) {
+              $scope.showMessage("Debe seleccionar un atleta");
+            } else{
+                $window.location.href = "#message";
+            }
+        };
+        
+          self.getAssignedAthletes = function () {
+            DashboardService.getAssignedAthletes($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.athletes = data.entity.output;
+                        if($scope.athletes == null){
+                            $scope.showMessage("No tiene planes asignados.");
+                        }
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+
+        if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
+            self.getAssignedAthletes();
+            $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
+            
+        } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
+            $scope.getUserSession(function (res) {
+                $scope.getUserSessionByResponse(res);
+                $scope.getUserById();
+            });
+        }
+
     }]);
+

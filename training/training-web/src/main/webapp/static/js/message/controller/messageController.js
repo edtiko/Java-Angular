@@ -79,6 +79,12 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
                         console.error(error);
                     });
         };
+        self.getChatUser = function(){
+            var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
+          if(planSelected != null){
+               $scope.selectChat(planSelected);
+          }  
+        };
 
         self.getAssignedCoach = function () {
             messageService.getAssignedCoach($scope.userSession.userId).then(
@@ -93,7 +99,8 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
         };
 
         if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
-            self.getAssignedAthletes();
+            //self.getAssignedAthletes();
+            self.getChatUser();
         } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
             self.getAssignedCoach();
         }

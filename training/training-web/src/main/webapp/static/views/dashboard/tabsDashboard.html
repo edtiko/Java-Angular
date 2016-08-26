@@ -1,0 +1,31 @@
+<div layout="column">
+    <fieldset style="height: 700px;">
+    <md-content class="md-padding">
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Atleta">
+        <md-content class="md-padding">
+            <md-list-item ng-repeat="a in athletes" >
+                <md-button md-no-ink class="md-primary" ng-click="selectAthlete(a)">{{a.athleteUserId.fullName}}</md-button>
+                  <md-divider></md-divider>
+            </md-list-item>
+        </md-content>
+      </md-tab>
+      <md-tab label="Estrella">
+        <md-content class="md-padding">
+
+        </md-content>
+      </md-tab>
+      <md-tab label="Supervisor">
+        <md-content class="md-padding">
+
+        </md-content>
+      </md-tab>
+         <md-tab label="Bandeja de entrada">
+        <md-content class="md-padding">
+
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+    </fieldset>
+</div>

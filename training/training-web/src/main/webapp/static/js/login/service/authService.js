@@ -17,7 +17,8 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
                                 $scope.userLogin = res.data.entity.output.firstName+" "+ res.data.entity.output.secondName +" "+ res.data.entity.output.lastName;
                             }
                             $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
-                            $scope.getVisibleFieldsUserByUser();
+                            var user = JSON.stringify(res.data.entity.output);
+                            $scope.getVisibleFieldsUserByUser(user);
                             return res;
                         }, function (errResponse) {
                             console.error('Error while getting');
