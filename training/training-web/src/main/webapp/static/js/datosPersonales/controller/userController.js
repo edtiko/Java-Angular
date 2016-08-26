@@ -584,7 +584,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         this.getClimas();
         
-        $scope.getAvailabilityIdx = function ($parentIndex, value) {
+        $scope.getAvailabilityIdx = function (value) {
             var response = $scope.userProfile.availability;
             var res = '';
             angular.forEach(response, function (v, key) {
@@ -596,7 +596,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             return res;
         };
 
-        $scope.getAvailabilityResponse = function ($parentIndex, value) {
+        $scope.getAvailabilityResponse = function (value) {
             var response = $scope.userProfile.availability;
             var res = false;
             angular.forEach(response, function (v, key) {
@@ -610,9 +610,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 
 
 
-        $scope.setAvailabilityResponse = function ($parentIndex, $index, value) {
+        $scope.setAvailabilityResponse = function (value) {
             var response = $scope.userProfile.availability;
-            var idx = $scope.getAvailabilityIdx($parentIndex, value);
+            var idx = $scope.getAvailabilityIdx(value);
             if (idx !== "" && response[idx].checked) {
                 response[idx].checked = false;
             } else if (idx !== "" && !response[idx].checked) {
