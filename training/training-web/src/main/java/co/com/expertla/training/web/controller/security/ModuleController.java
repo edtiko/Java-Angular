@@ -1,11 +1,11 @@
 package co.com.expertla.training.web.controller.security;
 
-import co.com.expertla.training.model.dto.OptionDTO;
+import co.com.expertla.training.model.dto.ModuleDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
-import co.com.expertla.training.model.entities.Option;
+import co.com.expertla.training.model.entities.Module;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.service.security.OptionService;
+import co.com.expertla.training.service.security.ModuleService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,37 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
-* Option Controller <br>
+* Module Controller <br>
 * Info. Creación: <br>
 * fecha 26/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 
 @RestController
-public class OptionController {
+public class ModuleController {
 
     @Autowired
-    OptionService optionService;  
+    ModuleService moduleService;  
 
     /**
-     * Crea option <br>
+     * Crea module <br>
      * Info. Creación: <br>
      * fecha 26/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param option
+     * @param module
      * @return
      */
-    @RequestMapping(value = "option/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> createOption(@RequestBody Option option) {
+    @RequestMapping(value = "module/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> createModule(@RequestBody Module module) {
             ResponseService responseService = new ResponseService();
         try {           
-            optionService.create(option);
-            responseService.setOutput("Option creado correctamente");
+            moduleService.create(module);
+            responseService.setOutput("Module creado correctamente");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al crear option");
+            java.util.logging.Logger.getLogger(ModuleController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear module");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -57,24 +57,24 @@ public class OptionController {
     }
 
     /**
-     * Modifica option <br>
+     * Modifica module <br>
      * Info. Creación: <br>
      * fecha 26/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param option
+     * @param module
      * @return
      */
-    @RequestMapping(value = "option/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> updateOption(@RequestBody Option option) {
+    @RequestMapping(value = "module/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> updateModule(@RequestBody Module module) {
             ResponseService responseService = new ResponseService();
         try {           
-            optionService.store(option);
-            responseService.setOutput("Option editado correctamente");
+            moduleService.store(module);
+            responseService.setOutput("Module editado correctamente");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al modificar option");
+            java.util.logging.Logger.getLogger(ModuleController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al modificar module");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -82,24 +82,24 @@ public class OptionController {
     }
 
     /**
-     * Elimina option <br>
+     * Elimina module <br>
      * Info. Creación: <br>
      * fecha 26/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param option
+     * @param module
      * @return
      */
-    @RequestMapping(value = "option/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> deleteOption(@RequestBody Option option) {
+    @RequestMapping(value = "module/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> deleteModule(@RequestBody Module module) {
             ResponseService responseService = new ResponseService();
         try {           
-            optionService.remove(option);
-            responseService.setOutput("Option eliminado correctamente");
+            moduleService.remove(module);
+            responseService.setOutput("Module eliminado correctamente");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al eliminar option");
+            java.util.logging.Logger.getLogger(ModuleController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al eliminar module");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -107,23 +107,23 @@ public class OptionController {
     }
     
     /**
-     * Consulta option <br>
+     * Consulta module <br>
      * Info. Creación: <br>
      * fecha 26/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
-    @RequestMapping(value = "/option/get/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/module/get/all", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> list() {
         ResponseService responseService = new ResponseService();
         try {     
-            List<Option> optionList = optionService.findAllActive();
-            responseService.setOutput(optionList);
+            List<Module> moduleList = moduleService.findAllActive();
+            responseService.setOutput(moduleList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al consultar option");
+            java.util.logging.Logger.getLogger(ModuleController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar module");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -131,7 +131,7 @@ public class OptionController {
     }
 
     /**
-     * Consulta option paginado <br>
+     * Consulta module paginado <br>
      * Info. Creación: <br>
      * fecha 26/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
@@ -142,13 +142,13 @@ public class OptionController {
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {     
-            List<OptionDTO> optionList = optionService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
-            responseService.setOutput(optionList);
+            List<ModuleDTO> moduleList = moduleService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            responseService.setOutput(moduleList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al consultar option");
+            responseService.setOutput("Error al consultar module");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

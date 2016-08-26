@@ -1,4 +1,5 @@
 {
     "NAME": "Nombre",
-    "REQUIRED_FIELD_TEXT": "Este es un campo requerido"
+    "REQUIRED_FIELD_TEXT": "Este es un campo requerido",
+    "INVALID_FIELD_TEXT": "Este campo es inv&aacute;lido"
 }
