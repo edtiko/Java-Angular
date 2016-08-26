@@ -1,10 +1,10 @@
-package co.com.expertla.training.security.dao.impl;
+package co.com.expertla.training.dao.impl.security;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.model.dto.RoleDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.Role;
-import co.com.expertla.training.security.dao.RoleDao;
+import co.com.expertla.training.dao.security.RoleDao;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;

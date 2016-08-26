@@ -36,7 +36,7 @@ public class QuestionnaireQuestionDaoImpl extends BaseDAOImpl<QuestionnaireQuest
     public List<QuestionnaireQuestion> findAll(SePaginator sePaginator) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append("select u FROM QuestionnaireQuestion u ");
-        builder.append("WHERE u.stateId = ").append(Status.ACTIVE.getName());
+        builder.append("WHERE u.stateId = ").append(Status.ACTIVE.getId());
         setPageNumber(sePaginator.getInitialRow());
         setPageSize(sePaginator.getMaxRow());
         return createQuery(builder.toString());
@@ -49,7 +49,7 @@ public class QuestionnaireQuestionDaoImpl extends BaseDAOImpl<QuestionnaireQuest
         builder.append(" left join u.questionnaireResponseCollection r ");
         builder.append(" on r.userId.userId = ").append(userId);
         builder.append(" WHERE u.questionnaireId.disciplineId.disciplineId = ").append(disciplineId);
-        builder.append(" AND u.stateId = ").append(Status.ACTIVE.getName());
+        builder.append(" AND u.stateId = ").append(Status.ACTIVE.getId());
        // setPageNumber(sePaginator.getInitialRow());
        // setPageSize(sePaginator.getMaxRow());
         return createQuery(builder.toString());

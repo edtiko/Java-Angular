@@ -1,9 +1,9 @@
-package co.com.expertla.training.security.service.impl;
+package co.com.expertla.training.service.impl.security;
 
 import co.com.expertla.training.model.dto.RoleDTO;
 import co.com.expertla.training.model.entities.Role;
-import co.com.expertla.training.security.dao.RoleDao;
-import co.com.expertla.training.security.service.RoleService;
+import co.com.expertla.training.dao.security.RoleDao;
+import co.com.expertla.training.service.security.RoleService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

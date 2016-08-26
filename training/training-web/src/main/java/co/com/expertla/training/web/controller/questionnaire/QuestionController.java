@@ -52,7 +52,7 @@ public class QuestionController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
             
-            question.setStateId(Short.parseShort(Status.ACTIVE.getName()));
+            question.setStateId(Short.parseShort(Status.ACTIVE.getId()));
             questionService.create(question);
             strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.QUESTION_PROPERTIES, "questionCreated"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -137,7 +137,7 @@ public class QuestionController {
                 
                 if (questionList != null && !questionList.isEmpty()) {
                     Question objQuestion = questionList.get(0);
-                    objQuestion.setStateId(Short.parseShort(Status.DELETE.getName()));
+                    objQuestion.setStateId(Short.parseShort(Status.DELETE.getId()));
                     questionService.merge(objQuestion);
                     strResponse.append(String.format(MessageUtil.getMessageFromBundle(MessageBundle.QUESTION_PROPERTIES, "questionDeleted"), objQuestion.getName()));
                     strResponse.append(",");

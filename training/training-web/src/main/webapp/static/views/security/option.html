@@ -1,0 +1,98 @@
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+        <span class="md-headline">Creaci&oacute;n de Opciones</span>
+        <form  name="formOption" class="form-horizontal" novalidate>
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label  for="name">{{ 'NAME' | translate }} *</label>
+                        <input id="name" type="text" ng-model="option.name">
+                        <div class="has-error" ng-messages="formOption.name.$error">
+                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label  for="url">Url *</label>
+                        <input id="url" type="text" ng-model="option.url">
+                        <div class="has-error" ng-messages="formOption.url.$error">
+                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label  for="descripcion">Descripci&oacute;n</label>
+                        <input id="url" type="text" ng-model="option.descripcion">
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="form-group col-md-12">
+                    <label class="col-md-2 control-label">Opci&oacute;n Padre</label>
+                    <div class=" col-md-6">
+                        <select class="form-control" style=" display: inline" ng-model="option.masterOptionId" 
+                                id="masterOptionId" name="masterOptionId"
+                                ng-options="r.optionId as r.name for r in masterOptions">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <div class="form-actions">
+                    <input type="submit" ng-click="submitOption()"  class="btn btn-primary btn-sm" value="Guardar">
+                    <input type="button" ng-click="cleanOption()"  class="btn btn-primary btn-sm" value="Limpiar">
+                </div>
+            </div>
+        </form>
+    </md-content>
+</div>
+<div class="demo-md-panel md-padding">
+    <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <span>Lista de Opciones</span>
+        </div>
+    </md-toolbar>
+
+    <!-- exact table from live demo -->
+    <md-table-container>
+        <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="getOptions">
+                <tr md-row>
+                    <th md-column md-order-by="name" class="md-column">Nombre</th>
+                    <th md-column md-order-by="url">Url</th>
+                    <th md-column md-order-by="optionNameToLower">Opci&oacute;n Padre</th>
+                    <th md-column md-order-by="descriptionToLower">Descripci&oacute;n</th>
+                    <th md-column md-order-by="userCreateToLower">Usuario de Creaci&oacute;n</th>
+                    <th md-column md-order-by="creationDateToLower">Fecha de Creaci&oacute;n</th>
+                    <th md-column md-order-by="userUpdateToLower">Usuario de Modificaci&oacute;n</th>
+                    <th  md-column md-order-by="lastUpdateToLower">Fecha de Modificaci&oacute;n</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="option" md-select-id="name" md-auto-select ng-repeat="option in options">
+                    <td md-cell>{{option.name}}</td>
+                    <td md-cell>{{option.url}}</td>
+                    <td md-cell>{{option.masterOption}}</td>
+                    <td md-cell>{{option.userCreate}}</td>
+                    <td md-cell>{{option.creationDate}}</td>
+                    <td md-cell>{{option.userUpdate}}</td>
+                    <td md-cell>{{option.lastUpdate}}</td>
+                    <td>
+                        <button type="button" ng-click="editOption(option.userId)" class="btn btn-success custom-width">Editar</button>  
+                        <button ng-show="option.stateId == 1" type="button" ng-click="inactivate(option.optionId)" class="btn btn-danger custom-width">Inactivar</button>
+                        <button ng-show="option.stateId == 0" type="button" ng-click="inactivate(option.optionId)" class="btn btn-success custom-width">Activar</button>
+                        <button type="button" ng-click="remove(option.optionId)" class="btn btn-danger custom-width">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getOptions" md-page-select></md-table-pagination>
+</div>

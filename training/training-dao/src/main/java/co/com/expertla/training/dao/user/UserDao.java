@@ -31,7 +31,7 @@ public interface UserDao extends BaseDAO<User>{
      * Trae todos los registros de user training con su disciplina <br>
      * Creation Date : <br>
      * date 18/08/2016 <br>
-     * @author Angela Ramírez
+     * @author Angela RamÃ­rez
      * @throws Exception
      * @return dto
      */

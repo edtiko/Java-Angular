@@ -3,8 +3,10 @@
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
-var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute','ngMessages','ngMaterial' , 'ngDialog'])
-        .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide) {
+var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
+    'ngMessages', 'ngMaterial', 'ngDialog', 'pascalprecht.translate','ngMaterial', 'md.data.table'])
+        .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
+                $translateProvider) {
 
             var route = routeResolverProvider.route;
 
@@ -23,11 +25,11 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/dashboard', route.resolve('dashboard', 'dashboard/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
-            
+
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
-            
+
                     .when('/register-user', route.resolve('registerUser', 'security/'))
- 
+
                     // route for the about page
                     .when('/about', {
                         templateUrl: 'static/views/about.html',
@@ -36,11 +38,22 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/calendar', route.resolve('calendar', 'calendar/'))
 
+                    .when('/conf-option', route.resolve('option', 'security/'))
+
                     // route for the contact page
                     .when('/contact', {
                         templateUrl: 'static/views/contact.html',
                         controller: 'contactController'
                     });
+
+            $translateProvider.useStaticFilesLoader({
+                prefix: 'static/languages/',
+                suffix: '.json'
+            });
+
+            $translateProvider.preferredLanguage('es');
+
+
 
         });
 
