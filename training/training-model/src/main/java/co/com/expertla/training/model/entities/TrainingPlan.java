@@ -57,6 +57,14 @@ public class TrainingPlan implements Serializable {
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    @Column(name = "video_count")
+    private Integer videoCount;
+    @Column(name = "message_count")
+    private Integer messageCount;
+    @Column(name = "email_count")
+    private Integer emailCount;
+    @Column(name = "call_count")
+    private Integer callCount;
     @OneToMany(mappedBy = "trainingPlanId")
     private Collection<TrainingPlanUser> trainingPlanUserCollection;
     
@@ -155,6 +163,38 @@ public class TrainingPlan implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.TrainingPlan[ trainingPlanId=" + trainingPlanId + " ]";
+    }
+
+    public Integer getVideoCount() {
+        return videoCount;
+    }
+
+    public void setVideoCount(Integer videoCount) {
+        this.videoCount = videoCount;
+    }
+
+    public Integer getMessageCount() {
+        return messageCount;
+    }
+
+    public void setMessageCount(Integer messageCount) {
+        this.messageCount = messageCount;
+    }
+
+    public Integer getEmailCount() {
+        return emailCount;
+    }
+
+    public void setEmailCount(Integer emailCount) {
+        this.emailCount = emailCount;
+    }
+
+    public Integer getCallCount() {
+        return callCount;
+    }
+
+    public void setCallCount(Integer callCount) {
+        this.callCount = callCount;
     }
     
 }

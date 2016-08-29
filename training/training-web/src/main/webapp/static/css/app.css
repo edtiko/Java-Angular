@@ -28,6 +28,7 @@ body{
 
 .circular {
     border-radius: 50%;
+    border: 1px solid #e1e1e1; 
 }
 .circular-icon {
     border-radius: 50%;
@@ -116,12 +117,9 @@ overflow: hidden;
     margin: 100px;
 }
 #dashboard-container{
-    margin: 50px;
+    margin: 30px 30px 30px 30px;
 }
 
-md-content md-tabs {
-    border: 1px solid #e1e1e1; 
-}
 #message-content{
      border: 1px solid #e1e1e1; 
 }

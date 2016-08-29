@@ -565,6 +565,10 @@ create table training_plan (
    name                 varchar(500)         not null,
    description          varchar(5000)        null,
    duration             decimal(10,2)        null,
+   video_count          integer              null,
+   message_count        integer              null,
+   email_count          integer              null,
+   call_count           integer              null,
    creation_date        date                 not null,
    end_date             date                 not null,
    constraint pk_training_plan primary key (training_plan_id)

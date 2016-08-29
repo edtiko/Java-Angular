@@ -12,7 +12,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: ''
         };
         $scope.profileImage = "static/img/profile-default.png";
+        $scope.profileImageStar = "static/img/profile-default.png";
+        $scope.profileImageCoach = "static/img/profile-default.png";
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        $scope.coachAssignedPlanId = null;
+        $scope.availableMessage = 0;
+        $scope.availableCall = 0;
+        $scope.availableVideo = 0;
+        $scope.availableEmail = 0;
+         
 
         $scope.getUserById = function () {
 
@@ -83,6 +91,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.selectAthlete = function(coachAssignedPlanSelected){
             var user = coachAssignedPlanSelected.athleteUserId;
             $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
+             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
+             self.getAvailableMessages(coachAssignedPlanSelected.id);
              DashboardService.getDashboard(user).then(
                         function (d) {
                             $scope.user = d;
@@ -100,6 +110,36 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             console.error(errResponse);
                         }
                 );
+        };
+        self.getAssignedCoach = function () {
+            DashboardService.getAssignedCoach($scope.userSession.userId).then(
+                    function (data) {
+                        var res = data.entity.output;
+                        $scope.coachAssignedPlan = angular.copy(res);
+                        self.getAvailableMessages(res.id);
+                        if (res.starUserId.profilePhotoBase64 != "") {
+                            $scope.profileImageStar = res.starUserId.profilePhotoBase64;
+                        }
+                        if (res.coachUserId.profilePhotoBase64 != "") {
+                            $scope.profileImageCoach = res.coachUserId.profilePhotoBase64;
+                        }
+
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        self.getAvailableMessages = function(coachAssignedPlanId){
+              DashboardService.getAvailableMessages(coachAssignedPlanId).then(
+                    function (data) {
+                   $scope.availableMessage = data.entity.output;
+
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
         };
         $scope.goMessages = function(){
               var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
@@ -132,6 +172,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.getUserSession(function (res) {
                 $scope.getUserSessionByResponse(res);
                 $scope.getUserById();
+                self.getAssignedCoach();
             });
         }
 

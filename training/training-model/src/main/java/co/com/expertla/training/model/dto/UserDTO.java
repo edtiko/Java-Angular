@@ -284,7 +284,11 @@ public class UserDTO {
                 return null;
             }
         }
-        return "data:image/png;base64," + base64Encoded;
+        if(!"".equals(base64Encoded)){
+        base64Encoded = "data:image/png;base64," + base64Encoded; 
+        }
+        
+        return base64Encoded;
     }
 
     public void setProfilePhoto(byte[] profilePhoto) {

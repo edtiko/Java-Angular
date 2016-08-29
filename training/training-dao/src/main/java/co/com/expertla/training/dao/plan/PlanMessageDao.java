@@ -20,6 +20,8 @@ import org.springframework.stereotype.Repository;
 public interface PlanMessageDao extends BaseDAO<PlanMessage>{
 
     public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId) throws DAOException;
+
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId)throws DAOException;
     
     
     

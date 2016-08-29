@@ -69,5 +69,25 @@ public class MessageController {
         }
 
     }
+    
+     @RequestMapping(value = "/get/count/available/messages/{coachAssignedPlanId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            Integer count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setOutput(count);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
 
 }

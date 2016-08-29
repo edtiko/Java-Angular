@@ -50,5 +50,10 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         planMessage.setCreationDate(new Date());
         return PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
     }
+
+    @Override
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId) throws Exception, TrainingException {
+        return planMessageDao.getCountMessagesByPlan(coachAssignedPlanId);
+    }
     
 }
