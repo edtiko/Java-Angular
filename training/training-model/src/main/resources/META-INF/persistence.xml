@@ -97,7 +97,10 @@
     <class>co.com.expertla.training.model.entities.VisibleFieldsUser</class>
     <class>co.com.expertla.training.model.entities.DisciplineSport</class>
     <class>co.com.expertla.training.model.entities.Weather</class>
-	<class>co.com.expertla.training.model.entities.Environment</class>
+    <class>co.com.expertla.training.model.entities.Environment</class>
+    <class>co.com.expertla.training.model.entities.Option</class>
+    <class>co.com.expertla.training.model.entities.RoleOption</class>
+    <class>co.com.expertla.training.model.entities.Module</class>
     <class>co.com.expertla.training.model.entities.BikeType</class>
     <class>co.com.expertla.training.model.entities.CoachAssignedPlan</class>
     <class>co.com.expertla.training.model.entities.PlanMessage</class>

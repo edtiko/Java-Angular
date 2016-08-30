@@ -51,7 +51,7 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         planMessage.setCoachAssignedPlanId(plan);
         planMessage.setMessage(message.getMessage());
         planMessage.setMessageUserId(messageUser);
-        planMessage.setStateId(new Integer(Status.ACTIVE.getName()));
+        planMessage.setStateId(new Integer(Status.ACTIVE.getId()));
         planMessage.setCreationDate(new Date());
         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
         

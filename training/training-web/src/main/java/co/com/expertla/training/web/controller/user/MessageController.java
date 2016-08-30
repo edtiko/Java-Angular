@@ -8,6 +8,7 @@ package co.com.expertla.training.web.controller.user;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.PlanMessageService;
+import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
@@ -57,13 +58,13 @@ public class MessageController {
         StringBuilder strResponse = new StringBuilder();
         try {
             List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(coachAssignedPlanId);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
@@ -77,13 +78,13 @@ public class MessageController {
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
@@ -97,13 +98,13 @@ public class MessageController {
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }

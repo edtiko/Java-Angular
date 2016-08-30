@@ -1,7 +1,7 @@
 package co.com.expertla.training.web.controller.questionnaire;
 
 import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.enums.StatusResponse;
+import co.com.expertla.training.web.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
@@ -40,7 +40,7 @@ public class QuestionOptionController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            questionOption.setStateId(Short.parseShort(Status.ACTIVE.getName()));
+            questionOption.setStateId(Short.parseShort(Status.ACTIVE.getId()));
             questionOptionService.create(questionOption);
             strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.QUESTION_OPTION_PROPERTIES, "questionOptionCreated"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -124,7 +124,7 @@ public class QuestionOptionController {
 
                 if (questionOptionList != null && !questionOptionList.isEmpty()) {
                     QuestionOption objQuestionOption = questionOptionList.get(0);
-                    objQuestionOption.setStateId(Short.parseShort(Status.DELETE.getName()));
+                    objQuestionOption.setStateId(Short.parseShort(Status.DELETE.getId()));
                     questionOptionService.merge(objQuestionOption);
                     strResponse.append(String.format(MessageUtil.getMessageFromBundle(MessageBundle.QUESTION_OPTION_PROPERTIES, "questionOptionDeleted"), objQuestionOption.getName()));
                     strResponse.append(",");

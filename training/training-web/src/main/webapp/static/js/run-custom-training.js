@@ -17,12 +17,12 @@ require.config({
         angularTouch: 'lib/angular-touch.min',
         angularAria: 'lib/angular-aria.min',
         angularMaterial: 'lib/angular-material',
-        //angularBoostrap: 'lib/ui-bootstrap-tpls.min',
+        angularDataTable: 'lib/md-data-table.min',
+        angularTranslate: 'lib/angular-translate.min',
+        angularTranslateConfig: 'lib/angular-translate-loader-static-files.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
-        angularAria: "lib/angular-aria.min",
-        angularMaterial: "lib/angular-material.min",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
         disciplineService: "configuration/service/disciplineService",
@@ -52,6 +52,8 @@ require.config({
         utilService: "lib/utilService",
         ngDialog: "lib/ngDialog.min",
         roleService: "security/service/roleService",
+        optionService: "security/service/optionService",
+        moduleService: "security/service/moduleService",
         bikeTypeService: "configuration/service/bikeTypeService"
     },
     shim: {
@@ -82,6 +84,13 @@ require.config({
             exports: 'ngMaterial',
             deps: ['angular']
         },
+        angularDataTable: {
+            deps: ['angular']
+        },
+        angularTranslate: {
+            deps: ['angular']
+        },
+        
         ngDialog:{
           exports: 'ngDialog',
           deps: ['angular']
@@ -90,10 +99,10 @@ require.config({
             exports: 'ngCamRecorder',
             deps: ['angular']
         },
-        /*angularBoostrap: {
+        angularBoostrap: {
             exports: 'angularBoostrap',
             deps: ['angular']
-        },*/
+        },
         opentokAngular: {
             exports: 'opentok',
             deps: ['angular']
@@ -138,9 +147,12 @@ require.config({
         visibleFieldsUserService: {
             deps: ['angular','trainingApp']
         },
+        angularTranslateConfig: {
+            deps: ['angular', 'angularTranslate']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket'
+                'sockjs', 'stompWebsocket', 'angularDataTable', 'angularTranslate'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
@@ -164,6 +176,12 @@ require.config({
         roleService: {
             deps: ['angular','trainingApp']
         },
+        optionService: {
+            deps: ['angular','trainingApp']
+        },
+        moduleService: {
+            deps: ['angular','trainingApp']
+        },
         bikeTypeService: {
             deps: ['angular','trainingApp']
         },
@@ -172,7 +190,9 @@ require.config({
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService','bikeTypeService'
+                ,'visibleFieldsUserService','utilService', 'dashboardService',
+                'roleService','messageService','bikeTypeService',
+                'optionService', 'angularTranslateConfig', 'moduleService'
 //                ,'videoService','videochatService'
 
             ] }

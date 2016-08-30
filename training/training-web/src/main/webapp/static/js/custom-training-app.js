@@ -3,8 +3,10 @@
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
-var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute','ngMessages','ngMaterial'])
-        .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide) {
+var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate','ngMaterial', 'md.data.table'])
+        .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
+                $translateProvider) {
 
             var route = routeResolverProvider.route;
 
@@ -23,20 +25,35 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/dashboard', route.resolve('dashboard', 'dashboard/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
-            
+
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
-            
+
                     .when('/register-user', route.resolve('registerUser', 'security/'))
                     
                     .when('/message', route.resolve('message', 'message/'))
 
                     .when('/calendar', route.resolve('calendar', 'calendar/'))
 
+                    .when('/create-module', route.resolve('module', 'security/'))
+            
+                    .when('/create-option', route.resolve('option', 'security/'))
+            
+                    .when('/create-role', route.resolve('role', 'security/'))
+
                     // route for the contact page
                     .when('/contact', {
                         templateUrl: 'static/views/contact.html',
                         controller: 'contactController'
                     });
+
+            $translateProvider.useStaticFilesLoader({
+                prefix: 'static/languages/',
+                suffix: '.json'
+            });
+
+            $translateProvider.preferredLanguage('es');
+
+
 
         });
 

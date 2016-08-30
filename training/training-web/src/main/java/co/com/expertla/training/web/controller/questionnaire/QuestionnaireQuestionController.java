@@ -1,7 +1,7 @@
 package co.com.expertla.training.web.controller.questionnaire;
 
 import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.enums.StatusResponse;
+import co.com.expertla.training.web.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
@@ -134,7 +134,7 @@ public class QuestionnaireQuestionController {
                 List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireQuestionId(objQuestionnaireQuestion.getQuestionnaireQuestionId());
                 if (questionnaireQuestionList != null && !questionnaireQuestionList.isEmpty()) {
                     QuestionnaireQuestion questionnaireQuestionObj = questionnaireQuestionList.get(0);
-                    questionnaireQuestionObj.setStateId(Short.parseShort(Status.DELETE.getName()));
+                    questionnaireQuestionObj.setStateId(Short.parseShort(Status.DELETE.getId()));
                     questionnaireQuestionService.merge(questionnaireQuestionObj);
                     strResponse.append(String.format(MessageUtil.getMessageFromBundle(MessageBundle.QUESTIONNAIRE_QUESTION_PROPERTIES, "questionnaireQuestionDeleted"), questionnaireQuestionObj.getQuestionnaireQuestionId()));
                     strResponse.append(",");

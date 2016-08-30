@@ -56,7 +56,7 @@ public class QuestionnaireCategoryDaoImpl extends BaseDAOImpl<QuestionnaireCateg
         builder.append("inner join c.seStatusId s ");
         builder.append("left join c.questionnaireParentId p ");
         builder.append("WHERE p is null ");
-        builder.append("AND c.seStatusId = ").append(Status.ACTIVE.getName());
+        builder.append("AND c.seStatusId = ").append(Status.ACTIVE.getId());
         builder.append(" AND u.questionnaireId.questionnaireId = :questionnaireId ");
         
         if(questionnaireQuestion.getQuestionnaireCategoryId() != null &&
@@ -84,7 +84,7 @@ public class QuestionnaireCategoryDaoImpl extends BaseDAOImpl<QuestionnaireCateg
         builder.append("u.questionnaireCategoryId.description, u.questionnaireCategoryId.creationDate, u.questionnaireCategoryId.seStatusId, ");
         builder.append("u.questionnaireCategoryId.questionnaireParentId, COUNT(u.questionId) as questionAmount ) FROM JpaQuestionnaireQuestion u ");
         builder.append("WHERE u.questionnaireCategoryId.questionnaireParentId.questionnaireCategoryId = :questionnaireCategoryId ");
-        builder.append("AND u.seStatusId.seStatusId = ").append(Status.ACTIVE.getName());
+        builder.append("AND u.seStatusId.seStatusId = ").append(Status.ACTIVE.getId());
         builder.append(" GROUP BY u.questionnaireCategoryId.questionnaireCategoryId, u.questionnaireCategoryId.name,");
         builder.append("u.questionnaireCategoryId.description, u.questionnaireCategoryId.creationDate, u.questionnaireCategoryId.seStatusId, ");
         builder.append("u.questionnaireCategoryId.questionnaireParentId");
@@ -97,7 +97,7 @@ public class QuestionnaireCategoryDaoImpl extends BaseDAOImpl<QuestionnaireCateg
         StringBuilder builder = new StringBuilder();
         builder.append("select u from QuestionnaireCategory u ");
         builder.append("WHERE u.questionnaireParentId.questionnaireCategoryId in :ids ");
-        builder.append("AND u.seStatusId.seStatusId = ").append(Status.ACTIVE.getName());
+        builder.append("AND u.seStatusId.seStatusId = ").append(Status.ACTIVE.getId());
         setParameter("ids", categoryIds);
         return createQuery(builder.toString());
     }
