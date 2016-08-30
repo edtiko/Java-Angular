@@ -59,7 +59,7 @@ public class ModuleDaoImpl extends BaseDAOImpl<Module> implements ModuleDao {
         int count = findAll().size();
         
         Query query = this.getEntityManager().createQuery(builder.toString());
-        query.setFirstResult(first-1);
+        query.setFirstResult(first);
         query.setMaxResults(max);
         List<ModuleDTO> list = query.getResultList();
         

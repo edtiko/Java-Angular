@@ -1,6 +1,7 @@
 package co.com.expertla.training.web.controller.security;
 
 import co.com.expertla.base.util.MessageUtil;
+import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.OptionDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.entities.Option;
@@ -55,6 +56,7 @@ public class OptionController {
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             
+            option.setStateId(Short.valueOf(Status.ACTIVE.getId()));
             option.setCreationDate(new Date());
             optionService.create(option);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.option", "msgRegistroCreado"));
@@ -174,7 +176,9 @@ public class OptionController {
     @RequestMapping(value = "/option/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
-        try {     
+        try {
+            paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
+            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<OptionDTO> optionList = optionService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(optionList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

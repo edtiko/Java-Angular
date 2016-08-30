@@ -4,7 +4,7 @@
 
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
-    'ngMessages', 'ngMaterial', 'ngDialog', 'pascalprecht.translate','ngMaterial', 'md.data.table'])
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate','ngMaterial', 'md.data.table'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
                 $translateProvider) {
 

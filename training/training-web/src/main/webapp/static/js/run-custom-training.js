@@ -54,8 +54,7 @@ require.config({
         roleService: "security/service/roleService",
         optionService: "security/service/optionService",
         moduleService: "security/service/moduleService",
-        bikeTypeService: "configuration/service/bikeTypeService",
-        roleService: "security/service/roleService"
+        bikeTypeService: "configuration/service/bikeTypeService"
     },
     shim: {
         angular: {
@@ -183,9 +182,6 @@ require.config({
         moduleService: {
             deps: ['angular','trainingApp']
         },
-        roleService: {
-            deps: ['angular','trainingApp']
-        },
         bikeTypeService: {
             deps: ['angular','trainingApp']
         },
@@ -194,8 +190,9 @@ require.config({
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'roleService'
+                ,'visibleFieldsUserService','utilService', 'dashboardService',
+                'roleService','messageService','bikeTypeService',
+                'optionService', 'angularTranslateConfig', 'moduleService'
 //                ,'videoService','videochatService'
 
             ] }

@@ -17,7 +17,7 @@
         <h2 class="md-toolbar-tools">Custom Pro Training</h2>
         <md-menu-bar>
             <md-menu>
-                <button ng-click="$mdOpenMenu()"> Bienvenido {{userLogin}}</button>
+                <button ng-click="$mdOpenMenu()"> <i class="fa fa-home"></i>Bienvenido {{userLogin}}</button>
                 <md-menu-content>
                     <md-menu-item>
                         <md-button href="#dashboard"> Abrir Dashboard</md-button>
@@ -42,32 +42,21 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-<!--            <md-menu>
-                <button ng-click="$mdOpenMenu()"><i class="fa fa-comments"></i> Mensajes</button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button href="#message"> Abrir Mensajes</md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>-->
             <md-menu>
                 <button ng-click="$mdOpenMenu()">Configuración </button>
                 <md-menu-content>
                     <md-menu-item>
                         <md-button href="#register-user"> Creación de Usuarios</md-button>
                     </md-menu-item>
-                </md-menu-content>
-                <md-menu-content>
+                    
                     <md-menu-item>
                         <md-button href="#create-module"> Creaci&oacute;n de M&oacute;dulos</md-button>
                     </md-menu-item>
-                </md-menu-content>
-                <md-menu-content>
+                    
                     <md-menu-item>
                         <md-button href="#create-option"> Creaci&oacute;n de Opciones</md-button>
                     </md-menu-item>
-                </md-menu-content>
-                <md-menu-content>
+                    
                     <md-menu-item>
                         <md-button href="#create-role"> Creaci&oacute;n de Roles</md-button>
                     </md-menu-item>

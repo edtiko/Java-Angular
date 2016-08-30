@@ -1,6 +1,7 @@
 package co.com.expertla.training.web.controller.security;
 
 import co.com.expertla.base.util.MessageUtil;
+import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ModuleDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.entities.Module;
@@ -55,7 +56,8 @@ public class ModuleController {
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
-
+            
+            module.setStateId(Short.valueOf(Status.ACTIVE.getId()));
             module.setCreationDate(new Date());
             moduleService.create(module);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.module", "msgRegistroCreado"));
@@ -181,6 +183,8 @@ public class ModuleController {
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {
+            paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
+            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<ModuleDTO> moduleList = moduleService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(moduleList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

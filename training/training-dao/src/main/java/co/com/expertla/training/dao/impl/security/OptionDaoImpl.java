@@ -60,7 +60,7 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
         int count = findAll().size();
         
         Query query = this.getEntityManager().createQuery(builder.toString());
-        query.setFirstResult(first-1);
+        query.setFirstResult(first);
         query.setMaxResults(max);
         List<OptionDTO> list = query.getResultList();
         
