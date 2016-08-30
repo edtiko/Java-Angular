@@ -1,9 +1,9 @@
 'use strict';
-trainingApp.service('DisciplineService', ['$http', '$q', function ($http, $q) {
+trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) {
         return {
             
             getPaginate: function(query, res){
-                    return $http.post($contextPath+'discipline/paginated', query)
+                    return $http.post($contextPath+'trainingPlan/paginated', query)
                             .then(
                                     res, 
                                     function(errResponse){
@@ -12,66 +12,53 @@ trainingApp.service('DisciplineService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-            getDisciplineById: function (id) {
-                return $http.get($contextPath + '/get/discipline/by/' + id)
+            getTrainingPlanById: function (id) {
+                return $http.get($contextPath + '/get/trainingPlan/by/' + id)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while fetching disciplines');
+                                    console.error('Error while fetching trainingPlans');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            createDiscipline: function (discipline) {
-                return $http.post($contextPath + '/discipline/create', discipline)
+            createTrainingPlan: function (trainingPlan) {
+                return $http.post($contextPath + '/trainingPlan/create', trainingPlan)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while creating discipline');
+                                    console.error('Error while creating trainingPlan');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            mergeDiscipline: function (discipline) {
-                return $http.post($contextPath + '/discipline/update', discipline)
+            mergeTrainingPlan: function (trainingPlan) {
+                return $http.post($contextPath + '/trainingPlan/update', trainingPlan)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while updating discipline');
+                                    console.error('Error while updating trainingPlan');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            deleteDiscipline: function (discipline) {
-                return $http.post($contextPath + '/discipline/delete',discipline)
+            deleteTrainingPlan: function (trainingPlan) {
+                return $http.post($contextPath + '/trainingPlan/delete',trainingPlan)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while deleting discipline');
+                                    console.error('Error while deleting trainingPlan');
                                     return $q.reject(errResponse);
                                 }
                         );
-            },
-            
-            getSportDisciplines: function() {
-                    return $http.get($contextPath+'sportDiscipline/get/all')
-                            .then(
-                                    function(response){
-                                        return response.data.entity.output;
-                                    }, 
-                                    function(errResponse){
-                                        console.error('Error while getting disciplines');
-                                        return $q.reject(errResponse);
-                                    }
-                            );
             }
         };
     }]);

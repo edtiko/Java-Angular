@@ -1,47 +1,19 @@
-package co.com.expertla.training.service.configuration;
+package co.com.expertla.training.dao.configuration;
 
+import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.dto.ObjectiveDTO;
 import co.com.expertla.training.model.entities.Objective;
 import java.util.List;
 
 /**
-* Objective Service <br>
+* Objective Dao <br>
 * Info. Creación: <br>
 * fecha 30/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
-public interface ObjectiveService {
+public interface ObjectiveDao extends BaseDAO<Objective> {
     
-
-    /**
-     * Crea objective <br>
-     * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @param objective
-     * @return 
-     * @throws Exception 
-     */
-    public Objective create(Objective objective) throws Exception;
-    /**
-     * Modifica objective <br>
-     * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @param objective
-     * @return 
-     * @throws Exception 
-     */
-    public Objective store(Objective objective) throws Exception;
-    /**
-     * Elimina objective<br>
-     * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @param objective 
-     * @throws Exception 
-     */
-    public void remove(Objective objective) throws Exception;
+    
     /**
      * Obtiene todos los registros de objective <br>
      * Info. Creación: <br>
@@ -74,9 +46,9 @@ public interface ObjectiveService {
      * @throws Exception 
      */
     public List<ObjectiveDTO> findPaginate(int first, int max, String order) throws Exception;
-    
+
     /**
-     * Obtiene todos los registros de objective paginados <br>
+     * Obtiene todos los registros de objective por su id <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
@@ -97,7 +69,4 @@ public interface ObjectiveService {
      */
     public List<Objective> findByFiltro(Objective objective) throws Exception; 
 
-
-
-    
 }

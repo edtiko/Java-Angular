@@ -155,7 +155,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
         };
 
         $scope.logout = function () {
-            window.location = 'http://181.143.227.220:8081/cpt/my-account/customer-logout/';
+            window.location = 'http://181.143.227.220:8081/cpt/mi-cuenta/customer-logout/';
         };
     }]);
 
