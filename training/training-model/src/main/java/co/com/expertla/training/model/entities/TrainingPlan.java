@@ -51,7 +51,7 @@ public class TrainingPlan implements Serializable {
     private BigDecimal duration;
     @Basic(optional = false)
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Basic(optional = false)
     @Column(name = "end_date")
@@ -65,8 +65,17 @@ public class TrainingPlan implements Serializable {
     private Integer emailCount;
     @Column(name = "call_count")
     private Integer callCount;
+    @Column(name = "state_id")
+    private Short stateId;
     @OneToMany(mappedBy = "trainingPlanId")
     private Collection<TrainingPlanUser> trainingPlanUserCollection;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_update")
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
     
 
     public TrainingPlan() {
@@ -130,6 +139,38 @@ public class TrainingPlan implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
     }
 
     public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {

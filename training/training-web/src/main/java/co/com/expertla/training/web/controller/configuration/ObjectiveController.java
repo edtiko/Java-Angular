@@ -1,47 +1,194 @@
 package co.com.expertla.training.web.controller.configuration;
 
+import co.com.expertla.base.util.MessageUtil;
+import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ObjectiveDTO;
-import co.com.expertla.training.model.entities.ResponseService;
-import co.com.expertla.training.web.enums.StatusResponse;
+import co.com.expertla.training.model.dto.PaginateDto;
+import co.com.expertla.training.model.entities.Objective;
 import java.util.List;
-import javax.ws.rs.core.Response;
-import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
+import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.configuration.ObjectiveService;
+import co.com.expertla.training.web.enums.StatusResponse;
+import java.util.Date;
+import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import co.com.expertla.training.service.configuration.ObjectiveService;
+
 
 /**
-* Controller for Objective <br>
-* Creation Date : <br>
-* date 18/07/2016 <br>
-* @author Angela Ram韗ez
+* Objective Controller <br>
+* Info. Creaci贸n: <br>
+* fecha 30/08/2016 <br>
+* @author Andres Felipe Lopez Rodriguez
 **/
-@RestController()
+
+@RestController
 public class ObjectiveController {
-    
+
     @Autowired
-    private ObjectiveService objectiveService;
-    
-    @RequestMapping(value = "objective/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response getAll() {
-        StringBuilder strResponse = new StringBuilder();
-        ResponseService responseService = new ResponseService();
-        try {
-            List<ObjectiveDTO> objectives = objectiveService.findAll();
-            responseService.setOutput(objectives);
-            return Response.status(Response.Status.OK).entity(responseService).build();
-        }   catch (Exception e) {
-            Logger.getLogger(ObjectiveController.class.getName()).log(Priority.FATAL, null, e);
-//            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
-            responseService.setOutput(strResponse);
+    ObjectiveService objectiveService;  
+
+    /**
+     * Crea objective <br>
+     * Info. Creaci贸n: <br>
+     * fecha 30/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param objective
+     * @return
+     */
+    @RequestMapping(value = "objective/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> createObjective(@RequestBody Objective objective) {
+            ResponseService responseService = new ResponseService();
+        try {  
+            Objective objectiveName = new Objective();
+            objectiveName.setName(objective.getName());
+            List<Objective> listObjectiveName = objectiveService.findByFiltro(objectiveName);
+            
+            if(listObjectiveName != null && !listObjectiveName.isEmpty()) {
+                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgNombreExiste"));
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
+            
+            objective.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+            objective.setCreationDate(new Date());
+            objectiveService.create(objective);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgRegistroCreado"));
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear registro");
+            responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
-            responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 
+    /**
+     * Modifica objective <br>
+     * Info. Creaci贸n: <br>
+     * fecha 30/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param objective
+     * @return
+     */
+    @RequestMapping(value = "objective/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> updateObjective(@RequestBody Objective objective) {
+            ResponseService responseService = new ResponseService();
+        try {    
+            Objective objectiveName = new Objective();
+            objectiveName.setName(objective.getName());
+            List<Objective> listObjectiveName = objectiveService.findByFiltro(objectiveName);
+            
+            if(listObjectiveName != null && !listObjectiveName.isEmpty()) {
+                boolean existName = false;
+                for (Objective objective1 : listObjectiveName) {
+                    if (!objective1.getObjectiveId().equals(objective.getObjectiveId())) {
+                        existName = true;
+                    }
+                }
+
+                if (existName) {
+                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgNombreExiste"));
+                    responseService.setStatus(StatusResponse.FAIL.getName());
+                    return new ResponseEntity<>(responseService, HttpStatus.OK);
+                }                
+            }
+            
+            objective.setLastUpdate(new Date());
+            objectiveService.store(objective);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgRegistroEditado"));
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al modificar registro");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Elimina objective <br>
+     * Info. Creaci贸n: <br>
+     * fecha 30/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param objective
+     * @return
+     */
+    @RequestMapping(value = "objective/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> deleteObjective(@RequestBody Objective objective) {
+            ResponseService responseService = new ResponseService();
+        try {           
+            objectiveService.remove(objective);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgRegistroEliminado"));
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al eliminar registro");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta objective <br>
+     * Info. Creaci贸n: <br>
+     * fecha 30/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @return
+     */
+    @RequestMapping(value = "/objective/get/all", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> list() {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<Objective> objectiveList = objectiveService.findAllActive();
+            responseService.setOutput(objectiveList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+
+    /**
+     * Consulta objective paginado <br>
+     * Info. Creaci贸n: <br>
+     * fecha 30/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param paginateDto
+     * @return
+     */
+    @RequestMapping(value = "/objective/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
+        ResponseService responseService = new ResponseService();
+        try {   
+            paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
+            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
+            List<ObjectiveDTO> objectiveList = objectiveService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            responseService.setOutput(objectiveList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 }

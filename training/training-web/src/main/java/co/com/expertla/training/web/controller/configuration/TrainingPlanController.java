@@ -2,12 +2,12 @@ package co.com.expertla.training.web.controller.configuration;
 
 import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.Status;
-import co.com.expertla.training.model.dto.DisciplineDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
-import co.com.expertla.training.model.entities.Discipline;
+import co.com.expertla.training.model.dto.TrainingPlanDTO;
+import co.com.expertla.training.model.entities.TrainingPlan;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.service.configuration.DisciplineService;
+import co.com.expertla.training.service.configuration.TrainingPlanService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
@@ -22,48 +22,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
-* Discipline Controller <br>
+* TrainingPlan Controller <br>
 * Info. Creación: <br>
 * fecha 30/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 
 @RestController
-public class DisciplineController {
+public class TrainingPlanController {
 
     @Autowired
-    DisciplineService disciplineService;  
+    TrainingPlanService trainingPlanService;  
 
     /**
-     * Crea discipline <br>
+     * Crea trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
+     * @param trainingPlan
      * @return
      */
-    @RequestMapping(value = "discipline/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> createDiscipline(@RequestBody Discipline discipline) {
+    @RequestMapping(value = "trainingPlan/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> createTrainingPlan(@RequestBody TrainingPlan trainingPlan) {
             ResponseService responseService = new ResponseService();
         try {  
-            Discipline disciplineName = new Discipline();
-            disciplineName.setName(discipline.getName());
-            List<Discipline> listDisciplineName = disciplineService.findByFiltro(disciplineName);
+            TrainingPlan trainingPlanName = new TrainingPlan();
+            trainingPlanName.setName(trainingPlan.getName());
+            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByFiltro(trainingPlanName);
             
-            if(listDisciplineName != null && !listDisciplineName.isEmpty()) {
-                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.discipline", "msgNombreExiste"));
+            if(listTrainingPlanName != null && !listTrainingPlanName.isEmpty()) {
+                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgNombreExiste"));
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             
-            discipline.setStateId(Short.valueOf(Status.ACTIVE.getId()));
-            discipline.setCreationDate(new Date());
-            disciplineService.create(discipline);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.discipline", "msgRegistroCreado"));
+            trainingPlan.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+            trainingPlan.setCreationDate(new Date());
+            trainingPlanService.create(trainingPlan);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(DisciplineController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -72,43 +72,43 @@ public class DisciplineController {
     }
 
     /**
-     * Modifica discipline <br>
+     * Modifica trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
+     * @param trainingPlan
      * @return
      */
-    @RequestMapping(value = "discipline/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> updateDiscipline(@RequestBody Discipline discipline) {
+    @RequestMapping(value = "trainingPlan/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> updateTrainingPlan(@RequestBody TrainingPlan trainingPlan) {
             ResponseService responseService = new ResponseService();
         try {    
-            Discipline disciplineName = new Discipline();
-            disciplineName.setName(discipline.getName());
-            List<Discipline> listDisciplineName = disciplineService.findByFiltro(disciplineName);
+            TrainingPlan trainingPlanName = new TrainingPlan();
+            trainingPlanName.setName(trainingPlan.getName());
+            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByFiltro(trainingPlanName);
             
-            if(listDisciplineName != null && !listDisciplineName.isEmpty()) {
+            if(listTrainingPlanName != null && !listTrainingPlanName.isEmpty()) {
                 boolean existName = false;
-                for (Discipline discipline1 : listDisciplineName) {
-                    if (!discipline1.getDisciplineId().equals(discipline.getDisciplineId())) {
+                for (TrainingPlan trainingPlan1 : listTrainingPlanName) {
+                    if (!trainingPlan1.getTrainingPlanId().equals(trainingPlan.getTrainingPlanId())) {
                         existName = true;
                     }
                 }
 
                 if (existName) {
-                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.discipline", "msgNombreExiste"));
+                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgNombreExiste"));
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }                
             }
             
-            discipline.setLastUpdate(new Date());
-            disciplineService.store(discipline);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.discipline", "msgRegistroEditado"));
+            trainingPlan.setLastUpdate(new Date());
+            trainingPlanService.store(trainingPlan);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgRegistroEditado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(DisciplineController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al modificar registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -117,23 +117,23 @@ public class DisciplineController {
     }
 
     /**
-     * Elimina discipline <br>
+     * Elimina trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
+     * @param trainingPlan
      * @return
      */
-    @RequestMapping(value = "discipline/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> deleteDiscipline(@RequestBody Discipline discipline) {
+    @RequestMapping(value = "trainingPlan/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> deleteTrainingPlan(@RequestBody TrainingPlan trainingPlan) {
             ResponseService responseService = new ResponseService();
         try {           
-            disciplineService.remove(discipline);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.discipline", "msgRegistroEliminado"));
+            trainingPlanService.remove(trainingPlan);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgRegistroEliminado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(DisciplineController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al eliminar registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -142,22 +142,22 @@ public class DisciplineController {
     }
     
     /**
-     * Consulta discipline <br>
+     * Consulta trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
-    @RequestMapping(value = "/discipline/get/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/trainingPlan/get/all", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> list() {
         ResponseService responseService = new ResponseService();
         try {     
-            List<Discipline> disciplineList = disciplineService.findAllActive();
-            responseService.setOutput(disciplineList);
+            List<TrainingPlan> trainingPlanList = trainingPlanService.findAllActive();
+            responseService.setOutput(trainingPlanList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(DisciplineController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al consultar");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -166,25 +166,25 @@ public class DisciplineController {
     }
 
     /**
-     * Consulta discipline paginado <br>
+     * Consulta trainingPlan paginado <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param paginateDto
      * @return
      */
-    @RequestMapping(value = "/discipline/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/trainingPlan/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
             paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
-            List<DisciplineDTO> disciplineList = disciplineService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
-            responseService.setOutput(disciplineList);
+            List<TrainingPlanDTO> trainingPlanList = trainingPlanService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            responseService.setOutput(trainingPlanList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(DisciplineController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al consultar");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
