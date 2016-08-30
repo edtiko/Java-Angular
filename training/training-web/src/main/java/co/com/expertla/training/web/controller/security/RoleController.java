@@ -1,10 +1,10 @@
-package co.com.expertla.training.web.security.controller;
+package co.com.expertla.training.web.controller.security;
 
 import co.com.expertla.training.model.dto.RoleDTO;
 import co.com.expertla.training.model.entities.Role;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.security.service.RoleService;
+import co.com.expertla.training.service.security.RoleService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.logging.Level;
 import javax.ws.rs.core.Response;

@@ -1,7 +1,7 @@
 package co.com.expertla.training.web.controller.questionnaire;
 
 import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.enums.StatusResponse;
+import co.com.expertla.training.web.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
@@ -52,7 +52,7 @@ public class QuestionController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
             
-            question.setStateId(Short.parseShort(Status.ACTIVE.getName()));
+            question.setStateId(Short.parseShort(Status.ACTIVE.getId()));
             questionService.create(question);
             strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.QUESTION_PROPERTIES, "questionCreated"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -137,7 +137,7 @@ public class QuestionController {
                 
                 if (questionList != null && !questionList.isEmpty()) {
                     Question objQuestion = questionList.get(0);
-                    objQuestion.setStateId(Short.parseShort(Status.DELETE.getName()));
+                    objQuestion.setStateId(Short.parseShort(Status.DELETE.getId()));
                     questionService.merge(objQuestion);
                     strResponse.append(String.format(MessageUtil.getMessageFromBundle(MessageBundle.QUESTION_PROPERTIES, "questionDeleted"), objQuestion.getName()));
                     strResponse.append(",");

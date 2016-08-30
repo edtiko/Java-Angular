@@ -1,4 +1,4 @@
-package co.com.expertla.training.security.service;
+package co.com.expertla.training.service.security;
 
 import co.com.expertla.training.model.dto.RoleDTO;
 import co.com.expertla.training.model.entities.Role;

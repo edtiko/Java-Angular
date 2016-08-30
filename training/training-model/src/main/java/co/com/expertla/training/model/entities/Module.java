@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package co.com.expertla.training.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -7,6 +12,9 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,76 +24,56 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Edwin G
+ * @author Andres Lopez
  */
 @Entity
-@Table(name = "role")
-@NamedQueries({
-    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r"),
-    @NamedQuery(name = "Role.findByRoleId", query = "SELECT r FROM Role r WHERE r.roleId = :roleId"),
-    @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name")})
-public class Role implements Serializable {
+@Table(name = "module")
+@XmlRootElement
+public class Module implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "role_id")
-    private Integer roleId;
-    @Basic(optional = false)
+    @Column(name = "module_id")
+    private Integer moduleId;
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "roleId")
-    private Collection<RoleUser> roleUserCollection;
-    @Column(name = "state_id")
-    private Short stateId;
+    @Column(name = "description")
+    private String description;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "last_update")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
     @Column(name = "user_create")
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @OneToMany(mappedBy = "moduleId", fetch = FetchType.LAZY)
+    private Collection<Option> optionCollection;
+    @Column(name = "state_id")
+    private Short stateId;
 
-    public Role() {
+    public Module() {
     }
 
-    public Role(Integer roleId) {
-        this.roleId = roleId;
+    public Module(Integer moduleId) {
+        this.moduleId = moduleId;
     }
 
-    public Role(Integer roleId, String name) {
-        this.roleId = roleId;
-        this.name = name;
+    public Integer getModuleId() {
+        return moduleId;
     }
 
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    @JsonIgnore
-    public Collection<RoleUser> getRoleUserCollection() {
-        return roleUserCollection;
-    }
-
-    public void setRoleUserCollection(Collection<RoleUser> roleUserCollection) {
-        this.roleUserCollection = roleUserCollection;
+    public void setModuleId(Integer moduleId) {
+        this.moduleId = moduleId;
     }
 
     public Short getStateId() {
@@ -96,6 +84,22 @@ public class Role implements Serializable {
         this.stateId = stateId;
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Date getCreationDate() {
         return creationDate;
@@ -129,21 +133,31 @@ public class Role implements Serializable {
         this.userUpdate = userUpdate;
     }
 
+    @XmlTransient
+    @JsonIgnore
+    public Collection<Option> getOptionCollection() {
+        return optionCollection;
+    }
+
+    public void setOptionCollection(Collection<Option> optionCollection) {
+        this.optionCollection = optionCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (roleId != null ? roleId.hashCode() : 0);
+        hash += (moduleId != null ? moduleId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Role)) {
+        if (!(object instanceof Module)) {
             return false;
         }
-        Role other = (Role) object;
-        if ((this.roleId == null && other.roleId != null) || (this.roleId != null && !this.roleId.equals(other.roleId))) {
+        Module other = (Module) object;
+        if ((this.moduleId == null && other.moduleId != null) || (this.moduleId != null && !this.moduleId.equals(other.moduleId))) {
             return false;
         }
         return true;
@@ -151,7 +165,7 @@ public class Role implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.Role[ roleId=" + roleId + " ]";
+        return "co.com.expertla.training.model.entities.Module[ moduleId=" + moduleId + " ]";
     }
     
 }

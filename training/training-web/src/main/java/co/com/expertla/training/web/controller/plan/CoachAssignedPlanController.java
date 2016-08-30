@@ -8,6 +8,7 @@ package co.com.expertla.training.web.controller.plan;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
+import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
@@ -37,13 +38,13 @@ public class CoachAssignedPlanController {
         StringBuilder strResponse = new StringBuilder();
         try {
             List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
@@ -57,13 +58,13 @@ public class CoachAssignedPlanController {
         StringBuilder strResponse = new StringBuilder();
         try {
             CoachAssignedPlanDTO assignedCoach = coachService.findByAthleteUserId(athleteUserId);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(assignedCoach);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }

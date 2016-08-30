@@ -1,4 +1,4 @@
-package co.com.expertla.training.security.dao;
+package co.com.expertla.training.dao.security;
 
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.dto.RoleDTO;

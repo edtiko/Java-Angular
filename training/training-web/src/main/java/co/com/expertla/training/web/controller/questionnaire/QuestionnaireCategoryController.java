@@ -1,7 +1,7 @@
 package co.com.expertla.training.web.controller.questionnaire;
 
 import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.enums.StatusResponse;
+import co.com.expertla.training.web.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
@@ -46,7 +46,7 @@ public class QuestionnaireCategoryController {
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
 
-            questionnaireCategory.setStateId(Short.parseShort(Status.ACTIVE.getName()));
+            questionnaireCategory.setStateId(Short.parseShort(Status.ACTIVE.getId()));
             questionnaireCategoryService.create(questionnaireCategory);
             strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.QUESTIONNAIRE_CATEGORY_PROPERTIES, "questionnaireCategoryCreated"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -129,7 +129,7 @@ public class QuestionnaireCategoryController {
                 List<QuestionnaireCategory> questionnaireCategoryList = questionnaireCategoryService.findByQuestionnaireCategoryId(objQuestionnaireCategory);
                 if (questionnaireCategoryList != null && !questionnaireCategoryList.isEmpty()) {
                     QuestionnaireCategory questionnaireCategoryObj = questionnaireCategoryList.get(0);
-                    questionnaireCategoryObj.setStateId(Short.parseShort(Status.INACTIVE.getName()));
+                    questionnaireCategoryObj.setStateId(Short.parseShort(Status.INACTIVE.getId()));
                     questionnaireCategoryService.merge(questionnaireCategoryObj);
                     strResponse.append(String.format(MessageUtil.getMessageFromBundle(MessageBundle.QUESTIONNAIRE_CATEGORY_PROPERTIES, "questionnaireCategoryDeleted"), objQuestionnaireCategory.getQuestionnaireCategoryId()));
                     strResponse.append(",");

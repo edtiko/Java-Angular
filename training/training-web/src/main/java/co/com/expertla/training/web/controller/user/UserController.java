@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 @RestController
 public class UserController {
@@ -90,20 +91,20 @@ public class UserController {
                 byte[] bytes = file.getBytes();
                 userService.saveProfilePhoto(bytes, userId);
                 strResponse.append("Imagen cargada correctamente.");
-                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
                 responseService.setOutput(strResponse);
                 return Response.status(Response.Status.OK).entity(responseService).build();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
                 responseService.setOutput(strResponse);
-                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+                responseService.setStatus(StatusResponse.FAIL.getName());
                 responseService.setDetail(e.getMessage());
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
             }
         } else {
             strResponse.append("Imagen cargada esta vacia.");
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
@@ -229,8 +230,10 @@ public class UserController {
                 response.sendRedirect("http://181.143.227.220:8081/cpt/my-account/customer-logout/");
                 return null;
             }
-
+            
             session.setAttribute("user", userDto);
+            Locale locale = new Locale("es", "CO");
+            Locale.setDefault(locale);
             response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
             return null;
         } catch (Exception ex) {
@@ -348,20 +351,20 @@ public class UserController {
                 //byte[] bytes = file.getBytes();
                 Files.copy(file.getInputStream(), Paths.get(ROOT, filename));
                 strResponse.append("video cargado correctamente.");
-                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
                 responseService.setOutput(strResponse);
                 return Response.status(Response.Status.OK).entity(responseService).build();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
                 responseService.setOutput(strResponse);
-                responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+                responseService.setStatus(StatusResponse.FAIL.getName());
                 responseService.setDetail(e.getMessage());
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
             }
         } else {
             strResponse.append("Video cargado esta vacio.");
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
@@ -376,13 +379,13 @@ public class UserController {
             String sessionId = opentok.createSession().getSessionId();
             String token = opentok.generateToken(sessionId);
             OpenTokDTO openTok = new OpenTokDTO(apiKey, sessionId, token);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(openTok);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (NumberFormatException | OpenTokException e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
-            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
