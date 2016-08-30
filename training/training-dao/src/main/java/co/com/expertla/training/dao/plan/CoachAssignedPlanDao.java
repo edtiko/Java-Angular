@@ -21,4 +21,6 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     
     CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws DAOException;
     
+    public CoachAssignedPlan findById(Integer id) throws DAOException;
+    
 }

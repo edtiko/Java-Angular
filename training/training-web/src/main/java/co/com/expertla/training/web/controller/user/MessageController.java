@@ -27,13 +27,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MessageController {
-    
+
     private static final Logger LOGGER = Logger.getLogger(MessageController.class);
-    
+
     @Autowired
     private PlanMessageService planMessageService;
-    
-    @Autowired 
+
+    @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/chat/{sessionId}")
@@ -41,15 +41,15 @@ public class MessageController {
     public void sendMessage(PlanMessageDTO message, @DestinationVariable("sessionId") Integer sessionId) {
         PlanMessageDTO msg = null;
         try {
-          msg  = planMessageService.saveMessage(message);
+            msg = planMessageService.saveMessage(message);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-         
+
         }
-        simpMessagingTemplate.convertAndSend("/queue/message/"+sessionId, msg);
+        simpMessagingTemplate.convertAndSend("/queue/message/" + sessionId, msg);
         //return new OutputMessage(message, new Date());
     }
-    
+
     @RequestMapping(value = "/get/messages/{coachAssignedPlanId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId) {
@@ -69,14 +69,34 @@ public class MessageController {
         }
 
     }
-    
-     @RequestMapping(value = "/get/count/available/messages/{coachAssignedPlanId}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/get/count/available/messages/{coachAssignedPlanId}/{userId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId) {
+    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            Integer count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId);
+            Integer count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
+            responseService.setOutput(count);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(co.com.expertla.training.enums.StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+
+    @RequestMapping(value = "/get/count/received/messages/{coachAssignedPlanId}/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            Integer count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId);
             responseService.setStatus(co.com.expertla.training.enums.StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
             return Response.status(Response.Status.OK).entity(responseService).build();

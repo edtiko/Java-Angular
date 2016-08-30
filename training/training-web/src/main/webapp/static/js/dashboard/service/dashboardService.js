@@ -38,18 +38,6 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 return $q.reject(errResponse);
                             }
                     );
-        },
-          getAvailableMessages: function (coachAssignedPlanId) {
-            return $http.get($contextPath + 'get/count/available/messages/' + coachAssignedPlanId)
-                    .then(
-                            function (response) {
-                                return response.data;
-                            },
-                            function (errResponse) {
-                                console.error('Error while available messages');
-                                return $q.reject(errResponse);
-                            }
-                    );
         }
         };
     }]);

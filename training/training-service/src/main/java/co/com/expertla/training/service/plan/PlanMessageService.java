@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.service.plan;
 
+import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import java.util.List;
@@ -19,6 +20,8 @@ public interface PlanMessageService {
 
     public PlanMessageDTO saveMessage(PlanMessageDTO message)throws  Exception, TrainingException;
 
-    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId)throws  Exception, TrainingException;
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId)throws  Exception, TrainingException;
+    
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId)throws  Exception;
     
 }

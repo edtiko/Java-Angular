@@ -21,7 +21,9 @@ public interface PlanMessageDao extends BaseDAO<PlanMessage>{
 
     public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId) throws DAOException;
 
-    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId)throws DAOException;
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId)throws DAOException;
+    
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId) throws DAOException;
     
     
     

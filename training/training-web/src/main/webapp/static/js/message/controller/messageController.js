@@ -11,17 +11,21 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
 
 
         $scope.addMessage = function () {
-            if ($scope.userSession != null && $scope.coachAssignedPlan != null) {
+            self.getAvailableMessages($scope.coachAssignedPlan.id, $scope.userSession.userId, function(){
+            if ($scope.userSession != null && $scope.coachAssignedPlan != null && $scope.availableMessage > 0) {
                 $scope.planMessage.coachAssignedPlanId.id = $scope.coachAssignedPlan.id;
                 $scope.planMessage.coachAssignedPlanId.athleteUserId.userId = $scope.coachAssignedPlan.athleteUserId.userId;
                 $scope.planMessage.coachAssignedPlanId.coachUserId.userId = $scope.coachAssignedPlan.coachUserId.userId;
                 $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                 messageService.send($scope.planMessage);
                 $scope.planMessage.message = "";
-
-            } else {
+            }else if($scope.availableMessage == 0){
+                $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
+            } 
+            else {
                 $scope.showMessage("Seleccione una relación atleta y coach");
             }
+        });
         };
 
         messageService.receive().then(null, null, function (message) {
@@ -70,6 +74,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
                 self.getImageProfile($scope.coachAssignedPlan.coachUserId.userId);
                 $scope.userChat = $scope.coachAssignedPlan.coachUserId.fullName;
             }
+            self.getAvailableMessages(coachAssignedPlanSelected.id, $scope.userSession.userId);
             messageService.getMessages($scope.coachAssignedPlan.id).then(
                     function (data) {
                         $scope.messages = data.entity.output;
@@ -91,6 +96,20 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
                     function (data) {
                         $scope.selectChat(data.entity.output);
 
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+        self.getAvailableMessages = function (coachAssignedPlanId, userId, fn) {
+            messageService.getAvailableMessages(coachAssignedPlanId, userId).then(
+                    function (data) {
+                        $scope.availableMessage = data.entity.output;
+                        if (fn != null) {
+                            fn();
+                        }
                     },
                     function (error) {
                         //$scope.showMessage(error);

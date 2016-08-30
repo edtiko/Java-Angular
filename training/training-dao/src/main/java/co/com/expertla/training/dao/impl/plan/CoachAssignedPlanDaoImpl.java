@@ -46,5 +46,19 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
         List<CoachAssignedPlanDTO> list = query.getResultList();
         return (list == null || list.isEmpty()) ? null : list.get(0);
     }
+
+    @Override
+    public CoachAssignedPlan findById(Integer id) throws DAOException {
+        try {
+            String qlString = "SELECT u FROM CoachAssignedPlan u WHERE u.coachAssignedPlanId = :coachAssignedPlanId";
+            setParameter("coachAssignedPlanId", id);
+            List<CoachAssignedPlan> query = createQuery(qlString);
+            return query.get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    
     
 }

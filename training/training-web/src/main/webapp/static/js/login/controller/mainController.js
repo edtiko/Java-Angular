@@ -40,7 +40,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
       $mdDialog.alert()
         .parent(angular.element(document.querySelector('#user-container')))
         .clickOutsideToClose(true)
-        .title('Confirmacion')
+        .title('Confirmaci\u00f3n')
         .textContent(msg)
         .ariaLabel('Alert Dialog Demo')
         .ok('Aceptar')
@@ -122,11 +122,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                                 function (response) {
                                     $scope.fields = response;
                                     for (var i = 0; i < $scope.fields.length; i++) {
+                                        $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = true;
                                         if (!$scope.inFieldsArray({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId}, $scope.visibleFields)) {
-                                            $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});
-                                            $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = true;
-                                        }else{
-                                          $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = false;  
+                                            
+                                            $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});                                       
                                         }
                                     }
                                 },

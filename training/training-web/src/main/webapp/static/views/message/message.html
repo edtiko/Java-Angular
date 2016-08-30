@@ -30,13 +30,12 @@
             </div>
             <br />
             <md-divider></md-divider>
-            <div flex layout="column">
-                <fieldset>
+            <div flex layout="column" style="border: 1px solid #e1e1e1; ">
             <form ng-submit="addMessage()" name="messageForm">
                  <section layout="row" layout-sm="column" layout-wrap>
                      <div flex="90">
                    <md-input-container class="md-block" >
-                <input type="text" placeholder="Escriba aqu&iacute;..." ng-model="planMessage.message" />
+                <input type="text" placeholder="Escriba aqu&iacute; su mensaje..." ng-model="planMessage.message" />
                    </md-input-container>
                      </div>
                      <div >
@@ -46,7 +45,6 @@
                      </div>
                  </section>
             </form>
-                </fieldset>
             </div>
         </div>
         <div flex="20" layout="column"  style="margin-top:  0px">

@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.service.impl.plan;
 
+import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.dao.plan.PlanMessageDao;
 import co.com.expertla.training.dao.user.UserDao;
 import co.com.expertla.training.enums.Status;
@@ -33,6 +34,9 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     
     @Autowired
     UserDao userDao;
+    
+    @Autowired
+    CoachAssignedPlanDao coachAssignedPlanDao;
 
     @Override
     public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId) throws Exception, TrainingException {
@@ -43,17 +47,29 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     public PlanMessageDTO saveMessage(PlanMessageDTO message) throws Exception, TrainingException {
         PlanMessage planMessage = new PlanMessage();
         User messageUser = userDao.findById(message.getMessageUserId().getUserId());
-        planMessage.setCoachAssignedPlanId(new CoachAssignedPlan(message.getCoachAssignedPlanId().getId()));
+        CoachAssignedPlan plan = coachAssignedPlanDao.findById(message.getCoachAssignedPlanId().getId());
+        planMessage.setCoachAssignedPlanId(plan);
         planMessage.setMessage(message.getMessage());
         planMessage.setMessageUserId(messageUser);
         planMessage.setStateId(new Integer(Status.ACTIVE.getName()));
         planMessage.setCreationDate(new Date());
-        return PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
+        PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
+        
+        if (plan.getTrainingPlanUserId() != null && plan.getStartTeamId() != null) {
+            dto.setCountMessagesAthlete(planMessageDao.getCountMessagesReceived(plan.getCoachAssignedPlanId(), plan.getTrainingPlanUserId().getUserId().getUserId()));
+            dto.setCountMessagesCoach(planMessageDao.getCountMessagesReceived(plan.getCoachAssignedPlanId(), plan.getStartTeamId().getCoachUserId().getUserId()));
+        }
+        return dto;
     }
 
     @Override
-    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId) throws Exception, TrainingException {
-        return planMessageDao.getCountMessagesByPlan(coachAssignedPlanId);
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId) throws Exception, TrainingException {
+        return planMessageDao.getCountMessagesByPlan(coachAssignedPlanId, userId);
+    }
+
+    @Override
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId) throws Exception {
+        return planMessageDao.getCountMessagesReceived(coachAssignedPlanId, userId);
     }
     
 }

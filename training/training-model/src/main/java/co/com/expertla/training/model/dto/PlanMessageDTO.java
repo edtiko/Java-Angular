@@ -23,6 +23,8 @@ public class PlanMessageDTO {
     private UserDTO messageUserId;
     @JsonSerialize(using = JsonDateSerializer.class)
     private Date creationDate;
+    private Integer countMessagesCoach;
+    private Integer countMessagesAthlete;
 
     public PlanMessageDTO() {
 
@@ -80,6 +82,22 @@ public class PlanMessageDTO {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Integer getCountMessagesCoach() {
+        return countMessagesCoach;
+    }
+
+    public void setCountMessagesCoach(Integer countMessagesCoach) {
+        this.countMessagesCoach = countMessagesCoach;
+    }
+
+    public Integer getCountMessagesAthlete() {
+        return countMessagesAthlete;
+    }
+
+    public void setCountMessagesAthlete(Integer countMessagesAthlete) {
+        this.countMessagesAthlete = countMessagesAthlete;
     }
     
    

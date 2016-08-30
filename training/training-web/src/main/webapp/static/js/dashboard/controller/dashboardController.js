@@ -1,7 +1,7 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService','$window',
-    function ($scope, UserService, DashboardService,$window) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService',
+    function ($scope, UserService, DashboardService, $window, messageService) {
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
@@ -20,7 +20,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.availableCall = 0;
         $scope.availableVideo = 0;
         $scope.availableEmail = 0;
-         
+        $scope.callReceivedCount = 0;
+        $scope.videoReceivedCount = 0;
+        $scope.emailReceivedCount = 0;
+        $scope.messagesReceivedCount = 0;
+
 
         $scope.getUserById = function () {
 
@@ -87,36 +91,49 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
             return false;
         };
+        //notificación mensajes recibidos
+        messageService.receive().then(null, null, function (message) {
+            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
+            $scope.messagesReceivedCount = message.countMessagesAthlete;
+            }else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
+             $scope.messagesReceivedCount = message.countMessagesCoach;   
+            }
+        });
 
-        $scope.selectAthlete = function(coachAssignedPlanSelected){
+        $scope.selectAthlete = function (coachAssignedPlanSelected) {
             var user = coachAssignedPlanSelected.athleteUserId;
             $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
-             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
-             self.getAvailableMessages(coachAssignedPlanSelected.id);
-             DashboardService.getDashboard(user).then(
-                        function (d) {
-                            $scope.user = d;
+            $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
+            self.getAvailableMessages(coachAssignedPlanSelected.id, $scope.userSession.userId);
+            self.getReceivedMessages(coachAssignedPlanSelected.id, user.userId);
+            messageService.initialize(coachAssignedPlanSelected.id);
+            DashboardService.getDashboard(user).then(
+                    function (d) {
+                        $scope.user = d;
 
-                            if ($scope.user.birthDate != null) {
-                                var date = $scope.user.birthDate.split("/");
-                                var birthdate = new Date(date[2], date[1] - 1, date[0]);
-                                $scope.user.age = $scope.calculateAge(birthdate);
-                            }
-                            $scope.getVisibleFieldsUserByUser(user);
-                            $scope.getImageProfile(user.userId);
-                        },
-                        function (errResponse) {
-                            console.error('Error while fetching the dashboard');
-                            console.error(errResponse);
+                        if ($scope.user.birthDate != null) {
+                            var date = $scope.user.birthDate.split("/");
+                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
+                            $scope.user.age = $scope.calculateAge(birthdate);
                         }
-                );
+                        $scope.getVisibleFieldsUserByUser(user);
+                        $scope.getImageProfile(user.userId);
+                    },
+                    function (errResponse) {
+                        console.error('Error while fetching the dashboard');
+                        console.error(errResponse);
+                    }
+            );
         };
         self.getAssignedCoach = function () {
             DashboardService.getAssignedCoach($scope.userSession.userId).then(
                     function (data) {
                         var res = data.entity.output;
                         $scope.coachAssignedPlan = angular.copy(res);
-                        self.getAvailableMessages(res.id);
+                        self.getAvailableMessages(res.id, $scope.userSession.userId);
+                        self.getReceivedMessages(res.id, res.coachUserId.userId);
+                        $scope.getVisibleFieldsUserByUser(res.athleteUserId);
+                        messageService.initialize(res.id);
                         if (res.starUserId.profilePhotoBase64 != "") {
                             $scope.profileImageStar = res.starUserId.profilePhotoBase64;
                         }
@@ -130,31 +147,40 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        self.getAvailableMessages = function(coachAssignedPlanId){
-              DashboardService.getAvailableMessages(coachAssignedPlanId).then(
+        self.getAvailableMessages = function (coachAssignedPlanId, userId) {
+            messageService.getAvailableMessages(coachAssignedPlanId, userId).then(
                     function (data) {
-                   $scope.availableMessage = data.entity.output;
-
+                        $scope.availableMessage = data.entity.output;
                     },
                     function (error) {
                         //$scope.showMessage(error);
                         console.error(error);
                     });
         };
-        $scope.goMessages = function(){
-              var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
+           self.getReceivedMessages = function (coachAssignedPlanId, userId) {
+            messageService.getMessagesReceived(coachAssignedPlanId, userId).then(
+                    function (data) {
+                        $scope.messagesReceivedCount = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        $scope.goMessages = function () {
+            var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
             if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach' && planSelected == null) {
-              $scope.showMessage("Debe seleccionar un atleta");
-            } else{
+                $scope.showMessage("Debe seleccionar un atleta");
+            } else {
                 $window.location.href = "#message";
             }
         };
-        
-          self.getAssignedAthletes = function () {
+
+        self.getAssignedAthletes = function () {
             DashboardService.getAssignedAthletes($scope.userSession.userId).then(
                     function (data) {
                         $scope.athletes = data.entity.output;
-                        if($scope.athletes == null){
+                        if ($scope.athletes == null) {
                             $scope.showMessage("No tiene planes asignados.");
                         }
                     },
@@ -166,8 +192,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
             self.getAssignedAthletes();
-            $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
-            
+            var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
+            if (planSelected != null) {
+                $scope.selectAthlete(planSelected);
+            }
+            //$window.sessionStorage.setItem("coachAssignedPlanSelected", null);
+
         } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
             $scope.getUserSession(function (res) {
                 $scope.getUserSessionByResponse(res);
