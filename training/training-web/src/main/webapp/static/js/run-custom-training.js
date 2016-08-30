@@ -23,8 +23,6 @@ require.config({
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
-        angularAria: "lib/angular-aria.min",
-        angularMaterial: "lib/angular-material.min",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
         disciplineService: "configuration/service/disciplineService",
@@ -56,7 +54,8 @@ require.config({
         roleService: "security/service/roleService",
         optionService: "security/service/optionService",
         moduleService: "security/service/moduleService",
-		bikeTypeService: "configuration/service/bikeTypeService"
+        bikeTypeService: "configuration/service/bikeTypeService",
+        roleService: "security/service/roleService"
     },
     shim: {
         angular: {
@@ -154,9 +153,9 @@ require.config({
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket'
+                'sockjs', 'stompWebsocket', 'angularDataTable', 'angularTranslate'
 //                ,'ngCamRecorder','recorder',
-//                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout', 'angularDataTable', 'angularTranslate'
+//                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
             ]
         },
@@ -184,7 +183,10 @@ require.config({
         moduleService: {
             deps: ['angular','trainingApp']
         },
-		bikeTypeService: {
+        roleService: {
+            deps: ['angular','trainingApp']
+        },
+        bikeTypeService: {
             deps: ['angular','trainingApp']
         },
         app: {
@@ -192,8 +194,9 @@ require.config({
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService','bikeTypeService'
-//                ,'videoService','videochatService','optionService', 'angularTranslateConfig', 'moduleService'
+                ,'visibleFieldsUserService','utilService', 'dashboardService','roleService','messageService','bikeTypeService',
+                'optionService', 'angularTranslateConfig', 'moduleService', 'roleService'
+//                ,'videoService','videochatService'
 
             ] }
     }

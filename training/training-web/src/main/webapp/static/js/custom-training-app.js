@@ -37,6 +37,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-module', route.resolve('module', 'security/'))
             
                     .when('/create-option', route.resolve('option', 'security/'))
+            
+                    .when('/create-role', route.resolve('role', 'security/'))
 
                     // route for the contact page
                     .when('/contact', {
