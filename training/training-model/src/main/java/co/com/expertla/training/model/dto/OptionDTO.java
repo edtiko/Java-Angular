@@ -5,6 +5,8 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.util.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
 /**
@@ -17,7 +19,9 @@ public class OptionDTO {
     private String name;
     private String description;
     private String url;
+    @JsonSerialize(using=JsonDateSerializer.class)
     private Date creationDate;
+    @JsonSerialize(using=JsonDateSerializer.class)
     private Date lastUpdate;
     private Integer userCreate;
     private Integer userUpdate;
@@ -25,13 +29,20 @@ public class OptionDTO {
     private String module;
     private Integer masterOptionId;
     private String masterOption;
-    private Integer stateId;
+    private String userCreateName;
+    private String userUpdateName;
+    private Short stateId;
     private int count;
 
     public OptionDTO() {
     }
 
-    public OptionDTO(Integer optionId, String name, String description, String url, Date creationDate, Date lastUpdate, Integer userCreate, Integer userUpdate, Integer moduleId, String module, Integer masterOptionId, String masterOption, Integer stateId) {
+    public OptionDTO(Integer optionId, String name, String description, String url, Short stateId,
+            Integer moduleId, String module, 
+            Date creationDate, Date lastUpdate, 
+            Integer masterOptionId, String masterOption,            
+            String userCreateName, String userUpdateName,
+            Integer userCreate, Integer userUpdate) {
         this.optionId = optionId;
         this.name = name;
         this.description = description;
@@ -42,6 +53,8 @@ public class OptionDTO {
         this.userUpdate = userUpdate;
         this.moduleId = moduleId;
         this.module = module;
+        this.userCreateName = userCreateName;
+        this.userUpdateName = userUpdateName;
         this.masterOptionId = masterOptionId;
         this.masterOption = masterOption;
         this.stateId = stateId;
@@ -99,22 +112,6 @@ public class OptionDTO {
         this.lastUpdate = lastUpdate;
     }
 
-    public Integer getUserCreate() {
-        return userCreate;
-    }
-
-    public void setUserCreate(Integer userCreate) {
-        this.userCreate = userCreate;
-    }
-
-    public Integer getUserUpdate() {
-        return userUpdate;
-    }
-
-    public void setUserUpdate(Integer userUpdate) {
-        this.userUpdate = userUpdate;
-    }
-
     public Integer getModuleId() {
         return moduleId;
     }
@@ -147,13 +144,46 @@ public class OptionDTO {
         this.masterOption = masterOption;
     }
 
-    public Integer getStateId() {
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
+    public String getUserCreateName() {
+        return userCreateName;
+    }
+
+    public void setUserCreateName(String userCreateName) {
+        this.userCreateName = userCreateName;
+    }
+
+    public String getUserUpdateName() {
+        return userUpdateName;
+    }
+
+    public void setUserUpdateName(String userUpdateName) {
+        this.userUpdateName = userUpdateName;
+    }
+
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(Integer stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
+
 
     public int getCount() {
         return count;

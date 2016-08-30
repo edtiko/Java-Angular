@@ -34,16 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "option")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Option.findAll", query = "SELECT o FROM Option o"),
-    @NamedQuery(name = "Option.findByOptionId", query = "SELECT o FROM Option o WHERE o.optionId = :optionId"),
-    @NamedQuery(name = "Option.findByName", query = "SELECT o FROM Option o WHERE o.name = :name"),
-    @NamedQuery(name = "Option.findByDescription", query = "SELECT o FROM Option o WHERE o.description = :description"),
-    @NamedQuery(name = "Option.findByUrl", query = "SELECT o FROM Option o WHERE o.url = :url"),
-    @NamedQuery(name = "Option.findByCreationDate", query = "SELECT o FROM Option o WHERE o.creationDate = :creationDate"),
-    @NamedQuery(name = "Option.findByLastUpdate", query = "SELECT o FROM Option o WHERE o.lastUpdate = :lastUpdate"),
-    @NamedQuery(name = "Option.findByUserCreate", query = "SELECT o FROM Option o WHERE o.userCreate = :userCreate"),
-    @NamedQuery(name = "Option.findByUserUpdate", query = "SELECT o FROM Option o WHERE o.userUpdate = :userUpdate")})
 public class Option implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,9 +68,8 @@ public class Option implements Serializable {
     @JoinColumn(name = "master_option_id", referencedColumnName = "option_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Option masterOptionId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
 
     public Option() {
     }
@@ -105,11 +94,11 @@ public class Option implements Serializable {
         this.name = name;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

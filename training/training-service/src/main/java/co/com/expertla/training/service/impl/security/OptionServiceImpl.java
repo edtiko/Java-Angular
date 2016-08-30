@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
 * Option Service Impl <br>
 * Info. Creación: <br>
-* fecha 26/08/2016 <br>
+* fecha 29/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Service("optionService")

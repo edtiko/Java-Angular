@@ -5,6 +5,8 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.util.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
 /**
@@ -15,17 +17,24 @@ public class ModuleDTO {
     private Integer moduleId;
     private String name;
     private String description;
+    @JsonSerialize(using=JsonDateSerializer.class)
     private Date creationDate;
+    @JsonSerialize(using=JsonDateSerializer.class)
     private Date lastUpdate;
     private Integer userCreate;
     private Integer userUpdate;
-    private Integer stateId;
+    private String userCreateName;
+    private String userUpdateName;
+    private Short stateId;
     private int count;
 
     public ModuleDTO() {
     }
 
-    public ModuleDTO(Integer moduleId, String name, String description, Integer stateId, Date creationDate, Date lastUpdate, Integer userCreate, Integer userUpdate) {
+    public ModuleDTO(Integer moduleId, String name, String description, 
+            Short stateId, Date creationDate, Date lastUpdate, 
+            String userCreateName, String userUpdateName,
+            Integer userCreate, Integer userUpdate) {
         this.moduleId = moduleId;
         this.name = name;
         this.description = description;
@@ -33,6 +42,8 @@ public class ModuleDTO {
         this.lastUpdate = lastUpdate;
         this.userCreate = userCreate;
         this.userUpdate = userUpdate;
+        this.userCreateName = userCreateName;
+        this.userUpdateName = userUpdateName;
         this.stateId = stateId;
     }
     
@@ -76,6 +87,22 @@ public class ModuleDTO {
         this.lastUpdate = lastUpdate;
     }
 
+    public String getUserCreateName() {
+        return userCreateName;
+    }
+
+    public void setUserCreateName(String userCreate) {
+        this.userCreateName = userCreate;
+    }
+
+    public String getUserUpdateName() {
+        return userUpdateName;
+    }
+
+    public void setUserUpdateName(String userUpdate) {
+        this.userUpdateName = userUpdate;
+    }
+
     public Integer getUserCreate() {
         return userCreate;
     }
@@ -92,11 +119,11 @@ public class ModuleDTO {
         this.userUpdate = userUpdate;
     }
 
-    public Integer getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(Integer stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

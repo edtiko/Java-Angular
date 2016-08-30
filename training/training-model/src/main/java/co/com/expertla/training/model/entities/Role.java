@@ -39,9 +39,8 @@ public class Role implements Serializable {
     private String name;
     @OneToMany(mappedBy = "roleId")
     private Collection<RoleUser> roleUserCollection;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -89,13 +88,14 @@ public class Role implements Serializable {
         this.roleUserCollection = roleUserCollection;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
+
 
     public Date getCreationDate() {
         return creationDate;

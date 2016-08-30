@@ -35,9 +35,9 @@ public class ModuleDaoImpl extends BaseDAOImpl<Module> implements ModuleDao {
     public List<Module> findAllActive() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Module a ");
-        builder.append("WHERE a.stateId.stateId = :active ");
+        builder.append("WHERE a.stateId = :active ");
 
-        setParameter("active", Status.ACTIVE.getId());
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
 
@@ -50,8 +50,9 @@ public class ModuleDaoImpl extends BaseDAOImpl<Module> implements ModuleDao {
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.ModuleDTO(a.moduleId,");
-        builder.append("a.name,a.description,a.stateId.stateId, a.creationDate, a.lastUpdate,");
-        builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId)");
+        builder.append("a.name,a.description,a.stateId, a.creationDate, a.lastUpdate,");
+        builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
+        builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from Module a ");
         builder.append("order by a.");
         builder.append(order);
@@ -99,9 +100,9 @@ public class ModuleDaoImpl extends BaseDAOImpl<Module> implements ModuleDao {
 
 
 
-        if(module.getStateId() != null && module.getStateId().getStateId() != null) {
-            builder.append("AND a.stateId.stateId = :state ");
-            setParameter("state", module.getStateId().getStateId());
+        if(module.getStateId() != null && module.getStateId() != null) {
+            builder.append("AND a.stateId = :state ");
+            setParameter("state", module.getStateId());
         }
 
         return createQuery(builder.toString());

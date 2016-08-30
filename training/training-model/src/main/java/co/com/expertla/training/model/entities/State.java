@@ -41,12 +41,6 @@ public class State implements Serializable {
     private String name;
     @Column(name = "description")
     private String description;
-    @OneToMany(mappedBy = "stateId", fetch = FetchType.LAZY)
-    private Collection<Option> optionCollection;
-    @OneToMany(mappedBy = "stateId", fetch = FetchType.LAZY)
-    private Collection<Module> moduleCollection;
-    @OneToMany(mappedBy = "stateId", fetch = FetchType.LAZY)
-    private Collection<Role> roleCollection;
 
 
     public State() {
@@ -83,30 +77,6 @@ public class State implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-    @JsonIgnore
-    public Collection<Option> getOptionCollection() {
-        return optionCollection;
-    }
-
-    public void setOptionCollection(Collection<Option> optionCollection) {
-        this.optionCollection = optionCollection;
-    }
-    @JsonIgnore
-    public Collection<Module> getModuleCollection() {
-        return moduleCollection;
-    }
-
-    public void setModuleCollection(Collection<Module> moduleCollection) {
-        this.moduleCollection = moduleCollection;
-    }
-    @JsonIgnore
-    public Collection<Role> getRoleCollection() {
-        return roleCollection;
-    }
-
-    public void setRoleCollection(Collection<Role> roleCollection) {
-        this.roleCollection = roleCollection;
     }
 
     @Override

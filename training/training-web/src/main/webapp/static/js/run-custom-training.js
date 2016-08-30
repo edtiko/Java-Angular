@@ -51,7 +51,8 @@ require.config({
         utilService: "lib/utilService",
         ngDialog: "lib/ngDialog.min",
         roleService: "security/service/roleService",
-        optionService: "security/service/optionService"
+        optionService: "security/service/optionService",
+        moduleService: "security/service/moduleService"
     },
     shim: {
         angular: {
@@ -173,13 +174,16 @@ require.config({
         optionService: {
             deps: ['angular','trainingApp']
         },
+        moduleService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
                 ,'visibleFieldsUserService','utilService', 'dashboardService','roleService',
-                'optionService', 'angularTranslateConfig'
+                'optionService', 'angularTranslateConfig', 'moduleService'
             ] }
     }
 });

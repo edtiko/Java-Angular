@@ -8,7 +8,7 @@
                 <div layout="row">
                     <div flex="33">
                         <md-input-container class="md-block">
-                            <input type="text" ng-model="module.name" id="name" name="name"  placeholder="Name" required/>
+                            <input type="text" ng-model="module.name" id="name" name="name"  placeholder="Nombre" required/>
                             <div class="has-error" ng-messages="formModule.name.$error">
                                 <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
                             </div>
@@ -20,7 +20,7 @@
                     <div layout="row">
                         <div flex="33">
                             <md-input-container class="md-block">
-                                <input type="text" ng-model="module.description" id="description" name="description"  placeholder="Description"/>
+                                <input type="text" ng-model="module.description" id="description" name="description"  placeholder="Descripci&oacute;n"/>
                             </md-input-container>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
             
             
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button ng-click="submitModule()" ng-disabled="formModule.$invalid" class="md-raised md-primary">Guardar</md-button>
+                <md-button ng-click="submitModule(formModule)" class="md-raised md-primary">Guardar</md-button>
             </section>
 
         </form>
@@ -40,17 +40,16 @@
 <div class="demo-md-panel md-padding">
     <md-toolbar class="md-table-toolbar md-default">
         <div class="md-toolbar-tools">
-            <span>Lista de Module</span>
+            <span>Lista de Modulos</span>
         </div>
     </md-toolbar>
 
     <md-table-container>
-        <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+        <table md-table ng-model="selected" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="getModulePaginate">
                 <tr md-row>
-                    <th md-column md-order-by="name" class="md-column">name</th>
-                    <th md-column md-order-by="description" class="md-column">description</th>
-                    <th md-column md-order-by="state" class="md-column">state</th>
+                    <th md-column md-order-by="name" class="md-column">Nombre</th>
+                    <th md-column md-order-by="description" class="md-column">Descripci&oacute;n</th>
                     <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
                     <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
                     <th md-column md-order-by="userUpdate">Usuario de Modificaci&oacute;n</th>
@@ -61,16 +60,15 @@
                 <tr md-row md-select="module" md-select-id="name" md-auto-select ng-repeat="module in moduleList">
                     <td md-cell>{{module.name}}</td>
                     <td md-cell>{{module.description}}</td>
-                    <td md-cell>{{module.state}}</td>
-                    <td md-cell>{{module.userCreate}}</td>
+                    <td md-cell>{{module.userCreateName}}</td>
                     <td md-cell>{{module.creationDate}}</td>
-                    <td md-cell>{{module.userUpdate}}</td>
+                    <td md-cell>{{module.userUpdateName}}</td>
                     <td md-cell>{{module.lastUpdate}}</td>
                     <td>
-                        <button type="button" ng-click="editModule(module.moduleId)" class="btn btn-success custom-width">Editar</button>  
-                        <button ng-show="module.stateId == 1" type="button" ng-click="inactivate(module.moduleId)" class="btn btn-danger custom-width">Inactivar</button>
-                        <button ng-show="module.stateId == 0" type="button" ng-click="inactivate(module.moduleId)" class="btn btn-success custom-width">Activar</button>
-                        <button type="button" ng-click="remove(module.moduleId)" class="btn btn-danger custom-width">Eliminar</button>
+                        <md-button type="button" ng-click="editModule(module.moduleId)" class="md-raised md-primary">Editar</md-button>  
+                        <md-button ng-show="module.stateId == 1" type="button" ng-click="inactivateModule(module.moduleId)" class="md-raised md-warn md-button md-ink-ripple">Inactivar</md-button>
+                        <md-button ng-show="module.stateId == 0" type="button" ng-click="activateModule(module.moduleId)" class="md-raised md-primary">Activar</md-button>
+                        <md-button type="button" ng-click="deleteModule(module.moduleId)" class="md-raised md-primary">Eliminar</md-button>
                     </td>
                 </tr>
             </tbody>

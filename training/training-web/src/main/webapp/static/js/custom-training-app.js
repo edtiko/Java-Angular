@@ -38,7 +38,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/calendar', route.resolve('calendar', 'calendar/'))
 
-                    .when('/conf-option', route.resolve('module', 'security/'))
+                    .when('/conf-option', route.resolve('option', 'security/'))
 
                     // route for the contact page
                     .when('/contact', {

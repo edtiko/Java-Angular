@@ -7,7 +7,7 @@ import java.util.List;
 /**
 * Option Service <br>
 * Info. Creación: <br>
-* fecha 26/08/2016 <br>
+* fecha 29/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 public interface OptionService {
@@ -16,7 +16,7 @@ public interface OptionService {
     /**
      * Crea option <br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @return 
@@ -26,7 +26,7 @@ public interface OptionService {
     /**
      * Modifica option <br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @throws Exception 
@@ -35,7 +35,7 @@ public interface OptionService {
     /**
      * Elimina option<br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @return 
@@ -45,7 +45,7 @@ public interface OptionService {
     /**
      * Obtiene todos los registros de option <br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
@@ -55,7 +55,7 @@ public interface OptionService {
     /**
      * Obtiene todos los registros activos de option <br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
@@ -65,7 +65,7 @@ public interface OptionService {
     /**
      * Obtiene todos los registros de option paginados <br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param first
      * @param max
@@ -74,11 +74,11 @@ public interface OptionService {
      * @throws Exception 
      */
     public List<OptionDTO> findPaginate(int first, int max, String order) throws Exception;
-
+    
     /**
-     * Obtiene todos los registros de option por su id <br>
+     * Obtiene todos los registros de option paginados <br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @return
@@ -89,7 +89,7 @@ public interface OptionService {
     /**
      * Obtiene todos los registros de option por el filtro del usuario <br>
      * Info. Creación: <br>
-     * fecha 26/08/2016 <br>
+     * fecha 29/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @return

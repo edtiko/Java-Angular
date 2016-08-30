@@ -16,7 +16,7 @@ trainingApp.service('ModuleService', ['$http', '$q', function ($http, $q) {
                 return $http.get($contextPath + '/get/module/by/' + id)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching modules');
@@ -25,10 +25,10 @@ trainingApp.service('ModuleService', ['$http', '$q', function ($http, $q) {
                         );
             },
             createModule: function (module) {
-                return $http.post($contextPath + '/module/', module)
+                return $http.post($contextPath + '/module/create', module)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while creating module');
@@ -37,10 +37,10 @@ trainingApp.service('ModuleService', ['$http', '$q', function ($http, $q) {
                         );
             },
             mergeModule: function (module) {
-                return $http.put($contextPath + '/module/', module)
+                return $http.post($contextPath + '/module/update', module)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while updating module');
@@ -49,10 +49,10 @@ trainingApp.service('ModuleService', ['$http', '$q', function ($http, $q) {
                         );
             },
             deleteModule: function (module) {
-                return $http.delete($contextPath + '/module/',module)
+                return $http.post($contextPath + '/module/delete',module)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while deleting module');

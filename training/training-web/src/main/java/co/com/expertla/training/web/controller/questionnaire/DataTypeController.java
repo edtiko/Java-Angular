@@ -1,13 +1,13 @@
 package co.com.expertla.training.web.controller.questionnaire;
 
 import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.enums.StatusResponse;
 import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.SePaginator;
 import co.com.expertla.training.model.entities.DataType;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.questionnaire.DataTypeService;
+import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

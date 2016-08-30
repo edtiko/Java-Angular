@@ -34,15 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "module")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Module.findAll", query = "SELECT m FROM Module m"),
-    @NamedQuery(name = "Module.findByModuleId", query = "SELECT m FROM Module m WHERE m.moduleId = :moduleId"),
-    @NamedQuery(name = "Module.findByName", query = "SELECT m FROM Module m WHERE m.name = :name"),
-    @NamedQuery(name = "Module.findByDescription", query = "SELECT m FROM Module m WHERE m.description = :description"),
-    @NamedQuery(name = "Module.findByCreationDate", query = "SELECT m FROM Module m WHERE m.creationDate = :creationDate"),
-    @NamedQuery(name = "Module.findByLastUpdate", query = "SELECT m FROM Module m WHERE m.lastUpdate = :lastUpdate"),
-    @NamedQuery(name = "Module.findByUserCreate", query = "SELECT m FROM Module m WHERE m.userCreate = :userCreate"),
-    @NamedQuery(name = "Module.findByUserUpdate", query = "SELECT m FROM Module m WHERE m.userUpdate = :userUpdate")})
 public class Module implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,10 +47,10 @@ public class Module implements Serializable {
     @Column(name = "description")
     private String description;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "last_update")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
     @Column(name = "user_create")
     private Integer userCreate;
@@ -67,9 +58,8 @@ public class Module implements Serializable {
     private Integer userUpdate;
     @OneToMany(mappedBy = "moduleId", fetch = FetchType.LAZY)
     private Collection<Option> optionCollection;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
 
     public Module() {
     }
@@ -86,13 +76,14 @@ public class Module implements Serializable {
         this.moduleId = moduleId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
+
 
     public String getName() {
         return name;

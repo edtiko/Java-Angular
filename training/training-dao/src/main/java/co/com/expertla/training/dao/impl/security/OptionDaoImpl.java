@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 /**
 * Option Dao Impl <br>
 * Info. Creación: <br>
-* fecha 26/08/2016 <br>
+* fecha 29/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Repository
@@ -35,9 +35,9 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
     public List<Option> findAllActive() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Option a ");
-        builder.append("WHERE a.stateId.stateId = :active ");
+        builder.append("WHERE a.stateId = :active ");
 
-        setParameter("active", Status.ACTIVE.getId());
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
 
@@ -50,7 +50,10 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.OptionDTO(a.optionId,");
-        builder.append("a.name,a.url,a.module,a.state,a.description,");
+        builder.append("a.name,a.description,a.url,a.stateId,a.moduleId.moduleId,a.moduleId.name, a.creationDate, a.lastUpdate,");
+        builder.append("(select u.optionId FROM Option u WHERE a.masterOptionId.optionId = u.optionId), (select u.name FROM Option u WHERE a.masterOptionId.optionId = u.optionId),");
+        builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
+        builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from Option a ");
         builder.append("order by a.");
         builder.append(order);
@@ -96,23 +99,29 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
         }
 
 
-
-        if(option.getModuleId() != null && option.getModuleId().getModuleId() != null) {
-            builder.append("AND a.moduleId.moduleId = :module ");
-            setParameter("module", option.getModuleId().getModuleId());
-        }
-
-
-
-        if(option.getStateId() != null && option.getStateId().getStateId() != null) {
-            builder.append("AND a.stateId.stateId = :state ");
-            setParameter("state", option.getStateId().getStateId());
-        }
         if(option.getDescription() != null && !option.getDescription().trim().isEmpty()) {
             builder.append("AND lower(a.description) like lower(:description) ");
             setParameter("description", "%" + option.getDescription() + "%");
         }
 
+
+
+        if(option.getMasterOptionId() != null && option.getMasterOptionId().getMasterOptionId() != null) {
+            builder.append("AND a.masterOptionId.masterOptionId = :masterOption ");
+            setParameter("masterOption", option.getMasterOptionId().getMasterOptionId());
+        }
+
+
+
+        if(option.getStateId() != null) {
+            builder.append("AND a.stateId = :state ");
+            setParameter("state", option.getStateId());
+        }
+
+        if(option.getModuleId() != null && option.getModuleId().getModuleId() != null) {
+            builder.append("AND a.moduleId.moduleId = :module ");
+            setParameter("module", option.getModuleId().getModuleId());
+        }
 
 
         return createQuery(builder.toString());

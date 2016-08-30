@@ -1,12 +1,15 @@
-trainingApp.controller('OptionController', function ($scope, OptionService,
+trainingApp.controller('OptionController', function ($scope, OptionService, ModuleService,
         $window) {
-    $scope.option = {name: '',
+    $scope.option = {optionId: null,
+        name: '',
         url: '',
-        module: '',
-        state: '',
         description: '',
-    };
+        masterOptionId: {optionId:null}, masterOptionName: '',
+        stateId: '',
+        moduleId: {moduleId:null}, moduleName: '',
+        userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
     $scope.optionList = [];
+    $scope.masterOptionList = [];
     $scope.moduleList = [];
     $scope.count = 0;
 
@@ -38,8 +41,15 @@ trainingApp.controller('OptionController', function ($scope, OptionService,
         }).$promise;
     };
 
+    $scope.masterOptionList = [];
+    $scope.getMasterOptionList = function () {
+        OptionService.getMasterOption(function (response) {
+            $scope.masterOptionList = success(response);
+            
+        });
+    };
     $scope.moduleList = [];
-    $scope.getMasterOptions = function () {
+    $scope.getModuleList = function () {
         OptionService.getModule(function (response) {
             $scope.moduleList = success(response);
         });
@@ -47,15 +57,19 @@ trainingApp.controller('OptionController', function ($scope, OptionService,
 
 
     $scope.createOption = function (option) {
+        if ($scope.appReady) {
+            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            option.userCreate = (user.userId);
+        }
         OptionService.createOption(option)
                 .then(
                         function (d) {
                             if (d.status == 'success') {
-                                $scope.showMessage("Option registrado correctamente.");
+                                $scope.showMessage(d.output);
                                 $scope.resetOption();
                                 $scope.getOptionPaginate();
                             } else {
-                                $scope.showMessage(d.detail);
+                                $scope.showMessage(d.output);
                             }
                         },
                         function (errResponse) {
@@ -65,15 +79,20 @@ trainingApp.controller('OptionController', function ($scope, OptionService,
     };
 
     $scope.updateOption = function (option) {
+        if ($scope.appReady) {
+            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            option.userUpdate = (user.userId);
+        }
+
         OptionService.mergeOption(option)
                 .then(
                         function (d) {
                             if (d.status == 'success') {
                                 $scope.resetOption();
-                                $scope.showMessage("Option  editado correctamente.");
+                                $scope.showMessage(d.output);
                                 $scope.getOptionPaginate();
                             } else {
-                                $scope.showMessage(d.detail);
+                                $scope.showMessage(d.output);
                             }
                         },
                         function (errResponse) {
@@ -85,34 +104,47 @@ trainingApp.controller('OptionController', function ($scope, OptionService,
     $scope.deleteOption = function (option) {
         OptionService.deleteOption(option)
                 .then(
-                        $scope.getOptionPaginate(),
+                        function (d) {
+                            if (d.status == 'success') {
+                                $scope.resetOption();
+                                $scope.showMessage(d.output);
+                                $scope.getOptionPaginate();
+                            } else {
+                                $scope.showMessage(d.output);
+                            }
+                        },
                         function (errResponse) {
                             console.error('Error while deleting Option.');
                         }
                 );
     };
 
-    $scope.submitOption = function () {
-        if ($scope.option.optionId === null) {
-            $scope.createOption($scope.option);
+    $scope.submitOption = function (form) {
+        if (form.$valid) {
+            if ($scope.option.optionId === null) {
+                $scope.createOption($scope.option);
+            } else {
+                $scope.updateOption($scope.option);
+            }
         } else {
-            $scope.updateOption($scope.option);
+            form.$setSubmitted();
         }
+
     };
 
     $scope.editOption = function (id) {
-        for (var i = 0; i < $scope.options.length; i++) {
-            if ($scope.options[i].optionId === id) {
-                $scope.option = angular.copy($scope.options[i]);
+        for (var i = 0; i < $scope.optionList.length; i++) {
+            if ($scope.optionList[i].optionId === id) {
+                $scope.option = angular.copy($scope.optionList[i]);
                 break;
             }
         }
     };
 
     $scope.inactivateOption = function (id) {
-        for (var i = 0; i < $scope.options.length; i++) {
-            if ($scope.options[i].optionId === id) {
-                $scope.option = angular.copy($scope.options[i]);
+        for (var i = 0; i < $scope.optionList.length; i++) {
+            if ($scope.optionList[i].optionId === id) {
+                $scope.option = angular.copy($scope.optionList[i]);
                 break;
             }
         }
@@ -122,9 +154,9 @@ trainingApp.controller('OptionController', function ($scope, OptionService,
     };
 
     $scope.activateOption = function (id) {
-        for (var i = 0; i < $scope.options.length; i++) {
-            if ($scope.options[i].optionId === id) {
-                $scope.option = angular.copy($scope.options[i]);
+        for (var i = 0; i < $scope.optionList.length; i++) {
+            if ($scope.optionList[i].optionId === id) {
+                $scope.option = angular.copy($scope.optionList[i]);
                 break;
             }
         }
@@ -140,16 +172,18 @@ trainingApp.controller('OptionController', function ($scope, OptionService,
     };
 
     $scope.resetOption = function () {
-        $scope.option = {
-            name: '',
+        $scope.option = {optionId: null, name: '',
             url: '',
-            module: '',
-            state: '',
             description: '',
-        };
-        $scope.formOption.$setPristine(); //reset Form
+            masterOptionId: {optionId:null}, masterOptionName: '',
+            stateId: '',
+            moduleId: {moduleId:null}, moduleName: '',
+            userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
     };
 
     $scope.getOptionPaginate();
+
+    $scope.getMasterOptionList();
+    $scope.getModuleList();
 
 });

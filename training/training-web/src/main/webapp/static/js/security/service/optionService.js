@@ -12,8 +12,18 @@ trainingApp.service('OptionService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-            getModule: function(query, res){
-                    return $http.get($contextPath+'module/get/all', query)
+            getMasterOption: function(res){
+                    return $http.get($contextPath+'option/get/all')
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            getModule: function(res){
+                    return $http.get($contextPath+'module/get/all')
                             .then(
                                     res, 
                                     function(errResponse){
@@ -26,7 +36,7 @@ trainingApp.service('OptionService', ['$http', '$q', function ($http, $q) {
                 return $http.get($contextPath + '/get/option/by/' + id)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching options');
@@ -35,10 +45,10 @@ trainingApp.service('OptionService', ['$http', '$q', function ($http, $q) {
                         );
             },
             createOption: function (option) {
-                return $http.post($contextPath + '/option/', option)
+                return $http.post($contextPath + '/option/create', option)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while creating option');
@@ -47,10 +57,10 @@ trainingApp.service('OptionService', ['$http', '$q', function ($http, $q) {
                         );
             },
             mergeOption: function (option) {
-                return $http.put($contextPath + '/option/', option)
+                return $http.post($contextPath + '/option/update', option)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while updating option');
@@ -59,10 +69,10 @@ trainingApp.service('OptionService', ['$http', '$q', function ($http, $q) {
                         );
             },
             deleteOption: function (option) {
-                return $http.delete($contextPath + '/option/',option)
+                return $http.post($contextPath + '/option/delete',option)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
                                     console.error('Error while deleting option');
