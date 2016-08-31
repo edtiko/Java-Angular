@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import co.com.expertla.training.service.configuration.ObjectiveService;
+import java.util.logging.Level;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
 * Controller for Objective <br>
@@ -41,6 +45,31 @@ public class ObjectiveController {
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+     /**
+     * Consulta objective por discipline id <br>
+     * Creation Date: <br>
+     * date 26/08/2016 <br>
+     * @author Angela Ramirez
+     * @param disciplineId
+     * @return
+     */
+    @RequestMapping(value = "objective/get/by/discipline/{disciplineId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listByDiscipline(@PathVariable("disciplineId") Integer disciplineId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<ObjectiveDTO> objectives = objectiveService.findByDiscipline(disciplineId);
+            responseService.setOutput(objectives);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar los objectives");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 

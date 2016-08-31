@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.configuration;
 
-import co.com.expertla.training.configuration.dao.CountryDao;
+import co.com.expertla.training.dao.configuration.CountryDao;
 import co.com.expertla.training.service.configuration.CountryService;
 import co.com.expertla.training.model.entities.Country;
 import java.util.List;

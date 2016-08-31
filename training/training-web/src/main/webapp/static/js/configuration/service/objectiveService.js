@@ -14,6 +14,18 @@ trainingApp.factory('ObjectiveService', ['$http', '$q', function($http, $q){
                                         return $q.reject(errResponse);
                                     }
                             );
+            },
+            getObjectivesByDiscipline: function(disciplineId){
+                    return $http.get($contextPath+'objective/get/by/discipline/'+disciplineId)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while getting objectives by discipline');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
             }
          
         };

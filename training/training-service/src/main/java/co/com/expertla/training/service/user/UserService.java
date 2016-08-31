@@ -45,7 +45,7 @@ public interface UserService {
      * Trae todos los registros de user training con su disciplina <br>
      * Creation Date : <br>
      * date 18/08/2016 <br>
-     * @author Angela Ramírez
+     * @author Angela Ramï¿½rez
      * @throws Exception
      * @return dto
      */
@@ -55,17 +55,18 @@ public interface UserService {
      * Crea un usuario interno <br>
      * Creation Date : <br>
      * date 18/08/2016 <br>
-     * @author Angela Ramírez
+     * @author Angela Ramirez
      * @param user
+     * @return 
      * @throws Exception
      */
-    public void createInternalUser(UserDTO user) throws Exception;
+    public User createInternalUser(UserDTO user) throws Exception;
     
     /**
      * Edita un usuario y su disciplina <br>
      * Creation Date : <br>
      * date 18/08/2016 <br>
-     * @author Angela Ramírez
+     * @author Angela Ramirez
      * @param user
      * @throws Exception
      */

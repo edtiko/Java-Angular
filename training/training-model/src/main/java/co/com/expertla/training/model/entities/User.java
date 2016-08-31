@@ -62,6 +62,8 @@ public class User implements Serializable {
     private Collection<StartTeam> startTeamCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coachUserId")
     private Collection<StartTeam> startTeamCollection1;
+    @OneToMany(mappedBy = "userId")
+    private Collection<UserZone> userZoneCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -458,6 +460,14 @@ public class User implements Serializable {
 
     public void setStartTeamCollection1(Collection<StartTeam> startTeamCollection1) {
         this.startTeamCollection1 = startTeamCollection1;
+    }
+
+    public Collection<UserZone> getUserZoneCollection() {
+        return userZoneCollection;
+    }
+
+    public void setUserZoneCollection(Collection<UserZone> userZoneCollection) {
+        this.userZoneCollection = userZoneCollection;
     }
 
 }

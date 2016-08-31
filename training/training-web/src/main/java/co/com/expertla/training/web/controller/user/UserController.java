@@ -410,7 +410,8 @@ public class UserController {
     public Response createInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
         try {
-            userService.createInternalUser(userDTO);
+            User user = userService.createInternalUser(userDTO);
+            responseService.setOutput(user);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {

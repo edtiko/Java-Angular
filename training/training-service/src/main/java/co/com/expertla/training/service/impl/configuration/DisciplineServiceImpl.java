@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.configuration;
 
-import co.com.expertla.training.configuration.dao.DisciplineDao;
+import co.com.expertla.training.dao.configuration.DisciplineDao;
 import co.com.expertla.training.model.dto.DisciplineDTO;
 import co.com.expertla.training.service.configuration.DisciplineService;
 import java.util.List;

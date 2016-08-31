@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.configuration;
 
-import co.com.expertla.training.configuration.dao.SportDao;
+import co.com.expertla.training.dao.configuration.SportDao;
 import co.com.expertla.training.model.dto.SportDTO;
 import co.com.expertla.training.service.configuration.SportService;
 import co.com.expertla.training.model.dto.EnvironmentDTO;

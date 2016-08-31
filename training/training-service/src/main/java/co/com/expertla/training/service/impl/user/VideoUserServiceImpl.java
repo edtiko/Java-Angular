@@ -1,7 +1,7 @@
 package co.com.expertla.training.service.impl.user;
 
 import co.com.expertla.training.model.entities.VideoUser;
-import co.com.expertla.training.user.dao.VideoUserDao;
+import co.com.expertla.training.dao.user.VideoUserDao;
 import co.com.expertla.training.service.user.VideoUserService;
 import java.util.List;
 

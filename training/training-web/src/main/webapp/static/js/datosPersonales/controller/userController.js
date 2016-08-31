@@ -126,8 +126,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                             if($scope.userProfile.bikeType != "" && $scope.userProfile.bikeType != null) {
                                 $scope.getBikes($scope.userProfile.bikeType);
                             }
-                            $scope.calculateZone();
-                            $scope.calculatePpm();
+                            if($scope.userProfile.ftp105 <= 0) { 
+                                $scope.calculateZone();
+                            } 
+                            if($scope.userProfile.ppm100 <= 0) {
+                                $scope.calculatePpm();
+                            }
 
                         },
                         function (errResponse) {
@@ -333,7 +337,25 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                 {day: 'Sabado', checked: false},
                 {day: 'Domingo', checked: false}
             ],
-            bikeType: ''
+            bikeType: '',
+            ftp56: '',
+            ftp75: '',
+            ftp76: '',
+            ftp90: '',
+            ftp91: '',
+            ftp105: '',
+            ftp106: '',
+            ftp120: '',
+            ppm81:'',
+            ppm89:'',
+            ppm90:'',
+            ppm93:'',
+            ppm94:'',
+            ppm99:'',
+            ppm100:'',
+            ppm102:'',
+            ppm103:'',
+            ppm106:''
         };
 
         $scope.disciplines = [];
@@ -348,21 +370,28 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.modalities = [];
         $scope.entornos = [];
         $scope.climas = [];
-        $scope.days = [
-            {day: 'Lunes', checked: false},
-            {day: 'Martes', checked: false},
-            {day: 'Miercoles', checked: false},
-            {day: 'Jueves', checked: false},
-            {day: 'Viernes', checked: false},
-            {day: 'Sabado', checked: false},
-            {day: 'Domingo', checked: false}
-        ];
         $scope.indBike = '';
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
         $scope.bikeTypes = [];
-
+                
+        $scope.submitUserProfile = function (form) {
+            if($scope.validateAvailability() && form.$valid && $scope.validatePpm() && $scope.validatePower()) {
+                $scope.createOrMergeUserProfile($scope.userProfile);
+            } else {
+                form.$setSubmitted();
+                if(!$scope.validateAvailability()) {
+                    $scope.showMessage("La disponiblidad de tiempo es un campo obligatorio");
+                }
+                if(!$scope.validatePower()) {
+                    $scope.showMessage("Debe llenar todas las zonas de potencia");
+                }
+                if(!$scope.validatePpm()) {
+                    $scope.showMessage("Debe llenar todas las zonas de ppm");
+                }
+            }
+        };
+        
         $scope.createOrMergeUserProfile = function (userProfile) {
-             if($scope.validateAvailability()) {
             if (userProfile.userProfileId == null) {
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
@@ -390,9 +419,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                         }
                 );
             }
-        } else {
-            $scope.showMessage("La disponiblidad de tiempo es un campo obligatorio");
-        }
             VisibleFieldsUserService.createVisibleFieldsUser(userProfile.userId,$scope.visibleFields).then(
                     function (msg) {
                         $scope.setUserSession();
@@ -533,18 +559,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
         this.getPotentiometers();
 
-        this.getObjectives = function () {
-            ObjectiveService.getObjectives().then(
+        $scope.getObjectivesByDiscipline = function (disciplineId) {
+            ObjectiveService.getObjectivesByDiscipline(disciplineId).then(
                     function (d) {
-                        $scope.objectives = d;
+                        $scope.objectives = d.output;
                     },
                     function (errResponse) {
-                        console.error('Error while objectives');
+                        console.error('Error while getting objectives');
                         console.error(errResponse);
                     }
             );
         };
-        this.getObjectives();
 
         $scope.getModalitiesByDisciplineId = function (id) {
             ModalityService.getModalitiesByDisciplineId(id).then(
@@ -557,7 +582,19 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     }
             );
         };
-
+        
+        $scope.getModalitiesByObjectiveId = function (id) {
+            ModalityService.getModalitiesByObjectiveId(id).then(
+                    function (d) {
+                        $scope.modalities = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while modalities');
+                        console.error(errResponse);
+                    }
+            );
+        };
+                
         this.getModalities = function () {
             ModalityService.getAll().then(
                     function (d) {
@@ -722,28 +759,28 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         
         $scope.calculateZone = function () {
             if ($scope.userProfile.power !== "") {
-                $scope.ftp56 = ($scope.userProfile.power * 56) / 100;
-                $scope.ftp75 = ($scope.userProfile.power * 75) / 100;
-                $scope.ftp76 = ($scope.userProfile.power * 76) / 100;
-                $scope.ftp90 = ($scope.userProfile.power * 90) / 100;
-                $scope.ftp91 = ($scope.userProfile.power * 91) / 100;
-                $scope.ftp105 = ($scope.userProfile.power * 105) / 100;
-                $scope.ftp106 = ($scope.userProfile.power * 106) / 100;
-                $scope.ftp120 = ($scope.userProfile.power * 120) / 100;
+                $scope.userProfile.ftp56 = ($scope.userProfile.power * 56) / 100;
+                $scope.userProfile.ftp75 = ($scope.userProfile.power * 75) / 100;
+                $scope.userProfile.ftp76 = ($scope.userProfile.power * 76) / 100;
+                $scope.userProfile.ftp90 = ($scope.userProfile.power * 90) / 100;
+                $scope.userProfile.ftp91 = ($scope.userProfile.power * 91) / 100;
+                $scope.userProfile.ftp105 = ($scope.userProfile.power * 105) / 100;
+                $scope.userProfile.ftp106 = ($scope.userProfile.power * 106) / 100;
+                $scope.userProfile.ftp120 = ($scope.userProfile.power * 120) / 100;
             }
         };
         $scope.calculatePpm = function () {
             if ($scope.userProfile.ppm !== "") {
-                $scope.ppm81 = ($scope.userProfile.ppm * 81) / 100;
-                $scope.ppm89 = ($scope.userProfile.ppm * 89) / 100;
-                $scope.ppm90 = ($scope.userProfile.ppm * 90) / 100;
-                $scope.ppm93 = ($scope.userProfile.ppm * 93) / 100;
-                $scope.ppm94 = ($scope.userProfile.ppm * 94) / 100;
-                $scope.ppm99 = ($scope.userProfile.ppm * 99) / 100;
-                $scope.ppm100 = ($scope.userProfile.ppm * 100) / 100;
-                $scope.ppm102 = ($scope.userProfile.ppm * 102) / 100;
-                $scope.ppm103 = ($scope.userProfile.ppm * 103) / 100;
-                $scope.ppm106 = ($scope.userProfile.ppm * 106) / 100;
+                $scope.userProfile.ppm81 = ($scope.userProfile.ppm * 81) / 100;
+                $scope.userProfile.ppm89 = ($scope.userProfile.ppm * 89) / 100;
+                $scope.userProfile.ppm90 = ($scope.userProfile.ppm * 90) / 100;
+                $scope.userProfile.ppm93 = ($scope.userProfile.ppm * 93) / 100;
+                $scope.userProfile.ppm94 = ($scope.userProfile.ppm * 94) / 100;
+                $scope.userProfile.ppm99 = ($scope.userProfile.ppm * 99) / 100;
+                $scope.userProfile.ppm100 = ($scope.userProfile.ppm * 100) / 100;
+                $scope.userProfile.ppm102 = ($scope.userProfile.ppm * 102) / 100;
+                $scope.userProfile.ppm103 = ($scope.userProfile.ppm * 103) / 100;
+                $scope.userProfile.ppm106 = ($scope.userProfile.ppm * 106) / 100;
             }
         };
 
@@ -755,6 +792,33 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                 }
             }
             return false;
+        };
+        
+        $scope.validatePpm = function () {
+            
+          if($scope.userProfile.ppm81 > 0 && $scope.userProfile.ppm89 > 0 && $scope.userProfile.ppm90 > 0 && $scope.userProfile.ppm93 > 0
+                  && $scope.userProfile.ppm94 > 0 && $scope.userProfile.ppm99 > 0 && $scope.userProfile.ppm100 > 0
+                  && $scope.userProfile.ppm102 > 0 && $scope.userProfile.ppm103 > 0 && $scope.userProfile.ppm106 > 0)  {
+              return true;
+          } else if ($scope.userProfile.ppm81 == 0 && $scope.userProfile.ppm89  == 0 
+                  && $scope.userProfile.ppm90 == 0 && $scope.userProfile.ppm93  == 0
+                  && $scope.userProfile.ppm94 == 0 &&  $scope.userProfile.ppm99  == 0
+                  && $scope.userProfile.ppm100 == 0 && $scope.userProfile.ppm102 == 0 
+                  && $scope.userProfile.ppm103  == 0 && $scope.userProfile.ppm106  == 0) {
+              return true;
+          }
+          return false;
+        };
+        
+        $scope.validatePower = function () {
+          if($scope.userProfile.ftp56 > 0 && $scope.userProfile.ftp75 > 0 && $scope.userProfile.ftp76 > 0 && $scope.userProfile.ftp90 > 0
+                  && $scope.userProfile.ftp91 > 0 && $scope.userProfile.ftp105 > 0 && $scope.userProfile.ftp106 > 0 && $scope.userProfile.ftp120 > 0) {
+              return true;
+          } else if($scope.userProfile.ftp56 == 0 && $scope.userProfile.ftp75 == 0 && $scope.userProfile.ftp76 == 0 && $scope.userProfile.ftp90 == 0
+                  && $scope.userProfile.ftp91 == 0 && $scope.userProfile.ftp105 == 0 && $scope.userProfile.ftp106 == 0 && $scope.userProfile.ftp120 == 0){
+              return true;
+          }
+          return false;
         };
         
         $scope.showTooltipEnvironment = function () {

@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.configuration;
 
-import co.com.expertla.training.configuration.dao.SportEquipmentDao;
+import co.com.expertla.training.dao.configuration.SportEquipmentDao;
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import co.com.expertla.training.service.configuration.SportEquipmentService;
 import java.util.List;

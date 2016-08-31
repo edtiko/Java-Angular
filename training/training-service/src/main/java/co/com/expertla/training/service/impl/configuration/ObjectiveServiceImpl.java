@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import co.com.expertla.training.service.configuration.ObjectiveService;
-import co.com.expertla.training.configuration.dao.ObjectiveDao;
+import co.com.expertla.training.dao.configuration.ObjectiveDao;
 
 /**
 * Service for Discipline <br>
@@ -25,6 +25,11 @@ public class ObjectiveServiceImpl implements ObjectiveService {
     @Override
     public List<ObjectiveDTO> findAll() throws Exception {
         return objectiveDao.findAll();
+    }
+    
+    @Override
+    public List<ObjectiveDTO> findByDiscipline(Integer disciplineId) throws Exception {
+        return objectiveDao.findByDiscipline(disciplineId);
     }
  
 }
