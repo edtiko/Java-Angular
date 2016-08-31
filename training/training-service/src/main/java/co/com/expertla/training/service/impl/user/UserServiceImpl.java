@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.user;
 
-import co.com.expertla.training.dao.CityDao;
+import co.com.expertla.training.dao.configuration.CityDao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;
 import java.util.Date;
 import java.util.stream.Collectors;
-import co.com.expertla.training.dao.FederalStateDao;
+import co.com.expertla.training.dao.configuration.FederalStateDao;
 import co.com.expertla.training.dao.security.RoleUserDao;
 import co.com.expertla.training.dao.user.DisciplineUserDao;
 import co.com.expertla.training.dao.user.UserDao;
@@ -29,7 +29,7 @@ import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.VideoUser;
 import co.com.expertla.training.service.user.UserService;
-import co.com.expertla.training.user.dao.VideoUserDao;
+import co.com.expertla.training.dao.user.VideoUserDao;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createInternalUser(UserDTO dto) throws Exception {
+    public User createInternalUser(UserDTO dto) throws Exception {
         User user = userDao.findUserByUsername(dto.getLogin());
         if(user !=null) {
             throw new Exception("Ya existe ese nombre de usuario");
@@ -211,11 +211,12 @@ public class UserServiceImpl implements UserService {
         roleUser.setUserId(user);
         roleUser.setRoleId(new Role(dto.getRoleId()));
         String sdf = wordpressIntegrationUserRegistration(dto);
-        userDao.create(user);
+        user = userDao.create(user);
         disciplineUserDao.create(discipline);
         roleUserDao.create(roleUser);
         userProfileDao.create(profile);
         videoUserDao.create(video);
+        return user;
     }
 
     @Override

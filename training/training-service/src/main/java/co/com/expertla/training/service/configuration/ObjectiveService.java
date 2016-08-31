@@ -97,7 +97,16 @@ public interface ObjectiveService {
      */
     public List<Objective> findByFiltro(Objective objective) throws Exception; 
 
-
+	/**
+     * Trae todos los registros de objective por disciplineId<br>
+     * Creation Date : <br>
+     * date 26/08/2016 <br>
+     * @author Angela Ramírez
+     * @param disciplineId
+     * @throws Exception
+     * @return
+     */
+    public List<ObjectiveDTO> findByDiscipline(Integer disciplineId) throws Exception;
 
     
 }

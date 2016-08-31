@@ -33,4 +33,15 @@ public interface ModalityService {
      * @return
      */
     public List<ModalityDTO> findByDisciplineId(Integer id) throws Exception;
+    
+    /**
+     * Trae todos los registros de modality por discipline id and objective Id<br>
+     * Creation Date : <br>
+     * date 30/08/2016 <br>
+     * @author Angela Ramírez
+     * @param objectiveId
+     * @throws Exception
+     * @return
+     */
+    public List<ModalityDTO> findByObjectiveId(Integer objectiveId) throws Exception;
 }

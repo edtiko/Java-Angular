@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * Role Service Impl <br>
-* Info. Creación: <br>
+* Info. Creacion: <br>
 * fecha 30/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/

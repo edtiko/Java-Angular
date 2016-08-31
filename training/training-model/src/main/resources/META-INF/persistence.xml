@@ -105,6 +105,7 @@
     <class>co.com.expertla.training.model.entities.CoachAssignedPlan</class>
     <class>co.com.expertla.training.model.entities.PlanMessage</class>
     <class>co.com.expertla.training.model.entities.StartTeam</class>
+    <class>co.com.expertla.training.model.entities.UserZone</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

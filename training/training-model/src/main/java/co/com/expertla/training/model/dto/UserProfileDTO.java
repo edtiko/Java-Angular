@@ -44,6 +44,24 @@ public class UserProfileDTO implements Serializable {
     private String otherBike;
     private String otherModelBike;
     private Integer bikeType;
+    private BigInteger ftp56;
+    private BigInteger ftp75;
+    private BigInteger ftp76;
+    private BigInteger ftp90;
+    private BigInteger ftp91;
+    private BigInteger ftp105;
+    private BigInteger ftp106;
+    private BigInteger ftp120;
+    private BigInteger ppm81;
+    private BigInteger ppm89;
+    private BigInteger ppm90;
+    private BigInteger ppm93;
+    private BigInteger ppm94;
+    private BigInteger ppm99;
+    private BigInteger ppm100;
+    private BigInteger ppm102;
+    private BigInteger ppm103;
+    private BigInteger ppm106;
 
     public UserProfileDTO() {
     }
@@ -331,6 +349,150 @@ public class UserProfileDTO implements Serializable {
 
     public void setBikeType(Integer bikeType) {
         this.bikeType = bikeType;
+    }
+
+    public BigInteger getFtp56() {
+        return ftp56;
+    }
+
+    public void setFtp56(BigInteger ftp56) {
+        this.ftp56 = ftp56;
+    }
+
+    public BigInteger getFtp75() {
+        return ftp75;
+    }
+
+    public void setFtp75(BigInteger ftp75) {
+        this.ftp75 = ftp75;
+    }
+
+    public BigInteger getFtp76() {
+        return ftp76;
+    }
+
+    public void setFtp76(BigInteger ftp76) {
+        this.ftp76 = ftp76;
+    }
+
+    public BigInteger getFtp90() {
+        return ftp90;
+    }
+
+    public void setFtp90(BigInteger ftp90) {
+        this.ftp90 = ftp90;
+    }
+
+    public BigInteger getFtp91() {
+        return ftp91;
+    }
+
+    public void setFtp91(BigInteger ftp91) {
+        this.ftp91 = ftp91;
+    }
+
+    public BigInteger getFtp105() {
+        return ftp105;
+    }
+
+    public void setFtp105(BigInteger ftp105) {
+        this.ftp105 = ftp105;
+    }
+
+    public BigInteger getFtp106() {
+        return ftp106;
+    }
+
+    public void setFtp106(BigInteger ftp106) {
+        this.ftp106 = ftp106;
+    }
+
+    public BigInteger getFtp120() {
+        return ftp120;
+    }
+
+    public void setFtp120(BigInteger ftp120) {
+        this.ftp120 = ftp120;
+    }
+
+    public BigInteger getPpm81() {
+        return ppm81;
+    }
+
+    public void setPpm81(BigInteger ppm81) {
+        this.ppm81 = ppm81;
+    }
+
+    public BigInteger getPpm89() {
+        return ppm89;
+    }
+
+    public void setPpm89(BigInteger ppm89) {
+        this.ppm89 = ppm89;
+    }
+
+    public BigInteger getPpm90() {
+        return ppm90;
+    }
+
+    public void setPpm90(BigInteger ppm90) {
+        this.ppm90 = ppm90;
+    }
+
+    public BigInteger getPpm93() {
+        return ppm93;
+    }
+
+    public void setPpm93(BigInteger ppm93) {
+        this.ppm93 = ppm93;
+    }
+
+    public BigInteger getPpm94() {
+        return ppm94;
+    }
+
+    public void setPpm94(BigInteger ppm94) {
+        this.ppm94 = ppm94;
+    }
+
+    public BigInteger getPpm99() {
+        return ppm99;
+    }
+
+    public void setPpm99(BigInteger ppm99) {
+        this.ppm99 = ppm99;
+    }
+
+    public BigInteger getPpm100() {
+        return ppm100;
+    }
+
+    public void setPpm100(BigInteger ppm100) {
+        this.ppm100 = ppm100;
+    }
+
+    public BigInteger getPpm102() {
+        return ppm102;
+    }
+
+    public void setPpm102(BigInteger ppm102) {
+        this.ppm102 = ppm102;
+    }
+
+    public BigInteger getPpm103() {
+        return ppm103;
+    }
+
+    public void setPpm103(BigInteger ppm103) {
+        this.ppm103 = ppm103;
+    }
+
+    public BigInteger getPpm106() {
+        return ppm106;
+    }
+
+    public void setPpm106(BigInteger ppm106) {
+        this.ppm106 = ppm106;
     }
     
 }

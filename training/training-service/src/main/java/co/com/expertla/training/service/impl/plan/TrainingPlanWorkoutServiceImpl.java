@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.plan;
 
-import co.com.expertla.training.configuration.dao.ActivityDao;
+import co.com.expertla.training.dao.configuration.ActivityDao;
 import co.com.expertla.training.dao.configuration.TrainingPlanDao;
 import co.com.expertla.training.dao.plan.DcfDao;
 import co.com.expertla.training.dao.user.UserAvailabilityDao;

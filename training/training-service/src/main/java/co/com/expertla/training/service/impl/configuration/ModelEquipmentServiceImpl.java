@@ -7,7 +7,7 @@ package co.com.expertla.training.service.impl.configuration;
 
 import co.com.expertla.training.model.dto.ModelEquipmentDTO;
 import co.com.expertla.training.service.configuration.ModelEquipmentService;
-import co.com.expertla.training.configuration.dao.ModelEquipmentDao;
+import co.com.expertla.training.dao.configuration.ModelEquipmentDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
