@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.configuration;
 
-import co.com.expertla.training.configuration.dao.ActivityDao;
+import co.com.expertla.training.dao.configuration.ActivityDao;
 import co.com.expertla.training.service.configuration.ActivityService;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;

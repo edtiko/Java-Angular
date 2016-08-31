@@ -57,9 +57,10 @@ public interface UserService {
      * date 18/08/2016 <br>
      * @author Angela Ramirez
      * @param user
+     * @return 
      * @throws Exception
      */
-    public void createInternalUser(UserDTO user) throws Exception;
+    public User createInternalUser(UserDTO user) throws Exception;
     
     /**
      * Edita un usuario y su disciplina <br>

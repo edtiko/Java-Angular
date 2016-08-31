@@ -1,18 +1,18 @@
-package co.com.expertla.training.service.configuration;
+package co.com.expertla.training.dao.configuration;
 
+import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.dto.ModalityDTO;
+import co.com.expertla.training.model.entities.Modality;
 import java.util.List;
 
 /**
- * Service for Modality <br>
- * Creation Date : <br>
- * date 18/07/2016 <br>
- *
- * @author Angela Ramírez
-*
- */
-public interface ModalityService {
-
+* Dao for Modality <br>
+* Creation Date : <br>
+* date 18/07/2016 <br>
+* @author Angela Ramírez
+**/
+public interface ModalityDao extends BaseDAO<Modality>{
+	
     /**
      * Trae todos los registros de modality <br>
      * Creation Date : <br>
@@ -24,7 +24,7 @@ public interface ModalityService {
     public List<ModalityDTO> findAll() throws Exception;
     
     /**
-     * Trae todos los registros de modality por discipline id<br>
+     * Trae todos los registros de Modality  por discipline id<br>
      * Creation Date : <br>
      * date 18/07/2016 <br>
      * @author Angela Ramírez

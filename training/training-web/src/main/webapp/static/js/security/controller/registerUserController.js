@@ -44,8 +44,8 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                                 if (d.detail == null) {
                                     $scope.showMessage("Usuario registrado correctamente.");
                                     $scope.profileImage = "static/img/profile-default.png";
-                                    $scope.fetchAllUsers();
                                     $scope.user = d.output;
+                                    $scope.fetchAllUsers();
                                 } else {
                                     $scope.showMessage(d.detail);
                                 }

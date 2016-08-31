@@ -62,4 +62,9 @@ public class ObjectiveServiceImpl implements ObjectiveService {
         return objectiveDao.findByFiltro(objective);
     }
 
+	@Override
+    public List<ObjectiveDTO> findByDiscipline(Integer disciplineId) throws Exception {
+        return objectiveDao.findByDiscipline(disciplineId);
+    }
+
 }

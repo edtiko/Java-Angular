@@ -40,6 +40,9 @@ public class Objective implements Serializable {
     @Basic(optional = false)
     @Column(name = "level")
     private int level;
+    @JoinColumn(name = "discipline_id", referencedColumnName = "discipline_id")
+    @ManyToOne
+    private Discipline disciplineId;
     @OneToMany(mappedBy = "objectiveId")
     private Collection<Activity> activityCollection;
     @OneToMany(mappedBy = "objectiveId")
@@ -197,5 +200,12 @@ public class Objective implements Serializable {
         return "co.com.expertla.training.model.entities.Objective[ objectiveId=" + objectiveId + " ]";
     }
 
+    public Discipline getDisciplineId() {
+        return disciplineId;
+    }
+
+    public void setDisciplineId(Discipline disciplineId) {
+        this.disciplineId = disciplineId;
+    }
     
 }

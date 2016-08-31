@@ -5,8 +5,8 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <label  for="objective">Objetivo</label>
-                        <md-select id="objective" ng-model="userProfile.objective" ng-required="true">
+                        <label>Objetivo</label>
+                        <md-select id="objective" name="objective" ng-model="userProfile.objective" required>
                             <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
                                 {{o.name}}
                             </md-option>
@@ -36,8 +36,9 @@
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profilediscipline" ng-change="setVisibleField(user_profilediscipline, 'user_profile', 'discipline')
                            "> Mostrar</md-switch>
-
             </div>
+            
+            
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
@@ -243,41 +244,45 @@
 
             <div layout="row">
                 <div flex="33">
-                    <table class="table table-bordered">
-                        <thead>
-                        <th>Zona</th>
-                        <th colspan="2">Ppm</th>
+                    <table md-table md-row-select ng-model="selected" md-progress="promise">
+                        <thead md-head>
+                            <tr md-row>
+                                <th md-column>Zona</th>
+                                <th md-column colspan="2">Ppm</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>2</td>
-                                <td>{{ppm81}}</td>
-                                <td>{{ppm89}}</td>
+                        <tbody md-body>
+                            <tr md-row>
+                                <td md-cell>2</td>
+                                <td md-cell><input type="number" placeholder="{{ppm81}}" style="width: 60px" ng-model="userProfile.ppm81"></td>
+                                <td md-cell><input type="number" placeholder="{{ppm89}}" style="width: 60px" ng-model="userProfile.ppm89"></td>
                             </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>{{ppm90}}</td>
-                                <td>{{ppm93}}</td>
+                            <tr md-row>
+                                <td md-cell>3</td>
+                                <td md-cell><input type="number" placeholder="{{ppm90}}" style="width: 60px" ng-model="userProfile.ppm90"></td>
+                                <td md-cell><input type="number" placeholder="{{ppm93}}" style="width: 60px" ng-model="userProfile.ppm93"></td>
                             </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>{{ppm94}}</td>
-                                <td>{{ppm99}}</td>
+                            <tr md-row>
+                                <td md-cell>4</td>
+                                <td md-cell><input type="number" placeholder="{{ppm94}}" style="width: 60px" ng-model="userProfile.ppm94"></td>
+                                <td md-cell><input type="number" placeholder="{{ppm99}}" style="width: 60px" ng-model="userProfile.ppm99"></td>
                             </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>{{ppm100}}</td>
-                                <td>{{ppm102}}</td>
+                            <tr md-row>
+                                <td md-cell>5</td>
+                                <td md-cell><input type="number" placeholder="{{ppm100}}" style="width: 60px" ng-model="userProfile.ppm100"></td>
+                                <td md-cell><input type="number" placeholder="{{ppm102}}" style="width: 60px" ng-model="userProfile.ppm102"></td>
                             </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>{{ppm103}}</td>
-                                <td>{{ppm106}}</td>
+                            <tr md-row>
+                                <td md-cell>6</td>
+                                <td md-cell><input type="number" placeholder="{{ppm103}}" style="width: 60px" ng-model="userProfile.ppm103"></td>
+                                <td md-cell><input type="number" placeholder="{{ppm106}}" style="width: 60px" ng-model="userProfile.ppm106"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            
+            
             <div layout="row"> 
                 <span class="md-subhead">&iquest;Tienes potenciometro?</span>
             </div>
@@ -357,31 +362,33 @@
             </div>
             <div layout="row">
                 <div flex="33">
-                    <table class="table table-bordered">
-                        <thead>
-                        <th>Zona</th>
-                        <th colspan="2">Power</th>
+                    <table md-table md-row-select ng-model="selected" md-progress="promise">
+                        <thead md-head>
+                            <tr md-row>
+                                <th md-column>Zona</th>
+                                <th md-column colspan="2">Power</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2 Aer&oacute;bico</td>
-                                <td>{{ftp56}}</td>
-                                <td>{{ftp75}}</td>
+                            <tr md-row>
+                                <td md-cell>2 Aer&oacute;bico</td>
+                                <td md-cell><input type="number" placeholder="{{ftp56}}" style="width: 60px" ng-model="userProfile.ftp56"></td>
+                                <td md-cell><input type="number" placeholder="{{ftp75}}" style="width: 60px" ng-model="userProfile.ftp75"></td>
                             </tr>
                             <tr>
-                                <td>3 Tempo</td>
-                                <td>{{ftp76}}</td>
-                                <td>{{ftp90}}</td>
+                                <td md-cell>3 Tempo</td>
+                                <td md-cell><input type="number" placeholder="{{ftp76}}" style="width: 60px" ng-model="userProfile.ftp76"></td>
+                                <td md-cell><input type="number" placeholder="{{ftp90}}" style="width: 60px" ng-model="userProfile.ftp90"></td>
                             </tr>
                             <tr>
-                                <td>4 Umbral</td>
-                                <td>{{ftp91}}</td>
-                                <td>{{ftp105}}</td>
+                                <td md-cell>4 Umbral</td>
+                                <td md-cell><input type="number" placeholder="{{ftp91}}" style="width: 60px" ng-model="userProfile.ftp91"></td>
+                                <td md-cell><input type="number" placeholder="{{ftp105}}" style="width: 60px" ng-model="userProfile.ftp105"></td>
                             </tr>
                             <tr>
-                                <td>5 VO2 Max</td>
-                                <td>{{ftp106}}</td>
-                                <td>{{ftp120}}</td>
+                                <td md-cell>5 VO2 Max</td>
+                                <td md-cell><input type="number" placeholder="{{ftp106}}" style="width: 60px" ng-model="userProfile.ftp106"></td>
+                                <td md-cell><input type="number" placeholder="{{ftp120}}" style="width: 60px" ng-model="userProfile.ftp120"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -533,7 +540,7 @@
             </div>
 
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button class="md-raised" ng-click="createOrMergeUserProfile(userProfile)" >Guardar</md-button>
+                <md-button class="md-raised" ng-click="submitUserProfile(formProfile)">Guardar</md-button>
                 <md-button class="md-raised md-primary" ng-click="generatePlan(userProfile)">Generar Plan</md-button>
             </section>
         </form>

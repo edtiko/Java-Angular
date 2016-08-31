@@ -1,6 +1,6 @@
 package co.com.expertla.training.service.impl.configuration;
 
-import co.com.expertla.training.configuration.dao.ModalityDao;
+import co.com.expertla.training.dao.configuration.ModalityDao;
 import co.com.expertla.training.model.dto.ModalityDTO;
 import co.com.expertla.training.service.configuration.ModalityService;
 import java.util.List;
@@ -30,6 +30,11 @@ public class ModalityServiceImpl implements ModalityService {
     @Override
     public List<ModalityDTO> findByDisciplineId(Integer id) throws Exception {
         return modalityDao.findByDisciplineId(id);
+    }
+    
+    @Override
+    public List<ModalityDTO> findByObjectiveId(Integer objectiveId) throws Exception {
+        return modalityDao.findByObjectiveId(objectiveId);
     }
  
 }

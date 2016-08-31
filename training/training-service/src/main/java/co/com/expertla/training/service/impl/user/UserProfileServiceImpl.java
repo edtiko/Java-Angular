@@ -1,13 +1,14 @@
 package co.com.expertla.training.service.impl.user;
 
-import co.com.expertla.training.configuration.dao.BrandDao;
-import co.com.expertla.training.configuration.dao.ModelEquipmentDao;
-import co.com.expertla.training.configuration.dao.SportEquipmentDao;
+import co.com.expertla.training.dao.configuration.BrandDao;
+import co.com.expertla.training.dao.configuration.ModelEquipmentDao;
+import co.com.expertla.training.dao.configuration.SportEquipmentDao;
 import co.com.expertla.training.dao.user.DisciplineUserDao;
 import co.com.expertla.training.dao.user.EquipmentUserProfileDao;
 import co.com.expertla.training.dao.user.UserDao;
 import co.com.expertla.training.dao.user.UserProfileDao;
 import co.com.expertla.training.dao.user.UserSportDao;
+import co.com.expertla.training.dao.user.UserZoneDao;
 import co.com.expertla.training.enums.SportEquipmentTypeEnum;
 import co.com.expertla.training.model.dto.DashboardDTO;
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
@@ -29,9 +30,11 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.entities.UserAvailability;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.UserSport;
+import co.com.expertla.training.model.entities.UserZone;
 import co.com.expertla.training.model.entities.Weather;
 import co.com.expertla.training.service.user.UserAvailabilityService;
 import co.com.expertla.training.service.user.UserProfileService;
+import java.math.BigInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +49,7 @@ import java.util.List;
  * date 14/07/2016 <br>
  *
  * @author Angela Ramírez
-*
+ *
  */
 @Service("userProfileService")
 @Transactional
@@ -70,16 +73,17 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Autowired
     private UserDao userDao;
 
-    
     @Autowired
     private SportEquipmentDao sportEquipmentDao;
-    
+
     @Autowired
     private BrandDao brandDao;
-    
+
     @Autowired
     private ModelEquipmentDao modelEquipmentDao;
-    
+
+    @Autowired
+    private UserZoneDao userZoneDao;
 
     @Override
     public UserProfileDTO findDTOByUserId(Integer id) throws Exception {
@@ -145,6 +149,44 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
         }
 
+        List<UserZone> userZoneList = userZoneDao.findByUserId(id);
+        if (userZoneList != null && !userZoneList.isEmpty()) {
+            String[] zone = new String[5];
+            for (UserZone userZone : userZoneList) {
+                //zone type 1 = Ppm
+                if (userZone.getZoneType().equals("1")) {
+                    zone = userZone.getZoneTwo().split("-");
+                    userProfile.setPpm81(new BigInteger(zone[0]));
+                    userProfile.setPpm89(new BigInteger(zone[1]));
+                    zone = userZone.getZoneThree().split("-");
+                    userProfile.setPpm90(new BigInteger(zone[0]));
+                    userProfile.setPpm93(new BigInteger(zone[1]));
+                    zone = userZone.getZoneFour().split("-");
+                    userProfile.setPpm94(new BigInteger(zone[0]));
+                    userProfile.setPpm99(new BigInteger(zone[1]));
+                    zone = userZone.getZoneFive().split("-");
+                    userProfile.setPpm100(new BigInteger(zone[0]));
+                    userProfile.setPpm102(new BigInteger(zone[1]));
+                    zone = userZone.getZoneSix().split("-");
+                    userProfile.setPpm103(new BigInteger(zone[0]));
+                    userProfile.setPpm106(new BigInteger(zone[1]));
+                }
+                if (userZone.getZoneType().equals("2")) {
+                    zone = userZone.getZoneTwo().split("-");
+                    userProfile.setFtp56(new BigInteger(zone[0]));
+                    userProfile.setFtp75(new BigInteger(zone[1]));
+                    zone = userZone.getZoneThree().split("-");
+                    userProfile.setFtp76(new BigInteger(zone[0]));
+                    userProfile.setFtp90(new BigInteger(zone[1]));
+                    zone = userZone.getZoneFour().split("-");
+                    userProfile.setFtp91(new BigInteger(zone[0]));
+                    userProfile.setFtp105(new BigInteger(zone[1]));
+                    zone = userZone.getZoneFive().split("-");
+                    userProfile.setFtp106(new BigInteger(zone[0]));
+                    userProfile.setFtp120(new BigInteger(zone[1]));
+                }
+            }
+        }
         DisciplineUser discipline = disciplineUserDao.findByUserId(id);
         userProfile.setDiscipline(discipline.getDiscipline().getDisciplineId());
         return userProfile;
@@ -189,8 +231,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         UserProfile userProfile = new UserProfile();
         userProfile.setIndPulsometer(dto.getIndPulsometer() == null ? null : dto.getIndPulsometer());
         userProfile.setIndPower(dto.getIndPower() == null ? null : dto.getIndPower());
-        
-        if("1".equals(dto.getIndPulsometer()) && !new Integer(-2).equals(dto.getPulsometer())) {
+
+        if ("1".equals(dto.getIndPulsometer()) && !new Integer(-2).equals(dto.getPulsometer())) {
             equipment.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             equipment.setUserProfileId(userProfile);
 
@@ -199,8 +241,8 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
             sportEquipments.add(equipment);
         }
-        
-        if("1".equals(dto.getIndPower()) && !new Integer(-2).equals(dto.getPotentiometer())) {
+
+        if ("1".equals(dto.getIndPower()) && !new Integer(-2).equals(dto.getPotentiometer())) {
             equipment = new EquipmentUserProfile();
             equipment.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             equipment.setUserProfileId(userProfile);
@@ -227,7 +269,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             equipment.setUserProfileId(userProfile);
             sportEquipments.add(equipment);
         }
-        
+
         if (dto.getOtherModelPulsometer() != null && dto.getOtherPulsometer() != null && !"".equals(dto.getOtherPulsometer()) && !"".equals(dto.getOtherModelPulsometer())) {
             SportEquipment newSportEquipment = new SportEquipment();
             Brand newBrand = new Brand();
@@ -235,22 +277,21 @@ public class UserProfileServiceImpl implements UserProfileService {
             EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
             newBrand.setName(dto.getOtherPulsometer());
             brandDao.create(newBrand);
-            
+
             newSportEquipment.setName("Other Pulsometer");
             newSportEquipment.setBrandId(newBrand);
             newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.PULSOMETER.getId()));
             sportEquipmentDao.create(newSportEquipment);
-            
+
             newModel.setName(dto.getOtherModelPulsometer());
             newModel.setSportEquipmentId(newSportEquipment);
             modelEquipmentDao.create(newModel);
-            
+
             equipmentUser.setModelEquipmentId(newModel);
             equipmentUser.setSportEquipmentId(newSportEquipment);
             equipmentUser.setUserProfileId(userProfile);
             sportEquipments.add(equipmentUser);
-            
-            
+
         }
         if (dto.getOtherPotentiometer() != null && dto.getOtherModelPotentiometer() != null && !"".equals(dto.getOtherPotentiometer()) && !"".equals(dto.getOtherModelPotentiometer())) {
             SportEquipment newSportEquipment = new SportEquipment();
@@ -274,30 +315,30 @@ public class UserProfileServiceImpl implements UserProfileService {
             equipmentUser.setUserProfileId(userProfile);
             sportEquipments.add(equipmentUser);
         }
-        if (dto.getOtherBike()!= null && dto.getOtherModelBike()!= null && !"".equals(dto.getOtherBike()) && !"".equals(dto.getOtherModelBike())) {
+        if (dto.getOtherBike() != null && dto.getOtherModelBike() != null && !"".equals(dto.getOtherBike()) && !"".equals(dto.getOtherModelBike())) {
             SportEquipment newSportEquipment = new SportEquipment();
             Brand newBrand = new Brand();
             ModelEquipment newModel = new ModelEquipment();
             EquipmentUserProfile equipmentUser = new EquipmentUserProfile();
             newBrand.setName(dto.getOtherBike());
             brandDao.create(newBrand);
-            
+
             newSportEquipment.setBikeTypeId(new BikeType(dto.getBikeType()));
             newSportEquipment.setName("Other Bike");
             newSportEquipment.setBrandId(newBrand);
             newSportEquipment.setSportEquipmentTypeId(new SportEquipmentType(SportEquipmentTypeEnum.BIKES.getId()));
             sportEquipmentDao.create(newSportEquipment);
-            
+
             newModel.setName(dto.getOtherModelBike());
             newModel.setSportEquipmentId(newSportEquipment);
             modelEquipmentDao.create(newModel);
-            
+
             equipmentUser.setModelEquipmentId(newModel);
             equipmentUser.setSportEquipmentId(newSportEquipment);
             equipmentUser.setUserProfileId(userProfile);
-            sportEquipments.add(equipmentUser);        
+            sportEquipments.add(equipmentUser);
         }
-        
+
         userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
         UserAvailability availability = new UserAvailability();
         buildUserAvailabilityObject(dto, availability);
@@ -330,6 +371,24 @@ public class UserProfileServiceImpl implements UserProfileService {
                 equipmentUserProfileDao.create(sportEquipment);
             }
         }
+
+        UserZone userZone = new UserZone();
+        userZone.setZoneType("2");
+        userZone.setUserId(user);
+        userZone.setZoneTwo(dto.getFtp56() + "-" + dto.getFtp75());
+        userZone.setZoneThree(dto.getFtp76() + "-" + dto.getFtp90());
+        userZone.setZoneFour(dto.getFtp91() + "-" + dto.getFtp105());
+        userZone.setZoneFive(dto.getFtp106() + "-" + dto.getFtp120());
+        userZoneDao.create(userZone);
+        userZone = new UserZone();
+        userZone.setZoneType("1");
+        userZone.setUserId(user);
+        userZone.setZoneTwo(dto.getPpm81() + "-" + dto.getPpm89());
+        userZone.setZoneThree(dto.getPpm90() + "-" + dto.getPpm93());
+        userZone.setZoneFour(dto.getPpm94() + "-" + dto.getPpm99());
+        userZone.setZoneFive(dto.getPpm100() + "-" + dto.getPpm102());
+        userZone.setZoneSix(dto.getPpm103() + "-" + dto.getPpm106());
+        userZoneDao.create(userZone);
         userSportDao.create(sport);
         userAvailabilityService.create(availability);
     }
@@ -388,7 +447,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         } else if (potentiometer != null) {
             equipmentUserProfileDao.create(potentiometer);
         }
-       //Other Pulsometer
+        //Other Pulsometer
         if (dto.getOtherModelPulsometer() != null && dto.getOtherPulsometer() != null && !"".equals(dto.getOtherPulsometer()) && !"".equals(dto.getOtherModelPulsometer())) {
             SportEquipment newSportEquipment = new SportEquipment();
             Brand newBrand = new Brand();
@@ -409,11 +468,11 @@ public class UserProfileServiceImpl implements UserProfileService {
             equipmentUser.setModelEquipmentId(newModel);
             equipmentUser.setSportEquipmentId(newSportEquipment);
             equipmentUser.setUserProfileId(userProfile);
-            if(pulsometer != null && pulsometer.getEquipmentUserProfileId() != null){
+            if (pulsometer != null && pulsometer.getEquipmentUserProfileId() != null) {
                 equipmentUser.setEquipmentUserProfileId(pulsometer.getEquipmentUserProfileId());
-               equipmentUserProfileDao.merge(equipmentUser);
-            }else{
-               equipmentUserProfileDao.create(equipmentUser);  
+                equipmentUserProfileDao.merge(equipmentUser);
+            } else {
+                equipmentUserProfileDao.create(equipmentUser);
             }
 
         }
@@ -446,7 +505,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
         }
         //Other Bike
-        if (dto.getOtherBike()!= null && dto.getOtherModelBike()!= null && !"".equals(dto.getOtherBike()) && !"".equals(dto.getOtherModelBike())) {
+        if (dto.getOtherBike() != null && dto.getOtherModelBike() != null && !"".equals(dto.getOtherBike()) && !"".equals(dto.getOtherModelBike())) {
             SportEquipment newSportEquipment = new SportEquipment();
             Brand newBrand = new Brand();
             ModelEquipment newModel = new ModelEquipment();
@@ -498,6 +557,44 @@ public class UserProfileServiceImpl implements UserProfileService {
         } else if (sport != null) {
             userSportDao.create(sport);
         }
+        List<UserZone> userZoneList = userZoneDao.findByUserId(userProfile.getUserId().getUserId());
+        if (userZoneList != null && !userZoneList.isEmpty()) {
+            for (UserZone userZone : userZoneList) {
+                //zone type 1 = Ppm
+                if (userZone.getZoneType().equals("1")) {
+                    userZone.setZoneTwo(dto.getPpm81() + "-" + dto.getPpm89());
+                    userZone.setZoneThree(dto.getPpm90() + "-" + dto.getPpm93());
+                    userZone.setZoneFour(dto.getPpm94() + "-" + dto.getPpm99());
+                    userZone.setZoneFive(dto.getPpm100() + "-" + dto.getPpm102());
+                    userZone.setZoneSix(dto.getPpm103() + "-" + dto.getPpm106());
+                    userZoneDao.merge(userZone);
+                } else if (userZone.getZoneType().equals("2")) {
+                    userZone.setZoneTwo(dto.getFtp56() + "-" + dto.getFtp75());
+                    userZone.setZoneThree(dto.getFtp76() + "-" + dto.getFtp90());
+                    userZone.setZoneFour(dto.getFtp91() + "-" + dto.getFtp105());
+                    userZone.setZoneFive(dto.getFtp106() + "-" + dto.getFtp120());
+                    userZoneDao.merge(userZone);
+                }
+            }
+        } else {
+            UserZone userZone = new UserZone();
+            userZone.setZoneType("2");
+            userZone.setUserId(user);
+            userZone.setZoneTwo(dto.getFtp56() + "-" + dto.getFtp75());
+            userZone.setZoneThree(dto.getFtp76() + "-" + dto.getFtp90());
+            userZone.setZoneFour(dto.getFtp91() + "-" + dto.getFtp105());
+            userZone.setZoneFive(dto.getFtp106() + "-" + dto.getFtp120());
+            userZoneDao.create(userZone);
+            userZone = new UserZone();
+            userZone.setZoneType("1");
+            userZone.setUserId(user);
+            userZone.setZoneTwo(dto.getPpm81() + "-" + dto.getPpm89());
+            userZone.setZoneThree(dto.getPpm90() + "-" + dto.getPpm93());
+            userZone.setZoneFour(dto.getPpm94() + "-" + dto.getPpm99());
+            userZone.setZoneFive(dto.getPpm100() + "-" + dto.getPpm102());
+            userZone.setZoneSix(dto.getPpm103() + "-" + dto.getPpm106());
+            userZoneDao.create(userZone);
+        }
 
         userDao.merge(user);
         disciplineUserDao.merge(discipline);
@@ -535,7 +632,7 @@ public class UserProfileServiceImpl implements UserProfileService {
      * @return
      */
     private EquipmentUserProfile buildPulsometerObject(UserProfileDTO dto, EquipmentUserProfile pulsometer) {
-        if (pulsometer != null && !new Integer(-1).equals(dto.getPulsometer()) && !new Integer(-2).equals(dto.getPulsometer()) ) {
+        if (pulsometer != null && !new Integer(-1).equals(dto.getPulsometer()) && !new Integer(-2).equals(dto.getPulsometer())) {
             pulsometer.setSportEquipmentId(new SportEquipment(dto.getPulsometer()));
             if (dto.getModelPulsometer() != null) {
                 pulsometer.setModelEquipmentId(new ModelEquipment(dto.getModelPulsometer()));
@@ -564,7 +661,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             if (dto.getModelPotentiometer() != null) {
                 potentiometer.setModelEquipmentId(new ModelEquipment(dto.getModelPotentiometer()));
             }
-        } else if(!new Integer(-1).equals(dto.getPotentiometer()) && !new Integer(-2).equals(dto.getPotentiometer())){
+        } else if (!new Integer(-1).equals(dto.getPotentiometer()) && !new Integer(-2).equals(dto.getPotentiometer())) {
             potentiometer = new EquipmentUserProfile();
             potentiometer.setSportEquipmentId(new SportEquipment(dto.getPotentiometer()));
             potentiometer.setUserProfileId(new UserProfile(dto.getUserProfileId()));
@@ -757,8 +854,8 @@ public class UserProfileServiceImpl implements UserProfileService {
                     userAvailability.append(",");
                 }
             }
-            
-            if(userAvailability.length() > 0) {
+
+            if (userAvailability.length() > 0) {
                 userAvailability.deleteCharAt(userAvailability.lastIndexOf(","));
             }
         }
