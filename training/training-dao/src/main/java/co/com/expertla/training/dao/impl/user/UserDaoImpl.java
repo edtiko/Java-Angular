@@ -131,4 +131,36 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         List<UserDTO> list = query.getResultList();
         return list;
     }
+    
+    @Override
+    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception {
+        if(order.contains("-")) {
+            order = order.replaceAll("-", "") + " desc";
+        }
+        
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT new co.com.expertla.training.model.dto.UserDTO(u.userId, u.login, u.name, u.secondName, u.lastName, ");
+        builder.append("u.email,u.sex,u.phone,du.discipline.disciplineId,u.stateId, r.roleId.roleId, u.countryId.countryId, u.profilePhoto, ");
+        builder.append(" (SELECT v.url FROM VideoUser v WHERE v.userId.userId = u.userId), (SELECT p.aboutMe FROM UserProfile p WHERE p.userId.userId =u.userId),");
+        builder.append(" u.creationDate, u.lastUpdate,");
+        builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
+        builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
+        builder.append(") from User u, DisciplineUser du, RoleUser r");
+        builder.append("WHERE u.userId = du.userId.userId "); 
+        builder.append("AND u.userId = r.userId.userId ");
+        builder.append("order by a.");
+        builder.append(order);
+        int count = findAllUsersWithDiscipline().size();
+        
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setFirstResult(first);
+        query.setMaxResults(max);
+        List<UserDTO> list = query.getResultList();
+        
+        if(list != null && !list.isEmpty()) {
+            list.get(0).setCount(count);
+        }
+        
+        return list;
+    }
 }

@@ -36,4 +36,17 @@ public interface UserDao extends BaseDAO<User>{
      * @return dto
      */
     public List<UserDTO> findAllUsersWithDiscipline() throws Exception;
+    
+    /**
+     * Obtiene todos los registros de user paginados <br>
+     * Creation Date : <br>
+     * date 31/08/2016 <br>
+     * @author Angela Ramirez
+     * @param first
+     * @param max
+     * @param order
+     * @return
+     * @throws Exception 
+     */
+    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception;
 }

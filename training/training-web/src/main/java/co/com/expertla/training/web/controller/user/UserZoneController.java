@@ -1,4 +1,4 @@
-package co.com.expertla.training.web.user.controller;
+package co.com.expertla.training.web.controller.user;
 
 import co.com.expertla.training.model.entities.UserZone;
 import java.util.List;

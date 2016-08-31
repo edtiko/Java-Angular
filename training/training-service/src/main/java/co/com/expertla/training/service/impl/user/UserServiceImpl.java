@@ -302,4 +302,9 @@ public class UserServiceImpl implements UserService {
 
         return resultBuf.toString();
     }
+    
+    @Override
+    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception {
+        return userDao.findPaginate(first, max, order);
+    }
 }

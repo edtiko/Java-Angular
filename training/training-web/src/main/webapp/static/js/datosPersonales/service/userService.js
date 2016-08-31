@@ -15,6 +15,16 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
 
                 return deferred.promise;
             },
+            getPaginate: function(query, res){
+                    return $http.post($contextPath+'user/paginated', query)
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
             logout: function () {
                 $http({
                     method: 'POST',

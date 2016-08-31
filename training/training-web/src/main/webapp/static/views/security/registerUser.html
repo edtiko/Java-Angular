@@ -130,7 +130,7 @@
                     </md-input-container>
                 </div>
             </div>
-         <div layout="row">
+            <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
                         <label  for="picture">Foto de Perfil</label>
@@ -176,44 +176,58 @@
                     </div>
                 </div>
             </div>
--->            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+            -->            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                 <md-button ng-click="submitUser();uploadFile(myFile)" ng-disabled="formUser.$invalid" class="md-raised md-primary">Guardar</md-button>
             </section>
 
         </form>
 
     </md-content>
-</div><!--
+</div>
+<div class="demo-md-panel md-padding">
+    <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <span>Lista de Usuarios</span>
+        </div>
+    </md-toolbar>
+    <md-table-container>
+        <table md-table ng-model="selected" md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="getOptionPaginate">
+                <tr md-row>
+                    <th md-column md-order-by="name" class="md-column">Nombre de Usuario</th>
+                    <th md-column md-order-by="url" class="md-column">Primer Nombre</th>
+                    <th md-column md-order-by="description" class="md-column">Segundo Nombre</th>
+                    <th md-column md-order-by="masterOption" class="md-column">Apellidos</th>
+                    <th md-column md-order-by="module" class="md-column">Email</th>
+                    <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
+                    <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
+                    <th md-column md-order-by="userUpdate">Usuario de Modificaci&oacute;n</th>
+                    <th  md-column md-order-by="lastUpdate">Fecha de Modificaci&oacute;n</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="user" md-select-id="name" md-auto-select ng-repeat="u in users">
+                    <td md-cell>{{u.login}}</td>
+                    <td md-cell>{{u.firstName}}</td>
+                    <td md-cell>{{u.secondName}}</td>
+                    <td md-cell>{{u.lastName}}</td>
+                    <td md-cell>{{u.email}}</td>
+                    <td md-cell>{{u.userCreateName}}</td>
+                    <td md-cell>{{u.creationDate}}</td>
+                    <td md-cell>{{u.userUpdateName}}</td>
+                    <td md-cell>{{u.lastUpdate}}</td>
+                    <td>
+            <md-button type="button" ng-click="editUser(u.userId)" class="md-raised md-primary">Editar</md-button>  
+            <md-button ng-show="u.stateId == 1" type="button" ng-click="inactivateUser(u.userId)" class="md-raised md-warn md-button md-ink-ripple">Inactivar</md-button>
+            <md-button ng-show="u.stateId == 0" type="button" ng-click="activateUser(u.userId)" class="md-raised md-primary">Activar</md-button>
+            <md-button type="button" ng-click="deleteOption(option.optionId)" class="md-raised md-primary">Eliminar</md-button>
+            </td>
+            </tr>
+            </tbody>
+        </table>
 
---><div class="panel panel-default"> 
-<div class="panel-heading"><span class="lead">Lista de Usuarios </span></div>
-<div class="tablecontainer">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Nombre de Usuario</th>
-                <th>Primer Nombre</th>
-                <th>Segundo Nombre</th>
-                <th>Apellidos</th>
-                <th>Email</th>
-                <th width="20%"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="u in users">
-                <td><span>{{u.login}}</span></td>
-                <td><span>{{u.firstName}}</span></td>
-                <td><span>{{u.secondName}}</span></td>
-                <td><span>{{u.lastName}}</span></td>
-                <td><span>{{u.email}}</span></td>
-                <td>
-                    <button type="button" ng-click="editUser(u.userId)" class="btn btn-success custom-width">Editar</button>  
-                    <button ng-show="u.stateId == 1" type="button" ng-click="inactivateUser(u.userId)" class="btn btn-danger custom-width">Inactivar</button>
-                    <button ng-show="u.stateId == 0" type="button" ng-click="activateUser(u.userId)" class="btn btn-success custom-width">Activar</button>
-                    <!--<button type="button" ng-click="remove(u.user_id)" class="btn btn-danger custom-width">Eliminar</button>-->
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getOptionPaginate" md-page-select></md-table-pagination>
+
 </div>
-</div>
+

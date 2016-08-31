@@ -13,6 +13,23 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         $scope.disciplines = [];
         $scope.roles = [];
         $scope.profileImage = "static/img/profile-default.png";
+        $scope.selected = [];
+        $scope.count = 0;
+        $scope.query = {
+            order: 'name',
+            limit: 5,
+            page: 1
+        };
+        
+        $scope.getOptionPaginate = function () {
+        $scope.promise = UserService.getPaginate($scope.query, function (response) {
+            $scope.optionList = success(response);
+
+            if ($scope.users.length > 0) {
+                $scope.count = $scope.users[0].count;
+            }
+        }).$promise;
+        };
         
         $scope.fetchAllUsers = function () {
             UserService.fetchAllUsers()
@@ -217,7 +234,6 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             }
         };
         $scope.fetchAllRoles();
-        $scope.fetchAllUsers();
         this.getSportDisciplines();
         self.fetchAllCountries();
 

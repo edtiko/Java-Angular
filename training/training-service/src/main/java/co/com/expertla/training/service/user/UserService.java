@@ -3,6 +3,7 @@ package co.com.expertla.training.service.user;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
+import co.com.expertla.training.model.dto.OptionDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.User;
 import java.util.List;
@@ -71,4 +72,18 @@ public interface UserService {
      * @throws Exception
      */
     public void editInternalUser(UserDTO user) throws Exception;
+    
+    /**
+     * Obtiene todos los registros de user paginados <br>
+     * Creation Date : <br>
+     * date 31/08/2016 <br>
+     * @author Angela Ramirez
+     * @param first
+     * @param max
+     * @param order
+     * @return
+     * @throws Exception 
+     */
+    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception;
+   
 }
