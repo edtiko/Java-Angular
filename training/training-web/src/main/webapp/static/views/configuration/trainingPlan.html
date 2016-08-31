@@ -1,0 +1,130 @@
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+        <span class="md-headline">Plan</span>
+
+    <form  name="formTrainingPlan" novalidate>
+        <input type="hidden" ng-model="trainingPlan.trainingPlanId" />
+   
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="trainingPlan.name" id="name" name="name"  placeholder="Nombre" required/>
+                            <div class="has-error" ng-messages="formTrainingPlan.name.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            
+
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block">
+                                <input type="text" ng-model="trainingPlan.description" id="description" name="description"  placeholder="Descripci&oacute;n"/>
+                            </md-input-container>
+                        </div>
+                    </div>
+            
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block">
+                                <input type="number" class="form-control input-sm" style=" display: inline" ng-model="trainingPlan.videoCount" placeholder="Cantidad de Videos">
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block">
+                                <input type="number" class="form-control input-sm" style=" display: inline" ng-model="trainingPlan.messageCount" placeholder="Cantidad de Mensajes">
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block">
+                                <input type="number" class="form-control input-sm" style=" display: inline" ng-model="trainingPlan.emailCount" placeholder="Cantidad de Correos">
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block">
+                                <input type="number" class="form-control input-sm" style=" display: inline" ng-model="trainingPlan.callCount" placeholder="Cantidad de Llamadas">
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block" >
+                                <label>Fecha Final</label>
+                                <md-datepicker id="endDate" name="endDate" ng-model="trainingPlan.endDate">
+
+                                </md-datepicker>
+
+                                <div class="has-error" ng-messages="formTrainingPlan.endDate.$error">
+                                    <div ng-message="date">{{ 'INVALID_FIELD_TEXT' | translate }}</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+            
+            
+            
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button ng-click="submitTrainingPlan(formTrainingPlan)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+            </section>
+
+        </form>
+
+    </md-content>
+</div>
+
+<div class="demo-md-panel md-padding">
+    <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <span>Lista de Planes</span>
+        </div>
+    </md-toolbar>
+
+    <md-table-container>
+        <table md-table ng-model="selected" md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="getTrainingPlanPaginate">
+                <tr md-row>
+                    <th md-column md-order-by="name" class="md-column">Nombre</th>
+                <th md-column md-order-by="description" class="md-column">Descripci&oacute;n</th>
+                    <th md-column md-order-by="videoCount" class="md-column">Cant. de Videos</th>
+                    <th md-column md-order-by="messageCount" class="md-column">Cant. Mensajes</th>
+                    <th md-column md-order-by="emailCount" class="md-column">Cant. Correos</th>
+                    <th md-column md-order-by="callCount" class="md-column">Cant. Llamadas</th>
+                    <th md-column md-order-by="endDate" class="md-column">Fecha Final</th>
+                    <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
+                    <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
+                    <th md-column md-order-by="userUpdate">Usuario de Modificaci&oacute;n</th>
+                    <th  md-column md-order-by="lastUpdate">Fecha de Modificaci&oacute;n</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="trainingPlan" md-select-id="name" md-auto-select ng-repeat="trainingPlan in trainingPlanList">
+                    <td md-cell>{{trainingPlan.name}}</td>
+                    <td md-cell>{{trainingPlan.description}}</td>
+                    <td md-cell>{{trainingPlan.videoCount}}</td>
+                    <td md-cell>{{trainingPlan.messageCount}}</td>
+                    <td md-cell>{{trainingPlan.emailCount}}</td>
+                    <td md-cell>{{trainingPlan.callCount}}</td>
+                    <td md-cell>{{trainingPlan.endDate}}</td>
+                    <td md-cell>{{trainingPlan.userCreateName}}</td>
+                    <td md-cell>{{trainingPlan.creationDate}}</td>
+                    <td md-cell>{{trainingPlan.userUpdateName}}</td>
+                    <td md-cell>{{trainingPlan.lastUpdate}}</td>
+                    <td>
+                        <md-button type="button" ng-click="editTrainingPlan(trainingPlan.trainingPlanId)" class="md-raised md-primary">Editar</md-button>  
+                        <md-button ng-show="trainingPlan.stateId == 1" type="button" ng-click="inactivateTrainingPlan(trainingPlan.trainingPlanId)" class="md-raised md-warn md-button md-ink-ripple">Inactivar</md-button>
+                        <md-button ng-show="trainingPlan.stateId == 0" type="button" ng-click="activateTrainingPlan(trainingPlan.trainingPlanId)" class="md-raised md-primary">Activar</md-button>
+                        <md-button type="button" ng-click="deleteTrainingPlan(trainingPlan.trainingPlanId)" class="md-raised md-primary">Eliminar</md-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getTrainingPlanPaginate" md-page-select></md-table-pagination>
+</div>

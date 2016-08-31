@@ -1,47 +1,19 @@
-package co.com.expertla.training.service.configuration;
+package co.com.expertla.training.dao.configuration;
 
+import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.dto.DisciplineDTO;
 import co.com.expertla.training.model.entities.Discipline;
 import java.util.List;
 
 /**
-* Discipline Service <br>
+* Discipline Dao <br>
 * Info. Creación: <br>
 * fecha 30/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
-public interface DisciplineService {
+public interface DisciplineDao extends BaseDAO<Discipline> {
     
-
-    /**
-     * Crea discipline <br>
-     * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
-     * @return 
-     * @throws Exception 
-     */
-    public Discipline create(Discipline discipline) throws Exception;
-    /**
-     * Modifica discipline <br>
-     * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
-     * @return 
-     * @throws Exception 
-     */
-    public Discipline store(Discipline discipline) throws Exception;
-    /**
-     * Elimina discipline<br>
-     * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @param discipline 
-     * @throws Exception 
-     */
-    public void remove(Discipline discipline) throws Exception;
+    
     /**
      * Obtiene todos los registros de discipline <br>
      * Info. Creación: <br>
@@ -74,9 +46,9 @@ public interface DisciplineService {
      * @throws Exception 
      */
     public List<DisciplineDTO> findPaginate(int first, int max, String order) throws Exception;
-    
+
     /**
-     * Obtiene todos los registros de discipline paginados <br>
+     * Obtiene todos los registros de discipline por su id <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
@@ -97,9 +69,6 @@ public interface DisciplineService {
      */
     public List<Discipline> findByFiltro(Discipline discipline) throws Exception; 
     
-    public DisciplineDTO findByUserId(Integer userId)throws Exception;
+    public List<DisciplineDTO> findByUserId(Integer userId)throws Exception;
 
-
-
-    
 }

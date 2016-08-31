@@ -94,9 +94,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         //notificación mensajes recibidos
         messageService.receive().then(null, null, function (message) {
             if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
-            $scope.messagesReceivedCount = message.countMessagesAthlete;
-            }else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
-             $scope.messagesReceivedCount = message.countMessagesCoach;   
+                $scope.messagesReceivedCount = message.countMessagesAthlete;
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
+                $scope.messagesReceivedCount = message.countMessagesCoach;
             }
         });
 
@@ -129,6 +129,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             DashboardService.getAssignedCoach($scope.userSession.userId).then(
                     function (data) {
                         var res = data.entity.output;
+                        
+                        if(res == null) {
+                            return;
+                        }
+                        
                         $scope.coachAssignedPlan = angular.copy(res);
                         self.getAvailableMessages(res.id, $scope.userSession.userId);
                         self.getReceivedMessages(res.id, res.coachUserId.userId);
@@ -157,7 +162,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-           self.getReceivedMessages = function (coachAssignedPlanId, userId) {
+        self.getReceivedMessages = function (coachAssignedPlanId, userId) {
             messageService.getMessagesReceived(coachAssignedPlanId, userId).then(
                     function (data) {
                         $scope.messagesReceivedCount = data.entity.output;
@@ -190,21 +195,23 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
 
-        if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
-            self.getAssignedAthletes();
-            var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
-            if (planSelected != null) {
-                $scope.selectAthlete(planSelected);
-            }
-            //$window.sessionStorage.setItem("coachAssignedPlanSelected", null);
+        $scope.getUserSession(function (res) {
+            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
+                self.getAssignedAthletes();
+                $scope.getUserById();
+                var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
+                if (planSelected != null) {
+                    $scope.selectAthlete(planSelected);
+                }
 
-        } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
-            $scope.getUserSession(function (res) {
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
                 $scope.getUserSessionByResponse(res);
                 $scope.getUserById();
                 self.getAssignedCoach();
-            });
-        }
+            }
+        });
+
+
 
     }]);
 

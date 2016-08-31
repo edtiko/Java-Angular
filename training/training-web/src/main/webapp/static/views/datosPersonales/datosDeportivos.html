@@ -425,18 +425,6 @@
                 <div layout="row"> 
                     <div flex="33">
                         <md-input-container class="md-block" >
-                            <label>&iquest;Cu&aacute;l?</label>
-                            <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
-                                <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
-                                    {{m.brand}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                    </div>
-                </div>
-                <div layout="row"> 
-                    <div flex="33">
-                        <md-input-container class="md-block" >
                             <label>Tipo de Bicicleta</label>
                             <md-select  ng-model="userProfile.bikeType"
                                         ng-change="getBikes(userProfile.bikeType)">
@@ -471,6 +459,32 @@
                         </md-input-container>
                     </div>
                 </div>
+                <div layout="row"> 
+                    <div flex="33">
+                        <md-input-container class="md-block" >
+                            <label>&iquest;Cu&aacute;l?</label>
+                            <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
+                                <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
+                                    {{m.brand}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" ng-show="showModelBike"> 
+                    <div flex="33">
+                        <md-input-container class="md-block" >
+                            <label >Modelo</label>
+                            <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
+                                <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
+                                    {{m.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+=======
+>>>>>>> ca0dd277fab371ce8ed72dcba49532757c9cd738
                 <div ng-show="showAnotherBike">
                     <div layout="row">
                         <div flex="33">
@@ -505,7 +519,6 @@
                            ng-model="user_profileshoes"> Mostrar</md-switch>
             </div>
 
-
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
@@ -520,7 +533,7 @@
             </div>
 
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button class="md-raised" ng-click="createOrMergeUserProfile(userProfile)" ng-disabled="formProfile.$invalid">Guardar</md-button>
+                <md-button class="md-raised" ng-click="createOrMergeUserProfile(userProfile)" >Guardar</md-button>
                 <md-button class="md-raised md-primary" ng-click="generatePlan(userProfile)">Generar Plan</md-button>
             </section>
         </form>

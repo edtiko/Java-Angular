@@ -28,7 +28,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
 
-                    .when('/register-user', route.resolve('registerUser', 'security/'))
+                    .when('/create-user', route.resolve('registerUser', 'security/'))
                     
                     .when('/message', route.resolve('message', 'message/'))
 
@@ -39,6 +39,12 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-option', route.resolve('option', 'security/'))
             
                     .when('/create-role', route.resolve('role', 'security/'))
+            
+                    .when('/create-plan', route.resolve('trainingPlan', 'configuration/'))
+            
+                    .when('/create-discipline', route.resolve('discipline', 'configuration/'))
+            
+                    .when('/create-objective', route.resolve('objective', 'configuration/'))
 
                     // route for the contact page
                     .when('/contact', {

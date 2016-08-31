@@ -1,69 +1,69 @@
 package co.com.expertla.training.service.configuration;
 
-import co.com.expertla.training.model.dto.DisciplineDTO;
-import co.com.expertla.training.model.entities.Discipline;
+import co.com.expertla.training.model.dto.TrainingPlanDTO;
+import co.com.expertla.training.model.entities.TrainingPlan;
 import java.util.List;
 
 /**
-* Discipline Service <br>
+* TrainingPlan Service <br>
 * Info. Creación: <br>
 * fecha 30/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
-public interface DisciplineService {
+public interface TrainingPlanService {
     
 
     /**
-     * Crea discipline <br>
+     * Crea trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
+     * @param trainingPlan
      * @return 
      * @throws Exception 
      */
-    public Discipline create(Discipline discipline) throws Exception;
+    public TrainingPlan create(TrainingPlan trainingPlan) throws Exception;
     /**
-     * Modifica discipline <br>
+     * Modifica trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
+     * @param trainingPlan
+     * @throws Exception 
+     */
+    public TrainingPlan store(TrainingPlan trainingPlan) throws Exception;
+    /**
+     * Elimina trainingPlan<br>
+     * Info. Creación: <br>
+     * fecha 30/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param trainingPlan
      * @return 
      * @throws Exception 
      */
-    public Discipline store(Discipline discipline) throws Exception;
+    public void remove(TrainingPlan trainingPlan) throws Exception;
     /**
-     * Elimina discipline<br>
-     * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @param discipline 
-     * @throws Exception 
-     */
-    public void remove(Discipline discipline) throws Exception;
-    /**
-     * Obtiene todos los registros de discipline <br>
+     * Obtiene todos los registros de trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
      */
-    public List<DisciplineDTO> findAll() throws Exception;
+    public List<TrainingPlan> findAll() throws Exception;
     
     /**
-     * Obtiene todos los registros activos de discipline <br>
+     * Obtiene todos los registros activos de trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
      */
-    public List<Discipline> findAllActive() throws Exception;
+    public List<TrainingPlan> findAllActive() throws Exception;
 
     /**
-     * Obtiene todos los registros de discipline paginados <br>
+     * Obtiene todos los registros de trainingPlan paginados <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
@@ -73,31 +73,29 @@ public interface DisciplineService {
      * @return
      * @throws Exception 
      */
-    public List<DisciplineDTO> findPaginate(int first, int max, String order) throws Exception;
+    public List<TrainingPlanDTO> findPaginate(int first, int max, String order) throws Exception;
     
     /**
-     * Obtiene todos los registros de discipline paginados <br>
+     * Obtiene todos los registros de trainingPlan paginados <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
+     * @param trainingPlan
      * @return
      * @throws Exception 
      */
-    public List<Discipline> findByDiscipline(Discipline discipline) throws Exception;   
+    public List<TrainingPlan> findByTrainingPlan(TrainingPlan trainingPlan) throws Exception;   
 
     /**
-     * Obtiene todos los registros de discipline por el filtro del usuario <br>
+     * Obtiene todos los registros de trainingPlan por el filtro del usuario <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param discipline
+     * @param trainingPlan
      * @return
      * @throws Exception 
      */
-    public List<Discipline> findByFiltro(Discipline discipline) throws Exception; 
-    
-    public DisciplineDTO findByUserId(Integer userId)throws Exception;
+    public List<TrainingPlan> findByFiltro(TrainingPlan trainingPlan) throws Exception; 
 
 
 

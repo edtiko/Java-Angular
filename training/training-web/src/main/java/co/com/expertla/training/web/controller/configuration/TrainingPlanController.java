@@ -2,12 +2,12 @@ package co.com.expertla.training.web.controller.configuration;
 
 import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.Status;
-import co.com.expertla.training.model.dto.ObjectiveDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
-import co.com.expertla.training.model.entities.Objective;
+import co.com.expertla.training.model.dto.TrainingPlanDTO;
+import co.com.expertla.training.model.entities.TrainingPlan;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.service.configuration.ObjectiveService;
+import co.com.expertla.training.service.configuration.TrainingPlanService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
@@ -22,48 +22,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
-* Objective Controller <br>
+* TrainingPlan Controller <br>
 * Info. Creación: <br>
 * fecha 30/08/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 
 @RestController
-public class ObjectiveController {
+public class TrainingPlanController {
 
     @Autowired
-    ObjectiveService objectiveService;  
+    TrainingPlanService trainingPlanService;  
 
     /**
-     * Crea objective <br>
+     * Crea trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param objective
+     * @param trainingPlan
      * @return
      */
-    @RequestMapping(value = "objective/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> createObjective(@RequestBody Objective objective) {
+    @RequestMapping(value = "trainingPlan/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> createTrainingPlan(@RequestBody TrainingPlan trainingPlan) {
             ResponseService responseService = new ResponseService();
         try {  
-            Objective objectiveName = new Objective();
-            objectiveName.setName(objective.getName());
-            List<Objective> listObjectiveName = objectiveService.findByFiltro(objectiveName);
+            TrainingPlan trainingPlanName = new TrainingPlan();
+            trainingPlanName.setName(trainingPlan.getName());
+            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByFiltro(trainingPlanName);
             
-            if(listObjectiveName != null && !listObjectiveName.isEmpty()) {
-                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgNombreExiste"));
+            if(listTrainingPlanName != null && !listTrainingPlanName.isEmpty()) {
+                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgNombreExiste"));
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             
-            objective.setStateId(Short.valueOf(Status.ACTIVE.getId()));
-            objective.setCreationDate(new Date());
-            objectiveService.create(objective);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgRegistroCreado"));
+            trainingPlan.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+            trainingPlan.setCreationDate(new Date());
+            trainingPlanService.create(trainingPlan);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -72,43 +72,43 @@ public class ObjectiveController {
     }
 
     /**
-     * Modifica objective <br>
+     * Modifica trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param objective
+     * @param trainingPlan
      * @return
      */
-    @RequestMapping(value = "objective/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> updateObjective(@RequestBody Objective objective) {
+    @RequestMapping(value = "trainingPlan/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> updateTrainingPlan(@RequestBody TrainingPlan trainingPlan) {
             ResponseService responseService = new ResponseService();
         try {    
-            Objective objectiveName = new Objective();
-            objectiveName.setName(objective.getName());
-            List<Objective> listObjectiveName = objectiveService.findByFiltro(objectiveName);
+            TrainingPlan trainingPlanName = new TrainingPlan();
+            trainingPlanName.setName(trainingPlan.getName());
+            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByFiltro(trainingPlanName);
             
-            if(listObjectiveName != null && !listObjectiveName.isEmpty()) {
+            if(listTrainingPlanName != null && !listTrainingPlanName.isEmpty()) {
                 boolean existName = false;
-                for (Objective objective1 : listObjectiveName) {
-                    if (!objective1.getObjectiveId().equals(objective.getObjectiveId())) {
+                for (TrainingPlan trainingPlan1 : listTrainingPlanName) {
+                    if (!trainingPlan1.getTrainingPlanId().equals(trainingPlan.getTrainingPlanId())) {
                         existName = true;
                     }
                 }
 
                 if (existName) {
-                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgNombreExiste"));
+                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgNombreExiste"));
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }                
             }
             
-            objective.setLastUpdate(new Date());
-            objectiveService.store(objective);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgRegistroEditado"));
+            trainingPlan.setLastUpdate(new Date());
+            trainingPlanService.store(trainingPlan);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgRegistroEditado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al modificar registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -117,23 +117,23 @@ public class ObjectiveController {
     }
 
     /**
-     * Elimina objective <br>
+     * Elimina trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param objective
+     * @param trainingPlan
      * @return
      */
-    @RequestMapping(value = "objective/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> deleteObjective(@RequestBody Objective objective) {
+    @RequestMapping(value = "trainingPlan/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> deleteTrainingPlan(@RequestBody TrainingPlan trainingPlan) {
             ResponseService responseService = new ResponseService();
         try {           
-            objectiveService.remove(objective);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.objective", "msgRegistroEliminado"));
+            trainingPlanService.remove(trainingPlan);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgRegistroEliminado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al eliminar registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -142,22 +142,22 @@ public class ObjectiveController {
     }
     
     /**
-     * Consulta objective <br>
+     * Consulta trainingPlan <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
-    @RequestMapping(value = "/objective/get/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/trainingPlan/get/all", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> list() {
         ResponseService responseService = new ResponseService();
         try {     
-            List<Objective> objectiveList = objectiveService.findAllActive();
-            responseService.setOutput(objectiveList);
+            List<TrainingPlan> trainingPlanList = trainingPlanService.findAllActive();
+            responseService.setOutput(trainingPlanList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al consultar");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -166,25 +166,25 @@ public class ObjectiveController {
     }
 
     /**
-     * Consulta objective paginado <br>
+     * Consulta trainingPlan paginado <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param paginateDto
      * @return
      */
-    @RequestMapping(value = "/objective/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/trainingPlan/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
             paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
-            List<ObjectiveDTO> objectiveList = objectiveService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
-            responseService.setOutput(objectiveList);
+            List<TrainingPlanDTO> trainingPlanList = trainingPlanService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            responseService.setOutput(trainingPlanList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al consultar");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
