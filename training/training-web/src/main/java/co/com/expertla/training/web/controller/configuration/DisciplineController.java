@@ -11,6 +11,9 @@ import co.com.expertla.training.service.configuration.DisciplineService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
+import javax.ws.rs.core.Response;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,8 +36,25 @@ public class DisciplineController {
 
     @Autowired
     DisciplineService disciplineService;  
-
-    /**
+    
+    @RequestMapping(value = "sportDiscipline/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getAll() {
+        StringBuilder strResponse = new StringBuilder();
+        co.com.expertla.training.model.entities.ResponseService responseService = new co.com.expertla.training.model.entities.ResponseService();
+        try {
+            List<DisciplineDTO> disciplines = disciplineService.findAll();
+            responseService.setOutput(disciplines);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }   catch (Exception e) {
+            Logger.getLogger(DisciplineController.class.getName()).log(Priority.FATAL, null, e);
+//            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    /** 
      * Crea discipline <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>

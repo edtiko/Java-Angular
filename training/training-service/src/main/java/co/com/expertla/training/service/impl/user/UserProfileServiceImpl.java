@@ -351,13 +351,13 @@ public class UserProfileServiceImpl implements UserProfileService {
         user.setIndMetricSys(dto.getIndMetricSys());
         if (equipments != null && !equipments.isEmpty()) {
             for (EquipmentUserProfile equipment : equipments) {
-                if (equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.PULSOMETER.getId())) {
+                if (equipment.getSportEquipmentId() != null && equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.PULSOMETER.getId())) {
                     pulsometer = equipment;
-                } else if (equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.POTENTIOMETER.getId())) {
+                } else if (equipment.getSportEquipmentId() != null && equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.POTENTIOMETER.getId())) {
                     potentiometer = equipment;
-                } else if (equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.RUNNING_SHOES.getId())) {
+                } else if (equipment.getSportEquipmentId() != null && equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.RUNNING_SHOES.getId())) {
                     runningShoes = equipment;
-                } else if (equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.BIKES.getId())) {
+                } else if (equipment.getSportEquipmentId() != null && equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.BIKES.getId())) {
                     bike = equipment;
                 }
             }

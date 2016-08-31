@@ -74,7 +74,7 @@ trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
                     return $http.get($contextPath+'objective/get/all')
                             .then(
                                     function(response){
-                                        return response.data.entity.output;
+                                        return response.data.output;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while getting objectives');

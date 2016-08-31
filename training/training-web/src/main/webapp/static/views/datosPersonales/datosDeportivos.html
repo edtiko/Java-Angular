@@ -131,7 +131,7 @@
                 <div flex="33">
                     <div ng-repeat="d in userProfile.availability"  style="display: inline">
                         <md-checkbox  ng-checked="d.checked"
-                                     ng-click="setAvailabilityResponse(d)">
+                                      ng-click="setAvailabilityResponse(d)">
                             {{d.day}}
                         </md-checkbox>
                         &nbsp;
@@ -431,6 +431,19 @@
                 <div layout="row"> 
                     <div flex="33">
                         <md-input-container class="md-block" >
+                            <label>Tipo de Bicicleta</label>
+                            <md-select  ng-model="userProfile.bikeType"
+                                        ng-change="getBikes(userProfile.bikeType)">
+                                <md-option ng-repeat="p in bikeTypes" value="{{p.bikeTypeId}}" >
+                                    {{p.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="33">
+                        <md-input-container class="md-block" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
                                 <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
@@ -439,60 +452,34 @@
                             </md-select>
                         </md-input-container>
                     </div>
+                </div>
+                <div layout="row" ng-show="showModelBike"> 
+                    <div flex="33">
+                        <md-input-container class="md-block" >
+                            <label >Modelo</label>
+                            <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
+                                <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
+                                    {{m.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
                     </div>
-                        <div layout="row"> 
-                            <div flex="33">
-                                <md-input-container class="md-block" >
-                                    <label>Tipo de Bicicleta</label>
-                                    <md-select  ng-model="userProfile.bikeType"
-                                                ng-change="getBikes(userProfile.bikeType)">
-                                        <md-option ng-repeat="p in bikeTypes" value="{{p.bikeTypeId}}" >
-                                            {{p.name}}
-                                        </md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </div>
+                </div>
+                <div ng-show="showAnotherBike">
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block" >
+                                <input type="text" name="otherBike" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherBike" class="form-control" ng-model="userProfile.otherBike">
+                            </md-input-container>
                         </div>
-                        <div layout="row"> 
-                            <div flex="33">
-                                <md-input-container class="md-block" >
-                                    <label>&iquest;Cu&aacute;l?</label>
-                                    <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
-                                        <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
-                                            {{m.brand}}
-                                        </md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </div>
+                    </div>
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block" >
+                                <input  name="otherModelBike" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherBike" type="text" ng-model="userProfile.otherModelBike">
+                            </md-input-container>
                         </div>
-                        <div layout="row" ng-show="showModelBike"> 
-                            <div flex="33">
-                                <md-input-container class="md-block" >
-                                    <label >Modelo</label>
-                                    <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
-                                        <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
-                                            {{m.name}}
-                                        </md-option>
-                                    </md-select>
-                                </md-input-container>
-                            </div>
-                        </div>
-                        <div ng-show="showAnotherBike">
-                            <div layout="row">
-                                <div flex="33">
-                                    <md-input-container class="md-block" >
-                                        <input type="text" name="otherBike" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherBike" class="form-control" ng-model="userProfile.otherBike">
-                                    </md-input-container>
-                                </div>
-                            </div>
-                            <div layout="row">
-                                <div flex="33">
-                                    <md-input-container class="md-block" >
-                                        <input  name="otherModelBike" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherBike" type="text" ng-model="userProfile.otherModelBike">
-                                    </md-input-container>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -511,7 +498,6 @@
                            ng-model="user_profileshoes"> Mostrar</md-switch>
             </div>
 
-
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
@@ -526,7 +512,7 @@
             </div>
 
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button class="md-raised" ng-click="createOrMergeUserProfile(userProfile)" ng-disabled="formProfile.$invalid">Guardar</md-button>
+                <md-button class="md-raised" ng-click="createOrMergeUserProfile(userProfile)" >Guardar</md-button>
                 <md-button class="md-raised md-primary" ng-click="generatePlan(userProfile)">Generar Plan</md-button>
             </section>
         </form>
