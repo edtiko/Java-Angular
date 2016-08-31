@@ -87,9 +87,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findUserByUsername(String username) throws Exception {
         UserDTO user = UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
-        RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
-        user.setTypeUser(roleUser != null ? roleUser.getRoleId().getName():"");
-        return user;
+        
+        if(user != null) {
+            RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
+            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getName():"");
+            return user;
+        }
+        
+        return null;
+        
     }
 
     @Transactional

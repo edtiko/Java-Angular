@@ -128,10 +128,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                             if ($scope.userProfile.bikeType != "" && $scope.userProfile.bikeType != null) {
                                 $scope.getBikes($scope.userProfile.bikeType);
                             }
-                            if($scope.userProfile.ftp105 <= 0) { 
+                            if ($scope.userProfile.ftp105 <= 0) {
                                 $scope.calculateZone();
-                            } 
-                            if($scope.userProfile.ppm100 <= 0) {
+                            }
+                            if ($scope.userProfile.ppm100 <= 0) {
                                 $scope.calculatePpm();
                             }
 
@@ -348,16 +348,16 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             ftp105: '',
             ftp106: '',
             ftp120: '',
-            ppm81:'',
-            ppm89:'',
-            ppm90:'',
-            ppm93:'',
-            ppm94:'',
-            ppm99:'',
-            ppm100:'',
-            ppm102:'',
-            ppm103:'',
-            ppm106:''
+            ppm81: '',
+            ppm89: '',
+            ppm90: '',
+            ppm93: '',
+            ppm94: '',
+            ppm99: '',
+            ppm100: '',
+            ppm102: '',
+            ppm103: '',
+            ppm106: ''
         };
 
         $scope.disciplines = [];
@@ -375,30 +375,32 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.indBike = '';
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
         $scope.bikeTypes = [];
-                
+
         $scope.submitUserProfile = function (form) {
-            if($scope.validateAvailability() && form.$valid && $scope.validatePpm() && $scope.validatePower()) {
+            if ($scope.validateAvailability() && form.$valid && $scope.validatePpm() && $scope.validatePower()) {
                 $scope.createOrMergeUserProfile($scope.userProfile);
             } else {
                 form.$setSubmitted();
-                if(!$scope.validateAvailability()) {
+                if (!$scope.validateAvailability()) {
                     $scope.showMessage("La disponiblidad de tiempo es un campo obligatorio");
                 }
-                if(!$scope.validatePower()) {
+                if (!$scope.validatePower()) {
                     $scope.showMessage("Debe llenar todas las zonas de potencia");
                 }
-                if(!$scope.validatePpm()) {
+                if (!$scope.validatePpm()) {
                     $scope.showMessage("Debe llenar todas las zonas de ppm");
                 }
             }
         };
-        
+
+
+
         $scope.createOrMergeUserProfile = function (userProfile) {
             if (userProfile.userProfileId == null) {
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
-                             self.getEquipments();
+                            self.getEquipments();
                             $scope.showMessage("Perfil Creado satisfactoriamente.");
                         },
                         function (errResponse) {
@@ -407,24 +409,22 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                         }
                 );
 
-                } else {
-                    UserProfileService.mergeProfile(userProfile).then(
-                            function (d) {
-                                $scope.userProfile = d;
-                                self.getEquipments();
-                                $scope.showMessage("Perfil editado satisfactoriamente.");
-
-                            },
-                            function (errResponse) {
-                                console.error('Error while merging the profile');
-                                console.error(errResponse);
-                            }
-                    );
-                }
             } else {
-                $scope.showMessage("La disponiblidad de tiempo es un campo obligatorio");
+                UserProfileService.mergeProfile(userProfile).then(
+                        function (d) {
+                            $scope.userProfile = d;
+                            self.getEquipments();
+                            $scope.showMessage("Perfil editado satisfactoriamente.");
+
+                        },
+                        function (errResponse) {
+                            console.error('Error while merging the profile');
+                            console.error(errResponse);
+                        }
+                );
             }
-            VisibleFieldsUserService.createVisibleFieldsUser(userProfile.userId,$scope.visibleFields).then(
+
+            VisibleFieldsUserService.createVisibleFieldsUser(userProfile.userId, $scope.visibleFields).then(
                     function (msg) {
                         $scope.setUserSession();
                         console.log(msg);
@@ -434,7 +434,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                         console.error(errResponse);
                     }
             );
-
         };
         self.getEquipments = function () {
             this.getPotentiometers();
@@ -575,7 +574,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     }
             );
         };
-        
+
         this.getObjectives = function () {
             ObjectiveService.getObjectives().then(
                     function (d) {
@@ -600,7 +599,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     }
             );
         };
-        
+
         $scope.getModalitiesByObjectiveId = function (id) {
             ModalityService.getModalitiesByObjectiveId(id).then(
                     function (d) {
@@ -612,7 +611,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     }
             );
         };
-                
+
         this.getModalities = function () {
             ModalityService.getAll().then(
                     function (d) {
@@ -813,38 +812,38 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
 
         $scope.validatePpm = function () {
-            
-          if($scope.userProfile.ppm81 > 0 && $scope.userProfile.ppm89 > 0 && $scope.userProfile.ppm90 > 0 && $scope.userProfile.ppm93 > 0
-                  && $scope.userProfile.ppm94 > 0 && $scope.userProfile.ppm99 > 0 && $scope.userProfile.ppm100 > 0
-                  && $scope.userProfile.ppm102 > 0 && $scope.userProfile.ppm103 > 0 && $scope.userProfile.ppm106 > 0)  {
-              return true;
-          } else if ($scope.userProfile.ppm81 == 0 && $scope.userProfile.ppm89  == 0 
-                  && $scope.userProfile.ppm90 == 0 && $scope.userProfile.ppm93  == 0
-                  && $scope.userProfile.ppm94 == 0 &&  $scope.userProfile.ppm99  == 0
-                  && $scope.userProfile.ppm100 == 0 && $scope.userProfile.ppm102 == 0 
-                  && $scope.userProfile.ppm103  == 0 && $scope.userProfile.ppm106  == 0) {
-              return true;
-          }
-          return false;
+
+            if ($scope.userProfile.ppm81 > 0 && $scope.userProfile.ppm89 > 0 && $scope.userProfile.ppm90 > 0 && $scope.userProfile.ppm93 > 0
+                    && $scope.userProfile.ppm94 > 0 && $scope.userProfile.ppm99 > 0 && $scope.userProfile.ppm100 > 0
+                    && $scope.userProfile.ppm102 > 0 && $scope.userProfile.ppm103 > 0 && $scope.userProfile.ppm106 > 0) {
+                return true;
+            } else if ($scope.userProfile.ppm81 == 0 && $scope.userProfile.ppm89 == 0
+                    && $scope.userProfile.ppm90 == 0 && $scope.userProfile.ppm93 == 0
+                    && $scope.userProfile.ppm94 == 0 && $scope.userProfile.ppm99 == 0
+                    && $scope.userProfile.ppm100 == 0 && $scope.userProfile.ppm102 == 0
+                    && $scope.userProfile.ppm103 == 0 && $scope.userProfile.ppm106 == 0) {
+                return true;
+            }
+            return false;
         };
-        
+
         $scope.validatePower = function () {
-          if($scope.userProfile.ftp56 > 0 && $scope.userProfile.ftp75 > 0 && $scope.userProfile.ftp76 > 0 && $scope.userProfile.ftp90 > 0
-                  && $scope.userProfile.ftp91 > 0 && $scope.userProfile.ftp105 > 0 && $scope.userProfile.ftp106 > 0 && $scope.userProfile.ftp120 > 0) {
-              return true;
-          } else if($scope.userProfile.ftp56 == 0 && $scope.userProfile.ftp75 == 0 && $scope.userProfile.ftp76 == 0 && $scope.userProfile.ftp90 == 0
-                  && $scope.userProfile.ftp91 == 0 && $scope.userProfile.ftp105 == 0 && $scope.userProfile.ftp106 == 0 && $scope.userProfile.ftp120 == 0){
-              return true;
-          }
-          return false;
+            if ($scope.userProfile.ftp56 > 0 && $scope.userProfile.ftp75 > 0 && $scope.userProfile.ftp76 > 0 && $scope.userProfile.ftp90 > 0
+                    && $scope.userProfile.ftp91 > 0 && $scope.userProfile.ftp105 > 0 && $scope.userProfile.ftp106 > 0 && $scope.userProfile.ftp120 > 0) {
+                return true;
+            } else if ($scope.userProfile.ftp56 == 0 && $scope.userProfile.ftp75 == 0 && $scope.userProfile.ftp76 == 0 && $scope.userProfile.ftp90 == 0
+                    && $scope.userProfile.ftp91 == 0 && $scope.userProfile.ftp105 == 0 && $scope.userProfile.ftp106 == 0 && $scope.userProfile.ftp120 == 0) {
+                return true;
+            }
+            return false;
         };
-        
+
         $scope.showTooltipEnvironment = function () {
             $scope.showMessage("Indique como es la topograf\u00eda del lugar en el que usted desarrollar\u00e1 las actividades deportivas", "Entorno Geogr\u00e1fico");
         };
 
         $scope.showTooltipWeather = function () {
-            $scope.showMessage("Indique cual es la condici\u00f3n atmosf\u00e9rica del lugar en el que usted desarrollar\u00e1 las actividades deportivas.","Clima Predominante");
+            $scope.showMessage("Indique cual es la condici\u00f3n atmosf\u00e9rica del lugar en el que usted desarrollar\u00e1 las actividades deportivas.", "Clima Predominante");
         };
 
         $scope.showTooltipSportAge = function () {
@@ -852,11 +851,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         };
 
         $scope.showTooltipPpm = function () {
-            $scope.showMessage("Corresponde a las pulsaciones por minuto. El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda del puls\u00f3metro guarde las pulsaciones promedio del tiempo de la prueba.","Ppm");
+            $scope.showMessage("Corresponde a las pulsaciones por minuto. El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda del puls\u00f3metro guarde las pulsaciones promedio del tiempo de la prueba.", "Ppm");
         };
 
         $scope.showTooltipPower = function () {
-          $scope.showMessage("El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba.","Potencia");
+            $scope.showMessage("El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba.", "Potencia");
         };
 
         this.getBikeTypes = function () {
