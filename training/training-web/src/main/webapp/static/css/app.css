@@ -123,3 +123,15 @@ overflow: hidden;
 #message-content{
      border: 1px solid #e1e1e1; 
 }
+
+md-tooltip .md-content {
+    height: auto;
+}
+
+md-tooltip ._md-content {
+    height: auto;
+}
+
+md-tooltip.tt-multiline ._md-content {
+    height: auto;
+}

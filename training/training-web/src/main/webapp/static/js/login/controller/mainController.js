@@ -1,6 +1,6 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
-    '$window', '$mdDialog', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog) {
+    '$window', '$mdDialog','$mdToast', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog,$mdToast) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];
@@ -13,7 +13,19 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
             e.hide();
             //$scope[value] = !$scope[value];
         };
+        $scope.showToast = function (msg) {
+           // var pinTo = $scope.getToastPosition();
+            $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(msg)
+                    .position("right")
+                    .hideDelay(3000)
+                    );
+        };
 
+        $scope.closeToast = function () {
+            $mdToast.hide();
+        };
         /*$scope.showMessage = function (msg, type) {
             $scope.message = msg;
             //1 es un tooltip
@@ -32,15 +44,22 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
             }
 
         };*/
-          $scope.showMessage = function(msg) {
+          $scope.showMessage = function(msg, title) {
     // Appending dialog to document.body to cover sidenav in docs app
     // Modal dialogs should fully cover application
     // to prevent interaction outside of dialog
+    
+    var titleDefault = 'Confirmaci\u00f3n';
+    if(title != ""){
+        titleDefault = title;
+    }
+    
+    
     $mdDialog.show(
       $mdDialog.alert()
         .parent(angular.element(document.querySelector('#user-container')))
         .clickOutsideToClose(true)
-        .title('Confirmaci\u00f3n')
+        .title(titleDefault)
         .textContent(msg)
         .ariaLabel('Alert Dialog Demo')
         .ok('Aceptar')
