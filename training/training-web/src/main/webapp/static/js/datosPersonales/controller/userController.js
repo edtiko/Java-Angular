@@ -570,6 +570,19 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                     }
             );
         };
+        
+        this.getObjectives = function () {
+            ObjectiveService.getObjectives().then(
+                    function (d) {
+                        $scope.objectives = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while objectives');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        this.getObjectives();
 
         $scope.getModalitiesByDisciplineId = function (id) {
             ModalityService.getModalitiesByDisciplineId(id).then(
