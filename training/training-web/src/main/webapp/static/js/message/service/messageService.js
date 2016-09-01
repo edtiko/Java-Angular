@@ -85,6 +85,32 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
+        
+         service.readMessages = function (coachAssignedPlanId, userId) {
+            return $http.get($contextPath + 'read/messages/' + coachAssignedPlanId + '/' + userId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while reading messages');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+         service.readMessage = function (planMessageId) {
+            return $http.get($contextPath + 'read/message/' + planMessageId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while reading message');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
 
         var reconnect = function () {
             $timeout(function () {

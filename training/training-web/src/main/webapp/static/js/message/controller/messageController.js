@@ -30,6 +30,16 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
 
         messageService.receive().then(null, null, function (message) {
             $scope.messages.push(message);
+            if(message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId){
+             messageService.readMessage(message.id).then(
+                    function (data) {
+                        console.log(data.entity.output);
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+                }
         });
 
         self.getAssignedAthletes = function () {
@@ -78,6 +88,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
             messageService.getMessages($scope.coachAssignedPlan.id).then(
                     function (data) {
                         $scope.messages = data.entity.output;
+                        self.readMessages($scope.coachAssignedPlan);
                     },
                     function (error) {
                         //$scope.showMessage(error);
@@ -116,6 +127,23 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
                         console.error(error);
                     });
         };
+        
+        self.readMessages = function (coachAssignedPlanSelected) {
+            var userId = null;
+            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
+                userId = coachAssignedPlanSelected.athleteUserId.userId;
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
+                userId = coachAssignedPlanSelected.coachUserId.userId;
+            }
+            messageService.readMessages(coachAssignedPlanSelected.id, userId).then(
+                    function (data) {
+                        console.log(data.entity.output);
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
 
         if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
             //self.getAssignedAthletes();
@@ -123,5 +151,5 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
         } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
             self.getAssignedCoach();
         }
-
+        
     }]);

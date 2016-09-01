@@ -61,11 +61,32 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" FROM plan_message m ");
         sql.append(" Where m.message_user_id = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
+        sql.append(" And m.readed = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());
        
         List<Number> count = (List<Number>) query.getResultList();
 
         return count.get(0).intValue();
     } 
+
+    @Override
+    public void readMessages(Integer coachAssignedPlanId, Integer userId) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" update plan_message ");
+        builder.append(" set readed = true ");
+        builder.append(" where  message_user_id = ").append(userId);
+        builder.append(" and  coach_assigned_plan_id = ").append(coachAssignedPlanId);
+        executeNativeUpdate(builder.toString());
+    }
+    
+    @Override
+     public void readMessage(Integer planMessageId) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" update plan_message ");
+        builder.append(" set readed = true ");
+        builder.append(" where  plan_message_id = ").append(planMessageId);
+        executeNativeUpdate(builder.toString());
+    }
+    
     
 }

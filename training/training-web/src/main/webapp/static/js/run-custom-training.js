@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://localhost:8080/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 require.config({
@@ -20,6 +20,7 @@ require.config({
         angularDataTable: 'lib/md-data-table.min',
         angularTranslate: 'lib/angular-translate.min',
         angularTranslateConfig: 'lib/angular-translate-loader-static-files.min',
+        angularNotification: 'lib/angular-notification-icons.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
@@ -92,11 +93,6 @@ require.config({
         angularTranslate: {
             deps: ['angular']
         },
-        
-        ngDialog:{
-          exports: 'ngDialog',
-          deps: ['angular']
-        },
         ngCamRecorder: {
             exports: 'ngCamRecorder',
             deps: ['angular']
@@ -155,7 +151,7 @@ require.config({
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable'
+                , 'angularDataTable', 'angularNotification'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 

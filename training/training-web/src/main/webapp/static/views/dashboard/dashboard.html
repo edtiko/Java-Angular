@@ -10,7 +10,7 @@
 
                 <span class="md-headline" ng-if="userSession.typeUser == 'Coach'">Coach</span>
                 <span class="md-headline" ng-if="userSession.typeUser == 'Atleta'">Atleta</span>
-                <a href="{{userSession.typeUser == 'Atleta'? '#data-person':'javascript:void(0)'}}" >
+                <a href="{{userSession.typeUser == 'Atleta' || !showControl? '#data-person':'javascript:void(0)'}}" >
                     <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
                     <md-tooltip md-direction="right">
                         Ver Perfil
@@ -20,7 +20,7 @@
             </div>
             <div flex layout="column" layout-align="space-around center">
 
-                <a href="{{userSession.typeUser == 'Atleta'? '#calendar':'javascript:void(0)'}}" >
+                <a href="{{userSession.typeUser == 'Atleta' || !showControl? '#calendar':'javascript:void(0)'}}" >
                     <img class="circular" data-ng-src="static/img/calendar_icon.jpg" style="height: 130px; width: 130px;">
                     <md-tooltip md-direction="right">
                         Ver Calendario
@@ -309,8 +309,7 @@
             </div>
         </div>
     </div>
-    <md-divider inset></md-divider>
-    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;">
+    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == 'Atleta'">
         <div layout="column" layout-align="center center" style="margin: 34px;">
             <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == 'Atleta'">
                 <div flex>
@@ -322,66 +321,57 @@
                     <md-subheader>Coach</md-subheader>
                 </div>
             </div>
-            <div flex layout="column" >
+            <div flex layout="column" layout-align="center center">
                 <div flex>
+                     <notification-icon animation="grow" count="videoReceivedCount">
                     <md-button aria-label="Video" class="md-fab md-raised md-primary">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Video</md-tooltip>
                         <i class="fa fa-video-camera fa-lg" aria-hidden="true"></i>
                     </md-button>
-                    <md-button class="md-fab md-mini md-button md-ink-ripple">
-                        {{videoReceivedCount}}
-                    <md-tooltip md-direction="right" md-visible="tooltipVisible">Videos Recibidos</md-tooltip>
-                    </md-button>
+                     </notification-icon>
                 </div>
 
                 <md-subheader>{{availableVideo}} disponibles de {{coachAssignedPlan.videoCount}}</md-subheader>
                 <div flex>
+                    
+                    <notification-icon animation="grow" always-show="true" count="messagesReceivedCount">
                     <md-button  aria-label="Mensajes" class="md-fab md-raised  md-primary " ng-click="goMessages()">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Mensajes</md-tooltip>
                         <i class="fa fa-comments fa-lg"></i>
                     </md-button>
-                    
-                    <md-button class="md-fab md-mini md-button md-ink-ripple">
-                        {{messagesReceivedCount}}
-                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Mensajes Recibidos</md-tooltip>
-                    </md-button>
+                    </notification-icon>
                 </div>
+    
 
                 <md-subheader>{{availableMessage}} disponibles de {{coachAssignedPlan.messageCount}}</md-subheader>
                 <div flex>
+                    <notification-icon animation="grow" count="emailReceivedCount">
                     <md-button aria-label="Email" class="md-fab md-raised md-primary ">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                         <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                     </md-button>
-                    <md-button class="md-fab md-mini md-button md-ink-ripple">
-                        {{emailReceivedCount}}
-                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Correos Recibidos</md-tooltip>
-                    </md-button>
+                    </notification-icon>
                 </div>
 
                 <md-subheader>{{availableEmail}} disponibles de {{coachAssignedPlan.emailCount}}</md-subheader>
                 <div flex>
+                     <notification-icon animation="grow" count="callReceivedCount">
                     <md-button aria-label="Llamadas" class="md-fab md-raised md-primary ">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Llamadas</md-tooltip>
                         <i class="fa fa-phone fa-lg" aria-hidden="true"></i>
                     </md-button>
-                    <md-button class="md-fab md-mini md-button md-ink-ripple">
-                        {{callReceivedCount}}
-                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Llamadas Recibidas</md-tooltip>
-                    </md-button>
+                     </notification-icon>
                 </div>
 
                 <md-subheader>{{availableCall}} disponibles de {{coachAssignedPlan.callCount}}</md-subheader>
                 
                 <div flex>
+                    <notification-icon animation="grow" count="callReceivedCount">
                     <md-button  aria-label="Script" class="md-fab md-raised  md-primary ">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Script</md-tooltip>
                         <i class="fa fa-film fa-lg"></i>
                     </md-button>
-                    <md-button class="md-fab md-mini md-button md-ink-ripple">
-                        {{callReceivedCount}}
-                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Scripts Recibidos</md-tooltip>
-                    </md-button>
+                    </notification-icon>
                 </div>
                 <div flex="40">
                     <md-button aria-label="Informes" class="md-fab md-raised md-primary">

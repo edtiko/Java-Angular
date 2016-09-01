@@ -110,5 +110,45 @@ public class MessageController {
         }
 
     }
+    
+    @RequestMapping(value = "/read/messages/{coachAssignedPlanId}/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            planMessageService.readMessages(coachAssignedPlanId, userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Mensajes Leidos Correctamente.");
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+    
+    @RequestMapping(value = "/read/message/{planMessageId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response readMessage(@PathVariable("planMessageId") Integer planMessageId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            planMessageService.readMessage(planMessageId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Mensaje Leido Correctamente.");
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
 
 }
