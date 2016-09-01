@@ -4,8 +4,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //var $contextPath = "http://localhost:8085/training/";
-var $contextPath = "http://181.143.227.220:8086/training/";
-//var $contextPath = "http://181.143.227.220:8087/training/";
+//var $contextPath = "http://181.143.227.220:8086/training/";
+var $contextPath = "http://181.143.227.220:8087/training/";
 require.config({
     waitSeconds: 200,
     paths: {
@@ -153,7 +153,8 @@ require.config({
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket', 'angularDataTable', 'angularTranslate'
+                'sockjs', 'stompWebsocket', 'angularTranslate'
+                , 'angularDataTable'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
