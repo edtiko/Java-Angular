@@ -178,7 +178,6 @@ public class OptionController {
         ResponseService responseService = new ResponseService();
         try {
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<OptionDTO> optionList = optionService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(optionList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

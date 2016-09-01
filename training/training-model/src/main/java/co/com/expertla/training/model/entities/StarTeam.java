@@ -29,55 +29,57 @@ import javax.persistence.TemporalType;
  * @author Edwin G
  */
 @Entity
-@Table(name = "start_team")
-@NamedQueries({
-    @NamedQuery(name = "StartTeam.findAll", query = "SELECT s FROM StartTeam s"),
-    @NamedQuery(name = "StartTeam.findByStartTeamId", query = "SELECT s FROM StartTeam s WHERE s.startTeamId = :startTeamId"),
-    @NamedQuery(name = "StartTeam.findByStateId", query = "SELECT s FROM StartTeam s WHERE s.stateId = :stateId"),
-    @NamedQuery(name = "StartTeam.findByCreationDate", query = "SELECT s FROM StartTeam s WHERE s.creationDate = :creationDate")})
-public class StartTeam implements Serializable {
+@Table(name = "star_team")
+public class StarTeam implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startTeamId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "starTeamId")
     private Collection<CoachAssignedPlan> coachAssignedPlanCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "start_team_id")
-    private Integer startTeamId;
+    @Column(name = "star_team_id")
+    private Integer starTeamId;
     @Column(name = "state_id")
-    private Integer stateId;
+    private Short stateId;
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @JoinColumn(name = "start_user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "star_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
-    private User startUserId;
+    private User starUserId;
     @JoinColumn(name = "coach_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User coachUserId;
+    @Column(name = "last_update")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
 
-    public StartTeam() {
+    public StarTeam() {
     }
 
-    public StartTeam(Integer startTeamId) {
-        this.startTeamId = startTeamId;
+    public StarTeam(Integer startTeamId) {
+        this.starTeamId = startTeamId;
     }
 
-    public Integer getStartTeamId() {
-        return startTeamId;
+    public Integer getStarTeamId() {
+        return starTeamId;
     }
 
-    public void setStartTeamId(Integer startTeamId) {
-        this.startTeamId = startTeamId;
+    public void setStarTeamId(Integer startTeamId) {
+        this.starTeamId = startTeamId;
     }
 
-    public Integer getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(Integer stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 
@@ -89,12 +91,12 @@ public class StartTeam implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public User getStartUserId() {
-        return startUserId;
+    public User getStarUserId() {
+        return starUserId;
     }
 
-    public void setStartUserId(User startUserId) {
-        this.startUserId = startUserId;
+    public void setStarUserId(User startUserId) {
+        this.starUserId = startUserId;
     }
 
     public User getCoachUserId() {
@@ -105,21 +107,45 @@ public class StartTeam implements Serializable {
         this.coachUserId = coachUserId;
     }
 
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (startTeamId != null ? startTeamId.hashCode() : 0);
+        hash += (starTeamId != null ? starTeamId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof StartTeam)) {
+        if (!(object instanceof StarTeam)) {
             return false;
         }
-        StartTeam other = (StartTeam) object;
-        if ((this.startTeamId == null && other.startTeamId != null) || (this.startTeamId != null && !this.startTeamId.equals(other.startTeamId))) {
+        StarTeam other = (StarTeam) object;
+        if ((this.starTeamId == null && other.starTeamId != null) || (this.starTeamId != null && !this.starTeamId.equals(other.starTeamId))) {
             return false;
         }
         return true;
@@ -127,7 +153,7 @@ public class StartTeam implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.StartTeam[ startTeamId=" + startTeamId + " ]";
+        return "co.com.expertla.training.model.entities.StartTeam[ startTeamId=" + starTeamId + " ]";
     }
 
     public Collection<CoachAssignedPlan> getCoachAssignedPlanCollection() {

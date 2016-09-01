@@ -55,9 +55,9 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         planMessage.setCreationDate(new Date());
         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
         
-        if (plan.getTrainingPlanUserId() != null && plan.getStartTeamId() != null) {
+        if (plan.getTrainingPlanUserId() != null && plan.getStarTeamId() != null) {
             dto.setCountMessagesAthlete(planMessageDao.getCountMessagesReceived(plan.getCoachAssignedPlanId(), plan.getTrainingPlanUserId().getUserId().getUserId()));
-            dto.setCountMessagesCoach(planMessageDao.getCountMessagesReceived(plan.getCoachAssignedPlanId(), plan.getStartTeamId().getCoachUserId().getUserId()));
+            dto.setCountMessagesCoach(planMessageDao.getCountMessagesReceived(plan.getCoachAssignedPlanId(), plan.getStarTeamId().getCoachUserId().getUserId()));
         }
         return dto;
     }

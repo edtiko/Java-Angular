@@ -45,9 +45,9 @@ public class CoachAssignedPlan implements Serializable {
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @JoinColumn(name = "start_team_id", referencedColumnName = "start_team_id")
+    @JoinColumn(name = "star_team_id", referencedColumnName = "star_team_id")
     @ManyToOne(optional = false)
-    private StartTeam startTeamId;
+    private StarTeam starTeamId;
     @JoinColumn(name = "training_plan_user_id", referencedColumnName = "training_plan_user_id")
     @ManyToOne(optional = false)
     private TrainingPlanUser trainingPlanUserId;
@@ -83,12 +83,12 @@ public class CoachAssignedPlan implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public StartTeam getStartTeamId() {
-        return startTeamId;
+    public StarTeam getStarTeamId() {
+        return starTeamId;
     }
 
-    public void setStartTeamId(StartTeam startTeamId) {
-        this.startTeamId = startTeamId;
+    public void setStarTeamId(StarTeam startTeamId) {
+        this.starTeamId = startTeamId;
     }
 
     public TrainingPlanUser getTrainingPlanUserId() {

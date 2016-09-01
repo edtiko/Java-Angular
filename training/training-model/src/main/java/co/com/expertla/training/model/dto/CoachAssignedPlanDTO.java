@@ -46,7 +46,7 @@ public class CoachAssignedPlanDTO {
      public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {
         if (e != null) {
             return new CoachAssignedPlanDTO(e.getCoachAssignedPlanId(), e.getTrainingPlanUserId().getUserId(), 
-                    e.getStartTeamId().getCoachUserId(), e.getStartTeamId().getStartUserId(), e.getStartTeamId().getStartTeamId(), e.getTrainingPlanUserId().getTrainingPlanId());
+                    e.getStarTeamId().getCoachUserId(), e.getStarTeamId().getStarUserId(), e.getStarTeamId().getStarTeamId(), e.getTrainingPlanUserId().getTrainingPlanId());
         }
         return null;
     }

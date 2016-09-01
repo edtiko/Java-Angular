@@ -441,5 +441,4 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
 }

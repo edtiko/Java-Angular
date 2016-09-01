@@ -58,10 +58,10 @@ public class User implements Serializable {
     @Lob
     @Column(name = "profile_photo")
     private byte[] profilePhoto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "startUserId")
-    private Collection<StartTeam> startTeamCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "starUserId")
+    private Collection<StarTeam> startTeamCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coachUserId")
-    private Collection<StartTeam> startTeamCollection1;
+    private Collection<StarTeam> startTeamCollection1;
     @OneToMany(mappedBy = "userId")
     private Collection<UserZone> userZoneCollection;
 
@@ -446,19 +446,19 @@ public class User implements Serializable {
     }
 
 
-    public Collection<StartTeam> getStartTeamCollection() {
+    public Collection<StarTeam> getStartTeamCollection() {
         return startTeamCollection;
     }
 
-    public void setStartTeamCollection(Collection<StartTeam> startTeamCollection) {
+    public void setStartTeamCollection(Collection<StarTeam> startTeamCollection) {
         this.startTeamCollection = startTeamCollection;
     }
 
-    public Collection<StartTeam> getStartTeamCollection1() {
+    public Collection<StarTeam> getStartTeamCollection1() {
         return startTeamCollection1;
     }
 
-    public void setStartTeamCollection1(Collection<StartTeam> startTeamCollection1) {
+    public void setStartTeamCollection1(Collection<StarTeam> startTeamCollection1) {
         this.startTeamCollection1 = startTeamCollection1;
     }
 

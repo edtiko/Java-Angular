@@ -1,6 +1,7 @@
 package co.com.expertla.training.web.controller.security;
 
 import co.com.expertla.base.util.MessageUtil;
+import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.RoleDTO;
 import co.com.expertla.training.model.entities.Role;
@@ -55,6 +56,7 @@ public class RoleController {
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             
+            role.setStateId(Short.valueOf(Status.ACTIVE.getId()));
             role.setCreationDate(new Date());
             roleService.create(role);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.role", "msgRegistroCreado"));
@@ -176,7 +178,6 @@ public class RoleController {
         ResponseService responseService = new ResponseService();
         try {     
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<RoleDTO> roleList = roleService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(roleList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
