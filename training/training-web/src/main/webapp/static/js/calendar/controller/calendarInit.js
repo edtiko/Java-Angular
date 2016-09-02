@@ -63,6 +63,11 @@
 
 function initCalendar() {
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
+    var planAthleteSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
+    if (planAthleteSelected != null) {
+        user.userId = planAthleteSelected.athleteUserId.userId;
+    }
+            
     "use strict";
     var options = {
         language: 'es-CO',
@@ -114,7 +119,12 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
+    var planAthleteSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
     var userId = user.userId;
+    if (planAthleteSelected != null) {
+        userId = planAthleteSelected.athleteUserId.userId;
+    }
+    
     var data = ev.dataTransfer.getData("text");
     if(data != undefined && (data.indexOf('cal') !== -1 || data.indexOf('act') !== -1)) {
         var rcData = data.split('_');

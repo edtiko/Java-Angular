@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -44,7 +45,9 @@ public class Modality implements Serializable {
     private Discipline disciplineId;
     @OneToMany(mappedBy = "modalityId")
     private Collection<Dcf> dcfCollection;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modalityId")
+    private Collection<ManualActivity> manualActivityCollection;
+    
     public Modality() {
     }
 
@@ -114,6 +117,14 @@ public class Modality implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.Modality[ modalityId=" + modalityId + " ]";
+    }
+
+    public Collection<ManualActivity> getManualActivityCollection() {
+        return manualActivityCollection;
+    }
+
+    public void setManualActivityCollection(Collection<ManualActivity> manualActivityCollection) {
+        this.manualActivityCollection = manualActivityCollection;
     }
 
 }

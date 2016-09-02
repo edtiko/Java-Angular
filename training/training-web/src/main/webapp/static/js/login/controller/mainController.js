@@ -1,6 +1,6 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
-    '$window', '$mdDialog','$mdToast', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog,$mdToast) {
+    '$window', '$mdDialog','$mdToast','$location', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog,$mdToast,$location) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];
@@ -26,77 +26,35 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
         $scope.closeToast = function () {
             $mdToast.hide();
         };
-        /*$scope.showMessage = function (msg, type) {
-            $scope.message = msg;
-            //1 es un tooltip
-            if (type == 1) {
-                ngDialog.open({
-                    template: 'static/tmpls/tooltip.html',
-                    className: 'ngdialog-theme-plain',
-                    scope: $scope
-                });
-            } else {
-                ngDialog.open({
-                    template: 'static/tmpls/dialogConfirmation.html',
-                    className: 'ngdialog-theme-plain',
-                    scope: $scope
-                });
+
+        $scope.showMessage = function (msg, title) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            // Modal dialogs should fully cover application
+            // to prevent interaction outside of dialog
+
+            var titleDefault = 'Confirmaci\u00f3n';
+            if (title != "") {
+                titleDefault = title;
             }
 
-        };*/
-          $scope.showMessage = function(msg, title) {
-    // Appending dialog to document.body to cover sidenav in docs app
-    // Modal dialogs should fully cover application
-    // to prevent interaction outside of dialog
-    
-    var titleDefault = 'Confirmaci\u00f3n';
-    if(title != ""){
-        titleDefault = title;
-    }
-    
-    
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.querySelector('#user-container')))
-        .clickOutsideToClose(true)
-        .title(titleDefault)
-        .textContent(msg)
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Aceptar')
-        //.targetEvent(ev)
-    );
-  };
 
-        $scope.clear = function () {
+            $mdDialog.show(
+                    $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#user-container')))
+                    .clickOutsideToClose(true)
+                    .title(titleDefault)
+                    .textContent(msg)
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Aceptar')
+                    //.targetEvent(ev)
+                    );
+        };
+        
+        $scope.goCalendar = function(){
+         $window.sessionStorage.setItem("coachAssignedPlanSelected", null);   
+         $location.path( "/calendar" );   
         };
 
-        $scope.dateOptions = {
-            //dateDisabled: disabled,
-            formatYear: 'yyyy',
-            maxDate: new Date(2006, 1, 1),
-            //minDate: new Date(),
-            startingDay: 1
-        };
-
-
-        /*$scope.toggleMin = function () {
-         $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
-         $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
-         };
-         
-         $scope.toggleMin();*/
-
-        $scope.open = function () {
-            $scope.popup.opened = true;
-        };
-
-        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = 'dd/MM/yyyy';
-        $scope.altInputFormats = ['M!/d!/yyyy'];
-
-        $scope.popup = {
-            opened: false
-        };
 
         $scope.getUserSessionByResponse = function (res) {
             if (res.data.entity.output == null) {

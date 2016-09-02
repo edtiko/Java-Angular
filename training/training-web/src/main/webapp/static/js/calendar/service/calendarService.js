@@ -12,6 +12,30 @@ trainingApp.service('CalendarService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+           createManualActivity: function (manualActivity) {
+                return $http.post($contextPath + 'create/manual/activity', manualActivity)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating manual activity');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+           getManualActivityList: function (userId) {
+                return $http.get($contextPath + 'get/manual/activity/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching manual activities');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
     }]);

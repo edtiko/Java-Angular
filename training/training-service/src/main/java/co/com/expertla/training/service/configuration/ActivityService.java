@@ -1,5 +1,6 @@
 package co.com.expertla.training.service.configuration;
 
+import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
 
@@ -95,6 +96,9 @@ public interface ActivityService {
     public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception;
 
 
+    public void createManualActivity(ActivityDTO activity) throws Exception;
+     
+    public List<ActivityDTO> findManualActivitiesByUserId(Integer userId) throws Exception;
 
     
 }

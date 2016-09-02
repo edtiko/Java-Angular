@@ -29,6 +29,10 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "TrainingPlanWorkout.findByWorkoutDate", query = "SELECT t FROM TrainingPlanWorkout t WHERE t.workoutDate = :workoutDate")})
 public class TrainingPlanWorkout implements Serializable {
 
+    @JoinColumn(name = "manual_activity_id", referencedColumnName = "manual_activity_id")
+    @ManyToOne
+    private ManualActivity manualActivityId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)@SequenceGenerator(name = "training_plan_workout_seq", sequenceName = "training_plan_workout_seq", allocationSize = 1)
@@ -113,6 +117,14 @@ public class TrainingPlanWorkout implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.TrainingPlanWorkout[ trainingPlanWorkoutId=" + trainingPlanWorkoutId + " ]";
+    }
+
+    public ManualActivity getManualActivityId() {
+        return manualActivityId;
+    }
+
+    public void setManualActivityId(ManualActivity manualActivityId) {
+        this.manualActivityId = manualActivityId;
     }
     
 }
