@@ -188,7 +188,6 @@ public class StarTeamController {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<StarTeamDTO> startTeamList = startTeamService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(startTeamList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

@@ -140,13 +140,13 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 code = parts[z];
             }
             
-            index++;
             if (activityList.get(index).getPhysiologicalCapacityId().getCode().equals(code)) {
                 act = activityList.get(index);
                 list.add(act);
                 z++;
                 continue;
             } 
+            index++;
             if (act.getActivityId() == null && indexCount.equals(activityList.size())) {
                 throw new Exception("No hay actividad configurada de " + code + " para el objetivo "+
                         userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());

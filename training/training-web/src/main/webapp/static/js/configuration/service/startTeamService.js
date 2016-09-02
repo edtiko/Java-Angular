@@ -56,6 +56,18 @@ trainingApp.service('StartTeamService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
+            createStarTeamWordPress: function (plan) {
+                return $http.post($contextPath + '/starTeam/create', plan)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating startTeam');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
             mergeStarTeam: function (startTeam) {
                 return $http.post($contextPath + '/starTeam/update', startTeam)
                         .then(

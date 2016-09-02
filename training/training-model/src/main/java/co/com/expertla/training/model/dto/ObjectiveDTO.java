@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
@@ -11,7 +12,7 @@ public class ObjectiveDTO implements Serializable {
     private Integer objectiveId;
     private String name;
     private int level;
-    private Integer disciplineId;
+    private Discipline disciplineId;
     private String disciplineName;
     @JsonSerialize(using=JsonDateSerializer.class)
     private Date creationDate;
@@ -37,7 +38,7 @@ public class ObjectiveDTO implements Serializable {
         this.level = level;
     }
 
-    public ObjectiveDTO(Integer objectiveId, String name, int level, Integer disciplineId, String disciplineName, Short stateId, Date creationDate,
+    public ObjectiveDTO(Integer objectiveId, String name, int level, Discipline disciplineId, String disciplineName, Short stateId, Date creationDate,
             Date lastUpdate, String userCreateName, String userUpdateName, Integer userCreate, Integer userUpdate) {
         this.objectiveId = objectiveId;
         this.name = name;
@@ -142,11 +143,11 @@ public class ObjectiveDTO implements Serializable {
         this.count = count;
     }
 
-    public Integer getDisciplineId() {
+    public Discipline getDisciplineId() {
         return disciplineId;
     }
 
-    public void setDisciplineId(Integer disciplineId) {
+    public void setDisciplineId(Discipline disciplineId) {
         this.disciplineId = disciplineId;
     }
 

@@ -1,8 +1,8 @@
 trainingApp.controller('StartTeamController', function ($scope, StartTeamService,
         $window) {
     $scope.starTeam = {starTeamId: null,
-        starUserId: {userId: null}, starUserName: '',
-        coachUserId: {userId: null}, coachUserName: '',
+        starUserId: {userId: null, name: ''},
+        coachUserId: {userId: null, name: ''},
         stateId: '',
         userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
     $scope.starTeamList = [];
@@ -38,13 +38,11 @@ trainingApp.controller('StartTeamController', function ($scope, StartTeamService
         }).$promise;
     };
 
-    $scope.starUserList = [];
     $scope.getStarUserList = function () {
         StartTeamService.getStarUser(function (response) {
             $scope.starUserList = success(response);
         });
     };
-    $scope.coachUserList = [];
     $scope.getCoachUserList = function () {
         StartTeamService.getCoachUser(function (response) {
             $scope.coachUserList = success(response);
@@ -57,6 +55,25 @@ trainingApp.controller('StartTeamController', function ($scope, StartTeamService
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             starTeam.userCreate = (user.userId);
         }
+        StartTeamService.createStarTeam(starTeam)
+                .then(
+                        function (d) {
+                            if (d.status == 'success') {
+                                $scope.createStarTeamWordpress();
+                                $scope.showMessage(d.output);
+                                $scope.resetStarTeam();
+                                $scope.getStarTeamPaginate();
+                            } else {
+                                $scope.showMessage(d.output);
+                            }
+                        },
+                        function (errResponse) {
+                            console.error('Error while creating StartTeam.');
+                        }
+                );
+    };
+    
+    $scope.createStarTeamWordpress = function (starTeam) {
         StartTeamService.createStarTeam(starTeam)
                 .then(
                         function (d) {
@@ -115,7 +132,7 @@ trainingApp.controller('StartTeamController', function ($scope, StartTeamService
                 );
     };
 
-    $scope.submitStartTeam = function (form) {
+    $scope.submitStarTeam = function (form) {
         if (form.$valid) {
             if ($scope.starTeam.starTeamId === null) {
                 $scope.createStarTeam($scope.starTeam);

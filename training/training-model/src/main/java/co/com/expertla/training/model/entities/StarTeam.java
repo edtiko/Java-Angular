@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -155,7 +156,7 @@ public class StarTeam implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.StartTeam[ startTeamId=" + starTeamId + " ]";
     }
-
+    @JsonIgnore
     public Collection<CoachAssignedPlan> getCoachAssignedPlanCollection() {
         return coachAssignedPlanCollection;
     }
