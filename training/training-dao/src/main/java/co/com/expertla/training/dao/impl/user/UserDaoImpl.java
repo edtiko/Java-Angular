@@ -131,4 +131,12 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         List<UserDTO> list = query.getResultList();
         return list;
     }
+
+    @Override
+    public List<User> findUserByRole(Integer roleId) throws Exception {
+        String qlString = "SELECT u FROM User u, RoleUser ru WHERE ru.userId.userId = u.userId AND ru.roleId.roleId = :roleId ";
+        setParameter("roleId", roleId);
+        List<User> query = createQuery(qlString);
+        return query;
+    }
 }
