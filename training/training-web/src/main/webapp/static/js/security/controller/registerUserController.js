@@ -1,9 +1,9 @@
 
-trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$window', 'DisciplineService','RoleService' ,function ($scope, UserService,
-            $window, DisciplineService,RoleService) {
+trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$window', 'DisciplineService', 'RoleService', function ($scope, UserService,
+            $window, DisciplineService, RoleService) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', phone: '', countryId: '',
-            disciplineId: '',stateId: '', roleId: '', profilePhoto: '', urlVideo:'',aboutMe:''};
+            disciplineId: '', stateId: '', roleId: '', profilePhoto: '', urlVideo: '', aboutMe: ''};
         $scope.users = [];
         $scope.countries = [];
         $scope.sexOptions = [
@@ -20,17 +20,27 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             limit: 5,
             page: 1
         };
-        
-        $scope.getOptionPaginate = function () {
-        $scope.promise = UserService.getPaginate($scope.query, function (response) {
-            $scope.optionList = success(response);
 
-            if ($scope.users.length > 0) {
-                $scope.count = $scope.users[0].count;
-            }
-        }).$promise;
+        $scope.getUserPaginate = function () {
+            $scope.promise = UserService.getPaginate($scope.query, function (response) {
+                $scope.users = success(response);
+
+                if ($scope.users.length > 0) {
+                    $scope.count = $scope.users[0].count;
+                }
+            }).$promise;
         };
-        
+
+        function success(response) {
+            if (response.data.status == 'fail') {
+                $scope.showMessage(response.data.output);
+            } else {
+                return response.data.output;
+            }
+
+            return null;
+        }
+
         $scope.fetchAllUsers = function () {
             UserService.fetchAllUsers()
                     .then(
@@ -54,7 +64,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                     );
         };
 
-        self.createUser = function (user) {
+        self.createUser = function (user,file) {
             UserService.createInternalUser(user)
                     .then(
                             function (d) {
@@ -62,7 +72,8 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                                     $scope.showMessage("Usuario registrado correctamente.");
                                     $scope.profileImage = "static/img/profile-default.png";
                                     $scope.user = d.output;
-                                    $scope.fetchAllUsers();
+                                    $scope.uploadFile(file);
+                                    $scope.fetchAllUsers();                                    
                                 } else {
                                     $scope.showMessage(d.detail);
                                 }
@@ -71,6 +82,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                                 console.error('Error while creating User.');
                             }
                     );
+            
         };
 
         self.updateUser = function (user) {
@@ -102,11 +114,11 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                     );
         };
 
-        $scope.submitUser = function () {
+        $scope.submitUser = function (file) {
             if ($scope.user.userId === null) {
-                self.createUser($scope.user);
+                self.createUser($scope.user,file);
             } else {
-                self.updateUser($scope.user);
+                self.updateUser($scope.user,file);
             }
         };
 
@@ -119,7 +131,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                 }
             }
         };
-        
+
         $scope.inactivateUser = function (id) {
             for (var i = 0; i < $scope.users.length; i++) {
                 if ($scope.users[i].userId === id) {
@@ -131,7 +143,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             self.updateUser($scope.user);
             $scope.resetUser();
         };
-        
+
         $scope.activateUser = function (id) {
             for (var i = 0; i < $scope.users.length; i++) {
                 if ($scope.users[i].userId === id) {
@@ -153,7 +165,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
 
         $scope.resetUser = function () {
             $scope.user = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', phone: '', countryId: '',
-            disciplineId: '',stateId: '', roleId: ''};
+                disciplineId: '', stateId: '', roleId: ''};
             $scope.formUser.$setPristine(); //reset Form
         };
 
@@ -168,7 +180,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                     }
             );
         };
-        
+
         $scope.fetchAllRoles = function () {
             RoleService.getRoles()
                     .then(
@@ -180,12 +192,12 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                             }
                     );
         };
-        
+
         $scope.uploadFile = function (file) {
 
             //var file = $scope.myFile;
-            if(file !== undefined && $scope.isImage(file.type)){
-                $scope.showMessage("Debe seleccionar una imagen valida.", "error"); 
+            if (file !== undefined && $scope.isImage(file.type)) {
+                $scope.showMessage("Debe seleccionar una imagen valida.", "error");
                 //$window.alert("Debe seleccionar una imagen valida.");
             } else if ($scope.user.userId != "" && file != null) {
 
@@ -207,15 +219,15 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                 $scope.showMessage("Debe seleccionar una imagen.", "error");
             }
         };
-        
+
         $scope.isImage = function (type) {
             if (type.indexOf("image") !== -1) {
                 return false;
             }
             return true;
         };
-        
-        
+
+
         $scope.getImageProfile = function (userId) {
             if (userId != null) {
                 UserService.getImageProfile(userId)
@@ -233,6 +245,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                         );
             }
         };
+        $scope.getUserPaginate();
         $scope.fetchAllRoles();
         this.getSportDisciplines();
         self.fetchAllCountries();

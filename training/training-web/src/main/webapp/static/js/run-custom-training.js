@@ -20,6 +20,7 @@ require.config({
         angularDataTable: 'lib/md-data-table.min',
         angularTranslate: 'lib/angular-translate.min',
         angularTranslateConfig: 'lib/angular-translate-loader-static-files.min',
+        angularSanitize: 'lib/angular-sanitize',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
@@ -91,7 +92,9 @@ require.config({
         angularTranslate: {
             deps: ['angular']
         },
-        
+        angularSanitize: {
+            deps: ['angular']
+        },
         ngDialog:{
           exports: 'ngDialog',
           deps: ['angular']
@@ -153,7 +156,7 @@ require.config({
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket', 'angularDataTable', 'angularTranslate'
+                'sockjs', 'stompWebsocket', 'angularDataTable', 'angularTranslate', 'angularSanitize'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 

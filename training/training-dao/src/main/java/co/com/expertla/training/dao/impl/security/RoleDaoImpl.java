@@ -1,5 +1,5 @@
 package co.com.expertla.training.dao.impl.security;
-
+ 
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.dao.security.RoleDao;
 import co.com.expertla.training.enums.Status;
@@ -8,7 +8,7 @@ import co.com.expertla.training.model.entities.Role;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-
+ 
 /**
 * Role Dao Impl <br>
 * Info. Creación: <br>
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 **/
 @Repository
 public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
-
+ 
     public RoleDaoImpl() {
     }
     
@@ -29,18 +29,18 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         Query query = this.getEntityManager().createQuery(builder.toString());
         return query.getResultList();
     }
-
-
+ 
+ 
     @Override
     public List<Role> findAllActive() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Role a ");
         builder.append("WHERE a.stateId = :active ");
-
+ 
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
-
+ 
     @Override
     public List<RoleDTO> findPaginate(int first, int max, String order) throws Exception {
         
@@ -69,7 +69,7 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         
         return list;
     }
-
+ 
     
     @Override
     public List<Role> findByRole(Role role) throws Exception {
@@ -79,7 +79,7 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         setParameter("id", role.getRoleId());
         return createQuery(builder.toString());
     }
-
+ 
     @Override
     public List<Role> findByFiltro(Role role) throws Exception {
         StringBuilder builder = new StringBuilder();
@@ -90,16 +90,16 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
             builder.append("AND lower(a.name) like lower(:name) ");
             setParameter("name", "%" + role.getName() + "%");
         }
-
-
-
-
+ 
+ 
+ 
+ 
         if(role.getStateId() != null) {
             builder.append("AND a.stateId = :state ");
             setParameter("state", role.getStateId());
         }
-
+ 
         return createQuery(builder.toString());
     }
-
+ 
 }

@@ -86,7 +86,7 @@ public class UserDTO {
     //Constructor usado en findPaginate
     public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
             String phone, Integer disciplineId, Short stateId, Integer roleId, Integer countryId, byte[] profilePhoto, String urlVideo, String aboutMe,
-            Date creationDate, Integer userCreate, Integer userUpdate, String userCreateName, String userUpdateName) {
+            Date creationDate, Date lastUpdate, String userCreateName, String userUpdateName,Integer userCreate, Integer userUpdate) {
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -102,6 +102,12 @@ public class UserDTO {
         this.profilePhoto = profilePhoto;
         this.urlVideo = urlVideo;
         this.aboutMe = aboutMe;
+        this.userCreate = userCreate;
+        this.creationDate = creationDate;
+        this.userUpdateName = userUpdateName;
+        this.userUpdate = userUpdate;
+        this.userCreateName = userCreateName;
+        this.lastUpdate = lastUpdate;
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,

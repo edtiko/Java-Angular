@@ -375,21 +375,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
         $scope.indBike = '';
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
         $scope.bikeTypes = [];
+        $scope.errorMessages = "";
 
         $scope.submitUserProfile = function (form) {
-            if ($scope.validateAvailability() && form.$valid && $scope.validatePpm() && $scope.validatePower()) {
+            if ($scope.validateFields(form)) {
                 $scope.createOrMergeUserProfile($scope.userProfile);
             } else {
-                form.$setSubmitted();
-                if (!$scope.validateAvailability()) {
-                    $scope.showMessage("La disponiblidad de tiempo es un campo obligatorio");
-                }
-                if (!$scope.validatePower()) {
-                    $scope.showMessage("Debe llenar todas las zonas de potencia");
-                }
-                if (!$scope.validatePpm()) {
-                    $scope.showMessage("Debe llenar todas las zonas de ppm");
-                }
+                $scope.showMessage($scope.errorMessages);     
             }
         };
 
@@ -836,6 +828,43 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                 return true;
             }
             return false;
+        };
+        
+        $scope.validateFields = function (form) {
+            var valid = true;
+            if($scope.userProfile.objective == '' || $scope.userProfile.objective == null) {
+                form.objective.$setTouched(); 
+                valid = false;
+            }
+            if($scope.userProfile.discipline == '' || $scope.userProfile.discipline == null) {
+                form.discipline.$setTouched();  
+                valid = false;
+            }
+            if($scope.userProfile.modality == '' || $scope.userProfile.modality == null) {
+                form.modality.$setTouched();  
+                valid = false;
+            }
+            if($scope.userProfile.environment == '' || $scope.userProfile.environment == null) {
+                form.environment.$setTouched();  
+                valid = false;
+            }
+            if($scope.userProfile.weather == '' || $scope.userProfile.weather == null) {
+                form.weather.$setTouched();  
+                valid = false;
+            }
+            if(!$scope.validateAvailability()) {
+                $scope.errorMessages ="La disponiblidad de tiempo es obligatoria <br>";
+                valid = false;
+            }
+            if(!$scope.validatePpm()) {
+                $scope.errorMessages =$scope.errorMessages + "Debe llenar todas las zonas de potencia <br>";
+                valid = false;
+            }
+            if(!$scope.validatePower()) {
+                $scope.errorMessages =$scope.errorMessages + "Debe llenar todas las zonas de ppm <br>";
+                valid = false;
+            }
+            return valid;
         };
 
         $scope.showTooltipEnvironment = function () {

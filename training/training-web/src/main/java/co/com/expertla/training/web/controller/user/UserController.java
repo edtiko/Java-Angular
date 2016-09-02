@@ -458,7 +458,6 @@ public class UserController {
         ResponseService responseService = new ResponseService();
         try {
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<UserDTO> userList = userService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(userList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
