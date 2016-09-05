@@ -409,7 +409,7 @@ public class UserController {
         }
     }
     
-    @RequestMapping(value = "user/getDiscipline/by/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "user/getDiscipline/by/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response findUsersWithDiscipline(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {

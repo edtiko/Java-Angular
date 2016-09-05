@@ -79,7 +79,7 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
             var starUserId = starTeam.starUserId.userId;
             UserService.getUserDisciplineById(starUserId).then(
                     function (d) {
-
+console.debug(d);
                         if (d.status == 'success') {
                             var userDTO = d.output;
                             var discipline = userDTO.disciplineIdExt;
