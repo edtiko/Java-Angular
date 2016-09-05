@@ -1,7 +1,9 @@
 package co.com.expertla.training.web.controller.configuration;
 
+import co.com.expertla.training.model.dto.DisciplineDTO;
 import co.com.expertla.training.model.dto.ModalityDTO;
 import co.com.expertla.training.model.entities.ResponseService;
+import co.com.expertla.training.service.configuration.DisciplineService;
 import co.com.expertla.training.service.configuration.ModalityService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
@@ -26,6 +28,8 @@ public class ModalityController {
     
     @Autowired
     private ModalityService modalityService;
+    @Autowired
+    private DisciplineService disciplineService;
     
     @RequestMapping(value = "modality/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getAll() {
@@ -72,6 +76,28 @@ public class ModalityController {
             responseService.setOutput(modalities);
             return Response.status(Response.Status.OK).entity(responseService).build();
         }   catch (Exception e) {
+            Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
+//            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "modality/get/by/userId/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getByUser(@PathVariable("userId") Integer userId) {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        List<ModalityDTO> modalities = null;
+        try {
+            DisciplineDTO discipline = disciplineService.findByUserId(userId);
+            if (discipline != null) {
+                modalities = modalityService.findByDisciplineId(discipline.getDisciplineId());
+            }
+            responseService.setOutput(modalities);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
             Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
             responseService.setOutput(strResponse);

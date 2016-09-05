@@ -20,7 +20,7 @@
             compileAngularElement('#add-events-modal-body');
         });
     });
-
+    
     $('.btn-group button[data-calendar-view]').each(function () {
         var $this = $(this);
         $this.click(function () {
@@ -106,6 +106,12 @@ function initCalendar() {
     var calendar = $('#calendar').calendar(options);
     return calendar;
 }
+function manualActivity(ev){
+        var scope =  angular.element($("#calendar")).scope();
+          scope.$apply(function(){
+        scope.showCreateManualActivity(ev);
+    });    
+}
 
 
 function allowDrop(ev) {
@@ -126,17 +132,24 @@ function drop(ev) {
     }
     
     var data = ev.dataTransfer.getData("text");
-    if(data != undefined && (data.indexOf('cal') !== -1 || data.indexOf('act') !== -1)) {
+    if(data != undefined && (data.indexOf('cal') !== -1 || data.indexOf('act') !== -1 || data.indexOf('ma') !== -1)) {
         var rcData = data.split('_');
-        var activityId = rcData[1];
+         var activityId = '';
+         var manualActivityId = '';
+        if(data.indexOf('act') !== -1){
+           activityId = rcData[1];
+        }
+        else if(data.indexOf('ma') !== -1){
+           manualActivityId =  rcData[1];
+        }
         var date = $(ev.target).attr("data-event-date");
-        var objActivity = {'userId' : userId, 'activityId' : activityId, 'activityDate' : date};
+        var objActivity = {'userId' : userId, 'activityId' : activityId, 'manualActivityId':manualActivityId, 'activityDate' : date};
         
-        if(data.indexOf('act') !== -1) {
+        if(data.indexOf('act') !== -1 || data.indexOf('ma') !== -1) {
             createActivity(objActivity);
         } else if(data.indexOf('cal') !== -1) {
             var date = $(ev.target).attr("data-event-date");
-            objActivity = {'userId' : userId, 'trainingPlanWorkoutId' : activityId, 'activityDate' : date};
+            objActivity = {'userId' : userId, 'trainingPlanWorkoutId' : rcData[1], 'activityDate' : date};
             var dataEventId = $(ev.target).attr("data-event-id");
             if(dataEventId != undefined && dataEventId.indexOf('cal') !== -1) {
                 createPlan(objActivity, true);

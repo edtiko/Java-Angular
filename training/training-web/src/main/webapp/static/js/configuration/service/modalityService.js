@@ -39,6 +39,18 @@ trainingApp.factory('ModalityService', ['$http', '$q', function($http, $q){
                                         return $q.reject(errResponse);
                                     }
                             );
+            },
+             getModalitiesByDisciplineUserId: function(userId){
+                    return $http.get($contextPath+'modality/get/by/userId/'+userId)
+                            .then(
+                                    function(response){
+                                        return response.data.entity.output;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while getting modalities');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
             }
          
         };

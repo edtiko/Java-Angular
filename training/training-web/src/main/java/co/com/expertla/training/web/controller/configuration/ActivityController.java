@@ -141,7 +141,7 @@ public class ActivityController {
     public ResponseEntity<ResponseService> listByDisciplineUser(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {     
-            List<Activity> activityList = activityService.findByUserDiscipline(userId);
+            List<ActivityDTO> activityList = activityService.findByUserDiscipline(userId);
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -158,8 +158,8 @@ public class ActivityController {
     public ResponseEntity<ResponseService> createManualActivity(@RequestBody ActivityDTO activity) {
             ResponseService responseService = new ResponseService();
         try {           
-            activityService.createManualActivity(activity);
-            responseService.setOutput("Manual Activity creado correctamente");
+           Integer id =  activityService.createManualActivity(activity);
+            responseService.setOutput(id);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

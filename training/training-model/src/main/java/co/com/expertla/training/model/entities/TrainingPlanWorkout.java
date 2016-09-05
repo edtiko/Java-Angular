@@ -93,6 +93,14 @@ public class TrainingPlanWorkout implements Serializable {
     public void setTrainingPlanUserId(TrainingPlanUser trainingPlanUserId) {
         this.trainingPlanUserId = trainingPlanUserId;
     }
+    
+    public ManualActivity getManualActivityId() {
+        return manualActivityId;
+    }
+
+    public void setManualActivityId(ManualActivity manualActivityId) {
+        this.manualActivityId = manualActivityId;
+    }
 
     @Override
     public int hashCode() {
@@ -119,12 +127,5 @@ public class TrainingPlanWorkout implements Serializable {
         return "co.com.expertla.training.model.entities.TrainingPlanWorkout[ trainingPlanWorkoutId=" + trainingPlanWorkoutId + " ]";
     }
 
-    public ManualActivity getManualActivityId() {
-        return manualActivityId;
-    }
-
-    public void setManualActivityId(ManualActivity manualActivityId) {
-        this.manualActivityId = manualActivityId;
-    }
     
 }

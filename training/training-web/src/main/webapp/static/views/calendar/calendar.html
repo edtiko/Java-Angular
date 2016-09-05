@@ -29,21 +29,23 @@
          <div class="md-toolbar-tools">
              <h1 class="md-toolbar-tools">Actividades</h1>
              <span flex></span>
-             <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="createActivity()">
+             <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="showCreateManualActivity()">
                  <i class="fa fa-plus" aria-hidden="true"></i>
              </md-button>
          </div>
      </md-toolbar>
       <md-content layout-padding>
-        <md-button ng-click="close()" class="md-primary" hide-gt-md>
-          Close Sidenav Left
-        </md-button>
         <div layout="column" layout-align="center center" ng-show="loading">
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         <span>Cargando actividades..</span>
         </div>
+          <md-subheader ng-show="!loading">Actividades Configuradas</md-subheader>
         <ul class="nav nav-pills nav-stacked" ng-repeat="a in activityList">
-            <li><a id="act_{{a.activityId}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
+            <li><a id="act_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
+        </ul>
+        <md-subheader ng-show="!loading">Actividades Manuales</md-subheader>
+         <ul class="nav nav-pills nav-stacked" ng-repeat="a in manualActivities">
+            <li><a id="ma_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
         </ul>
 
       </md-content>

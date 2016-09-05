@@ -9,7 +9,6 @@ import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import org.springframework.stereotype.Repository;
@@ -30,11 +29,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, ");
-        sql.append("t.activityId.activityId, t.activityId.name, t.activityId.description, t.activityId.modalityId.modalityId, t.activityId.modalityId.name, ");
-        sql.append("t.activityId.objectiveId.objectiveId, t.activityId.objectiveId.name, ");
-        sql.append("t.activityId.modalityId.disciplineId.disciplineId, t.activityId.modalityId.disciplineId.name, ");
-        sql.append("t.activityId.objectiveId.level, u.userId.userId, t.activityId.sportId.icon) ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId,  u.userId.userId) ");
         sql.append("FROM TrainingPlanWorkout t, TrainingPlanUser u ");
         sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
         sql.append("AND u.userId.userId = :userId ");

@@ -2,11 +2,14 @@ package co.com.expertla.training.service.impl.configuration;
 
 import co.com.expertla.training.dao.configuration.ActivityDao;
 import co.com.expertla.training.dao.configuration.ManualActivityDao;
+import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.service.configuration.ActivityService;
 import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.entities.ManualActivity;
 import co.com.expertla.training.model.entities.Modality;
+import co.com.expertla.training.model.entities.User;
+import java.util.Calendar;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,17 +67,20 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception {
+    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception {
         return activityDao.findByUserDiscipline(usuarioId);
     }
     
     @Override
-     public void createManualActivity(ActivityDTO activity) throws Exception {
+     public Integer createManualActivity(ActivityDTO activity) throws Exception {
          ManualActivity manualActivity = new ManualActivity();
          manualActivity.setModalityId(new Modality(activity.getModalityId()));
          manualActivity.setName(activity.getName());
          manualActivity.setDescription(activity.getDescription());
-         manualActivityDao.create(manualActivity);
+         manualActivity.setUserId(new User(activity.getUserId()));
+         manualActivity.setCreationDate(Calendar.getInstance().getTime());
+         manualActivity.setStateId(StateEnum.ACTIVE.getId());
+         return manualActivityDao.create(manualActivity).getManualActivityId();
     }
      
     @Override

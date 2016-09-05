@@ -1,17 +1,31 @@
-trainingApp.controller('CalendarController', function ($scope, CalendarService,ModalityService,
+trainingApp.controller('CalendarController', function ($scope, CalendarService, ModalityService,
         $window, $mdDialog) {
     $scope.activityList = [];
     $scope.trainingPow = 0;
     $scope.labelTrainingPow = 'Entrenamiento por potencia';
     $scope.loading = true;
     $scope.userId = null;
+    
+        $scope.getManualActivities = function () {
+        CalendarService.getManualActivityList($scope.userId).then(
+                function (data) {
+                    $scope.manualActivities = data.output;
+                },
+                function (error) {
+                    console.error(error);
+                }
+
+
+        );
+    };
+    
     $scope.getActivityByUser = function () {
         if ($scope.appReady) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             var planAthleteSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
-            if(planAthleteSelected != null){
+            if (planAthleteSelected != null) {
                 $scope.userId = planAthleteSelected.athleteUserId.userId;
-            }else{
+            } else {
                 $scope.userId = user.userId;
             }
             CalendarService.getActivityByDisciplineUser($scope.userId)
@@ -28,7 +42,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService,M
                                 console.error('Error consultando actividades');
                             }
                     );
-             $scope.getManualActivities();
+            $scope.getManualActivities();
         } else {
             $scope.showMessage("El usuario no se encuentra logueado.", "error");
         }
@@ -44,10 +58,19 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService,M
             $scope.labelTrainingPow = 'Entrenamiento por potencia';
         }
     };
-    
-    $scope.createActivity = function (ev) {
+
+    $scope.showCreateManualActivity = function (ev) {
+        
+        $scope.selectedDay = null;
+        if (ev != undefined) {
+            var date = $(ev.target).attr("data-event-date");
+            if (date != null) {
+                $scope.selectedDay = date;
+            }
+        }
         $mdDialog.show({
             controller: ActivityController,
+            scope: $scope.$new(),
             templateUrl: 'static/views/calendar/createActivity.html',
             parent: angular.element(document.body),
             targetEvent: ev,
@@ -61,21 +84,36 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService,M
                 });
     };
 
- $scope.getManualActivities = function(){
-       CalendarService.getManualActivityList($scope.userId).then(
+
+    function ActivityController($scope, $mdDialog) {
+        
+        $scope.manualActivity = {manualActivityId: '', modalityId: '', name: '', description: '', userId: $scope.userId};
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+        $scope.saveActivity = function () {
+            CalendarService.createManualActivity($scope.manualActivity).then(
                     function (data) {
-                      $scope.manualActivities = data.output;
+                        $scope.getManualActivities();
+                        if($scope.selectedDay != null){
+                           var objActivity = {'userId' : $scope.userId, 'manualActivityId':data.output, 'activityDate' : $scope.selectedDay};
+                            createActivity(objActivity);
+                        }
+                        $scope.cancel();
                     },
                     function (error) {
-                      console.error(error);
+
                     }
 
 
             );
- };
- 
-     $scope.getModalitiesByDisciplineId = function (id) {
-            ModalityService.getModalitiesByDisciplineId(id).then(
+        };
+
+        $scope.getModalitiesByUserId = function () {
+            ModalityService.getModalitiesByDisciplineUserId($scope.userId).then(
                     function (d) {
                         $scope.modalities = d;
                     },
@@ -86,29 +124,8 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService,M
             );
         };
 
-    function ActivityController($scope, $mdDialog) {
-        $scope.activity = {manualActivityId:'', modalityId:'', name:'', description:''};
-        $scope.hide = function () {
-            $mdDialog.hide();
-        };
-        $scope.cancel = function () {
-            $mdDialog.cancel();
-        };
-        $scope.answer = function (answer) {
-            $mdDialog.hide(answer);
-        };
-        $scope.saveActivity = function () {
-            CalendarService.createManualActivity(activity).then(
-                    function (data) {
-                      $scope.getManualActivities();
-                    },
-                    function (error) {
-
-                    }
-
-
-            );
-        };
+        $scope.getModalitiesByUserId();
+        console.log($scope);
 
     }
 

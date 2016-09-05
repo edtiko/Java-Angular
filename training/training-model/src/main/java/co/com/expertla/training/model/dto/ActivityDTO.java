@@ -16,17 +16,28 @@ public class ActivityDTO {
     private String description;
     private Integer modalityId;
     private Integer userId;
+    private Integer objectiveId;
+    private Integer sportId;
     
     public ActivityDTO(){
         
     }
     
-     public ActivityDTO(Integer id, String name, String description, Integer modalityId, Integer userId){
+      public ActivityDTO(Integer id, String name, String description, Integer modalityId, Integer userId){
         this.id= id;
         this.name= name;
         this.description = description;
         this.modalityId = modalityId;
         this.userId = userId;
+    }
+    
+     public ActivityDTO(Integer id, String name, String description, Integer modalityId, Integer objectiveId, Integer sportId){
+        this.id= id;
+        this.name= name;
+        this.description = description;
+        this.modalityId = modalityId;
+        this.objectiveId = objectiveId;
+        this.sportId = sportId;
     }
 
     public Integer getId() {
@@ -67,6 +78,22 @@ public class ActivityDTO {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getObjectiveId() {
+        return objectiveId;
+    }
+
+    public void setObjectiveId(Integer objectiveId) {
+        this.objectiveId = objectiveId;
+    }
+
+    public Integer getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(Integer sportId) {
+        this.sportId = sportId;
     }
     
     

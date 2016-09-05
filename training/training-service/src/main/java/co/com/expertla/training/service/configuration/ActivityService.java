@@ -93,10 +93,10 @@ public interface ActivityService {
      * @return
      * @throws Exception
      */
-    public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception;
+    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception;
 
 
-    public void createManualActivity(ActivityDTO activity) throws Exception;
+    public Integer createManualActivity(ActivityDTO activity) throws Exception;
      
     public List<ActivityDTO> findManualActivitiesByUserId(Integer userId) throws Exception;
 
