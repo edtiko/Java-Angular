@@ -3,9 +3,9 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+//var $contextPath = "http://localhost:8085/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
-//var $contextPath = "http://181.143.227.220:8087/training/";
+var $contextPath = "http://181.143.227.220:8087/training/";
 require.config({
     waitSeconds: 200,
     paths: {
@@ -57,7 +57,7 @@ require.config({
         moduleService: "security/service/moduleService",
         bikeTypeService: "configuration/service/bikeTypeService",
         planService: "configuration/service/trainingPlanService",
-        startTeamService: "configuration/service/startTeamService"
+        startTeamService: "configuration/service/startTeamService",
         physiologicalCapacityService: "configuration/service/physiologicalCapacityService"
     },
     shim: {
@@ -191,6 +191,9 @@ require.config({
         startTeamService: {
             deps: ['angular','trainingApp']
         },
+        physiologicalCapacityService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -198,7 +201,7 @@ require.config({
                 'mainController', 'surveyService', 'calendarService',
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'startTeamService'
+                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'startTeamService',
                 'physiologicalCapacityService'
 //                ,'videoService','videochatService'
 
