@@ -8,6 +8,7 @@ package co.com.expertla.training.model.dto;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.User;
+import java.util.Date;
 
 /**
  *
@@ -19,11 +20,12 @@ public class CoachAssignedPlanDTO {
     private UserDTO athleteUserId;
     private UserDTO coachUserId;
     private UserDTO starUserId;
-    private Integer startTeamId;
+    private Integer starTeamId;
     private Integer videoCount;
     private Integer messageCount;
     private Integer callCount;
     private Integer emailCount;
+    private Date creationDate;
     
      public CoachAssignedPlanDTO(){
          
@@ -34,7 +36,7 @@ public class CoachAssignedPlanDTO {
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
         this.starUserId = UserDTO.mapFromUserEntity(starUserId);
-        this.startTeamId = startTeamId;
+        this.starTeamId = startTeamId;
         if(trainingPlan != null){
             this.videoCount = trainingPlan.getVideoCount();
             this.messageCount = trainingPlan.getMessageCount();
@@ -42,7 +44,7 @@ public class CoachAssignedPlanDTO {
             this.callCount = trainingPlan.getCallCount();
         }
     }
-    
+
      public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {
         if (e != null) {
             return new CoachAssignedPlanDTO(e.getCoachAssignedPlanId(), e.getTrainingPlanUserId().getUserId(), 
@@ -68,12 +70,12 @@ public class CoachAssignedPlanDTO {
         this.athleteUserId = athleteUserId;
     }
 
-    public Integer getStartTeamId() {
-        return startTeamId;
+    public Integer getStarTeamId() {
+        return starTeamId;
     }
 
-    public void setStartTeamId(Integer startTeamId) {
-        this.startTeamId = startTeamId;
+    public void setStarTeamId(Integer startTeamId) {
+        this.starTeamId = startTeamId;
     }
 
     public UserDTO getCoachUserId() {
@@ -123,9 +125,12 @@ public class CoachAssignedPlanDTO {
     public void setEmailCount(Integer emailCount) {
         this.emailCount = emailCount;
     }
-    
-    
-    
-    
-    
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

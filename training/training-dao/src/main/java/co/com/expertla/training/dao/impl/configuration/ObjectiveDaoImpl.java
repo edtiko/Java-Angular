@@ -49,7 +49,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.ObjectiveDTO(a.objectiveId,");
-        builder.append("a.name,a.level,a.disciplineId.disciplineId,a.disciplineId.name. a.stateId, a.creationDate, a.lastUpdate,");
+        builder.append("a.name,a.level,a.disciplineId.disciplineId,a.disciplineId.name, a.stateId, a.creationDate, a.lastUpdate,");
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from Objective a ");

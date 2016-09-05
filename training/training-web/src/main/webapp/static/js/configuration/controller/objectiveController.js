@@ -4,7 +4,7 @@ trainingApp.controller('ObjectiveController', function ($scope, ObjectiveService
         name: '',
         level: '',
         stateId:'',
-        disciplineId: {disciplineId: null}, disciplineName: '',
+        disciplineId: {disciplineId: null, name: ''}, disciplineName: '',
         userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
     $scope.objectiveList = [];
     $scope.disciplineList = [];
@@ -164,7 +164,7 @@ trainingApp.controller('ObjectiveController', function ($scope, ObjectiveService
     $scope.resetObjective = function () {
         $scope.objective = {objectiveId: null, name: '',
             level: '',stateId:'',
-            disciplineId: {disciplineId: null}, disciplineName: '',
+            disciplineId: {disciplineId: null, name: ''}, disciplineName: '',
             userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
     };
 

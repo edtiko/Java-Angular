@@ -38,6 +38,17 @@ trainingApp.factory('SportService', ['$http', '$q', function($http, $q){
                                         return $q.reject(errResponse);
                                     }
                             );
+            },
+            
+            getSportDisciplines: function(res){
+                    return $http.get($contextPath+'sport/get/all/sportDisciplines')
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
             }
          
         };

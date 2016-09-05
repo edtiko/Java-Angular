@@ -1,9 +1,9 @@
 'use strict';
-trainingApp.service('StartTeamService', ['$http', '$q', function ($http, $q) {
+trainingApp.service('PhysiologicalCapacityService', ['$http', '$q', function ($http, $q) {
         return {
             
             getPaginate: function(query, res){
-                    return $http.post($contextPath+'starTeam/paginated', query)
+                    return $http.post($contextPath+'physiologicalCapacity/paginated', query)
                             .then(
                                     res, 
                                     function(errResponse){
@@ -12,8 +12,8 @@ trainingApp.service('StartTeamService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-            getStarUser: function(res){
-                    return $http.get($contextPath+'starUser/get/all')
+            getPhysiologicalCapacity: function(res){
+                    return $http.get($contextPath+'physiologicalCapacity/get/all')
                             .then(
                                     res, 
                                     function(errResponse){
@@ -22,60 +22,50 @@ trainingApp.service('StartTeamService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-            getCoachUser: function(res){
-                    return $http.get($contextPath+'coachUser/get/all')
-                            .then(
-                                    res, 
-                                    function(errResponse){
-                                        console.error('Error while getting service ' + errResponse);
-                                        return $q.reject(errResponse);
-                                    }
-                            );
-            },
-            getStarTeamById: function (id) {
-                return $http.get($contextPath + '/get/starTeam/by/' + id)
+            getPhysiologicalCapacityById: function (id) {
+                return $http.get($contextPath + '/get/physiologicalCapacity/by/' + id)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while fetching startTeams');
+                                    console.error('Error while fetching physiologicalCapacitys');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            createStarTeam: function (startTeam) {
-                return $http.post($contextPath + '/starTeam/create', startTeam)
+            createPhysiologicalCapacity: function (physiologicalCapacity) {
+                return $http.post($contextPath + '/physiologicalCapacity/create', physiologicalCapacity)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while creating startTeam');
+                                    console.error('Error while creating physiologicalCapacity');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            mergeStarTeam: function (startTeam) {
-                return $http.post($contextPath + '/starTeam/update', startTeam)
+            mergePhysiologicalCapacity: function (physiologicalCapacity) {
+                return $http.post($contextPath + '/physiologicalCapacity/update', physiologicalCapacity)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while updating startTeam');
+                                    console.error('Error while updating physiologicalCapacity');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            deleteStarTeam: function (startTeam) {
-                return $http.post($contextPath + '/starTeam/delete',startTeam)
+            deletePhysiologicalCapacity: function (physiologicalCapacity) {
+                return $http.post($contextPath + '/physiologicalCapacity/delete',physiologicalCapacity)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while deleting startTeam');
+                                    console.error('Error while deleting physiologicalCapacity');
                                     return $q.reject(errResponse);
                                 }
                         );

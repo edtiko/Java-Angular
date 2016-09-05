@@ -1,5 +1,6 @@
 package co.com.expertla.training.service.configuration;
 
+import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
@@ -29,6 +30,7 @@ public interface ActivityService {
      * fecha 5/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
+     * @return 
      * @throws Exception 
      */
     public Activity store(Activity activity) throws Exception;
@@ -38,7 +40,6 @@ public interface ActivityService {
      * fecha 5/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
-     * @return 
      * @throws Exception 
      */
     public void remove(Activity activity) throws Exception;
@@ -51,7 +52,7 @@ public interface ActivityService {
      * @throws Exception 
      */
     public List<Activity> findAll() throws Exception;
-
+    
     /**
      * Obtiene todos los registros activos de activity <br>
      * Info. Creación: <br>
@@ -61,10 +62,24 @@ public interface ActivityService {
      * @throws Exception 
      */
     public List<Activity> findAllActive() throws Exception;
+
     /**
-     * Obtiene todos los registros de activity por su id <br>
+     * Obtiene todos los registros de activity paginados <br>
      * Info. Creación: <br>
-     * fecha 5/08/2016 <br>
+     * fecha Sep 2, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param first
+     * @param max
+     * @param order
+     * @return
+     * @throws Exception 
+     */
+    public List<ActivityDTO> findPaginate(int first, int max, String order) throws Exception;
+    
+    /**
+     * Obtiene todos los registros de activity paginados <br>
+     * Info. Creación: <br>
+     * fecha Sep 2, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
      * @return
@@ -82,8 +97,8 @@ public interface ActivityService {
      * @throws Exception 
      */
     public List<Activity> findByFiltro(Activity activity) throws Exception; 
-    
-    /**
+
+    /** 
      * Obtiene todos los registros de activity por la disciplina del usuario <br>
      * Info. Creación: <br>
      * fecha 08/08/2016 <br>
@@ -96,9 +111,10 @@ public interface ActivityService {
     public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception;
 
 
-    public Integer createManualActivity(ActivityDTO activity) throws Exception;
+    public Integer createManualActivity(ActivityCalendarDTO activity) throws Exception;
      
-    public List<ActivityDTO> findManualActivitiesByUserId(Integer userId) throws Exception;
+    public List<ActivityCalendarDTO> findManualActivitiesByUserId(Integer userId) throws Exception;
+
 
     
 }

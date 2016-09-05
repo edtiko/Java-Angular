@@ -41,7 +41,7 @@ public class CoachAssignedPlan implements Serializable {
     @Column(name = "coach_assigned_plan_id")
     private Integer coachAssignedPlanId;
     @Column(name = "state_id")
-    private Integer stateId;
+    private Short stateId;
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -67,11 +67,11 @@ public class CoachAssignedPlan implements Serializable {
         this.coachAssignedPlanId = coachAssignedPlanId;
     }
 
-    public Integer getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(Integer stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

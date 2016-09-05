@@ -5,13 +5,17 @@ import co.com.expertla.training.model.entities.ResponseService;
 import co.com.expertla.training.service.configuration.SportService;
 import co.com.expertla.training.model.dto.EnvironmentDTO;
 import co.com.expertla.training.model.dto.WeatherDTO;
+import co.com.expertla.training.model.entities.PhysiologicalCapacity;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,6 +84,24 @@ public class SportController {
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
+    }
+    
+    @RequestMapping(value = "sport/get/all/sportDisciplines", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService>  getAllSportDisciplines() {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<SportDTO> sports = sportService.findSportDisciplines();
+            responseService.setOutput(sports);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(SportController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+  
     }
 
 }

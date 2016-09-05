@@ -29,4 +29,13 @@ public interface SportDao extends BaseDAO<Sport>{
     
     public List<WeatherDTO> findClimas() throws Exception;
     
+    /**
+     * Trae todos los registros de sport tipo disciplina <br>
+     * Creation Date : <br>
+     * date 02/09/2016 <br>
+     * @author Angela Ramírez
+     * @throws Exception
+     * @return
+     */
+    public List<SportDTO> findSportDisciplines() throws Exception;
 }

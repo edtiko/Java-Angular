@@ -5,6 +5,8 @@ import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
+import co.com.expertla.training.model.dto.OptionDTO;
+import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.Country;
 import co.com.expertla.training.model.entities.Discipline;
@@ -24,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.user.UserService;
+import co.com.expertla.training.web.controller.security.OptionController;
 import co.com.expertla.training.web.enums.StatusResponse;
 import com.opentok.OpenTok;
 import com.opentok.exception.OpenTokException;
@@ -409,6 +412,31 @@ public class UserController {
         }
     }
     
+    @RequestMapping(value = "user/getDiscipline/by/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response findUsersWithDiscipline(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserDTO> list = userService.findUserWithDisciplineById(userId);
+            
+            if(list != null || !list.isEmpty()) {
+                responseService.setOutput(list.get(0));
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            }
+            
+            responseService.setOutput(null);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+            
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
     @RequestMapping(value = "user/create/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response createInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -439,6 +467,31 @@ public class UserController {
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    /**
+     * Consulta user paginado <br>
+     * Creation Date: <br>
+     * date 31/08/2016 <br>
+     * @author Angela Ramirez
+     * @param paginateDto
+     * @return
+     */
+    @RequestMapping(value = "/user/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
+        ResponseService responseService = new ResponseService();
+        try {
+            paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
+            List<UserDTO> userList = userService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            responseService.setOutput(userList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 }

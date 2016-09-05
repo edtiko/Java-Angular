@@ -3,9 +3,9 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8080/training/";
+//var $contextPath = "http://localhost:8085/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
-//var $contextPath = "http://181.143.227.220:8087/training/";
+var $contextPath = "http://181.143.227.220:8087/training/";
 require.config({
     waitSeconds: 200,
     paths: {
@@ -51,13 +51,15 @@ require.config({
         opentokAngular: "lib/opentok-angular",
         opentokLayout: "lib/opentok-layout.min",
         utilService: "lib/utilService",
-        ngDialog: "lib/ngDialog.min",
         roleService: "security/service/roleService",
         optionService: "security/service/optionService",
         moduleService: "security/service/moduleService",
         bikeTypeService: "configuration/service/bikeTypeService",
         planService: "configuration/service/trainingPlanService",
-        startTeamService: "configuration/service/startTeamService"
+        starTeamService: "configuration/service/starTeamService",
+        physiologicalCapacityService: "configuration/service/physiologicalCapacityService",
+        activityService: "configuration/service/activityService",
+        angularSanitize: 'lib/angular-sanitize',
     },
     shim: {
         angular: {
@@ -148,10 +150,13 @@ require.config({
         angularTranslateConfig: {
             deps: ['angular', 'angularTranslate']
         },
+        angularSanitize: {
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable', 'angularNotification'
+                , 'angularDataTable', 'angularNotification','angularSanitize'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
@@ -187,7 +192,13 @@ require.config({
         planService: {
             deps: ['angular','trainingApp']
         },
-        startTeamService: {
+        starTeamService: {
+            deps: ['angular','trainingApp']
+        },
+        physiologicalCapacityService: {
+            deps: ['angular','trainingApp']
+        },
+        activityService: {
             deps: ['angular','trainingApp']
         },
         app: {
@@ -197,7 +208,8 @@ require.config({
                 'mainController', 'surveyService', 'calendarService',
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'startTeamService'
+                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
+                'physiologicalCapacityService','activityService'
 //                ,'videoService','videochatService'
 
             ] }

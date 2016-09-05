@@ -7,7 +7,7 @@ package co.com.expertla.training.dao.configuration;
 
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.base.jpa.DAOException;
-import co.com.expertla.training.model.dto.ActivityDTO;
+import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.entities.ManualActivity;
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface ManualActivityDao extends BaseDAO<ManualActivity>{
 
-    public List<ActivityDTO> findByUserId(Integer userId) throws DAOException;
+    public List<ActivityCalendarDTO> findByUserId(Integer userId) throws DAOException;
 
     
 }

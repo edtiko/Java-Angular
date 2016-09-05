@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.Serializable;
@@ -21,9 +22,9 @@ public class StarTeamDTO implements Serializable {
     private Date creationDate;
     @JsonSerialize(using=JsonDateSerializer.class)
     private Date lastUpdate;
-    private Integer starUserId;
+    private User starUserId;
     private String starUserName;
-    private Integer coachUserId;
+    private User coachUserId;
     private String coachUserName;
     private Integer userCreate;
     private Integer userUpdate;
@@ -35,8 +36,8 @@ public class StarTeamDTO implements Serializable {
     public StarTeamDTO() {
     }
 
-    public StarTeamDTO(Integer startTeamId, Integer startUserId, String startUserName, 
-            Integer coachUserId, String coachUserName,
+    public StarTeamDTO(Integer startTeamId, User startUserId, 
+            User coachUserId,
             Short stateId, Date creationDate, Date lastUpdate, 
             String userCreateName, String userUpdateName,
             Integer userCreate, Integer userUpdate) {
@@ -44,9 +45,7 @@ public class StarTeamDTO implements Serializable {
         this.stateId = stateId;
         this.lastUpdate = lastUpdate;
         this.starUserId = startUserId;
-        this.starUserName = startUserName;
         this.coachUserId = coachUserId;
-        this.coachUserName = coachUserName;
         this.userCreate = userCreate;
         this.userUpdate = userUpdate;
         this.userCreateName = userCreateName;
@@ -58,11 +57,11 @@ public class StarTeamDTO implements Serializable {
         this.starTeamId = startTeamId;
     }
 
-    public Integer getStartTeamId() {
+    public Integer getStarTeamId() {
         return starTeamId;
     }
 
-    public void setStartTeamId(Integer startTeamId) {
+    public void setStarTeamId(Integer startTeamId) {
         this.starTeamId = startTeamId;
     }
 
@@ -106,27 +105,27 @@ public class StarTeamDTO implements Serializable {
         this.count = count;
     }
 
-    public Integer getStartUserId() {
+    public User getStarUserId() {
         return starUserId;
     }
 
-    public void setStartUserId(Integer startUserId) {
+    public void setStarUserId(User startUserId) {
         this.starUserId = startUserId;
     }
 
-    public String getStartUserName() {
+    public String getStarUserName() {
         return starUserName;
     }
 
-    public void setStartUserName(String startUserName) {
+    public void setStarUserName(String startUserName) {
         this.starUserName = startUserName;
     }
 
-    public Integer getCoachUserId() {
+    public User getCoachUserId() {
         return coachUserId;
     }
 
-    public void setCoachUserId(Integer coachUserId) {
+    public void setCoachUserId(User coachUserId) {
         this.coachUserId = coachUserId;
     }
 

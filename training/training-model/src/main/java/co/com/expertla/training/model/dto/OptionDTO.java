@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Module;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class OptionDTO {
     private Date lastUpdate;
     private Integer userCreate;
     private Integer userUpdate;
-    private Integer moduleId;
+    private Module moduleId;
     private String module;
     private Integer masterOptionId;
     private String masterOption;
@@ -38,7 +39,7 @@ public class OptionDTO {
     }
 
     public OptionDTO(Integer optionId, String name, String description, String url, Short stateId,
-            Integer moduleId, String module, 
+            Module moduleId, String module, 
             Date creationDate, Date lastUpdate, 
             Integer masterOptionId, String masterOption,            
             String userCreateName, String userUpdateName,
@@ -112,11 +113,11 @@ public class OptionDTO {
         this.lastUpdate = lastUpdate;
     }
 
-    public Integer getModuleId() {
+    public Module getModuleId() {
         return moduleId;
     }
 
-    public void setModuleId(Integer moduleId) {
+    public void setModuleId(Module moduleId) {
         this.moduleId = moduleId;
     }
 
