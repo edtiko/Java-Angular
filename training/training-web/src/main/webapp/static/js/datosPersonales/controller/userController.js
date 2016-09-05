@@ -381,7 +381,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
             if ($scope.validateFields(form)) {
                 $scope.createOrMergeUserProfile($scope.userProfile);
             } else {
-                $scope.showMessage($scope.errorMessages);     
+                if($scope.errorMessages.length != 0) {
+                    $scope.showMessage($scope.errorMessages);      
+                }
             }
         };
 
@@ -844,11 +846,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
                 form.modality.$setTouched();  
                 valid = false;
             }
-            if($scope.userProfile.environment == '' || $scope.userProfile.environment == null) {
+            if($scope.userProfile.environmentId == '' || $scope.userProfile.environmentId == null) {
                 form.environment.$setTouched();  
                 valid = false;
             }
-            if($scope.userProfile.weather == '' || $scope.userProfile.weather == null) {
+            if($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
                 form.weather.$setTouched();  
                 valid = false;
             }

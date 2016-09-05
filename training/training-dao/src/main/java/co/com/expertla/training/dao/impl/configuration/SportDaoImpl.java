@@ -49,5 +49,16 @@ public class SportDaoImpl extends BaseDAOImpl<Sport> implements SportDao {
         Query query = getEntityManager().createQuery(sql.toString());
         return query.getResultList();
     }
+    
+    @Override
+    public List<SportDTO> findSportDisciplines() throws Exception {      
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.SportDTO(s.sportId,s.name) ");        
+        sql.append("FROM Sport s ");
+        sql.append("Where s.indDisciplineSport = :sport ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("sport", "1");
+        return query.getResultList();
+    }
 
 }

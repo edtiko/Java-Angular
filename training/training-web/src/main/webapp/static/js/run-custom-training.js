@@ -56,7 +56,9 @@ require.config({
         optionService: "security/service/optionService",
         moduleService: "security/service/moduleService",
         bikeTypeService: "configuration/service/bikeTypeService",
-        planService: "configuration/service/trainingPlanService"
+        planService: "configuration/service/trainingPlanService",
+        activityService: "configuration/service/activityService",
+        physiologicalCapacityService: "configuration/service/physiologicalCapacityService"
     },
     shim: {
         angular: {
@@ -192,6 +194,12 @@ require.config({
         planService: {
             deps: ['angular','trainingApp']
         },
+        activityService: {
+            deps: ['angular','trainingApp']
+        },
+        physiologicalCapacityService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -199,7 +207,8 @@ require.config({
                 'mainController', 'surveyService', 'calendarService',
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'planService'
+                'optionService', 'angularTranslateConfig', 'moduleService', 'planService','activityService',
+                'physiologicalCapacityService'
 //                ,'videoService','videochatService'
 
             ] }

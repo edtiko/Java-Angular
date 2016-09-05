@@ -1,6 +1,21 @@
 {
     "NAME": "Nombre",
     "REQUIRED_FIELD_TEXT": "Este es un campo requerido",
-    "INVALID_FIELD_TEXT": "Este campo es inv&aacute;lido",
-    "GUARDAR_TEXT": "Guardar"
+    "INVALID_FIELD_TEXT": "Este campo es inv\u00e1lido",
+    "GUARDAR_TEXT": "Guardar",
+    "EDIT":"Editar",
+    "ACTIVATE": "Activar",
+    "INACTIVATE":"Inactivar",
+    "DELETE": "Eliminar",
+    "USER_CREATE":"Usuario de Creaci\u00f3n",
+    "USER_UPDATE":"Usuario de Modificaci\u00f3n",
+    "CREATION_DATE":"Fecha de Creaci\u00f3n",
+    "LAST_UPDATE":"Fecha de Modificaci\u00f3n",
+    "OBJECTIVE": "Objetivo",
+    "MODALITY":"Modalidad",
+    "PHYSIOLOGICAL_CAPACITY":"Capacidad Fisiol\u00f3gica",
+    "DESCRIPTION":"Descripci\u00f3n",
+    "SPORT":"Deporte",
+    "CREATE_ACTIVITY": "Creaci\u00f3n de Actividades",
+    "DISCIPLINE":"Disciplina Deportiva"
 }
