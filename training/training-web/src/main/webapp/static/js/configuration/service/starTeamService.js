@@ -1,5 +1,5 @@
 'use strict';
-trainingApp.service('StartTeamService', ['$http', '$q', function ($http, $q) {
+trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
         return {
             
             getPaginate: function(query, res){

@@ -71,6 +71,8 @@ public class Discipline implements Serializable {
     private Integer userUpdate;
     @OneToMany(mappedBy = "disciplineId")
     private Collection<Objective> objectiveCollection;
+    @Column(name = "discipline_id_ext")
+    private Integer disciplineIdExt;
 
     public Discipline() {
     }
@@ -174,6 +176,14 @@ public class Discipline implements Serializable {
 
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
+    }
+
+    public Integer getDisciplineIdExt() {
+        return disciplineIdExt;
+    }
+
+    public void setDisciplineIdExt(Integer disciplineIdExt) {
+        this.disciplineIdExt = disciplineIdExt;
     }
 
     @Override

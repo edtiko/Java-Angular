@@ -307,4 +307,9 @@ public class UserServiceImpl implements UserService {
     public List<User> findUserByRole(Integer roleId) throws Exception {
         return userDao.findUserByRole(roleId);
     }
+
+    @Override
+    public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception {
+        return userDao.findUserWithDisciplineById(userId);
+    }
 }
