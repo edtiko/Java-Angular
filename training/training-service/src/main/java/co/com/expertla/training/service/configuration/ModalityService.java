@@ -35,7 +35,7 @@ public interface ModalityService {
     public List<ModalityDTO> findByDisciplineId(Integer id) throws Exception;
     
     /**
-     * Trae todos los registros de modality por discipline id and objective Id<br>
+     * Trae todos los registros de modalities configuradas en el dcf por objective Id<br>
      * Creation Date : <br>
      * date 30/08/2016 <br>
      * @author Angela Ramírez

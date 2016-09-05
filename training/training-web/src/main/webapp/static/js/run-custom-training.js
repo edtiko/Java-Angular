@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8080/training/";
+var $contextPath = "http://localhost:8085/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 require.config({
@@ -58,6 +58,7 @@ require.config({
         bikeTypeService: "configuration/service/bikeTypeService",
         planService: "configuration/service/trainingPlanService",
         startTeamService: "configuration/service/startTeamService"
+        physiologicalCapacityService: "configuration/service/physiologicalCapacityService"
     },
     shim: {
         angular: {
@@ -198,6 +199,7 @@ require.config({
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'startTeamService'
+                'physiologicalCapacityService'
 //                ,'videoService','videochatService'
 
             ] }

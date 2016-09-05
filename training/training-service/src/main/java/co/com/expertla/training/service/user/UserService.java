@@ -74,7 +74,7 @@ public interface UserService {
     
     /**
      * Obtiene todos los registros de user por role <br>
-     * Info. CreaciÃ³n: <br>
+     * Info. Creación: <br>
      * fecha 01/09/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param roleId
@@ -82,4 +82,17 @@ public interface UserService {
      * @throws Exception 
      */
     public List<User> findUserByRole(Integer roleId) throws Exception;
+	/**
+     * Obtiene todos los registros de user paginados <br>
+     * Creation Date : <br>
+     * date 31/08/2016 <br>
+     * @author Angela Ramirez
+     * @param first
+     * @param max
+     * @param order
+     * @return
+     * @throws Exception 
+     */
+    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception;
+   
 }

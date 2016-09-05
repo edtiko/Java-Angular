@@ -1,6 +1,6 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
-    '$window', '$mdDialog','$mdToast', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog,$mdToast) {
+    '$window', '$mdDialog','$mdToast', '$sce', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog,$mdToast, $sce) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];
@@ -60,7 +60,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
         .parent(angular.element(document.querySelector('#user-container')))
         .clickOutsideToClose(true)
         .title(titleDefault)
-        .textContent(msg)
+        .htmlContent(msg)
         .ariaLabel('Alert Dialog Demo')
         .ok('Aceptar')
         //.targetEvent(ev)

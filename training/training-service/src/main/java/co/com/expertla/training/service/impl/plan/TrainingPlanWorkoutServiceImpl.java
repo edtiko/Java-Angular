@@ -140,13 +140,14 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 code = parts[z];
             }
             
-            index++;
             if (activityList.get(index).getPhysiologicalCapacityId().getCode().equals(code)) {
                 act = activityList.get(index);
                 list.add(act);
                 z++;
                 continue;
             } 
+            
+            index++;
             if (act.getActivityId() == null && indexCount.equals(activityList.size())) {
                 throw new Exception("No hay actividad configurada de " + code + " para el objetivo "+
                         userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
@@ -229,9 +230,13 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 }
                 Calendar clFecha = Calendar.getInstance();
                 clFecha.setTime(dtIteratorDate);
-                clFecha.add(Calendar.DATE, 1);
+                clFecha.add(Calendar.DAY_OF_MONTH, 1);
                 dtIteratorDate = clFecha.getTime();
-            }
+                if(dtIteratorDate.equals(dtPlanFinish)) {
+                    break;
+                }
+            }          
+                
             startDay = 1; //se pone el dia nuevamente en domingo
         }
         return dates;
