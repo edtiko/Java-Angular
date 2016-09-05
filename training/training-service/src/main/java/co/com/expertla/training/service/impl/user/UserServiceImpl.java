@@ -302,4 +302,9 @@ public class UserServiceImpl implements UserService {
 
         return resultBuf.toString();
     }
+
+    @Override
+    public List<User> findUserByRole(Integer roleId) throws Exception {
+        return userDao.findUserByRole(roleId);
+    }
 }

@@ -1,13 +1,16 @@
 package co.com.expertla.training.web.controller.configuration;
 
 import co.com.expertla.base.util.MessageUtil;
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.StarTeamDTO;
 import co.com.expertla.training.model.entities.StarTeam;
+import co.com.expertla.training.model.entities.User;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.StartTeamService;
+import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
@@ -33,6 +36,9 @@ public class StarTeamController {
 
     @Autowired
     StartTeamService startTeamService;
+    
+    @Autowired
+    UserService userService;
     
     
 
@@ -207,7 +213,31 @@ public class StarTeamController {
     public ResponseEntity<ResponseService> starUserAll() {
         ResponseService responseService = new ResponseService();
         try {     
-            List<StarTeam> startTeamList = startTeamService.findAllActive();
+            List<User> startTeamList = userService.findUserByRole(RoleEnum.ESTRELLA.getId());
+            responseService.setOutput(startTeamList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(StarTeamController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta startTeam <br>
+     * Info. Creación: <br>
+     * fecha 1/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @return
+     */
+    @RequestMapping(value = "/coachUser/get/all", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> coachUserAll() {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<User> startTeamList = userService.findUserByRole(RoleEnum.COACH_INTERNO.getId());
             responseService.setOutput(startTeamList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
