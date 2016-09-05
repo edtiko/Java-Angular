@@ -56,8 +56,14 @@ trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            createStarWordPress: function (user) {      
-                return $http.post($wordPressContextPath + '/category_products.php', user)
+            createStarWordPress: function (user) { 
+                
+                return $http({
+                    url: $wordPressContextPath + 'category_products.php',
+                    data : user,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    method: 'POST'
+                })
                         .then(
                                 function (response) {
                                     return response;

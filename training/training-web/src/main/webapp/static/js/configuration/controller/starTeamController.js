@@ -85,9 +85,11 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                             var name = userDTO.firstName + ' ' + userDTO.secondName + ' ' + userDTO.lastName;
                             var description = userDTO.aboutMe;
                             var image = userDTO.profilePhoto;
-                            var userParam = 'discipline=' + discipline +
-                                    '&name=' + name + '&description=' + description +
-                                    '&image=' + image;
+//                            var userParam = {'discipline':discipline, 'name':name, 'description':description,
+//                            'image':image};
+                        var userParam = 'discipline='+discipline +
+                                    '&name='+name + '&description=' + description +
+                            '&image=' + image;
                             $scope.createStarWordPress(userParam);
                         }
                     },
