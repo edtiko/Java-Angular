@@ -1,8 +1,8 @@
 
 trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$location', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService', function ($scope, UserService,
+    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService','$location', '$mdDialog',function ($scope, UserService,
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
-            VisibleFieldsUserService, BikeTypeService) {
+            VisibleFieldsUserService, BikeTypeService,$location,$mdDialog) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
@@ -377,9 +377,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.bikeTypes = [];
         $scope.errorMessages = "";
 
-        $scope.submitUserProfile = function (form) {
+        $scope.submitUserProfile = function (form,generatePlan) {
             if ($scope.validateFields(form)) {
-                $scope.createOrMergeUserProfile($scope.userProfile);
+                $scope.createOrMergeUserProfile($scope.userProfile,generatePlan);
             } else {
                 if($scope.errorMessages.length != 0) {
                     $scope.showMessage($scope.errorMessages);      
@@ -389,13 +389,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
 
 
-        $scope.createOrMergeUserProfile = function (userProfile) {
+        $scope.createOrMergeUserProfile = function (userProfile,generatePlan) {
             if (userProfile.userProfileId == null) {
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
                             self.getEquipments();
-                            $scope.showMessage("Perfil Creado satisfactoriamente.");
+                            if(generatePlan) {
+                                $scope.generatePlan($scope.userProfile);
+                            } else {
+                                $scope.showMessage("Perfil Creado satisfactoriamente.");
+                            }
                         },
                         function (errResponse) {
                             console.error('Error while creating the profile');
@@ -408,7 +412,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         function (d) {
                             $scope.userProfile = d;
                             self.getEquipments();
-                            $scope.showMessage("Perfil editado satisfactoriamente.");
+                            if(generatePlan) {
+                                $scope.generatePlan($scope.userProfile);
+                            } else {
+                                $scope.showMessage("Perfil editado satisfactoriamente.");
+                            }
 
                         },
                         function (errResponse) {
@@ -451,7 +459,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
                         if (d.data.detail == null) {
-                            $scope.showMessage(d.data.output);
+                            
+//                            $scope.showMessage(d.data.output);
+                            $location.path("/calendar");
+//                            $scope.$apply();
                             $window.location = ("#calendar");
                         } else {
                             $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
@@ -465,6 +476,22 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
 
+
+        $scope.confirmDialogGeneratePlan = function (ev,form) {
+            var confirm = $mdDialog.confirm()
+                    .title('Confirmaci\u00f3n')
+                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?')
+                    .ariaLabel('Lucky day')
+                    .targetEvent(ev)
+                    .ok('Aceptar')
+                    .cancel('Cancelar');
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.submitUserProfile(form, true);
+            }, function () {
+            });
+        };
+  
         this.getSportDisciplines = function () {
             DisciplineService.getSportDisciplines().then(
                     function (d) {

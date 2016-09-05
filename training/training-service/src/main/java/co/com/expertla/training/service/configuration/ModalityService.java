@@ -1,17 +1,92 @@
 package co.com.expertla.training.service.configuration;
 
 import co.com.expertla.training.model.dto.ModalityDTO;
+import co.com.expertla.training.model.entities.Modality;
 import java.util.List;
 
 /**
- * Service for Modality <br>
- * Creation Date : <br>
- * date 18/07/2016 <br>
- *
- * @author Angela Ramírez
-*
- */
+* Modality Service <br>
+* Info. Creación: <br>
+* fecha Sep 5, 2016 <br>
+* @author Andres Felipe Lopez Rodriguez
+**/
 public interface ModalityService {
+    
+
+    /**
+     * Crea modality <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param modality
+     * @return 
+     * @throws Exception 
+     */
+    public Modality create(Modality modality) throws Exception;
+    /**
+     * Modifica modality <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param modality
+     * @return 
+     * @throws Exception 
+     */
+    public Modality store(Modality modality) throws Exception;
+    /**
+     * Elimina modality<br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param modality
+     * @throws Exception 
+     */
+    public void remove(Modality modality) throws Exception;
+
+    /**
+     * Obtiene todos los registros activos de modality <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @return
+     * @throws Exception 
+     */
+    public List<Modality> findAllActive() throws Exception;
+
+    /**
+     * Obtiene todos los registros de modality paginados <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param first
+     * @param max
+     * @param order
+     * @return
+     * @throws Exception 
+     */
+    public List<ModalityDTO> findPaginate(int first, int max, String order) throws Exception;
+    
+    /**
+     * Obtiene todos los registros de modality paginados <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param modality
+     * @return
+     * @throws Exception 
+     */
+    public List<Modality> findByModality(Modality modality) throws Exception;   
+
+    /**
+     * Obtiene todos los registros de modality por el filtro del usuario <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param modality
+     * @return
+     * @throws Exception 
+     */
+    public List<Modality> findByFiltro(Modality modality) throws Exception; 
 
     /**
      * Trae todos los registros de modality <br>
@@ -35,7 +110,7 @@ public interface ModalityService {
     public List<ModalityDTO> findByDisciplineId(Integer id) throws Exception;
     
     /**
-     * Trae todos los registros de modalities configuradas en el dcf por objective Id<br>
+     * Trae todos los registros de modality por discipline id and objective Id<br>
      * Creation Date : <br>
      * date 30/08/2016 <br>
      * @author Angela Ramírez
@@ -44,4 +119,5 @@ public interface ModalityService {
      * @return
      */
     public List<ModalityDTO> findByObjectiveId(Integer objectiveId) throws Exception;
+  
 }

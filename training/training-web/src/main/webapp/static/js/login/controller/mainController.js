@@ -1,6 +1,7 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
-    '$window', '$mdDialog','$mdToast', '$sce', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog,$mdToast, $sce) {
+    '$window', '$mdDialog','$mdToast', function ($http, $scope, AuthService, VisibleFieldsUserService, 
+    $window, $mdDialog,$mdToast) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];

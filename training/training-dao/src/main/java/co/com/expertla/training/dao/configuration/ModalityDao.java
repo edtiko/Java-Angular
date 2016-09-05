@@ -6,13 +6,58 @@ import co.com.expertla.training.model.entities.Modality;
 import java.util.List;
 
 /**
-* Dao for Modality <br>
-* Creation Date : <br>
-* date 18/07/2016 <br>
-* @author Angela Ramírez
+* Modality Dao <br>
+* Info. Creación: <br>
+* fecha Sep 5, 2016 <br>
+* @author Andres Felipe Lopez Rodriguez
 **/
-public interface ModalityDao extends BaseDAO<Modality>{
-	
+public interface ModalityDao extends BaseDAO<Modality> {
+    
+    /**
+     * Obtiene todos los registros activos de modality <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @return
+     * @throws Exception 
+     */
+    public List<Modality> findAllActive() throws Exception;
+
+    /**
+     * Obtiene todos los registros de modality paginados <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param first
+     * @param max
+     * @param order
+     * @return
+     * @throws Exception 
+     */
+    public List<ModalityDTO> findPaginate(int first, int max, String order) throws Exception;
+
+    /**
+     * Obtiene todos los registros de modality por su id <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param modality
+     * @return
+     * @throws Exception 
+     */
+    public List<Modality> findByModality(Modality modality) throws Exception;   
+
+    /**
+     * Obtiene todos los registros de modality por el filtro del usuario <br>
+     * Info. Creación: <br>
+     * fecha Sep 5, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param modality
+     * @return
+     * @throws Exception 
+     */
+    public List<Modality> findByFiltro(Modality modality) throws Exception; 
+
     /**
      * Trae todos los registros de modality <br>
      * Creation Date : <br>
@@ -44,4 +89,5 @@ public interface ModalityDao extends BaseDAO<Modality>{
      * @return
      */
     public List<ModalityDTO> findByObjectiveId(Integer objectiveId) throws Exception;
+
 }

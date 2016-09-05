@@ -64,7 +64,7 @@ trainingApp.service('RoleService', ['$http', '$q', function ($http, $q) {
                     return $http.get($contextPath+'role/get/all')
                             .then(
                                     function(response){
-                                        return response.data.output;
+                                        return response.data;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while getting roles');
