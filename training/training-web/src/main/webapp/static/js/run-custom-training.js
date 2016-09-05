@@ -57,7 +57,7 @@ require.config({
         moduleService: "security/service/moduleService",
         bikeTypeService: "configuration/service/bikeTypeService",
         planService: "configuration/service/trainingPlanService",
-        startTeamService: "configuration/service/startTeamService",
+        starTeamService: "configuration/service/starTeamService",
         physiologicalCapacityService: "configuration/service/physiologicalCapacityService"
     },
     shim: {
@@ -188,7 +188,7 @@ require.config({
         planService: {
             deps: ['angular','trainingApp']
         },
-        startTeamService: {
+        starTeamService: {
             deps: ['angular','trainingApp']
         },
         physiologicalCapacityService: {
@@ -201,7 +201,7 @@ require.config({
                 'mainController', 'surveyService', 'calendarService',
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'startTeamService',
+                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService'
 //                ,'videoService','videochatService'
 

@@ -1,5 +1,5 @@
 'use strict';
-trainingApp.service('StartTeamService', ['$http', '$q', function ($http, $q) {
+trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
         return {
             
             getPaginate: function(query, res){
@@ -46,6 +46,18 @@ trainingApp.service('StartTeamService', ['$http', '$q', function ($http, $q) {
             },
             createStarTeam: function (startTeam) {
                 return $http.post($contextPath + '/starTeam/create', startTeam)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating startTeam');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            createStarTeamWordPress: function (plan) {
+                return $http.post($contextPath + '/starTeam/create', plan)
                         .then(
                                 function (response) {
                                     return response.data;

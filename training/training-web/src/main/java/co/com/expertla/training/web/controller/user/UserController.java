@@ -412,6 +412,31 @@ public class UserController {
         }
     }
     
+    @RequestMapping(value = "user/getDiscipline/by/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response findUsersWithDiscipline(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserDTO> list = userService.findUserWithDisciplineById(userId);
+            
+            if(list != null || !list.isEmpty()) {
+                responseService.setOutput(list.get(0));
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            }
+            
+            responseService.setOutput(null);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+            
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
     @RequestMapping(value = "user/create/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response createInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();

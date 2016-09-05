@@ -312,4 +312,9 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> findPaginate(int first, int max, String order) throws Exception {
         return userDao.findPaginate(first, max, order);
     }
+
+	@Override
+    public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception {
+        return userDao.findUserWithDisciplineById(userId);
+    }
 }

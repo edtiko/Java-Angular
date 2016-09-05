@@ -46,7 +46,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             
                     .when('/create-objective', route.resolve('objective', 'configuration/'))
             
-                    .when('/create-startTeam', route.resolve('startTeam', 'configuration/'))
+                    .when('/create-starTeam', route.resolve('starTeam', 'configuration/'))
             
             		.when('/create-activity', route.resolve('activity', 'configuration/'))
 

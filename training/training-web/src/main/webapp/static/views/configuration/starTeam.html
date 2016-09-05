@@ -10,7 +10,7 @@
                             <md-input-container class="md-block" >
                                 <label>Estrella</label>
                                 <md-select id="startUser" ng-model="starTeam.starUserId.userId" required>
-                                    <md-option ng-repeat="d in startUserList" value="{{d.userId}}" >
+                                    <md-option ng-repeat="d in starUserList" value="{{d.userId}}" >
                                         {{d.name}}
                                     </md-option>
                                 </md-select>
@@ -67,8 +67,8 @@
             </thead>
             <tbody md-body>
                 <tr md-row md-select="starTeam" md-select-id="starUserId.name" md-auto-select ng-repeat="starTeam in starTeamList">
-                    <td md-cell>{{starTeam.starUserName}}</td>
-                    <td md-cell>{{starTeam.coachUserName}}</td>
+                    <td md-cell>{{starTeam.starUserId.name}}</td>
+                    <td md-cell>{{starTeam.coachUserId.name}}</td>
                     <td md-cell>{{starTeam.userCreateName}}</td>
                     <td md-cell>{{starTeam.creationDate}}</td>
                     <td md-cell>{{starTeam.userUpdateName}}</td>

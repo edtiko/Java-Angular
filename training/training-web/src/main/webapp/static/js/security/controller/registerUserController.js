@@ -185,7 +185,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             RoleService.getRoles()
                     .then(
                             function (d) {
-                                $scope.roles = d;
+                                $scope.roles = d.output;
                             },
                             function (errResponse) {
                                 console.error('Error while fetching roles');

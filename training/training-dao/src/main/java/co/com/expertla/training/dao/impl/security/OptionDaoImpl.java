@@ -50,7 +50,7 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.OptionDTO(a.optionId,");
-        builder.append("a.name,a.description,a.url,a.stateId,a.moduleId.moduleId,a.moduleId.name, a.creationDate, a.lastUpdate,");
+        builder.append("a.name,a.description,a.url,a.stateId,a.moduleId,a.moduleId.name, a.creationDate, a.lastUpdate,");
         builder.append("(select u.optionId FROM Option u WHERE a.masterOptionId.optionId = u.optionId), (select u.name FROM Option u WHERE a.masterOptionId.optionId = u.optionId),");
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");

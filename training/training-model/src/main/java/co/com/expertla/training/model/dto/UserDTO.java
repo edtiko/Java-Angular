@@ -59,6 +59,7 @@ public class UserDTO {
     private String userCreateName;
     private String userUpdateName;
     private int count;
+	private Integer disciplineIdExt;
     
     public UserDTO() {
     }
@@ -138,6 +139,28 @@ public class UserDTO {
         this.profilePhoto = profilePhoto;
 
     }
+    
+    public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
+            String phone, Integer disciplineId, Integer disciplineIdExt, 
+            Short stateId, Integer roleId, Integer countryId, byte[] profilePhoto,
+            String urlVideo, String aboutMe) {
+        this.userId = userId;
+        this.login = login;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.email = email;
+        this.sex = sex;
+        this.phone = phone;
+        this.disciplineId = disciplineId;
+        this.stateId = stateId;
+        this.roleId = roleId;
+        this.countryId = countryId;
+        this.profilePhoto = profilePhoto;
+        this.urlVideo = urlVideo;
+        this.aboutMe = aboutMe;
+        this.disciplineIdExt = disciplineIdExt;
+    }
 
     public static UserDTO mapFromUserEntity(User user) {
         if (user != null) {
@@ -145,7 +168,8 @@ public class UserDTO {
                     user.getSex(), user.getWeight(), user.getPhone(), user.getCellphone(), (user.getCityId() != null ? user.getCityId().getCityId() : null),
                     user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
-                    user.getCountryId() != null ? user.getCountryId().getCountryId() : null, user.getProfilePhoto());
+                    user.getCountryId() != null ? user.getCountryId().getCountryId() : null,
+                    user.getProfilePhoto());
         }
         return null;
     }

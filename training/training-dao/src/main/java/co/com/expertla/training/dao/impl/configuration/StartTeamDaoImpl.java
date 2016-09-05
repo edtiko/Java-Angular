@@ -50,7 +50,7 @@ public class StartTeamDaoImpl extends BaseDAOImpl<StarTeam> implements StartTeam
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.StarTeamDTO(a.starTeamId,");
-        builder.append("a.starUserId.userId,a.starUserId.name,a.coachUserId.userId,a.coachUserId.name,a.stateId, a.creationDate, a.lastUpdate,");
+        builder.append("a.starUserId,a.coachUserId,a.stateId, a.creationDate, a.lastUpdate,");
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from StarTeam a ");

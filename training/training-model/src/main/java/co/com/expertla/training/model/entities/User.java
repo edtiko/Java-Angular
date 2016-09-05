@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -349,7 +350,7 @@ public class User implements Serializable {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
-
+    @JsonIgnore
     public Collection<QuestionnaireResponse> getQuestionnaireResponseCollection() {
         return questionnaireResponseCollection;
     }
@@ -357,7 +358,7 @@ public class User implements Serializable {
     public void setQuestionnaireResponseCollection(Collection<QuestionnaireResponse> questionnaireResponseCollection) {
         this.questionnaireResponseCollection = questionnaireResponseCollection;
     }
-
+    @JsonIgnore
     public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {
         return trainingPlanUserCollection;
     }
@@ -365,7 +366,7 @@ public class User implements Serializable {
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
     }
-
+    @JsonIgnore
     public Collection<UserProfile> getUserProfileCollection() {
         return userProfileCollection;
     }
@@ -373,7 +374,7 @@ public class User implements Serializable {
     public void setUserProfileCollection(Collection<UserProfile> userProfileCollection) {
         this.userProfileCollection = userProfileCollection;
     }
-
+    @JsonIgnore
     public Collection<VideoUser> getVideoUserCollection() {
         return videoUserCollection;
     }
@@ -381,7 +382,7 @@ public class User implements Serializable {
     public void setVideoUserCollection(Collection<VideoUser> videoUserCollection) {
         this.videoUserCollection = videoUserCollection;
     }
-
+    @JsonIgnore
     public Collection<DisciplineUser> getDisciplineUserCollection() {
         return disciplineUserCollection;
     }
@@ -389,7 +390,7 @@ public class User implements Serializable {
     public void setDisciplineUserCollection(Collection<DisciplineUser> disciplineUserCollection) {
         this.disciplineUserCollection = disciplineUserCollection;
     }
-
+    @JsonIgnore
     public Collection<RoleUser> getRoleUserCollection() {
         return roleUserCollection;
     }
@@ -413,7 +414,7 @@ public class User implements Serializable {
     public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
-
+    @JsonIgnore
     public Collection<User> getUserCollection() {
         return userCollection;
     }
@@ -447,7 +448,7 @@ public class User implements Serializable {
         return "co.com.expertla.training.model.entities.User[ userId=" + userId + " ]";
     }
 
-
+    @JsonIgnore
     public Collection<StarTeam> getStartTeamCollection() {
         return startTeamCollection;
     }
@@ -455,7 +456,7 @@ public class User implements Serializable {
     public void setStartTeamCollection(Collection<StarTeam> startTeamCollection) {
         this.startTeamCollection = startTeamCollection;
     }
-
+    @JsonIgnore
     public Collection<StarTeam> getStartTeamCollection1() {
         return startTeamCollection1;
     }
@@ -463,7 +464,7 @@ public class User implements Serializable {
     public void setStartTeamCollection1(Collection<StarTeam> startTeamCollection1) {
         this.startTeamCollection1 = startTeamCollection1;
     }
-
+    @JsonIgnore
     public Collection<UserZone> getUserZoneCollection() {
         return userZoneCollection;
     }

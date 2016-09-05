@@ -205,6 +205,18 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                         );
 
             },
+            getUserDisciplineById: function (id) {
+                return $http.get($contextPath + '/user/getDiscipline/by/' + id)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching users');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
             isImage: function (src) {
 
                 var deferred = $q.defer();
