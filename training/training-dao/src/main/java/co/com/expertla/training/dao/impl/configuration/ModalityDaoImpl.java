@@ -2,23 +2,102 @@ package co.com.expertla.training.dao.impl.configuration;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.dao.configuration.ModalityDao;
+import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ModalityDTO;
 import co.com.expertla.training.model.entities.Modality;
 import java.util.List;
-
+import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
-
 /**
-* Dao Implementation for Modality <br>
-* Creation Date : <br>
-* date 18/07/2016 <br>
-* @author Angela Ramírez
+* Modality Dao Impl <br>
+* Info. Creación: <br>
+* fecha Sep 5, 2016 <br>
+* @author Andres Felipe Lopez Rodriguez
 **/
 @Repository
 public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDao {
 
+    public ModalityDaoImpl() {
+    }
+    
+    @Override
+    public List<Modality> findAllActive() throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from Modality a ");
+        builder.append("WHERE a.stateId = :active ");
+
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
+        return createQuery(builder.toString());
+    }
+
+    @Override
+    public List<ModalityDTO> findPaginate(int first, int max, String order) throws Exception {
+        
+        if(order.contains("-")) {
+            order = order.replaceAll("-", "") + " desc";
+        }
+        
+        StringBuilder builder = new StringBuilder();
+        builder.append("select new co.com.expertla.training.model.dto.ModalityDTO(a.modalityId,");
+        builder.append("a.name,a.disciplineId,a.stateId, a.creationDate, a.lastUpdate,");
+        builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
+        builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
+        builder.append(") from Modality a ");
+        builder.append("order by a.");
+        builder.append(order);
+        int count = findAll().size();
+        
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setFirstResult(first);
+        query.setMaxResults(max);
+        List<ModalityDTO> list = query.getResultList();
+        
+        if(list != null && !list.isEmpty()) {
+            list.get(0).setCount(count);
+        }
+        
+        return list;
+    }
+
+    
+    @Override
+    public List<Modality> findByModality(Modality modality) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from Modality a ");
+        builder.append("WHERE a.modalityId = :id ");
+        setParameter("id", modality.getModalityId());
+        return createQuery(builder.toString());
+    }
+
+    @Override
+    public List<Modality> findByFiltro(Modality modality) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from Modality a ");
+        builder.append("WHERE 1=1 ");
+        
+        if(modality.getName() != null && !modality.getName().trim().isEmpty()) {
+            builder.append("AND lower(a.name) like lower(:name) ");
+            setParameter("name", modality.getName() );
+        }
+
+
+
+        if(modality.getDisciplineId() != null && modality.getDisciplineId().getDisciplineId() != null) {
+            builder.append("AND a.disciplineId.disciplineId = :discipline ");
+            setParameter("discipline", modality.getDisciplineId().getDisciplineId());
+        }
+
+
+
+        if(modality.getStateId() != null) {
+            builder.append("AND a.stateId = :state ");
+            setParameter("state", modality.getStateId());
+        }
+
+        return createQuery(builder.toString());
+    }
+    
     @Override
     public List<ModalityDTO> findAll() throws Exception {
         StringBuilder sql = new StringBuilder();
