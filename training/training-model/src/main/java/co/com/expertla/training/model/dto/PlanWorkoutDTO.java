@@ -12,6 +12,7 @@ package co.com.expertla.training.model.dto;
 public class PlanWorkoutDTO {
     private Integer userId;
     private Integer activityId;
+    private Integer manualActivityId;
     private String activityDate;
     private Integer trainingPlanWorkoutId;
 
@@ -45,6 +46,14 @@ public class PlanWorkoutDTO {
 
     public void setTrainingPlanWorkoutId(Integer trainingPlanWorkoutId) {
         this.trainingPlanWorkoutId = trainingPlanWorkoutId;
+    }
+
+    public Integer getManualActivityId() {
+        return manualActivityId;
+    }
+
+    public void setManualActivityId(Integer manualActivityId) {
+        this.manualActivityId = manualActivityId;
     }
     
     

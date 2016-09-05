@@ -52,6 +52,7 @@ public class Modality implements Serializable {
     private Discipline disciplineId;
     @OneToMany(mappedBy = "modalityId")
     private Collection<Dcf> dcfCollection;
+
     @Column(name = "state_id")
     private Short stateId;
     @Column(name = "creation_date")
@@ -136,6 +137,7 @@ public class Modality implements Serializable {
         return "co.com.expertla.training.model.entities.Modality[ modalityId=" + modalityId + " ]";
     }
 
+
     public Short getStateId() {
         return stateId;
     }
@@ -174,6 +176,7 @@ public class Modality implements Serializable {
 
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
+
     }
 
 }

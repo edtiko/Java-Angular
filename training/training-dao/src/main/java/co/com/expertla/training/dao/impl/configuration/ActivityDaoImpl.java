@@ -128,14 +128,17 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     }
     
     @Override
-    public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception {
+    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception {
         StringBuilder builder = new StringBuilder();
-        builder.append("select a from Activity a, DisciplineUser du ");
+        builder.append("SELECT new co.com.expertla.training.model.dto.ActivityCalendarDTO(a.activityId, a.name, a.description, a.modalityId.modalityId, a.objectiveId.objectiveId, a.sportId.sportId ) ");
+        builder.append("FROM Activity a, DisciplineUser du ");
         builder.append("WHERE a.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");
         builder.append("AND du.userId.userId = :userId ");
-        setParameter("userId", usuarioId);
-        
-        return createQuery(builder.toString());
+
+        Query query = getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", usuarioId);
+        List<ActivityDTO> list = query.getResultList();
+        return list;
     }
 
     @Override

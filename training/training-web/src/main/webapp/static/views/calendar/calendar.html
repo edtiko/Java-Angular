@@ -19,14 +19,39 @@
     </div>
     <center><h3></h3></center>
 </div>
-
-<div style="width: 150px;height:555px;overflow-y:scroll;" valign="top">
-        <h3>Actividades</h3>
+<div >
+ <md-sidenav style="width: 225px;height:555px;"
+        class="md-sidenav-left"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-md')"
+        md-whiteframe="4">
+     <md-toolbar>
+         <div class="md-toolbar-tools">
+             <h1 class="md-toolbar-tools">Actividades</h1>
+             <span flex></span>
+             <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="showCreateManualActivity()">
+                 <i class="fa fa-plus" aria-hidden="true"></i>
+             </md-button>
+         </div>
+     </md-toolbar>
+      <md-content layout-padding>
+        <div layout="column" layout-align="center center" ng-show="loading">
+        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        <span>Cargando actividades..</span>
+        </div>
+          <md-subheader ng-show="!loading">Actividades Configuradas</md-subheader>
         <ul class="nav nav-pills nav-stacked" ng-repeat="a in activityList">
-            <li><a id="act_{{a.activityId}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
+            <li><a id="act_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
         </ul>
+        <md-subheader ng-show="!loading">Actividades Manuales</md-subheader>
+         <ul class="nav nav-pills nav-stacked" ng-repeat="a in manualActivities">
+            <li><a id="ma_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
+        </ul>
+
+      </md-content>
+    </md-sidenav>
 </div>
-<div id="calendar" style="position: relative;top:-555px;left:170px;width: 90%"></div>
+<div id="calendar" style="position: relative;top:-555px;left:230px;width: 90%"></div>
 
 
 

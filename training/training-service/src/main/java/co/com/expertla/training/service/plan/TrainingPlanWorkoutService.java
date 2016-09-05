@@ -42,11 +42,11 @@ public interface TrainingPlanWorkoutService {
      * Info. Creación: <br>
      * fecha 05/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param trainingPlanWorkout
+     * @param planWorkout
      * @return 
      * @throws Exception 
      */
-    public TrainingPlanWorkout create(TrainingPlanWorkout trainingPlanWorkout) throws Exception;
+    public TrainingPlanWorkout create(TrainingPlanWorkout planWorkout) throws Exception;
     
     /**
      * elimina TrainingPlanWorkout <br>

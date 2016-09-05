@@ -21,9 +21,9 @@ public class ActivityDTO implements Serializable {
     private Sport sportId;
     private int count;
     private Short stateId;
-    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date creationDate;
-    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date lastUpdate;
     private Integer userCreate;
     private String userCreateName;
@@ -33,9 +33,9 @@ public class ActivityDTO implements Serializable {
     public ActivityDTO() {
     }
 
-    public ActivityDTO(Integer activityId,PhysiologicalCapacity physiologicalCapacity, Modality modality, Objective objective, String name, 
+    public ActivityDTO(Integer activityId, PhysiologicalCapacity physiologicalCapacity, Modality modality, Objective objective, String name,
             String description, Sport sport, Date creationDate, Date lastUpdate, String userCreateName, String userUpdateName,
-            Integer userCreate, Integer userUpdate,Short stateId) {
+            Integer userCreate, Integer userUpdate, Short stateId) {
         this.activityId = activityId;
         this.name = name;
         this.description = description;
@@ -67,6 +67,7 @@ public class ActivityDTO implements Serializable {
 
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
+
     }
 
     public String getName() {
@@ -108,7 +109,7 @@ public class ActivityDTO implements Serializable {
     public void setSportId(Sport sportId) {
         this.sportId = sportId;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -185,5 +186,5 @@ public class ActivityDTO implements Serializable {
     public void setUserUpdateName(String userUpdateName) {
         this.userUpdateName = userUpdateName;
     }
-    
+
 }

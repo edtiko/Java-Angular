@@ -99,6 +99,6 @@ public interface ActivityDao extends BaseDAO<Activity> {
      * @return
      * @throws Exception
      */
-    public List<Activity> findByUserDiscipline(Integer usuarioId) throws Exception;
+    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception;
 
 }
