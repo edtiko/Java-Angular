@@ -431,4 +431,14 @@ public class UserDTO {
         this.fullName = fullName;
 
     }
+
+    public Integer getDisciplineIdExt() {
+        return disciplineIdExt;
+    }
+
+    public void setDisciplineIdExt(Integer disciplineIdExt) {
+        this.disciplineIdExt = disciplineIdExt;
+    }
+    
+    
 }

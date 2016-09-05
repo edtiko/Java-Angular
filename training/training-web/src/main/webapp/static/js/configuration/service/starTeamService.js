@@ -56,11 +56,11 @@ trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            createStarTeamWordPress: function (plan) {
-                return $http.post($contextPath + '/starTeam/create', plan)
+            createStarWordPress: function (user) {      
+                return $http.post($wordPressContextPath + '/category_products.php', user)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response;
                                 },
                                 function (errResponse) {
                                     console.error('Error while creating startTeam');

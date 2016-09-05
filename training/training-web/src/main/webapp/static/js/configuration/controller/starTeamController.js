@@ -79,38 +79,35 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
             var starUserId = starTeam.starUserId.userId;
             UserService.getUserDisciplineById(starUserId).then(
                     function (d) {
-console.debug(d);
                         if (d.status == 'success') {
                             var userDTO = d.output;
                             var discipline = userDTO.disciplineIdExt;
                             var name = userDTO.firstName + ' ' + userDTO.secondName + ' ' + userDTO.lastName;
                             var description = userDTO.aboutMe;
                             var image = userDTO.profilePhoto;
-                            
-                            console.debug(userDTO);
+                            var userParam = 'discipline=' + discipline +
+                                    '&name=' + name + '&description=' + description +
+                                    '&image=' + image;
+                            $scope.createStarWordPress(userParam);
                         }
                     },
                     function (errResponse) {
                         console.error('Error while creating StartTeam.');
                     }
             );
-
-//            StarTeamService.createStarTeam(starTeam)
-//                    .then(
-//                            function (d) {
-//                                if (d.status == 'success') {
-//                                    $scope.showMessage(d.output);
-//                                    $scope.resetStarTeam();
-//                                    $scope.getStarTeamPaginate();
-//                                } else {
-//                                    $scope.showMessage(d.output);
-//                                }
-//                            },
-//                            function (errResponse) {
-//                                console.error('Error while creating StartTeam.');
-//                            }
-//                    );
         };
+
+        $scope.createStarWordPress = function (userParam) {
+            StarTeamService.createStarWordPress(userParam)
+                    .then(
+                            function (d) {
+                                console.debug(d)
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating StartTeam.');
+                            }
+                    );
+        }
 
         $scope.updateStarTeam = function (starTeam) {
             if ($scope.appReady) {

@@ -141,8 +141,10 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         sql.append("FROM User u, DisciplineUser du, RoleUser r ");
         sql.append("WHERE u.userId = du.userId.userId "); 
         sql.append("AND u.userId = r.userId.userId ");
+        sql.append("AND u.userId = :userId ");
         sql.append("ORDER BY u.name ASC ");
         Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
         List<UserDTO> list = query.getResultList();
         return list;
     }
