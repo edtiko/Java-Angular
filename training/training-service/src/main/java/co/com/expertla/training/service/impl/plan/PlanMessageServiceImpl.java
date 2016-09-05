@@ -54,11 +54,7 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         planMessage.setStateId(new Integer(Status.ACTIVE.getId()));
         planMessage.setCreationDate(new Date());
         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
-        
-        if (plan.getTrainingPlanUserId() != null && plan.getStartTeamId() != null) {
-            dto.setCountMessagesAthlete(planMessageDao.getCountMessagesReceived(plan.getCoachAssignedPlanId(), plan.getTrainingPlanUserId().getUserId().getUserId()));
-            dto.setCountMessagesCoach(planMessageDao.getCountMessagesReceived(plan.getCoachAssignedPlanId(), plan.getStartTeamId().getCoachUserId().getUserId()));
-        }
+
         return dto;
     }
 
@@ -70,6 +66,16 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     @Override
     public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId) throws Exception {
         return planMessageDao.getCountMessagesReceived(coachAssignedPlanId, userId);
+    }
+
+    @Override
+    public void readMessages(Integer coachAssignedPlanId, Integer userId) throws Exception {
+       planMessageDao.readMessages(coachAssignedPlanId, userId);
+    }
+
+    @Override
+    public void readMessage(Integer planMessageId) throws Exception {
+        planMessageDao.readMessage(planMessageId);
     }
     
 }

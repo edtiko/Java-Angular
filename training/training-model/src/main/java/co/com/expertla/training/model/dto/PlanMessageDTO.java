@@ -7,7 +7,7 @@ package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.PlanMessage;
 import co.com.expertla.training.model.entities.User;
-import co.com.expertla.training.model.util.JsonDateSerializer;
+import co.com.expertla.training.model.util.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
@@ -21,7 +21,7 @@ public class PlanMessageDTO {
     private String message;
     private CoachAssignedPlanDTO coachAssignedPlanId;
     private UserDTO messageUserId;
-    @JsonSerialize(using = JsonDateSerializer.class)
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
     private Date creationDate;
     private Integer countMessagesCoach;
     private Integer countMessagesAthlete;

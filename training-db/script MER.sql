@@ -246,7 +246,7 @@ create table membership_discount (
    membership_discount_id serial              not null,
    discount             decimal(10,2)        not null,
    percentage           decimal(10,2)        null,
-   start_date           date                 null,
+   star_date           date                 null,
    end_date             date                 null,
    creation_date        date                 null,
    constraint pk_membership_discount primary key (membership_discount_id)
@@ -261,13 +261,13 @@ create table membership_price (
    membership_discount_id integer              null,
    price                decimal(10,2)        not null,
    duration             decimal(10,2)        null,
-   start_date           date                 not null,
+   star_date           date                 not null,
    end_date             date                 null,
    creation_date        date                 null,
    constraint pk_membership_price primary key (membership_price_id)
 );
 
-comment on column membership_price.start_date is
+comment on column membership_price.star_date is
 'Indica si la fecha es NULL el precio va a estar vigente';
 
 /*==============================================================*/
@@ -279,7 +279,7 @@ create table membership_promotion (
    percentage           decimal(10,1)        null,
    type                 varchar(200)         null,
    value                varchar(200)         not null,
-   start_date           date                 null,
+   star_date           date                 null,
    end_date             date                 null,
    used_date            date                 null,
    published_date       date                 null,
@@ -749,15 +749,15 @@ create table weather (
 );
 
 /*==============================================================*/
-/* Table: start_team                                            */
+/* Table: star_team                                            */
 /*==============================================================*/
-create table start_team (
-   start_team_id         serial  not null,
-   start_user_id         integer not null,
+create table star_team (
+   star_team_id         serial  not null,
+   star_user_id         integer not null,
    coach_user_id         integer not null,
    state_id              integer     null,
    creation_date         date        null,
-   constraint pk_start_team primary key (start_team_id)
+   constraint pk_star_team primary key (star_team_id)
 );
 
 /*==============================================================*/
@@ -765,7 +765,7 @@ create table start_team (
 /*==============================================================*/
 create table coach_assigned_plan (
    coach_assigned_plan_id     serial             not null,
-   start_team_id              integer            not null,
+   star_team_id              integer            not null,
    training_plan_user_id      integer            not null,
    state_id                   integer            null,
    creation_date              date               null,
@@ -780,24 +780,25 @@ create table plan_message (
    coach_assigned_plan_id    integer not null,
    message                   varchar(5000),
    message_user_id           integer not null,
+   readed                    boolean  default false,
    state_id                  integer  null,
    creation_date             date     null,
    constraint pk_plan_message primary key (plan_message_id)
 );
 
-alter table start_team
-add constraint fk_start_team_start_reference_user foreign key (start_user_id)
+alter table star_team
+add constraint fk_star_team_star_reference_user foreign key (star_user_id)
 references user_training(user_id)
 on delete restrict on update restrict;
 
-alter table start_team
-add constraint fk_start_team_coach_reference_user foreign key (coach_user_id)
+alter table star_team
+add constraint fk_star_team_coach_reference_user foreign key (coach_user_id)
 references user_training(user_id)
 on delete restrict on update restrict;
 
 alter table coach_assigned_plan
-add constraint fk_coach_assigned_plan_reference_start_team foreign key (start_team_id)
-references start_team (start_team_id)
+add constraint fk_coach_assigned_plan_reference_star_team foreign key (star_team_id)
+references star_team (star_team_id)
 on delete restrict on update restrict;
 	  
 alter table coach_assigned_plan

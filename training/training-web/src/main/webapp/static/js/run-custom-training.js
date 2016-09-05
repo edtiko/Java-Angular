@@ -3,9 +3,9 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+//var $contextPath = "http://localhost:8085/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
-//var $contextPath = "http://181.143.227.220:8087/training/";
+var $contextPath = "http://181.143.227.220:8087/training/";
 require.config({
     waitSeconds: 200,
     paths: {
@@ -20,7 +20,7 @@ require.config({
         angularDataTable: 'lib/md-data-table.min',
         angularTranslate: 'lib/angular-translate.min',
         angularTranslateConfig: 'lib/angular-translate-loader-static-files.min',
-        angularSanitize: 'lib/angular-sanitize',
+        angularNotification: 'lib/angular-notification-icons.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         trainingApp: "custom-training-app",
@@ -57,7 +57,7 @@ require.config({
         moduleService: "security/service/moduleService",
         bikeTypeService: "configuration/service/bikeTypeService",
         planService: "configuration/service/trainingPlanService",
-        activityService: "configuration/service/activityService",
+        startTeamService: "configuration/service/startTeamService",
         physiologicalCapacityService: "configuration/service/physiologicalCapacityService"
     },
     shim: {
@@ -93,13 +93,6 @@ require.config({
         },
         angularTranslate: {
             deps: ['angular']
-        },
-        angularSanitize: {
-            deps: ['angular']
-        },
-        ngDialog:{
-          exports: 'ngDialog',
-          deps: ['angular']
         },
         ngCamRecorder: {
             exports: 'ngCamRecorder',
@@ -158,7 +151,8 @@ require.config({
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket', 'angularDataTable', 'angularTranslate', 'angularSanitize'
+                'sockjs', 'stompWebsocket', 'angularTranslate'
+                , 'angularDataTable', 'angularNotification'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
@@ -194,7 +188,7 @@ require.config({
         planService: {
             deps: ['angular','trainingApp']
         },
-        activityService: {
+        startTeamService: {
             deps: ['angular','trainingApp']
         },
         physiologicalCapacityService: {
@@ -207,7 +201,7 @@ require.config({
                 'mainController', 'surveyService', 'calendarService',
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'planService','activityService',
+                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'startTeamService',
                 'physiologicalCapacityService'
 //                ,'videoService','videochatService'
 

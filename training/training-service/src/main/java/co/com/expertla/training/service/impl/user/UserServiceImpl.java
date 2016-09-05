@@ -302,8 +302,13 @@ public class UserServiceImpl implements UserService {
 
         return resultBuf.toString();
     }
-    
+
     @Override
+    public List<User> findUserByRole(Integer roleId) throws Exception {
+        return userDao.findUserByRole(roleId);
+    }
+
+	@Override
     public List<UserDTO> findPaginate(int first, int max, String order) throws Exception {
         return userDao.findPaginate(first, max, order);
     }

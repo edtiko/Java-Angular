@@ -444,7 +444,6 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
     /**
      * Consulta user paginado <br>
      * Creation Date: <br>

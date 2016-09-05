@@ -178,7 +178,7 @@ public class TrainingPlanController {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
+            paginateDto.setLimit(paginateDto.getLimit());
             List<TrainingPlanDTO> trainingPlanList = trainingPlanService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(trainingPlanList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

@@ -5,21 +5,21 @@ import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.User;
 import java.util.List;
 
-
 /**
  * @author Edwin G
  *
  */
-public interface UserDao extends BaseDAO<User>{
-	
-	User findById(Integer id);
-       User findUserByUsername(String userName);
-        
-        List<User> findAllUsers();
+public interface UserDao extends BaseDAO<User> {
+
+    User findById(Integer id);
+
+    User findUserByUsername(String userName);
+
+    List<User> findAllUsers();
 
     public Integer saveUser(User user) throws Exception;
-    
-   public Integer updateUser(User user);
+
+    public Integer updateUser(User user);
 
     public void deleteUser(User user);
 
@@ -31,6 +31,7 @@ public interface UserDao extends BaseDAO<User>{
      * Trae todos los registros de user training con su disciplina <br>
      * Creation Date : <br>
      * date 18/08/2016 <br>
+     *
      * @author Angela Ramírez
      * @throws Exception
      * @return dto
@@ -38,6 +39,17 @@ public interface UserDao extends BaseDAO<User>{
     public List<UserDTO> findAllUsersWithDiscipline() throws Exception;
     
     /**
+     * Obtiene todos los registros de user por role <br>
+     * Info. Creación: <br>
+     * fecha 01/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param roleId
+     * @return
+     * @throws Exception 
+     */
+    public List<User> findUserByRole(Integer roleId) throws Exception;
+	
+	/**
      * Obtiene todos los registros de user paginados <br>
      * Creation Date : <br>
      * date 31/08/2016 <br>

@@ -184,7 +184,6 @@ public class ModuleController {
         ResponseService responseService = new ResponseService();
         try {
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<ModuleDTO> moduleList = moduleService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(moduleList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

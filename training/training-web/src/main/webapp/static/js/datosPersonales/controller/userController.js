@@ -1,7 +1,7 @@
 
-trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
+trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$location', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
     'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService','$location', '$mdDialog',function ($scope, UserService,
-            $window, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
+            $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
             VisibleFieldsUserService, BikeTypeService,$location,$mdDialog) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
@@ -463,6 +463,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', 'U
 //                            $scope.showMessage(d.data.output);
                             $location.path("/calendar");
 //                            $scope.$apply();
+                            $window.location = ("#calendar");
                         } else {
                             $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
                             console.log(d.data.detail);

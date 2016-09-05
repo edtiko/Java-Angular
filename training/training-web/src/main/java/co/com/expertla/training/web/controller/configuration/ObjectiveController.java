@@ -207,7 +207,6 @@ public class ObjectiveController {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit() + paginateDto.getPage());
             List<ObjectiveDTO> objectiveList = objectiveService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(objectiveList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
