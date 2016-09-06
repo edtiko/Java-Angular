@@ -69,7 +69,25 @@ trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
                                     return response;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while creating startTeam');
+                                    console.error('Error while creating start');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            createCoachWordPress: function (user) { 
+                
+                return $http({
+                    url: $wordPressContextPath + 'products.php',
+                    data : user,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    method: 'POST'
+                })
+                        .then(
+                                function (response) {
+                                    return response;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating coach');
                                     return $q.reject(errResponse);
                                 }
                         );

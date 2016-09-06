@@ -49,7 +49,7 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.TrainingPlanDTO(a.trainingPlanId,");
-        builder.append("a.name,a.description,a.videoCount,a.messageCount,a.emailCount,a.callCount,a.endDate, a.stateId, a.creationDate, a.lastUpdate,");
+        builder.append("a.name,a.description,a.videoCount,a.messageCount,a.emailCount,a.callCount,a.endDate, a.stateId, a.price, a.creationDate, a.lastUpdate,");
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from TrainingPlan a ");

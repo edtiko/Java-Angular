@@ -85,12 +85,10 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                             var name = userDTO.firstName + ' ' + userDTO.secondName + ' ' + userDTO.lastName;
                             var description = userDTO.aboutMe;
                             var image = userDTO.profilePhoto;
-//                            var userParam = {'discipline':discipline, 'name':name, 'description':description,
-//                            'image':image};
-                        var userParam = 'discipline='+discipline +
-                                    '&name='+name + '&description=' + description +
-                            '&image=' + image;
-                            $scope.createStarWordPress(userParam);
+                            var userParam = 'discipline=' + discipline +
+                                    '&name=' + name + '&description=' + description +
+                                    '&image=' + image;
+                            $scope.createStarWordPress(starTeam, userParam);
                         }
                     },
                     function (errResponse) {
@@ -99,11 +97,61 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
             );
         };
 
-        $scope.createStarWordPress = function (userParam) {
+        $scope.createStarWordPress = function (starTeam, userParam) {
             StarTeamService.createStarWordPress(userParam)
                     .then(
                             function (d) {
-                                console.debug(d)
+                                var response = d;
+
+                                if (response.status == 'success') {
+                                    var idExt = response.output.term_id;
+                                    var coachUserId = starTeam.coachUserId.userId;
+                                    console.debug(idExt);
+                                    $scope.createCoachTeamWordpress(coachUserId, idExt);
+                                } else {
+                                    console.debug(d);
+                                    $scope.showMessage('Error al integrar estrella');
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating StartTeam.');
+                            }
+                    );
+        }
+
+        $scope.createCoachTeamWordpress = function (coachUserId, starIdExt) {
+            UserService.getUserDisciplineById(coachUserId).then(
+                    function (d) {
+                        if (d.status == 'success') {
+                            var userDTO = d.output;
+                            var name = userDTO.firstName + ' ' + userDTO.secondName + ' ' + userDTO.lastName;
+                            var description = userDTO.aboutMe;
+                            var image = userDTO.profilePhoto;
+                            var userParam = 'parentId=' + starIdExt +
+                                    '&name=' + name + '&description=' + description +
+                                    '&image=' + image;
+                            $scope.createCoachWordPress(userParam);
+                        }
+                    },
+                    function (errResponse) {
+                        console.error('Error while getting StartTeam.');
+                    }
+            );
+        };
+
+        $scope.createCoachWordPress = function (userParam) {
+            StarTeamService.createCoachWordPress(userParam)
+                    .then(
+                            function (d) {
+                                var response = d;
+
+                                if (response.status == 'success') {
+                                    console.debug(response);
+                                    var idExt = response.output.term_id;
+                                } else {
+                                    console.debug(d);
+                                    $scope.showMessage('Error al integrar estrella');
+                                }
                             },
                             function (errResponse) {
                                 console.error('Error while creating StartTeam.');

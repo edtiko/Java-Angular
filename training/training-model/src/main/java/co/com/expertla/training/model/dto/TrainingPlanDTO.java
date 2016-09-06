@@ -32,6 +32,7 @@ public class TrainingPlanDTO {
     private Integer messageCount;
     private Integer emailCount;
     private Integer callCount;
+    private Double price;
     
     private int count;
 
@@ -40,7 +41,7 @@ public class TrainingPlanDTO {
 
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description, 
             Integer videoCount, Integer messageCount, Integer emailCount, Integer callCount,
-            Date endDate, Short stateId, Date creationDate, Date lastUpdate, 
+            Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate, 
             String userCreateName, String userUpdateName,
             Integer userCreate, Integer userUpdate) {
         this.trainingPlanId = trainingPlanId;
@@ -58,6 +59,7 @@ public class TrainingPlanDTO {
         this.callCount = callCount;
         this.endDate = endDate;
         this.stateId = stateId;
+        this.price = price;
     }
 
     public Integer getTrainingPlanId() {
@@ -187,7 +189,12 @@ public class TrainingPlanDTO {
     public void setCount(int count) {
         this.count = count;
     }
-    
-    
-    
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 }

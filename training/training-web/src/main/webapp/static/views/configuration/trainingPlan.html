@@ -24,11 +24,23 @@
                             </md-input-container>
                         </div>
                     </div>
-            
+                    
                     <div layout="row">
                         <div flex="33">
                             <md-input-container class="md-block">
-                                <input type="number" class="form-control input-sm" style=" display: inline" ng-model="trainingPlan.videoCount" placeholder="Cantidad de Videos">
+                                <input type="number" class="form-control input-sm" 
+                                       style=" display: inline" ng-model="trainingPlan.price" 
+                                       placeholder="Valor">
+                            </md-input-container>
+                        </div>
+                    </div>
+        
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block">
+                                <input type="number" class="form-control input-sm" 
+                                       style=" display: inline" ng-model="trainingPlan.videoCount" 
+                                       placeholder="Cantidad de Videos">
                             </md-input-container>
                         </div>
                     </div>
@@ -92,6 +104,7 @@
                 <tr md-row>
                     <th md-column md-order-by="name" class="md-column">Nombre</th>
                 <th md-column md-order-by="description" class="md-column">Descripci&oacute;n</th>
+                <th md-column md-order-by="price" class="md-column">Valor</th>
                     <th md-column md-order-by="videoCount" class="md-column">Cant. de Videos</th>
                     <th md-column md-order-by="messageCount" class="md-column">Cant. Mensajes</th>
                     <th md-column md-order-by="emailCount" class="md-column">Cant. Correos</th>
@@ -107,6 +120,7 @@
                 <tr md-row md-select="trainingPlan" md-select-id="name" md-auto-select ng-repeat="trainingPlan in trainingPlanList">
                     <td md-cell>{{trainingPlan.name}}</td>
                     <td md-cell>{{trainingPlan.description}}</td>
+                    <td md-cell>{{trainingPlan.price}}</td>
                     <td md-cell>{{trainingPlan.videoCount}}</td>
                     <td md-cell>{{trainingPlan.messageCount}}</td>
                     <td md-cell>{{trainingPlan.emailCount}}</td>

@@ -76,6 +76,8 @@ public class TrainingPlan implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "price")
+    private Double price;
     
 
     public TrainingPlan() {
@@ -179,6 +181,14 @@ public class TrainingPlan implements Serializable {
 
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override

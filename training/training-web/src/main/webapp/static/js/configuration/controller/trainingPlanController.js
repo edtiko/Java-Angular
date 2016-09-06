@@ -10,7 +10,7 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
         callCount: '',
         endDate: '',
         stateId:'',
-        userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
+        userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: '', price:''};
     $scope.trainingPlanList = [];
     $scope.count = 0;
 
@@ -169,7 +169,7 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
             callCount: '',
             endDate: '',
             stateId:'',
-            userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
+            userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: '', price:''};
     };
 
     $scope.getTrainingPlanPaginate();
