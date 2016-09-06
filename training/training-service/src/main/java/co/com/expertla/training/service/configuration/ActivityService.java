@@ -108,7 +108,7 @@ public interface ActivityService {
      * @return
      * @throws Exception
      */
-    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception;
+    public List<ActivityCalendarDTO> findByUserDiscipline(Integer usuarioId) throws Exception;
 
 
     public Integer createManualActivity(ActivityCalendarDTO activity) throws Exception;

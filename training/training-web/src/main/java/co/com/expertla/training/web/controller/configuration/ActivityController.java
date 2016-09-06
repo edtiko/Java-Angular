@@ -206,7 +206,7 @@ public class ActivityController {
     public ResponseEntity<ResponseService> listByDisciplineUser(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {     
-            List<ActivityDTO> activityList = activityService.findByUserDiscipline(userId);
+            List<ActivityCalendarDTO> activityList = activityService.findByUserDiscipline(userId);
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

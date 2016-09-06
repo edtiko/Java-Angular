@@ -76,7 +76,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception {
+    public List<ActivityCalendarDTO> findByUserDiscipline(Integer usuarioId) throws Exception {
         return activityDao.findByUserDiscipline(usuarioId);
     }
   

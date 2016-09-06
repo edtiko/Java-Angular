@@ -19,85 +19,89 @@
     </div>
     <center><h3></h3></center>
 </div>
-<div >
-    <md-sidenav style="width: 225px;height:555px;"
-                class="md-sidenav-left"
-                md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-md')"
-                md-whiteframe="4">
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h1 class="md-toolbar-tools">Actividades</h1>
-                <span flex></span>
-                <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="showCreateManualActivity()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </md-button>
-            </div>
-        </md-toolbar>
-        <md-content layout-padding>
-            <div layout="column" layout-align="center center" ng-show="loading">
-                <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-                <span>Cargando actividades..</span>
-            </div>
-            <section>
-                <md-subheader ng-show="!loading">Actividades Configuradas</md-subheader>
-                <ul class="nav nav-pills nav-stacked" ng-repeat="a in activityList">
-                    <li><a id="act_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
-                </ul>
-            </section>
-            <section>
-                <md-subheader ng-show="!loading">Actividades Manuales</md-subheader>
-                <ul class="nav nav-pills nav-stacked" ng-repeat="a in manualActivities">
-                    <li><a id="ma_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
-                </ul>
-            </section>
+<div layout="row" flex layout-fill>
+    <div flex="20">
+        <md-sidenav style="height:555px;"
+                    class="md-sidenav-left"
+                    md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-md')"
+                    md-whiteframe="4">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h1 class="md-toolbar-tools">Actividades</h1>
+                    <span flex></span>
+                    <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="showCreateManualActivity()">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-content>
+                <div layout="column" layout-align="center center" ng-show="loading">
+                    <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                    <span>Cargando actividades..</span>
+                </div>
+                <section>
+                    <ul class="nav nav-pills nav-stacked" ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
+                        <md-subheader ng-show="!loading" class="md-accent">{{ key }}</md-subheader>
+                        <li ng-repeat="a in value">
+                            <a id="act_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                {{a.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <md-subheader ng-show="!loading" class="md-accent">Actividades Manuales</md-subheader>
+                    <ul class="nav nav-pills nav-stacked" ng-repeat="a in manualActivities">
+                        <li><a id="ma_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
+                    </ul>
+                </section>
 
-        </md-content>
-    </md-sidenav>
+            </md-content>
+        </md-sidenav>
+    </div>
+    <div flex>   
+        <div id="calendar" ></div>
+    </div>
 </div>
-<div id="calendar" style="position: relative;top:-555px;left:230px;width: 90%"></div>
+    <div class="modal fade" id="events-modal">
+        <div class="modal-dialog" id="eventsss-modal">
+            <div class="modal-content" id="events-mosssdal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>Actividad</h3>
+                </div>
+                <div class="modal-body" style="height: 400px">
 
-
-
-
-<div class="modal fade" id="events-modal">
-    <div class="modal-dialog" id="eventsss-modal">
-        <div class="modal-content" id="events-mosssdal">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Actividad</h3>
-            </div>
-            <div class="modal-body" style="height: 400px">
-
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn" >Cerrar</a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn" >Cerrar</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="add-events-modal" ng-controller="CalendarController as ctr">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Actividad</h3>
-            </div>
-            <div id="add-events-modal-body" style="height: 400px"  >
+    <div class="modal fade" id="add-events-modal" ng-controller="CalendarController as ctr">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>Actividad</h3>
+                </div>
+                <div id="add-events-modal-body" style="height: 400px"  >
 
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn">Cerrar</a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn">Cerrar</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<script type="text/javascript" src="static/js/calendar/language/es-CO.js"></script>
-<!--<script type="text/javascript" src="static/js/lib/jquery.min.js"></script>-->
-<script type="text/javascript" src="static/js/lib/underscore-min.js"></script>
-<!--<script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>-->
-<script type="text/javascript" src="static/js/lib/calendar.js"></script>
-<script type="text/javascript" src="static/js/calendar/controller/calendarInit.js"></script>
+    <script type="text/javascript" src="static/js/calendar/language/es-CO.js"></script>
+    <!--<script type="text/javascript" src="static/js/lib/jquery.min.js"></script>-->
+    <script type="text/javascript" src="static/js/lib/underscore-min.js"></script>
+    <!--<script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>-->
+    <script type="text/javascript" src="static/js/lib/calendar.js"></script>
+    <script type="text/javascript" src="static/js/calendar/controller/calendarInit.js"></script>

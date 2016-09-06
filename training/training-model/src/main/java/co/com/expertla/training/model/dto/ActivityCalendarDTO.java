@@ -18,6 +18,7 @@ public class ActivityCalendarDTO {
     private Integer userId;
     private Integer objectiveId;
     private Integer sportId;
+    private String capacity;
     
     public ActivityCalendarDTO(){
         
@@ -31,13 +32,14 @@ public class ActivityCalendarDTO {
         this.userId = userId;
     }
 
-    public ActivityCalendarDTO(Integer id, String name, String description, Integer modalityId, Integer objectiveId, Integer sportId) {
+    public ActivityCalendarDTO(Integer id, String name, String description, Integer modalityId, Integer objectiveId, Integer sportId, String capacity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.modalityId = modalityId;
         this.objectiveId = objectiveId;
         this.sportId = sportId;
+        this.capacity = capacity;
     }
 
     public Integer getId() {
@@ -95,5 +97,14 @@ public class ActivityCalendarDTO {
     public void setSportId(Integer sportId) {
         this.sportId = sportId;
     }
+
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
+    }
+    
 
 }

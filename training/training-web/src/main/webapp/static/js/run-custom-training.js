@@ -24,6 +24,7 @@ require.config({
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
         scrollGlue: 'lib/scrollglue',
+        angularFilter: 'lib/angular-filter',
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
@@ -87,6 +88,9 @@ require.config({
             deps: ['angular']
         },
         scrollGlue: {
+            deps: ['angular']
+        },
+        angularFilter: {
             deps: ['angular']
         },
         angularMaterial: {
@@ -160,7 +164,7 @@ require.config({
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue'
+                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
