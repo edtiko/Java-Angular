@@ -4,7 +4,7 @@
 
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
-    'ngMessages', 'ngMaterial', 'pascalprecht.translate','ngMaterial', 'md.data.table','angular-notification-icons'])
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate','angular-notification-icons', 'md.data.table', 'ngSanitize','luegg.directives'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
                 $translateProvider) {
 
@@ -48,7 +48,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             
                     .when('/create-starTeam', route.resolve('starTeam', 'configuration/'))
             
+                    .when('/create-activity', route.resolve('activity', 'configuration/'))
             
+                    .when('/create-modality', route.resolve('modality', 'configuration/'))
 
                     // route for the contact page
                     .when('/contact', {

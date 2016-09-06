@@ -39,7 +39,7 @@
                 <button ng-click="$mdOpenMenu()"><i class="fa fa-calendar"></i> Calendario</button>
                 <md-menu-content>
                     <md-menu-item>
-                        <md-button href="#calendar"> Abrir Calendario</md-button>
+                        <md-button ng-click="goCalendar()"> Abrir Calendario</md-button>
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
@@ -69,7 +69,12 @@
                     <md-menu-item>
                         <md-button href="#create-starTeam"> Creaci&oacute;n de Equipo Estrella</md-button>
                     </md-menu-item>
-                    
+                     <md-menu-item>
+                        <md-button href="#create-activity"> {{ 'CREATE_ACTIVITY' | translate }}</md-button>
+                    </md-menu-item>
+                     <md-menu-item>
+                        <md-button href="#create-modality"> {{ 'CREATE_MODALITY' | translate }}</md-button>
+                    </md-menu-item>
 <!--                    <md-menu-item>
                         <md-button href="#create-discipline"> Creaci&oacute;n de Disciplinas</md-button>
                     </md-menu-item>

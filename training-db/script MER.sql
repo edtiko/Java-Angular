@@ -591,7 +591,8 @@ create table training_plan_user (
 create table training_plan_workout (
    training_plan_workout_id serial               not null,
    training_plan_id     integer              not null,
-   activity_id          integer              not null,
+   activity_id          integer              null,
+   manual_activity_id   integer              null,
    workout_date         date                 not null,
    constraint pk_training_plan_workout primary key (training_plan_workout_id)
 );
@@ -786,6 +787,20 @@ create table plan_message (
    constraint pk_plan_message primary key (plan_message_id)
 );
 
+/*==============================================================*/
+/* Table: manual_activity                                          */
+/*==============================================================*/
+create table manual_activity (
+   manual_activity_id           serial  not null,
+   name                         varchar(800) not null,
+   description                  varchar(1000),
+   sport_id                integer not null,
+   user_id                    integer not null,
+   state_id                  integer  null,
+   creation_date             date     null,
+   constraint pk_manual_activity primary key (manual_activity_id)
+);
+
 alter table star_team
 add constraint fk_star_team_star_reference_user foreign key (star_user_id)
 references user_training(user_id)
@@ -829,6 +844,16 @@ alter table activity
 alter table activity
    add constraint fk_activity_reference_modality foreign key (modality_id)
       references modality (modality_id)
+      on delete restrict on update restrict;
+	  
+alter table manual_activity
+   add constraint fk_manual_activity_reference_sport foreign key (sport_id)
+      references sport (sport_id)
+      on delete restrict on update restrict;
+
+	  alter table manual_activity
+   add constraint fk_manual_activity_reference_user foreign key (user_id)
+      references user_training (user_id)
       on delete restrict on update restrict;
 
 alter table activity
@@ -1105,6 +1130,11 @@ alter table training_plan_workout
 alter table training_plan_workout
    add constraint fk_training_reference_activity foreign key (activity_id)
       references activity (activity_id)
+      on delete restrict on update restrict;
+	  
+	  alter table training_plan_workout
+   add constraint fk_training_reference_manual_activity foreign key (manual_activity_id)
+      references manual_activity (manual_activity_id)
       on delete restrict on update restrict;
 
 alter table user_availability

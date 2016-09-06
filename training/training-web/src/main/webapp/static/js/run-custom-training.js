@@ -3,7 +3,7 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://localhost:8080/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
@@ -24,6 +24,7 @@ require.config({
         angularNotification: 'lib/angular-notification-icons.min',
         csrfInterceptor: 'lib/spring-security-csrf-token-interceptor.min',
         lodash: "lib/lodash.min",
+        scrollGlue: 'lib/scrollglue',
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
@@ -52,13 +53,15 @@ require.config({
         opentokAngular: "lib/opentok-angular",
         opentokLayout: "lib/opentok-layout.min",
         utilService: "lib/utilService",
-        ngDialog: "lib/ngDialog.min",
         roleService: "security/service/roleService",
         optionService: "security/service/optionService",
         moduleService: "security/service/moduleService",
         bikeTypeService: "configuration/service/bikeTypeService",
         planService: "configuration/service/trainingPlanService",
-        starTeamService: "configuration/service/starTeamService"
+        starTeamService: "configuration/service/starTeamService",
+        physiologicalCapacityService: "configuration/service/physiologicalCapacityService",
+        activityService: "configuration/service/activityService",
+        angularSanitize: 'lib/angular-sanitize',
     },
     shim: {
         angular: {
@@ -82,6 +85,9 @@ require.config({
         },
         angularAria: {
             exports: 'ngAria',
+            deps: ['angular']
+        },
+        scrollGlue: {
             deps: ['angular']
         },
         angularMaterial: {
@@ -149,10 +155,13 @@ require.config({
         angularTranslateConfig: {
             deps: ['angular', 'angularTranslate']
         },
+        angularSanitize: {
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable', 'angularNotification'
+                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
@@ -191,6 +200,12 @@ require.config({
         starTeamService: {
             deps: ['angular','trainingApp']
         },
+        physiologicalCapacityService: {
+            deps: ['angular','trainingApp']
+        },
+        activityService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -198,7 +213,8 @@ require.config({
                 'mainController', 'surveyService', 'calendarService',
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService'
+                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
+                'physiologicalCapacityService','activityService'
 //                ,'videoService','videochatService'
 
             ] }

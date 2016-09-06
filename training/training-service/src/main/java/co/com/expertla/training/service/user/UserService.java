@@ -82,8 +82,20 @@ public interface UserService {
      * @throws Exception 
      */
     public List<User> findUserByRole(Integer roleId) throws Exception;
-    
-    /**
+	/**
+     * Obtiene todos los registros de user paginados <br>
+     * Creation Date : <br>
+     * date 31/08/2016 <br>
+     * @author Angela Ramirez
+     * @param first
+     * @param max
+     * @param order
+     * @return
+     * @throws Exception 
+     */
+    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception;
+
+	/**
      * Trae todos los registros de user training con su disciplina por id <br>
      * Creation Date : <br>
      * date 05/09/2016 <br>
@@ -94,4 +106,5 @@ public interface UserService {
      * @return dto
      */
     public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception;
+   
 }

@@ -1,7 +1,9 @@
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -17,67 +19,52 @@ import org.apache.log4j.Logger;
  */
 public class UserDTO {
     private static final Logger LOGGER = Logger.getLogger(UserDTO.class);
-
     private Integer userId;
-
     private String login;
-
     private String password;
-
     private String firstName;
-    
     private String secondName;
-
     private String lastName;
-
     private String email;
-
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
-
     private String sex;
-
     private BigInteger weight;
-
     private String phone;
-
     private String cellphone;
-
     private String address;
-
     private String postalCode;
-
     private byte[] profilePhoto;
-
     private String facebookPage;
-
     private String instagramPage;
     private String twitterPage;
     private String webPage;
-
     private String indMetricSys;
-
+    @JsonSerialize(using=JsonDateSerializer.class)
     private Date creationDate;
-
     private Integer cityId;
-
     private Short stateId;
-
     private Integer federalStateId;
-
     private Integer countryId;
-
     private Integer disciplineId;
-    
     private String typeUser;
     private Integer roleId;
     private String aboutMe;
     private String urlVideo;
-    private Integer disciplineIdExt;
- 
-    private String fullName;    public UserDTO() {
+    private String fullName;
+    @JsonSerialize(using=JsonDateSerializer.class)
+    private Date lastUpdate;
+    private Integer userCreate;
+    private Integer userUpdate;
+    private String userCreateName;
+    private String userUpdateName;
+    private int count;
+	private Integer disciplineIdExt;
+    
+    public UserDTO() {
     }
 
+    //Constructor usado en findUserWithDiscipline
     public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
             String phone, Integer disciplineId, Short stateId, Integer roleId, Integer countryId, byte[] profilePhoto, String urlVideo, String aboutMe) {
         this.userId = userId;
@@ -95,6 +82,33 @@ public class UserDTO {
         this.profilePhoto = profilePhoto;
         this.urlVideo = urlVideo;
         this.aboutMe = aboutMe;
+    }
+    
+    //Constructor usado en findPaginate
+    public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
+            String phone, Integer disciplineId, Short stateId, Integer roleId, Integer countryId, byte[] profilePhoto, String urlVideo, String aboutMe,
+            Date creationDate, Date lastUpdate, String userCreateName, String userUpdateName,Integer userCreate, Integer userUpdate) {
+        this.userId = userId;
+        this.login = login;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.email = email;
+        this.sex = sex;
+        this.phone = phone;
+        this.disciplineId = disciplineId;
+        this.stateId = stateId;
+        this.roleId = roleId;
+        this.countryId = countryId;
+        this.profilePhoto = profilePhoto;
+        this.urlVideo = urlVideo;
+        this.aboutMe = aboutMe;
+        this.userCreate = userCreate;
+        this.creationDate = creationDate;
+        this.userUpdateName = userUpdateName;
+        this.userUpdate = userUpdate;
+        this.userCreateName = userCreateName;
+        this.lastUpdate = lastUpdate;
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
@@ -310,6 +324,8 @@ public class UserDTO {
         }
         if(!"".equals(base64Encoded)){
         base64Encoded = "data:image/png;base64," + base64Encoded; 
+        }else{
+            base64Encoded = "static/img/profile-default.png";
         }
         
         return base64Encoded;
@@ -432,13 +448,60 @@ public class UserDTO {
 
     }
 
-    public Integer getDisciplineIdExt() {
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
+    public String getUserCreateName() {
+        return userCreateName;
+    }
+
+    public void setUserCreateName(String userCreateName) {
+        this.userCreateName = userCreateName;
+    }
+
+    public String getUserUpdateName() {
+        return userUpdateName;
+    }
+
+    public void setUserUpdateName(String userUpdateName) {
+        this.userUpdateName = userUpdateName;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+	public Integer getDisciplineIdExt() {
         return disciplineIdExt;
     }
 
     public void setDisciplineIdExt(Integer disciplineIdExt) {
         this.disciplineIdExt = disciplineIdExt;
     }
-    
     
 }

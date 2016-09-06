@@ -1,5 +1,7 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Activity;
+import co.com.expertla.training.model.entities.ManualActivity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
@@ -33,24 +35,29 @@ public class TrainingPlanWorkoutDto {
     public TrainingPlanWorkoutDto() {
     }
 
-    public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
-            Integer activityId, String activity, String activityDescription, Integer modalityId, String modality,
-            Integer objectiveId, String objective, Integer disciplineId,
-            String discipline, Integer level, Integer userId, String sportIcon) {
+    public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate, Activity activityId, ManualActivity manualActivityId, Integer userId) {
         this.id = trainingPlanWorkoutId;
         this.workoutDate = workoutDate;
-        this.activityId = activityId;
-        this.title = activity;
-        this.activityDescription = activityDescription;
-        this.modalityId = modalityId;
-        this.modality = modality;
-        this.disciplineId = disciplineId;
-        this.discipline = discipline;
-        this.objectiveId = objectiveId;
-        this.objective = objective;
-        this.level = level;
+        if(activityId != null){
+        this.activityId = activityId.getActivityId();
+        this.title = activityId.getName();
+        this.activityDescription = activityId.getDescription();
+        this.modalityId = activityId.getModalityId().getModalityId();
+        this.modality = activityId.getModalityId().getName();
+        this.disciplineId = activityId.getModalityId().getDisciplineId().getDisciplineId();
+        this.discipline = activityId.getModalityId().getDisciplineId().getName();
+        this.objectiveId = activityId.getObjectiveId().getObjectiveId();
+        this.objective = activityId.getObjectiveId().getName();
+        this.level = activityId.getObjectiveId().getLevel();
+        this.sportIcon = activityId.getSportId().getIcon();
+        }else if(manualActivityId != null){
+           this.activityId =  manualActivityId.getManualActivityId();
+           this.title = manualActivityId.getName();
+           this.activityDescription = manualActivityId.getDescription();
+           this.sportIcon = manualActivityId.getSportId().getIcon();
+        }
+        
         this.userId = userId;
-        this.sportIcon = sportIcon;
     }
 
     public Integer getId() {

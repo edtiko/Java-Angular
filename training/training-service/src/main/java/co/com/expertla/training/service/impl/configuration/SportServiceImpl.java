@@ -39,5 +39,10 @@ public class SportServiceImpl implements SportService {
     public List<WeatherDTO> findClimas() throws Exception {
         return sportDao.findClimas();
     }
+    
+    @Override
+    public List<SportDTO> findSportDisciplines() throws Exception {
+        return sportDao.findSportDisciplines();
+    }
  
 }

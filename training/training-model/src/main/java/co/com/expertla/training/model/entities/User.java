@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -141,6 +136,13 @@ public class User implements Serializable {
     @JoinColumn(name = "star_id", referencedColumnName = "user_id")
     @ManyToOne
     private User starId;
+    @Column(name = "last_update")
+    @Temporal(TemporalType.DATE)
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
 
     public User() {
     }
@@ -469,6 +471,30 @@ public class User implements Serializable {
 
     public void setUserZoneCollection(Collection<UserZone> userZoneCollection) {
         this.userZoneCollection = userZoneCollection;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
     }
 
 }

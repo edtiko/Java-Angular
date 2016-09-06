@@ -121,7 +121,7 @@ overflow: hidden;
 }
 
 #message-content{
-     border: 1px solid #e1e1e1; 
+     border: 1px solid #e1e1e1;
 }
 
 md-tooltip .md-content {
@@ -134,4 +134,8 @@ md-tooltip ._md-content {
 
 md-tooltip.tt-multiline ._md-content {
     height: auto;
+}
+
+.border{
+    border: 1px solid #e1e1e1;
 }

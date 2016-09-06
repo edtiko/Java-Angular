@@ -6,6 +6,7 @@ import co.com.expertla.training.model.dto.PlanWorkoutDTO;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.dto.UserProfileDTO;
 import co.com.expertla.training.model.entities.Activity;
+import co.com.expertla.training.model.entities.ManualActivity;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.model.entities.User;
@@ -121,13 +122,17 @@ public class TrainingPlanWorkoutController {
             List<TrainingPlanUser> listTrainingPlanUser = trainingPlanUserService.getPlanWorkoutByUser(planWorkoutDTO.getUserId());
             
             
-            if(listTrainingPlanUser != null && !listTrainingPlanUser.isEmpty()) {
+            if (listTrainingPlanUser != null && !listTrainingPlanUser.isEmpty()) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date activityDate = dateFormat.parse(planWorkoutDTO.getActivityDate());
                 responseService.setOutput("actividad creada en el plan exitosamente");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
-                planWorkout.setActivityId(new Activity(planWorkoutDTO.getActivityId()));
+                if (planWorkoutDTO.getActivityId() != null) {
+                    planWorkout.setActivityId(new Activity(planWorkoutDTO.getActivityId()));
+                } else if (planWorkoutDTO.getManualActivityId() != null) {
+                    planWorkout.setManualActivityId(new ManualActivity(planWorkoutDTO.getManualActivityId()));
+                }
                 planWorkout.setTrainingPlanUserId(listTrainingPlanUser.get(0));
                 planWorkout.setWorkoutDate(activityDate);
                 trainingPlanWorkoutService.create(planWorkout);
@@ -145,25 +150,28 @@ public class TrainingPlanWorkoutController {
     
     @RequestMapping(value = "trainingPlanWorkout/createPlan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> createPlanWorkout(@RequestBody PlanWorkoutDTO planWorkoutDTO) {
-            ResponseService responseService = new ResponseService();
-        try {           
+        ResponseService responseService = new ResponseService();
+        try {
             TrainingPlanWorkout trainingPlanWorkout = new TrainingPlanWorkout();
             trainingPlanWorkout.setTrainingPlanWorkoutId(planWorkoutDTO.getTrainingPlanWorkoutId());
             List<TrainingPlanWorkout> listTrainingPlanUser = trainingPlanWorkoutService.getById(trainingPlanWorkout);
-            
-            
-            if(listTrainingPlanUser != null && !listTrainingPlanUser.isEmpty()) {
+
+            if (listTrainingPlanUser != null && !listTrainingPlanUser.isEmpty()) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date activityDate = dateFormat.parse(planWorkoutDTO.getActivityDate());
                 responseService.setOutput("actividad creada en el plan exitosamente");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
-                planWorkout.setActivityId(listTrainingPlanUser.get(0).getActivityId());
+                if (listTrainingPlanUser.get(0).getActivityId() != null) {
+                    planWorkout.setActivityId(listTrainingPlanUser.get(0).getActivityId());
+                } else if (listTrainingPlanUser.get(0).getManualActivityId() != null) {
+                    planWorkout.setManualActivityId(listTrainingPlanUser.get(0).getManualActivityId());
+                }
                 planWorkout.setTrainingPlanUserId(listTrainingPlanUser.get(0).getTrainingPlanUserId());
                 planWorkout.setWorkoutDate(activityDate);
                 trainingPlanWorkoutService.create(planWorkout);
             }
-            
+
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);

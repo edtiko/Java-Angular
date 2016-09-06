@@ -7,8 +7,6 @@
 
         <div layout="row" >
             <div layout="column" layout-align="space-around center" flex>
-
-                <span class="md-headline" ng-if="userSession.typeUser == 'Coach'">Coach</span>
                 <span class="md-headline" ng-if="userSession.typeUser == 'Atleta'">Atleta</span>
                 <a href="{{userSession.typeUser == 'Atleta' || !showControl? '#data-person':'javascript:void(0)'}}" >
                     <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
@@ -20,7 +18,7 @@
             </div>
             <div flex layout="column" layout-align="space-around center">
 
-                <a href="{{userSession.typeUser == 'Atleta' || !showControl? '#calendar':'javascript:void(0)'}}" >
+                <a href="#calendar" >
                     <img class="circular" data-ng-src="static/img/calendar_icon.jpg" style="height: 130px; width: 130px;">
                     <md-tooltip md-direction="right">
                         Ver Calendario
@@ -334,7 +332,7 @@
                 <md-subheader>{{availableVideo}} disponibles de {{coachAssignedPlan.videoCount}}</md-subheader>
                 <div flex>
                     
-                    <notification-icon animation="grow" always-show="true" count="messagesReceivedCount">
+                    <notification-icon animation="grow" count="messagesReceivedCount">
                     <md-button  aria-label="Mensajes" class="md-fab md-raised  md-primary " ng-click="goMessages()">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Mensajes</md-tooltip>
                         <i class="fa fa-comments fa-lg"></i>
