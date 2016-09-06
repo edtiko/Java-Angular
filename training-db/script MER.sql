@@ -794,7 +794,7 @@ create table manual_activity (
    manual_activity_id           serial  not null,
    name                         varchar(800) not null,
    description                  varchar(1000),
-   modality_id                integer not null,
+   sport_id                integer not null,
    user_id                    integer not null,
    state_id                  integer  null,
    creation_date             date     null,
@@ -847,8 +847,8 @@ alter table activity
       on delete restrict on update restrict;
 	  
 alter table manual_activity
-   add constraint fk_manual_activity_reference_modality foreign key (modality_id)
-      references modality (modality_id)
+   add constraint fk_manual_activity_reference_sport foreign key (sport_id)
+      references sport (sport_id)
       on delete restrict on update restrict;
 
 	  alter table manual_activity

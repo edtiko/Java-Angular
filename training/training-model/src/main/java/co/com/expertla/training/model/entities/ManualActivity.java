@@ -48,9 +48,9 @@ public class ManualActivity implements Serializable {
     private String name;
     @Column(name = "description")
     private String description;
-    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
+    @JoinColumn(name = "sport_id", referencedColumnName = "sport_id")
     @ManyToOne(optional = false)
-    private Modality modalityId;
+    private Sport sportId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
@@ -137,12 +137,12 @@ public class ManualActivity implements Serializable {
         return "co.com.expertla.training.model.entities.ManualActivity[ manualActivityId=" + manualActivityId + " ]";
     }
 
-    public Modality getModalityId() {
-        return modalityId;
+    public Sport getSportId() {
+        return sportId;
     }
 
-    public void setModalityId(Modality modalityId) {
-        this.modalityId = modalityId;
+    public void setSportId(Sport sportId) {
+        this.sportId = sportId;
     }
 
     public User getUserId() {

@@ -15,14 +15,14 @@
                 <div flex>
                     <md-input-container class="md-block" >
 
-                        <label>Tipo de actividad
+                        <label>Deporte
                         </label>
-                        <md-select  ng-model="manualActivity.modalityId" id="modality" name="modality" required>
-                            <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
-                                {{m.name}}
+                        <md-select  ng-model="manualActivity.sportId" id="sportId" name="sport" required>
+                            <md-option ng-repeat="s in sports" value="{{s.sportId}}" >
+                                {{s.name}}
                             </md-option>
                         </md-select>
-                        <div class="has-error" ng-messages="formProfile.weather.$error">
+                        <div class="has-error" ng-messages="formActivity.sport.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>

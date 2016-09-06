@@ -23,11 +23,11 @@ public class ActivityCalendarDTO {
         
     }
 
-    public ActivityCalendarDTO(Integer id, String name, String description, Integer modalityId, Integer userId) {
+    public ActivityCalendarDTO(Integer id, String name, String description, Integer sportId, Integer userId) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.modalityId = modalityId;
+        this.sportId = sportId;
         this.userId = userId;
     }
 

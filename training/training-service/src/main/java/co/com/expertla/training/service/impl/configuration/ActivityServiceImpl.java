@@ -6,12 +6,12 @@ import co.com.expertla.training.dao.configuration.ManualActivityDao;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.entities.ManualActivity;
-import co.com.expertla.training.model.entities.Modality;
 import co.com.expertla.training.model.entities.User;
 import java.util.Calendar;
 
 import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.model.entities.Activity;
+import co.com.expertla.training.model.entities.Sport;
 import co.com.expertla.training.service.configuration.ActivityService;
 
 import java.util.List;
@@ -83,7 +83,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
      public Integer createManualActivity(ActivityCalendarDTO activity) throws Exception {
          ManualActivity manualActivity = new ManualActivity();
-         manualActivity.setModalityId(new Modality(activity.getModalityId()));
+         manualActivity.setSportId(new Sport(activity.getSportId()));
          manualActivity.setName(activity.getName());
          manualActivity.setDescription(activity.getDescription());
          manualActivity.setUserId(new User(activity.getUserId()));

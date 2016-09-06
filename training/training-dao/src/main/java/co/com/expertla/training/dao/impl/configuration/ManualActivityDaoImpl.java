@@ -24,7 +24,7 @@ public class ManualActivityDaoImpl extends BaseDAOImpl<ManualActivity> implement
     @Override
     public List<ActivityCalendarDTO> findByUserId(Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityCalendarDTO(ma.manualActivityId, ma.name, ma.description, ma.modalityId.modalityId, ma.userId.userId  )");
+        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityCalendarDTO(ma.manualActivityId, ma.name, ma.description, ma.sportId.sportId, ma.userId.userId  )");
         sql.append("FROM ManualActivity ma ");
         sql.append("WHERE ma.userId.userId = :userId ");
         sql.append("ORDER BY ma.name ASC ");

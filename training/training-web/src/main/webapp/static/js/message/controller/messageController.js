@@ -8,11 +8,12 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.dataImage = "static/img/profile-default.png";
+        $scope.glued = true;
 
 
         $scope.addMessage = function () {
             self.getAvailableMessages($scope.coachAssignedPlan.id, $scope.userSession.userId, function(){
-            if ($scope.userSession != null && $scope.coachAssignedPlan != null && $scope.availableMessage > 0) {
+            if ($scope.userSession != null && $scope.coachAssignedPlan != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                 $scope.planMessage.coachAssignedPlanId.id = $scope.coachAssignedPlan.id;
                 $scope.planMessage.coachAssignedPlanId.athleteUserId.userId = $scope.coachAssignedPlan.athleteUserId.userId;
                 $scope.planMessage.coachAssignedPlanId.coachUserId.userId = $scope.coachAssignedPlan.coachUserId.userId;
@@ -21,9 +22,6 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
                 $scope.planMessage.message = "";
             }else if($scope.availableMessage == 0){
                 $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
-            } 
-            else {
-                $scope.showMessage("Seleccione una relación atleta y coach");
             }
         });
         };

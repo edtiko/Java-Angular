@@ -40,10 +40,12 @@ trainingApp.factory('SportService', ['$http', '$q', function($http, $q){
                             );
             },
             
-            getSportDisciplines: function(res){
+            getSportDisciplines: function(){
                     return $http.get($contextPath+'sport/get/all/sportDisciplines')
                             .then(
-                                    res, 
+                                    function(response){
+                                        return response.data.output;
+                                    }, 
                                     function(errResponse){
                                         console.error('Error while getting service ' + errResponse);
                                         return $q.reject(errResponse);

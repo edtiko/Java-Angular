@@ -54,9 +54,7 @@ public class TrainingPlanWorkoutDto {
            this.activityId =  manualActivityId.getManualActivityId();
            this.title = manualActivityId.getName();
            this.activityDescription = manualActivityId.getDescription();
-           this.modalityId = manualActivityId.getModalityId().getModalityId();
-           this.modality = manualActivityId.getModalityId().getName();
-           this.sportIcon = "manual_activity.png";
+           this.sportIcon = manualActivityId.getSportId().getIcon();
         }
         
         this.userId = userId;

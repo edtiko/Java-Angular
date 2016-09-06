@@ -324,6 +324,8 @@ public class UserDTO {
         }
         if(!"".equals(base64Encoded)){
         base64Encoded = "data:image/png;base64," + base64Encoded; 
+        }else{
+            base64Encoded = "static/img/profile-default.png";
         }
         
         return base64Encoded;

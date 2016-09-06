@@ -1,4 +1,4 @@
-trainingApp.controller('CalendarController', function ($scope, CalendarService, ModalityService,
+trainingApp.controller('CalendarController', function ($scope, CalendarService, SportService,
         $window, $mdDialog) {
     $scope.activityList = [];
     $scope.trainingPow = 0;
@@ -112,20 +112,19 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             );
         };
 
-        $scope.getModalitiesByUserId = function () {
-            ModalityService.getModalitiesByDisciplineUserId($scope.userId).then(
+            $scope.getSportDisciplinesCalendar = function () {
+            SportService.getSportDisciplines().then(
                     function (d) {
-                        $scope.modalities = d;
+                        $scope.sports = d;
                     },
                     function (errResponse) {
-                        console.error('Error while modalities');
+                        console.error('Error while disciplines');
                         console.error(errResponse);
                     }
             );
         };
 
-        $scope.getModalitiesByUserId();
-        console.log($scope);
+        $scope.getSportDisciplinesCalendar();
 
     }
 
