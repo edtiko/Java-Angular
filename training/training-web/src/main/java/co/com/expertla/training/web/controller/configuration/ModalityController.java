@@ -15,6 +15,8 @@ import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
 import javax.ws.rs.core.Response;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -151,30 +153,6 @@ public class ModalityController {
         }
     }
     
-    /**
-     * Consulta modality <br>
-     * Info. Creación: <br>
-     * fecha Sep 5, 2016 <br>
-     * @author Andres Felipe Lopez Rodriguez
-     * @return
-     */
-    @RequestMapping(value = "/modality/get/all", method = RequestMethod.GET)
-    public ResponseEntity<ResponseService> list() {
-        ResponseService responseService = new ResponseService();
-        try {     
-            List<Modality> modalityList = modalityService.findAllActive();
-            responseService.setOutput(modalityList);
-            responseService.setStatus(StatusResponse.SUCCESS.getName());
-            return new ResponseEntity<>(responseService, HttpStatus.OK);
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(ModalityController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al consultar");
-            responseService.setDetail(ex.getMessage());
-            responseService.setStatus(StatusResponse.FAIL.getName());
-            return new ResponseEntity<>(responseService, HttpStatus.OK);
-        }
-    }
-    
     @RequestMapping(value = "modality/get/by/userId/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getByUser(@PathVariable("userId") Integer userId) {
         StringBuilder strResponse = new StringBuilder();
@@ -220,6 +198,60 @@ public class ModalityController {
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "modality/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getAll() {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        try {
+            List<ModalityDTO> modalities = modalityService.findAll();
+            responseService.setOutput(modalities);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }   catch (Exception e) {
+            Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
+//            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "modality/get/by/disciplineId/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getAll(@PathVariable("id") Integer id) {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        try {
+            List<ModalityDTO> modalities = modalityService.findByDisciplineId(id);
+            responseService.setOutput(modalities);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }   catch (Exception e) {
+            Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
+//            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "modality/get/by/objectiveId/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response getByObjective(@PathVariable("id") Integer id) {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        try {
+            List<ModalityDTO> modalities = modalityService.findByObjectiveId(id);
+            responseService.setOutput(modalities);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }   catch (Exception e) {
+            Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
+//            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
     }
 }
