@@ -18,6 +18,10 @@ public class ActivityCalendarDTO {
     private Integer userId;
     private Integer objectiveId;
     private Integer sportId;
+    
+    public ActivityCalendarDTO(){
+        
+    }
 
     public ActivityCalendarDTO(Integer id, String name, String description, Integer modalityId, Integer userId) {
         this.id = id;
