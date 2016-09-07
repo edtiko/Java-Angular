@@ -49,7 +49,9 @@ public class TrainingPlanWorkoutDto {
         this.objectiveId = activityId.getObjectiveId().getObjectiveId();
         this.objective = activityId.getObjectiveId().getName();
         this.level = activityId.getObjectiveId().getLevel();
+        if(activityId.getSportId() != null){
         this.sportIcon = activityId.getSportId().getIcon();
+        }
         }else if(manualActivityId != null){
            this.activityId =  manualActivityId.getManualActivityId();
            this.title = manualActivityId.getName();

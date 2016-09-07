@@ -129,20 +129,19 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     function (data) {
                         var res = data.entity.output;
                         
-                        if(res == null) {
-                            return;
-                        }
-                        
-                        $scope.coachAssignedPlan = angular.copy(res);
-                        self.getAvailableMessages(res.id, $scope.userSession.userId);
-                        self.getReceivedMessages(res.id, res.coachUserId.userId);
-                        $scope.getVisibleFieldsUserByUser(res.athleteUserId);
-                        messageService.initialize(res.id);
-                        if (res.starUserId.profilePhotoBase64 != "") {
-                            $scope.profileImageStar = res.starUserId.profilePhotoBase64;
-                        }
-                        if (res.coachUserId.profilePhotoBase64 != "") {
-                            $scope.profileImageCoach = res.coachUserId.profilePhotoBase64;
+                        if (res != "") {
+
+                            $scope.coachAssignedPlan = angular.copy(res);
+                            self.getAvailableMessages(res.id, $scope.userSession.userId);
+                            self.getReceivedMessages(res.id, res.coachUserId.userId);
+                            $scope.getVisibleFieldsUserByUser(res.athleteUserId);
+                            messageService.initialize(res.id);
+                            if (res.starUserId.profilePhotoBase64 != "") {
+                                $scope.profileImageStar = res.starUserId.profilePhotoBase64;
+                            }
+                            if (res.coachUserId.profilePhotoBase64 != "") {
+                                $scope.profileImageCoach = res.coachUserId.profilePhotoBase64;
+                            }
                         }
 
                     },
