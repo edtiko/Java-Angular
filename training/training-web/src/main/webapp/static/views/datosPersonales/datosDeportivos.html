@@ -513,8 +513,8 @@
             </div>
 
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button class="md-raised" ng-click="submitUserProfile(formProfile, false)">Guardar</md-button>
-                <md-button class="md-raised md-primary" ng-click="confirmDialogGeneratePlan($event,formProfile)">Generar Plan</md-button>
+                <md-button class="md-raised" ng-click="submitUserProfile(formProfile, false, $event)">Guardar</md-button>
+                <md-button class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
             </section>
         </form>
     </md-content>

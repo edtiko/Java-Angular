@@ -1,4 +1,15 @@
 {
+    "CREATE_ACTIVITY": "Creaci\u00f3n de Actividades",
+    "CREATE_MODALITY": "Creaci\u00f3n de Modalidades",
+    "CREATE_STAR_TEAM": "Creaci\u00f3n de Equipo Estrella",
+    "CREATE_PLAN": "Creaci\u00f3n de Planes",
+    "CREATE_ROLE": "Creaci\u00f3n de Roles",
+    "CREATE_OPTION": "Creaci\u00f3n de Opciones",
+    "CREATE_MODULE": "Creaci\u00f3n de M\u00f3ndulos",
+    "CREATE_USER": "Creaci\u00f3n de Usuarios",
+    "CREATE_DISCIPLINE": "Creaci\u00f3n de Disciplinas Deportivas",
+    "CREATE_OBJECTIVE": "Creaci\u00f3n de Objetivos",
+    "CONFIGURATION": "Configuraci\u00f3n",
     "NAME": "Nombre",
     "REQUIRED_FIELD_TEXT": "Este es un campo requerido",
     "INVALID_FIELD_TEXT": "Este campo es inv\u00e1lido",
@@ -16,7 +27,5 @@
     "PHYSIOLOGICAL_CAPACITY":"Capacidad Fisiol\u00f3gica",
     "DESCRIPTION":"Descripci\u00f3n",
     "SPORT":"Deporte",
-    "CREATE_ACTIVITY": "Creaci\u00f3n de Actividades",
-    "CREATE_MODALITY": "Creaci\u00f3n de Modalidades",
     "DISCIPLINE":"Disciplina Deportiva"
 }

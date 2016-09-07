@@ -2,6 +2,7 @@ package co.com.expertla.training.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -47,6 +50,18 @@ public class Dcf implements Serializable {
     @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
     @ManyToOne
     private Objective objectiveId;
+    @Column(name = "state_id")
+    private Short stateId;
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
+    @Column(name = "last_update")
+    @Temporal(TemporalType.DATE)
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
 
     public Dcf() {
     }
@@ -126,5 +141,44 @@ public class Dcf implements Serializable {
         return "co.com.expertla.training.model.entities.Dcf[ dcfId=" + dcfId + " ]";
     }
 
-    
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
 }

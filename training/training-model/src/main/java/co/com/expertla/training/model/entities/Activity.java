@@ -74,6 +74,9 @@ public class Activity implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @JoinColumn(name = "environment_id", referencedColumnName = "environment_id")
+    @ManyToOne
+    private Environment environmentId;
 
     public Activity() {
     }
@@ -222,6 +225,14 @@ public class Activity implements Serializable {
 
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
+    }
+
+    public Environment getEnvironmentId() {
+        return environmentId;
+    }
+
+    public void setEnvironmentId(Environment environmentId) {
+        this.environmentId = environmentId;
     }
     
 }
