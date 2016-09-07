@@ -7,9 +7,11 @@ import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.entities.Activity;
+import co.com.expertla.training.model.entities.UserProfile;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ActivityService;
+import co.com.expertla.training.service.user.UserProfileService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
@@ -35,7 +37,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActivityController {
 
     @Autowired
-    ActivityService activityService;  
+    ActivityService activityService;
+    
+    @Autowired
+    UserProfileService userProfileService;
 
     /**
      * Crea activity <br>
