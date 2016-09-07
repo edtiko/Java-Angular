@@ -61,7 +61,7 @@ trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
                 return $http({
                     url: $wordPressContextPath + 'category_products.php',
                     data : user,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'POST'
                 })
                         .then(
@@ -77,9 +77,9 @@ trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
             createCoachWordPress: function (user) { 
                 
                 return $http({
-                    url: $wordPressContextPath + 'products.php',
+                    url: $wordPressContextPath + 'add_products.php',
                     data : user,
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'POST'
                 })
                         .then(

@@ -183,3 +183,12 @@ function getDate() {
     var fechaRecibo = ano + '-' + mes + '-' + dia;
     return fechaRecibo;
 }
+
+/**
+ * Elimina espacios
+ * @param {type} cadena
+ * @returns {String}
+ */
+function trim(cadena) {
+    return cadena.replace(/^\s+|\s+$/gm, '');
+}

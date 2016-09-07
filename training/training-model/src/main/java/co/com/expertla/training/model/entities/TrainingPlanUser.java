@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -54,7 +55,7 @@ public class TrainingPlanUser implements Serializable {
     public TrainingPlanUser(Integer trainingPlanUserId) {
         this.trainingPlanUserId = trainingPlanUserId;
     }
-    
+    @JsonIgnore
     public Collection<TrainingPlanWorkout> getTrainingPlanWorkoutCollection() {
         return trainingPlanWorkoutCollection;
     }
@@ -119,7 +120,7 @@ public class TrainingPlanUser implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.TrainingPlanUser[ trainingPlanUserId=" + trainingPlanUserId + " ]";
     }
-
+    @JsonIgnore
     public Collection<CoachAssignedPlan> getCoachAssignedPlanCollection() {
         return coachAssignedPlanCollection;
     }
