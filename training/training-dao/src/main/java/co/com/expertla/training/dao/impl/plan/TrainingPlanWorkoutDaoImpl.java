@@ -86,4 +86,12 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         setParameter("trainingPlanWorkoutId", trainingPlanWorkout.getTrainingPlanWorkoutId());
         return createQuery(sql.toString());
     }
+
+    @Override
+    public void deleteByManualActivityId(Integer manualActivityId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" delete from training_plan_workout ");
+        builder.append(" where  manual_activity_id = ").append(manualActivityId);
+        executeNativeUpdate(builder.toString());
+    }
 }

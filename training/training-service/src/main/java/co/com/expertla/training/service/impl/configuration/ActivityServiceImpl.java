@@ -3,6 +3,7 @@ package co.com.expertla.training.service.impl.configuration;
 import co.com.expertla.training.dao.configuration.ActivityDao;
 
 import co.com.expertla.training.dao.configuration.ManualActivityDao;
+import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.entities.ManualActivity;
@@ -34,6 +35,9 @@ public class ActivityServiceImpl implements ActivityService {
     
      @Autowired
     private ManualActivityDao manualActivityDao;
+     
+     @Autowired
+     private TrainingPlanWorkoutDao trainingPlanWorkoutDao;
 
     @Override
     public Activity create(Activity activity) throws Exception {
@@ -95,6 +99,12 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
      public List<ActivityCalendarDTO> findManualActivitiesByUserId(Integer userId) throws Exception {
         return manualActivityDao.findByUserId(userId);
+    }
+
+    @Override
+    public void deleteManualActivity(Integer manualActivityId) throws Exception {
+         manualActivityDao.remove(new ManualActivity(), manualActivityId);
+         trainingPlanWorkoutDao.deleteByManualActivityId(manualActivityId);
     }
 
 }

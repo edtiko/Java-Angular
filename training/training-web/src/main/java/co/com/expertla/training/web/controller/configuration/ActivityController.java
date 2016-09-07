@@ -252,4 +252,29 @@ public class ActivityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+        /**
+     * Elimina Manual activity <br>
+     * Info. Creacionn: <br>
+     * fecha Sep 7, 2016 <br>
+     * @author Edwin Gómez
+     * @param manualActivityId
+     * @return
+     */
+    @RequestMapping(value = "delete/manual/activity/{manualActivityId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> deleteManualActivity(@PathVariable("manualActivityId") Integer manualActivityId) {
+            ResponseService responseService = new ResponseService();
+        try {           
+            activityService.deleteManualActivity(manualActivityId);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.activity", "msgRegistroEliminado"));
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al eliminar registro");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 }

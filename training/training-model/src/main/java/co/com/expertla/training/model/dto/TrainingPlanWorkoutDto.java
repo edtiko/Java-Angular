@@ -31,6 +31,7 @@ public class TrainingPlanWorkoutDto {
     private int level;
     private Integer userId;
     private String sportIcon;
+    private boolean manualActivity = false;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -51,6 +52,7 @@ public class TrainingPlanWorkoutDto {
         this.level = activityId.getObjectiveId().getLevel();
         this.sportIcon = activityId.getSportId().getIcon();
         }else if(manualActivityId != null){
+           this.manualActivity = true;
            this.activityId =  manualActivityId.getManualActivityId();
            this.title = manualActivityId.getName();
            this.activityDescription = manualActivityId.getDescription();
@@ -202,6 +204,14 @@ public class TrainingPlanWorkoutDto {
 
     public void setActivityDescription(String activityDescription) {
         this.activityDescription = activityDescription;
+    }
+
+    public boolean isManualActivity() {
+        return manualActivity;
+    }
+
+    public void setManualActivity(boolean manualActivity) {
+        this.manualActivity = manualActivity;
     }
     
     

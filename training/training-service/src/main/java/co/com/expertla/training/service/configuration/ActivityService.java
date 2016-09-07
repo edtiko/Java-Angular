@@ -115,6 +115,8 @@ public interface ActivityService {
      
     public List<ActivityCalendarDTO> findManualActivitiesByUserId(Integer userId) throws Exception;
 
+    public void deleteManualActivity(Integer manualActivityId)throws Exception;
+
 
     
 }

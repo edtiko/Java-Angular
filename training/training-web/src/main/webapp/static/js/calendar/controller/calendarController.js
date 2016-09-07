@@ -5,6 +5,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
     $scope.labelTrainingPow = 'Entrenamiento por potencia';
     $scope.loading = true;
     $scope.userId = null;
+    var self=this;
     
         $scope.getManualActivities = function () {
         CalendarService.getManualActivityList($scope.userId).then(
@@ -128,27 +129,106 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
 
     }
     
-     $scope.querySearch = function (query) {
-      var results = query ? $scope.activityList.filter( createFilterFor(query) ) : $scope.activityList;
+     $scope.showConfirm = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
 
-        return results;
+  };
+    
+    $scope.showEliminarActividad = function(id,name){
+           var confirm = $mdDialog.confirm()
+          .title('Confirmar')
+          .textContent('\u00BFEsta seguro de borrar la actividad: '+name+' ?')
+          .ariaLabel('Lucky day')
+          .ok('Si')
+          .cancel('Cancelar');
+
+    $mdDialog.show(confirm).then(function() {
+      self.deleteManualActivity(id);
+    }, function() {
+        
+    }); 
+    };
+    
+    self.deleteManualActivity = function (id) {
+        CalendarService.deleteManualActivity(id).then(
+                function (res) {
+                    if (res.status == 'success') {
+                        $scope.getManualActivities();
+                       initCalendar();
+                    } else {
+                        $scope.showMessage(res.output, "error");
+                    }
+                },
+                function (error) {
+                    console.error(error);
+                }
+
+        );
+    };
+    
+    
+    
+     $scope.querySearch = function (query) {
+     // var results = query ? $scope.activityList.filter( createFilterFor(query) ) : $scope.activityList;
+
+        return false;
       
     };
     
-     $scope.searchTextChange= function (text) {
-      $log.info('Text changed to ' + text);
-     };
+    $scope.searchTextChange = function (query) {
+        if($scope.activities != undefined){
+            $scope.activityList = $scope.activities; 
+        }
+        $scope.activities = $scope.activityList;
+        var results = query ? $scope.activityList.filter(createFilterFor(query)) : $scope.activityList;
 
+        if (results.length > 0) {
+            $scope.activityList = results;
+        } else {
+            $scope.activityList = $scope.activities;
+        }
+    };
+    
     
  
     function createFilterFor(query) {
       var lowercaseQuery = angular.lowercase(query);
 
-      return function filterFn(activity) {
-        return (activity.name.indexOf(lowercaseQuery) === 0);
+      return function filterFn(item) {
+          var value = removeAccents(item.name.toLowerCase());
+        return (value.indexOf(lowercaseQuery) === 0);
       };
 
     }
+    
+        $scope.ignoreAccents = function(item) {               
+        if (!$scope.search)
+            return true;       
+        var text = removeAccents(item.name.toLowerCase());
+        var search = removeAccents($scope.search.toLowerCase());
+        return text.indexOf(search) > -1;
+    };
+    
+function removeAccents(source) {
+    
+        var accent = [
+            /[\300-\306]/g, /[\340-\346]/g, // A, a
+            /[\310-\313]/g, /[\350-\353]/g, // E, e
+            /[\314-\317]/g, /[\354-\357]/g, // I, i
+            /[\322-\330]/g, /[\362-\370]/g, // O, o
+            /[\331-\334]/g, /[\371-\374]/g, // U, u
+            /[\321]/g, /[\361]/g, // N, n
+            /[\307]/g, /[\347]/g, // C, c
+        ],
+        noaccent = ['A','a','E','e','I','i','O','o','U','u','N','n','C','c'];
+
+        for (var i = 0; i < accent.length; i++){
+            source = source.replace(accent[i], noaccent[i]);
+        }
+
+        return source;
+    
+} // removeAccents
 
 
 });

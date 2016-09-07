@@ -36,6 +36,18 @@ trainingApp.service('CalendarService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
-            }
+            },
+           deleteManualActivity: function(manualActivityId){
+              return $http.get($contextPath + 'delete/manual/activity/' + manualActivityId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting manual activity');
+                                    return $q.reject(errResponse);
+                                }
+                        ); 
+           }
         };
     }]);

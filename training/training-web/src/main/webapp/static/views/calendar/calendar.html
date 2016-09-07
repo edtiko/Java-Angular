@@ -29,6 +29,38 @@
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <h1 class="md-toolbar-tools">Actividades</h1>
+                </div>
+            </md-toolbar>
+             <md-input-container md-no-float class="md-block" >
+                 <md-icon><i class="fa fa-search" aria-hidden="true"></i></md-icon>
+                 <input type="text" ng-model="search" placeholder="Buscar.."/>
+             </md-input-container>
+            <md-content>
+                <div layout="column" layout-align="center center" ng-show="loading">
+                    <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                    <span>Cargando actividades..</span>
+                </div>
+                <section>
+                    <md-list ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
+                        <md-subheader ng-show="!loading" class="md-accent">{{ key }}</md-subheader>
+                        <md-list-item ng-click="null" ng-repeat="a in value | filter:ignoreAccents:search" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <p>
+                                {{a.name}}
+                            </p>
+                        </md-list-item>
+                    </md-list>
+                </section>
+
+            </md-content>
+        </md-sidenav>
+                <md-sidenav style="height:300px;"
+                    class="md-sidenav-left"
+                    md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-md')"
+                    md-whiteframe="4">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h1 class="md-toolbar-tools">Actividades Manuales</h1>
                     <span flex></span>
                     <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="showCreateManualActivity()">
                         <i class="fa fa-plus" aria-hidden="true"></i>
@@ -36,46 +68,26 @@
                 </div>
             </md-toolbar>
             <md-content>
-                <div layout="column" layout-align="center center" ng-show="loading">
-                    <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-                    <span>Cargando actividades..</span>
-                </div>
-                 <md-autocomplete         
-          md-no-cache="noCache"
-          md-selected-item="selectedItem"
-          md-search-text="searchText"
-          md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-          md-items="item in querySearch(searchText)"
-          md-item-text="item.name"
-          md-min-length="0"
-          placeholder="Ingrese su busqueda..">
-         <i class="fa fa-search" aria-hidden="true"></i>          
-        <md-item-template>
-          <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
-        </md-item-template>
-      </md-autocomplete>
+          
                 <section>
-                    <ul class="nav nav-pills nav-stacked" ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
-                        <md-subheader ng-show="!loading" class="md-accent">{{ key }}</md-subheader>
-                        <li ng-repeat="a in value">
-                            <a id="act_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                {{a.name}}
-                            </a>
-                        </li>
-                    </ul>
-                </section>
-                <section>
-                    <md-subheader ng-show="!loading" class="md-accent">Actividades Manuales</md-subheader>
-                    <ul class="nav nav-pills nav-stacked" ng-repeat="a in manualActivities">
-                        <li><a id="ma_{{a.id}}" href="#" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">{{a.name}}</a></li>
-                    </ul>
+                    <md-list ng-repeat="a in manualActivities">
+                      
+                            <md-list-item ng-click="null" id="ma_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <p>{{a.name}}</p>
+                                <md-button class=" md-mini md-icon-button" ng-click="showEliminarActividad(a.id, a.name)" aria-label="remove">
+                                    <md-icon>
+                                        <i class="fa fa-trash" aria-hidden="true"></i></md-icon>
+                                </md-button>
+                            </md-list-item>
+                      
+                    </md-list>
                 </section>
 
             </md-content>
         </md-sidenav>
     </div>
     <div flex>   
-        <div id="calendar" style="width: 100% !important;"></div>
+        <div id="calendar"></div>
     </div>
 </div>
     <div class="modal fade" id="events-modal">
