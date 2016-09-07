@@ -20,7 +20,7 @@
     <center><h3></h3></center>
 </div>
 <div layout="row" flex layout-fill>
-    <div flex="20">
+    <div flex="20" layout="column">
         <md-sidenav style="height:555px;"
                     class="md-sidenav-left"
                     md-component-id="left"
@@ -40,6 +40,20 @@
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                     <span>Cargando actividades..</span>
                 </div>
+                 <md-autocomplete         
+          md-no-cache="noCache"
+          md-selected-item="selectedItem"
+          md-search-text="searchText"
+          md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+          md-items="item in querySearch(searchText)"
+          md-item-text="item.name"
+          md-min-length="0"
+          placeholder="Ingrese su busqueda..">
+         <i class="fa fa-search" aria-hidden="true"></i>          
+        <md-item-template>
+          <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
+        </md-item-template>
+      </md-autocomplete>
                 <section>
                     <ul class="nav nav-pills nav-stacked" ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
                         <md-subheader ng-show="!loading" class="md-accent">{{ key }}</md-subheader>
@@ -61,7 +75,7 @@
         </md-sidenav>
     </div>
     <div flex>   
-        <div id="calendar" ></div>
+        <div id="calendar" style="width: 100% !important;"></div>
     </div>
 </div>
     <div class="modal fade" id="events-modal">

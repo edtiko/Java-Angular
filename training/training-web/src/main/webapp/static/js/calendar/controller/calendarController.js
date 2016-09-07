@@ -127,5 +127,28 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.getSportDisciplinesCalendar();
 
     }
+    
+     $scope.querySearch = function (query) {
+      var results = query ? $scope.activityList.filter( createFilterFor(query) ) : $scope.activityList;
+
+        return results;
+      
+    };
+    
+     $scope.searchTextChange= function (text) {
+      $log.info('Text changed to ' + text);
+     };
+
+    
+ 
+    function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+
+      return function filterFn(activity) {
+        return (activity.name.indexOf(lowercaseQuery) === 0);
+      };
+
+    }
+
 
 });
