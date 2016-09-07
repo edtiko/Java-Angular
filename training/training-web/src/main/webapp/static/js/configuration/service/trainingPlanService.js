@@ -59,6 +59,18 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getAll: function () {
+                return $http.get($contextPath + '/trainingPlan/get/all')
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting trainingPlan');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
     }]);

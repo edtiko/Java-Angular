@@ -11,7 +11,7 @@
                                 <label>Estrella</label>
                                 <md-select id="startUser" ng-model="starTeam.starUserId.userId" required>
                                     <md-option ng-repeat="d in starUserList" value="{{d.userId}}" >
-                                        {{d.name}}
+                                        {{d.name}} {{d.secondName}} {{d.lastName}}
                                     </md-option>
                                 </md-select>
                                 <div class="has-error" ng-messages="formStartTeam.startUser.$error">
@@ -26,7 +26,7 @@
                                 <label>Coach</label>
                                 <md-select id="coachUser" ng-model="starTeam.coachUserId.userId" required>
                                     <md-option ng-repeat="d in coachUserList" value="{{d.userId}}" >
-                                        {{d.name}}
+                                        {{d.name}} {{d.secondName}} {{d.lastName}}
                                     </md-option>
                                 </md-select>
                                 <div class="has-error" ng-messages="formStartTeam.coachUser.$error">

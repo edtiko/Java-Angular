@@ -56,14 +56,38 @@ trainingApp.service('StarTeamService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            createStarTeamWordPress: function (plan) {
-                return $http.post($contextPath + '/starTeam/create', plan)
+            createStarWordPress: function (user) { 
+                
+                return $http({
+                    url: $wordPressContextPath + 'category_products.php',
+                    data : user,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    method: 'POST'
+                })
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while creating startTeam');
+                                    console.error('Error while creating start');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            createCoachWordPress: function (user) { 
+                
+                return $http({
+                    url: $wordPressContextPath + 'add_products.php',
+                    data : user,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    method: 'POST'
+                })
+                        .then(
+                                function (response) {
+                                    return response;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating coach');
                                     return $q.reject(errResponse);
                                 }
                         );

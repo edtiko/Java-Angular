@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -76,6 +77,8 @@ public class TrainingPlan implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "price")
+    private Double price;
     
 
     public TrainingPlan() {
@@ -172,13 +175,21 @@ public class TrainingPlan implements Serializable {
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
     }
-
+    @JsonIgnore
     public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {
         return trainingPlanUserCollection;
     }
 
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override

@@ -495,5 +495,13 @@ public class UserDTO {
     public void setCount(int count) {
         this.count = count;
     }
+
+	public Integer getDisciplineIdExt() {
+        return disciplineIdExt;
+    }
+
+    public void setDisciplineIdExt(Integer disciplineIdExt) {
+        this.disciplineIdExt = disciplineIdExt;
+    }
     
 }

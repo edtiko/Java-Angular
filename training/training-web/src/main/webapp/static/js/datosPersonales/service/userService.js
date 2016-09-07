@@ -209,7 +209,7 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 return $http.get($contextPath + '/user/getDiscipline/by/' + id)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.entity;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching users');

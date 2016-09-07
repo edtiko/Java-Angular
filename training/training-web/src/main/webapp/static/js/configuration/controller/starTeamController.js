@@ -1,5 +1,6 @@
 trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
-    'UserService', '$window', function ($scope, StarTeamService, UserService,
+    'UserService', 'TrainingPlanService', '$window', function ($scope, StarTeamService,
+            UserService, TrainingPlanService,
             $window) {
         $scope.starTeam = {starTeamId: null,
             starUserId: {userId: null, name: ''},
@@ -41,7 +42,11 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
 
         $scope.getStarUserList = function () {
             StarTeamService.getStarUser(function (response) {
-                $scope.starUserList = success(response);
+                if (response.data.status == 'fail') {
+                    $scope.showMessage(response.data.output);
+                } else {
+                    $scope.starUserList = response.data.output;
+                }
             });
         };
         $scope.getCoachUserList = function () {
@@ -56,61 +61,154 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                 var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
                 starTeam.userCreate = (user.userId);
             }
+
             $scope.createStarTeamWordpress(starTeam);
-//            StarTeamService.createStarTeam(starTeam)
-//                    .then(
-//                            function (d) {
-//                                if (d.status == 'success') {
-//                                    $scope.createStarTeamWordpress(starTeam);
-//                                    $scope.showMessage(d.output);
-//                                    $scope.resetStarTeam();
-//                                    $scope.getStarTeamPaginate();
-//                                } else {
-//                                    $scope.showMessage(d.output);
-//                                }
-//                            },
-//                            function (errResponse) {
-//                                console.error('Error while creating StartTeam.');
-//                            }
-//                    );
         };
 
         $scope.createStarTeamWordpress = function (starTeam) {
             var starUserId = starTeam.starUserId.userId;
             UserService.getUserDisciplineById(starUserId).then(
                     function (d) {
-console.debug(d);
                         if (d.status == 'success') {
                             var userDTO = d.output;
                             var discipline = userDTO.disciplineIdExt;
-                            var name = userDTO.firstName + ' ' + userDTO.secondName + ' ' + userDTO.lastName;
+                            if (userDTO.secondName == '') {
+                                userDTO.secondName = '';
+                            } else {
+                                userDTO.secondName = trim(userDTO.secondName) + ' ';
+                            }
+                            var name = trim(userDTO.firstName) + ' ' + (userDTO.secondName) +
+                                    trim(userDTO.lastName);
                             var description = userDTO.aboutMe;
                             var image = userDTO.profilePhoto;
-                            
-                            console.debug(userDTO);
+                            var userParam = 'discipline=' + discipline +
+                                    '&name=' + name + '&description=' + description +
+                                    '&image=' + image;
+                            $scope.createStarWordPress(starTeam, userParam);
                         }
                     },
                     function (errResponse) {
                         console.error('Error while creating StartTeam.');
                     }
             );
-
-//            StarTeamService.createStarTeam(starTeam)
-//                    .then(
-//                            function (d) {
-//                                if (d.status == 'success') {
-//                                    $scope.showMessage(d.output);
-//                                    $scope.resetStarTeam();
-//                                    $scope.getStarTeamPaginate();
-//                                } else {
-//                                    $scope.showMessage(d.output);
-//                                }
-//                            },
-//                            function (errResponse) {
-//                                console.error('Error while creating StartTeam.');
-//                            }
-//                    );
         };
+
+        $scope.createStarWordPress = function (starTeam, userParam) {
+            StarTeamService.createStarWordPress(userParam)
+                    .then(
+                            function (d) {
+                                var response = d.data;
+
+                                if (response.status == 'success') {
+                                    var idExt = response.output.name;
+                                    var coachUserId = starTeam.coachUserId.userId;
+                                    $scope.createCoachTeamWordpress(starTeam, coachUserId, idExt);
+                                } else {
+                                    if (response.code == -1) {
+                                        var idExt = response.output.name;
+                                        var coachUserId = starTeam.coachUserId.userId;
+                                        $scope.createCoachTeamWordpress(starTeam, coachUserId, idExt);
+                                        return;
+                                    }
+                                    $scope.showMessage('Error al integrar estrella');
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating StartTeam.');
+                            }
+                    );
+        }
+
+        $scope.createCoachTeamWordpress = function (starTeam, coachUserId, starIdExt) {
+            UserService.getUserDisciplineById(coachUserId).then(
+                    function (d) {
+                        if (d.status == 'success') {
+                            var userDTO = d.output;
+                            if (userDTO.secondName == '') {
+                                userDTO.secondName = '';
+                            } else {
+                                userDTO.secondName = trim(userDTO.secondName) + ' ';
+                            }
+
+                            var name = trim(userDTO.firstName) + ' ' +
+                                    (userDTO.secondName) +
+                                    trim(userDTO.lastName);
+                            var description = userDTO.aboutMe;
+                            var image = userDTO.profilePhoto;
+                            var userParam = 'parentId=' + starIdExt +
+                                    '&name=' + name + '&description=' + description +
+                                    '&image=' + image;
+                            $scope.getPlan(starTeam, userParam);
+                        }
+                    },
+                    function (errResponse) {
+                        console.error('Error while getting StartTeam.');
+                    }
+            );
+        };
+
+        $scope.getPlan = function (starTeam, userParam) {
+            TrainingPlanService.getAll().then(
+                    function (d) {
+                        if (d.status == 'success') {
+                            var data = d.output;
+                            var rcPlan = '', rcPrice = '';
+
+                            for (var i = 0; i < data.length; i++) {
+                                var plan = data[i];
+
+                                if (i == (data.length - 1)) {
+                                    rcPlan += plan.name;
+                                    rcPrice += plan.price;
+                                } else {
+                                    rcPlan += plan.name + '_';
+                                    rcPrice += plan.price + '_';
+                                }
+                            }
+
+                            userParam = userParam + '&plan=' + rcPlan + '&price=' + rcPrice;
+                            $scope.createCoachWordPress(starTeam, userParam);
+                        }
+                    },
+                    function (errResponse) {
+                        console.error('Error while getting StartTeam.');
+                    }
+            );
+        };
+
+        $scope.createCoachWordPress = function (starTeam, userParam) {
+            StarTeamService.createCoachWordPress(userParam)
+                    .then(
+                            function (d) {
+                                var response = d.data;
+
+                                if (response.status == 'success') {
+                                    StarTeamService.createStarTeam(starTeam)
+                                            .then(
+                                                    function (d) {
+                                                        if (d.status == 'success') {
+
+                                                            $scope.showMessage(d.output);
+                                                            $scope.resetStarTeam();
+                                                            $scope.getStarTeamPaginate();
+                                                        } else {
+                                                            $scope.showMessage(d.output);
+                                                        }
+                                                    },
+                                                    function (errResponse) {
+                                                        console.error('Error while creating StartTeam.');
+                                                    }
+                                            );
+
+                                } else {
+                                    $scope.showMessage('Error al integrar coach');
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating coach.');
+                            }
+                    );
+        }
 
         $scope.updateStarTeam = function (starTeam) {
             if ($scope.appReady) {
