@@ -191,7 +191,8 @@ public class ModalityController {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            List<ModalityDTO> modalityList = modalityService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            List<ModalityDTO> modalityList = modalityService.findPaginate(paginateDto.getPage(), 
+                    paginateDto.getLimit(), paginateDto.getOrder(), paginateDto.getFilter());
             responseService.setOutput(modalityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

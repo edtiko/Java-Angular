@@ -79,6 +79,8 @@ public class TrainingPlan implements Serializable {
     private Integer userUpdate;
     @Column(name = "price")
     private Double price;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanId")
+    private Collection<TrainingPlanCharact> trainingPlanCharactCollection;
     
 
     public TrainingPlan() {
@@ -182,6 +184,14 @@ public class TrainingPlan implements Serializable {
 
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
+    }
+    @JsonIgnore
+    public Collection<TrainingPlanCharact> getTrainingPlanCharactCollection() {
+        return trainingPlanCharactCollection;
+    }
+
+    public void setTrainingPlanCharactCollection(Collection<TrainingPlanCharact> trainingPlanCharactCollection) {
+        this.trainingPlanCharactCollection = trainingPlanCharactCollection;
     }
 
     public Double getPrice() {

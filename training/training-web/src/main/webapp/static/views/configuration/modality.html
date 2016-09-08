@@ -5,7 +5,7 @@
             <span flex></span>
             <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list"
                        ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
-            <i class="fa fa-search" aria-hidden="true"></i>
+                <i class="fa fa-search" aria-hidden="true"></i>
             </md-button>
             <md-button class=" md-raised  md-primary" title="{{ 'CREATE' | translate }}" ng-click="showCreateModality($event)" 
                        ng-style="{'color':'white', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
@@ -25,7 +25,7 @@
             <md-button class=" md-button md-ink-ripple" type="button"  ng-click="removeFilter()" aria-label="close" 
                        ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
                 <i class="fa fa-times" aria-hidden="true"></i>
-                
+
             </md-button>
         </div>
     </md-toolbar>
@@ -46,11 +46,11 @@
             <tbody md-body>
                 <tr md-row md-select="modality" md-select-id="name" md-auto-select ng-repeat="modality in modalityList| filter: filter.search">
 
-                    <td>
-            <md-button type="button" ng-click="editModality(modality.modalityId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
-            <md-button ng-show="modality.stateId == 0" type="button" ng-click="activateModality(modality.modalityId)"  ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
-            <md-button ng-show="modality.stateId == 1" type="button" ng-click="inactivateModality(modality.modalityId)"  ng-style="{color: 'yellow', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
-            <md-button type="button" ng-click="deleteModality(modality.modalityId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+            <td>
+                <md-button type="button" ng-click="editModality(modality.modalityId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
+                <md-button ng-show="modality.stateId == 0" type="button" ng-click="activateModality(modality.modalityId)"  ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                <md-button ng-show="modality.stateId == 1" type="button" ng-click="inactivateModality(modality.modalityId)"  ng-style="{color: 'yellow', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                <md-button type="button" ng-click="deleteModality(modality.modalityId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
             </td>
             <td md-cell>{{modality.name}}</td>
             <td md-cell>{{modality.disciplineId.name}}</td>

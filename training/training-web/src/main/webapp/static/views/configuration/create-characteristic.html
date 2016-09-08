@@ -1,0 +1,50 @@
+<md-dialog aria-label="{{ 'CHARACTERISTIC_MODALITY' | translate }}" style="width: 600px;height: 400px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{ 'CHARACTERISTIC_MODALITY' | translate }}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="demo-md-panel md-padding">
+        <md-content layout-padding>
+            <span class="md-headline">Characteristic</span>
+
+            <form  name="formCharacteristic" novalidate>
+                <input type="hidden" ng-model="characteristic.characteristicId" />
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="characteristic.name" id="name" name="name"  placeholder="Name" required/>
+                            <div class="has-error" ng-messages="formCharacteristic.name.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="characteristic.valueType" id="valueType" name="valueType"  placeholder="ValueType" required/>
+                            <div class="has-error" ng-messages="formCharacteristic.valueType.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+
+
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                    <md-button ng-click="submitCharacteristic(formCharacteristic)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                    <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+                </section>
+
+            </form></md-content></div>
+            </md-dialog>

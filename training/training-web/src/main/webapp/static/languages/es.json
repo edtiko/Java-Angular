@@ -1,6 +1,6 @@
 {
     "CREATE_ACTIVITY": "Creaci\u00f3n de Actividades",
-    "CREATE_MODALITY": "Creaci\u00f3n de Modalidades",
+    "CREATE_MODALITY": "Creaci\u00f3n de Modalidades",    
     "CREATE_STAR_TEAM": "Creaci\u00f3n de Equipo Estrella",
     "CREATE_PLAN": "Creaci\u00f3n de Planes",
     "CREATE_ROLE": "Creaci\u00f3n de Roles",
@@ -30,5 +30,6 @@
     "PHYSIOLOGICAL_CAPACITY":"Capacidad Fisiol\u00f3gica",
     "DESCRIPTION":"Descripci\u00f3n",
     "SPORT":"Deporte",
-    "DISCIPLINE":"Disciplina Deportiva"
+    "DISCIPLINE":"Disciplina Deportiva",
+    "CHARACTERISTIC_MODALITY": "Creaci\u00f3n de Caracter\u00edsticas"
 }
