@@ -1,8 +1,8 @@
 
 trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$location', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService','$location', '$mdDialog',function ($scope, UserService,
+    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService','$location', '$mdDialog','DcfService',function ($scope, UserService,
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
-            VisibleFieldsUserService, BikeTypeService,$location,$mdDialog) {
+            VisibleFieldsUserService, BikeTypeService,$location,$mdDialog,DcfService) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
@@ -377,9 +377,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.bikeTypes = [];
         $scope.errorMessages = "";
 
-        $scope.submitUserProfile = function (form,generatePlan) {
+        $scope.submitUserProfile = function (form,generatePlan,ev) {
             if ($scope.validateFields(form)) {
-                $scope.createOrMergeUserProfile($scope.userProfile,generatePlan);
+                $scope.getSessions(ev,generatePlan);
             } else {
                 if($scope.errorMessages.length != 0) {
                     $scope.showMessage($scope.errorMessages);      
@@ -387,6 +387,55 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
         };
 
+
+    $scope.confirmDialogGuardarUserProfile = function (ev,generatePlan,msg) {
+            var confirm = $mdDialog.confirm()
+                    .title('Confirmaci\u00f3n')
+                    .htmlContent('\u00BFDesea guardar sus datos deportivos?'+msg)
+                    .ariaLabel('Lucky day')
+                    .targetEvent(ev)
+                    .ok('Aceptar')
+                    .cancel('Cancelar');
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.createOrMergeUserProfile($scope.userProfile,generatePlan);
+            }, function () {
+            });
+        };
+        
+        $scope.getSessions = function(ev,generatePlan) {
+            DcfService.getDcfByModalityIdAndObjectiveId($scope.userProfile.modality,$scope.userProfile.objective)
+                .then(
+                        function (d) {
+                                if (d.status == 'success') {
+                                    $scope.dcf = (d.output);
+                                    if ($scope.dcf[0] != null) {
+                                        var weeklyDays = Math.floor($scope.dcf[0].sessions / 4);
+                                        var days = 0;
+                                        var length = $scope.userProfile.availability.length;
+                                        for (var i = 0; i < length; i++) {
+                                            if ($scope.userProfile.availability[i].checked) {
+                                                days++;
+                                            }
+                                        }
+                                    }
+                                    var msg = '';
+                                    if (days < weeklyDays) {
+                                        msg = "<br> Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
+                                    }
+                                    if (generatePlan) {
+                                        $scope.confirmDialogGeneratePlan(ev, generatePlan, msg);
+                                    } else {
+                                        $scope.confirmDialogGuardarUserProfile(ev, generatePlan, msg);
+                                    }
+                                } else {
+                                }
+                        },
+                        function (errResponse) {
+                            console.error('Error while creating Dcf.');
+                        }
+                );
+        };
 
 
         $scope.createOrMergeUserProfile = function (userProfile,generatePlan) {
@@ -477,17 +526,18 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
 
-        $scope.confirmDialogGeneratePlan = function (ev,form) {
+        $scope.confirmDialogGeneratePlan = function (ev,generatePlan,msg) {
+           
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?')
+                    .htmlContent('\u00BFDesea generar su Plan de Entrenamiento?'+msg)
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
                     .cancel('Cancelar');
 
             $mdDialog.show(confirm).then(function () {
-                $scope.submitUserProfile(form, true);
+                $scope.createOrMergeUserProfile($scope.userProfile,generatePlan);
             }, function () {
             });
         };

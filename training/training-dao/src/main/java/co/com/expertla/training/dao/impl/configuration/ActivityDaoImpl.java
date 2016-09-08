@@ -107,7 +107,7 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
 
         if(activity.getName() != null && !activity.getName().trim().isEmpty()) {
             builder.append("AND lower(a.name) like lower(:name) ");
-            setParameter("name", "%" + activity.getName() + "%");
+            setParameter("name", activity.getName());
         }
 
 
@@ -142,15 +142,17 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     }
 
     @Override
-    public List<Activity> findByObjectiveIdAndModalityId(Integer objectiveId, Integer modalityId) throws Exception {
+    public List<Activity> findByObjectiveIdAndModalityIdAndEnvironmentId(Integer objectiveId, Integer modalityId, Integer environmentId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT a ");
         sql.append("FROM Activity a ");
         sql.append("WHERE a.objectiveId.objectiveId = :objectiveId ");
         sql.append("AND a.modalityId.modalityId = :modalityId ");
+        sql.append("AND a.environmentId.environmentId = :environmentId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("objectiveId", objectiveId);
         query.setParameter("modalityId", modalityId);
+        query.setParameter("environmentId", environmentId);
         return query.getResultList();
     }
 
