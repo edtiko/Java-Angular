@@ -117,6 +117,10 @@ public interface ActivityService {
 
     public void deleteManualActivity(Integer manualActivityId)throws Exception;
 
+    public ActivityCalendarDTO findByManualActivityId(Integer manualActivityId)throws Exception;
+
+    public Integer updateManualActivity(ActivityCalendarDTO activity)throws Exception;
+
 
     
 }

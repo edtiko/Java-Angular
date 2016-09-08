@@ -8,7 +8,7 @@
         });
     });
 
-    $('*[data-add-event]').click(function () {
+   /* $('*[data-add-event]').click(function () {
         $.ajax({
             url: 'static/tmpls/add-event.html',
             dataType: 'html',
@@ -19,8 +19,8 @@
             $('#add-events-modal').modal();
             compileAngularElement('#add-events-modal-body');
         });
-    });
-    
+    });*/
+        
     $('.btn-group button[data-calendar-view]').each(function () {
         var $this = $(this);
         $this.click(function () {
@@ -61,6 +61,19 @@
     });
 }(jQuery));
 
+   function modalActivity (ev) {
+       console.log(ev);
+        var manual = $(ev.target).attr("data-manual-activity");
+        var id = $(ev.target).attr("data-activity-id");
+        if (manual == 'true') {
+            $('#events-modal').modal('hide');
+            var scope = angular.element($("#calendar")).scope();
+            scope.$apply(function () {
+               scope.showEditManualActivity(id); 
+            });
+        }
+    };
+
 function initCalendar() {
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
     var planAthleteSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
@@ -73,8 +86,8 @@ function initCalendar() {
         language: 'es-CO',
         events_source: 'trainingPlanWorkout/get/planWorkout/by/user/' + user.userId,
         view: 'month',
-        modal: "#events-modal",
-        modal_type: 'template',
+        //modal: "#events-modal",
+        //modal_type: 'template',
         tmpl_path: 'static/tmpls/',
         tmpl_cache: false,
         day: getDate(),

@@ -1,0 +1,61 @@
+<md-dialog aria-label="Crear Actividad Manual" style="width: 400px">
+  <form name="formActivity" novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>{{manualActivityTitle}} {{selectedDay}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+                <div layout="row"> 
+                <div flex>
+                    <md-input-container class="md-block" >
+
+                        <label>Deporte
+                        </label>
+                        <md-select  ng-model="manualActivity.sportId" id="sportId" name="sport" required>
+                            <md-option ng-repeat="s in sports" value="{{s.sportId}}" >
+                                {{s.name}}
+                            </md-option>
+                        </md-select>
+                        <div class="has-error" ng-messages="formActivity.sport.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                </div>
+            <div layout="row">
+                <div flex>
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="manualActivity.name" id="name" name="name"  placeholder="Nombre" required="" ng-minlength="3" maxlength="500"/>
+                        <div class="has-error" ng-messages="formActivity.name.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" >
+                <div flex>
+                    <md-input-container class="md-block">
+                        <textarea ng-model="manualActivity.description" id="secondName" name="description"  placeholder="Descripci&oacute;n"  ng-minlength="3" md-maxlength="1000"></textarea>
+
+                    </md-input-container>
+                </div>
+            </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">  
+      <md-button class="md-primary md-raised" ng-click="saveActivity()">
+       Guardar
+      </md-button>
+      <md-button class="md-raised" ng-click="cancel()">
+       Cancelar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

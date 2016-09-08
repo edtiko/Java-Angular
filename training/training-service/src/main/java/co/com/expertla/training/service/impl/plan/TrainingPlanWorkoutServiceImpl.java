@@ -183,6 +183,11 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         return trainingPlanWorkoutDao.getById(trainingPlanWorkout);
     }
     
+    @Override
+     public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception {
+         return trainingPlanWorkoutDao.getPlanWorkoutById(trainingPlanWorkoutId);
+     }
+    
     
     private ArrayList<DayDto> avalabiltyDays = new ArrayList<DayDto>();
     private boolean sessionsAdded; // Determina si se adicionaron sesiones debido a la baja disponibilidad del atleta

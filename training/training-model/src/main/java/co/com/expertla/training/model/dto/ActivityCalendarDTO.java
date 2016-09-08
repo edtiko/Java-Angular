@@ -5,6 +5,8 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Modality;
+
 /**
  *
  * @author Edwin G
@@ -15,6 +17,7 @@ public class ActivityCalendarDTO {
     private String name;
     private String description;
     private Integer modalityId;
+    private String modality;
     private Integer userId;
     private Integer objectiveId;
     private Integer sportId;
@@ -37,6 +40,17 @@ public class ActivityCalendarDTO {
         this.name = name;
         this.description = description;
         this.modalityId = modalityId;
+        this.objectiveId = objectiveId;
+        this.sportId = sportId;
+        this.capacity = capacity;
+    }
+    
+    public ActivityCalendarDTO(Integer id, String name, String description, Modality modalityId, Integer objectiveId, Integer sportId, String capacity) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.modalityId = modalityId.getModalityId();
+        this.modality = modalityId.getName();
         this.objectiveId = objectiveId;
         this.sportId = sportId;
         this.capacity = capacity;

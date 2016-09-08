@@ -48,6 +48,18 @@ trainingApp.service('CalendarService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         ); 
+           },
+           getManualActivity: function(manualActivityId){
+              return $http.get($contextPath + 'get/manual/activity/id/' + manualActivityId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while get manual activity');
+                                    return $q.reject(errResponse);
+                                }
+                        );  
            }
         };
     }]);

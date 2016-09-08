@@ -94,4 +94,18 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         builder.append(" where  manual_activity_id = ").append(manualActivityId);
         executeNativeUpdate(builder.toString());
     }
+    
+        
+    @Override
+    public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId,  u.userId.userId) ");
+        sql.append("FROM TrainingPlanWorkout t, TrainingPlanUser u ");
+        sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
+        sql.append("AND t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("trainingPlanWorkoutId", trainingPlanWorkoutId);
+        List<TrainingPlanWorkoutDto> list = query.getResultList();
+        return list != null? list.get(0):null;
+    }
 }

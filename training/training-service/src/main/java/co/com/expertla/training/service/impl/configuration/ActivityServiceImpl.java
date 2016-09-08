@@ -107,4 +107,21 @@ public class ActivityServiceImpl implements ActivityService {
          trainingPlanWorkoutDao.deleteByManualActivityId(manualActivityId);
     }
 
+    @Override
+    public ActivityCalendarDTO findByManualActivityId(Integer manualActivityId) throws Exception {
+        return manualActivityDao.findByManualActivityId(manualActivityId);
+    }
+
+    @Override
+    public Integer updateManualActivity(ActivityCalendarDTO activity) throws Exception {
+        ManualActivity manualActivity = new ManualActivity();
+        manualActivity.setManualActivityId(activity.getId());
+        manualActivity.setName(activity.getName());
+        manualActivity.setDescription(activity.getDescription());
+        manualActivity.setSportId(new Sport(activity.getSportId()));
+        manualActivity.setUserId(new User(activity.getUserId()));
+        manualActivity.setCreationDate(Calendar.getInstance().getTime());
+        return  manualActivityDao.merge(manualActivity).getManualActivityId();
+    }
+
 }

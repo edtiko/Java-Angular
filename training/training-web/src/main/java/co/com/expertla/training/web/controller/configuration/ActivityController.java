@@ -6,6 +6,7 @@ import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
+import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
@@ -222,8 +223,13 @@ public class ActivityController {
     @RequestMapping(value = "create/manual/activity", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> createManualActivity(@RequestBody ActivityCalendarDTO activity) {
             ResponseService responseService = new ResponseService();
-        try {           
-           Integer id =  activityService.createManualActivity(activity);
+        try { 
+            Integer id = null;
+            if(activity.getId() != null){
+              id = activityService.updateManualActivity(activity);
+            }else{
+              id = activityService.createManualActivity(activity);
+            }
             responseService.setOutput(id);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -272,6 +278,40 @@ public class ActivityController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al eliminar registro");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+        @RequestMapping(value = "/get/manual/activity/id/{manualActivityId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getManualActivity(@PathVariable("manualActivityId") Integer manualActivityId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+             ActivityCalendarDTO manualActivity = activityService.findByManualActivityId(manualActivityId);
+            responseService.setOutput(manualActivity);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+           @RequestMapping(value = "/get/activity/id/{activityId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getActivity(@PathVariable("activityId") Integer activityId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+             TrainingPlanWorkoutDto activity = activityService.findByActivityId(activityId);
+            responseService.setOutput(activity);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

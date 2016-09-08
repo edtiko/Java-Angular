@@ -34,4 +34,17 @@ public class ManualActivityDaoImpl extends BaseDAOImpl<ManualActivity> implement
         return list;
     }
 
+    @Override
+    public ActivityCalendarDTO findByManualActivityId(Integer manualActivityId) throws DAOException {
+       StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityCalendarDTO(ma.manualActivityId, ma.name, ma.description, ma.sportId.sportId, ma.userId.userId  )");
+        sql.append("FROM ManualActivity ma ");
+        sql.append("WHERE ma.manualActivityId = :manualActivityId ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("manualActivityId", manualActivityId);
+        List<ActivityCalendarDTO> list = query.getResultList();
+        
+        return list!=null?list.get(0):null;
+    }
+
 }

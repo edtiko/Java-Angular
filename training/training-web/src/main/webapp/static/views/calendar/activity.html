@@ -1,8 +1,8 @@
-<md-dialog aria-label="Crear Actividad Manual" style="width: 400px">
+<md-dialog aria-label="Detalle Actividad" style="width: 400px">
   <form name="formActivity" novalidate>
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Crear Actividad Manual {{selectedDay}}</h2>
+        <h2>Detalle Actividad</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <i class="fa fa-times" aria-hidden="true"></i>
@@ -50,7 +50,7 @@
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">  
-      <md-button class="md-primary md-raised" ng-click="saveActivity()" ng-disabled="formActivity.$invalid">
+      <md-button class="md-primary md-raised" ng-click="saveActivity()">
        Guardar
       </md-button>
       <md-button class="md-raised" ng-click="cancel()">
