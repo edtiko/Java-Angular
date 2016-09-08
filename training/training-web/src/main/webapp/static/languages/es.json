@@ -21,6 +21,7 @@
     "ACTIVATE": "Activar",
     "INACTIVATE":"Inactivar",
     "DELETE": "Eliminar",
+    "SHOW": "Mostrar",
     "USER_CREATE":"Usuario de Creaci\u00f3n",
     "USER_UPDATE":"Usuario de Modificaci\u00f3n",
     "CREATION_DATE":"Fecha de Creaci\u00f3n",
@@ -30,5 +31,7 @@
     "PHYSIOLOGICAL_CAPACITY":"Capacidad Fisiol\u00f3gica",
     "DESCRIPTION":"Descripci\u00f3n",
     "SPORT":"Deporte",
-    "DISCIPLINE":"Disciplina Deportiva"
+    "DISCIPLINE":"Disciplina Deportiva",
+    "WEIGHT":"Peso",
+    "HEIGHT":"Altura"
 }
