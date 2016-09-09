@@ -10,7 +10,7 @@
             <% if(event.manualActivity){ 
               style = 'background-color: rgba(180, 182, 181, 0.42) !important;'
              }%>
-             <a id="cal_<%= event.id %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showEditManualActivity(<%= event.activityId %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
+             <a id="cal_<%= event.id %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.id %>, <%= event.manualActivity %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
                class="pull-left event-back event " style="<%= style %>" data-toggle="tooltip"
                title="<%= event.title %>">
                 <div data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" style="width: 22px">

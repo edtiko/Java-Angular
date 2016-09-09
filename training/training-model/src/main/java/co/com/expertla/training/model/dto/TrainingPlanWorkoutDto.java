@@ -31,6 +31,7 @@ public class TrainingPlanWorkoutDto {
     private int level;
     private Integer userId;
     private String sportIcon;
+    private Integer sportId;
     private boolean manualActivity = false;
 
     public TrainingPlanWorkoutDto() {
@@ -57,6 +58,7 @@ public class TrainingPlanWorkoutDto {
            this.title = manualActivityId.getName();
            this.activityDescription = manualActivityId.getDescription();
            this.sportIcon = manualActivityId.getSportId().getIcon();
+           this.sportId = manualActivityId.getSportId().getSportId();
         }
         
         this.userId = userId;
@@ -212,6 +214,14 @@ public class TrainingPlanWorkoutDto {
 
     public void setManualActivity(boolean manualActivity) {
         this.manualActivity = manualActivity;
+    }
+
+    public Integer getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(Integer sportId) {
+        this.sportId = sportId;
     }
     
     

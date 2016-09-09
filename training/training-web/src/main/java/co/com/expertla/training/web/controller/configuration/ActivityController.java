@@ -11,6 +11,7 @@ import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ActivityService;
+import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
@@ -37,6 +38,10 @@ public class ActivityController {
 
     @Autowired
     ActivityService activityService;  
+    
+    
+    @Autowired
+    TrainingPlanWorkoutService trainingPlanWorkoutService; 
 
     /**
      * Crea activity <br>
@@ -284,11 +289,11 @@ public class ActivityController {
         }
     }
     
-        @RequestMapping(value = "/get/manual/activity/id/{manualActivityId}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseService> getManualActivity(@PathVariable("manualActivityId") Integer manualActivityId) {
+        @RequestMapping(value = "/get/manual/activity/id/{trainingPlanWorkoutId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getManualActivity(@PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
         ResponseService responseService = new ResponseService();
         try {     
-             ActivityCalendarDTO manualActivity = activityService.findByManualActivityId(manualActivityId);
+             ActivityCalendarDTO manualActivity = activityService.findByManualActivityId(trainingPlanWorkoutId);
             responseService.setOutput(manualActivity);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -301,11 +306,11 @@ public class ActivityController {
         }
     }
     
-           @RequestMapping(value = "/get/activity/id/{activityId}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseService> getActivity(@PathVariable("activityId") Integer activityId) {
+    @RequestMapping(value = "/get/activity/id/{trainingPlanWorkoutId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getActivity(@PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
         ResponseService responseService = new ResponseService();
-        try {     
-             TrainingPlanWorkoutDto activity = activityService.findByActivityId(activityId);
+        try {
+            TrainingPlanWorkoutDto activity = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
             responseService.setOutput(activity);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

@@ -99,10 +99,9 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     @Override
     public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId,  u.userId.userId) ");
-        sql.append("FROM TrainingPlanWorkout t, TrainingPlanUser u ");
-        sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
-        sql.append("AND t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId, t.trainingPlanUserId.userId.userId) ");
+        sql.append("FROM TrainingPlanWorkout t ");
+        sql.append("WHERE t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("trainingPlanWorkoutId", trainingPlanWorkoutId);
         List<TrainingPlanWorkoutDto> list = query.getResultList();
