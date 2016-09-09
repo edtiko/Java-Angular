@@ -178,6 +178,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $window.location.href = "#message";
             }
         };
+        
+        $scope.goVideos = function () {
+            var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
+            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach' && planSelected == null) {
+                $scope.showMessage("Debe seleccionar un atleta");
+            } else {
+                $window.location.href = "#video";
+            }
+        };
 
         self.getAssignedAthletes = function () {
             DashboardService.getAssignedAthletes($scope.userSession.userId).then(
