@@ -36,6 +36,42 @@ trainingApp.service('CalendarService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
-            }
+            },
+           deleteManualActivity: function(manualActivityId){
+              return $http.get($contextPath + 'delete/manual/activity/' + manualActivityId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting manual activity');
+                                    return $q.reject(errResponse);
+                                }
+                        ); 
+           },
+           getManualActivity: function(manualActivityId){
+              return $http.get($contextPath + 'get/manual/activity/id/' + manualActivityId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while get manual activity');
+                                    return $q.reject(errResponse);
+                                }
+                        );  
+           },
+           getActivity: function(trainingPlanWorkoutId){
+              return $http.get($contextPath + 'get/activity/id/' + trainingPlanWorkoutId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while get activity');
+                                    return $q.reject(errResponse);
+                                }
+                        );  
+           }
         };
     }]);

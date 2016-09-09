@@ -1,0 +1,103 @@
+<md-dialog aria-label="Detalle Actividad" style="width: 500px">
+    <form name="formActivity" novalidate>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Detalle Actividad</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <div layout="row"> 
+                    <div flex>
+                        <md-input-container class="md-block" >
+
+                            <label>Fecha</label>
+                            <input type="text" ng-model="activity.workoutDate" id="workoutDate" name="workoutDate" />
+
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex>
+                        <md-input-container class="md-block" >
+                            <label>Tipo Actividad</label>
+                            <input type="text" ng-model="activity.modality" id="modality" name="modality" />
+
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" >
+                    <div flex>
+                        <md-input-container class="md-block">
+                            <label>Nombre</label>
+                            <input type="text" ng-model="activity.title" id="name" name="name" />
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" >
+                    <div flex>
+                        <md-input-container class="md-block">
+                            <label>Descripci&oacute;n</label>
+                            <textarea ng-model="activity.activityDescription" id="secondName" name="description"   ng-minlength="3" md-maxlength="1000"></textarea>
+
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <md-radio-group ng-model="activity.training">
+
+                        <md-radio-button value="ppm" class="md-primary">Entrenamiento por ppm</md-radio-button>
+                        <md-radio-button value="potencia"> Entrenamiento por potencia </md-radio-button>
+
+                    </md-radio-group>
+
+                </div>
+                <div class="border">
+                <div layout="row" >
+                    <div flex>
+                        <md-input-container class="md-block">
+                            <label>Tiempo</label>
+                            <input type="text"  id="time" name="time" />
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" >
+                    <div flex>
+                        <md-input-container class="md-block">
+                            <label>Distancia</label>
+                            <input type="text"  id="distance" name="distance" />
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" >
+                    <div flex>
+                        <md-input-container class="md-block">
+                            <label>Calor&iacute;as</label>
+                            <input type="text"  id="calories" name="calories" />
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" >
+                    <div flex>
+                        <md-input-container class="md-block">
+                            <label>Descripci&oacute;n</label>
+                            <textarea id="desc" name="desc" ></textarea>
+
+                        </md-input-container>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">  
+            <md-button class="md-raised" ng-click="cancel()">
+                Aceptar
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

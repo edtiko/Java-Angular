@@ -108,12 +108,18 @@ public interface ActivityService {
      * @return
      * @throws Exception
      */
-    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception;
+    public List<ActivityCalendarDTO> findByUserDiscipline(Integer usuarioId) throws Exception;
 
 
     public Integer createManualActivity(ActivityCalendarDTO activity) throws Exception;
      
     public List<ActivityCalendarDTO> findManualActivitiesByUserId(Integer userId) throws Exception;
+
+    public void deleteManualActivity(Integer manualActivityId)throws Exception;
+
+    public ActivityCalendarDTO findByManualActivityId(Integer manualActivityId)throws Exception;
+
+    public Integer updateManualActivity(ActivityCalendarDTO activity)throws Exception;
 
 
     

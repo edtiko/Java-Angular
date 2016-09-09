@@ -19,5 +19,7 @@ public interface ManualActivityDao extends BaseDAO<ManualActivity>{
 
     public List<ActivityCalendarDTO> findByUserId(Integer userId) throws DAOException;
 
+    public ActivityCalendarDTO findByManualActivityId(Integer manualActivityId) throws DAOException;
+
     
 }

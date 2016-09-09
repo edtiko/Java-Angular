@@ -6,10 +6,12 @@ import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
+import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ActivityService;
+import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
@@ -36,6 +38,10 @@ public class ActivityController {
 
     @Autowired
     ActivityService activityService;  
+    
+    
+    @Autowired
+    TrainingPlanWorkoutService trainingPlanWorkoutService; 
 
     /**
      * Crea activity <br>
@@ -206,7 +212,7 @@ public class ActivityController {
     public ResponseEntity<ResponseService> listByDisciplineUser(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {     
-            List<ActivityDTO> activityList = activityService.findByUserDiscipline(userId);
+            List<ActivityCalendarDTO> activityList = activityService.findByUserDiscipline(userId);
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -222,8 +228,13 @@ public class ActivityController {
     @RequestMapping(value = "create/manual/activity", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> createManualActivity(@RequestBody ActivityCalendarDTO activity) {
             ResponseService responseService = new ResponseService();
-        try {           
-           Integer id =  activityService.createManualActivity(activity);
+        try { 
+            Integer id = null;
+            if(activity.getId() != null){
+              id = activityService.updateManualActivity(activity);
+            }else{
+              id = activityService.createManualActivity(activity);
+            }
             responseService.setOutput(id);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -242,6 +253,65 @@ public class ActivityController {
         try {     
             List<ActivityCalendarDTO> activityList = activityService.findManualActivitiesByUserId(userId);
             responseService.setOutput(activityList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+        /**
+     * Elimina Manual activity <br>
+     * Info. Creacionn: <br>
+     * fecha Sep 7, 2016 <br>
+     * @author Edwin Gómez
+     * @param manualActivityId
+     * @return
+     */
+    @RequestMapping(value = "delete/manual/activity/{manualActivityId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> deleteManualActivity(@PathVariable("manualActivityId") Integer manualActivityId) {
+            ResponseService responseService = new ResponseService();
+        try {           
+            activityService.deleteManualActivity(manualActivityId);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.activity", "msgRegistroEliminado"));
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al eliminar registro");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+        @RequestMapping(value = "/get/manual/activity/id/{trainingPlanWorkoutId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getManualActivity(@PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+             ActivityCalendarDTO manualActivity = activityService.findByManualActivityId(trainingPlanWorkoutId);
+            responseService.setOutput(manualActivity);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/get/activity/id/{trainingPlanWorkoutId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getActivity(@PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            TrainingPlanWorkoutDto activity = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            responseService.setOutput(activity);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
