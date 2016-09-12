@@ -34,7 +34,9 @@ public class TrainingPlanWorkoutDto {
     private int level;
     private Integer userId;
     private String sportIcon;
-    private Integer percentageWeather;
+    private Integer sportId;
+    private boolean manualActivity = false;
+	private Integer percentageWeather;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -65,7 +67,15 @@ public class TrainingPlanWorkoutDto {
             this.activityDescription = manualActivityId.getDescription();
             this.sportIcon = manualActivityId.getSportId().getIcon();
         }
-
+        }else if(manualActivityId != null){
+           this.manualActivity = true;
+           this.activityId =  manualActivityId.getManualActivityId();
+           this.title = manualActivityId.getName();
+           this.activityDescription = manualActivityId.getDescription();
+           this.sportIcon = manualActivityId.getSportId().getIcon();
+           this.sportId = manualActivityId.getSportId().getSportId();
+        }
+        
         this.userId = userId;
     }
 
@@ -221,4 +231,22 @@ public class TrainingPlanWorkoutDto {
         this.activityDescription = activityDescription;
     }
 
+    public boolean isManualActivity() {
+        return manualActivity;
+    }
+
+    public void setManualActivity(boolean manualActivity) {
+        this.manualActivity = manualActivity;
+    }
+
+    public Integer getSportId() {
+        return sportId;
+    }
+
+    public void setSportId(Integer sportId) {
+        this.sportId = sportId;
+    }
+    
+    
+    
 }

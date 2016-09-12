@@ -68,6 +68,8 @@ public interface TrainingPlanWorkoutService {
      * @throws Exception 
      */
     public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception;
+    
+      public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception; 
 
  
 }

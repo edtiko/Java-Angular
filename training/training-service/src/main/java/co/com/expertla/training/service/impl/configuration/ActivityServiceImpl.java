@@ -3,6 +3,7 @@ package co.com.expertla.training.service.impl.configuration;
 import co.com.expertla.training.dao.configuration.ActivityDao;
 
 import co.com.expertla.training.dao.configuration.ManualActivityDao;
+import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.entities.ManualActivity;
@@ -34,6 +35,9 @@ public class ActivityServiceImpl implements ActivityService {
     
      @Autowired
     private ManualActivityDao manualActivityDao;
+     
+     @Autowired
+     private TrainingPlanWorkoutDao trainingPlanWorkoutDao;
 
     @Override
     public Activity create(Activity activity) throws Exception {
@@ -76,7 +80,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityDTO> findByUserDiscipline(Integer usuarioId) throws Exception {
+    public List<ActivityCalendarDTO> findByUserDiscipline(Integer usuarioId) throws Exception {
         return activityDao.findByUserDiscipline(usuarioId);
     }
   
@@ -95,6 +99,29 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
      public List<ActivityCalendarDTO> findManualActivitiesByUserId(Integer userId) throws Exception {
         return manualActivityDao.findByUserId(userId);
+    }
+
+    @Override
+    public void deleteManualActivity(Integer manualActivityId) throws Exception {
+         manualActivityDao.remove(new ManualActivity(), manualActivityId);
+         trainingPlanWorkoutDao.deleteByManualActivityId(manualActivityId);
+    }
+
+    @Override
+    public ActivityCalendarDTO findByManualActivityId(Integer manualActivityId) throws Exception {
+        return manualActivityDao.findByManualActivityId(manualActivityId);
+    }
+
+    @Override
+    public Integer updateManualActivity(ActivityCalendarDTO activity) throws Exception {
+        ManualActivity manualActivity = new ManualActivity();
+        manualActivity.setManualActivityId(activity.getId());
+        manualActivity.setName(activity.getName());
+        manualActivity.setDescription(activity.getDescription());
+        manualActivity.setSportId(new Sport(activity.getSportId()));
+        manualActivity.setUserId(new User(activity.getUserId()));
+        manualActivity.setCreationDate(Calendar.getInstance().getTime());
+        return  manualActivityDao.merge(manualActivity).getManualActivityId();
     }
 
 }
