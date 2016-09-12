@@ -33,6 +33,15 @@
     "SPORT":"Deporte",
     "DISCIPLINE":"Disciplina Deportiva",
     "CHARACTERISTIC_MODALITY": "Creaci\u00f3n de Caracter\u00edsticas",
-	"WEIGHT":"Peso",
-    "HEIGHT":"Altura"
+    "CREATE_CHARACTERISTIC": "Creaci\u00f3n de Caracter\u00edsticas",
+    "WEIGHT":"Peso",
+    "HEIGHT":"Altura",
+    "VALUE_TYPE":"Tipo de Valor",
+    "NUMERIC":"Num\u00e9rico",
+    "PORCENTAGE":"Porcentaje",
+    "LIST_CHARACTERISTIC":"Lista de Caracter\u00edsticas",
+    "OPTIONS":"Opciones",
+    "ADD_PLAN_CHARACTERISTIC_MODALITY":"Caracter\u00edsticas del Plan",
+    "VALUE":"Valor",
+    "CHARACTERISTIC":"Caracter\u00edstica"
 }

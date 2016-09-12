@@ -12,6 +12,16 @@ trainingApp.service('CharacteristicService', ['$http', '$q', function ($http, $q
                                     }
                             );
             },
+            getPlanCharacteristicPaginate: function(characteristicId, res){
+                    return $http.get($contextPath+'characteristic/trainingPlanCharact/get/all/'+characteristicId)
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
             getCharacteristicById: function (id) {
                 return $http.get($contextPath + '/get/characteristic/by/' + id)
                         .then(
@@ -36,6 +46,19 @@ trainingApp.service('CharacteristicService', ['$http', '$q', function ($http, $q
                                 }
                         );
             },
+            createPlanCharacteristic: function (characteristic) {
+                return $http.post($contextPath + '/characteristic/trainingPlanCharact/create', characteristic)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating characteristic');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            
             mergeCharacteristic: function (characteristic) {
                 return $http.post($contextPath + '/characteristic/update', characteristic)
                         .then(
@@ -50,6 +73,18 @@ trainingApp.service('CharacteristicService', ['$http', '$q', function ($http, $q
             },
             deleteCharacteristic: function (characteristic) {
                 return $http.post($contextPath + '/characteristic/delete',characteristic)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting characteristic');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            deletePlanCharacteristic: function (characteristic) {
+                return $http.post($contextPath + '/characteristic/trainingPlanCharact/delete',characteristic)
                         .then(
                                 function (response) {
                                     return response.data;

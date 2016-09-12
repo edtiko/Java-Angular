@@ -19,7 +19,7 @@
                 <div layout="row">
                     <div flex="66">
                         <md-input-container class="md-block">
-                            <input type="text" ng-model="characteristic.name" id="name" name="name"  placeholder="Name" required/>
+                            <input type="text" ng-model="characteristic.name" id="name" name="name"  placeholder="{{ 'NAME' | translate }}" required/>
                             <div class="has-error" ng-messages="formCharacteristic.name.$error">
                                 <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
                             </div>
@@ -30,16 +30,25 @@
 
                 <div layout="row">
                     <div flex="66">
-                        <md-input-container class="md-block">
-                            <input type="text" ng-model="characteristic.valueType" id="valueType" name="valueType"  placeholder="ValueType" required/>
-                            <div class="has-error" ng-messages="formCharacteristic.valueType.$error">
+                        <md-input-container class="md-block" >
+                            <label>{{ 'VALUE_TYPE' | translate }}</label>
+                            <md-select id="valueType" ng-model="characteristic.valueType" required>
+                                <md-option value="1" >
+                                    Check
+                                </md-option>
+                                <md-option value="2" >
+                                    {{ 'NUMERIC' | translate }}
+                                </md-option>
+                                <md-option value="3" >
+                                    {{ 'PORCENTAGE' | translate }}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formModality.discipline.$error">
                                 <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
                             </div>
                         </md-input-container>
                     </div>
                 </div>
-
-
 
                 <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                     <md-button ng-click="submitCharacteristic(formCharacteristic)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>

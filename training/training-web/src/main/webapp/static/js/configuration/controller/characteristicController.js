@@ -1,15 +1,28 @@
-trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicService', '$window',
-    function ($scope, CharacteristicService, $window) {
+trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicService', 'TrainingPlanService', '$window', '$mdDialog',
+    function ($scope, CharacteristicService, TrainingPlanService, $window, $mdDialog) {
         $scope.characteristic = {characteristicId: null,
             name: '',
             valueType: '',
             stateId: '',
             userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
+
+        $scope.planCharacteristic = {
+            trainingPlanCharactId: null,
+            value: '',
+            characteristicId: {characteristicId: null, name: ''},
+            trainingPlanId: {trainingPlanId: null, name: ''},
+            stateId: '',
+            userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''
+        };
+
         $scope.characteristicList = [];
+        $scope.planCharacteristicList = [];
+        $scope.planList = [];
         $scope.count = 0;
 
         var bookmark;
         $scope.selected = [];
+        $scope.selectedPlan = [];
 
         $scope.filter = {
             options: {
@@ -44,7 +57,24 @@ trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicSer
             }).$promise;
         };
 
+        $scope.getPlanCharacteristicPaginate = function (characteristicId) {
+            $scope.promise = CharacteristicService.getPlanCharacteristicPaginate(characteristicId, function (response) {
+                $scope.planCharacteristicList = success(response);
+            }).$promise;
+        };
 
+        $scope.getPlanCharacteristicList = function (characteristicId, success) {
+            $scope.promise = CharacteristicService.getPlanCharacteristicPaginate(characteristicId, success).$promise;
+        };
+
+        $scope.getPlan = function (sucess) {
+            TrainingPlanService.getAll().then(sucess,
+                    function (errResponse) {
+                        console.error('Error while plan');
+                        console.error(errResponse);
+                    }
+            );
+        };
 
         $scope.createCharacteristic = function (characteristic) {
             if ($scope.appReady) {
@@ -108,6 +138,24 @@ trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicSer
                             }
                     );
         };
+        
+        $scope.deletePlanCharacteristic = function (characteristic) {
+            CharacteristicService.deletePlanCharacteristic(characteristic)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.showMessage(d.output);
+                                    $scope.resetPlanCharacteristic();
+                                    $scope.getPlanCharacteristicPaginate($scope.characteristic.characteristicId);
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while deleting Characteristic.');
+                            }
+                    );
+        };
 
         $scope.submitCharacteristic = function (form) {
             if (form.$valid) {
@@ -122,10 +170,49 @@ trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicSer
 
         };
 
+        $scope.submitPlanCharacteristic = function (form) {
+            if (form.$valid) {
+                $scope.createPlanCharacteristic($scope.planCharacteristic);
+            } else {
+                form.$setSubmitted();
+            }
+
+        };
+
+        $scope.createPlanCharacteristic = function (planCharacteristic) {
+            if ($scope.appReady) {
+                var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                planCharacteristic.userCreate = (user.userId);
+            }
+            CharacteristicService.createPlanCharacteristic(planCharacteristic)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.showMessage(d.output);
+                                    $scope.resetPlanCharacteristic();
+                                    $scope.getPlanCharacteristicPaginate($scope.characteristic.characteristicId);
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating Characteristic.');
+                            }
+                    );
+        };
+
         $scope.editCharacteristic = function (id, ev) {
             for (var i = 0; i < $scope.characteristicList.length; i++) {
                 if ($scope.characteristicList[i].characteristicId === id) {
                     $scope.characteristic = angular.copy($scope.characteristicList[i]);
+
+                    if ($scope.characteristic.valueType == 'CHECK') {
+                        $scope.characteristic.valueType = 1;
+                    } else if ($scope.characteristic.valueType == 'NUMERO') {
+                        $scope.characteristic.valueType = 2;
+                    } else {
+                        $scope.characteristic.valueType = 3;
+                    }
                     break;
                 }
             }
@@ -168,6 +255,15 @@ trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicSer
                 stateId: '',
                 userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
         };
+
+        $scope.resetPlanCharacteristic = function () {
+            $scope.planCharacteristic = {
+                trainingPlanCharactId: null,
+                value: '',
+                characteristicId: {characteristicId: null, name: ''},
+                trainingPlanId: {trainingPlanId: null, name: ''}
+            };
+        }
 
         $scope.removeFilter = function () {
             $scope.filter.show = false;
@@ -223,6 +319,7 @@ trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicSer
             $scope.characteristic = characteristic;
 
 
+
             $scope.hide = function () {
                 $mdDialog.hide();
             };
@@ -232,7 +329,88 @@ trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicSer
 
         }
 
+        $scope.addPlan = function (characteristicId, ev) {
+            $scope.getPlanCharacteristicList(characteristicId, function (response) {
+                $scope.planCharacteristicList = success(response);
+
+                $scope.getPlan(
+                        function (d) {
+                            if (d.status == 'fail') {
+                                $scope.showMessage(d.output);
+                            } else {
+                                $scope.planList = d.output;
+                            }
+
+                            for (var i = 0; i < $scope.characteristicList.length; i++) {
+                                if ($scope.characteristicList[i].characteristicId === characteristicId) {
+                                    $scope.characteristic = angular.copy($scope.characteristicList[i]);
+
+                                    if ($scope.characteristic.valueType == 'CHECK') {
+                                        $scope.characteristic.valueType = 1;
+                                    } else if ($scope.characteristic.valueType == 'NUMERO') {
+                                        $scope.characteristic.valueType = 2;
+                                    } else {
+                                        $scope.characteristic.valueType = 3;
+                                    }
+                                    break;
+                                }
+                            }
+                            $scope.planCharacteristic.characteristicId.characteristicId = characteristicId;
+
+                            $mdDialog.show({
+                                controller: PlanCharacteristicController,
+                                scope: $scope.$new(),
+                                templateUrl: 'static/views/configuration/add-plan-characteristic.html',
+                                parent: angular.element(document.body),
+                                targetEvent: ev,
+                                clickOutsideToClose: true,
+                                fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+                                resolve: {
+                                    characteristic: function () {
+                                        return $scope.characteristic;
+                                    },
+                                    planList: function () {
+                                        return $scope.planList;
+                                    },
+                                    planCharacteristicList: function () {
+                                        return $scope.planCharacteristicList;
+                                    },
+                                }
+                            })
+                                    .then(function (answer) {
+                                        $scope.status = 'You said the information was "' + answer + '".';
+                                    }, function () {
+                                        $scope.status = 'You cancelled the dialog.';
+                                    });
+
+                        });
+
+            })
+        };
+
+        function PlanCharacteristicController($scope, $mdDialog, characteristic, planList, planCharacteristicList) {
+
+            $scope.characteristic = characteristic;
+            $scope.planList = planList;
+            $scope.planCharacteristicList = planCharacteristicList;
+            $scope.selectedPlan = [];
+
+            $scope.hide = function () {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+        }
+
+        $scope.validateValueTypeVisible = function () {
+            if ($scope.characteristic.valueType == 1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
         $scope.getCharacteristicPaginate();
-
-
     }]);

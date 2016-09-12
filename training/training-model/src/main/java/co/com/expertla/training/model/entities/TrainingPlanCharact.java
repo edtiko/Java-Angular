@@ -66,7 +66,7 @@ public class TrainingPlanCharact implements Serializable {
     @JoinColumn(name = "characteristic_id", referencedColumnName = "characteristic_id")
     @ManyToOne(optional = false)
     private Characteristic characteristicId;
-    @JoinColumn(name = "training_plan", referencedColumnName = "training_plan")
+    @JoinColumn(name = "training_plan_id", referencedColumnName = "training_plan_id")
     @ManyToOne(optional = false)
     private TrainingPlan trainingPlanId;
 

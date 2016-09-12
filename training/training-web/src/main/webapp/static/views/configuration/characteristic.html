@@ -1,7 +1,7 @@
 <div class="demo-md-panel md-padding">
     <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
         <div class="md-toolbar-tools">
-            <span>Lista de Characteristic</span>
+            <span>{{ 'LIST_CHARACTERISTIC' | translate }}</span>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list"
                        ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
@@ -33,12 +33,13 @@
         <table md-table ng-model="selected" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="getCharacteristicPaginate">
                 <tr md-row>
-                    <th md-column md-order-by="name" class="md-column">name</th>
-                    <th md-column md-order-by="valueType" class="md-column">valueType</th>
-                    <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
-                    <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
-                    <th md-column md-order-by="userUpdate">Usuario de Modificaci&oacute;n</th>
-                    <th md-column md-order-by="lastUpdate">Fecha de Modificaci&oacute;n</th>
+                    <th md-column class="md-column">{{ 'OPTIONS' | translate }}</th>
+                    <th md-column md-order-by="name" class="md-column">{{ 'NAME' | translate }}</th>
+                    <th md-column md-order-by="valueType" class="md-column">{{ 'VALUE_TYPE' | translate }}</th>
+                    <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
+                    <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
+                    <th md-column md-order-by="userUpdate">{{ 'USER_UPDATE' | translate }}</th>
+                    <th md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>
                 </tr>
             </thead>
             <tbody md-body>
@@ -48,6 +49,7 @@
                     <md-button ng-show="modality.stateId == 0" type="button" ng-click="activateCharacteristic(characteristic.characteristicId)"  ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
                     <md-button ng-show="modality.stateId == 1" type="button" ng-click="inactivateCharacteristic(characteristic.characteristicId)"  ng-style="{color: 'yellow', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
                     <md-button type="button" ng-click="deleteCharacteristic(characteristic.characteristicId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+                    <md-button type="button" ng-click="addPlan(characteristic.characteristicId, event)" class="md-raised md-primary" title="Plan" ng-style="{ 'font-size':'10px', 'height':'10px', 'min-width': '35px'}">Plan</md-button>
                 </td>
                     <td md-cell>{{characteristic.name}}</td>
                     <td md-cell>{{characteristic.valueType}}</td>
