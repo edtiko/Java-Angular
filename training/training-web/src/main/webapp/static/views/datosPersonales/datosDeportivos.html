@@ -5,26 +5,8 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <label>Objetivo</label>
-                        <md-select id="objective" name="objective" ng-model="userProfile.objective" required>
-                            <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
-                                {{o.name}}
-                            </md-option>
-                        </md-select>
-                        <div class="has-error" ng-messages="formProfile.objective.$error">
-                            <div ng-message="required">Este es un campo requerido</div>
-                        </div>
-                    </md-input-container>
-                </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profileobjective" 
-                           ng-change="setVisibleField(user_profileobjective, 'user_profile', 'objective')"> Mostrar</md-switch>
-
-            </div>
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
                         <label>Disciplina Deportiva</label>
-                        <md-select id="discipline" ng-model="userProfile.discipline" required ng-change="getModalitiesByDisciplineId(userProfile.discipline)">
+                        <md-select id="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
                             <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                                 {{d.name}}
                             </md-option>
@@ -35,8 +17,27 @@
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profilediscipline" ng-change="setVisibleField(user_profilediscipline, 'user_profile', 'discipline')
-                           "> Mostrar</md-switch>
+                           "> {{ 'SHOW' | translate }}</md-switch>
             </div>
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label>Objetivo</label>
+                        <md-select id="objective" name="objective" ng-model="userProfile.objective" required ng-change="getModalitiesByObjectiveId(userProfile.objective)">
+                            <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
+                                {{o.name}}
+                            </md-option>
+                        </md-select>
+                        <div class="has-error" ng-messages="formProfile.objective.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profileobjective" 
+                           ng-change="setVisibleField(user_profileobjective, 'user_profile', 'objective')"> {{ 'SHOW' | translate }}</md-switch>
+
+            </div>
+            
             
             
             <div layout="row"> 
@@ -54,7 +55,7 @@
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilemodality, 'user_profile', 'modality')"
-                           ng-model="user_profilemodality"> Mostrar</md-switch>
+                           ng-model="user_profilemodality"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
             <div layout="row"> 
@@ -78,7 +79,7 @@
 
                 </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileenvironmentId, 'user_profile', 'environmentId')"
-                           ng-model="user_profileenvironmentId"> Mostrar</md-switch>
+                           ng-model="user_profileenvironmentId"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
             <div layout="row"> 
@@ -100,7 +101,7 @@
                 <md-button class="md-icon-button launch md-primary" aria-label="Clima" ng-click="showTooltipWeather()">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                 </md-button>
-                <md-switch ng-change="setVisibleField(user_profileweatherId, 'user_profile', 'weatherId')" ng-model="user_profileweatherId"> Mostrar</md-switch>
+                <md-switch ng-change="setVisibleField(user_profileweatherId, 'user_profile', 'weatherId')" ng-model="user_profileweatherId"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
 
@@ -118,7 +119,7 @@
                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                 </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileage_sport, 'user_profile', 'age_sport')"
-                           ng-model="user_profileage_sport"> Mostrar</md-switch>
+                           ng-model="user_profileage_sport"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
             <div layout="row"> 
@@ -135,7 +136,7 @@
                     </div>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileuser_availability, 'user_profile', 'user_availability')"
-                           ng-model="user_profileuser_availability"> Mostrar</md-switch>
+                           ng-model="user_profileuser_availability"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
 
@@ -151,7 +152,7 @@
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilesport, 'user_profile', 'sport')"
-                           ng-model="user_profilesport"> Mostrar</md-switch>
+                           ng-model="user_profilesport"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
             <div layout="row"> 
@@ -162,7 +163,7 @@
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileabout_me, 'user_profile', 'about_me')"
-                           ng-model="user_profileabout_me"> Mostrar</md-switch>
+                           ng-model="user_profileabout_me"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
 
@@ -178,7 +179,7 @@
                     </md-radio-group>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilepulsometer, 'user_profile', 'pulsometer')"
-                           ng-model="user_profilepulsometer"> Mostrar</md-switch>
+                           ng-model="user_profilepulsometer"> {{ 'SHOW' | translate }}</md-switch>
             </div>
             <div ng-show="userProfile.indPulsometer == 1">
                 <div layout="row"> 
@@ -239,7 +240,7 @@
                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                 </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileppm, 'user_profile', 'ppm')"
-                           ng-model="user_profileppm"> Mostrar</md-switch>
+                           ng-model="user_profileppm"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
             <div layout="row">
@@ -295,7 +296,7 @@
                 </div>
 
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilepotentiometer, 'user_profile', 'potentiometer')"
-                           ng-model="user_profilepotentiometer"> Mostrar</md-switch>
+                           ng-model="user_profilepotentiometer"> {{ 'SHOW' | translate }}</md-switch>
             </div>
             <div ng-show="userProfile.indPower == 1">
                 <div layout="row"> 
@@ -357,7 +358,7 @@
                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                 </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilepower, 'user_profile', 'power')"
-                           ng-model="user_profilepower"> Mostrar</md-switch>
+                           ng-model="user_profilepower"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
             <div layout="row">
@@ -402,7 +403,7 @@
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilevo2_running, 'user_profile', 'vo2_running')"
-                           ng-model="user_profilevo2_running"> Mostrar</md-switch>
+                           ng-model="user_profilevo2_running"> {{ 'SHOW' | translate }}</md-switch>
             </div>
             <div layout="row"> 
                 <div flex="33">
@@ -413,7 +414,7 @@
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilevo2_ciclismo, 'user_profile', 'vo2_ciclismo')"
-                           ng-model="user_profilevo2_ciclismo"> Mostrar</md-switch>
+                           ng-model="user_profilevo2_ciclismo"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
 
@@ -426,7 +427,7 @@
                     </md-radio-group>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilebike, 'user_profile', 'bike')"
-                           ng-model="user_profilebike"> Mostrar</md-switch>
+                           ng-model="user_profilebike"> {{ 'SHOW' | translate }}</md-switch>
             </div>
             <div  ng-show="indBike == 1">
                 <div layout="row"> 
@@ -496,7 +497,38 @@
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileshoes, 'user_profile', 'shoes')"
-                           ng-model="user_profileshoes"> Mostrar</md-switch>
+                           ng-model="user_profileshoes"> {{ 'SHOW' | translate }}</md-switch>
+            </div>
+            
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-change="calculateIMC()">
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileweight, 'user_profile', 'weight')"
+                           ng-model="user_profileweight"> {{ 'SHOW' | translate }}</md-switch>
+            </div>
+            
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()">
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileheight, 'user_profile', 'height')"
+                           ng-model="user_profileheight"> {{ 'SHOW' | translate }}</md-switch>
+            </div>
+            
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="userProfile.imc" id="imc"  placeholder="{{ 'IMC' | translate }}" readonly="true"/>
+                    </md-input-container>
+                </div> 
+
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileimc, 'user_profile', 'imc')"
+                           ng-model="user_profileimc"> {{ 'SHOW' | translate }} </md-switch>
             </div>
 
             <div layout="row"> 

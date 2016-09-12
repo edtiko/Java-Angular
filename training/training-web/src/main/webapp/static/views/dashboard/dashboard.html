@@ -294,6 +294,28 @@
                             <md-subheader>{{user.shoes}}</md-subheader>
 
                         </div>
+                        
+                         <div class="row" ng-show="visibleField('user_profile', 'weight')">
+
+                            <label>{{ 'WEIGHT' | translate }}</label>
+
+                            <md-subheader>{{user.weight}}</md-subheader>
+
+                        </div>
+                         <div class="row" ng-show="visibleField('user_profile', 'height')">
+
+                            <label>{{ 'HEIGHT' | translate }}</label>
+
+                            <md-subheader>{{user.height}}</md-subheader>
+
+                        </div>
+                         <div class="row" ng-show="visibleField('user_profile', 'imc')">
+
+                            <label>{{ 'IMC' | translate }}</label>
+
+                            <md-subheader>{{user.imc}}</md-subheader>
+
+                        </div>
 
                         <div class="row" ng-show="visibleField('user_profile', 'power')">
 

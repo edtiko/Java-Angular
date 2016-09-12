@@ -64,7 +64,8 @@ require.config({
         activityService: "configuration/service/activityService",
         angularSanitize: 'lib/angular-sanitize',
         dcfService:"configuration/service/dcfService",
-        characteristicService:"configuration/service/characteristicService"
+        characteristicService:"configuration/service/characteristicService",
+		brandService:"configuration/service/brandService"
     },
     shim: {
         angular: {
@@ -218,6 +219,9 @@ require.config({
         characteristicService: {
             deps: ['angular','trainingApp']
         },
+		brandService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -226,7 +230,7 @@ require.config({
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
-                'physiologicalCapacityService','activityService','dcfService', 'characteristicService'
+                'physiologicalCapacityService','activityService','dcfService', 'characteristicService','brandService'
 //                ,'videoService','videochatService'
 
             ] }

@@ -75,6 +75,12 @@
                      <md-menu-item>
                         <md-button href="#create-modality"> {{ 'CREATE_MODALITY' | translate }}</md-button>
                     </md-menu-item>
+                     <md-menu-item>
+                        <md-button href="#create-brand"> {{ 'CREATE_BRAND' | translate }}</md-button>
+                    </md-menu-item>
+                     <md-menu-item>
+                        <md-button href="#create-bikeType"> {{ 'CREATE_BIKE_TYPE' | translate }}</md-button>
+                    </md-menu-item>
                     <md-menu-item>
                         <md-button href="#create-discipline"> {{ 'CREATE_DISCIPLINE' | translate }}</md-button>
                     </md-menu-item>
@@ -112,7 +118,7 @@
     <!-- these require actual routing with ui-router or ng-route, so they won't work in the demo
     <md-nav-item md-nav-sref="app.page4" name="page4">Page Four</md-nav-item>
     <md-nav-item md-nav-href="#page5" name="page5">Page Five</md-nav-item>
-    -->
+    
     <div ng-view ng-show="appReady" ></div> 
 
     <!-- angular templating -->
