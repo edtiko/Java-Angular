@@ -240,39 +240,39 @@ public class UserController {
                 return null;
             }
 
-            UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
-            objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
-//            objUserTrainingOrder.setStatus("success");
-            List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
-
-            if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
-                UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
-                System.out.println("userTrainingOrder " + userTrainingOrder.getStatus());
-                String planId = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
-                System.out.println("planId " + planId);
-                if (planId != null && !planId.isEmpty()) {
-                    Integer trainingPlanId = Integer.parseInt(planId);
-                    TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
-                    User userId = new User();
-                    userId.setUserId(userDto.getUserId());
-                    trainingPlanUser.setUserId(userId);
-                    trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
-                    trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
-                    trainingPlanUserService.create(trainingPlanUser);
-                    
-                    session.setAttribute("user", userDto);
-                    Locale locale = new Locale("es", "CO");
-                    Locale.setDefault(locale);
-
-                    if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
-                        response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
-                        return null;
-                    }
-
-                    response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
-                    return null;
-                }
-            }
+//            UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
+//            objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
+////            objUserTrainingOrder.setStatus("success");
+//            List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
+//
+//            if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
+//                UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
+//                System.out.println("userTrainingOrder " + userTrainingOrder.getStatus());
+//                String planId = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
+//                System.out.println("planId " + planId);
+//                if (planId != null && !planId.isEmpty()) {
+//                    Integer trainingPlanId = Integer.parseInt(planId);
+//                    TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+//                    User userId = new User();
+//                    userId.setUserId(userDto.getUserId());
+//                    trainingPlanUser.setUserId(userId);
+//                    trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+//                    trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
+//                    trainingPlanUserService.create(trainingPlanUser);
+//                    
+//                    session.setAttribute("user", userDto);
+//                    Locale locale = new Locale("es", "CO");
+//                    Locale.setDefault(locale);
+//
+//                    if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+//                        response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
+//                        return null;
+//                    }
+//
+//                    response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
+//                    return null;
+//                }
+//            }
 
             session.setAttribute("user", userDto);
             Locale locale = new Locale("es", "CO");
