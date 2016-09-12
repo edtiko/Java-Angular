@@ -1,9 +1,35 @@
 		
 <link rel="stylesheet" type="text/css" href="static/js/lib/vaRecorder/css/virecorder.css">
-<div class="container">
-<ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
+<md-content class="md-padding">
+<div layout="row">
+    
+    <div flex>
+        <h1>Videos</h1>
+        <ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
 
+        <!--<md-button ng-show="!videoready" class="md-primary" ng-click = "camconfiguration.init()" >Empezar Grabaci&oacute;n</md-button>-->
+       <!-- <img ng-src="{{camconfiguration.output.recordingthumb}}" />-->
+    </div>
+    <div flex>
 
-<button class="btn btn-sm btn-default" ng-click = "camconfiguration.init()" >Recording init</button>
-<img ng-src="{{camconfiguration.output.recordingthumb}}" />
+        <ang-accordion one-at-a-time="true" icon-position="right" close-icon-class="fa fa-chevron-right" open-icon-class="fa fa-chevron-down">
+
+            <collapsible-item item-title="Recibidos" initially-open="true">
+                <h3>Recibidos</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">Some Link</a>
+                </p>
+            </collapsible-item>
+
+            <collapsible-item item-title="Enviados">
+                <h3>Enviados</h3>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+            </collapsible-item>
+
+        </ang-accordion>
+    </div>
+
 </div>
+</md-content>

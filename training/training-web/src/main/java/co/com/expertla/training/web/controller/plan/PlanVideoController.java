@@ -5,14 +5,18 @@
  */
 package co.com.expertla.training.web.controller.plan;
 
+import co.com.expertla.training.model.entities.PlanVideo;
+import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,15 +40,22 @@ public class PlanVideoController {
     
     
     
-     @RequestMapping(value = "/upload", method = RequestMethod.POST)
+     @RequestMapping(value = "/upload/{toUserId}/{fromUserId}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename) {
+    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename, @PathVariable Integer toUserId, @PathVariable Integer fromUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         if (!file.isEmpty()) {
             try {
                 //byte[] bytes = file.getBytes();
-                Files.copy(file.getInputStream(), Paths.get(ROOT, filename));
+                String fileName = Calendar.getInstance().getTime().toString()+"_"+toUserId+"_"+fromUserId;
+                Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                PlanVideo video = new PlanVideo();
+                video.setFromUserId(new User(fromUserId));
+                video.setToUserId(new User(toUserId));
+                video.setCreationDate(Calendar.getInstance().getTime());
+                video.setVideoPath(fileName);
+                planVideoService.create(video);
                 strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 responseService.setOutput(strResponse);

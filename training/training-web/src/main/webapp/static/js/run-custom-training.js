@@ -26,6 +26,7 @@ require.config({
         lodash: "lib/lodash.min",
         scrollGlue: 'lib/scrollglue',
         angularFilter: 'lib/angular-filter',
+        accordion: 'lib/ang-accordion',
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
@@ -92,6 +93,10 @@ require.config({
             deps: ['angular']
         },
         angularFilter: {
+            deps: ['angular']
+        },
+        accordion: {
+            exports: 'angAccordion',
             deps: ['angular']
         },
         angularMaterial: {
@@ -162,7 +167,7 @@ require.config({
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate'
                 , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter'
-                ,'ngCamRecorder','recorder', 'whammy','viRecorder'
+                ,'ngCamRecorder','recorder', 'whammy','viRecorder','accordion'
 
             ]
         },

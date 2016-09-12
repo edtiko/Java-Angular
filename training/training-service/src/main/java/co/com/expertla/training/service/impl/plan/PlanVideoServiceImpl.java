@@ -5,7 +5,10 @@
  */
 package co.com.expertla.training.service.impl.plan;
 
+import co.com.expertla.training.dao.plan.PlanVideoDao;
+import co.com.expertla.training.model.entities.PlanVideo;
 import co.com.expertla.training.service.plan.PlanVideoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,5 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PlanVideoServiceImpl implements PlanVideoService{
+    
+    @Autowired
+    PlanVideoDao planVideoDao;
+
+    @Override
+    public void create(PlanVideo video) throws Exception {
+       planVideoDao.create(video);
+    }
     
 }

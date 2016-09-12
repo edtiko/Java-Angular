@@ -5,10 +5,14 @@
  */
 package co.com.expertla.training.service.plan;
 
+import co.com.expertla.training.model.entities.PlanVideo;
+
 /**
  *
  * @author Edwin G
  */
 public interface PlanVideoService {
+
+    public void create(PlanVideo video)throws Exception;
     
 }

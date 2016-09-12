@@ -13,11 +13,11 @@
 
 			</div>
 			<div class="buttonssection">
-				<div class="virecbutton" ng-if="videoready"  ng-click="startRecrodBut1()"  >Start</div>
-				<div class="virecbutton"  ng-if="videoready" ng-click="stopRecBut1()" 	ng-class="recordingstarted ? 'videoisbeingrecorded' : '' " >Stop</div>
-				<div class="virecbutton" ng-if="videoready" ng-click="playback()" >Play</div>
-				<div class="virecbutton" ng-if="videoready" ng-click="clearrecording()"  >Clear</div>
-				<div class="virecbutton" ng-if="videoready" ng-click="uploadrecord()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" >Upload</div>
+                               <md-button class="md-raised md-primary" ng-if="videoready"  ng-click="startRecrodBut1()"  >Start</md-button>
+                               <md-button class="md-raised md-primary"  ng-if="videoready" ng-click="stopRecBut1()" 	ng-class="recordingstarted ? 'videoisbeingrecorded' : '' " >Stop</md-button>
+                               <md-button class="md-raised md-primary" ng-if="videoready" ng-click="playback()" >Play</md-button>
+                               <md-button class="md-raised md-primary" ng-if="videoready" ng-click="clearrecording()"  >Clear</md-button>
+                               <md-button class="md-raised md-primary" ng-if="videoready" ng-click="uploadrecord()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" >Upload</md-button>
 	       	
 		        <div ng-if="uploadpresentage" class="uploadloadingscreen" >
 		        	<div class="chilcuploadscreen">{{uploadpresentage}}%</div>
