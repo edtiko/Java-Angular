@@ -51,7 +51,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-activity', route.resolve('activity', 'configuration/'))
             
                     .when('/create-modality', route.resolve('modality', 'configuration/'))
-
+            
+                    .when('/create-characteristic', route.resolve('characteristic', 'configuration/'))
+            
                     // route for the contact page
                     .when('/contact', {
                         templateUrl: 'static/views/contact.html',

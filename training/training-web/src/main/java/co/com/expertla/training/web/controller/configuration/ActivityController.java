@@ -8,6 +8,7 @@ import co.com.expertla.training.model.dto.ActivityDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.Activity;
+import co.com.expertla.training.model.entities.UserProfile;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ActivityService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import co.com.expertla.training.service.user.UserProfileService;
 
 
 /**
@@ -37,7 +39,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActivityController {
 
     @Autowired
-    ActivityService activityService;  
+    ActivityService activityService;
+    
+    @Autowired
+    UserProfileService userProfileService;
     
     
     @Autowired

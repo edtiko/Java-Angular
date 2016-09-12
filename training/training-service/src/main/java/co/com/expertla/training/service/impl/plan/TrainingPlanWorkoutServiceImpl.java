@@ -367,11 +367,12 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     private void assignActivities(Date startDate,Date endDate, UserProfile userProfile, Dcf dcf,
             ArrayList<Date> dates) throws Exception {
-        List<Activity> activityList = activityDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(),
-                userProfile.getModalityId().getModalityId());
+        List<Activity> activityList = activityDao.findByObjectiveIdAndModalityIdAndEnvironmentId(userProfile.getObjectiveId().getObjectiveId(),
+                userProfile.getModalityId().getModalityId(),userProfile.getEnvironmentId().getEnvironmentId());
         if(activityList.isEmpty()) {
             throw new Exception("No hay actividades configuradas para el objetivo "+
-                        userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
+                        userProfile.getObjectiveId().getName() + " , la modalidad " + userProfile.getModalityId().getName()
+            + " y entorno geografico " + userProfile.getEnvironmentId().getName());
         }
         List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
         String pattern = dcf.getPattern();

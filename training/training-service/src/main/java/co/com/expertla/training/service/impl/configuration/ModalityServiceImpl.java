@@ -43,8 +43,8 @@ public class ModalityServiceImpl implements ModalityService {
     }
 
     @Override
-    public List<ModalityDTO> findPaginate(int first, int max, String order) throws Exception {
-        return modalityDao.findPaginate(first, max, order);
+    public List<ModalityDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        return modalityDao.findPaginate(first, max, order, filter);
     }
 
     @Override

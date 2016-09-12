@@ -45,5 +45,10 @@ public class UserZoneServiceImpl implements UserZoneService {
     public List<UserZone> findByUserZone(UserZone userZone) throws Exception {
         return userZoneDao.findByUserZone(userZone);
     }
+    
+    @Override
+    public List<UserZone> findByUserId(Integer userId) throws Exception {
+        return userZoneDao.findByUserId(userId);
+    }
 
 }

@@ -1,0 +1,81 @@
+<md-dialog aria-label="{{ 'ADD_PLAN_CHARACTERISTIC_MODALITY' | translate }}" style="width: 600px;height: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{ 'ADD_PLAN_CHARACTERISTIC_MODALITY' | translate }}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="demo-md-panel md-padding">
+        <md-content layout-padding>
+            <span class="md-headline">{{ 'ADD_PLAN_CHARACTERISTIC_MODALITY' | translate }}</span>
+
+            <form  name="formPlanCharacteristic" novalidate>
+                <input type="hidden" ng-model="planCharacteristic.trainingPlanCharactId" />
+
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Plan</label>
+                            <md-select id="plan" ng-model="planCharacteristic.trainingPlanId.trainingPlanId" required>
+                                <md-option ng-repeat="d in planList" value="{{d.trainingPlanId}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formPlanCharacteristic.plan.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row" ng-show="validateValueTypeVisible()">
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <md-input-container class="md-block">
+                                <input type="number" placeholder="{{ 'VALUE' | translate }}" class="form-control input-sm" style=" display: inline" 
+                                       ng-model="planCharacteristic.value">
+                                <div class="has-error" ng-messages="formPlanCharacteristic.value.$error">
+                                    <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                                </div>
+                            </md-input-container>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                    <md-button ng-click="submitPlanCharacteristic(formPlanCharacteristic)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                    <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+                </section>
+
+            </form>
+        </md-content>
+    </div>
+    
+    <md-table-container>
+        <table md-table ng-model="selectedPlan" md-progress="promise">
+            <thead md-head> 
+                <tr md-row>
+                    <th md-column class="md-column">{{ 'OPTIONS' | translate }}</th>
+                    <th md-column class="md-column">{{ 'CHARACTERISTIC' | translate }}</th>
+                    <th md-column class="md-column">Plan</th>
+                    <th md-column class="md-column">{{ 'VALUE' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="trainingPlanCharactId"  md-select-id="trainingPlanId.name" md-auto-select ng-repeat="trainingPlanCharactId in planCharacteristicList">
+                <td>
+                    <md-button type="button" ng-click="deletePlanCharacteristic(trainingPlanCharactId.trainingPlanCharactId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+                </td>
+                    <td md-cell>{{trainingPlanCharactId.characteristicId.name}}</td>    
+                    <td md-cell>{{trainingPlanCharactId.trainingPlanId.name}}</td>
+                    <td md-cell>{{trainingPlanCharactId.value}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    
+</md-dialog>

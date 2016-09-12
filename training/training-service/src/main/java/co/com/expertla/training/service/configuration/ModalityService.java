@@ -64,7 +64,7 @@ public interface ModalityService {
      * @return
      * @throws Exception 
      */
-    public List<ModalityDTO> findPaginate(int first, int max, String order) throws Exception;
+    public List<ModalityDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
     
     /**
      * Obtiene todos los registros de modality paginados <br>
