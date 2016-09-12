@@ -143,6 +143,10 @@ public class User implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "user_wordpress_id")
+    private Integer userWordpressId;
+    @Column(name = "ind_login_first_time")
+    private Integer indLoginFirstTime;
 
     public User() {
     }
@@ -341,6 +345,30 @@ public class User implements Serializable {
 
     public void setIndMetricSys(String indMetricSys) {
         this.indMetricSys = indMetricSys;
+    }
+
+    public User getStarId() {
+        return starId;
+    }
+
+    public void setStarId(User starId) {
+        this.starId = starId;
+    }
+
+    public Integer getUserWordpressId() {
+        return userWordpressId;
+    }
+
+    public void setUserWordpressId(Integer userWordpressId) {
+        this.userWordpressId = userWordpressId;
+    }
+
+    public Integer getIndLoginFirstTime() {
+        return indLoginFirstTime;
+    }
+
+    public void setIndLoginFirstTime(Integer indLoginFirstTime) {
+        this.indLoginFirstTime = indLoginFirstTime;
     }
 
     public Date getCreationDate() {

@@ -109,6 +109,7 @@
     <class>co.com.expertla.training.model.entities.ManualActivity</class>
     <class>co.com.expertla.training.model.entities.Characteristic</class>
     <class>co.com.expertla.training.model.entities.TrainingPlanCharact</class>
+    <class>co.com.expertla.training.model.entities.UserTrainingOrder</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

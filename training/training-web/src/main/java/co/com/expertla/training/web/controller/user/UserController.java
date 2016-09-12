@@ -16,8 +16,10 @@ import co.com.expertla.training.model.entities.RoleUser;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.model.entities.UserTrainingOrder;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.TrainingPlanUserService;
+import co.com.expertla.training.service.plan.UserTrainingOrderService;
 import co.com.expertla.training.service.security.RoleUserService;
 import co.com.expertla.training.service.user.DisciplineUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,9 +75,12 @@ public class UserController {
 
     @Autowired
     TrainingPlanUserService trainingPlanUserService;
-    
+
     @Autowired
     CountryService countryService;
+
+    @Autowired
+    UserTrainingOrderService userTrainingOrderService;
 
     /**
      * Upload single file using Spring Controller
@@ -171,11 +176,13 @@ public class UserController {
             user.setLastName(userDTO.getLastName());
             user.setSex(userDTO.getSex());
             user.setStateId(StateEnum.ACTIVE.getId().shortValue());
-            
-            if(userDTO.getCountryId() != null) {
+            user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
+            user.setUserWordpressId(userDTO.getUserWordpressId());
+
+            if (userDTO.getCountryId() != null) {
                 user.setCountryId(new Country(userDTO.getCountryId()));
             }
-            
+
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
@@ -188,7 +195,7 @@ public class UserController {
             disciplineUser.setUserId(new User(userId));
             disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
             disciplineUserService.create(disciplineUser);
-            
+
             if (userDTO.getTypeUser() != null) {
                 Role role = new Role();
                 if (userDTO.getTypeUser().equals("atleta")) {
@@ -198,13 +205,12 @@ public class UserController {
                 } else {
                     role.setRoleId(3);
                 }
-                
+
                 RoleUser roleUser = new RoleUser();
                 roleUser.setRoleId(role);
                 roleUser.setUserId(user);
                 roleUserService.create(roleUser);
             }
-            
 
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
             trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
@@ -233,10 +239,49 @@ public class UserController {
                 response.sendRedirect("http://181.143.227.220:8081/cpt/mi-cuenta/");
                 return null;
             }
-            
+
+            UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
+            objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
+//            objUserTrainingOrder.setStatus("success");
+            List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
+
+            if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
+                UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
+                System.out.println("userTrainingOrder " + userTrainingOrder.getStatus());
+                String planId = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
+                System.out.println("planId " + planId);
+                if (planId != null && !planId.isEmpty()) {
+                    Integer trainingPlanId = Integer.parseInt(planId);
+                    TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+                    User userId = new User();
+                    userId.setUserId(userDto.getUserId());
+                    trainingPlanUser.setUserId(userId);
+                    trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+                    trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
+                    trainingPlanUserService.create(trainingPlanUser);
+                    
+                    session.setAttribute("user", userDto);
+                    Locale locale = new Locale("es", "CO");
+                    Locale.setDefault(locale);
+
+                    if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+                        response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
+                        return null;
+                    }
+
+                    response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
+                    return null;
+                }
+            }
+
             session.setAttribute("user", userDto);
             Locale locale = new Locale("es", "CO");
             Locale.setDefault(locale);
+
+            if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
+                return null;
+            }
             response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
             return null;
         } catch (Exception ex) {
@@ -394,7 +439,7 @@ public class UserController {
         }
 
     }
-    
+
     @RequestMapping(value = "user/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response findUsersWithDiscipline() {
         ResponseService responseService = new ResponseService();
@@ -411,23 +456,23 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/getDiscipline/by/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response findUsersWithDiscipline(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
             List<UserDTO> list = userService.findUserWithDisciplineById(userId);
-            
-            if(list != null || !list.isEmpty()) {
+
+            if (list != null || !list.isEmpty()) {
                 responseService.setOutput(list.get(0));
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-            
+
             responseService.setOutput(null);
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
-            
+
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear usuario");
@@ -436,7 +481,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/create/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response createInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -453,7 +498,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/merge/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response mergeInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -469,10 +514,12 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
+
     /**
      * Consulta user paginado <br>
      * Creation Date: <br>
      * date 31/08/2016 <br>
+     *
      * @author Angela Ramirez
      * @param paginateDto
      * @return
@@ -481,7 +528,7 @@ public class UserController {
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {
-            paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
+            paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
             List<UserDTO> userList = userService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(userList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

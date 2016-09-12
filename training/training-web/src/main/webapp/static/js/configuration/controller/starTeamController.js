@@ -61,8 +61,20 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                 var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
                 starTeam.userCreate = (user.userId);
             }
-
-            $scope.createStarTeamWordpress(starTeam);
+            
+            StarTeamService.createStarTeam(starTeam)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.createStarTeamWordpress(starTeam);
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating StartTeam.');
+                            }
+                    );
         };
 
         $scope.createStarTeamWordpress = function (starTeam) {
