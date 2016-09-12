@@ -5,8 +5,25 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
+                        <label>Disciplina Deportiva</label>
+                        <md-select id="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
+                            <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
+                                {{d.name}}
+                            </md-option>
+                        </md-select>
+                        <div class="has-error" ng-messages="formProfile.discipline.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profilediscipline" ng-change="setVisibleField(user_profilediscipline, 'user_profile', 'discipline')
+                           "> {{ 'SHOW' | translate }}</md-switch>
+            </div>
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
                         <label>Objetivo</label>
-                        <md-select id="objective" name="objective" ng-model="userProfile.objective" required>
+                        <md-select id="objective" name="objective" ng-model="userProfile.objective" required ng-change="getModalitiesByObjectiveId(userProfile.objective)">
                             <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
                                 {{o.name}}
                             </md-option>
@@ -20,23 +37,7 @@
                            ng-change="setVisibleField(user_profileobjective, 'user_profile', 'objective')"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <label>Disciplina Deportiva</label>
-                        <md-select id="discipline" ng-model="userProfile.discipline" required ng-change="getModalitiesByDisciplineId(userProfile.discipline)">
-                            <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
-                                {{d.name}}
-                            </md-option>
-                        </md-select>
-                        <div class="has-error" ng-messages="formProfile.discipline.$error">
-                            <div ng-message="required">Este es un campo requerido</div>
-                        </div>
-                    </md-input-container>
-                </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profilediscipline" ng-change="setVisibleField(user_profilediscipline, 'user_profile', 'discipline')
-                           "> {{ 'SHOW' | translate }}</md-switch>
-            </div>
+            
             
             
             <div layout="row"> 
