@@ -196,23 +196,9 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                                 var response = d.data;
 
                                 if (response.status == 'success') {
-                                    StarTeamService.createStarTeam(starTeam)
-                                            .then(
-                                                    function (d) {
-                                                        if (d.status == 'success') {
-
-                                                            $scope.showMessage(d.output);
-                                                            $scope.resetStarTeam();
-                                                            $scope.getStarTeamPaginate();
-                                                        } else {
-                                                            $scope.showMessage(d.output);
-                                                        }
-                                                    },
-                                                    function (errResponse) {
-                                                        console.error('Error while creating StartTeam.');
-                                                    }
-                                            );
-
+                                    $scope.showMessage('Registro creado exitosamente');
+                                    $scope.resetStarTeam();
+                                    $scope.getStarTeamPaginate();
                                 } else {
                                     $scope.showMessage('Error al integrar coach');
                                 }
