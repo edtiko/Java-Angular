@@ -230,7 +230,7 @@ public class UserController {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
-                response.sendRedirect("http://181.143.227.220:8081/cpt/my-account/customer-logout/");
+                response.sendRedirect("http://181.143.227.220:8081/cpt/mi-cuenta/");
                 return null;
             }
             
