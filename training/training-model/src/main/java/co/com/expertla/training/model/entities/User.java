@@ -54,6 +54,16 @@ public class User implements Serializable {
     @Lob
     @Column(name = "profile_photo")
     private byte[] profilePhoto;
+    @Column(name = "height")
+    private BigInteger height;
+    @Column(name = "user_wordpress_id")
+    private Integer userWordpressId;
+    @Column(name = "ind_login_first_time")
+    private String indLoginFirstTime;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUserId")
+    private Collection<PlanVideo> planVideoCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUserId")
+    private Collection<PlanVideo> planVideoCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "starUserId")
     private Collection<StarTeam> startTeamCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coachUserId")
@@ -495,6 +505,46 @@ public class User implements Serializable {
 
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
+    }
+
+    public BigInteger getHeight() {
+        return height;
+    }
+
+    public void setHeight(BigInteger height) {
+        this.height = height;
+    }
+
+    public Integer getUserWordpressId() {
+        return userWordpressId;
+    }
+
+    public void setUserWordpressId(Integer userWordpressId) {
+        this.userWordpressId = userWordpressId;
+    }
+
+    public String getIndLoginFirstTime() {
+        return indLoginFirstTime;
+    }
+
+    public void setIndLoginFirstTime(String indLoginFirstTime) {
+        this.indLoginFirstTime = indLoginFirstTime;
+    }
+
+    public Collection<PlanVideo> getPlanVideoCollection() {
+        return planVideoCollection;
+    }
+
+    public void setPlanVideoCollection(Collection<PlanVideo> planVideoCollection) {
+        this.planVideoCollection = planVideoCollection;
+    }
+
+    public Collection<PlanVideo> getPlanVideoCollection1() {
+        return planVideoCollection1;
+    }
+
+    public void setPlanVideoCollection1(Collection<PlanVideo> planVideoCollection1) {
+        this.planVideoCollection1 = planVideoCollection1;
     }
 
 }

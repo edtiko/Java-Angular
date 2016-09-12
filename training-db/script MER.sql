@@ -806,14 +806,25 @@ create table manual_activity (
 /* Table: plan_video                                          */
 /*==============================================================*/
 create table plan_video (
-   plan_video_id           serial  not null,
-   coach_assigned_plan_id    integer not null,
-   name                      varchar(500),
-   duration                  integer not null,
-   user_id                   integer not null,
-   creation_date             date     null,
-   constraint pk_manual_activity primary key (manual_activity_id)
+   plan_video_id             serial  not null,
+   name                      varchar(500) not null,
+   duration                  integer,
+   video_path                varchar(1000) not null,
+   from_user_id              integer not null,
+   to_user_id                integer not null,      
+   creation_date             date not null,
+   constraint pk_plan_video primary key (plan_video_id)
 );
+
+alter table plan_video
+add constraint fk_plan_video_from_reference_user foreign key (from_user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table plan_video
+add constraint fk_plan_video_to_reference_user foreign key (to_user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
 
 alter table star_team
 add constraint fk_star_team_star_reference_user foreign key (star_user_id)
