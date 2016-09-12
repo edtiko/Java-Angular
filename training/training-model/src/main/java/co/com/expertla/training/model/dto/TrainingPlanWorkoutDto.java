@@ -60,11 +60,6 @@ public class TrainingPlanWorkoutDto {
             if (activityId.getSportId() != null) {
                 this.sportIcon = activityId.getSportId().getIcon();
             }
-        } else if (manualActivityId != null) {
-            this.activityId = manualActivityId.getManualActivityId();
-            this.title = manualActivityId.getName();
-            this.activityDescription = manualActivityId.getDescription();
-            this.sportIcon = manualActivityId.getSportId().getIcon();
         }
         else if(manualActivityId != null){
            this.manualActivity = true;
