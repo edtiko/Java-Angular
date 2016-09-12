@@ -43,6 +43,43 @@ public class TrainingPlanWorkoutDto {
 
     public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
             Activity activityId, ManualActivity manualActivityId,
+            Integer userId) {
+        this.id = trainingPlanWorkoutId;
+        this.workoutDate = workoutDate;
+        if (activityId != null) {
+            this.activityId = activityId.getActivityId();
+            this.title = activityId.getName();
+            this.activityDescription = activityId.getDescription();
+            this.modalityId = activityId.getModalityId().getModalityId();
+            this.modality = activityId.getModalityId().getName();
+            this.disciplineId = activityId.getModalityId().getDisciplineId().getDisciplineId();
+            this.discipline = activityId.getModalityId().getDisciplineId().getName();
+            this.objectiveId = activityId.getObjectiveId().getObjectiveId();
+            this.objective = activityId.getObjectiveId().getName();
+            this.level = activityId.getObjectiveId().getLevel();            
+            if (activityId.getSportId() != null) {
+                this.sportIcon = activityId.getSportId().getIcon();
+            }
+        } else if (manualActivityId != null) {
+            this.activityId = manualActivityId.getManualActivityId();
+            this.title = manualActivityId.getName();
+            this.activityDescription = manualActivityId.getDescription();
+            this.sportIcon = manualActivityId.getSportId().getIcon();
+        }
+        else if(manualActivityId != null){
+           this.manualActivity = true;
+           this.activityId =  manualActivityId.getManualActivityId();
+           this.title = manualActivityId.getName();
+           this.activityDescription = manualActivityId.getDescription();
+           this.sportIcon = manualActivityId.getSportId().getIcon();
+           this.sportId = manualActivityId.getSportId().getSportId();
+        }
+        
+        this.userId = userId;
+    }
+    
+    public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
+            Activity activityId, ManualActivity manualActivityId,
             Integer userId, Integer percentageWeather) {
         this.id = trainingPlanWorkoutId;
         this.workoutDate = workoutDate;

@@ -66,6 +66,7 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
+                                    starTeam = d.output;
                                     $scope.createStarTeamWordpress(starTeam);
                                 } else {
                                     $scope.showMessage(d.output);
@@ -149,7 +150,7 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                             var image = userDTO.profilePhoto;
                             var userParam = 'parentId=' + starIdExt +
                                     '&name=' + name + '&description=' + description +
-                                    '&image=' + image;
+                                    '&image=' + image + '&starTeamId='+starTeam.starTeamId;
                             $scope.getPlan(starTeam, userParam);
                         }
                     },
