@@ -29,7 +29,7 @@ public class UserDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String sex;
-    private BigInteger weight;
+    private Float weight;
     private String phone;
     private String cellphone;
     private String address;
@@ -111,7 +111,7 @@ public class UserDTO {
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
-            String sex, BigInteger weight, String phone, String cellphone, Integer cityId,
+            String sex, Float weight, String phone, String cellphone, Integer cityId,
             Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
             String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
@@ -242,11 +242,11 @@ public class UserDTO {
         this.sex = sex;
     }
 
-    public BigInteger getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(BigInteger weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 

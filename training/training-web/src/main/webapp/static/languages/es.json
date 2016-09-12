@@ -33,5 +33,9 @@
     "SPORT":"Deporte",
     "DISCIPLINE":"Disciplina Deportiva",
     "WEIGHT":"Peso",
-    "HEIGHT":"Altura"
+    "HEIGHT":"Altura",
+    "CREATE_BRAND": "Creaci\u00f3n de Marcas",
+    "BRAND": "Marca",
+    "CREATE_BIKE_TYPE": "Creaci\u00f3n de Tipos de Bicicleta",
+    "BIKE_TYPE": "Tipo de Bicicleta"
 }

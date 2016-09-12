@@ -13,6 +13,7 @@ public class PaginateDto {
     private String order;
     private int limit;
     private int page;
+    private String filter;
 
     public String getOrder() {
         return order;
@@ -37,6 +38,13 @@ public class PaginateDto {
     public void setPage(int page) {
         this.page = page;
     }
-    
-    
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+       
 }

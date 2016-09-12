@@ -2,12 +2,12 @@ package co.com.expertla.training.web.controller.configuration;
 
 import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.Status;
-import co.com.expertla.training.model.dto.BikeTypeDTO;
+import co.com.expertla.training.model.dto.BrandDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
-import co.com.expertla.training.model.entities.BikeType;
+import co.com.expertla.training.model.entities.Brand;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.service.configuration.BikeTypeService;
+import co.com.expertla.training.service.configuration.BrandService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
@@ -22,48 +22,48 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
-* BikeType Controller <br>
+* Brand Controller <br>
 * Info. Creación: <br>
 * fecha Sep 9, 2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 
 @RestController
-public class BikeTypeController {
+public class BrandController {
 
     @Autowired
-    BikeTypeService bikeTypeService;  
+    BrandService brandService;  
 
     /**
-     * Crea bikeType <br>
+     * Crea brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @return
      */
-    @RequestMapping(value = "bikeType/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> createBikeType(@RequestBody BikeType bikeType) {
+    @RequestMapping(value = "brand/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> createBrand(@RequestBody Brand brand) {
             ResponseService responseService = new ResponseService();
         try {  
-            BikeType bikeTypeName = new BikeType();
-            bikeTypeName.setName(bikeType.getName());
-            List<BikeType> listBikeTypeName = bikeTypeService.findByName(bikeTypeName);
+            Brand brandName = new Brand();
+            brandName.setName(brand.getName());
+            List<Brand> listBrandName = brandService.findByName(brandName);
             
-            if(listBikeTypeName != null && !listBikeTypeName.isEmpty()) {
-                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.biketype", "msgNombreExiste"));
+            if(listBrandName != null && !listBrandName.isEmpty()) {
+                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.brand", "msgNombreExiste"));
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             
-            bikeType.setStateId(Short.valueOf(Status.ACTIVE.getId()));
-            bikeType.setCreationDate(new Date());
-            bikeTypeService.create(bikeType);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.biketype", "msgRegistroCreado"));
+            brand.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+            brand.setCreationDate(new Date());
+            brandService.create(brand);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.brand", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(BikeTypeController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -72,43 +72,43 @@ public class BikeTypeController {
     }
 
     /**
-     * Modifica bikeType <br>
+     * Modifica brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @return
      */
-    @RequestMapping(value = "bikeType/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> updateBikeType(@RequestBody BikeType bikeType) {
+    @RequestMapping(value = "brand/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> updateBrand(@RequestBody Brand brand) {
             ResponseService responseService = new ResponseService();
         try {    
-            BikeType bikeTypeName = new BikeType();
-            bikeTypeName.setName(bikeType.getName());
-            List<BikeType> listBikeTypeName = bikeTypeService.findByName(bikeTypeName);
+            Brand brandName = new Brand();
+            brandName.setName(brand.getName());
+            List<Brand> listBrandName = brandService.findByName(brandName);
             
-            if(listBikeTypeName != null && !listBikeTypeName.isEmpty()) {
+            if(listBrandName != null && !listBrandName.isEmpty()) {
                 boolean existName = false;
-                for (BikeType bikeType1 : listBikeTypeName) {
-                    if (!bikeType1.getBikeTypeId().equals(bikeType.getBikeTypeId())) {
+                for (Brand brand1 : listBrandName) {
+                    if (!brand1.getBrandId().equals(brand.getBrandId())) {
                         existName = true;
                     }
                 }
 
                 if (existName) {
-                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.biketype", "msgNombreExiste"));
+                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.brand", "msgNombreExiste"));
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }                
             }
             
-            bikeType.setLastUpdate(new Date());
-            bikeTypeService.store(bikeType);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.biketype", "msgRegistroEditado"));
+            brand.setLastUpdate(new Date());
+            brandService.store(brand);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.brand", "msgRegistroEditado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(BikeTypeController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al modificar registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -117,23 +117,23 @@ public class BikeTypeController {
     }
 
     /**
-     * Elimina bikeType <br>
+     * Elimina brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @return
      */
-    @RequestMapping(value = "bikeType/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> deleteBikeType(@RequestBody BikeType bikeType) {
+    @RequestMapping(value = "brand/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> deleteBrand(@RequestBody Brand brand) {
             ResponseService responseService = new ResponseService();
         try {           
-            bikeTypeService.remove(bikeType);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.biketype", "msgRegistroEliminado"));
+            brandService.remove(brand);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.brand", "msgRegistroEliminado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(BikeTypeController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al eliminar registro");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -142,22 +142,22 @@ public class BikeTypeController {
     }
     
     /**
-     * Consulta bikeType <br>
+     * Consulta brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
-    @RequestMapping(value = "/bikeType/get/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/brand/get/all", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> list() {
         ResponseService responseService = new ResponseService();
         try {     
-            List<BikeType> bikeTypeList = bikeTypeService.findAllActive();
-            responseService.setOutput(bikeTypeList);
+            List<Brand> brandList = brandService.findAllActive();
+            responseService.setOutput(brandList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(BikeTypeController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al consultar");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -166,25 +166,25 @@ public class BikeTypeController {
     }
 
     /**
-     * Consulta bikeType paginado <br>
+     * Consulta brand paginado <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param paginateDto
      * @return
      */
-    @RequestMapping(value = "/bikeType/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/brand/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            List<BikeTypeDTO> bikeTypeList = bikeTypeService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(),
+            List<BrandDTO> brandList = brandService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(),
                 paginateDto.getOrder(), paginateDto.getFilter());
-            responseService.setOutput(bikeTypeList);
+            responseService.setOutput(brandList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(BikeTypeController.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BrandController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al consultar");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());

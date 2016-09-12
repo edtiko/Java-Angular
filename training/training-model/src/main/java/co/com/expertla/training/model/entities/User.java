@@ -87,7 +87,7 @@ public class User implements Serializable {
     @Column(name = "sex")
     private String sex;
     @Column(name = "weight")
-    private BigInteger weight;
+    private Float weight;
     @Column(name = "phone")
     private String phone;
     @Column(name = "cellphone")
@@ -142,6 +142,8 @@ public class User implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "height")
+    private Float height;
 
     public User() {
     }
@@ -151,7 +153,7 @@ public class User implements Serializable {
     }
 
     public User(Integer userId, String name, String lastName, String email, Date birthDate, String address,
-            String sex, BigInteger weight, String phone, String cellphone, City cityId,
+            String sex, Float weight, String phone, String cellphone, City cityId,
             Short stateId, String login, String password, String facebookPage, String postalCode, Date creationDate) {
         this.userId = userId;
         this.login = login;
@@ -254,11 +256,11 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public BigInteger getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(BigInteger weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
@@ -494,6 +496,14 @@ public class User implements Serializable {
 
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
     }
 
 }

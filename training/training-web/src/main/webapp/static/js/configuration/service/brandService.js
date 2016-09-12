@@ -1,9 +1,9 @@
 'use strict';
-trainingApp.service('BikeTypeService', ['$http', '$q', function ($http, $q) {
+trainingApp.service('BrandService', ['$http', '$q', function ($http, $q) {
         return {
             
             getPaginate: function(query, res){
-                    return $http.post($contextPath+'bikeType/paginated', query)
+                    return $http.post($contextPath+'brand/paginated', query)
                             .then(
                                     res, 
                                     function(errResponse){
@@ -12,67 +12,53 @@ trainingApp.service('BikeTypeService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-            getBikeTypeById: function (id) {
-                return $http.get($contextPath + '/get/bikeType/by/' + id)
+            getBrandById: function (id) {
+                return $http.get($contextPath + '/get/brand/by/' + id)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while fetching bikeTypes');
+                                    console.error('Error while fetching brands');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            createBikeType: function (bikeType) {
-                return $http.post($contextPath + '/bikeType/create', bikeType)
+            createBrand: function (brand) {
+                return $http.post($contextPath + '/brand/create', brand)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while creating bikeType');
+                                    console.error('Error while creating brand');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            mergeBikeType: function (bikeType) {
-                return $http.post($contextPath + '/bikeType/update', bikeType)
+            mergeBrand: function (brand) {
+                return $http.post($contextPath + '/brand/update', brand)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while updating bikeType');
+                                    console.error('Error while updating brand');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            deleteBikeType: function (bikeType) {
-                return $http.post($contextPath + '/bikeType/delete',bikeType)
+            deleteBrand: function (brand) {
+                return $http.post($contextPath + '/brand/delete',brand)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while deleting bikeType');
+                                    console.error('Error while deleting brand');
                                     return $q.reject(errResponse);
                                 }
                         );
-            }, 
-            getBikeTypes: function(){
-                    return $http.get($contextPath+'bikeType/get/all')
-                            .then(
-                                    function(response){
-                                        return response.data.output;
-                                    }, 
-                                    function(errResponse){
-                                        console.error('Error while getting bike types');
-                                        return $q.reject(errResponse);
-                                    }
-                            );
             }
-         
-        
         };
     }]);

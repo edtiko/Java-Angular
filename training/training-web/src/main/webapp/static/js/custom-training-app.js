@@ -51,6 +51,10 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-activity', route.resolve('activity', 'configuration/'))
             
                     .when('/create-modality', route.resolve('modality', 'configuration/'))
+            
+                    .when('/create-brand', route.resolve('brand', 'configuration/'))
+            
+                    .when('/create-bikeType', route.resolve('bikeType', 'configuration/'))
 
                     // route for the contact page
                     .when('/contact', {

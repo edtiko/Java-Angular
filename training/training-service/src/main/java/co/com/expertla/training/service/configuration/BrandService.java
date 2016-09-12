@@ -1,69 +1,69 @@
 package co.com.expertla.training.service.configuration;
 
-import co.com.expertla.training.model.dto.BikeTypeDTO;
-import co.com.expertla.training.model.entities.BikeType;
+import co.com.expertla.training.model.dto.BrandDTO;
+import co.com.expertla.training.model.entities.Brand;
 import java.util.List;
 
 /**
-* BikeType Service <br>
+* Brand Service <br>
 * Info. Creación: <br>
 * fecha Sep 9, 2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
-public interface BikeTypeService {
+public interface BrandService {
     
 
     /**
-     * Crea bikeType <br>
+     * Crea brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @return 
      * @throws Exception 
      */
-    public BikeType create(BikeType bikeType) throws Exception;
+    public Brand create(Brand brand) throws Exception;
     /**
-     * Modifica bikeType <br>
+     * Modifica brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @return 
      * @throws Exception 
      */
-    public BikeType store(BikeType bikeType) throws Exception;
+    public Brand store(Brand brand) throws Exception;
     /**
-     * Elimina bikeType<br>
+     * Elimina brand<br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @throws Exception 
      */
-    public void remove(BikeType bikeType) throws Exception;
+    public void remove(Brand brand) throws Exception;
     /**
-     * Obtiene todos los registros de bikeType <br>
+     * Obtiene todos los registros de brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
      */
-    public List<BikeType> findAll() throws Exception;
+    public List<Brand> findAll() throws Exception;
     
     /**
-     * Obtiene todos los registros activos de bikeType <br>
+     * Obtiene todos los registros activos de brand <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
      */
-    public List<BikeType> findAllActive() throws Exception;
+    public List<Brand> findAllActive() throws Exception;
 
     /**
-     * Obtiene todos los registros de bikeType paginados <br>
+     * Obtiene todos los registros de brand paginados <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
@@ -74,41 +74,41 @@ public interface BikeTypeService {
      * @return
      * @throws Exception 
      */
-    public List<BikeTypeDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
+    public List<BrandDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
     
     /**
-     * Obtiene todos los registros de bikeType paginados <br>
+     * Obtiene todos los registros de brand paginados <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @return
      * @throws Exception 
      */
-    public List<BikeType> findByBikeType(BikeType bikeType) throws Exception;   
+    public List<Brand> findByBrand(Brand brand) throws Exception;   
 
     /**
-     * Obtiene todos los registros de bikeType por el filtro del usuario <br>
+     * Obtiene todos los registros de brand por el filtro del usuario <br>
      * Info. Creación: <br>
      * fecha Sep 9, 2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param bikeType
+     * @param brand
      * @return
      * @throws Exception 
      */
-    public List<BikeType> findByFiltro(BikeType bikeType) throws Exception; 
+    public List<Brand> findByFiltro(Brand brand) throws Exception; 
 
 
     /**
-    * Obtiene todos los registros de bikeType por nombre <br>
+    * Obtiene todos los registros de brand por nombre <br>
     * Info. Creación: <br>
     * fecha Sep 9, 2016 <br>
     * @author Andres Felipe Lopez Rodriguez
-    * @param bikeType
+    * @param brand
     * @return
     * @throws Exception 
     */
-    public List<BikeType> findByName(BikeType bikeType) throws Exception;  
+    public List<Brand> findByName(Brand brand) throws Exception;  
 
     
 }
