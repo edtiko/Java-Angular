@@ -130,7 +130,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         var res = data.entity.output;
                         
                         if (res != "") {
-
+                            $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(res));
                             $scope.coachAssignedPlan = angular.copy(res);
                             self.getAvailableMessages(res.id, $scope.userSession.userId);
                             self.getReceivedMessages(res.id, res.coachUserId.userId);

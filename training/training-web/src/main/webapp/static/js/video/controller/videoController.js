@@ -2,6 +2,14 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
 
         if ($scope.appReady) {
           $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
+          var planSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
+            if ($scope.user != null && $scope.user.typeUser === 'Coach') {              
+                       $scope.toUserId = planSelected.athleteUserId.userId;
+
+            } else if ($scope.user != null && $scope.user.typeUser === 'Atleta') {
+                      $scope.toUserId = planSelected.coachUserId.userId;
+
+            }
         }
         var configuration = {
             init: $scope.initiateRecord,
@@ -14,7 +22,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
             },
             recfuncConf: {
                 showbuton: 2000,
-                url: $contextPath + "video/upload/" + $scope.user.userId,
+                url: $contextPath + "video/upload/" + $scope.user.userId+"/"+$scope.toUserId,
                 chunksize: 1048576,
                 recordingtime: 17,
                 requestparam: "filename",
