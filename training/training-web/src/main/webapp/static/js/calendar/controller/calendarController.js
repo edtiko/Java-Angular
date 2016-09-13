@@ -171,7 +171,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             CalendarService.createManualActivity($scope.manualActivity).then(
                     function (data) {
                         $scope.getManualActivities();
-                        if($scope.selectedDay != null){
+                        if($scope.selectedDay != null && $scope.selectedId == ""){
                            var objActivity = {'userId' : $scope.userId, 'manualActivityId':data.output, 'activityDate' : $scope.selectedDay};
                             createActivity(objActivity);
                         }
