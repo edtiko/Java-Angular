@@ -145,9 +145,9 @@ public class TrainingPlanWorkoutController {
             Date endDate = startCal.getTime();
             trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
             
-            UserDTO userDTO = userService.findById(userProfile.getUserId());
-            userDTO.setIndLoginFirstTime(0);
-            userService.editInternalUser(userDTO);
+//            UserDTO userDTO = userService.findById(userProfile.getUserId());
+//            userDTO.setIndLoginFirstTime(0);
+//            userService.editInternalUser(userDTO);
             
             responseService.setOutput("Plan de Entrenamiento generado satisfactoriamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());

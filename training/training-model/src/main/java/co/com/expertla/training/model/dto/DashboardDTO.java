@@ -15,7 +15,7 @@ public class DashboardDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String sex;
-    private BigInteger weight;
+    private Float weight;
     private String phone;
     private String cellphone;
     private String address;
@@ -52,7 +52,7 @@ public class DashboardDTO {
     public DashboardDTO() {
     }
 
-    public DashboardDTO(Integer userId, String name,String secondName, String lastName, String email, Date birthDate, String sex, BigInteger weight,
+    public DashboardDTO(Integer userId, String name,String secondName, String lastName, String email, Date birthDate, String sex, Float weight,
             String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
             String indMetricSys, String city, String federalState, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
             String sportsAchievements, String aboutMe, String objective, String modality, String twitterPage, String instagramPage, 
@@ -89,7 +89,7 @@ public class DashboardDTO {
         this.vo2Ciclismo = vo2Ciclismo;
     }
     
-    public DashboardDTO(Integer userId, String name, String lastName, String email, Date birthDate, String sex, BigInteger weight,
+    public DashboardDTO(Integer userId, String name, String lastName, String email, Date birthDate, String sex, Float weight,
             String phone, String cellphone, String address, 
             String postalCode, byte[] profilePhoto, String facebookPage,
             String indMetricSys, Country objCountry) {
@@ -161,11 +161,11 @@ public class DashboardDTO {
         this.sex = sex;
     }
 
-    public BigInteger getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(BigInteger weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 

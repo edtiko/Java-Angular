@@ -247,63 +247,63 @@ public class UserController {
                 return null;
             }
 
-            UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
+//            UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
+//
+//            objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
+//            objUserTrainingOrder.setStatus("pending");
+//            List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
 
-            objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
-            objUserTrainingOrder.setStatus("pending");
-            List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
-
-            if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
-                UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
-                String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
-                if (jsonResponse != null && !jsonResponse.isEmpty()) {
-                    JsonParser jsonParser = new JsonParser();
-                    JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
-                    String statusRes = jo.get("status").getAsString();
-
-                    if (statusRes.equals("success")) {
-                        Integer trainingPlanId = jo.get("planId").getAsInt();
-                        Integer starTeamId = jo.get("starTeamId").getAsInt();
-                        List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-
-                        for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
-                            trainingPlanUser.setStateId(StateEnum.INACTIVE.getId());
-                            trainingPlanUserService.store(trainingPlanUser);
-                        }
-
-                        TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
-                        User userId = new User();
-                        userId.setUserId(userDto.getUserId());
-                        trainingPlanUser.setUserId(userId);
-                        trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
-                        trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
-                        trainingPlanUserService.create(trainingPlanUser);
-                        
-                        CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
-                        coachAssignedPlan.setCreationDate(new Date());
-                        coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
-                        coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
-                        coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
-                        coachAssignedPlanService.create(coachAssignedPlan);
-                        
-                        userTrainingOrder.setStatus("integrated");
-                        userTrainingOrderService.store(userTrainingOrder);
-                        
-                        session.setAttribute("user", userDto);
-                        Locale locale = new Locale("es", "CO");
-                        Locale.setDefault(locale);
-
-                        if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
-                            response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
-                            return null;
-                        }
-
-                    }
-
-                    response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
-                    return null;
-                }
-            }
+//            if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
+//                UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
+//                String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
+//                if (jsonResponse != null && !jsonResponse.isEmpty()) {
+//                    JsonParser jsonParser = new JsonParser();
+//                    JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+//                    String statusRes = jo.get("status").getAsString();
+//
+//                    if (statusRes.equals("success")) {
+//                        Integer trainingPlanId = jo.get("planId").getAsInt();
+//                        Integer starTeamId = jo.get("starTeamId").getAsInt();
+//                        List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+//
+//                        for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
+//                            trainingPlanUser.setStateId(StateEnum.INACTIVE.getId());
+//                            trainingPlanUserService.store(trainingPlanUser);
+//                        }
+//
+//                        TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+//                        User userId = new User();
+//                        userId.setUserId(userDto.getUserId());
+//                        trainingPlanUser.setUserId(userId);
+//                        trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+//                        trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
+//                        trainingPlanUserService.create(trainingPlanUser);
+//                        
+//                        CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
+//                        coachAssignedPlan.setCreationDate(new Date());
+//                        coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
+//                        coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
+//                        coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+//                        coachAssignedPlanService.create(coachAssignedPlan);
+//                        
+//                        userTrainingOrder.setStatus("integrated");
+//                        userTrainingOrderService.store(userTrainingOrder);
+//                        
+//                        session.setAttribute("user", userDto);
+//                        Locale locale = new Locale("es", "CO");
+//                        Locale.setDefault(locale);
+//
+//                        if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+//                            response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
+//                            return null;
+//                        }
+//
+//                    }
+//
+//                    response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
+//                    return null;
+//                }
+//            }
 
             session.setAttribute("user", userDto);
             Locale locale = new Locale("es", "CO");
