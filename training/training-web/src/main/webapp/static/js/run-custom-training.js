@@ -63,6 +63,8 @@ require.config({
         physiologicalCapacityService: "configuration/service/physiologicalCapacityService",
         activityService: "configuration/service/activityService",
         angularSanitize: 'lib/angular-sanitize',
+        mailService: "mail/service/mailService",
+        supervStarCoachService: "mail/service/supervStarCoachService"
     },
     shim: {
         angular: {
@@ -210,6 +212,12 @@ require.config({
         activityService: {
             deps: ['angular','trainingApp']
         },
+        mailService: {
+            deps: ['angular','trainingApp']
+        },
+        supervStarCoachService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -218,7 +226,7 @@ require.config({
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
-                'physiologicalCapacityService','activityService'
+                'physiologicalCapacityService','activityService','mailService','supervStarCoachService'
 //                ,'videoService','videochatService'
 
             ] }

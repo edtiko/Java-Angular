@@ -9,13 +9,20 @@
             </md-list-item>
         </md-content>
       </md-tab>
-      <md-tab label="Estrella">
+      <md-tab label="Estrella" ng-if="userSession.typeUser == 'Coach-Interno'"  md-on-select="onTabChanges(1)">
         <md-content class="md-padding">
-
+            <md-list-item ng-repeat="a in athletes" >
+                <md-button md-no-ink class="md-primary" ng-click="selectUser(a.starUserId.userId)">{{a.starUserId.fullName}}</md-button>
+                  <md-divider></md-divider>
+            </md-list-item>
         </md-content>
       </md-tab>
-      <md-tab label="Supervisor">
+      <md-tab label="Supervisor" ng-if="userSession.typeUser == 'Coach-Interno'"  md-on-select="onTabChanges(2)">
         <md-content class="md-padding">
+            <md-list-item ng-repeat="a in supervisors" >
+                <md-button md-no-ink class="md-primary" ng-click="selectUser(a.supervisorId.userId)">{{a.supervisorId.name}} {{a.supervisorId.secondName}} {{a.supervisorId.lastName}}</md-button>
+                  <md-divider></md-divider>
+            </md-list-item>
 
         </md-content>
       </md-tab>

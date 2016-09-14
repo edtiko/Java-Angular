@@ -1,5 +1,5 @@
 <div layout="row" ng-show="appReady" id="dashboard-container" layout-align="center center">
-    <div flex="25" ng-if="userSession.typeUser == 'Coach'">
+    <div flex="25" ng-if="userSession.typeUser == 'Coach' ||userSession.typeUser == 'Coach-Interno' ">
         <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
     </div>
     <div flex="60"  style="height: 100%; min-height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" >
@@ -344,7 +344,7 @@
                 <md-subheader>{{availableMessage}} disponibles de {{coachAssignedPlan.messageCount}}</md-subheader>
                 <div flex>
                     <notification-icon animation="grow" count="emailReceivedCount">
-                    <md-button aria-label="Email" class="md-fab md-raised md-primary ">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.coachUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                         <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                     </md-button>

@@ -18,5 +18,15 @@
     "SPORT":"Deporte",
     "CREATE_ACTIVITY": "Creaci\u00f3n de Actividades",
     "CREATE_MODALITY": "Creaci\u00f3n de Modalidades",
-    "DISCIPLINE":"Disciplina Deportiva"
+    "DISCIPLINE":"Disciplina Deportiva",
+    "SEND":"Enviar",
+    "INBOX":"Bandeja de Entrada",
+    "SUBJECT":"Asunto",
+    "RECEIVER_USER": "Usuario Destinatario",
+    "DATE":"Fecha",
+    "FROM":"De",
+    "TO":"Para",
+    "SENT":"Enviados",
+    "RECEIVED":"Recibidos",
+    "WRITE_HERE":"Escriba aqui"
 }
