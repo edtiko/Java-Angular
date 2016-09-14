@@ -4,6 +4,7 @@ import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.model.dto.CalendarEventDto;
 import co.com.expertla.training.model.dto.PlanWorkoutDTO;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.dto.UserProfileDTO;
 import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.entities.ManualActivity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
+import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.service.user.UserZoneService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.text.SimpleDateFormat;
@@ -54,6 +56,9 @@ public class TrainingPlanWorkoutController {
 
     @Autowired
     UserZoneService userZoneService;
+    
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/trainingPlanWorkout/get/planWorkout/by/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public CalendarEventDto getPlanWorkoutByUser(@PathVariable("userId") Integer user, @RequestParam("from") long from,
@@ -139,6 +144,11 @@ public class TrainingPlanWorkoutController {
             startCal.add(Calendar.DAY_OF_MONTH, 29);
             Date endDate = startCal.getTime();
             trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
+            
+            UserDTO userDTO = userService.findById(userProfile.getUserId());
+            userDTO.setIndLoginFirstTime(0);
+            userService.editInternalUser(userDTO);
+            
             responseService.setOutput("Plan de Entrenamiento generado satisfactoriamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
