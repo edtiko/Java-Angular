@@ -168,7 +168,7 @@ public class UserDTO {
             String sex, Float weight, String phone, String cellphone, Integer cityId,
             Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
             String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto,
-            Integer indLoginFirstTime) {
+            Integer indLoginFirstTime, Integer userWordpressId) {
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -192,7 +192,7 @@ public class UserDTO {
         this.countryId = countryId;
         this.profilePhoto = profilePhoto;
         this.indLoginFirstTime = indLoginFirstTime;
-
+        this.userWordpressId = userWordpressId;
     }
 
     public static UserDTO mapFromUserEntity(User user) {
@@ -202,7 +202,7 @@ public class UserDTO {
                     user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
                     user.getCountryId() != null ? user.getCountryId().getCountryId() : null,
-                    user.getProfilePhoto(), user.getIndLoginFirstTime());
+                    user.getProfilePhoto(), user.getIndLoginFirstTime(), user.getUserWordpressId());
         }
         return null;
     }

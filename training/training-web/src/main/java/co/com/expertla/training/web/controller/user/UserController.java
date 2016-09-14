@@ -5,19 +5,21 @@ import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
-import co.com.expertla.training.model.dto.OptionDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.Country;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.Role;
 import co.com.expertla.training.model.entities.RoleUser;
+import co.com.expertla.training.model.entities.StarTeam;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.entities.UserTrainingOrder;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import co.com.expertla.training.service.plan.TrainingPlanUserService;
 import co.com.expertla.training.service.plan.UserTrainingOrderService;
 import co.com.expertla.training.service.security.RoleUserService;
@@ -30,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.controller.security.OptionController;
 import co.com.expertla.training.web.enums.StatusResponse;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.opentok.OpenTok;
 import com.opentok.exception.OpenTokException;
 import java.io.IOException;
@@ -81,6 +85,9 @@ public class UserController {
 
     @Autowired
     UserTrainingOrderService userTrainingOrderService;
+    
+    @Autowired
+    CoachAssignedPlanService coachAssignedPlanService;
 
     /**
      * Upload single file using Spring Controller
@@ -215,7 +222,7 @@ public class UserController {
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
             trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
             trainingPlanUser.setUserId(user);
-            trainingPlanUser.setTrainingPlanId(new TrainingPlan(1));//Plan basico por defecto
+            trainingPlanUser.setTrainingPlanId(new TrainingPlan(0));//Plan basico por defecto
             trainingPlanUserService.create(trainingPlanUser);
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -240,39 +247,63 @@ public class UserController {
                 return null;
             }
 
-//            UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
-//            objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
-////            objUserTrainingOrder.setStatus("success");
-//            List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
-//
-//            if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
-//                UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
-//                System.out.println("userTrainingOrder " + userTrainingOrder.getStatus());
-//                String planId = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
-//                System.out.println("planId " + planId);
-//                if (planId != null && !planId.isEmpty()) {
-//                    Integer trainingPlanId = Integer.parseInt(planId);
-//                    TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
-//                    User userId = new User();
-//                    userId.setUserId(userDto.getUserId());
-//                    trainingPlanUser.setUserId(userId);
-//                    trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
-//                    trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
-//                    trainingPlanUserService.create(trainingPlanUser);
-//                    
-//                    session.setAttribute("user", userDto);
-//                    Locale locale = new Locale("es", "CO");
-//                    Locale.setDefault(locale);
-//
-//                    if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
-//                        response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
-//                        return null;
-//                    }
-//
-//                    response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
-//                    return null;
-//                }
-//            }
+            UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
+
+            objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
+            objUserTrainingOrder.setStatus("pending");
+            List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
+
+            if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
+                UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
+                String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
+                if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                    JsonParser jsonParser = new JsonParser();
+                    JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                    String statusRes = jo.get("status").getAsString();
+
+                    if (statusRes.equals("success")) {
+                        Integer trainingPlanId = jo.get("planId").getAsInt();
+                        Integer starTeamId = jo.get("starTeamId").getAsInt();
+                        List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+
+                        for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
+                            trainingPlanUser.setStateId(StateEnum.INACTIVE.getId());
+                            trainingPlanUserService.store(trainingPlanUser);
+                        }
+
+                        TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+                        User userId = new User();
+                        userId.setUserId(userDto.getUserId());
+                        trainingPlanUser.setUserId(userId);
+                        trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+                        trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
+                        trainingPlanUserService.create(trainingPlanUser);
+                        
+                        CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
+                        coachAssignedPlan.setCreationDate(new Date());
+                        coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
+                        coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
+                        coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                        coachAssignedPlanService.create(coachAssignedPlan);
+                        
+                        userTrainingOrder.setStatus("integrated");
+                        userTrainingOrderService.store(userTrainingOrder);
+                        
+                        session.setAttribute("user", userDto);
+                        Locale locale = new Locale("es", "CO");
+                        Locale.setDefault(locale);
+
+                        if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+                            response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
+                            return null;
+                        }
+
+                    }
+
+                    response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
+                    return null;
+                }
+            }
 
             session.setAttribute("user", userDto);
             Locale locale = new Locale("es", "CO");

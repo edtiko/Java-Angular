@@ -35,7 +35,8 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
     public List<TrainingPlan> findAllActive() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from TrainingPlan a ");
-        builder.append("WHERE a.stateId = :active ");
+        builder.append("WHERE a.stateId = :active AND a.price > 0 ");
+        builder.append("order by a.price asc ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }

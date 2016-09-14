@@ -240,6 +240,10 @@ public class UserServiceImpl implements UserService {
         user.setSex(dto.getSex());
         user.setPhone(dto.getPhone());
         user.setStateId(dto.getStateId());
+        
+        if(dto.getIndLoginFirstTime() != null) {
+            user.setIndLoginFirstTime(dto.getIndLoginFirstTime());
+        }
         user.setCountryId(new Country(dto.getCountryId()));
         
         

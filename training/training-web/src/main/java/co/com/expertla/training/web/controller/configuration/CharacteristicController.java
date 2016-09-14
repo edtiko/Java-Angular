@@ -5,6 +5,7 @@ import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.CharacteristicDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.entities.Characteristic;
+import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanCharact;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
@@ -250,6 +251,36 @@ public class CharacteristicController {
         try {     
             TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
             trainingPlanCharact.setCharacteristicId(new Characteristic(characteristicId));
+            List<TrainingPlanCharact> trainingPlanCharacteristicList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
+            responseService.setOutput(trainingPlanCharacteristicList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(CharacteristicController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta plan characteristic <br>
+     * Info. Creación: <br>
+     * fecha 8/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param characteristicId
+     * @param planId
+     * @return
+     */
+    @RequestMapping(value = "/characteristic/trainingPlanCharact/get/all/{characteristicId}/{planId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listPlanCharacteristicByPlan(@PathVariable("characteristicId") Integer characteristicId,
+            @PathVariable("planId") Integer planId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+            trainingPlanCharact.setCharacteristicId(new Characteristic(characteristicId));
+            trainingPlanCharact.setTrainingPlanId(new TrainingPlan(planId));            
             List<TrainingPlanCharact> trainingPlanCharacteristicList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
             responseService.setOutput(trainingPlanCharacteristicList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

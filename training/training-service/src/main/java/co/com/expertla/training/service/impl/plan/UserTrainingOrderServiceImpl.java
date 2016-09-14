@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,8 +69,8 @@ public class UserTrainingOrderServiceImpl implements UserTrainingOrderService {
         con.setRequestMethod("POST");
         con.setInstanceFollowRedirects(true);
         String postData = "user_id="+userTrainingOrder.getUserId()+"&order_id="+userTrainingOrder.getOrderId()+
-                "order_item_id" + userTrainingOrder.getOrderItemId();
-        con.setRequestProperty("Content-Type", "application/json");
+                "&order_item_id=" + userTrainingOrder.getOrderItemId();
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("Content-length", String.valueOf(postData.length()));
         con.setDoOutput(true);
         con.setDoInput(true);
