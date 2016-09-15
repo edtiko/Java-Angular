@@ -5,9 +5,11 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Option;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -27,6 +29,7 @@ public class ModuleDTO {
     private String userUpdateName;
     private Short stateId;
     private int count;
+    private List<Option> optionCollection;
 
     public ModuleDTO() {
     }
@@ -133,6 +136,14 @@ public class ModuleDTO {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public List<Option> getOptionCollection() {
+        return optionCollection;
+    }
+
+    public void setOptionCollection(List<Option> optionCollection) {
+        this.optionCollection = optionCollection;
     }
     
     

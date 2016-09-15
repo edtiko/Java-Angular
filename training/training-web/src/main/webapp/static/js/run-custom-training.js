@@ -66,7 +66,7 @@ require.config({
         dcfService:"configuration/service/dcfService",
         characteristicService:"configuration/service/characteristicService",
 	brandService:"configuration/service/brandService",
-        mailService: "mail/service/mailService",
+       angularPickList: 'lib/picklist',        mailService: "mail/service/mailService",
         supervStarCoachService: "mail/service/supervStarCoachService"
     },
     shim: {
@@ -124,7 +124,6 @@ require.config({
         csrfInterceptor: {
             deps: ['angular']
         },
-       
         userService: {
             deps: ['angular', 'trainingApp']
         },
@@ -167,10 +166,13 @@ require.config({
         angularSanitize: {
             deps: ['angular']
         },
+        angularPickList: {
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter'
+                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter','angularPickList'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 
