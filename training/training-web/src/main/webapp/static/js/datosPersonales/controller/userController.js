@@ -114,8 +114,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 $scope.indBike = 1;
                             }
                             var disc = $scope.userProfile.discipline;
-                            $scope.getModalitiesByDisciplineId(disc);
-
+                            $scope.getObjectivesByDiscipline($scope.userProfile.discipline);
+                            $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
                                 $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
                             }
@@ -663,8 +663,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         console.error(errResponse);
                     }
             );
-        };
-
+        };    
         this.getObjectives = function () {
             ObjectiveService.getObjectives().then(
                     function (d) {
@@ -676,7 +675,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     }
             );
         };
-        this.getObjectives();
+//        this.getObjectives();
 
         $scope.getModalitiesByDisciplineId = function (id) {
             ModalityService.getModalitiesByDisciplineId(id).then(
@@ -713,7 +712,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     }
             );
         };
-        this.getModalities();
 
         this.getEntornos = function () {
             SportService.getEntornos().then(
