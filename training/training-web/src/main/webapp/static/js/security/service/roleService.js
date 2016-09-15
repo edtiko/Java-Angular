@@ -71,6 +71,19 @@ trainingApp.service('RoleService', ['$http', '$q', function ($http, $q) {
                                         return $q.reject(errResponse);
                                     }
                             );
+            }, 
+            
+            getRoleOption: function(roleId){
+                    return $http.get($contextPath+'roleOption/get/by/'+roleId)
+                            .then(
+                                    function(response){
+                                        return response.data;
+                                    }, 
+                                    function(errResponse){
+                                        console.error('Error while getting roleoption');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
             }
         };
     }]);
