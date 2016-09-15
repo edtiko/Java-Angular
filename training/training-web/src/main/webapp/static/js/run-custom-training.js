@@ -3,8 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//var $contextPath = "http://localhost:8085/training/";
-var $contextPath = "http://181.143.227.220:8086/training/";
+var $contextPath = "http://localhost:8085/training/";
+//var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
 require.config({
@@ -65,7 +65,8 @@ require.config({
         angularSanitize: 'lib/angular-sanitize',
         dcfService:"configuration/service/dcfService",
         characteristicService:"configuration/service/characteristicService",
-		brandService:"configuration/service/brandService"
+        brandService:"configuration/service/brandService",
+        angularPickList: 'lib/picklist',
         mailService: "mail/service/mailService",
         supervStarCoachService: "mail/service/supervStarCoachService"
     },
@@ -124,7 +125,6 @@ require.config({
         csrfInterceptor: {
             deps: ['angular']
         },
-       
         userService: {
             deps: ['angular', 'trainingApp']
         },
@@ -167,10 +167,13 @@ require.config({
         angularSanitize: {
             deps: ['angular']
         },
+        angularPickList: {
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter'
+                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter','angularPickList'
 //                ,'ngCamRecorder','recorder',
 //                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
 

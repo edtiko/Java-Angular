@@ -48,6 +48,18 @@ trainingApp.service('ModuleService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
+            getModuleByUserId: function (id) {
+                return $http.get($contextPath + '/module/get/by/userId/' + id)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching modules');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
             deleteModule: function (module) {
                 return $http.post($contextPath + '/module/delete',module)
                         .then(

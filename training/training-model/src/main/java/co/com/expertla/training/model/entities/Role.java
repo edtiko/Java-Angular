@@ -56,6 +56,8 @@ public class Role implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @OneToMany(mappedBy = "roleId")
+    private Collection<RoleOption> roleOptionCollection;
 
     public Role() {
     }
@@ -91,6 +93,14 @@ public class Role implements Serializable {
 
     public void setRoleUserCollection(Collection<RoleUser> roleUserCollection) {
         this.roleUserCollection = roleUserCollection;
+    }
+    @JsonIgnore
+    public Collection<RoleOption> getRoleOptionCollection() {
+        return roleOptionCollection;
+    }
+
+    public void setRoleOptionCollection(Collection<RoleOption> roleOptionCollection) {
+        this.roleOptionCollection = roleOptionCollection;
     }
 
     public Short getStateId() {

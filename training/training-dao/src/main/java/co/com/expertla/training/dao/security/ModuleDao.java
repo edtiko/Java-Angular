@@ -68,5 +68,16 @@ public interface ModuleDao extends BaseDAO<Module> {
      * @throws Exception 
      */
     public List<Module> findByFiltro(Module module) throws Exception; 
+    
+    /**
+     * Obtiene todos los registros activos por el id del usuario <br>
+     * Info. Creación: <br>
+     * fecha 14/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<Module> findByUserId(Integer userId) throws Exception;
 
 }

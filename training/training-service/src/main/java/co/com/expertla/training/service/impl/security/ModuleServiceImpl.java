@@ -62,4 +62,8 @@ public class ModuleServiceImpl implements ModuleService {
         return moduleDao.findByFiltro(module);
     }
 
+    @Override
+    public List<Module> findByUserId(Integer userId) throws Exception {
+        return moduleDao.findByUserId(userId);
+    }
 }
