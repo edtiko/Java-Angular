@@ -66,6 +66,8 @@ require.config({
         dcfService:"configuration/service/dcfService",
         characteristicService:"configuration/service/characteristicService",
 		brandService:"configuration/service/brandService"
+        mailService: "mail/service/mailService",
+        supervStarCoachService: "mail/service/supervStarCoachService"
     },
     shim: {
         angular: {
@@ -222,7 +224,12 @@ require.config({
 		brandService: {
             deps: ['angular','trainingApp']
         },
-        app: {
+        mailService: {
+            deps: ['angular','trainingApp']
+        },
+        supervStarCoachService: {
+            deps: ['angular','trainingApp']
+        },        app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
@@ -230,7 +237,8 @@ require.config({
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
-                'physiologicalCapacityService','activityService','dcfService', 'characteristicService','brandService'
+                'physiologicalCapacityService','activityService','dcfService', 'characteristicService','brandService',
+				'mailService','supervStarCoachService'
 //                ,'videoService','videochatService'
 
             ] }

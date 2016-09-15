@@ -45,6 +45,6 @@ public class PaginateDto {
 
     public void setFilter(String filter) {
         this.filter = filter;
-    }
-       
+    }  
+    
 }

@@ -178,6 +178,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $window.location.href = "#message";
             }
         };
+        $scope.selectUser = function (userId) {
+                $window.sessionStorage.setItem("sendingUserId",userId );
+                $window.location.href = "#mail";
+        };
 
         self.getAssignedAthletes = function () {
             DashboardService.getAssignedAthletes($scope.userSession.userId).then(
@@ -196,7 +200,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
             $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {              
+            if ($scope.userSession != null &&($scope.userSession.typeUser === 'Coach' || $scope.userSession.typeUser === 'Coach-Interno')) {              
                 self.getAssignedAthletes();
                 $scope.getUserById();
 
@@ -207,7 +211,13 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
         });
 
-
+        $scope.init = function() {
+            var coach = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
+            if(coach != null) {
+                $scope.selectAthlete(coach);
+            }
+        };
+        $scope.init();
 
     }]);
 

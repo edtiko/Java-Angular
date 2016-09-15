@@ -57,6 +57,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-bikeType', route.resolve('bikeType', 'configuration/'))
 					
 					.when('/create-brand', route.resolve('brand', 'configuration/'))
+            
+                    .when('/mail', route.resolve('mail', 'mail/'))
                     // route for the contact page
                     .when('/contact', {
                         templateUrl: 'static/views/contact.html',

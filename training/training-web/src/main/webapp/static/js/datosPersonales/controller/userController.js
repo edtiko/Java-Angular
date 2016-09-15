@@ -529,14 +529,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
                         if (d.data.detail == null) {
-
-//                            $scope.showMessage(d.data.output);
                             $location.path("/calendar");
-//                            $scope.$apply();
                             $window.location = ("#calendar");
                         } else {
-                            $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
-                            console.log(d.data.detail);
+//                            $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
+                            $scope.showMessage(d.data.detail);
                         }
                     },
                     function (errResponse) {

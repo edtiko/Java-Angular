@@ -22,6 +22,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -149,6 +150,10 @@ public class User implements Serializable {
     private Integer indLoginFirstTime;
 	@Column(name = "height")
     private Float height;
+    @OneToMany(mappedBy = "receivingUser")
+    private Collection<MailCommunication> mailCommunicationCollection;
+    @OneToMany(mappedBy = "sendingUser")
+    private Collection<MailCommunication> mailCommunicationCollection1;
 
     public User() {
     }
@@ -535,4 +540,23 @@ public class User implements Serializable {
         this.height = height;
     }
 
+    @XmlTransient
+    @JsonIgnore
+    public Collection<MailCommunication> getMailCommunicationCollection() {
+        return mailCommunicationCollection;
+    }
+
+    public void setMailCommunicationCollection(Collection<MailCommunication> mailCommunicationCollection) {
+        this.mailCommunicationCollection = mailCommunicationCollection;
+    }
+
+    @JsonIgnore
+    @XmlTransient
+    public Collection<MailCommunication> getMailCommunicationCollection1() {
+        return mailCommunicationCollection1;
+    }
+
+    public void setMailCommunicationCollection1(Collection<MailCommunication> mailCommunicationCollection1) {
+        this.mailCommunicationCollection1 = mailCommunicationCollection1;
+    }
 }
