@@ -1,10 +1,9 @@
-<md-content layout-padding>
     <div layout="row" layout-align="center" style="margin-top: 3%">
         <div flex="25" ng-if="userSession.typeUser == 'Coach' ||userSession.typeUser == 'Coach-Interno' ">
             <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
         </div>
-        <div flex="50" layout="column"  layout-align="space-between none" class="demo-content">
-            <div layout="column" style="height:550px" id="message-content">
+        <div flex="70" layout="column"  layout-align="space-between none" class="demo-content">
+            <div layout="column" style="height:800px" id="message-content">
                 <md-toolbar >
                     <div class="md-toolbar-tools">
                         <h3>
@@ -143,6 +142,3 @@
         </div>
 
     </div>
-
-
-</md-content>

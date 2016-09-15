@@ -239,6 +239,7 @@ public class UserController {
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         ResponseService responseService = new ResponseService();
+        session.removeAttribute("user");
         try {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
@@ -246,6 +247,13 @@ public class UserController {
                 response.sendRedirect("http://181.143.227.220:8081/cpt/mi-cuenta/");
                 return null;
             }
+            UserDTO userSession = new UserDTO();
+            userSession.setUserId(userDto.getUserId());
+            userSession.setFirstName(userDto.getFirstName());
+            userSession.setLastName(userDto.getLastName());
+            userSession.setSecondName(userDto.getSecondName());
+            userSession.setTypeUser(userDto.getTypeUser());
+            userSession.setFullName(userDto.getFullName());
 
             
             if (userDto.getUserWordpressId() != null) {
@@ -292,7 +300,7 @@ public class UserController {
                                 userTrainingOrder.setStatus("integrated");
                                 userTrainingOrderService.store(userTrainingOrder);
 
-                                session.setAttribute("user", userDto);
+                                session.setAttribute("user", userSession);
                                 Locale locale = new Locale("es", "CO");
                                 Locale.setDefault(locale);
 
@@ -308,8 +316,8 @@ public class UserController {
                     }
                 }
             }
-
-            session.setAttribute("user", userDto);
+            
+            session.setAttribute("user", userSession);
             Locale locale = new Locale("es", "CO");
             Locale.setDefault(locale);
 
