@@ -25,15 +25,25 @@
                         <div class="fusion-alignright">
                             <div class="fusion-secondary-menu">
                                 <ul id="menu-top-menu" class="menu">
-                                    <li id="menu-item-275" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-275"><a href="#"><span class="menu-text">
+                                    <li id="menu-item-275" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-275">
+                                        <a href="#" style="text-decoration:none !important"><span class="menu-text">
                                                 Bienvenido {{userLogin}}</span>
                                         </a>
                                     </li>
-                                    <li style="width: 200px" id="menu-item-369" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-369">
-                                        <a href="javascript:location.href=$wordPressContextPath+'/mi-cuenta/'">
+                                    <li id="menu-item-369" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-369">
+                                        <a href="javascript:location.href=$wordPressContextPath+'/mi-cuenta/'" style="text-decoration:none !important">
                                             <span class="menu-text">
                                                 <i class="fa fa-sign-in" aria-hidden="true">
                                                 </i> Mi Cuenta
+                                            </span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li style="width: 200px" id="menu-item-369" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-369">
+                                        <a href="#" ng-click="logout()" style="text-decoration:none !important">
+                                            <span class="menu-text">
+                                                <i class="fa fa-sign-in" aria-hidden="true">
+                                                </i> Cerrar Sesi&oacute;n
                                             </span>
                                         </a>
                                     </li>
@@ -54,22 +64,22 @@
                             <ul id="menu-menu-principal" class="fusion-menu">
                                 
                                 <li ng-repeat="m in moduleList" style="overflow: visible" id="menu-item-15" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-15 menu_parent fusion-dropdown-menu">
-                                    <a ng-if="m.optionCollection.length <= 1" href="{{m.optionCollection[0].url}}" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                    <a style="text-decoration:none !important"  ng-if="m.optionCollection.length <= 1" href="{{m.optionCollection[0].url}}" aria-haspopup="true" style="line-height: 60px; height: 60px;">
                                         <span class="menu-text">{{m.optionCollection[0].name}}</span>
                                     </a>
-                                    <a ng-if="m.optionCollection.length > 1" href="#" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                    <a style="text-decoration:none !important" ng-if="m.optionCollection.length > 1" href="#" aria-haspopup="true" style="line-height: 60px; height: 60px;">
                                         <span class="menu-text">{{m.name}}</span>
                                     </a>
                                     <ul class="sub-menu" ng-if="m.optionCollection.length > 1">
                                         <li ng-repeat="o in m.optionCollection" id="menu-item-79" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-79 fusion-dropdown-submenu">
-                                            <a href="{{o.url}}">
+                                            <a style="text-decoration:none !important" href="{{o.url}}">
                                                 <span class="">{{o.name}}</span>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li style="width: 130px"  style="overflow: visible" id="menu-item-16" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-16 menu_parent fusion-dropdown-menu">
-                                    <a href="#" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                    <a style="text-decoration:none !important" href="#" aria-haspopup="true" style="line-height: 60px; height: 60px;">
                                         <span class="menu-text"></span>
                                     </a>
                                     <ul class="sub-menu">

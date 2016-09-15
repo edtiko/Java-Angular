@@ -127,6 +127,7 @@ public class UserServiceImpl implements UserService {
         user.setTwitterPage(userDTO.getTwitterPage());
         user.setInstagramPage(userDTO.getInstagramPage());
         user.setWebPage(userDTO.getWebPage());
+        user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
         user.setCreationDate(new Date());
 
         return userDao.updateUser(user);

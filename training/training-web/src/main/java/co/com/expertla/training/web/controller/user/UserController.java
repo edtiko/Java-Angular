@@ -254,7 +254,10 @@ public class UserController {
             userSession.setSecondName(userDto.getSecondName());
             userSession.setTypeUser(userDto.getTypeUser());
             userSession.setFullName(userDto.getFullName());
-
+            userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
+            session.setAttribute("user", userSession);
+            Locale locale = new Locale("es", "CO");
+            Locale.setDefault(locale);
             
             if (userDto.getUserWordpressId() != null) {
                 UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
@@ -300,9 +303,7 @@ public class UserController {
                                 userTrainingOrder.setStatus("integrated");
                                 userTrainingOrderService.store(userTrainingOrder);
 
-                                session.setAttribute("user", userSession);
-                                Locale locale = new Locale("es", "CO");
-                                Locale.setDefault(locale);
+                                
 
                                 if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                                     response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
@@ -317,10 +318,6 @@ public class UserController {
                 }
             }
             
-            session.setAttribute("user", userSession);
-            Locale locale = new Locale("es", "CO");
-            Locale.setDefault(locale);
-
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;
