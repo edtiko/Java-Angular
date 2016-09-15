@@ -3,8 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//var $contextPath = "http://localhost:8085/training/";
-var $contextPath = "http://181.143.227.220:8086/training/";
+var $contextPath = "http://localhost:8085/training/";
+//var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
 require.config({
@@ -65,7 +65,7 @@ require.config({
         angularSanitize: 'lib/angular-sanitize',
         dcfService:"configuration/service/dcfService",
         characteristicService:"configuration/service/characteristicService",
-		brandService:"configuration/service/brandService"
+	brandService:"configuration/service/brandService",
         mailService: "mail/service/mailService",
         supervStarCoachService: "mail/service/supervStarCoachService"
     },
@@ -238,7 +238,7 @@ require.config({
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService','dcfService', 'characteristicService','brandService',
-				'mailService','supervStarCoachService'
+		'mailService','supervStarCoachService'
 //                ,'videoService','videochatService'
 
             ] }

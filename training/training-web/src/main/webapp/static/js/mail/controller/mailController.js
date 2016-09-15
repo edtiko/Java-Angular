@@ -1,5 +1,5 @@
-trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'DashboardService', 'messageService', 'UserService','SupervStarCoachService',
-    function ($scope, MailService, $window, DashboardService, messageService, UserService,SupervStarCoachService) {
+trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'DashboardService', 'SupervStarCoachService',
+    function ($scope, MailService, $window, DashboardService, SupervStarCoachService) {
         $scope.mailsReceived = [];
         $scope.mailsSent = [];
         $scope.athletes = [];
@@ -18,7 +18,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.searchText = '';
         $scope.received = false;
         $scope.supervisors = [];
-        $scope.tabIndex  = '';
+        $scope.tabIndex  = $window.sessionStorage.getItem("tabIndex");
 
         $scope.getMails = function () {
             MailService.getMails($scope.userSession.userId).then(
@@ -111,7 +111,9 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                 $scope.mailCommunication.sendingUser = $scope.userSession.userId;
                 $scope.mailCommunication.receivingUser = $scope.sendingUserId;
                 if ($scope.create) {
-                    $scope.mailCommunication.receivingUser = $scope.receivingUserSelected;
+                    if($scope.receivingUserSelected != '' ) {
+                        $scope.mailCommunication.receivingUser = $scope.receivingUserSelected;
+                    }
                 }
                 $scope.createMailCommunication($scope.mailCommunication);
             }
@@ -179,6 +181,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.getSupervisorByCoachId($scope.userSession.userId);
         
         $scope.onTabChanges = function (currentTabIndex) {
+            $window.sessionStorage.setItem("tabIndex", currentTabIndex);
             $scope.tabIndex = currentTabIndex;
         };
         

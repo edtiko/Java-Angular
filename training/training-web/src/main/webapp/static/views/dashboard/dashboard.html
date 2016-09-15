@@ -364,13 +364,22 @@
     
 
                 <md-subheader>{{availableMessage}} disponibles de {{coachAssignedPlan.messageCount}}</md-subheader>
-                <div flex>
+                <div flex ng-if="userSession.typeUser == 'Atleta'">
                     <notification-icon animation="grow" count="emailReceivedCount">
                     <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.coachUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                         <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                     </md-button>
                     </notification-icon>
+                </div>
+                <div flex ng-if="userSession.typeUser == 'Coach' ||userSession.typeUser == 'Coach-Interno'">
+                    <notification-icon animation="grow" count="emailReceivedCount">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.athleteUserId.userId)">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
+                        <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
+                    </md-button>
+                    </notification-icon>
+                    
                 </div>
 
                 <md-subheader>{{availableEmail}} disponibles de {{coachAssignedPlan.emailCount}}</md-subheader>

@@ -1,7 +1,7 @@
 <div layout="column" style=" border: 1px solid #e1e1e1; height: 100%; min-height: 800px; border-radius: 25px;">
     <md-content >
-    <md-tabs md-dynamic-height md-border-bottom >
-      <md-tab label="Atleta">
+    <md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
+      <md-tab label="Atleta" md-on-select="onTabChanges(0)">
         <md-content class="md-padding">
             <md-list-item ng-repeat="a in athletes" >
                 <md-button md-no-ink class="md-primary" ng-click="selectAthlete(a)">{{a.athleteUserId.fullName}}</md-button>
@@ -9,7 +9,7 @@
             </md-list-item>
         </md-content>
       </md-tab>
-      <md-tab label="Estrella" ng-if="userSession.typeUser == 'Coach-Interno'"  md-on-select="onTabChanges(1)">
+      <md-tab label="Estrella" ng-if="userSession.typeUser == 'Coach-Interno'"  md-on-select="onTabChanges(1)" >
         <md-content class="md-padding">
             <md-list-item ng-repeat="a in athletes" >
                 <md-button md-no-ink class="md-primary" ng-click="selectUser(a.starUserId.userId)">{{a.starUserId.fullName}}</md-button>

@@ -1,7 +1,7 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService',
-    function ($scope, UserService, DashboardService, $window, messageService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService',
+    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService) {
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
@@ -24,6 +24,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.videoReceivedCount = 0;
         $scope.emailReceivedCount = 0;
         $scope.messagesReceivedCount = 0;
+        $scope.tabIndex  = $window.sessionStorage.getItem("tabIndex");
 
 
         $scope.getUserById = function () {
@@ -218,6 +219,27 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
         };
         $scope.init();
+        
+        $scope.getSupervisorByCoachId = function(coachId) {
+             SupervStarCoachService.getByCoachId(coachId)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.supervisors = d.output;
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating mail communication.');
+                            }
+                    );
+        };
+        $scope.getSupervisorByCoachId($scope.userSession.userId);
+        
+        $scope.onTabChanges = function (currentTabIndex) {
+            $window.sessionStorage.setItem("tabIndex", currentTabIndex);
+        };
 
     }]);
 
