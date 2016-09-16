@@ -34,7 +34,7 @@ import co.com.expertla.training.service.user.UserZoneService;
  * fecha 5/08/2016 <br>
  *
  * @author Andres Felipe Lopez Rodriguez
-*
+ *
  */
 @RestController
 public class ActivityController {
@@ -371,4 +371,66 @@ public class ActivityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+
+    @RequestMapping(value = "/get/activity/id/{trainingPlanWorkoutId}/{ppm}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getActivityPpm(
+            @PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId,
+            @PathVariable("ppm") Integer ppm) {
+        ResponseService responseService = new ResponseService();
+        try {
+            TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            List<UserZone> listUserZone = userZoneService.findByUserId(trainingPlanWorkoutDto.getUserId());
+            Integer percentage = trainingPlanWorkoutDto.getPercentageWeather();
+            String activity = trainingPlanWorkoutDto.getActivityDescription();
+
+            if (percentage != null && percentage > 0) {
+                while (activity.contains("#")) {
+                    int indexIni = activity.indexOf("#") + 1;
+                    int indexFin = activity.indexOf(" ", indexIni);
+                    try {
+                        int time = Integer.parseInt(activity.substring(indexIni, indexFin));
+                        double timePercentage = (time * ((double) percentage / 100));
+                        int timeActivity = time - ((int) timePercentage);
+                        activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(indexFin);
+                    } catch (NumberFormatException n) {
+                        activity = activity.replaceAll("#", "");
+                    }
+
+                }
+                trainingPlanWorkoutDto.setActivityDescription(activity);
+            }
+
+            if (listUserZone != null && !listUserZone.isEmpty()) {
+                for (UserZone userZone : listUserZone) {
+
+                    if (userZone.getZoneType().equals(ppm.toString())) {
+                        activity = activity.replaceAll("zona 2", "en " + userZone.getZoneTwo());
+                        activity = activity.replaceAll("zona 3", "en " + userZone.getZoneThree());
+                        activity = activity.replaceAll("zona 4", "en " + userZone.getZoneFour());
+                        activity = activity.replaceAll("zona 5", "en " + userZone.getZoneFive());
+                        activity = activity.replaceAll("zona 6", "en " + userZone.getZoneSix());
+                        activity = activity.replaceAll("zona2", "en " + userZone.getZoneTwo());
+                        activity = activity.replaceAll("zona3", "en " + userZone.getZoneThree());
+                        activity = activity.replaceAll("zona4", "en " + userZone.getZoneFour());
+                        activity = activity.replaceAll("zona5", "en " + userZone.getZoneFive());
+                        activity = activity.replaceAll("zona6", "en " + userZone.getZoneSix());
+                        trainingPlanWorkoutDto.setActivityDescription(activity);
+                        break;
+                    }
+                }
+
+            }
+
+            responseService.setOutput(trainingPlanWorkoutDto);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+
 }

@@ -72,6 +72,19 @@ trainingApp.service('CalendarService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );  
+           },
+           
+           getActivityPpm: function(trainingPlanWorkoutId, ppm){
+              return $http.get($contextPath + 'get/activity/id/' + trainingPlanWorkoutId + '/'+ppm)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while get activity');
+                                    return $q.reject(errResponse);
+                                }
+                        );  
            }
         };
     }]);
