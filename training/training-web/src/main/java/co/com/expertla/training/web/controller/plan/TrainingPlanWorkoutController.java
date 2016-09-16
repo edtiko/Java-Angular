@@ -56,7 +56,7 @@ public class TrainingPlanWorkoutController {
 
     @Autowired
     UserZoneService userZoneService;
-    
+
     @Autowired
     UserService userService;
 
@@ -72,7 +72,6 @@ public class TrainingPlanWorkoutController {
                 return calendarEventDto;
             }
 
-            List<UserZone> listUserZone = userZoneService.findByUserId(user);
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(from);
             Date fromDate = calendar.getTime();
@@ -82,40 +81,11 @@ public class TrainingPlanWorkoutController {
 
             List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(user), fromDate, toDate);
 
-            list.stream().forEach((trainingPlanWorkoutDto) -> {
-                Integer percentage = trainingPlanWorkoutDto.getPercentageWeather();
-                String activity = trainingPlanWorkoutDto.getActivityDescription();
-
-                if (percentage != null && percentage > 0) {
-                    while (activity.contains("#")) {
-                        int indexIni = activity.indexOf("#") + 1;
-                        int indexFin = activity.indexOf(" ", indexIni);
-                        int time = Integer.parseInt(activity.substring(indexIni, indexFin));
-                        double timePercentage = (time * ((double) percentage / 100));
-                        int timeActivity = time - ((int) timePercentage);
-                        activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(indexFin);
-                    }
-                    trainingPlanWorkoutDto.setActivityDescription(activity);
-                }
-
-                if (listUserZone != null && !listUserZone.isEmpty()) {
-                    activity = activity.replaceAll("zona 2", "en " + listUserZone.get(0).getZoneTwo());
-                    activity = activity.replaceAll("zona 3", "en " + listUserZone.get(0).getZoneThree());
-                    activity = activity.replaceAll("zona 4", "en " + listUserZone.get(0).getZoneFour());
-                    activity = activity.replaceAll("zona 5", "en " + listUserZone.get(0).getZoneFive());
-                    activity = activity.replaceAll("zona 6", "en " + listUserZone.get(0).getZoneSix());
-                    activity = activity.replaceAll("zona2", "en " + listUserZone.get(0).getZoneTwo());
-                    activity = activity.replaceAll("zona3", "en " + listUserZone.get(0).getZoneThree());
-                    activity = activity.replaceAll("zona4", "en " + listUserZone.get(0).getZoneFour());
-                    activity = activity.replaceAll("zona5", "en " + listUserZone.get(0).getZoneFive());
-                    activity = activity.replaceAll("zona6", "en " + listUserZone.get(0).getZoneSix());
-                    trainingPlanWorkoutDto.setActivityDescription(activity);
-                }
-
+            for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {
                 trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
                 trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
                 trainingPlanWorkoutDto.setClassName(trainingPlanWorkoutDto.getSportIcon());
-            });
+            }
 
             if (list == null) {
                 list = new ArrayList();
@@ -144,11 +114,11 @@ public class TrainingPlanWorkoutController {
             startCal.add(Calendar.DAY_OF_MONTH, 29);
             Date endDate = startCal.getTime();
             trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
-            
+
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);
             userService.updateUser(userDTO);
-            
+
             responseService.setOutput("Plan de Entrenamiento generado satisfactoriamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

@@ -130,7 +130,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     function (data) {
                         var res = data.entity.output;
                         
-                        if (res != "") {
+                        if (res != "" && res != null) {
 
                             $scope.coachAssignedPlan = angular.copy(res);
                             self.getAvailableMessages(res.id, $scope.userSession.userId);
@@ -210,6 +210,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.getUserById();
                 self.getAssignedCoach();
             }
+            
+            $scope.getSupervisorByCoachId($scope.userSession.userId);
         });
 
         $scope.init = function() {
@@ -235,7 +237,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             }
                     );
         };
-        $scope.getSupervisorByCoachId($scope.userSession.userId);
         
         $scope.onTabChanges = function (currentTabIndex) {
             $window.sessionStorage.setItem("tabIndex", currentTabIndex);
