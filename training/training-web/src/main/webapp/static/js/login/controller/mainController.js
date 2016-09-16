@@ -10,6 +10,12 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.appReady = true;
         $scope.userLogin = "";
         $scope.moduleList = [];
+        $scope.userSessionTypeUserAtleta = 1;//Atleta
+        $scope.userSessionTypeUserCoach = 2;//Coach
+        $scope.userSessionTypeUserAdmin = 3;//Admin
+        $scope.userSessionTypeUserCoachInterno = 4;//CoachInterno
+        $scope.userSessionTypeUserCoachEstrella = 5;//CoachEstrella
+        $scope.userSessionTypeUserSupervisor = 6;//Supervisor
         $scope.switchBool = function (id) {
             var e = angular.element('#' + id);
             e.hide();

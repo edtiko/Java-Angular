@@ -173,7 +173,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         $scope.goMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
-            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach' && planSelected == null) {
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach 
+                    && planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta");
             } else {
                 $window.location.href = "#message";
@@ -201,11 +202,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
             $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if ($scope.userSession != null &&($scope.userSession.typeUser === 'Coach' || $scope.userSession.typeUser === 'Coach-Interno')) {              
+            if ($scope.userSession != null &&($scope.userSession.typeUser === $scope.userSessionTypeUserCoach 
+                    || $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno)) {              
                 self.getAssignedAthletes();
                 $scope.getUserById();
 
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 $scope.getUserSessionByResponse(res);
                 $scope.getUserById();
                 self.getAssignedCoach();

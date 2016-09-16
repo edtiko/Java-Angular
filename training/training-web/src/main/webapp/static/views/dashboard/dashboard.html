@@ -1,5 +1,5 @@
 <div layout="row" ng-show="appReady" id="dashboard-container" layout-align="center center">
-    <div flex="25" ng-if="userSession.typeUser == 'Coach' ||userSession.typeUser == 'Coach-Interno' ">
+    <div flex="25" ng-if="userSession.typeUser == $scope.userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno ">
         <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
     </div>
     <div flex="60"  style="height: 100%; min-height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" >
@@ -7,8 +7,8 @@
 
         <div layout="row" >
             <div layout="column" layout-align="space-around center" flex>
-                <span class="md-headline" ng-if="userSession.typeUser == 'Atleta'">Atleta</span>
-                <a href="{{userSession.typeUser == 'Atleta' || !showControl? '#data-person':'javascript:void(0)'}}" >
+                <span class="md-headline" ng-if="userSession.typeUser == $scope.userSessionTypeUserAtleta">Atleta</span>
+                <a href="{{userSession.typeUser == userSessionTypeUserAtleta || !showControl? '#data-person':'javascript:void(0)'}}" >
                     <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
                     <md-tooltip md-direction="right">
                         Ver Perfil
@@ -329,9 +329,9 @@
             </div>
         </div>
     </div>
-    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == 'Atleta'">
+    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == $scope.userSessionTypeUserAtleta">
         <div layout="column" layout-align="center center" style="margin: 34px;">
-            <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == 'Atleta'">
+            <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == $scope.userSessionTypeUserAtleta">
                 <div flex>
                     <img class="circular" data-ng-src="{{profileImageStar}}" style="height: 80px; width: 80px;">
                     <md-subheader>Estrella</md-subheader>
@@ -364,7 +364,7 @@
     
 
                 <md-subheader>{{availableMessage}} disponibles de {{coachAssignedPlan.messageCount}}</md-subheader>
-                <div flex ng-if="userSession.typeUser == 'Atleta'">
+                <div flex ng-if="userSession.typeUser == $scope.userSessionTypeUserAtleta">
                     <notification-icon animation="grow" count="emailReceivedCount">
                     <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.coachUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
@@ -372,7 +372,7 @@
                     </md-button>
                     </notification-icon>
                 </div>
-                <div flex ng-if="userSession.typeUser == 'Coach' ||userSession.typeUser == 'Coach-Interno'">
+                <div flex ng-if="userSession.typeUser == $scope.userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno">
                     <notification-icon animation="grow" count="emailReceivedCount">
                     <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.athleteUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>

@@ -258,7 +258,7 @@ public class UserController {
             session.setAttribute("user", userSession);
             Locale locale = new Locale("es", "CO");
             Locale.setDefault(locale);
-            
+
             if (userDto.getUserWordpressId() != null) {
                 UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
                 objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
@@ -275,9 +275,10 @@ public class UserController {
 
                         if (statusRes.equals("success")) {
 
-                            if (jo.get("planId") != null && !jo.get("planId").getAsString().trim().isEmpty()) {
+                            if (jo.get("planId") != null
+                                    && !jo.get("planId").getAsString().trim().isEmpty()) {
                                 Integer trainingPlanId = jo.get("planId").getAsInt();
-                                Integer starTeamId = jo.get("starTeamId").getAsInt();
+
                                 List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
 
                                 for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
@@ -293,17 +294,19 @@ public class UserController {
                                 trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
                                 trainingPlanUserService.create(trainingPlanUser);
 
-                                CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
-                                coachAssignedPlan.setCreationDate(new Date());
-                                coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
-                                coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
-                                coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
-                                coachAssignedPlanService.create(coachAssignedPlan);
+                                if (jo.get("starTeamId") != null
+                                        && !jo.get("starTeamId").getAsString().trim().isEmpty()) {
+                                    Integer starTeamId = jo.get("starTeamId").getAsInt();
+                                    CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
+                                    coachAssignedPlan.setCreationDate(new Date());
+                                    coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
+                                    coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
+                                    coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                                    coachAssignedPlanService.create(coachAssignedPlan);
+                                }
 
                                 userTrainingOrder.setStatus("integrated");
                                 userTrainingOrderService.store(userTrainingOrder);
-
-                                
 
                                 if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                                     response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
@@ -317,7 +320,7 @@ public class UserController {
                     }
                 }
             }
-            
+
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;

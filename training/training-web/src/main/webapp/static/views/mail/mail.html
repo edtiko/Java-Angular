@@ -1,5 +1,5 @@
     <div layout="row" layout-align="center" style="margin-top: 3%">
-        <div flex="25" ng-if="userSession.typeUser == 'Coach' ||userSession.typeUser == 'Coach-Interno' ">
+        <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno ">
             <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
         </div>
         <div flex="70" layout="column"  layout-align="space-between none" class="demo-content">

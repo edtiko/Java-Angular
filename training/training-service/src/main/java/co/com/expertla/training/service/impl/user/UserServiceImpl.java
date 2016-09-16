@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
         
         if(user != null) {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
-            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getName():"");
+            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
             return user;
         }
         
