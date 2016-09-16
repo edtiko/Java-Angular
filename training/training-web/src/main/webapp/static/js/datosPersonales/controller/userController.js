@@ -178,6 +178,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         self.updateUser = function (user, id) {
             user.birthDate = $scope.birthdateDt;
+            var userUpdate = user;
+            userUpdate.profilePhoto = '';
+            userUpdate.profilePhotoBase64 = '';
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
