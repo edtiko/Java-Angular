@@ -66,8 +66,10 @@ require.config({
         dcfService:"configuration/service/dcfService",
         characteristicService:"configuration/service/characteristicService",
 	brandService:"configuration/service/brandService",
-       angularPickList: 'lib/picklist',        mailService: "mail/service/mailService",
-        supervStarCoachService: "mail/service/supervStarCoachService"
+        angularPickList: 'lib/picklist',        
+        mailService: "mail/service/mailService",
+        supervStarCoachService: "mail/service/supervStarCoachService",
+        userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService"
     },
     shim: {
         angular: {
@@ -231,7 +233,11 @@ require.config({
         },
         supervStarCoachService: {
             deps: ['angular','trainingApp']
-        },        app: {
+        },
+        userActivityPerformanceService: {
+            deps: ['angular','trainingApp']
+        },
+        app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
@@ -240,7 +246,7 @@ require.config({
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService','dcfService', 'characteristicService','brandService',
-		'mailService','supervStarCoachService'
+		'mailService','supervStarCoachService','userActivityPerformanceService'
 //                ,'videoService','videochatService'
 
             ] }
