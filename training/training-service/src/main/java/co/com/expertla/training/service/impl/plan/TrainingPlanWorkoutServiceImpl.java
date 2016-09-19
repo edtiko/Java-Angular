@@ -144,6 +144,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 act = activityList.get(index);
                 list.add(act);
                 z++;
+                index++;
                 continue;
             } 
             

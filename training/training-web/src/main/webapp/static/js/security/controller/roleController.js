@@ -220,5 +220,4 @@ trainingApp.controller('RoleController',
                 $scope.getRolePaginate();
                 $scope.getOptionList();
 
-
             }]);

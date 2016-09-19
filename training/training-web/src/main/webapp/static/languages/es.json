@@ -49,8 +49,6 @@
     "CREATE_BIKE_TYPE": "Creaci\u00f3n de Tipos de Bicicleta",
     "BIKE_TYPE": "Tipo de Bicicleta",
     "ADD_ROLE_OPTION_MODALITY": "Role Opciones",
-    "CREATE_ACTIVITY": "Creaci\u00f3n de Actividades",
-    "CREATE_MODALITY": "Creaci\u00f3n de Modalidades",
     "DISCIPLINE":"Disciplina Deportiva",
     "SEND":"Enviar",
     "INBOX":"Bandeja de Entrada",
@@ -61,5 +59,11 @@
     "TO":"Para",
     "SENT":"Enviados",
     "RECEIVED":"Recibidos",
-    "WRITE_HERE":"Escriba aqui"
+    "WRITE_HERE":"Escriba aqui",
+    "ACTIVITIES":"Actividades",
+    "TOTAL_CALORIES": "Calor\u00edas Totales",
+    "TOTAL_DISTANCE": "Distancia Total", 
+    "AVERAGE_HEART_RATE": "Frecuencia Card\u00edaca Media",
+    "MAX_HEART_RATE":"Frecuencia Card\u00edaca M\u00e1xima",
+    "AVERAGE_PACE":"Ritmo Medio"
 }
