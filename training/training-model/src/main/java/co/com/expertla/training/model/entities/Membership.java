@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -63,6 +64,8 @@ public class Membership implements Serializable {
     private State stateId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "membershipId")
     private Collection<MembershipPrice> membershipPriceCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "membershipId")
+    private Collection<TrainingPlanCharact> trainingPlanCharactCollection;
 
     public Membership() {
     }
@@ -133,13 +136,21 @@ public class Membership implements Serializable {
     public void setStateId(State stateId) {
         this.stateId = stateId;
     }
-
+    @JsonIgnore
     public Collection<MembershipPrice> getMembershipPriceCollection() {
         return membershipPriceCollection;
     }
 
     public void setMembershipPriceCollection(Collection<MembershipPrice> membershipPriceCollection) {
         this.membershipPriceCollection = membershipPriceCollection;
+    }
+    @JsonIgnore
+    public Collection<TrainingPlanCharact> getTrainingPlanCharactCollection() {
+        return trainingPlanCharactCollection;
+    }
+
+    public void setTrainingPlanCharactCollection(Collection<TrainingPlanCharact> trainingPlanCharactCollection) {
+        this.trainingPlanCharactCollection = trainingPlanCharactCollection;
     }
 
     @Override

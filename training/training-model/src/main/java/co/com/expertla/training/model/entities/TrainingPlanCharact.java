@@ -69,6 +69,10 @@ public class TrainingPlanCharact implements Serializable {
     @JoinColumn(name = "training_plan_id", referencedColumnName = "training_plan_id")
     @ManyToOne(optional = false)
     private TrainingPlan trainingPlanId;
+    @JoinColumn(name = "membership_id", referencedColumnName = "membership_id")
+    @ManyToOne(optional = false)
+    private Membership membershipId;
+    
 
     public TrainingPlanCharact() {
     }
@@ -80,6 +84,14 @@ public class TrainingPlanCharact implements Serializable {
     public TrainingPlanCharact(Integer trainingPlanCharactId, String value) {
         this.trainingPlanCharactId = trainingPlanCharactId;
         this.value = value;
+    }
+
+    public Membership getMembershipId() {
+        return membershipId;
+    }
+
+    public void setMembershipId(Membership membershipId) {
+        this.membershipId = membershipId;
     }
 
     public Integer getTrainingPlanCharactId() {
