@@ -205,7 +205,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
             $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {              
+            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach' || $scope.userSession.typeUser === 'Coach-Interno') {              
                 self.getAssignedAthletes();
                 $scope.getUserById();
 

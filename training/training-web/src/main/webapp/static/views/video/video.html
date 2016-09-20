@@ -1,34 +1,68 @@
-		
+
 <link rel="stylesheet" type="text/css" href="static/js/lib/vaRecorder/css/virecorder.css">
 <md-content class="md-padding">
-<div layout="row">
+<div layout="row" layout-align="center center">
     
-    <div flex>
+    <div flex="40">
         <h1>Videos</h1>
         <ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
-
+        
+  <video controls width="123" height="123">
+      <source src="{{videoPaths}}" type='video/webm; codecs="vp8, vorbis"'>
+</video>
         <!--<md-button ng-show="!videoready" class="md-primary" ng-click = "camconfiguration.init()" >Empezar Grabaci&oacute;n</md-button>-->
        <!-- <img ng-src="{{camconfiguration.output.recordingthumb}}" />-->
     </div>
-    <div flex>
+    <div flex="40" >
 
-        <ang-accordion one-at-a-time="true" icon-position="right" close-icon-class="fa fa-chevron-right" open-icon-class="fa fa-chevron-down">
+         <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <h2>
+          <span>Videos Enviados</span>
+        </h2>
+      </div>
+    </md-toolbar>
+         <md-content class="border" style="height: 250px">
+                <section>
+                    <md-list ng-repeat="vr  in receivedvideos">
+                        <md-list-item ng-click="null" >
+                            <p>
+                                {{vr.createDate}}
+                            </p>
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.videoPath)">
+                                <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
+                                <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                        </md-list-item>
+                        <md-divider></md-divider>
+                    </md-list>
+                </section>
 
-            <collapsible-item item-title="Recibidos" initially-open="true">
-                <h3>Recibidos</h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">Some Link</a>
-                </p>
-            </collapsible-item>
+            </md-content>
+          <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <h2>
+          <span>Videos Recibidos</span>
+        </h2>
+      </div>
+    </md-toolbar>
+         <md-content class="border" style="height: 250px">
+                <section>
+                    <md-list ng-repeat="vr  in receivedvideos">
+                        <md-list-item ng-click="null" >
+                            <p>
+                                {{vr.createDate}}
+                            </p>
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.videoPath)">
+                                <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
+                                <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                        </md-list-item>
+                         <md-divider></md-divider>
+                    </md-list>
+                </section>
 
-            <collapsible-item item-title="Enviados">
-                <h3>Enviados</h3>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-            </collapsible-item>
-
-        </ang-accordion>
+            </md-content>
     </div>
 
 </div>

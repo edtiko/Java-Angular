@@ -783,7 +783,7 @@ create table plan_message (
    message_user_id           integer not null,
    readed                    boolean  default false,
    state_id                  integer  null,
-   creation_date             date     null,
+   creation_date             timestamp without time zone,
    constraint pk_plan_message primary key (plan_message_id)
 );
 
@@ -812,7 +812,7 @@ create table plan_video (
    video_path                varchar(1000) not null,
    from_user_id              integer not null,
    to_user_id                integer not null,      
-   creation_date             date not null,
+   creation_date             timestamp without time zone,
    constraint pk_plan_video primary key (plan_video_id)
 );
 

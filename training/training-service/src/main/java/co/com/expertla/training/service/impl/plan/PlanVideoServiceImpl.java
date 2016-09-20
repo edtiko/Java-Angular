@@ -6,8 +6,10 @@
 package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.plan.PlanVideoDao;
+import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import co.com.expertla.training.service.plan.PlanVideoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,16 @@ public class PlanVideoServiceImpl implements PlanVideoService{
     @Override
     public void create(PlanVideo video) throws Exception {
        planVideoDao.create(video);
+    }
+
+    @Override
+     public Integer countByVideoPath(String fileName) throws Exception {
+        return planVideoDao.countByVideoPath(fileName);
+    }
+
+    @Override
+    public List<PlanVideoDTO> getVideosByUser(Integer userId) throws Exception {
+        return planVideoDao.getVideosByUser(userId);
     }
     
 }

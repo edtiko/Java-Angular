@@ -5,7 +5,9 @@
  */
 package co.com.expertla.training.service.plan;
 
+import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
+import java.util.List;
 
 /**
  *
@@ -14,5 +16,9 @@ import co.com.expertla.training.model.entities.PlanVideo;
 public interface PlanVideoService {
 
     public void create(PlanVideo video)throws Exception;
+
+   public Integer countByVideoPath(String fileName)throws Exception;
+
+    public List<PlanVideoDTO> getVideosByUser(Integer userId)throws Exception;
     
 }

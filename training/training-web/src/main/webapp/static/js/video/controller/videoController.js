@@ -3,7 +3,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
         if ($scope.appReady) {
           $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
           var planSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
-            if ($scope.user != null && $scope.user.typeUser === 'Coach') {              
+            if ($scope.user != null && $scope.user.typeUser === 'Coach' || $scope.user.typeUser === 'Coach-Interno') {              
                        $scope.toUserId = planSelected.athleteUserId.userId;
 
             } else if ($scope.user != null && $scope.user.typeUser === 'Atleta') {
@@ -11,6 +11,15 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
 
             }
         }
+        var date = new Date();
+        var month = date.getMonth()+1;
+        var day = date.getDate();
+        var year = date.getFullYear();
+        var hh = date.getHours();
+        var mm = date.getMinutes();
+        var ss = date.getSeconds();
+        $scope.dateString = ""+day+month+year+hh+mm+ss;
+        
         var configuration = {
             init: $scope.initiateRecord,
             recConf: {
@@ -22,7 +31,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
             },
             recfuncConf: {
                 showbuton: 2000,
-                url: $contextPath + "video/upload/" + $scope.user.userId+"/"+$scope.toUserId,
+                url: $contextPath + "video/upload/" +$scope.toUserId+"/"+$scope.user.userId+"/"+$scope.dateString,
                 chunksize: 1048576,
                 recordingtime: 17,
                 requestparam: "filename",
@@ -45,4 +54,29 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
         setTimeout(function () {
             configuration.init();
         }, $scope.camconfiguration.recfuncConf.showbuton);
+        
+        
+         $scope.receivedVideos = function () {
+
+            videoService.getVideosByUser($scope.user.userId).then(
+                    function (data) {
+                        $scope.receivedvideos = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+        $scope.playVideo = function(videoPath){
+             videoService.getVideoByPath(videoPath).then(
+                    function (data) {
+                        $scope.videoPath = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        $scope.receivedVideos();
     }]);

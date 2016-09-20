@@ -53,7 +53,7 @@ public class PlanVideo implements Serializable {
     private String videoPath;
     @Basic(optional = false)
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @JoinColumn(name = "from_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
