@@ -2,6 +2,10 @@
     <div flex="25" ng-if="userSession.typeUser == $scope.userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno ">
         <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
     </div>
+    
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserSupervisor ">
+        <div  ng-include src="'static/views/dashboard/tabsDashboardSupervisor.html'"></div>
+    </div>
     <div flex="60"  style="height: 100%; min-height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" >
 
 

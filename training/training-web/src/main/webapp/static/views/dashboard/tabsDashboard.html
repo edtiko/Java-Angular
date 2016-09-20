@@ -1,36 +1,37 @@
 <div layout="column" style=" border: 1px solid #e1e1e1; height: 100%; min-height: 800px; border-radius: 25px;">
     <md-content >
-    <md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
-      <md-tab label="Atleta" md-on-select="onTabChanges(0)">
-        <md-content class="md-padding">
-            <md-list-item ng-repeat="a in athletes" >
-                <md-button md-no-ink class="md-primary" ng-click="selectAthlete(a)">{{a.athleteUserId.fullName}}</md-button>
-                  <md-divider></md-divider>
-            </md-list-item>
-        </md-content>
-      </md-tab>
-      <md-tab label="Estrella" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno"  md-on-select="onTabChanges(1)" >
-        <md-content class="md-padding">
-            <md-list-item ng-repeat="a in athletes" >
-                <md-button md-no-ink class="md-primary" ng-click="selectUser(a.starUserId.userId)">{{a.starUserId.fullName}}</md-button>
-                  <md-divider></md-divider>
-            </md-list-item>
-        </md-content>
-      </md-tab>
-      <md-tab label="Supervisor" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno"  md-on-select="onTabChanges(2)">
-        <md-content class="md-padding">
-            <md-list-item ng-repeat="a in supervisors" >
-                <md-button md-no-ink class="md-primary" ng-click="selectUser(a.supervisorId.userId)">{{a.supervisorId.name}} {{a.supervisorId.secondName}} {{a.supervisorId.lastName}}</md-button>
-                  <md-divider></md-divider>
-            </md-list-item>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
+            <md-tab label="Atleta" md-on-select="onTabChanges(0)">
+                <md-content class="md-padding">
+                    <md-list-item ng-repeat="a in athletes" >
+                        <md-button md-no-ink class="md-primary" ng-click="selectAthlete(a)">{{a.athleteUserId.fullName}}</md-button>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-content>
+            </md-tab>
+            <md-tab label="Estrella" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno"  md-on-select="onTabChanges(1)" >
+                <md-content class="md-padding">
+                    <md-list-item ng-repeat="a in athletes" >
+                        <md-button md-no-ink class="md-primary" ng-click="selectUser(a.starUserId.userId)">{{a.starUserId.fullName}}</md-button>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-content>
+            </md-tab>
+            <md-tab label="Supervisor" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno"  md-on-select="onTabChanges(2)">
+                <md-content class="md-padding">
+                    <md-list-item ng-repeat="a in supervisors" >
+                        <md-button md-no-ink class="md-primary" ng-click="selectUser(a.supervisorId.userId)">{{a.supervisorId.name}} {{a.supervisorId.secondName}} {{a.supervisorId.lastName}}</md-button>
+                        <md-divider></md-divider>
+                    </md-list-item>
 
-        </md-content>
-      </md-tab>
-         <md-tab label="Bandeja de entrada">
-        <md-content class="md-padding">
+                </md-content>
+            </md-tab>
 
-        </md-content>
-      </md-tab>
-    </md-tabs>
-  </md-content>
+            <md-tab label="Bandeja de entrada">
+                <md-content class="md-padding">
+
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 </div>

@@ -25,6 +25,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.emailReceivedCount = 0;
         $scope.messagesReceivedCount = 0;
         $scope.tabIndex  = $window.sessionStorage.getItem("tabIndex");
+        $scope.tabIndex2  = $window.sessionStorage.getItem("tabIndex2");
 
 
         $scope.getUserById = function () {
@@ -198,7 +199,23 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
+        
+        self.getAssignedUserBySupervisor = function () {
+            DashboardService.getAssignedUserBySupervisor($scope.userSession.userId).then(
+                    function (data) {
+                        var res = data.output;
+                        
+                        if (data.status == 'success') {
+                            $scope.supervisorUserAssignedList = angular.copy(res);
+                        }
 
+                    },
+                    function (error) {
+                        $scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
             $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -211,6 +228,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.getUserSessionByResponse(res);
                 $scope.getUserById();
                 self.getAssignedCoach();
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserSupervisor) {
+                self.getAssignedUserBySupervisor();
             }
             
             $scope.getSupervisorByCoachId($scope.userSession.userId);
@@ -242,6 +261,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         
         $scope.onTabChanges = function (currentTabIndex) {
             $window.sessionStorage.setItem("tabIndex", currentTabIndex);
+        };
+        
+        $scope.onTabChanges2 = function (currentTabIndex) {
+            $window.sessionStorage.setItem("tabIndex2", currentTabIndex);
         };
 
     }]);

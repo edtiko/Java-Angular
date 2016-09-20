@@ -37,6 +37,20 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     }
     
     @Override
+    public List<MailCommunicationDTO> getMailsByUserIdRead(Integer userId, boolean read) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.MailCommunicationDTO(m.mailCommunicationId, m.subject,m.message, m.stateId, ");   
+        sql.append("m.creationDate, m.read,m.receivingUser,m.sendingUser ) ");
+        sql.append("FROM MailCommunication m ");
+        sql.append("Where m.receivingUser.userId = :id ");
+        sql.append("Where m.read = :read ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("id", userId);
+        query.setParameter("read", read);
+        return query.getResultList();
+    }
+    
+    @Override
     public List<MailCommunicationDTO> getMailsByReceivingUserIdFromSendingUser(Integer receivingUserId, Integer sendingUserId) throws DAOException {
         
         StringBuilder sql = new StringBuilder();
@@ -60,6 +74,25 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append("Where m.sendingUser.userId = :id ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", userId);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<MailCommunicationDTO> getMailsByReceivingUserIdFromSendingUserRead(Integer receivingUserId,
+            Integer sendingUserId, boolean read) throws DAOException {
+        
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.MailCommunicationDTO(m.mailCommunicationId, m.subject,m.message, m.stateId, ");   
+        sql.append("m.creationDate, m.read,m.receivingUser,m.sendingUser ) ");
+        sql.append("FROM MailCommunication m ");
+        sql.append("Where m.receivingUser.userId = :receivingUser ");
+        sql.append("and m.sendingUser.userId = :sendingUser ");
+        sql.append("and m.read = :read ");
+        sql.append("order by m.creationDate asc ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("receivingUser", receivingUserId);
+        query.setParameter("sendingUser", sendingUserId);
+        query.setParameter("read", read);
         return query.getResultList();
     }
 }

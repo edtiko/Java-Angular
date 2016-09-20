@@ -59,6 +59,32 @@ public interface MailCommunicationDao extends BaseDAO<MailCommunication>{
      * @return
      */
     public List<MailCommunicationDTO> getSentMailsByUserId(Integer userId) throws DAOException;
+    
+    /**
+     * Trae todos los mails enviados por el user Id <br>
+     * Creation Date : <br>
+     * date 19/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param read
+     * @throws co.com.expertla.base.jpa.DAOException
+     * @return
+     */
+    public List<MailCommunicationDTO> getMailsByUserIdRead(Integer userId, boolean read) throws DAOException;
+    
+    
+    /**
+     * Trae todos los mails por receiving user and sendingUser <br>
+     * Creation Date : <br>
+     * date 19/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param receivingUserId
+     * @param sendingUserId
+     * @param read
+     * @return
+     * @throws java.lang.Exception
+     */
+    public List<MailCommunicationDTO> getMailsByReceivingUserIdFromSendingUserRead(Integer receivingUserId, Integer sendingUserId, boolean read) throws Exception;
 
     
 }
