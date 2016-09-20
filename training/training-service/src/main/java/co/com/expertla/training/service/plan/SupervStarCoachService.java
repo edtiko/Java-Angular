@@ -1,6 +1,7 @@
 package co.com.expertla.training.service.plan;
 
 import co.com.expertla.training.model.dto.SupervStarCoachDTO;
+import co.com.expertla.training.model.dto.UserAssignedSupervisorDTO;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import java.util.List;
 
@@ -108,6 +109,17 @@ public interface SupervStarCoachService {
      * @throws Exception 
      */
     public List<SupervStarCoach> findByCoachId(Integer coachId) throws Exception; 
+    
+    /**
+     * Obtiene todos los registros de supervStarCoach por el supervisor Id<br>
+     * Info. Creación: <br>
+     * fecha Sep 13, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<UserAssignedSupervisorDTO> findBySupervisorId(Integer userId) throws Exception; 
 
     
 }

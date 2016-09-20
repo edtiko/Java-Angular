@@ -4,6 +4,7 @@ import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.dao.plan.SupervStarCoachDao;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.SupervStarCoachDTO;
+import co.com.expertla.training.model.dto.UserAssignedSupervisorDTO;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import java.util.List;
 import javax.persistence.Query;
@@ -136,6 +137,18 @@ public class SupervStarCoachDaoImpl extends BaseDAOImpl<SupervStarCoach> impleme
         builder.append("where a.starTeamId.coachUserId.userId = :id ");
         Query query = this.getEntityManager().createQuery(builder.toString());
         query.setParameter("id", coachId);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<UserAssignedSupervisorDTO> findBySupervisorId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+        builder.append(" a.supervStarCoachId, a.starTeamId.coachUserId, a.starTeamId.starUserId, a.starTeamId.starTeamId, a.supervisorId.userId ");
+        builder.append(") from SupervStarCoach a ");
+        builder.append("where a.supervisorId.userId = :id ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("id", userId);
         return query.getResultList();
     }
 }

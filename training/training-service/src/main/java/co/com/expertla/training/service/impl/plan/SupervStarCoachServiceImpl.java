@@ -2,6 +2,7 @@ package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.plan.SupervStarCoachDao;
 import co.com.expertla.training.model.dto.SupervStarCoachDTO;
+import co.com.expertla.training.model.dto.UserAssignedSupervisorDTO;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import co.com.expertla.training.service.plan.SupervStarCoachService;
 import java.util.List;
@@ -65,6 +66,11 @@ public class SupervStarCoachServiceImpl implements SupervStarCoachService {
     @Override
     public List<SupervStarCoach> findByCoachId(Integer coachId) throws Exception {
         return supervStarCoachDao.findByCoachId(coachId);
+    }
+
+    @Override
+    public List<UserAssignedSupervisorDTO> findBySupervisorId(Integer userId) throws Exception {
+        return supervStarCoachDao.findBySupervisorId(userId);
     }
 
 }
