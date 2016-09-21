@@ -59,9 +59,8 @@ public class Membership implements Serializable {
     @JoinColumn(name = "membership_promo_id", referencedColumnName = "membership_promo_id")
     @ManyToOne
     private MembershipPromotion membershipPromoId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "membershipId")
     private Collection<MembershipPrice> membershipPriceCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "membershipId")
@@ -129,11 +128,11 @@ public class Membership implements Serializable {
         this.membershipPromoId = membershipPromoId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
     @JsonIgnore

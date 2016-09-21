@@ -5,6 +5,7 @@ import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.CharacteristicDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.entities.Characteristic;
+import co.com.expertla.training.model.entities.Membership;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanCharact;
 import java.util.List;
@@ -313,6 +314,36 @@ public class CharacteristicController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(CharacteristicController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al eliminar registro");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta membership characteristic <br>
+     * Info. Creación: <br>
+     * fecha 8/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param characteristicId
+     * @param membershipId
+     * @return
+     */
+    @RequestMapping(value = "/characteristic/trainingMembershipCharact/get/all/{characteristicId}/{membershipId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listPlanCharacteristicByMembership(@PathVariable("characteristicId") Integer characteristicId,
+            @PathVariable("membershipId") Integer membershipId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+            trainingPlanCharact.setCharacteristicId(new Characteristic(characteristicId));
+            trainingPlanCharact.setMembershipId(new Membership(membershipId));         
+            List<TrainingPlanCharact> trainingPlanCharacteristicList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
+            responseService.setOutput(trainingPlanCharacteristicList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(CharacteristicController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

@@ -65,6 +65,11 @@ public class TrainingPlanCharactDaoImpl extends BaseDAOImpl<TrainingPlanCharact>
             setParameter("plan", trainingPlanCharact.getTrainingPlanId().getTrainingPlanId());
         }
         
+        if(trainingPlanCharact.getMembershipId()!= null && trainingPlanCharact.getMembershipId().getMembershipId() != null) {
+            builder.append("AND a.membershipId.membershipId = :membershipId ");
+            setParameter("membershipId", trainingPlanCharact.getMembershipId().getMembershipId());
+        }
+        
         if(trainingPlanCharact.getCharacteristicId()!= null && trainingPlanCharact.getCharacteristicId().getCharacteristicId() != null) {
             builder.append("AND a.characteristicId.characteristicId = :charac ");
             setParameter("charac", trainingPlanCharact.getCharacteristicId().getCharacteristicId());
