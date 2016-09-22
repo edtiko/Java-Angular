@@ -19,6 +19,6 @@ public interface PlanVideoService {
 
    public Integer countByVideoPath(String fileName)throws Exception;
 
-    public List<PlanVideoDTO> getVideosByUser(Integer userId)throws Exception;
+    public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto)throws Exception;
     
 }

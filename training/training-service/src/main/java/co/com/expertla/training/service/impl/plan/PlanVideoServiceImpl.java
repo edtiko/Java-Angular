@@ -36,8 +36,8 @@ public class PlanVideoServiceImpl implements PlanVideoService{
     }
 
     @Override
-    public List<PlanVideoDTO> getVideosByUser(Integer userId) throws Exception {
-        return planVideoDao.getVideosByUser(userId);
+    public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto) throws Exception {
+        return planVideoDao.getVideosByUser(userId, fromto);
     }
     
 }

@@ -1,15 +1,22 @@
 
 <link rel="stylesheet" type="text/css" href="static/js/lib/vaRecorder/css/virecorder.css">
 <md-content class="md-padding">
-<div layout="row" layout-align="center center">
+<div layout="row" layout-align="center">
     
     <div flex="40">
-        <h1>Videos</h1>
-        <ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
+        <md-tabs md-dynamic-height md-selected="selectedIndex">
+            <md-tab label="Grabar Video">
+                <md-content class="md-padding">
+                    <ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
+                </md-content>
+            </md-tab>
+            <md-tab label="Ver Video">
+                <md-content class="md-padding">
+                    <div id="recorded"></div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
         
-  <video controls width="123" height="123">
-      <source src="{{videoPaths}}" type='video/webm; codecs="vp8, vorbis"'>
-</video>
         <!--<md-button ng-show="!videoready" class="md-primary" ng-click = "camconfiguration.init()" >Empezar Grabaci&oacute;n</md-button>-->
        <!-- <img ng-src="{{camconfiguration.output.recordingthumb}}" />-->
     </div>
@@ -29,7 +36,7 @@
                             <p>
                                 {{vr.createDate}}
                             </p>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.videoPath)">
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name)">
                                 <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
@@ -48,7 +55,7 @@
     </md-toolbar>
          <md-content class="border" style="height: 250px">
                 <section>
-                    <md-list ng-repeat="vr  in receivedvideos">
+                    <md-list ng-repeat="vr  in sendedvideos">
                         <md-list-item ng-click="null" >
                             <p>
                                 {{vr.createDate}}
@@ -67,3 +74,6 @@
 
 </div>
 </md-content>
+<script>
+
+</script>

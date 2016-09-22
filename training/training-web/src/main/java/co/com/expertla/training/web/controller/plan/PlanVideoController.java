@@ -68,9 +68,11 @@ public class PlanVideoController {
                 if (!directory.exists()) {
                     if (directory.mkdir()) {
                         Files.copy(file.getInputStream(), Paths.get(ROOT+fileName, filename));
+                         //storageService.store(file);
                     } 
                 }else{
                      Files.copy(file.getInputStream(), Paths.get(ROOT+fileName, filename));
+                       //storageService.store(file);
                 }
 
                 Integer count =  planVideoService.countByVideoPath(fileName);
@@ -103,13 +105,13 @@ public class PlanVideoController {
         }
     }
     
-      @RequestMapping(value = "/get/videos/{userId}", method = RequestMethod.GET)
+      @RequestMapping(value = "/get/videos/{userId}/{fromto}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getVideosByUser(@PathVariable("userId") Integer userId) {
+    Response getVideosByUser(@PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(userId);
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(userId, fromto);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(videos);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -123,35 +125,13 @@ public class PlanVideoController {
 
     }
     
+   
     
-    @RequestMapping(value = "/get/video/{videoPath}", method = RequestMethod.GET)
-    public @ResponseBody
-    Response getVideoBySrc(@PathVariable("videoPath") String videoPath) {
-        ResponseService responseService = new ResponseService();
-        StringBuilder strResponse = new StringBuilder();
-        try {
-            File file = new File(ROOT+videoPath);
-            if(file.exists()){
-                
-            }
-            responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput("");
-            return Response.status(Response.Status.OK).entity(responseService).build();
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            responseService.setOutput(strResponse);
-            responseService.setStatus(StatusResponse.FAIL.getName());
-            responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
-        }
-
-    }
-    
-    @RequestMapping("/files/{filename:.+}")
+    @RequestMapping(value="/files/{videoPath}/{filename:.+}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String videoPath, @PathVariable String filename) {
 
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = storageService.loadAsResource(videoPath+"/"+filename);
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+file.getFilename()+"\"")
