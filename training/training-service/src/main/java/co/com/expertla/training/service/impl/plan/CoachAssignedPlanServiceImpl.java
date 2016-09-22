@@ -7,6 +7,7 @@ package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
+import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     @Override
     public CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception {
         return dao.findByAthleteUserId(userId);
+    }
+
+    @Override
+    public CoachAssignedPlan create(CoachAssignedPlan coachAssignedPlan) throws Exception {
+        return dao.create(coachAssignedPlan);
     }
     
 }

@@ -75,10 +75,10 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
         $scope.selectChat = function (coachAssignedPlanSelected) {
             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
             messageService.initialize($scope.coachAssignedPlan.id);
-            if ($scope.coachAssignedPlan != null && $scope.userSession.typeUser === 'Coach') {
+            if ($scope.coachAssignedPlan != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
                 self.getImageProfile($scope.coachAssignedPlan.athleteUserId.userId);
                 $scope.userChat = $scope.coachAssignedPlan.athleteUserId.fullName;
-            } else if ($scope.coachAssignedPlan != null && $scope.userSession.typeUser === 'Atleta') {
+            } else if ($scope.coachAssignedPlan != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 self.getImageProfile($scope.coachAssignedPlan.coachUserId.userId);
                 $scope.userChat = $scope.coachAssignedPlan.coachUserId.fullName;
             }
@@ -128,9 +128,9 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
         
         self.readMessages = function (coachAssignedPlanSelected) {
             var userId = null;
-            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
                 userId = coachAssignedPlanSelected.athleteUserId.userId;
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 userId = coachAssignedPlanSelected.coachUserId.userId;
             }
             messageService.readMessages(coachAssignedPlanSelected.id, userId).then(
@@ -143,10 +143,10 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
                     });
         };
 
-        if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach') {
+        if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
             //self.getAssignedAthletes();
             self.getChatUser();
-        } else if ($scope.userSession != null && $scope.userSession.typeUser === 'Atleta') {
+        } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
             self.getAssignedCoach();
         }
         

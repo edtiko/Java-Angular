@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
         
         if(user != null) {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
-            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getName():"");
+            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
             return user;
         }
         
@@ -127,6 +127,7 @@ public class UserServiceImpl implements UserService {
         user.setTwitterPage(userDTO.getTwitterPage());
         user.setInstagramPage(userDTO.getInstagramPage());
         user.setWebPage(userDTO.getWebPage());
+        user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
         user.setCreationDate(new Date());
 
         return userDao.updateUser(user);
@@ -240,6 +241,10 @@ public class UserServiceImpl implements UserService {
         user.setSex(dto.getSex());
         user.setPhone(dto.getPhone());
         user.setStateId(dto.getStateId());
+        
+        if(dto.getIndLoginFirstTime() != null) {
+            user.setIndLoginFirstTime(dto.getIndLoginFirstTime());
+        }
         user.setCountryId(new Country(dto.getCountryId()));
         
         

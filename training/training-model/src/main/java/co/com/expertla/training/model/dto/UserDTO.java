@@ -29,7 +29,7 @@ public class UserDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String sex;
-    private BigInteger weight;
+    private Float weight;
     private String phone;
     private String cellphone;
     private String address;
@@ -59,7 +59,9 @@ public class UserDTO {
     private String userCreateName;
     private String userUpdateName;
     private int count;
-	private Integer disciplineIdExt;
+    private Integer disciplineIdExt;
+    private Integer userWordpressId;
+    private Integer indLoginFirstTime;
     
     public UserDTO() {
     }
@@ -112,7 +114,7 @@ public class UserDTO {
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
-            String sex, BigInteger weight, String phone, String cellphone, Integer cityId,
+            String sex, Float weight, String phone, String cellphone, Integer cityId,
             Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
             String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto) {
         this.userId = userId;
@@ -161,6 +163,37 @@ public class UserDTO {
         this.aboutMe = aboutMe;
         this.disciplineIdExt = disciplineIdExt;
     }
+    
+    public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
+            String sex, Float weight, String phone, String cellphone, Integer cityId,
+            Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
+            String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto,
+            Integer indLoginFirstTime, Integer userWordpressId) {
+        this.userId = userId;
+        this.login = login;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.email = email;
+        this.sex = sex;
+        this.weight = weight;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        this.cityId = cityId;
+        this.stateId = stateId;
+        this.facebookPage = facebookPage;
+        this.instagramPage = instagramPage;
+        this.twitterPage = twitterPage;
+        this.webPage = webPage;
+        this.postalCode = postalCode;
+        this.federalStateId = federalStateId;
+        this.countryId = countryId;
+        this.profilePhoto = profilePhoto;
+        this.indLoginFirstTime = indLoginFirstTime;
+        this.userWordpressId = userWordpressId;
+    }
 
     public static UserDTO mapFromUserEntity(User user) {
         if (user != null) {
@@ -169,7 +202,7 @@ public class UserDTO {
                     user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
                     user.getCountryId() != null ? user.getCountryId().getCountryId() : null,
-                    user.getProfilePhoto());
+                    user.getProfilePhoto(), user.getIndLoginFirstTime(), user.getUserWordpressId());
         }
         return null;
     }
@@ -266,11 +299,11 @@ public class UserDTO {
         this.sex = sex;
     }
 
-    public BigInteger getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(BigInteger weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
@@ -502,6 +535,22 @@ public class UserDTO {
 
     public void setDisciplineIdExt(Integer disciplineIdExt) {
         this.disciplineIdExt = disciplineIdExt;
+    }
+
+    public Integer getUserWordpressId() {
+        return userWordpressId;
+    }
+
+    public void setUserWordpressId(Integer userWordpressId) {
+        this.userWordpressId = userWordpressId;
+    }
+
+    public Integer getIndLoginFirstTime() {
+        return indLoginFirstTime;
+    }
+
+    public void setIndLoginFirstTime(Integer indLoginFirstTime) {
+        this.indLoginFirstTime = indLoginFirstTime;
     }
     
 }

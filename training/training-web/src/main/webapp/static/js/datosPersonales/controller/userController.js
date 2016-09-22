@@ -1,8 +1,8 @@
 
 trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$location', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService','$location', '$mdDialog',function ($scope, UserService,
+    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService', '$location', '$mdDialog', 'DcfService', function ($scope, UserService,
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
-            VisibleFieldsUserService, BikeTypeService,$location,$mdDialog) {
+            VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
@@ -114,8 +114,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 $scope.indBike = 1;
                             }
                             var disc = $scope.userProfile.discipline;
-                            $scope.getModalitiesByDisciplineId(disc);
-
+                            $scope.getObjectivesByDiscipline($scope.userProfile.discipline);
+                            $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
                                 $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
                             }
@@ -133,6 +133,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             }
                             if ($scope.userProfile.ppm100 <= 0) {
                                 $scope.calculatePpm();
+                            }
+                            $scope.userProfile.height = parseFloat(Math.round($scope.userProfile.height * 100) / 100).toFixed(2);
+                            $scope.userProfile.weight = parseFloat(Math.round($scope.userProfile.weight * 100) / 100).toFixed(2);
+                            if($scope.userProfile.weight != null && $scope.userProfile.height != null) {
+                                $scope.calculateIMC();
                             }
 
                         },
@@ -173,6 +178,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         self.updateUser = function (user, id) {
             user.birthDate = $scope.birthdateDt;
+            var userUpdate = user;
+            userUpdate.profilePhoto = '';
+            userUpdate.profilePhotoBase64 = '';
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
@@ -215,9 +223,16 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     );
         };
 
-        self.fetchAllCountries();
-        self.getUserById();
-
+        $scope.getUserSession(function (res) {
+            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            
+            if(user.indLoginFirstTime == '1') {
+                $scope.showMessage("Para poder generar tu plan, debes ingresar los datos deportivos y darle click en el bot\u00f3n generar plan");
+            }
+            self.fetchAllCountries();
+            self.getUserById();
+            self.getAllQuestionnaireQuestion();
+        });
 
         $scope.submitUser = function () {
             if ($scope.user.userId === null) {
@@ -357,7 +372,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             ppm100: '',
             ppm102: '',
             ppm103: '',
-            ppm106: ''
+            ppm106: '',
+            weight: '',
+            height: '',
+            imc: ''
         };
 
         $scope.disciplines = [];
@@ -377,25 +395,86 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.bikeTypes = [];
         $scope.errorMessages = "";
 
-        $scope.submitUserProfile = function (form,generatePlan) {
+        $scope.submitUserProfile = function (form, generatePlan, ev) {
             if ($scope.validateFields(form)) {
-                $scope.createOrMergeUserProfile($scope.userProfile,generatePlan);
+                $scope.getSessions(ev, generatePlan);
             } else {
-                if($scope.errorMessages.length != 0) {
-                    $scope.showMessage($scope.errorMessages);      
+                if ($scope.errorMessages.length != 0) {
+                    $scope.showMessage($scope.errorMessages);
                 }
             }
         };
 
+        $scope.calculateIMC = function () {
+            if ($scope.userProfile.weight != null && $scope.userProfile.height != null
+                    && isNumeric($scope.userProfile.weight) && isNumeric($scope.userProfile.height)) {
+                $scope.userProfile.imc = Math.round( $scope.userProfile.weight / ($scope.userProfile.height*$scope.userProfile.height) * 10 ) / 10;
+            }
+        };
+        
+        function isNumeric(num) {
+            return !isNaN(num);
+        }
+        
+
+        $scope.confirmDialogGuardarUserProfile = function (ev, generatePlan, msg) {
+            var confirm = $mdDialog.confirm()
+                    .title('Confirmaci\u00f3n')
+                    .htmlContent('\u00BFDesea guardar sus datos deportivos?' + msg)
+                    .ariaLabel('Lucky day')
+                    .targetEvent(ev)
+                    .ok('Aceptar')
+                    .cancel('Cancelar');
+
+            $mdDialog.show(confirm).then(function () {
+                $scope.createOrMergeUserProfile($scope.userProfile, generatePlan);
+            }, function () {
+            });
+        };
+
+        $scope.getSessions = function (ev, generatePlan) {
+            DcfService.getDcfByModalityIdAndObjectiveId($scope.userProfile.modality, $scope.userProfile.objective)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.dcf = (d.output);
+                                    if ($scope.dcf[0] != null) {
+                                        var weeklyDays = Math.floor($scope.dcf[0].sessions / 4);
+                                        var days = 0;
+                                        var length = $scope.userProfile.availability.length;
+                                        for (var i = 0; i < length; i++) {
+                                            if ($scope.userProfile.availability[i].checked) {
+                                                days++;
+                                            }
+                                        }
+                                    }
+                                    var msg = '';
+                                    if (days < weeklyDays) {
+                                        msg = "<br> Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
+                                    }
+                                    if (generatePlan) {
+                                        $scope.confirmDialogGeneratePlan(ev, generatePlan, msg);
+                                    } else {
+                                        $scope.confirmDialogGuardarUserProfile(ev, generatePlan, msg);
+                                    }
+                                } else {
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating Dcf.');
+                            }
+                    );
+        };
 
 
-        $scope.createOrMergeUserProfile = function (userProfile,generatePlan) {
+        $scope.createOrMergeUserProfile = function (userProfile, generatePlan) {
             if (userProfile.userProfileId == null) {
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
                             self.getEquipments();
-                            if(generatePlan) {
+                            $scope.calculateIMC();
+                            if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
                                 $scope.showMessage("Perfil Creado satisfactoriamente.");
@@ -412,7 +491,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         function (d) {
                             $scope.userProfile = d;
                             self.getEquipments();
-                            if(generatePlan) {
+                            $scope.calculateIMC();
+                            if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
                                 $scope.showMessage("Perfil editado satisfactoriamente.");
@@ -459,14 +539,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             UserProfileService.generatePlan(userProfile).then(
                     function (d) {
                         if (d.data.detail == null) {
-                            
-//                            $scope.showMessage(d.data.output);
                             $location.path("/calendar");
-//                            $scope.$apply();
                             $window.location = ("#calendar");
                         } else {
-                            $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
-                            console.log(d.data.detail);
+//                            $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
+                            $scope.showMessage(d.data.detail);
                         }
                     },
                     function (errResponse) {
@@ -477,21 +554,22 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
 
-        $scope.confirmDialogGeneratePlan = function (ev,form) {
+        $scope.confirmDialogGeneratePlan = function (ev, generatePlan, msg) {
+
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?')
+                    .htmlContent('\u00BFDesea generar su Plan de Entrenamiento?' + msg)
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
                     .cancel('Cancelar');
 
             $mdDialog.show(confirm).then(function () {
-                $scope.submitUserProfile(form, true);
+                $scope.createOrMergeUserProfile($scope.userProfile, generatePlan);
             }, function () {
             });
         };
-  
+
         this.getSportDisciplines = function () {
             DisciplineService.getSportDisciplines().then(
                     function (d) {
@@ -595,8 +673,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         console.error(errResponse);
                     }
             );
-        };
-
+        };    
         this.getObjectives = function () {
             ObjectiveService.getObjectives().then(
                     function (d) {
@@ -608,7 +685,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     }
             );
         };
-        this.getObjectives();
+//        this.getObjectives();
 
         $scope.getModalitiesByDisciplineId = function (id) {
             ModalityService.getModalitiesByDisciplineId(id).then(
@@ -645,7 +722,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     }
             );
         };
-        this.getModalities();
 
         this.getEntornos = function () {
             SportService.getEntornos().then(
@@ -859,39 +935,43 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
             return false;
         };
-        
+
         $scope.validateFields = function (form) {
             var valid = true;
-            if($scope.userProfile.objective == '' || $scope.userProfile.objective == null) {
-                form.objective.$setTouched(); 
+            if ($scope.userProfile.objective == '' || $scope.userProfile.objective == null) {
+                form.objective.$setTouched();
                 valid = false;
             }
-            if($scope.userProfile.discipline == '' || $scope.userProfile.discipline == null) {
-                form.discipline.$setTouched();  
+            if ($scope.userProfile.discipline == '' || $scope.userProfile.discipline == null) {
+                form.discipline.$setTouched();
                 valid = false;
             }
-            if($scope.userProfile.modality == '' || $scope.userProfile.modality == null) {
-                form.modality.$setTouched();  
+            if ($scope.userProfile.modality == '' || $scope.userProfile.modality == null) {
+                form.modality.$setTouched();
                 valid = false;
             }
-            if($scope.userProfile.environmentId == '' || $scope.userProfile.environmentId == null) {
-                form.environment.$setTouched();  
+            if ($scope.userProfile.environmentId == '' || $scope.userProfile.environmentId == null) {
+                form.environment.$setTouched();
                 valid = false;
             }
-            if($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
-                form.weather.$setTouched();  
+            if ($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
+                form.weather.$setTouched();
                 valid = false;
             }
-            if(!$scope.validateAvailability()) {
-                $scope.errorMessages ="La disponiblidad de tiempo es obligatoria <br>";
+            if (!$scope.validateAvailability()) {
+                $scope.errorMessages = "La disponiblidad de tiempo es obligatoria <br>";
                 valid = false;
             }
-            if(!$scope.validatePpm()) {
-                $scope.errorMessages =$scope.errorMessages + "Debe llenar todas las zonas de potencia <br>";
+            if (!$scope.validatePpm()) {
+                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de potencia <br>";
                 valid = false;
             }
-            if(!$scope.validatePower()) {
-                $scope.errorMessages =$scope.errorMessages + "Debe llenar todas las zonas de ppm <br>";
+            if (!$scope.validatePower()) {
+                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de ppm <br>";
+                valid = false;
+            }
+            if (!isNumeric($scope.userProfile.height)) {
+                $scope.errorMessages = $scope.errorMessages + "La altura debe ser un numero <br>";
                 valid = false;
             }
             return valid;
@@ -1080,6 +1160,5 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             //console.log($scope.survey);
             //self.reset();
         };
-        self.getAllQuestionnaireQuestion();
 
     }]);

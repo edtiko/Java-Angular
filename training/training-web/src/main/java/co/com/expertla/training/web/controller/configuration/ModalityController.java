@@ -1,5 +1,8 @@
 package co.com.expertla.training.web.controller.configuration;
-
+ 
+import co.com.expertla.training.model.dto.DisciplineDTO;
+import co.com.expertla.training.model.entities.ResponseService;
+import co.com.expertla.training.service.configuration.DisciplineService;
 import co.com.expertla.training.model.dto.DisciplineDTO;
 import co.com.expertla.training.model.entities.ResponseService;
 import co.com.expertla.training.service.configuration.DisciplineService;
@@ -26,18 +29,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-
+ 
+ 
 /**
 * Modality Controller <br>
 * Info. Creación: <br>
 * fecha Sep 5, 2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
-
+ 
 @RestController
 public class ModalityController {
-
+ 
     @Autowired
     private ModalityService modalityService;
     @Autowired
@@ -81,7 +84,7 @@ public class ModalityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+ 
     /**
      * Modifica modality <br>
      * Info. Creación: <br>
@@ -106,7 +109,7 @@ public class ModalityController {
                         existName = true;
                     }
                 }
-
+ 
                 if (existName) {
                     responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.modality", "msgNombreExiste"));
                     responseService.setStatus(StatusResponse.FAIL.getName());
@@ -127,7 +130,7 @@ public class ModalityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+ 
     /**
      * Elimina modality <br>
      * Info. Creación: <br>
@@ -174,7 +177,7 @@ public class ModalityController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
     }
-
+ 
     /**
      * Consulta modality paginado <br>
      * Info. Creación: <br>
@@ -188,7 +191,8 @@ public class ModalityController {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            List<ModalityDTO> modalityList = modalityService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            List<ModalityDTO> modalityList = modalityService.findPaginate(paginateDto.getPage(), 
+                    paginateDto.getLimit(), paginateDto.getOrder(), paginateDto.getFilter());
             responseService.setOutput(modalityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

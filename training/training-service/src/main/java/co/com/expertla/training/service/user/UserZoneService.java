@@ -65,4 +65,15 @@ public interface UserZoneService {
      */
     public List<UserZone> findByUserZone(UserZone userZone) throws Exception;   
     
+    /**
+     * Obtiene todos los registros de userZone por su user id <br>
+     * Creation Date: <br>
+     * date Aug 29, 2016 <br>
+     * @author Angela Ramirez
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<UserZone> findByUserId(Integer userId) throws Exception; 
+    
 }

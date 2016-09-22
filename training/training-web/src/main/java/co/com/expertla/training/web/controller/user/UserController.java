@@ -7,16 +7,21 @@ import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.Country;
 import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.Role;
 import co.com.expertla.training.model.entities.RoleUser;
+import co.com.expertla.training.model.entities.StarTeam;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
+import co.com.expertla.training.model.entities.UserTrainingOrder;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import co.com.expertla.training.service.plan.TrainingPlanUserService;
+import co.com.expertla.training.service.plan.UserTrainingOrderService;
 import co.com.expertla.training.service.security.RoleUserService;
 import co.com.expertla.training.service.user.DisciplineUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.controller.security.OptionController;
 import co.com.expertla.training.web.enums.StatusResponse;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.opentok.OpenTok;
 import com.opentok.exception.OpenTokException;
 import java.io.IOException;
@@ -70,9 +77,15 @@ public class UserController {
 
     @Autowired
     TrainingPlanUserService trainingPlanUserService;
-    
+
     @Autowired
     CountryService countryService;
+
+    @Autowired
+    UserTrainingOrderService userTrainingOrderService;
+
+    @Autowired
+    CoachAssignedPlanService coachAssignedPlanService;
 
     /**
      * Upload single file using Spring Controller
@@ -168,11 +181,13 @@ public class UserController {
             user.setLastName(userDTO.getLastName());
             user.setSex(userDTO.getSex());
             user.setStateId(StateEnum.ACTIVE.getId().shortValue());
-            
-            if(userDTO.getCountryId() != null) {
+            user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
+            user.setUserWordpressId(userDTO.getUserWordpressId());
+
+            if (userDTO.getCountryId() != null) {
                 user.setCountryId(new Country(userDTO.getCountryId()));
             }
-            
+
             if (userService.findUserByUsername(user.getLogin()) != null) {
                 responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
@@ -185,7 +200,7 @@ public class UserController {
             disciplineUser.setUserId(new User(userId));
             disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
             disciplineUserService.create(disciplineUser);
-            
+
             if (userDTO.getTypeUser() != null) {
                 Role role = new Role();
                 if (userDTO.getTypeUser().equals("atleta")) {
@@ -195,18 +210,17 @@ public class UserController {
                 } else {
                     role.setRoleId(3);
                 }
-                
+
                 RoleUser roleUser = new RoleUser();
                 roleUser.setRoleId(role);
                 roleUser.setUserId(user);
                 roleUserService.create(roleUser);
             }
-            
 
             TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
             trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
             trainingPlanUser.setUserId(user);
-            trainingPlanUser.setTrainingPlanId(new TrainingPlan(1));//Plan basico por defecto
+            trainingPlanUser.setTrainingPlanId(new TrainingPlan(0));//Plan basico por defecto
             trainingPlanUserService.create(trainingPlanUser);
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -223,17 +237,92 @@ public class UserController {
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         ResponseService responseService = new ResponseService();
+        session.removeAttribute("user");
         try {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
-                response.sendRedirect("http://181.143.227.220:8081/cpt/my-account/customer-logout/");
+                response.sendRedirect("http://181.143.227.220:8081/cpt/mi-cuenta/");
                 return null;
             }
-            
-            session.setAttribute("user", userDto);
+            UserDTO userSession = new UserDTO();
+            userSession.setUserId(userDto.getUserId());
+            userSession.setFirstName(userDto.getFirstName());
+            userSession.setLastName(userDto.getLastName());
+            userSession.setSecondName(userDto.getSecondName());
+            userSession.setTypeUser(userDto.getTypeUser());
+            userSession.setFullName(userDto.getFullName());
+            userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
+            session.setAttribute("user", userSession);
             Locale locale = new Locale("es", "CO");
             Locale.setDefault(locale);
+
+            if (userDto.getUserWordpressId() != null) {
+                UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
+                objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
+                objUserTrainingOrder.setStatus("pending");
+                List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
+
+                if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
+                    UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
+                    String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
+                    if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                        JsonParser jsonParser = new JsonParser();
+                        JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                        String statusRes = jo.get("status").getAsString();
+
+                        if (statusRes.equals("success")) {
+
+                            if (jo.get("planId") != null
+                                    && !jo.get("planId").getAsString().trim().isEmpty()) {
+                                Integer trainingPlanId = jo.get("planId").getAsInt();
+
+                                List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+
+                                for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
+                                    trainingPlanUser.setStateId(StateEnum.INACTIVE.getId());
+                                    trainingPlanUserService.store(trainingPlanUser);
+                                }
+
+                                TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+                                User userId = new User();
+                                userId.setUserId(userDto.getUserId());
+                                trainingPlanUser.setUserId(userId);
+                                trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+                                trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
+                                trainingPlanUserService.create(trainingPlanUser);
+
+                                if (jo.get("starTeamId") != null
+                                        && !jo.get("starTeamId").getAsString().trim().isEmpty()) {
+                                    Integer starTeamId = jo.get("starTeamId").getAsInt();
+                                    CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
+                                    coachAssignedPlan.setCreationDate(new Date());
+                                    coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
+                                    coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
+                                    coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                                    coachAssignedPlanService.create(coachAssignedPlan);
+                                }
+
+                                userTrainingOrder.setStatus("integrated");
+                                userTrainingOrderService.store(userTrainingOrder);
+
+                                if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+                                    response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
+                                    return null;
+                                }
+                            }
+                        }
+
+                        response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
+                        return null;
+                    }
+                }
+            }
+
+            if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
+                return null;
+            }
             response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
             return null;
         } catch (Exception ex) {
@@ -364,7 +453,7 @@ public class UserController {
         }
 
     }
-    
+
     @RequestMapping(value = "user/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response findUsersWithDiscipline() {
         ResponseService responseService = new ResponseService();
@@ -381,23 +470,23 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/getDiscipline/by/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response findUsersWithDiscipline(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
             List<UserDTO> list = userService.findUserWithDisciplineById(userId);
-            
-            if(list != null || !list.isEmpty()) {
+
+            if (list != null || !list.isEmpty()) {
                 responseService.setOutput(list.get(0));
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-            
+
             responseService.setOutput(null);
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
-            
+
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear usuario");
@@ -406,7 +495,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/create/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response createInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -423,7 +512,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/merge/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response mergeInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -439,10 +528,12 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
+
     /**
      * Consulta user paginado <br>
      * Creation Date: <br>
      * date 31/08/2016 <br>
+     *
      * @author Angela Ramirez
      * @param paginateDto
      * @return
@@ -451,7 +542,7 @@ public class UserController {
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {
-            paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
+            paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
             List<UserDTO> userList = userService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(userList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

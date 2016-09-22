@@ -1,20 +1,28 @@
 // create the controller and inject Angular's $scope
-trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'VisibleFieldsUserService',
-    '$window', '$mdDialog','$mdToast','$location', function ($http, $scope, AuthService, VisibleFieldsUserService, $window, $mdDialog,$mdToast,$location) {
+trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
+    'VisibleFieldsUserService', 'ModuleService',
+    '$window', '$mdDialog', '$mdToast', '$location', function ($http, $scope,
+            AuthService, VisibleFieldsUserService, ModuleService, $window, $mdDialog, $mdToast, $location) {
 
         $scope.successTextAlert = "";
         $scope.fields = [];
         $scope.visibleFields = [];
         $scope.appReady = true;
         $scope.userLogin = "";
-
+        $scope.moduleList = [];
+        $scope.userSessionTypeUserAtleta = "1";//Atleta
+        $scope.userSessionTypeUserCoach = "2";//Coach
+        $scope.userSessionTypeUserAdmin = "3";//Admin
+        $scope.userSessionTypeUserCoachInterno = "4";//CoachInterno
+        $scope.userSessionTypeUserCoachEstrella = "5";//CoachEstrella
+        $scope.userSessionTypeUserSupervisor = "6";//Supervisor
         $scope.switchBool = function (id) {
             var e = angular.element('#' + id);
             e.hide();
             //$scope[value] = !$scope[value];
         };
         $scope.showToast = function (msg) {
-           // var pinTo = $scope.getToastPosition();
+            // var pinTo = $scope.getToastPosition();
             $mdToast.show(
                     $mdToast.simple()
                     .textContent(msg)
@@ -22,11 +30,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                     .hideDelay(3000)
                     );
         };
-
         $scope.closeToast = function () {
             $mdToast.hide();
         };
-
         $scope.showMessage = function (msg, title) {
             // Appending dialog to document.body to cover sidenav in docs app
             // Modal dialogs should fully cover application
@@ -49,13 +55,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                     //.targetEvent(ev)
                     );
         };
-        
-        $scope.goCalendar = function(){
-         $window.sessionStorage.setItem("coachAssignedPlanSelected", null);   
-         $location.path( "/calendar" );   
+        $scope.goCalendar = function () {
+            $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
+            $location.path("/calendar");
         };
-
-
         $scope.getUserSessionByResponse = function (res) {
             if (res.data.entity.output == null) {
                 $scope.showMessage("El usuario no se encuentra logueado");
@@ -72,7 +75,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
             $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
             return JSON.parse(sessionStorage.getItem("userInfo"));
         };
-
         $scope.setUserSession = function () {
             AuthService.setUserSession($scope).then(
                     function (d) {
@@ -83,7 +85,27 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                     }
             );
         };
-
+        $scope.getMenuByUser = function () {
+            $http.get($contextPath + '/user/getUserSession')
+                    .then(function (res) {
+                        var id = res.data.entity.output;
+                        ModuleService.getModuleByUserId(id.userId).then(
+                                function (d) {
+                                    if (d.status == 'success') {
+                                        $scope.moduleList = d.output;
+                                    } else {
+                                        $scope.showMessage(d.detail);
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while merging the profile');
+                                    console.error(errResponse);
+                                });
+                    }, function (errResponse) {
+                        console.error('Error while getting ' + errResponse);
+                    }
+                    );
+        };
         $scope.getUserSession = function (fn) {
             $http.get($contextPath + '/user/getUserSession')
                     .then(fn, function (errResponse) {
@@ -91,7 +113,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                     });
         };
         $scope.setUserSession();
-
+        $scope.getMenuByUser();
+        
         $scope.getVisibleFieldsUserByUser = function (user) {
             if (user != null) {
                 VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
@@ -99,10 +122,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                                 function (response) {
                                     $scope.fields = response;
                                     for (var i = 0; i < $scope.fields.length; i++) {
-                                        $scope[$scope.fields[i].tableName+$scope.fields[i].columnName] = true;
+                                        $scope[$scope.fields[i].tableName + $scope.fields[i].columnName] = true;
                                         if (!$scope.inFieldsArray({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId}, $scope.visibleFields)) {
-                                            
-                                            $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});                                       
+
+                                            $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});
                                         }
                                     }
                                 },
@@ -113,7 +136,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                         );
             }
         };
-
         $scope.inFieldsArray = function (field, array) {
             var length = array.length;
             for (var i = 0; i < length; i++) {
@@ -122,7 +144,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
             }
             return false;
         };
-
         $scope.calculateAge = function (birthday) { // birthday is a date
             if (birthday != null) {
                 var ageDifMs = Date.now() - birthday.getTime();
@@ -130,12 +151,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Vis
                 return Math.abs(ageDate.getUTCFullYear() - 1970);
             }
         };
-
         $scope.logout = function () {
             window.location = 'http://181.143.227.220:8081/cpt/mi-cuenta/customer-logout/';
         };
     }]);
-
 trainingApp.directive('stringToNumber', function () {
     return {
         require: 'ngModel',
@@ -149,29 +168,26 @@ trainingApp.directive('stringToNumber', function () {
         }
     };
 });
-
 trainingApp.directive('schrollBottom', function () {
-  return {
-    scope: {
-      schrollBottom: "="
-    },
-    link: function (scope, element) {
-      scope.$watchCollection('schrollBottom', function (newValue) {
-        if (newValue)
-        {
-          $(element).scrollTop($(element)[0].scrollHeight);
+    return {
+        scope: {
+            schrollBottom: "="
+        },
+        link: function (scope, element) {
+            scope.$watchCollection('schrollBottom', function (newValue) {
+                if (newValue)
+                {
+                    $(element).scrollTop($(element)[0].scrollHeight);
+                }
+            });
         }
-      });
-    }
-  };
+    };
 });
-
 function getDate() {
     var d = new Date();
     var ano = d.getFullYear();
     var mes = (d.getMonth() + 1);
     var dia = d.getDate();
-
     if (mes < 10) {
         mes = '0' + mes;
     }

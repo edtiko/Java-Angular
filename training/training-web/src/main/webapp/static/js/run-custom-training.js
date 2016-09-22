@@ -3,8 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-var $contextPath = "http://localhost:8080/training/";
-//var $contextPath = "http://181.143.227.220:8086/training/";
+//var $contextPath = "http://localhost:8085/training/";
+var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
 require.config({
@@ -64,6 +64,13 @@ require.config({
         physiologicalCapacityService: "configuration/service/physiologicalCapacityService",
         activityService: "configuration/service/activityService",
         angularSanitize: 'lib/angular-sanitize',
+        dcfService:"configuration/service/dcfService",
+        characteristicService:"configuration/service/characteristicService",
+	brandService:"configuration/service/brandService",
+        angularPickList: 'lib/picklist',        
+        mailService: "mail/service/mailService",
+        supervStarCoachService: "mail/service/supervStarCoachService",
+        userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService"
     },
     shim: {
         angular: {
@@ -120,7 +127,6 @@ require.config({
         csrfInterceptor: {
             deps: ['angular']
         },
-       
         userService: {
             deps: ['angular', 'trainingApp']
         },
@@ -163,12 +169,13 @@ require.config({
         angularSanitize: {
             deps: ['angular']
         },
+        angularPickList: {
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter'
-                ,'ngCamRecorder','recorder', 'whammy','viRecorder','accordion'
-
+                'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
+                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList'
             ]
         },
         surveyService: {
@@ -210,6 +217,24 @@ require.config({
         activityService: {
             deps: ['angular','trainingApp']
         },
+        dcfService: {
+            deps: ['angular','trainingApp']
+        },
+        characteristicService: {
+            deps: ['angular','trainingApp']
+        },
+		brandService: {
+            deps: ['angular','trainingApp']
+        },
+        mailService: {
+            deps: ['angular','trainingApp']
+        },
+        supervStarCoachService: {
+            deps: ['angular','trainingApp']
+        },
+        userActivityPerformanceService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -219,7 +244,8 @@ require.config({
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService'
-                ,'videoService'
+                ,'videoService','dcfService', 'characteristicService','brandService',
+		'mailService','supervStarCoachService','userActivityPerformanceService'
 
             ] }
     }

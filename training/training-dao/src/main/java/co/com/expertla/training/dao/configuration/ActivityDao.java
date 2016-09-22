@@ -84,10 +84,11 @@ public interface ActivityDao extends BaseDAO<Activity> {
      * @author Angela Ramírez
      * @param objectiveId
      * @param modalityId
+     * @param environmentId
      * @throws Exception
      * @return
      */
-    public List<Activity> findByObjectiveIdAndModalityId(Integer objectiveId, Integer modalityId) throws Exception;
+    public List<Activity> findByObjectiveIdAndModalityIdAndEnvironmentId(Integer objectiveId, Integer modalityId, Integer environmentId) throws Exception;
     
     
     /**

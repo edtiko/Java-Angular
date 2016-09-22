@@ -68,7 +68,7 @@ public class StarTeamController {
             startTeam.setStateId(Short.valueOf(Status.ACTIVE.getId()));
             startTeam.setCreationDate(new Date());
             startTeamService.create(startTeam);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.startteam", "msgRegistroCreado"));
+            responseService.setOutput(startTeam);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

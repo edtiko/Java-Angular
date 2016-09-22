@@ -29,8 +29,10 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId,  u.userId.userId) ");
-        sql.append("FROM TrainingPlanWorkout t, TrainingPlanUser u ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId,");
+        sql.append("t.workoutDate, t.activityId, t.manualActivityId,  u.userId.userId,");
+        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = u.userId.userId) ");
+        sql.append(") FROM TrainingPlanWorkout t, TrainingPlanUser u ");
         sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
         sql.append("AND u.userId.userId = :userId ");
         sql.append("AND t.workoutDate BETWEEN :fromDate AND :toDate ");
@@ -99,7 +101,8 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     @Override
     public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId, t.trainingPlanUserId.userId.userId) ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId, t.trainingPlanUserId.userId.userId, ");
+        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = t.trainingPlanUserId.userId.userId) )");
         sql.append("FROM TrainingPlanWorkout t ");
         sql.append("WHERE t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
         Query query = getEntityManager().createQuery(sql.toString());

@@ -61,8 +61,21 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                 var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
                 starTeam.userCreate = (user.userId);
             }
-
-            $scope.createStarTeamWordpress(starTeam);
+            
+            StarTeamService.createStarTeam(starTeam)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    starTeam = d.output;
+                                    $scope.createStarTeamWordpress(starTeam);
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating StartTeam.');
+                            }
+                    );
         };
 
         $scope.createStarTeamWordpress = function (starTeam) {
@@ -137,7 +150,7 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                             var image = userDTO.profilePhoto;
                             var userParam = 'parentId=' + starIdExt +
                                     '&name=' + name + '&description=' + description +
-                                    '&image=' + image;
+                                    '&image=' + image + '&starTeamId='+starTeam.starTeamId;
                             $scope.getPlan(starTeam, userParam);
                         }
                     },
@@ -183,23 +196,9 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
                                 var response = d.data;
 
                                 if (response.status == 'success') {
-                                    StarTeamService.createStarTeam(starTeam)
-                                            .then(
-                                                    function (d) {
-                                                        if (d.status == 'success') {
-
-                                                            $scope.showMessage(d.output);
-                                                            $scope.resetStarTeam();
-                                                            $scope.getStarTeamPaginate();
-                                                        } else {
-                                                            $scope.showMessage(d.output);
-                                                        }
-                                                    },
-                                                    function (errResponse) {
-                                                        console.error('Error while creating StartTeam.');
-                                                    }
-                                            );
-
+                                    $scope.showMessage('Registro creado exitosamente');
+                                    $scope.resetStarTeam();
+                                    $scope.getStarTeamPaginate();
                                 } else {
                                     $scope.showMessage('Error al integrar coach');
                                 }

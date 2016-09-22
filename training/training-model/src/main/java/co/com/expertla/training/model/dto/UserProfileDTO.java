@@ -62,13 +62,16 @@ public class UserProfileDTO implements Serializable {
     private BigInteger ppm102;
     private BigInteger ppm103;
     private BigInteger ppm106;
+    private Float weight;
+    private Float height;
 
     public UserProfileDTO() {
     }
     
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
             BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,  
-            Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId) {
+            Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
+            Float weight, Float height) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -85,6 +88,8 @@ public class UserProfileDTO implements Serializable {
         this.vo2Ciclismo = vo2Ciclismo;
         this.environmentId = environmentId;
         this.weatherId = weatherId;
+        this.weight = weight;
+        this.height = height;
     }
 
     public Integer getUserProfileId() {
@@ -493,6 +498,22 @@ public class UserProfileDTO implements Serializable {
 
     public void setPpm106(BigInteger ppm106) {
         this.ppm106 = ppm106;
+    }
+
+    public Float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Float weight) {
+        this.weight = weight;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
     }
     
 }

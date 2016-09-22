@@ -357,6 +357,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setWeatherId(new Weather(dto.getWeatherId()));
         User user = userDao.findById(dto.getUserId());
         user.setIndMetricSys(dto.getIndMetricSys());
+        user.setWeight(dto.getWeight());
+        user.setHeight(dto.getHeight());
 
         UserSport sport = new UserSport();
         if (!new Integer(-1).equals(dto.getSport())) {
@@ -408,6 +410,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         User user = userDao.findById(dto.getUserId());
 
         user.setIndMetricSys(dto.getIndMetricSys());
+        user.setWeight(dto.getWeight());
+        user.setHeight(dto.getHeight());
         if (equipments != null && !equipments.isEmpty()) {
             for (EquipmentUserProfile equipment : equipments) {
                 if (equipment.getSportEquipmentId() != null && equipment.getSportEquipmentId().getSportEquipmentTypeId().getSportEquipmentTypeId().equals(SportEquipmentTypeEnum.PULSOMETER.getId())) {

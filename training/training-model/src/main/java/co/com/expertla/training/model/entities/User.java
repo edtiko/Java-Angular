@@ -2,7 +2,6 @@ package co.com.expertla.training.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -22,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -54,12 +54,8 @@ public class User implements Serializable {
     @Lob
     @Column(name = "profile_photo")
     private byte[] profilePhoto;
-    @Column(name = "height")
-    private BigInteger height;
     @Column(name = "user_wordpress_id")
     private Integer userWordpressId;
-    @Column(name = "ind_login_first_time")
-    private String indLoginFirstTime;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fromUserId")
     private Collection<PlanVideo> planVideoCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "toUserId")
@@ -98,7 +94,7 @@ public class User implements Serializable {
     @Column(name = "sex")
     private String sex;
     @Column(name = "weight")
-    private BigInteger weight;
+    private Float weight;
     @Column(name = "phone")
     private String phone;
     @Column(name = "cellphone")
@@ -153,6 +149,14 @@ public class User implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "ind_login_first_time")
+    private Integer indLoginFirstTime;
+    @Column(name = "height")
+    private Float height;
+    @OneToMany(mappedBy = "receivingUser")
+    private Collection<MailCommunication> mailCommunicationCollection;
+    @OneToMany(mappedBy = "sendingUser")
+    private Collection<MailCommunication> mailCommunicationCollection1;
 
     public User() {
     }
@@ -162,7 +166,7 @@ public class User implements Serializable {
     }
 
     public User(Integer userId, String name, String lastName, String email, Date birthDate, String address,
-            String sex, BigInteger weight, String phone, String cellphone, City cityId,
+            String sex, Float weight, String phone, String cellphone, City cityId,
             Short stateId, String login, String password, String facebookPage, String postalCode, Date creationDate) {
         this.userId = userId;
         this.login = login;
@@ -265,11 +269,11 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public BigInteger getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(BigInteger weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
@@ -351,6 +355,30 @@ public class User implements Serializable {
 
     public void setIndMetricSys(String indMetricSys) {
         this.indMetricSys = indMetricSys;
+    }
+
+    public User getStarId() {
+        return starId;
+    }
+
+    public void setStarId(User starId) {
+        this.starId = starId;
+    }
+
+    public Integer getUserWordpressId() {
+        return userWordpressId;
+    }
+
+    public void setUserWordpressId(Integer userWordpressId) {
+        this.userWordpressId = userWordpressId;
+    }
+
+    public Integer getIndLoginFirstTime() {
+        return indLoginFirstTime;
+    }
+
+    public void setIndLoginFirstTime(Integer indLoginFirstTime) {
+        this.indLoginFirstTime = indLoginFirstTime;
     }
 
     public Date getCreationDate() {
@@ -507,29 +535,6 @@ public class User implements Serializable {
         this.userUpdate = userUpdate;
     }
 
-    public BigInteger getHeight() {
-        return height;
-    }
-
-    public void setHeight(BigInteger height) {
-        this.height = height;
-    }
-
-    public Integer getUserWordpressId() {
-        return userWordpressId;
-    }
-
-    public void setUserWordpressId(Integer userWordpressId) {
-        this.userWordpressId = userWordpressId;
-    }
-
-    public String getIndLoginFirstTime() {
-        return indLoginFirstTime;
-    }
-
-    public void setIndLoginFirstTime(String indLoginFirstTime) {
-        this.indLoginFirstTime = indLoginFirstTime;
-    }
 
     public Collection<PlanVideo> getPlanVideoCollection() {
         return planVideoCollection;
@@ -545,6 +550,31 @@ public class User implements Serializable {
 
     public void setPlanVideoCollection1(Collection<PlanVideo> planVideoCollection1) {
         this.planVideoCollection1 = planVideoCollection1;
+    }
+
+
+    public void setHeight(Float height) {
+        this.height = height;
+    }
+
+    @XmlTransient
+    @JsonIgnore
+    public Collection<MailCommunication> getMailCommunicationCollection() {
+        return mailCommunicationCollection;
+    }
+
+    public void setMailCommunicationCollection(Collection<MailCommunication> mailCommunicationCollection) {
+        this.mailCommunicationCollection = mailCommunicationCollection;
+    }
+
+    @JsonIgnore
+    @XmlTransient
+    public Collection<MailCommunication> getMailCommunicationCollection1() {
+        return mailCommunicationCollection1;
+    }
+
+    public void setMailCommunicationCollection1(Collection<MailCommunication> mailCommunicationCollection1) {
+        this.mailCommunicationCollection1 = mailCommunicationCollection1;
     }
 
 }

@@ -25,7 +25,7 @@ public class TrainingPlanUserDaoImpl extends BaseDAOImpl<TrainingPlanUser> imple
     public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t from TrainingPlanUser t ");
-        sql.append("t.userId.userId = :userId ");
+        sql.append("WHERE t.userId.userId = :userId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", user.getUserId());
         List<TrainingPlanUser> list = query.getResultList();

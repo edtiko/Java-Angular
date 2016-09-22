@@ -47,6 +47,9 @@ public class Weather implements Serializable {
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
+    @Column(name = "percentage")
+    private Integer percentage;
+
 
     public Weather() {
     }
@@ -90,6 +93,14 @@ public class Weather implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Integer getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(Integer percentage) {
+        this.percentage = percentage;
     }
 
     @Override

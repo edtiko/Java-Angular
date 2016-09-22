@@ -140,3 +140,20 @@ md-tooltip.tt-multiline ._md-content {
 .border{
     border: 1px solid #e1e1e1;
 }
+
+.Read{
+    background-color: green;
+}
+
+.colour {
+                float: left;
+                width: 30px;
+                height: 30px;
+                margin: 5px;
+                border: 1px solid rgba(0, 0, 0, .2);
+                border-radius: 50%;
+            }
+            
+            .link {
+                text-decoration: underline; cursor: pointer;
+            }

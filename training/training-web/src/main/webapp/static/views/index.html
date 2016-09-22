@@ -10,124 +10,148 @@
         <link rel="stylesheet" href="static/css/app.css" >
         <link rel="stylesheet" href="static/css/md-data-table.min.css" >
         <link rel="stylesheet" href="static/css/angular-notification-icons.min.css" >
-        <link rel="stylesheet" type="text/css" href="static/css/ang-accordion.css">
+        <link rel="stylesheet" href="static/css/style.css" >
+        <link rel="stylesheet" href="static/css/avada-10.css" >
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {packages: ['corechart']});
+        </script>
+
     </head>
 
     <!-- define angular controller -->
     <body  ng-controller="mainController" id="trainingApp">
-    <md-toolbar class="md-menu-toolbar">
-        <h2 class="md-toolbar-tools">Custom Pro Training</h2>
-        <md-menu-bar>
-            <md-menu>
-                <button ng-click="$mdOpenMenu()"> <i class="fa fa-home"></i>Bienvenido {{userLogin}}</button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button href="#dashboard"> Abrir Dashboard</md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu>
-                <button ng-click="$mdOpenMenu()"><i class="fa fa-home"></i>
-                    Dashboard
-                </button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button href="#dashboard"> Abrir Dashboard</md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu>
-                <button ng-click="$mdOpenMenu()"><i class="fa fa-calendar"></i> Calendario</button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button ng-click="goCalendar()"> Abrir Calendario</md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu>
-                <button ng-click="$mdOpenMenu()">Configuración </button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button href="#create-user"> Creación de Usuarios</md-button>
-                    </md-menu-item>
-                    
-                    <md-menu-item>
-                        <md-button href="#create-module"> Creaci&oacute;n de M&oacute;dulos</md-button>
-                    </md-menu-item>
-                    
-                    <md-menu-item>
-                        <md-button href="#create-option"> Creaci&oacute;n de Opciones</md-button>
-                    </md-menu-item>
-                    
-                    <md-menu-item>
-                        <md-button href="#create-role"> Creaci&oacute;n de Roles</md-button>
-                    </md-menu-item>
-                    
-                    <md-menu-item>
-                        <md-button href="#create-plan"> Creaci&oacute;n de Planes</md-button>
-                    </md-menu-item>
-                    
-                    <md-menu-item>
-                        <md-button href="#create-starTeam"> Creaci&oacute;n de Equipo Estrella</md-button>
-                    </md-menu-item>
-                     <md-menu-item>
-                        <md-button href="#create-activity"> {{ 'CREATE_ACTIVITY' | translate }}</md-button>
-                    </md-menu-item>
-                     <md-menu-item>
-                        <md-button href="#create-modality"> {{ 'CREATE_MODALITY' | translate }}</md-button>
-                    </md-menu-item>
-<!--                    <md-menu-item>
-                        <md-button href="#create-discipline"> Creaci&oacute;n de Disciplinas</md-button>
-                    </md-menu-item>
-                    
-                    <md-menu-item>
-                        <md-button href="#create-objective"> Creaci&oacute;n de Objetivos</md-button>
-                    </md-menu-item>-->
-                </md-menu-content>
-            </md-menu>
-            <md-menu>
-                <button ng-click="$mdOpenMenu()">
-                    <i class="fa fa-user"></i> Cuenta
-                </button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button href="#data-person"> Configuración de Perfil</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button href="#conf-account">Configuración de Cuenta</md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-            <md-menu>
-                <button class="logout" ng-click="$mdOpenMenu()"><i class="fa fa-sign-out"></i> Cerrar Sesión</button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button href="#" ng-click="logout()"> Cerrar Sesión</md-button>
-                    </md-menu-item>
-                </md-menu-content>
-            </md-menu>
-        </md-menu-bar>
-    </md-toolbar>
-    <!-- these require actual routing with ui-router or ng-route, so they won't work in the demo
-    <md-nav-item md-nav-sref="app.page4" name="page4">Page Four</md-nav-item>
-    <md-nav-item md-nav-href="#page5" name="page5">Page Five</md-nav-item>
-    -->
-    <div ng-view ng-show="appReady" ></div> 
 
-    <!-- angular templating -->
-    <!-- this is where content will be injected -->
+        <div class="fusion-header-wrapper">
+            <div class="fusion-header-v3 fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo- fusion-mobile-menu-design-modern ">
+
+                <div class="fusion-secondary-header">
+                    <div class="fusion-row"> 
+                        <div class="fusion-alignright">
+                            <div class="fusion-secondary-menu">
+                                <ul id="menu-top-menu" class="menu">
+                                    <li id="menu-item-275" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-275">
+                                        <a href="#" style="text-decoration:none !important"><span class="menu-text">
+                                                Bienvenido {{userLogin}}</span>
+                                        </a>
+                                    </li>
+                                    <li id="menu-item-369" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-369">
+                                        <a href="javascript:location.href=$wordPressContextPath+'/mi-cuenta/'" style="text-decoration:none !important">
+                                            <span class="menu-text">
+                                                <i class="fa fa-sign-in" aria-hidden="true">
+                                                </i> Mi Cuenta
+                                            </span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li style="width: 200px" id="menu-item-369" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-369">
+                                        <a href="#" ng-click="logout()" style="text-decoration:none !important">
+                                            <span class="menu-text">
+                                                <i class="fa fa-sign-in" aria-hidden="true">
+                                                </i> Cerrar Sesi&oacute;n
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fusion-header-sticky-height" style="height: 77px; display: none; overflow: visible;"></div>
+                <div class="fusion-header" style="height: 77px; overflow: visible;">
+                    <div class="fusion-row" style="padding-top: 0px; padding-bottom: 0px;">
+                        <div class="fusion-logo" data-margin-top="10px" data-margin-bottom="10px" data-margin-left="0px" data-margin-right="0px" style="margin-top: 10px; margin-bottom: 10px;">
+                            <a class="fusion-logo-link" href="javascript:location.href=$wordPressContextPath">
+                                <img src="static/img/logo.png" width="195" height="55" alt="Custom Pro Training" class="fusion-logo-1x fusion-standard-logo">
+                            </a>
+                        </div>
+                        <div class="fusion-main-menu" style="overflow: visible">
+                            <ul id="menu-menu-principal" class="fusion-menu">
+                                
+                                <li ng-repeat="m in moduleList" style="overflow: visible" id="menu-item-15" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-15 menu_parent fusion-dropdown-menu">
+                                    <a style="text-decoration:none !important"  ng-if="m.optionCollection.length <= 1" href="{{m.optionCollection[0].url}}" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                        <span class="menu-text">{{m.optionCollection[0].name}}</span>
+                                    </a>
+                                    <a style="text-decoration:none !important" ng-if="m.optionCollection.length > 1" href="javascript:this" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                        <span class="menu-text">{{m.name}}</span>
+                                    </a>
+                                    <ul class="sub-menu" ng-if="m.optionCollection.length > 1">
+                                        <li ng-repeat="o in m.optionCollection" id="menu-item-79" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-79 fusion-dropdown-submenu">
+                                            <a style="text-decoration:none !important" href="{{o.url}}">
+                                                <span class="">{{o.name}}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="width: 130px"  style="overflow: visible" id="menu-item-16" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-16 menu_parent fusion-dropdown-menu">
+                                    <a style="text-decoration:none !important" href="#" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                        <span class="menu-text"></span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>			<div class="fusion-mobile-menu-icons">
+                            <a href="#" class="fusion-icon fusion-icon-bars"></a>
 
 
+                            <a href="http://181.143.227.220:8081/cpt/carro/" class="fusion-icon fusion-icon-shopping-cart"></a>
+                        </div>
 
 
-    <!--        <footer class="text-center">
-                <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-            </footer>-->
-    <!-- SPELLS -->
-    <script type="text/javascript" data-main="static/js/run-custom-training"
-    src="static/js/lib/require.js"></script>
-    <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
-    <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
-</body>
+                        <div class="fusion-mobile-nav-holder">
+                            <ul id="menu-menu-principal" class="fusion-menu">
+                                <li id="mobile-menu-item-15" class="fusion-mobile-nav-item" style="">
+                                    <span href="#" aria-haspopup="true" class="fusion-open-submenu"></span>
+                                    <a href="#"><span class="menu-text">Atletas</span></a>
+                                    <ul class="sub-menu" style="display: none;">
+                                        <li id="mobile-menu-item-79" class="fusion-mobile-nav-item" style="">
+                                            <a href="http://181.143.227.220:8081/cpt/plataforma-para-atletas/">
+                                                <span class="">Usa Nuestra Plataforma</span>
+                                            </a></li>
+                                        <li id="mobile-menu-item-329" class="fusion-mobile-nav-item" style="">
+                                            <a href="http://181.143.227.220:8081/cpt/plan-de-entrenamiento-deporte/">
+                                                <span class="">Adquiere nuestro Plan de Entrenamiento</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="mobile-menu-item-16" class="fusion-mobile-nav-item" style="">
+                                    <span href="#" aria-haspopup="true" class="fusion-open-submenu"></span>
+                                    <a href="#">
+                                        <span class="menu-text">Coaches</span>
+                                    </a>
+                                    <ul class="sub-menu" style="display: none;">
+                                        <li id="mobile-menu-item-82" class="fusion-mobile-nav-item" style="">
+                                            <a href="http://181.143.227.220:8081/cpt/plataforma-para-coaches/">
+                                                <span class="">Usa Nuestra Plataforma</span>
+                                            </a></li>
+                                        <li id="mobile-menu-item-23" class="fusion-mobile-nav-item" style="">
+                                            <a href="#"><span class="">Seguimiento de mis atletas</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="mobile-menu-item-19" class="fusion-mobile-nav-item" style="">
+                                    <a href="#">
+                                        <span class="menu-text">ContÃ¡ctenos</span>
+                                    </a>
+                                </li></ul></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="fusion-clearfix"></div>
+        </div>    
+
+
+        <div ng-view ng-show="appReady" ></div> 
+        <!-- SPELLS -->
+        <script type="text/javascript" data-main="static/js/run-custom-training"
+        src="static/js/lib/require.js"></script>
+        <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
+        <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
+    </body>
 
 </html>

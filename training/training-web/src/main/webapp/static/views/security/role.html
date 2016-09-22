@@ -28,6 +28,9 @@
     </md-content>
 </div>
 
+
+<div id="myPieChart">
+    </div>
 <div class="demo-md-panel md-padding">
     <md-toolbar class="md-table-toolbar md-default">
         <div class="md-toolbar-tools">
@@ -48,17 +51,18 @@
             </thead>
             <tbody md-body>
                 <tr md-row md-select="role" md-select-id="name" md-auto-select ng-repeat="role in roleList">
-                    <td md-cell>{{role.name}}</td>
-                    <td md-cell>{{role.userCreateName}}</td>
-                    <td md-cell>{{role.creationDate}}</td>
-                    <td md-cell>{{role.userUpdateName}}</td>
-                    <td md-cell>{{role.lastUpdate}}</td>
                     <td>
+                        <md-button type="button" ng-click="showCreateRoleOption(event)" class="md-raised md-primary">Role Option</md-button>
                         <md-button type="button" ng-click="editRole(role.roleId)" class="md-raised md-primary">Editar</md-button>  
                         <md-button ng-show="role.stateId == 1" type="button" ng-click="inactivateRole(role.roleId)" class="md-raised md-warn md-button md-ink-ripple">Inactivar</md-button>
                         <md-button ng-show="role.stateId == 0" type="button" ng-click="activateRole(role.roleId)" class="md-raised md-primary">Activar</md-button>
                         <md-button type="button" ng-click="deleteRole(role.roleId)" class="md-raised md-primary">Eliminar</md-button>
                     </td>
+                    <td md-cell>{{role.name}}</td>
+                    <td md-cell>{{role.userCreateName}}</td>
+                    <td md-cell>{{role.creationDate}}</td>
+                    <td md-cell>{{role.userUpdateName}}</td>
+                    <td md-cell>{{role.lastUpdate}}</td>
                 </tr>
             </tbody>
         </table>

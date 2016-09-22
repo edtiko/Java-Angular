@@ -52,6 +52,9 @@ public class RoleOption implements Serializable {
     @JoinColumn(name = "option_id", referencedColumnName = "option_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Option optionId;
+    @JoinColumn(name = "role_id", referencedColumnName = "role_id")
+    @ManyToOne
+    private Role roleId;
 
     public RoleOption() {
     }
@@ -74,6 +77,14 @@ public class RoleOption implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Role getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
     }
 
     public Date getLastUpdate() {

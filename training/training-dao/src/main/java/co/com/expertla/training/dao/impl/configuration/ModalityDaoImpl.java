@@ -32,8 +32,8 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
     }
 
     @Override
-    public List<ModalityDTO> findPaginate(int first, int max, String order) throws Exception {
-        
+    public List<ModalityDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        filter = filter.toUpperCase();
         if(order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }
@@ -44,10 +44,30 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from Modality a ");
+        
+        if(filter != null && !filter.trim().isEmpty()) {
+            builder.append("WHERE ( UPPER(a.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.disciplineId.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.name FROM State u WHERE u.stateId = a.stateId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userCreate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userUpdate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append(")");
+        }
+        
         builder.append("order by a.");
         builder.append(order);
-        int count = findAll().size();
         
+        int count = this.getEntityManager().createQuery(builder.toString()).getResultList().size();
         Query query = this.getEntityManager().createQuery(builder.toString());
         query.setFirstResult(first);
         query.setMaxResults(max);

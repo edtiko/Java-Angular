@@ -5,8 +5,10 @@ import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.RoleDTO;
 import co.com.expertla.training.model.entities.Role;
+import co.com.expertla.training.model.entities.RoleOption;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.security.RoleOptionService;
 import co.com.expertla.training.service.security.RoleService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +36,9 @@ public class RoleController {
 
     @Autowired
     RoleService roleService;  
+    
+    @Autowired
+    RoleOptionService roleOptionService;  
 
     /**
      * Crea role <br>
@@ -180,6 +186,33 @@ public class RoleController {
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
             List<RoleDTO> roleList = roleService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
             responseService.setOutput(roleList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(RoleController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta role <br>
+     * Info. Creación: <br>
+     * fecha 30/08/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param roleId
+     * @return
+     */
+    @RequestMapping(value = "roleOption/get/by/{roleId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> list(@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            RoleOption roleOption = new RoleOption();
+            roleOption.setRoleId(new Role(roleId));
+            List<RoleOption> roleOptionList = roleOptionService.findByFiltro(roleOption);
+            responseService.setOutput(roleOptionList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

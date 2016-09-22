@@ -36,7 +36,6 @@ public class ModuleDaoImpl extends BaseDAOImpl<Module> implements ModuleDao {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Module a ");
         builder.append("WHERE a.stateId = :active ");
-
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
@@ -105,6 +104,20 @@ public class ModuleDaoImpl extends BaseDAOImpl<Module> implements ModuleDao {
             setParameter("state", module.getStateId());
         }
 
+        return createQuery(builder.toString());
+    }
+
+    @Override
+    public List<Module> findByUserId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select Distinct a from Module a, RoleUser ru, RoleOption ro ");
+        builder.append("WHERE a.stateId = :active ");
+        builder.append("AND ro.roleId.roleId = ru.roleId.roleId ");
+        builder.append("AND ru.userId.userId = :userId ");
+        builder.append("AND ro.optionId.moduleId.moduleId = a.moduleId ");
+        builder.append("AND ro.optionId.stateId = :active ");
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
+        setParameter("userId", userId);
         return createQuery(builder.toString());
     }
 
