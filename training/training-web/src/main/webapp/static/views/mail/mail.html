@@ -27,7 +27,7 @@
                         <md-list-item class="md-3-line" ng-repeat="mail in mailsReceived| orderBy:'creationDate':true" ng-hide="mailSelected.mailCommunicationId != null || create"
                                       ng-click="selectReceivedMail(mail.mailCommunicationId)">
                             
-                            <div ng-style="{{mail.colour}}" class="colour"></div>
+                            <div ng-style="{{mail.colour}}" class="colour" ng-if="tabIndex == 1 || tabIndex == 2"></div>
                             
                             <div class="md-list-item-text" style="margin-left: 1%" ng-if="mail.read">
 
@@ -119,6 +119,15 @@
                                         <md-select id="receivingUser" name="receivingUser" ng-model="receivingUserSelected">
                                             <md-option ng-repeat="o in supervisors" value="{{o.supervisorId.userId}}" >
                                                 {{o.supervisorId.name}} {{o.supervisorId.secondName}} {{o.supervisorId.lastName}}
+                                            </md-option>
+                                        </md-select>
+
+                                    </md-input-container>
+                                    <md-input-container md-no-float class="md-block" ng-show="create && tabIndex == 3" >
+                                        <label>{{ 'RECEIVER_USER' | translate }}</label>
+                                        <md-select id="receivingUser" name="receivingUser" ng-model="receivingUserSelected">
+                                            <md-option ng-repeat="o in recipients" value="{{o.userId}}" >
+                                                {{o.fullName}}
                                             </md-option>
                                         </md-select>
 

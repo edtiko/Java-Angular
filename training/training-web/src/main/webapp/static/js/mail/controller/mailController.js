@@ -8,8 +8,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.mailSelected = '';
         $scope.mailCommunication = {
             id: '',
-            receivingUser: '',
-            sendingUser: '',
+            receivingUser: {userId:''},
+            sendingUser: {userId:''},
             message: '',
             subject: ''
         };
@@ -19,6 +19,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.received = false;
         $scope.supervisors = [];
         $scope.tabIndex  = $window.sessionStorage.getItem("tabIndex");
+        $scope.recipients = [];
 
         $scope.getMails = function () {
             MailService.getMails($scope.userSession.userId).then(
@@ -40,7 +41,6 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         console.error(error);
                     });
         };
-        $scope.getReceivedMails();
         
         $scope.getSentMails = function () {
             MailService.getMailsByReceivingUserFromSendingUser($scope.sendingUserId, $scope.userSession.userId).then(
@@ -52,9 +52,30 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         console.error(error);
                     });
         };
-        $scope.getSentMails();
+        
+        $scope.getSentMailsByUserLogged = function () {
+            MailService.getSentMails($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.mailsSent = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+        $scope.getAllRecipients = function () {
+            MailService.getAllRecipients($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.recipients = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
 
-        this.getAssignedAthletes = function () {
+        $scope.getAssignedAthletes = function () {
             DashboardService.getAssignedAthletes($scope.userSession.userId).then(
                     function (data) {
                         $scope.athletes = data.entity.output;
@@ -67,7 +88,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         console.error(error);
                     });
         };
-        this.getAssignedAthletes();
+//        this.getAssignedAthletes();
 
         $scope.selectReceivedMail = function (id) {
             for (var i = 0; i < $scope.mailsReceived.length; i++) {
@@ -108,11 +129,11 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.addMail = function () {
             if ($scope.userSession != null && $scope.sendingUserId != null && $scope.mailCommunication.message != "" 
                     && $scope.mailCommunication.subject != "") {
-                $scope.mailCommunication.sendingUser = $scope.userSession.userId;
-                $scope.mailCommunication.receivingUser = $scope.sendingUserId;
+                $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
+                $scope.mailCommunication.receivingUser.userId = $scope.sendingUserId;
                 if ($scope.create) {
                     if($scope.receivingUserSelected != '' ) {
-                        $scope.mailCommunication.receivingUser = $scope.receivingUserSelected;
+                        $scope.mailCommunication.receivingUser.userId = $scope.receivingUserSelected;
                     }
                 }
                 $scope.createMailCommunication($scope.mailCommunication);
@@ -178,11 +199,36 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                             }
                     );
         };
-        $scope.getSupervisorByCoachId($scope.userSession.userId);
+//        $scope.getSupervisorByCoachId($scope.userSession.userId);
         
         $scope.onTabChanges = function (currentTabIndex) {
             $window.sessionStorage.setItem("tabIndex", currentTabIndex);
             $scope.tabIndex = currentTabIndex;
+            if($scope.tabIndex == 3) {
+                $scope.getMails();
+                $scope.getSentMailsByUserLogged();
+            } else {
+                $scope.getSentMails();
+                $scope.getReceivedMails();
+            }
         };
         
+        $scope.init = function() {
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {              
+                $scope.getAssignedAthletes();
+            }else if ($scope.userSession != null &&$scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno ){   
+                $scope.getAllRecipients();          
+                $scope.getAssignedAthletes();
+                $scope.getSupervisorByCoachId($scope.userSession.userId); 
+                $scope.getSentMails();
+                $scope.getReceivedMails();
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+                $scope.getSentMails();
+                $scope.getReceivedMails();
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserSupervisor) {
+                
+            }
+        };
+        
+        $scope.init();
     }]);

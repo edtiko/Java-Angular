@@ -5,8 +5,6 @@ import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -13,6 +13,31 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
+            getSentMails: function (userId) {
+                return $http.get($contextPath + '/get/sent/mails/by/user/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching mails');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            
+            getAllRecipients: function (userId) {
+                return $http.get($contextPath + '/get/all/recipients/by/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching mails');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
             getMailsByReceivingUserFromSendingUser: function (receivingUserId, sendingUserId) {
                 return $http.get($contextPath + '/get/mails/by/receivingUser/from/sendingUser/' + receivingUserId + '/' + sendingUserId)
                         .then(
