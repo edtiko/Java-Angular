@@ -128,7 +128,8 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
         
         self.readMessages = function (coachAssignedPlanSelected) {
             var userId = null;
-            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
+            if ($scope.userSession != null && 
+                    ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach || $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno)) {
                 userId = coachAssignedPlanSelected.athleteUserId.userId;
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 userId = coachAssignedPlanSelected.coachUserId.userId;
@@ -143,7 +144,9 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', 'UserSe
                     });
         };
 
-        if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
+        if ($scope.userSession != null && 
+                ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach
+                || $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno)) {
             //self.getAssignedAthletes();
             self.getChatUser();
         } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
