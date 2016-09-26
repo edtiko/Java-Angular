@@ -31,7 +31,7 @@
     </md-toolbar>
          <md-content class="border" style="height: 250px">
                 <section>
-                    <md-list ng-repeat="vr  in receivedvideos">
+                    <md-list ng-repeat="vr  in sendedvideos">
                         <md-list-item ng-click="null" >
                             <p>
                                 {{vr.createDate}}
@@ -55,12 +55,12 @@
     </md-toolbar>
          <md-content class="border" style="height: 250px">
                 <section>
-                    <md-list ng-repeat="vr  in sendedvideos">
+                    <md-list ng-repeat="vr  in receivedvideos">
                         <md-list-item ng-click="null" >
                             <p>
                                 {{vr.createDate}}
                             </p>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.videoPath)">
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name)">
                                 <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
@@ -75,5 +75,5 @@
 </div>
 </md-content>
 <script>
-
+$("script[src='static/js/lib/loader.js']").remove()
 </script>

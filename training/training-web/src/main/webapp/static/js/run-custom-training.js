@@ -3,8 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//var $contextPath = "http://localhost:8085/training/";
-var $contextPath = "http://181.143.227.220:8086/training/";
+var $contextPath = "http://localhost:8080/training/";
+//var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
 require.config({
@@ -50,10 +50,6 @@ require.config({
         viRecorder: "lib/vaRecorder/VIRecorder",
         messageService: "message/service/messageService",
         videoService: "video/service/videoService",
-        //videochatService: "videochat/service/videochatService",
-        //opentok: "lib/opentok.min",
-        //opentokAngular: "lib/opentok-angular",
-        //opentokLayout: "lib/opentok-layout.min",
         utilService: "lib/utilService",
         roleService: "security/service/roleService",
         optionService: "security/service/optionService",

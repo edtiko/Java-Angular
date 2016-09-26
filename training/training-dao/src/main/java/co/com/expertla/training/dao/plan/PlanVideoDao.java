@@ -17,8 +17,10 @@ import java.util.List;
  */
 public interface PlanVideoDao extends BaseDAO<PlanVideo>{
 
-    public Integer countByVideoPath(String fileName) throws DAOException;
+    public PlanVideo getByVideoPath(String fileName) throws DAOException;
 
     public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto)throws DAOException;
+
+    public PlanVideo getVideoById(Integer id)throws DAOException;
     
 }

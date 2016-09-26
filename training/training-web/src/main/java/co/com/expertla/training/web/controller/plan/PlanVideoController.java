@@ -22,7 +22,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class PlanVideoController {
     
   private static final Logger LOGGER = Logger.getLogger(PlanVideoController.class);
-  private static final String ROOT = "c:/upload-video/";
+  private static final String ROOT = "e:/upload-training/";
   
    private final StorageService storageService;
 
@@ -51,6 +55,23 @@ public class PlanVideoController {
         @Autowired
     public PlanVideoController(StorageService storageService) {
         this.storageService = storageService;
+    }
+    
+      @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+    @MessageMapping("/send/{sessionId}")
+    //@SendTo("/topic/message")
+    public void sendMessage(PlanVideoDTO message, @DestinationVariable("sessionId") Integer sessionId) {
+        PlanVideoDTO msg = null;
+        try {
+            msg = planVideoService.getVideoById(message.getId());
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+
+          }
+        simpMessagingTemplate.convertAndSend("/queue/video/" + sessionId, msg);
+        //return new OutputMessage(message, new Date());
     }
     
     
@@ -65,30 +86,31 @@ public class PlanVideoController {
         
                 String fileName = dateString +"_"+fromUserId+"_"+toUserId;
                 File directory = new File(ROOT+fileName);
+                File archivo = new File(ROOT+fileName+"/"+filename);
                 if (!directory.exists()) {
                     if (directory.mkdir()) {
                         Files.copy(file.getInputStream(), Paths.get(ROOT+fileName, filename));
                          //storageService.store(file);
                     } 
-                }else{
+                }
+                else if(!archivo.exists()){
                      Files.copy(file.getInputStream(), Paths.get(ROOT+fileName, filename));
                        //storageService.store(file);
                 }
 
-                Integer count =  planVideoService.countByVideoPath(fileName);
-                
-                if(count == 0){
+                PlanVideoDTO dto =  planVideoService.getByVideoPath(fileName);
+                if(dto == null){
                 PlanVideo video = new PlanVideo();
                 video.setFromUserId(new User(fromUserId));
                 video.setName(fileName);
                 video.setToUserId(new User(toUserId));
                 video.setCreationDate(Calendar.getInstance().getTime());
                 video.setVideoPath(fileName);
-                planVideoService.create(video);
+                dto = planVideoService.create(video);
                 }
-                strResponse.append("video cargado correctamente.");
+                //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
-                responseService.setOutput(strResponse);
+                responseService.setOutput(dto);
                 return Response.status(Response.Status.OK).entity(responseService).build();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);

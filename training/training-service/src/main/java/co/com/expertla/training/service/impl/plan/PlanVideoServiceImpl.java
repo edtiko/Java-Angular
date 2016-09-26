@@ -26,18 +26,23 @@ public class PlanVideoServiceImpl implements PlanVideoService{
     PlanVideoDao planVideoDao;
 
     @Override
-    public void create(PlanVideo video) throws Exception {
-       planVideoDao.create(video);
+    public PlanVideoDTO create(PlanVideo video) throws Exception {
+       return PlanVideoDTO.mapFromPlanVideoEntity(planVideoDao.create(video));
     }
 
     @Override
-     public Integer countByVideoPath(String fileName) throws Exception {
-        return planVideoDao.countByVideoPath(fileName);
+     public PlanVideoDTO getByVideoPath(String fileName) throws Exception {
+        return PlanVideoDTO.mapFromPlanVideoEntity(planVideoDao.getByVideoPath(fileName));
     }
 
     @Override
     public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto) throws Exception {
         return planVideoDao.getVideosByUser(userId, fromto);
+    }
+
+    @Override
+    public PlanVideoDTO getVideoById(Integer id) throws Exception {
+      return PlanVideoDTO.mapFromPlanVideoEntity(planVideoDao.getVideoById(id));
     }
     
 }

@@ -1,7 +1,7 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService',
-    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService','videoService',
+    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService,videoService) {
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
@@ -99,6 +99,13 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.messagesReceivedCount++;
             
         });
+        
+           //notificación videos recibidos
+        videoService.receive().then(null, null, function (video) {
+
+                $scope.videoReceivedCount++;
+            
+        });
 
         $scope.selectAthlete = function (coachAssignedPlanSelected) {
             var user = coachAssignedPlanSelected.athleteUserId;
@@ -108,6 +115,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             self.getAvailableMessages(coachAssignedPlanSelected.id, $scope.userSession.userId);
             self.getReceivedMessages(coachAssignedPlanSelected.id, user.userId);
             messageService.initialize(coachAssignedPlanSelected.id);
+            videoService.initialize(coachAssignedPlanSelected.id);
             DashboardService.getDashboard(user).then(
                     function (d) {
                         $scope.user = d;
@@ -188,7 +196,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach' && planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta");
             } else {
-                $window.location.href = "#video";
+                window.location.href = $contextPath+"#/video";
             }
          };
         $scope.selectUser = function (userId) {

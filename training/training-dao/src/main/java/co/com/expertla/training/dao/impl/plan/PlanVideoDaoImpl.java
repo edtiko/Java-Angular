@@ -10,6 +10,7 @@ import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.PlanVideoDao;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
+import co.com.expertla.training.model.entities.User;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -22,16 +23,15 @@ import org.springframework.stereotype.Repository;
 public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVideoDao{
 
     @Override
-    public Integer countByVideoPath(String fileName) throws DAOException {
-        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(v.plan_video_id) ");     
-        sql.append(" FROM plan_video v ");
-        sql.append(" Where v.video_path = ").append("'").append(fileName).append("'");
-        Query query = getEntityManager().createNativeQuery(sql.toString());
-       
-        List<Number> count = (List<Number>) query.getResultList();
-
-        return count.get(0).intValue();
+    public PlanVideo getByVideoPath(String fileName) throws DAOException {
+          try {
+            String qlString = "SELECT v FROM PlanVideo v WHERE v.videoPath = :videoPath ";
+            setParameter("videoPath", fileName);
+            List<PlanVideo> query = createQuery(qlString);
+            return query.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -47,6 +47,19 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         return query.getResultList();
+    }
+
+    @Override
+    public PlanVideo getVideoById(Integer id) throws DAOException {
+        try {
+            String qlString = "SELECT v FROM PlanVideo v WHERE v.planVideoId = :planVideoId ";
+            setParameter("planVideoId", id);
+            List<PlanVideo> query = createQuery(qlString);
+            return query.get(0);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
     
 }

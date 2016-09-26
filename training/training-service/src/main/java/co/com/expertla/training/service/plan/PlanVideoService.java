@@ -15,10 +15,12 @@ import java.util.List;
  */
 public interface PlanVideoService {
 
-    public void create(PlanVideo video)throws Exception;
+    public PlanVideoDTO create(PlanVideo video)throws Exception;
 
-   public Integer countByVideoPath(String fileName)throws Exception;
+   public PlanVideoDTO getByVideoPath(String fileName)throws Exception;
 
     public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto)throws Exception;
+
+    public PlanVideoDTO getVideoById(Integer id)throws Exception;
     
 }

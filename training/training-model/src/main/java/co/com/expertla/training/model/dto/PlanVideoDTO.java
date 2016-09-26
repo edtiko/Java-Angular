@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.PlanVideo;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -17,12 +18,13 @@ import java.util.Date;
 public class PlanVideoDTO {
     
     private Integer id;
-    private UserDTO toUserId;
+    private Integer toUserId;
     private String name;
-    private UserDTO fromUserId;
+    private Integer fromUserId;
     private String  videoPath;
     @JsonSerialize(using=JsonDateTimeSerializer.class)
     private Date    createDate;
+    private Integer sesionId;
     
     public PlanVideoDTO(){
         
@@ -31,10 +33,17 @@ public class PlanVideoDTO {
     public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate){
         this.id = planVideoId;
         this.name = name;
-        this.fromUserId = UserDTO.mapFromUserEntity(fromUserId);
-        this.toUserId =  UserDTO.mapFromUserEntity(toUserId);
+        this.fromUserId = fromUserId.getUserId();
+        this.toUserId =  toUserId.getUserId();
         this.createDate = createDate;
         
+    }
+    
+    public static PlanVideoDTO mapFromPlanVideoEntity(PlanVideo video) {
+        if (video != null) {
+            return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId(), video.getToUserId(), video.getCreationDate());
+        }
+        return null;
     }
 
     public Integer getId() {
@@ -45,19 +54,19 @@ public class PlanVideoDTO {
         this.id = id;
     }
 
-    public UserDTO getToUserId() {
+    public Integer getToUserId() {
         return toUserId;
     }
 
-    public void setToUserId(UserDTO toUserId) {
+    public void setToUserId(Integer toUserId) {
         this.toUserId = toUserId;
     }
 
-    public UserDTO getFromUserId() {
+    public Integer getFromUserId() {
         return fromUserId;
     }
 
-    public void setFromUserId(UserDTO fromUserId) {
+    public void setFromUserId(Integer fromUserId) {
         this.fromUserId = fromUserId;
     }
 
@@ -83,6 +92,14 @@ public class PlanVideoDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getSesionId() {
+        return sesionId;
+    }
+
+    public void setSesionId(Integer sesionId) {
+        this.sesionId = sesionId;
     }
     
     
