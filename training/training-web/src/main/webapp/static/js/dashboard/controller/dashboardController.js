@@ -1,7 +1,7 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService',
-    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService','MailService',
+    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService,MailService) {
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
@@ -278,6 +278,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
             
             $scope.getSupervisorByCoachId($scope.userSession.userId);
+            $scope.getAllRecipients();
         });
 
         $scope.init = function() {
@@ -302,6 +303,17 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                                 console.error('Error while creating mail communication.');
                             }
                     );
+        };
+        
+        $scope.getAllRecipients = function () {
+            MailService.getAllRecipients($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.recipients = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
         };
         
         $scope.onTabChanges = function (currentTabIndex) {

@@ -27,9 +27,10 @@
                 </md-content>
             </md-tab>
 
-            <md-tab label="Bandeja de entrada">
+            <md-tab label="Bandeja de entrada"  md-on-select="onTabChanges(3)">
                 <md-content class="md-padding">
-
+                        <md-button md-no-ink class="md-primary" ng-click="selectUser(userSession.userId)">{{userSession.fullName}}</md-button>
+                        <md-divider></md-divider>
                 </md-content>
             </md-tab>
         </md-tabs>

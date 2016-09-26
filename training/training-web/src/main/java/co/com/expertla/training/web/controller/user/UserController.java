@@ -275,7 +275,7 @@ public class UserController {
 
                         if (statusRes.equals("success")) {
 
-                            if (jo.get("planId") != null
+                            if (jo.get("planId") != null && !jo.get("planId").isJsonNull()
                                     && !jo.get("planId").getAsString().trim().isEmpty()) {
                                 Integer trainingPlanId = jo.get("planId").getAsInt();
 
@@ -312,6 +312,9 @@ public class UserController {
                                     response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                                     return null;
                                 }
+                            } else {
+                                userTrainingOrder.setStatus("error");
+                                userTrainingOrderService.store(userTrainingOrder);
                             }
                         }
 

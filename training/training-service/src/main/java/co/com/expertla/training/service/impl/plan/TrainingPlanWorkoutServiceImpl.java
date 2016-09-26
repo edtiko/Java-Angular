@@ -145,6 +145,13 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 list.add(act);
                 z++;
                 index++;
+                if(z < length) {
+                    for (Activity obj : activityList) {
+                        if(obj.getPhysiologicalCapacityId().getCode().equals(parts[z])) {
+                            indexCount=0;
+                        }
+                    }
+                }
                 continue;
             } 
             

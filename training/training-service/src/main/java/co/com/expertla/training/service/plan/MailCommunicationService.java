@@ -2,6 +2,7 @@ package co.com.expertla.training.service.plan;
 
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import java.util.List;
 
@@ -112,4 +113,15 @@ public interface MailCommunicationService {
      * @throws java.lang.Exception
      */
     public List<MailCommunicationDTO> getMailsByReceivingUserIdFromSendingUserRead(Integer receivingUserId, Integer sendingUserId, boolean read) throws Exception;
+    
+    /**
+     * Trae todos destinatarios asociados al usuario <br>
+     * Creation Date : <br>
+     * date 22/09/2016 <br>
+     * @author  Angela Ramirez
+     * @param userId
+     * @throws co.com.expertla.base.jpa.DAOException
+     * @return
+     */
+    public List<UserDTO> getAllRecipientsByUserId(Integer userId) throws Exception;
 }

@@ -1,10 +1,16 @@
 package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.base.jpa.DAOException;
+import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.dao.plan.MailCommunicationDao;
+import co.com.expertla.training.dao.plan.SupervStarCoachDao;
+import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
+import co.com.expertla.training.model.entities.SupervStarCoach;
 import co.com.expertla.training.service.plan.MailCommunicationService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +28,10 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     
     @Autowired
     private MailCommunicationDao mailCommunicationDao;
+    @Autowired
+    private CoachAssignedPlanDao coachAssignedPlanDao;
+    @Autowired
+    private SupervStarCoachDao supervStarCoachDao;
     
 
     @Override
@@ -69,4 +79,18 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         return mailCommunicationDao.getMailsByReceivingUserIdFromSendingUserRead(receivingUserId, sendingUserId, read);
     }
     
+    @Override
+    public List<UserDTO> getAllRecipientsByUserId(Integer userId) throws Exception {
+        List<UserDTO> recipients = new ArrayList<>();
+        List<CoachAssignedPlanDTO> starsAndAthletes = coachAssignedPlanDao.findByCoachUserId(userId);
+        List<SupervStarCoach> supervisors = supervStarCoachDao.findByCoachId(userId);
+        for (SupervStarCoach supervisor : supervisors) {
+            recipients.add(UserDTO.mapFromUserEntity(supervisor.getSupervisorId()));
+        }
+        for (CoachAssignedPlanDTO u : starsAndAthletes) {
+            recipients.add(u.getAthleteUserId());
+            recipients.add(u.getStarUserId());
+        }
+        return recipients;
+    }
 }

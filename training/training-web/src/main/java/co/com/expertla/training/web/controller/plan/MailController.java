@@ -1,8 +1,9 @@
-package co.com.expertla.training.web.controller.user;
+package co.com.expertla.training.web.controller.plan;
 
 import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.ColourIndicator;
 import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.util.ResponseService;
@@ -210,7 +211,35 @@ public class MailController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByUserId(userId);
+            List<MailCommunicationDTO> mails = mailCommunicationService.getSentMailsByUserId(userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(mails);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+     /**
+     * Consulta todos los usuarios a quien puede enviar correos el usuario enviado<br>
+     * Info. Creacion: <br>
+     * fecha 12/09/2016 <br>
+     *
+     * @author Angela Ramirez
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/get/all/recipients/by/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getAllRecipients(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<UserDTO> mails = mailCommunicationService.getAllRecipientsByUserId(userId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(mails);
             return Response.status(Response.Status.OK).entity(responseService).build();

@@ -6,6 +6,8 @@ import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ChartDTO;
 import co.com.expertla.training.model.dto.UserActivityPerformanceDTO;
 import co.com.expertla.training.model.entities.UserActivityPerformance;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -166,7 +168,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append("SELECT * FROM  (");
             builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date from generate_series(0,6,1) as offs ) d ");
             builder.append(" LEFT   JOIN (");
-            builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,count(distinct(activity_id)) AS value  ");
+            builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,cast(count(distinct(activity_id)) as numeric) AS value  ");
             builder.append("FROM   user_activity_performance where user_id = ").append(userId).append(" AND executed_date >= date '").append(fromDate).append("' ");
             builder.append("AND executed_date <= date '").append(toDate).append("' GROUP  BY 1");
             builder.append(") t USING (executed_date) ORDER  BY executed_date");
@@ -178,7 +180,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             for (Object[] result : list) {
                 obj = new ChartDTO();
                 obj.setExecutedDate(sdf.parse(result[0].toString()));
-                obj.setValue(result[1] == null ? 0 : (Long) result[1]);
+                obj.setValue(result[1] == null ? new BigDecimal(BigInteger.ZERO) : (BigDecimal) result[1]);
                 chartList.add(obj);
             }
             return chartList;
@@ -187,7 +189,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append("SELECT * FROM  (");
             builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date from generate_series(0,6,1) as offs ) d ");
             builder.append(" LEFT   JOIN (");
-            builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,sum(CAST(coalesce(value, '0') AS integer)) AS value  ");
+            builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,cast(sum(CAST(coalesce(value, '0') AS integer)) as numeric) AS value  ");
             builder.append("FROM   user_activity_performance where user_id = ").append(userId).append(" AND executed_date >= date '").append(fromDate).append("' ");
             builder.append("AND executed_date <= date '").append(toDate).append("'");
             builder.append(" AND activity_performance_metafield_id = ").append(metafieldId);
@@ -201,7 +203,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             for (Object[] result : list) {
                 obj = new ChartDTO();
                 obj.setExecutedDate(sdf.parse(result[0].toString()));
-                obj.setValue(result[1] == null ? 0 : (Long) result[1]);
+                obj.setValue(result[1] == null ? new BigDecimal(BigInteger.ZERO) : (BigDecimal) result[1]);
                 chartList.add(obj);
             }
             return chartList;
@@ -226,7 +228,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             } else {
                 builder.append("SELECT date_trunc('month', executed_date)::date AS executed_date ");   
             }
-            builder.append(", coalesce(count(*), '0') AS value ");
+            builder.append(", cast(coalesce(count(distinct(activity_id)), '0') as numeric) AS value ");
             builder.append(" FROM   user_activity_performance");
             builder.append(" where user_id = ").append(userId);
             builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
@@ -242,11 +244,11 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             for (Object[] result : list) {
                 obj = new ChartDTO();
                 obj.setExecutedDate(sdf.parse(result[0].toString()));
-                obj.setValue(result[1] == null ? 0 :(Long) result[1]);
+                obj.setValue(result[1] == null ? new BigDecimal(BigInteger.ZERO) :(BigDecimal) result[1]);
                 chartList.add(obj);
             }
             return chartList;
-        } else {
+        } else if(metafieldId.equals(4) || metafieldId.equals(5) || metafieldId.equals(6))  {
             StringBuilder builder = new StringBuilder();
             builder.append("SELECT * FROM  (");
             if(weekly) {
@@ -262,7 +264,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             } else {
                 builder.append("SELECT date_trunc('month', executed_date)::date AS executed_date ");   
             }
-            builder.append(", sum(CAST(coalesce(value, '0') AS integer)) AS value ");
+            builder.append(", cast(round(avg(CAST(coalesce(value, '0') AS integer))) as numeric )  AS value ");
             builder.append(" FROM   user_activity_performance");
             builder.append(" where user_id = ").append(userId);
             builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
@@ -279,7 +281,44 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             for (Object[] result : list) {
                 obj = new ChartDTO();
                 obj.setExecutedDate(sdf.parse(result[0].toString()));
-                obj.setValue(result[1] == null ? 0 :(Long) result[1]);
+                obj.setValue(result[1] == null ? new BigDecimal(BigInteger.ZERO) :(BigDecimal) result[1]);
+                chartList.add(obj);
+            }
+            return chartList;
+        } else  {
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT * FROM  (");
+            if(weekly) {
+                builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
+                builder.append("from generate_series(0,28,7) as offs ) d"); 
+            } else {
+                builder.append("select distinct date_trunc('month', (current_date - offs)) as executed_date ");
+                builder.append("from generate_series(0,").append(days).append(",28) as offs ) d"); 
+            }
+            builder.append(" LEFT   JOIN (");
+            if(weekly) {    
+                builder.append("SELECT date_trunc('week', executed_date)::date AS executed_date ");
+            } else {
+                builder.append("SELECT date_trunc('month', executed_date)::date AS executed_date ");   
+            }
+            builder.append(", cast(sum(CAST(coalesce(value, '0') AS integer)) as numeric) AS value ");
+            builder.append(" FROM   user_activity_performance");
+            builder.append(" where user_id = ").append(userId);
+            builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
+            builder.append(" AND executed_date <= date ").append("'").append(toDate).append("'");
+            builder.append(" and  activity_performance_metafield_id = ").append(metafieldId);
+            builder.append(" GROUP  BY 1");
+            builder.append(" ) t USING (executed_date)");
+            builder.append(" ORDER  BY executed_date ");
+            Query query = this.getEntityManager().createNativeQuery(builder.toString());
+            List<Object[]> list = query.getResultList();
+            List<ChartDTO> chartList = new ArrayList<>();
+            ChartDTO obj = new ChartDTO();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            for (Object[] result : list) {
+                obj = new ChartDTO();
+                obj.setExecutedDate(sdf.parse(result[0].toString()));
+                obj.setValue(result[1] == null ? new BigDecimal(BigInteger.ZERO) :(BigDecimal) result[1]);
                 chartList.add(obj);
             }
             return chartList;
@@ -292,7 +331,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
         builder.append("SELECT * FROM  (");
         builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date from generate_series(0,6,1) as offs ) d ");
         builder.append(" LEFT   JOIN (");
-        builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,count(*) AS value  ");
+        builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,cast(count(*) as numeric) AS value  ");
         builder.append("FROM   user_activity_performance where user_id = ").append(userId).append(" AND executed_date >= date '").append(fromDate).append("' ");
         builder.append("AND executed_date <= date '").append(toDate).append("' GROUP  BY 1");
         builder.append(") t USING (executed_date) ORDER  BY executed_date");
@@ -304,7 +343,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             for (Object[] result : list) {
                 obj = new ChartDTO();
                 obj.setExecutedDate(sdf.parse(result[0].toString()));
-                obj.setValue(result[1] == null ? 0 :(Long) result[1]);
+                obj.setValue(result[1] == null ? new BigDecimal(BigInteger.ZERO) :(BigDecimal) result[1]);
                 chartList.add(obj);
             }
             return chartList;
