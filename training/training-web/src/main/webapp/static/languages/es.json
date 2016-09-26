@@ -65,5 +65,11 @@
     "TOTAL_DISTANCE": "Distancia Total", 
     "AVERAGE_HEART_RATE": "Frecuencia Card\u00edaca Media",
     "MAX_HEART_RATE":"Frecuencia Card\u00edaca M\u00e1xima",
-    "AVERAGE_PACE":"Ritmo Medio"
+    "AVERAGE_PACE":"Ritmo Medio",
+    "ATLETA": "Atleta",
+    "ESTRELLA": "Estrella",
+    "SUPERVISOR": "Supervisor",
+    "COACH": "Coach",
+    "PERSONAL": "Personal",
+    "CLIENTE": "Cliente"
 }

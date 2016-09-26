@@ -200,8 +200,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
         
-        self.getAssignedUserBySupervisor = function () {
-            DashboardService.getAssignedUserBySupervisor($scope.userSession.userId).then(
+        self.getAssignedStarCoachBySupervisor = function () {
+            DashboardService.getAssignedStarCoachBySupervisor($scope.userSession.userId).then(
                     function (data) {
                         var res = data.output;
                         
@@ -214,6 +214,51 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.showMessage(error);
                         console.error(error);
                     });
+        };
+        
+        self.getAssignedAtleteCoachBySupervisor = function () {
+            DashboardService.getAssignedAtleteCoachBySupervisor($scope.userSession.userId).then(
+                    function (data) {
+                        var res = data.output;
+                        
+                        if (data.status == 'success') {
+                            $scope.supervisorUserAssignedList = angular.copy(res);
+                        }
+
+                    },
+                    function (error) {
+                        $scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+        
+        
+        $scope.selectUserBySupervisor = function (supervisorSelected, user, userType) {
+            $window.sessionStorage.setItem("supervisorSelectedSelected", JSON.stringify(supervisorSelected));
+            $scope.showControl = true;
+            $scope.coachAssignedPlan = {athleteUserId:null};
+            $scope.coachAssignedPlan.athleteUserId = user;
+            self.getAvailableMessages(supervisorSelected.id, $scope.userSession.userId);
+            self.getReceivedMessages(supervisorSelected.id, user.userId);
+            messageService.initialize(supervisorSelected.id);
+            DashboardService.getDashboard(user).then(
+                    function (d) {
+                        $scope.user = d;
+
+                        if ($scope.user.birthDate != null) {
+                            var date = $scope.user.birthDate.split("/");
+                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
+                            $scope.user.age = $scope.calculateAge(birthdate);
+                        }
+                        $scope.getVisibleFieldsUserByUser(user);
+                        $scope.getImageProfile(user.userId);
+                    },
+                    function (errResponse) {
+                        console.error('Error while fetching the dashboard');
+                        console.error(errResponse);
+                    }
+            );
         };
         
         $scope.getUserSession(function (res) {
@@ -229,7 +274,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.getUserById();
                 self.getAssignedCoach();
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserSupervisor) {
-                self.getAssignedUserBySupervisor();
+                self.getAssignedStarCoachBySupervisor();
             }
             
             $scope.getSupervisorByCoachId($scope.userSession.userId);
@@ -272,6 +317,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         
         $scope.onTabChanges = function (currentTabIndex) {
+            if(currentTabIndex == 0) {
+                self.getAssignedStarCoachBySupervisor();
+            } else if(currentTabIndex == 1) {
+                self.getAssignedAtleteCoachBySupervisor();
+            }
+            
             $window.sessionStorage.setItem("tabIndex", currentTabIndex);
         };
         

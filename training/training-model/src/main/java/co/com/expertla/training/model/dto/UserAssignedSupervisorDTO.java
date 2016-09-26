@@ -18,9 +18,12 @@ public class UserAssignedSupervisorDTO {
     private Integer supervisorId;
     private UserDTO coachUserId;
     private UserDTO starUserId;
+    private UserDTO atleteUserId;
+    private UserDTO userId;
     private Integer starTeamId;
     private String colourCoach;
     private String colourStar;
+    private String colourAtlete;
     private Date creationDate;
     
      public UserAssignedSupervisorDTO(){
@@ -34,6 +37,38 @@ public class UserAssignedSupervisorDTO {
         this.starUserId = UserDTO.mapFromUserEntity(starUserId);
         this.starTeamId = startTeamId;
         this.supervisorId = supervisorId;
+    }
+
+    public UserAssignedSupervisorDTO(Integer id, Integer supervisorId, User coachUserId,
+            User atleteUserId
+            ) {
+        this.id = id;
+        this.supervisorId = supervisorId;
+        this.atleteUserId = UserDTO.mapFromUserEntity(atleteUserId);
+        this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
+    }
+    
+    public UserAssignedSupervisorDTO(Integer id, Integer supervisorId, User userId
+            ) {
+        this.id = id;
+        this.supervisorId = supervisorId;
+        this.userId = UserDTO.mapFromUserEntity(userId);
+    }
+
+    public UserDTO getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UserDTO userId) {
+        this.userId = userId;
+    }
+
+    public UserDTO getAtleteUserId() {
+        return atleteUserId;
+    }
+
+    public void setAtleteUserId(UserDTO atleteUserId) {
+        this.atleteUserId = atleteUserId;
     }
 
     public Integer getId() {
@@ -98,6 +133,14 @@ public class UserAssignedSupervisorDTO {
 
     public void setSupervisorId(Integer supervisorId) {
         this.supervisorId = supervisorId;
+    }
+
+    public String getColourAtlete() {
+        return colourAtlete;
+    }
+
+    public void setColourAtlete(String colourAtlete) {
+        this.colourAtlete = colourAtlete;
     }
     
     

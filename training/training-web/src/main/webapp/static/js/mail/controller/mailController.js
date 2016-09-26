@@ -6,6 +6,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.sendingUserId = JSON.parse($window.sessionStorage.getItem("sendingUserId"));
         $scope.mailSelected = '';
+        $scope.searchTextReceiverUser = '';
+        $scope.selectedItemReceiverUser = null;
         $scope.mailCommunication = {
             id: '',
             receivingUser: {userId:''},
@@ -14,11 +16,11 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             subject: ''
         };
         $scope.create = false;
-        $scope.receivingUserSelected = '';
+        $scope.receivingUserSelected = {};
         $scope.searchText = '';
         $scope.received = false;
         $scope.supervisors = [];
-        $scope.tabIndex  = $window.sessionStorage.getItem("tabIndex");
+        $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
         $scope.recipients = [];
 
         $scope.getMails = function () {
@@ -41,7 +43,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         console.error(error);
                     });
         };
-        
+
         $scope.getSentMails = function () {
             MailService.getMailsByReceivingUserFromSendingUser($scope.sendingUserId, $scope.userSession.userId).then(
                     function (data) {
@@ -74,9 +76,23 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         console.error(error);
                     });
         };
+        
+        $scope.selectedItemChange = function(item) {
+            if(item != undefined) {
+                $scope.receivingUserSelected = item;
+            }
+            
+        };
+        
+        $scope.querySearchUsers = function (query, users, value) {
+            var results = users;
+            if(query != null) {
+                results = users.filter(createFilterFor(query, value));
+            }
+            return results;
+        };
 
-        $scope.getAssignedAthletes = function () {
-            DashboardService.getAssignedAthletes($scope.userSession.userId).then(
+this.getAssignedAthletes = function () {            DashboardService.getAssignedAthletes($scope.userSession.userId).then(
                     function (data) {
                         $scope.athletes = data.entity.output;
                         if ($scope.athletes == null) {
@@ -87,6 +103,33 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         //$scope.showMessage(error);
                         console.error(error);
                     });
+
+            if ($scope.userSession.typeUser == $scope.userSessionTypeUserSupervisor) {
+                DashboardService.getAssignedUserBySupervisor($scope.userSession.userId).then(
+                        function (data) {
+                            if (data.status == 'success') {
+                                $scope.athletes = data.output;
+                            }
+                        },
+                        function (error) {
+                            //$scope.showMessage(error);
+                            console.error(error);
+                        });
+            } else {
+                DashboardService.getAssignedAthletes($scope.userSession.userId).then(
+                        function (data) {
+                            $scope.athletes = data.entity.output;
+                            if ($scope.athletes == null) {
+                                $scope.showMessage("No tiene planes asignados.");
+                            }
+                        },
+                        function (error) {
+                            //$scope.showMessage(error);
+                            console.error(error);
+                        });
+            }
+
+
         };
 //        this.getAssignedAthletes();
 
@@ -94,15 +137,15 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             for (var i = 0; i < $scope.mailsReceived.length; i++) {
                 if ($scope.mailsReceived[i].mailCommunicationId === id) {
                     $scope.mailSelected = angular.copy($scope.mailsReceived[i]);
-                    $scope.received =true;
-                    if($scope.mailSelected.read == false) {
+                    $scope.received = true;
+                    if ($scope.mailSelected.read == false) {
                         $scope.updateMailCommunication($scope.mailSelected);
                     }
                     break;
                 }
             }
         };
-        
+
         $scope.selectSentMail = function (id) {
             for (var i = 0; i < $scope.mailsSent.length; i++) {
                 if ($scope.mailsSent[i].mailCommunicationId === id) {
@@ -124,15 +167,15 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
             $window.location.href = "#dashboard";
         };
-        
+
 
         $scope.addMail = function () {
-            if ($scope.userSession != null && $scope.sendingUserId != null && $scope.mailCommunication.message != "" 
+            if ($scope.userSession != null && $scope.sendingUserId != null && $scope.mailCommunication.message != ""
                     && $scope.mailCommunication.subject != "") {
                 $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
                 $scope.mailCommunication.receivingUser.userId = $scope.sendingUserId;
                 if ($scope.create) {
-                    if($scope.receivingUserSelected != '' ) {
+                    if ($scope.receivingUserSelected != '') {
                         $scope.mailCommunication.receivingUser.userId = $scope.receivingUserSelected;
                     }
                 }
@@ -184,8 +227,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             $scope.create = true;
         };
 
-        $scope.getSupervisorByCoachId = function(coachId) {
-             SupervStarCoachService.getByCoachId(coachId)
+        $scope.getSupervisorByCoachId = function (coachId) {
+            SupervStarCoachService.getByCoachId(coachId)
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
@@ -200,7 +243,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                     );
         };
 //        $scope.getSupervisorByCoachId($scope.userSession.userId);
-        
+
         $scope.onTabChanges = function (currentTabIndex) {
             $window.sessionStorage.setItem("tabIndex", currentTabIndex);
             $scope.tabIndex = currentTabIndex;
@@ -212,7 +255,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                 $scope.getReceivedMails();
             }
         };
-        
+
         $scope.init = function() {
             if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {              
                 $scope.getAssignedAthletes();
@@ -229,6 +272,21 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                 
             }
         };
+
+  /**
+         * Create filter function for a query string
+         * @param {type} query
+         * @returns {Function}
+         */
+        function createFilterFor(query, value) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(athletes) {
+                var a = eval('athletes' + '.' + value);
+                return (angular.lowercase(a).indexOf(lowercaseQuery) >= 0);
+            };
+
+        }
         
         $scope.init();
     }]);

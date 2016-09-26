@@ -151,4 +151,40 @@ public class SupervStarCoachDaoImpl extends BaseDAOImpl<SupervStarCoach> impleme
         query.setParameter("id", userId);
         return query.getResultList();
     }
+    
+    @Override
+    public List<UserAssignedSupervisorDTO> findAtleteCoachBySupervisorId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+        builder.append(" a.supervStarCoachId, a.supervisorId.userId, a.starTeamId.coachUserId, cp.trainingPlanUserId.userId ");
+        builder.append(") from SupervStarCoach a, CoachAssignedPlan cp ");
+        builder.append("where a.supervisorId.userId = :id ");
+        builder.append("and cp.starTeamId.starTeamId = a.starTeamId.starTeamId ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<UserAssignedSupervisorDTO> findUsersBySupervisorId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+        builder.append(" a.supervStarCoachId, a.supervisorId.userId, a.starTeamId.coachUserId ");
+        builder.append(") from SupervStarCoach a ");
+        builder.append("where a.supervisorId.userId = :id ");
+//        builder.append("UNION ");
+//        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+//        builder.append(" a.supervStarCoachId, a.supervisorId.userId, a.starTeamId.starUserId ");
+//        builder.append(") from SupervStarCoach a ");
+//        builder.append("where a.supervisorId.userId = :id ");
+//        builder.append("UNION ");
+//        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+//        builder.append(" a.supervStarCoachId, a.supervisorId.userId, cp.trainingPlanUserId.userId ");
+//        builder.append(") from SupervStarCoach a, CoachAssignedPlan cp ");
+//        builder.append("where a.supervisorId.userId = :id ");
+//        builder.append("and cp.starTeamId.starTeamId = a.starTeamId.starTeamId ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
 }

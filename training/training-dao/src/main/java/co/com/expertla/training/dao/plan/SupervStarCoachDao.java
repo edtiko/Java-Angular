@@ -92,5 +92,27 @@ public interface SupervStarCoachDao extends BaseDAO<SupervStarCoach> {
      * @throws Exception 
      */
     public List<UserAssignedSupervisorDTO> findBySupervisorId(Integer userId) throws Exception; 
+    
+    /**
+     * Obtiene todos los registros de supervStarCoach por el supervisor Id<br>
+     * Info. Creación: <br>
+     * fecha 24/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<UserAssignedSupervisorDTO> findAtleteCoachBySupervisorId(Integer userId) throws Exception;
+    
+    /**
+     * Obtiene todos los registros de users por el supervisor Id<br>
+     * Info. Creación: <br>
+     * fecha 24/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<UserAssignedSupervisorDTO> findUsersBySupervisorId(Integer userId) throws Exception;
 
 }
