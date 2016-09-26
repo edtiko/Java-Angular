@@ -124,4 +124,9 @@ public class ActivityServiceImpl implements ActivityService {
         return  manualActivityDao.merge(manualActivity).getManualActivityId();
     }
 
+    @Override
+    public List<Activity> findActivityReplaceByActivity(Integer activityId) throws Exception {
+        return activityDao.findActivityReplaceByActivity(activityId);
+    }
+
 }

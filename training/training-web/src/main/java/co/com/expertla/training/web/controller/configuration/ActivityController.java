@@ -432,5 +432,25 @@ public class ActivityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    @RequestMapping(value = "/get/activity/replace/id/{trainingPlanWorkoutId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getActivityReplace(
+            @PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            Integer activityId = trainingPlanWorkoutDto.getActivityId();
+            List<Activity> activityList = activityService.findActivityReplaceByActivity(activityId);
+            responseService.setOutput(activityList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 
 }

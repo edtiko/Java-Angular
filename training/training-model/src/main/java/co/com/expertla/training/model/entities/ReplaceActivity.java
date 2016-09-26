@@ -26,10 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "replace_activity")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ReplaceActivity.findAll", query = "SELECT r FROM ReplaceActivity r"),
-    @NamedQuery(name = "ReplaceActivity.findByReplaceActivityId", query = "SELECT r FROM ReplaceActivity r WHERE r.replaceActivityId = :replaceActivityId"),
-    @NamedQuery(name = "ReplaceActivity.findByName", query = "SELECT r FROM ReplaceActivity r WHERE r.name = :name")})
 public class ReplaceActivity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,23 +34,18 @@ public class ReplaceActivity implements Serializable {
     @Basic(optional = false)
     @Column(name = "replace_activity_id")
     private Integer replaceActivityId;
-    @Basic(optional = false)
-    @Column(name = "name")
-    private String name;
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id")
     @ManyToOne
     private Activity activityId;
+    @JoinColumn(name = "replace_id", referencedColumnName = "replace_id")
+    @ManyToOne
+    private Activity replaceId;
 
     public ReplaceActivity() {
     }
 
     public ReplaceActivity(Integer replaceActivityId) {
         this.replaceActivityId = replaceActivityId;
-    }
-
-    public ReplaceActivity(Integer replaceActivityId, String name) {
-        this.replaceActivityId = replaceActivityId;
-        this.name = name;
     }
 
     public Integer getReplaceActivityId() {
@@ -65,13 +56,14 @@ public class ReplaceActivity implements Serializable {
         this.replaceActivityId = replaceActivityId;
     }
 
-    public String getName() {
-        return name;
+    public Activity getReplaceId() {
+        return replaceId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setReplaceId(Activity replaceId) {
+        this.replaceId = replaceId;
     }
+
 
     public Activity getActivityId() {
         return activityId;

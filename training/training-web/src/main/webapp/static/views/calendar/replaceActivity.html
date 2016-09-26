@@ -17,14 +17,10 @@
                         <input type="text" ng-model="searchReplaceActivity" placeholder="Buscar.."/>
                     </md-input-container>
                     <md-content>
-                        <div layout="column" layout-align="center center" ng-show="loadingReplaceActivity">
-                            <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-                            <span>Cargando actividades..</span>
-                        </div>
                         <section>
                             <md-list ng-repeat="(key, value)  in activityReplaceList | groupBy: 'capacity'">
-                                <md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>
-                                <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:searchReplaceActivity" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <md-subheader class="md-accent">{{ key}}</md-subheader>
+                                <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:searchReplaceActivity" id="act_{{a.id}}">
                                     <p>
                                         {{a.name}}
                                     </p>

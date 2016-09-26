@@ -157,4 +157,15 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
         return query.getResultList();
     }
 
+    @Override
+    public List<Activity> findActivityReplaceByActivity(Integer activityId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT a.replaceId ");
+        sql.append("FROM ReplaceActivity a ");
+        sql.append("WHERE a.activityId = :activityId ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("activityId", activityId);
+        return query.getResultList();
+    }
+
 }

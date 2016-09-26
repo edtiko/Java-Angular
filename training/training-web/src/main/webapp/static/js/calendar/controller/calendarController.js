@@ -56,9 +56,16 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.manualActivityTitle = "Actividades de Reemplazo";
         if (ev != undefined) {
             var date = $(ev.target).attr("data-event-date");
+            var id = $(ev.target).attr("data-event-id");
             if (date != null) {
                 $scope.selectedDay = date;
             }
+            
+            if (id != null) {
+                $scope.selectedActivity = id;
+            }
+            console.debug('id ' + id)
+            console.debug($scope.selectedActivity)
         }
         $mdDialog.show({
             controller: ReplaceActivityController,
@@ -131,35 +138,22 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
     };
     
     function ReplaceActivityController($scope, $mdDialog) {
-
-        $scope.activity = {activityId: '', modality: '', title: '', activityDescription: '', workoutDate: '', userId: $scope.userId};
+        $scope.searchReplaceActivity = "";
+        $scope.activityReplaceList = [];
+        //Consulta type zona igual a PPM por defecto
         $scope.getActivity = function () {
-            //Consulta type zona igual a PPM por defecto
-            $scope.trainingPow = 1;
-            CalendarService.getActivityPpm($scope.selectedId, 1).then(
+            console.debug('$scope ' + $scope.selectedActivity)
+            CalendarService.getActivityReplace($scope.selectedActivity).then(
                     function (data) {
-                        $scope.activity = angular.copy(data.output);
+                        $scope.activityReplaceList = angular.copy(data.output);
                     },
                     function (error) {
-
+                        console.debug(error);
                     }
             );
         };
 
-        $scope.changeTrainingPow = function (trainingPow) {
-            $scope.trainingPow = trainingPow;
-            CalendarService.getActivityPpm($scope.selectedId, trainingPow).then(
-                    function (data) {
-                        $scope.activity = angular.copy(data.output);
-                    },
-                    function (error) {
-
-                    }
-            );
-        };
-        if ($scope.selectedId != "") {
-            $scope.getActivity();
-        }
+        $scope.getActivity();
         $scope.hide = function () {
             $mdDialog.hide();
         };

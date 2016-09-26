@@ -77,6 +77,8 @@ public class Activity implements Serializable {
     @JoinColumn(name = "environment_id", referencedColumnName = "environment_id")
     @ManyToOne
     private Environment environmentId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "replaceId")
+    private Collection<ReplaceActivity> replaceCollection;
 
     public Activity() {
     }
@@ -97,7 +99,7 @@ public class Activity implements Serializable {
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
     }
-
+    @JsonIgnore
     public Collection<ReplaceActivity> getReplaceActivityCollection() {
         return replaceActivityCollection;
     }
@@ -152,6 +154,14 @@ public class Activity implements Serializable {
 
     public void setTrainingPlanWorkoutCollection(Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection) {
         this.trainingPlanWorkoutCollection = trainingPlanWorkoutCollection;
+    }
+    @JsonIgnore
+    public Collection<ReplaceActivity> getReplaceCollection() {
+        return replaceCollection;
+    }
+
+    public void setReplaceCollection(Collection<ReplaceActivity> replaceCollection) {
+        this.replaceCollection = replaceCollection;
     }
 
     public String getDescription() {

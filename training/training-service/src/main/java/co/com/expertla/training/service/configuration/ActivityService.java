@@ -120,6 +120,18 @@ public interface ActivityService {
     public ActivityCalendarDTO findByManualActivityId(Integer manualActivityId)throws Exception;
 
     public Integer updateManualActivity(ActivityCalendarDTO activity)throws Exception;
+    
+    /**
+     * Obtiene todos los registros de activity replace por su activityId <br>
+     * Info. Creación: <br>
+     * fecha 26/09/2016 <br>
+     *
+     * @author Andres Felipe Lopez Rodriguez
+     * @param activityId
+     * @return
+     * @throws Exception 
+     */
+    public List<Activity> findActivityReplaceByActivity(Integer activityId) throws Exception;   
 
 
     
