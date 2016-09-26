@@ -1,0 +1,39 @@
+<md-dialog aria-label="Actividades de Reemplazo" style="width: 500px">
+    <form name="formActivity">
+        <div layout="row" >
+            <div flex="15" layout="column">
+                <md-sidenav style="height:555px;width:210px !important;"
+                            class="md-sidenav-left"
+                            md-component-id="left"
+                            md-is-locked-open="$mdMedia('gt-md')"
+                            md-whiteframe="4">
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h1 class="md-toolbar-tools">Actividades</h1>
+                        </div>
+                    </md-toolbar>
+                    <md-input-container md-no-float class="md-block" >
+                        <md-icon><i class="fa fa-search" aria-hidden="true"></i></md-icon>
+                        <input type="text" ng-model="searchReplaceActivity" placeholder="Buscar.."/>
+                    </md-input-container>
+                    <md-content>
+                        <div layout="column" layout-align="center center" ng-show="loadingReplaceActivity">
+                            <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                            <span>Cargando actividades..</span>
+                        </div>
+                        <section>
+                            <md-list ng-repeat="(key, value)  in activityReplaceList | groupBy: 'capacity'">
+                                <md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>
+                                <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:searchReplaceActivity" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                    <p>
+                                        {{a.name}}
+                                    </p>
+                                </md-list-item>
+                            </md-list>
+                        </section>
+
+                    </md-content>
+                </md-sidenav>
+            </div></div>
+    </form>
+</md-dialog>

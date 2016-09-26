@@ -49,7 +49,33 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         }
     };
     $scope.getActivityByUser();
-
+    
+    $scope.showCreateReplaceActivity = function (ev) {
+        $scope.selectedDay = null;
+        $scope.selectedId = "";
+        $scope.manualActivityTitle = "Actividades de Reemplazo";
+        if (ev != undefined) {
+            var date = $(ev.target).attr("data-event-date");
+            if (date != null) {
+                $scope.selectedDay = date;
+            }
+        }
+        $mdDialog.show({
+            controller: ReplaceActivityController,
+            scope: $scope.$new(),
+            templateUrl: 'static/views/calendar/replaceActivity.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+        })
+                .then(function (answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function () {
+                    $scope.status = 'You cancelled the dialog.';
+                });
+    }
+    
     $scope.showCreateManualActivity = function (ev) {
 
         $scope.selectedDay = null;
@@ -103,7 +129,45 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
 
 
     };
+    
+    function ReplaceActivityController($scope, $mdDialog) {
 
+        $scope.activity = {activityId: '', modality: '', title: '', activityDescription: '', workoutDate: '', userId: $scope.userId};
+        $scope.getActivity = function () {
+            //Consulta type zona igual a PPM por defecto
+            $scope.trainingPow = 1;
+            CalendarService.getActivityPpm($scope.selectedId, 1).then(
+                    function (data) {
+                        $scope.activity = angular.copy(data.output);
+                    },
+                    function (error) {
+
+                    }
+            );
+        };
+
+        $scope.changeTrainingPow = function (trainingPow) {
+            $scope.trainingPow = trainingPow;
+            CalendarService.getActivityPpm($scope.selectedId, trainingPow).then(
+                    function (data) {
+                        $scope.activity = angular.copy(data.output);
+                    },
+                    function (error) {
+
+                    }
+            );
+        };
+        if ($scope.selectedId != "") {
+            $scope.getActivity();
+        }
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+    }
+    
     function ActivityController($scope, $mdDialog) {
 
         $scope.activity = {activityId: '', modality: '', title: '', activityDescription: '', workoutDate: '', userId: $scope.userId};
@@ -140,8 +204,6 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.cancel = function () {
             $mdDialog.cancel();
         };
-
-
     }
     function ManualActivityController($scope, $mdDialog) {
 

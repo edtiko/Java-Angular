@@ -126,6 +126,12 @@ function manualActivity(ev){
     });    
 }
 
+function replaceActivity(ev){
+        var scope =  angular.element($("#calendar")).scope();
+          scope.$apply(function(){
+        scope.showCreateReplaceActivity(ev);
+    });    
+}
 
 function allowDrop(ev) {
     ev.preventDefault();

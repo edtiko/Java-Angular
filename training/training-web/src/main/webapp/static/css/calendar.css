@@ -116,6 +116,12 @@ b[class*="cal-cell"] {
     float: left;
     margin-left: 10px;
 }
+
+.add-right {
+    float: right;
+    margin-left: 10px;
+}
+
 .cal-row-head [class*="cal-cell"]:first-child,
 .cal-row-head [class*="cal-cell"] {
     min-height: auto;

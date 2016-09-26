@@ -1,6 +1,8 @@
 <td  ondragstart="drag(event)" data-event-id="cal_<%= event.id %>" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)" data-event-date="<%= data_day %>" class="calendar-td cal-month-day <%= cls %> cal-cell1 cal-cell ui-droppable" data-cal-row="-day<%= day %>">
     <!--cal-month-day  <%= cls %> cal-cell1 cal-cell ui-droppable-->        
     <span class="add-left" onClick="manualActivity(event)" data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
+    
+    <span class="add-right" onClick="manualActivity(event)" data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
 
         <span data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" class="pull-right" data-cal-date="<%= data_day %>" data-cal-view="day" data-toggle="tooltip" title="<%= tooltip %>"><%= day %></span>
         <% if (events.length > 0) { %>
