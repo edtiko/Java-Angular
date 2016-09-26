@@ -39,8 +39,34 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getAssignedUserBySupervisor: function (userId) {
+            getAssignedStarCoachBySupervisor: function (userId) {
                 return $http.get($contextPath + 'get/coach/by/supervisor/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching coach');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            
+            getAssignedAtleteCoachBySupervisor: function (userId) {
+                return $http.get($contextPath + 'get/atlete/coach/by/supervisor/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching coach');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            
+            getAssignedUserBySupervisor: function (userId) {
+                return $http.get($contextPath + 'get/users/by/supervisor/' + userId)
                         .then(
                                 function (response) {
                                     return response.data;

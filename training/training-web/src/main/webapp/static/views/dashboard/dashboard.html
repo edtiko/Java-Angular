@@ -376,7 +376,7 @@
                     </md-button>
                     </notification-icon>
                 </div>
-                <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno">
+                <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserSupervisor">
                     <notification-icon animation="grow" count="emailReceivedCount">
                     <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.athleteUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>

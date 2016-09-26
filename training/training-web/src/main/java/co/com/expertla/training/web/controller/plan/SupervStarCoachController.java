@@ -289,6 +289,116 @@ public class SupervStarCoachController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    /**
+     * Consulta supervStarCoach por supervisor Id<br>
+     * Info. Creación: <br>
+     * fecha 19/09/2016 <br>
+     *
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/get/atlete/coach/by/supervisor/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> findAtelteCoachBySupervisor(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserAssignedSupervisorDTO> supervStarCoachList = supervStarCoachService.findAtleteCoachBySupervisorId(userId);
+
+            List<ColourIndicator> colours = colourIndicatorService.findAll();
+            int firstOrder = 0;
+            int secondOrder = 0;
+            int thirdOrder = 0;
+            String firstColour = "{'background-color':'white'}";
+            String secondColour = "{'background-color':'white'}";
+            String thirdColour = "{'background-color':'white'}";
+            for (ColourIndicator colour : colours) {
+                if (colour.getColourOrder().equals(1)) {
+                    firstOrder = colour.getHoursSpent();
+                    firstColour = colour.getColour();
+                }
+                if (colour.getColourOrder().equals(2)) {
+                    secondOrder = colour.getHoursSpent();
+                    secondColour = colour.getColour();
+                }
+                if (colour.getColourOrder().equals(3)) {
+                    thirdOrder = colour.getHoursSpent();
+                    thirdColour = colour.getColour();
+                }
+            }
+
+            for (UserAssignedSupervisorDTO userAssignedSupervisorDTO : supervStarCoachList) {
+
+                List<MailCommunicationDTO> listMailCommunicationDTO = mailCommunicationService.getMailsByReceivingUserIdFromSendingUserRead(userId,
+                        userAssignedSupervisorDTO.getCoachUserId().getUserId(), false);
+                
+
+                if (listMailCommunicationDTO != null && !listMailCommunicationDTO.isEmpty()) {
+                    MailCommunicationDTO mail = listMailCommunicationDTO.get(0);
+                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+                        userAssignedSupervisorDTO.setColourCoach(firstColour);
+                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+                        userAssignedSupervisorDTO.setColourCoach(secondColour);
+                    } else {
+                        userAssignedSupervisorDTO.setColourCoach(thirdColour);
+                    }
+                }
+                
+                listMailCommunicationDTO = mailCommunicationService.getMailsByReceivingUserIdFromSendingUserRead(userId,
+                        userAssignedSupervisorDTO.getAtleteUserId().getUserId(), false);
+                
+
+                if (listMailCommunicationDTO != null && !listMailCommunicationDTO.isEmpty()) {
+                    MailCommunicationDTO mail = listMailCommunicationDTO.get(0);
+                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+                        userAssignedSupervisorDTO.setColourAtlete(firstColour);
+                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+                        userAssignedSupervisorDTO.setColourAtlete(secondColour);
+                    } else {
+                        userAssignedSupervisorDTO.setColourAtlete(thirdColour);
+                    }
+                }
+            }
+
+            responseService.setOutput(supervStarCoachList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(SupervStarCoachController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta supervStarCoach por supervisor Id<br>
+     * Info. Creación: <br>
+     * fecha 19/09/2016 <br>
+     *
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/get/users/by/supervisor/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> findUsersBySupervisor(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserAssignedSupervisorDTO> supervStarCoachList = supervStarCoachService.findUsersBySupervisorId(userId);
+            responseService.setOutput(supervStarCoachList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(SupervStarCoachController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 
     private long calculateHourDifference(Date creationDate) {
         Date now = new Date();

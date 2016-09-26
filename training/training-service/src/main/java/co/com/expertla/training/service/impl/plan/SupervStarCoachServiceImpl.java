@@ -72,5 +72,15 @@ public class SupervStarCoachServiceImpl implements SupervStarCoachService {
     public List<UserAssignedSupervisorDTO> findBySupervisorId(Integer userId) throws Exception {
         return supervStarCoachDao.findBySupervisorId(userId);
     }
+    
+    @Override
+    public List<UserAssignedSupervisorDTO> findAtleteCoachBySupervisorId(Integer userId) throws Exception {
+        return supervStarCoachDao.findAtleteCoachBySupervisorId(userId);
+    }
+    
+    @Override
+    public List<UserAssignedSupervisorDTO> findUsersBySupervisorId(Integer userId) throws Exception {
+        return supervStarCoachDao.findUsersBySupervisorId(userId);
+    }
 
 }
