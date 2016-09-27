@@ -333,7 +333,7 @@
             </div>
         </div>
     </div>
-    <div flex="20" style="height: 1000px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == userSessionTypeUserAtleta">
+    <div flex="20" style="height: 1000px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == userSessionTypeUserAtleta || userSession.typeUser == userSessionTypeUserCoachInterno">
         <div layout="column" layout-align="center center" style="margin: 34px;">
             <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
                 <div flex>
@@ -356,6 +356,7 @@
                 </div>
 
                 <md-subheader>{{availableVideo}} disponibles de {{coachAssignedPlan.videoCount}}</md-subheader>
+                
                 <div flex>
                     
                     <notification-icon animation="grow" count="messagesReceivedCount">
