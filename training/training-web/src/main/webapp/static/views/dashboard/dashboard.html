@@ -1,5 +1,7 @@
 <div layout="row" ng-show="appReady" id="dashboard-container" layout-align="center center">
+
     <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno ">
+
         <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
     </div>
     
@@ -348,7 +350,7 @@
             <div flex layout="column" layout-align="center center">
                 <div flex>
                      <notification-icon animation="grow" count="videoReceivedCount">
-                    <md-button aria-label="Video" class="md-fab md-raised md-primary">
+                    <md-button aria-label="Video" class="md-fab md-raised md-primary" ng-click="goVideos()">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Video</md-tooltip>
                         <i class="fa fa-video-camera fa-lg" aria-hidden="true"></i>
                     </md-button>

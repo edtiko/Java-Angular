@@ -3,8 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//var $contextPath = "http://localhost:8085/training/";
-var $contextPath = "http://181.143.227.220:8086/training/";
+var $contextPath = "http://localhost:8080/training/";
+//var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
 require.config({
@@ -26,6 +26,7 @@ require.config({
         lodash: "lib/lodash.min",
         scrollGlue: 'lib/scrollglue',
         angularFilter: 'lib/angular-filter',
+        accordion: 'lib/ang-accordion',
         trainingApp: "custom-training-app",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
@@ -49,10 +50,6 @@ require.config({
         viRecorder: "lib/vaRecorder/VIRecorder",
         messageService: "message/service/messageService",
         videoService: "video/service/videoService",
-        videochatService: "videochat/service/videochatService",
-        opentok: "lib/opentok.min",
-        opentokAngular: "lib/opentok-angular",
-        opentokLayout: "lib/opentok-layout.min",
         utilService: "lib/utilService",
         roleService: "security/service/roleService",
         optionService: "security/service/optionService",
@@ -101,6 +98,10 @@ require.config({
         angularFilter: {
             deps: ['angular']
         },
+        accordion: {
+            exports: 'angAccordion',
+            deps: ['angular']
+        },
         angularMaterial: {
             exports: 'ngMaterial',
             deps: ['angular']
@@ -117,10 +118,6 @@ require.config({
         },
         angularBoostrap: {
             exports: 'angularBoostrap',
-            deps: ['angular']
-        },
-        opentokAngular: {
-            exports: 'opentok',
             deps: ['angular']
         },
         csrfInterceptor: {
@@ -173,11 +170,8 @@ require.config({
         },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket', 'angularTranslate'
-                , 'angularDataTable', 'angularNotification','angularSanitize','scrollGlue','angularFilter','angularPickList'
-//                ,'ngCamRecorder','recorder',
-//                 'whammy','viRecorder','opentok','opentokAngular','opentokLayout'
-
+                'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
+                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList'
             ]
         },
         surveyService: {
@@ -245,9 +239,9 @@ require.config({
                 'visibleFieldsUserService','utilService', 'dashboardService',
                 'roleService','messageService','bikeTypeService',
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
-                'physiologicalCapacityService','activityService','dcfService', 'characteristicService','brandService',
+                'physiologicalCapacityService','activityService'
+                ,'videoService','dcfService', 'characteristicService','brandService',
 		'mailService','supervStarCoachService','userActivityPerformanceService'
-//                ,'videoService','videochatService'
 
             ] }
     }

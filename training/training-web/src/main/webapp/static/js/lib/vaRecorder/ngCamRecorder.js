@@ -96,9 +96,9 @@ vaRecorder.directive("ngcamcecorder" , function(){
 
          $scope.playback = function(){
 
-              if($scope.videoisavailabletoplay){
+             // if($scope.videoisavailabletoplay){
                 virec.play();
-              } 
+              //} 
          }
         
          $scope.clearrecording =function(){

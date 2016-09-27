@@ -107,6 +107,7 @@
     <class>co.com.expertla.training.model.entities.UserZone</class>
     <class>co.com.expertla.training.model.entities.StarTeam</class>
     <class>co.com.expertla.training.model.entities.ManualActivity</class>
+    <class>co.com.expertla.training.model.entities.PlanVideo</class>
     <class>co.com.expertla.training.model.entities.Characteristic</class>
     <class>co.com.expertla.training.model.entities.TrainingPlanCharact</class>
     <class>co.com.expertla.training.model.entities.UserTrainingOrder</class>
@@ -115,6 +116,7 @@
     <class>co.com.expertla.training.model.entities.ColourIndicator</class>
     <class>co.com.expertla.training.model.entities.UserActivityPerformance</class>
     <class>co.com.expertla.training.model.entities.ActivityPerformanceMetafield</class>
+
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

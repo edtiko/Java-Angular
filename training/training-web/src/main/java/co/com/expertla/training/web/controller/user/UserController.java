@@ -55,15 +55,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Locale;
 
 @RestController
 public class UserController {
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
-    public static final String ROOT = "c:/upload-video/";
+
     private static final String apiKey = "45634832";
     private static final String apiSecret = "547b77a30287725ef942607913540d1eef48a161";
     private static OpenTok opentok;
@@ -435,34 +433,7 @@ public class UserController {
         return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/video/upload", method = RequestMethod.POST)
-    public @ResponseBody
-    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename) {
-        ResponseService responseService = new ResponseService();
-        StringBuilder strResponse = new StringBuilder();
-        if (!file.isEmpty()) {
-            try {
-                //byte[] bytes = file.getBytes();
-                Files.copy(file.getInputStream(), Paths.get(ROOT, filename));
-                strResponse.append("video cargado correctamente.");
-                responseService.setStatus(StatusResponse.SUCCESS.getName());
-                responseService.setOutput(strResponse);
-                return Response.status(Response.Status.OK).entity(responseService).build();
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
-                responseService.setOutput(strResponse);
-                responseService.setStatus(StatusResponse.FAIL.getName());
-                responseService.setDetail(e.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
-            }
-        } else {
-            strResponse.append("Video cargado esta vacio.");
-            responseService.setOutput(strResponse);
-            responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
-        }
-    }
-
+  
     @RequestMapping(value = "/session/opentok", method = RequestMethod.GET)
     public @ResponseBody
     Response getSessionOpenTok(HttpSession session, HttpServletResponse response) {

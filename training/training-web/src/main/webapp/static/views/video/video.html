@@ -1,9 +1,79 @@
-		
+
 <link rel="stylesheet" type="text/css" href="static/js/lib/vaRecorder/css/virecorder.css">
-<div class="container">
-<ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
+<md-content class="md-padding">
+<div layout="row" layout-align="center">
+    
+    <div flex="40">
+        <md-tabs md-dynamic-height md-selected="selectedIndex">
+            <md-tab label="Grabar Video">
+                <md-content class="md-padding">
+                    <ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
+                </md-content>
+            </md-tab>
+            <md-tab label="Ver Video">
+                <md-content class="md-padding">
+                    <div id="recorded"></div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+        
+        <!--<md-button ng-show="!videoready" class="md-primary" ng-click = "camconfiguration.init()" >Empezar Grabaci&oacute;n</md-button>-->
+       <!-- <img ng-src="{{camconfiguration.output.recordingthumb}}" />-->
+    </div>
+    <div flex="40" >
 
+         <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <h2>
+          <span>Videos Enviados</span>
+        </h2>
+      </div>
+    </md-toolbar>
+         <md-content class="border" style="height: 250px">
+                <section>
+                    <md-list ng-repeat="vr  in sendedvideos">
+                        <md-list-item ng-click="null" >
+                            <p>
+                                {{vr.createDate}}
+                            </p>
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name, vr.id, 'from')">
+                                <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
+                                <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                        </md-list-item>
+                        <md-divider></md-divider>
+                    </md-list>
+                </section>
 
-<button class="btn btn-sm btn-default" ng-click = "camconfiguration.init()" >Recording init</button>
-<img ng-src="{{camconfiguration.output.recordingthumb}}" />
+            </md-content>
+          <md-toolbar class="md-hue-2">
+      <div class="md-toolbar-tools">
+        <h2>
+          <span>Videos Recibidos</span>
+        </h2>
+      </div>
+    </md-toolbar>
+         <md-content class="border" style="height: 250px">
+                <section>
+                    <md-list ng-repeat="vr  in receivedvideos">
+                        <md-list-item ng-click="null" >
+                            <p>
+                                {{vr.createDate}}
+                            </p>
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name, vr.id, 'to')">
+                                <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
+                                <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                        </md-list-item>
+                         <md-divider></md-divider>
+                    </md-list>
+                </section>
+
+            </md-content>
+    </div>
+
 </div>
+</md-content>
+<script>
+$("script[src='static/js/lib/loader.js']").remove()
+</script>
