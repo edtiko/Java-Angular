@@ -4,7 +4,7 @@
 
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
-    'ngMessages', 'ngMaterial', 'pascalprecht.translate','angular-notification-icons', 'md.data.table', 'ngSanitize','luegg.directives','angular.filter'])
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate','angular-notification-icons', 'md.data.table', 'ngSanitize','luegg.directives','angular.filter','ngCamRecorder'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
                 $translateProvider) {
 
@@ -51,6 +51,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-activity', route.resolve('activity', 'configuration/'))
             
                     .when('/create-modality', route.resolve('modality', 'configuration/'))
+             
+                    .when('/video', route.resolve('video','video/'))
             
                     .when('/create-characteristic', route.resolve('characteristic', 'configuration/'))
             
@@ -60,11 +62,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             
                     .when('/mail', route.resolve('mail', 'mail/'))
                     .when('/reports', route.resolve('reports', 'reports/'))
-                    // route for the contact page
-                    .when('/contact', {
-                        templateUrl: 'static/views/contact.html',
-                        controller: 'contactController'
-                    });
+
 
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',
