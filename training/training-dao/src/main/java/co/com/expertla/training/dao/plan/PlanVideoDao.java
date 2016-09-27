@@ -15,12 +15,20 @@ import java.util.List;
  *
  * @author Edwin G
  */
-public interface PlanVideoDao extends BaseDAO<PlanVideo>{
+public interface PlanVideoDao extends BaseDAO<PlanVideo> {
 
     public PlanVideo getByVideoPath(String fileName) throws DAOException;
 
-    public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto)throws DAOException;
+    public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto) throws DAOException;
 
-    public PlanVideo getVideoById(Integer id)throws DAOException;
+    public PlanVideo getVideoById(Integer id) throws DAOException;
+
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId) throws DAOException;
     
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId) throws DAOException;
+
+    public void readVideos(Integer coachAssignedPlanId, Integer userId) throws DAOException;
+
+    public void readVideo(Integer planVideoId) throws DAOException;
+
 }

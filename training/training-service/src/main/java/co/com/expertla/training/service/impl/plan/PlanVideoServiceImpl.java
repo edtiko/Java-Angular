@@ -44,5 +44,26 @@ public class PlanVideoServiceImpl implements PlanVideoService{
     public PlanVideoDTO getVideoById(Integer id) throws Exception {
       return PlanVideoDTO.mapFromPlanVideoEntity(planVideoDao.getVideoById(id));
     }
+
+    @Override
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId) throws Exception {
+      return planVideoDao.getCountVideoByPlan(coachAssignedPlanId, userId);
+    }
+
+
+    @Override
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId) throws Exception {
+        return planVideoDao.getCountVideosReceived(coachAssignedPlanId, userId);
+    }
+
+    @Override
+    public void readVideos(Integer coachAssignedPlanId, Integer userId) throws Exception {
+       planVideoDao.readVideos(coachAssignedPlanId, userId);
+    }
+
+    @Override
+    public void readVideo(Integer planMessageId) throws Exception {
+        planVideoDao.readVideo(planMessageId);
+    }
     
 }

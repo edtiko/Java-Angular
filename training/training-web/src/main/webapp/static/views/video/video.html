@@ -36,7 +36,7 @@
                             <p>
                                 {{vr.createDate}}
                             </p>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name)">
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name, vr.id, 'from')">
                                 <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
@@ -60,7 +60,7 @@
                             <p>
                                 {{vr.createDate}}
                             </p>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name)">
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name, vr.id, 'to')">
                                 <md-tooltip md-direction="left" md-visible="tooltipVisible">Play Video</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>

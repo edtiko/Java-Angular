@@ -112,10 +112,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
             $scope.showControl = true;
+            //mensajes 
             self.getAvailableMessages(coachAssignedPlanSelected.id, $scope.userSession.userId);
             self.getReceivedMessages(coachAssignedPlanSelected.id, user.userId);
             messageService.initialize(coachAssignedPlanSelected.id);
+            //videos
+            self.getAvailableVideos(coachAssignedPlanSelected.id, $scope.userSession.userId);
+            self.getReceivedVideos(coachAssignedPlanSelected.id, user.userId);
             videoService.initialize(coachAssignedPlanSelected.id);
+            
             DashboardService.getDashboard(user).then(
                     function (d) {
                         $scope.user = d;
@@ -143,10 +148,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                        $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(res));
 
                             $scope.coachAssignedPlan = angular.copy(res);
+                            $scope.getVisibleFieldsUserByUser(res.athleteUserId);
+                            //mensajes
                             self.getAvailableMessages(res.id, $scope.userSession.userId);
                             self.getReceivedMessages(res.id, res.coachUserId.userId);
-                            $scope.getVisibleFieldsUserByUser(res.athleteUserId);
                             messageService.initialize(res.id);
+                            //videos
+                            self.getAvailableVideos(res.id, $scope.userSession.userId);
+                            self.getReceivedVideos(res.id, res.coachUserId.userId);
+                            videoService.initialize(res.id);
+            
                             if (res.starUserId.profilePhotoBase64 != "") {
                                 $scope.profileImageStar = res.starUserId.profilePhotoBase64;
                             }
@@ -175,6 +186,27 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             messageService.getMessagesReceived(coachAssignedPlanId, userId).then(
                     function (data) {
                         $scope.messagesReceivedCount = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+          self.getAvailableVideos = function (coachAssignedPlanId, userId) {
+            videoService.getAvailableVideos(coachAssignedPlanId, userId).then(
+                    function (data) {
+                        $scope.availableVideo = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        self.getReceivedVideos = function (coachAssignedPlanId, userId) {
+            videoService.getVideosReceived(coachAssignedPlanId, userId).then(
+                    function (data) {
+                        $scope.videoReceivedCount = data.entity.output;
                     },
                     function (error) {
                         //$scope.showMessage(error);

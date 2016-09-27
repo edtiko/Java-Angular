@@ -61,6 +61,9 @@ public class PlanVideo implements Serializable {
     @JoinColumn(name = "to_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User toUserId;
+    @JoinColumn(name = "coach_assigned_plan_id", referencedColumnName = "coach_assigned_plan_id")
+    @ManyToOne(optional = false)
+    private CoachAssignedPlan coachAssignedPlanId;
 
     public PlanVideo() {
     }
@@ -131,6 +134,16 @@ public class PlanVideo implements Serializable {
     public void setToUserId(User toUserId) {
         this.toUserId = toUserId;
     }
+
+    public CoachAssignedPlan getCoachAssignedPlanId() {
+        return coachAssignedPlanId;
+    }
+
+    public void setCoachAssignedPlanId(CoachAssignedPlan coachAssignedPlanId) {
+        this.coachAssignedPlanId = coachAssignedPlanId;
+    }
+    
+    
 
     @Override
     public int hashCode() {

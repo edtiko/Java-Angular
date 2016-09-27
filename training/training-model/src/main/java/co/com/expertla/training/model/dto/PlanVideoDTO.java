@@ -25,6 +25,7 @@ public class PlanVideoDTO {
     @JsonSerialize(using=JsonDateTimeSerializer.class)
     private Date    createDate;
     private Integer sesionId;
+    private Integer coachAssignedPlanId;
     
     public PlanVideoDTO(){
         
@@ -100,6 +101,14 @@ public class PlanVideoDTO {
 
     public void setSesionId(Integer sesionId) {
         this.sesionId = sesionId;
+    }
+
+    public Integer getCoachAssignedPlanId() {
+        return coachAssignedPlanId;
+    }
+
+    public void setCoachAssignedPlanId(Integer coachAssignedPlanId) {
+        this.coachAssignedPlanId = coachAssignedPlanId;
     }
     
     

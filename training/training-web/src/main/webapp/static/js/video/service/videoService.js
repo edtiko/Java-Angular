@@ -73,6 +73,58 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
+        
+        service.getAvailableVideos = function (coachAssignedPlanId, userId) {
+            return $http.get($contextPath + 'video/get/count/available/' + coachAssignedPlanId + '/' + userId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while available videos');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+         service.getVideosReceived = function (coachAssignedPlanId, userId) {
+            return $http.get($contextPath + 'video/get/count/received/' + coachAssignedPlanId + '/' + userId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while received videos');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+         service.readVideos = function (coachAssignedPlanId, userId) {
+            return $http.get($contextPath + 'video/read/all/' + coachAssignedPlanId + '/' + userId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while reading messages');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+         service.readVideo = function (planVideoId) {
+            return $http.get($contextPath + 'video/read/' + planVideoId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while reading message');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
 
         return service;
 
