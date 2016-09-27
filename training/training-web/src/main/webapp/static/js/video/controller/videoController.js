@@ -73,7 +73,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
 
         $scope.receivedVideos = function () {
 
-            videoService.getVideosByUser($scope.user.userId, "to").then(
+            videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "to").then(
                     function (data) {
                         $scope.receivedvideos = data.entity.output;
                     },
@@ -98,7 +98,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
 
         $scope.sendedVideos = function () {
 
-            videoService.getVideosByUser($scope.user.userId, "from").then(
+            videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from").then(
                     function (data) {
                         $scope.sendedvideos = data.entity.output;
                     },

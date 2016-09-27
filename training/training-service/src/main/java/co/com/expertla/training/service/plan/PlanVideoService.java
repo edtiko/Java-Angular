@@ -19,7 +19,7 @@ public interface PlanVideoService {
 
     public PlanVideoDTO getByVideoPath(String fileName) throws Exception;
 
-    public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto) throws Exception;
+    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto) throws Exception;
 
     public PlanVideoDTO getVideoById(Integer id) throws Exception;
     

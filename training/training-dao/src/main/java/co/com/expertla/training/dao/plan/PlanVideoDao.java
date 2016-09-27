@@ -19,7 +19,7 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
 
     public PlanVideo getByVideoPath(String fileName) throws DAOException;
 
-    public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto) throws DAOException;
+    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto) throws DAOException;
 
     public PlanVideo getVideoById(Integer id) throws DAOException;
 

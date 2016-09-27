@@ -23,7 +23,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -131,13 +130,13 @@ public class PlanVideoController {
         }
     }
 
-    @RequestMapping(value = "/get/videos/{userId}/{fromto}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getVideosByUser(@PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto) {
+    Response getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(userId, fromto);
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(coachAssignedPlanId, userId, fromto);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(videos);
             return Response.status(Response.Status.OK).entity(responseService).build();

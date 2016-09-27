@@ -34,7 +34,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public List<PlanVideoDTO> getVideosByUser(Integer userId, String fromto) throws DAOException {
+    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, m.fromUserId, m.toUserId, m.creationDate) ");
         sql.append("FROM PlanVideo m ");
@@ -43,8 +43,10 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         } else {
             sql.append("Where m.toUserId.userId = :userId ");
         }
+        sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :coachAssignedPlanId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
+        query.setParameter("coachAssignedPlanId", coachAssignedPlanId);
         return query.getResultList();
     }
 

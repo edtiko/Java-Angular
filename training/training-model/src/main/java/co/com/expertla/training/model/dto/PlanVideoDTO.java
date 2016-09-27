@@ -19,8 +19,10 @@ public class PlanVideoDTO {
     
     private Integer id;
     private Integer toUserId;
+    private UserDTO toUser;
     private String name;
     private Integer fromUserId;
+    private UserDTO fromUser;
     private String  videoPath;
     @JsonSerialize(using=JsonDateTimeSerializer.class)
     private Date    createDate;
@@ -31,16 +33,32 @@ public class PlanVideoDTO {
         
     }
     
-    public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate){
+    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate){
         this.id = planVideoId;
         this.name = name;
-        this.fromUserId = fromUserId.getUserId();
-        this.toUserId =  toUserId.getUserId();
+        this.fromUserId = fromUserId;
+        this.toUserId =  toUserId;
         this.createDate = createDate;
         
     }
     
-    public static PlanVideoDTO mapFromPlanVideoEntity(PlanVideo video) {
+      public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate){
+        this.id = planVideoId;
+        this.name = name;
+        this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
+        this.toUser =   UserDTO.mapFromUserEntity(toUserId);
+        this.createDate = createDate;
+        
+    }
+    
+    public static PlanVideoDTO mapFromPlanVideoEntityShort(PlanVideo video) {
+        if (video != null) {
+            return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId().getUserId(), video.getToUserId().getUserId(), video.getCreationDate());
+        }
+        return null;
+    }
+    
+      public static PlanVideoDTO mapFromPlanVideoEntity(PlanVideo video) {
         if (video != null) {
             return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId(), video.getToUserId(), video.getCreationDate());
         }
@@ -109,6 +127,22 @@ public class PlanVideoDTO {
 
     public void setCoachAssignedPlanId(Integer coachAssignedPlanId) {
         this.coachAssignedPlanId = coachAssignedPlanId;
+    }
+
+    public UserDTO getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(UserDTO toUser) {
+        this.toUser = toUser;
+    }
+
+    public UserDTO getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(UserDTO fromUser) {
+        this.fromUser = fromUser;
     }
     
     

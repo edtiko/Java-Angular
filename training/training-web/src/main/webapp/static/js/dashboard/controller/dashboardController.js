@@ -226,7 +226,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         
         $scope.goVideos = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
-            if ($scope.userSession != null && $scope.userSession.typeUser === 'Coach' && planSelected == null) {
+            if ($scope.userSession != null && ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach 
+                    || $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) && planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta");
             } else {
                 window.location.href = $contextPath+"#/video";
@@ -295,7 +296,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.selectAthlete(coach);
             }
         };
-        $scope.init();
+        //$scope.init();
         
         $scope.getSupervisorByCoachId = function(coachId) {
              SupervStarCoachService.getByCoachId(coachId)
