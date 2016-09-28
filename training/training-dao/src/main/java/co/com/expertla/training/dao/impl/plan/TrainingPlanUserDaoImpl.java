@@ -26,8 +26,10 @@ public class TrainingPlanUserDaoImpl extends BaseDAOImpl<TrainingPlanUser> imple
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t from TrainingPlanUser t ");
         sql.append("WHERE t.userId.userId = :userId ");
+        sql.append("AND t.stateId = :stateId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", user.getUserId());
+        query.setParameter("stateId", StateEnum.ACTIVE.getId().shortValue());
         List<TrainingPlanUser> list = query.getResultList();
         return list;
     }
