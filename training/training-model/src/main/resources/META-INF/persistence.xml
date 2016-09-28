@@ -1,136 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="training-model" transaction-type="JTA">
-    <jta-data-source>java:/trainingDS</jta-data-source>
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>co.com.expertla.training.model.State</class>
-    <class>co.com.expertla.training.model.Questionnaire</class>
-    <class>co.com.expertla.training.model.PaymentMethod</class>
-    <class>co.com.expertla.training.model.SneakerUserProfile</class>
-    <class>co.com.expertla.training.model.ResponseType</class>
-    <class>co.com.expertla.training.model.Modality</class>
-    <class>co.com.expertla.training.model.SportObjectType</class>
-    <class>co.com.expertla.training.model.SportObject</class>
-    <class>co.com.expertla.training.model.Country</class>
-    <class>co.com.expertla.training.model.UserProfile</class>
-    <class>co.com.expertla.training.model.UserSport</class>
-    <class>co.com.expertla.training.model.Discipline</class>
-    <class>co.com.expertla.training.model.ResponseOption</class>
-    <class>co.com.expertla.training.model.Dcf</class>
-    <class>co.com.expertla.training.model.OptionType</class>
-    <class>co.com.expertla.training.model.DataType</class>
-    <class>co.com.expertla.training.model.BikeUserProfile</class>
-    <class>co.com.expertla.training.model.City</class>
-    <class>co.com.expertla.training.model.Role</class>
-    <class>co.com.expertla.training.model.Membership</class>
-    <class>co.com.expertla.training.model.QuestionnaireResponse</class>
-    <class>co.com.expertla.training.model.Workout</class>
-    <class>co.com.expertla.training.model.FederalState</class>
-    <class>co.com.expertla.training.model.Objective</class>
-    <class>co.com.expertla.training.model.VideoUser</class>
-    <class>co.com.expertla.training.model.MembershipPrice</class>
-    <class>co.com.expertla.training.model.QuestionnaireRespHistory</class>
-    <class>co.com.expertla.training.model.TrainingPlan</class>
-    <class>co.com.expertla.training.model.MembershipUser</class>
-    <class>co.com.expertla.training.model.QuestionOption</class>
-    <class>co.com.expertla.training.model.MembershipPromotion</class>
-    <class>co.com.expertla.training.model.DisciplineUser</class>
-    <class>co.com.expertla.training.model.QuestionnaireCategory</class>
-    <class>co.com.expertla.training.model.User</class>
-    <class>co.com.expertla.training.model.Activity</class>
-    <class>co.com.expertla.training.model.TrainingPlanUser</class>
-    <class>co.com.expertla.training.model.QuestionnaireQuestion</class>
-    <class>co.com.expertla.training.model.RoleUser</class>
-    <class>co.com.expertla.training.model.TrainingPlanWorkout</class>
-    <class>co.com.expertla.training.model.Question</class>
-    <class>co.com.expertla.training.model.Brand</class>
-    <class>co.com.expertla.training.model.PhysiologicalCapacity</class>
-    <class>co.com.expertla.training.model.MembershipDiscount</class>
-    <class>co.com.expertla.training.model.Sport</class>
-    <class>co.com.expertla.training.model.entities.ResponseOption</class>
-    <class>co.com.expertla.training.model.entities.UserProfile</class>
-    <class>co.com.expertla.training.model.entities.State</class>
-    <class>co.com.expertla.training.model.entities.FederalState</class>
-    <class>co.com.expertla.training.model.entities.ResponseType</class>
-    <class>co.com.expertla.training.model.entities.DisciplineUser</class>
-    <class>co.com.expertla.training.model.entities.TrainingPlanWorkout</class>
-    <class>co.com.expertla.training.model.entities.EquipmentUserProfile</class>
-    <class>co.com.expertla.training.model.entities.City</class>
-    <class>co.com.expertla.training.model.entities.DataType</class>
-    <class>co.com.expertla.training.model.entities.QuestionnaireRespHistory</class>
-    <class>co.com.expertla.training.model.entities.TrainingPlan</class>
-    <class>co.com.expertla.training.model.entities.OptionType</class>
-    <class>co.com.expertla.training.model.entities.MembershipPromotion</class>
-    <class>co.com.expertla.training.model.entities.VideoUser</class>
-    <class>co.com.expertla.training.model.entities.Discipline</class>
-    <class>co.com.expertla.training.model.entities.QuestionnaireQuestion</class>
-    <class>co.com.expertla.training.model.entities.Questionnaire</class>
-    <class>co.com.expertla.training.model.entities.Modality</class>
-    <class>co.com.expertla.training.model.entities.TrainingPlanUser</class>
-    <class>co.com.expertla.training.model.entities.PaymentMethod</class>
-    <class>co.com.expertla.training.model.entities.RoleUser</class>
-    <class>co.com.expertla.training.model.entities.QuestionOption</class>
-    <class>co.com.expertla.training.model.entities.Activity</class>
-    <class>co.com.expertla.training.model.entities.QuestionnaireCategory</class>
-    <class>co.com.expertla.training.model.entities.MembershipPrice</class>
-    <class>co.com.expertla.training.model.entities.MembershipDiscount</class>
-    <class>co.com.expertla.training.model.entities.Question</class>
-    <class>co.com.expertla.training.model.entities.Country</class>
-    <class>co.com.expertla.training.model.entities.User</class>
-    <class>co.com.expertla.training.model.entities.SportEquipmentType</class>
-    <class>co.com.expertla.training.model.entities.Membership</class>
-    <class>co.com.expertla.training.model.entities.PhysiologicalCapacity</class>
-    <class>co.com.expertla.training.model.entities.SportEquipment</class>
-    <class>co.com.expertla.training.model.entities.UserSport</class>
-    <class>co.com.expertla.training.model.entities.QuestionnaireResponse</class>
-    <class>co.com.expertla.training.model.entities.Role</class>
-    <class>co.com.expertla.training.model.entities.Sport</class>
-    <class>co.com.expertla.training.model.entities.Dcf</class>
-    <class>co.com.expertla.training.model.entities.Brand</class>
-    <class>co.com.expertla.training.model.entities.Objective</class>
-    <class>co.com.expertla.training.model.entities.QuestionnaireUser</class>
-    <class>co.com.expertla.training.model.entities.Injury</class>
-    <class>co.com.expertla.training.model.entities.UserAvailability</class>
-    <class>co.com.expertla.training.model.entities.DcfDetail</class>
-    <class>co.com.expertla.training.model.entities.ReplaceActivity</class>
-    <class>co.com.expertla.training.model.entities.ModelEquipment</class>
-    <class>co.com.expertla.training.model.entities.VisibleFieldsUser</class>
-    <class>co.com.expertla.training.model.entities.DisciplineSport</class>
-    <class>co.com.expertla.training.model.entities.Weather</class>
-    <class>co.com.expertla.training.model.entities.Environment</class>
-    <class>co.com.expertla.training.model.entities.Option</class>
-    <class>co.com.expertla.training.model.entities.RoleOption</class>
-    <class>co.com.expertla.training.model.entities.Module</class>
-    <class>co.com.expertla.training.model.entities.BikeType</class>
-    <class>co.com.expertla.training.model.entities.CoachAssignedPlan</class>
-    <class>co.com.expertla.training.model.entities.PlanMessage</class>
-    <class>co.com.expertla.training.model.entities.UserZone</class>
-    <class>co.com.expertla.training.model.entities.StarTeam</class>
-    <class>co.com.expertla.training.model.entities.ManualActivity</class>
-    <class>co.com.expertla.training.model.entities.Characteristic</class>
-    <class>co.com.expertla.training.model.entities.TrainingPlanCharact</class>
-    <class>co.com.expertla.training.model.entities.UserTrainingOrder</class>
-    <class>co.com.expertla.training.model.entities.MailCommunication</class>
-    <class>co.com.expertla.training.model.entities.SupervStarCoach</class>
-    <class>co.com.expertla.training.model.entities.ColourIndicator</class>
-    <class>co.com.expertla.training.model.entities.UserActivityPerformance</class>
-    <class>co.com.expertla.training.model.entities.ActivityPerformanceMetafield</class>
-    <properties>
-      <property name="eclipselink.cache.shared.default" value="false"/>
-      <!--  Except for Customer which is shared by orders -->
-      <!--<property name="eclipselink.cache.shared.Customer" value="true" />-->
-      <!--<property name="eclipselink.cache.size.default" value="5000"/>-->
-      <property name="eclipselink.cache.type.default" value="NONE"/>
-      <!--Optimization #10 - batch writing-->
-      <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
-      <property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
-      <!--Optimization #13 - close EntityManager on commit, to avoid cost of resume-->
-      <property name="eclipselink.persistence-context.close-on-commit" value="true"/>
-      <!--Optimization #14 - avoid auto flush cost on query execution-->
-      <property name="eclipselink.persistence-context.flush-mode" value="commit"/>
-      <!--Optimization #15 - avoid cost of persist on commit-->
-      <property name="eclipselink.persistence-context.persist-on-commit" value="false"/>
-      <property name="eclipselink.logging.level" value="FINE"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="training-model" transaction-type="JTA">
+    <!--<persistence-unit name="training-model" transaction-type="RESOURCE_LOCAL">-->
+    
+        <jta-data-source>java:/trainingDS</jta-data-source>
+        
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>co.com.expertla.training.model.State</class>
+        <class>co.com.expertla.training.model.Questionnaire</class>
+        <class>co.com.expertla.training.model.PaymentMethod</class>
+        <class>co.com.expertla.training.model.SneakerUserProfile</class>
+        <class>co.com.expertla.training.model.ResponseType</class>
+        <class>co.com.expertla.training.model.Modality</class>
+        <class>co.com.expertla.training.model.SportObjectType</class>
+        <class>co.com.expertla.training.model.SportObject</class>
+        <class>co.com.expertla.training.model.Country</class>
+        <class>co.com.expertla.training.model.UserProfile</class>
+        <class>co.com.expertla.training.model.UserSport</class>
+        <class>co.com.expertla.training.model.Discipline</class>
+        <class>co.com.expertla.training.model.ResponseOption</class>
+        <class>co.com.expertla.training.model.Dcf</class>
+        <class>co.com.expertla.training.model.OptionType</class>
+        <class>co.com.expertla.training.model.DataType</class>
+        <class>co.com.expertla.training.model.BikeUserProfile</class>
+        <class>co.com.expertla.training.model.City</class>
+        <class>co.com.expertla.training.model.Role</class>
+        <class>co.com.expertla.training.model.Membership</class>
+        <class>co.com.expertla.training.model.QuestionnaireResponse</class>
+        <class>co.com.expertla.training.model.Workout</class>
+        <class>co.com.expertla.training.model.FederalState</class>
+        <class>co.com.expertla.training.model.Objective</class>
+        <class>co.com.expertla.training.model.VideoUser</class>
+        <class>co.com.expertla.training.model.MembershipPrice</class>
+        <class>co.com.expertla.training.model.QuestionnaireRespHistory</class>
+        <class>co.com.expertla.training.model.TrainingPlan</class>
+        <class>co.com.expertla.training.model.MembershipUser</class>
+        <class>co.com.expertla.training.model.QuestionOption</class>
+        <class>co.com.expertla.training.model.MembershipPromotion</class>
+        <class>co.com.expertla.training.model.DisciplineUser</class>
+        <class>co.com.expertla.training.model.QuestionnaireCategory</class>
+        <class>co.com.expertla.training.model.User</class>
+        <class>co.com.expertla.training.model.Activity</class>
+        <class>co.com.expertla.training.model.TrainingPlanUser</class>
+        <class>co.com.expertla.training.model.QuestionnaireQuestion</class>
+        <class>co.com.expertla.training.model.RoleUser</class>
+        <class>co.com.expertla.training.model.TrainingPlanWorkout</class>
+        <class>co.com.expertla.training.model.Question</class>
+        <class>co.com.expertla.training.model.Brand</class>
+        <class>co.com.expertla.training.model.PhysiologicalCapacity</class>
+        <class>co.com.expertla.training.model.MembershipDiscount</class>
+        <class>co.com.expertla.training.model.Sport</class>
+        <class>co.com.expertla.training.model.entities.ResponseOption</class>
+        <class>co.com.expertla.training.model.entities.UserProfile</class>
+        <class>co.com.expertla.training.model.entities.State</class>
+        <class>co.com.expertla.training.model.entities.FederalState</class>
+        <class>co.com.expertla.training.model.entities.ResponseType</class>
+        <class>co.com.expertla.training.model.entities.DisciplineUser</class>
+        <class>co.com.expertla.training.model.entities.TrainingPlanWorkout</class>
+        <class>co.com.expertla.training.model.entities.EquipmentUserProfile</class>
+        <class>co.com.expertla.training.model.entities.City</class>
+        <class>co.com.expertla.training.model.entities.DataType</class>
+        <class>co.com.expertla.training.model.entities.QuestionnaireRespHistory</class>
+        <class>co.com.expertla.training.model.entities.TrainingPlan</class>
+        <class>co.com.expertla.training.model.entities.OptionType</class>
+        <class>co.com.expertla.training.model.entities.MembershipPromotion</class>
+        <class>co.com.expertla.training.model.entities.VideoUser</class>
+        <class>co.com.expertla.training.model.entities.Discipline</class>
+        <class>co.com.expertla.training.model.entities.QuestionnaireQuestion</class>
+        <class>co.com.expertla.training.model.entities.Questionnaire</class>
+        <class>co.com.expertla.training.model.entities.Modality</class>
+        <class>co.com.expertla.training.model.entities.TrainingPlanUser</class>
+        <class>co.com.expertla.training.model.entities.PaymentMethod</class>
+        <class>co.com.expertla.training.model.entities.RoleUser</class>
+        <class>co.com.expertla.training.model.entities.QuestionOption</class>
+        <class>co.com.expertla.training.model.entities.Activity</class>
+        <class>co.com.expertla.training.model.entities.QuestionnaireCategory</class>
+        <class>co.com.expertla.training.model.entities.MembershipPrice</class>
+        <class>co.com.expertla.training.model.entities.MembershipDiscount</class>
+        <class>co.com.expertla.training.model.entities.Question</class>
+        <class>co.com.expertla.training.model.entities.Country</class>
+        <class>co.com.expertla.training.model.entities.User</class>
+        <class>co.com.expertla.training.model.entities.SportEquipmentType</class>
+        <class>co.com.expertla.training.model.entities.Membership</class>
+        <class>co.com.expertla.training.model.entities.PhysiologicalCapacity</class>
+        <class>co.com.expertla.training.model.entities.SportEquipment</class>
+        <class>co.com.expertla.training.model.entities.UserSport</class>
+        <class>co.com.expertla.training.model.entities.QuestionnaireResponse</class>
+        <class>co.com.expertla.training.model.entities.Role</class>
+        <class>co.com.expertla.training.model.entities.Sport</class>
+        <class>co.com.expertla.training.model.entities.Dcf</class>
+        <class>co.com.expertla.training.model.entities.Brand</class>
+        <class>co.com.expertla.training.model.entities.Objective</class>
+        <class>co.com.expertla.training.model.entities.QuestionnaireUser</class>
+        <class>co.com.expertla.training.model.entities.Injury</class>
+        <class>co.com.expertla.training.model.entities.UserAvailability</class>
+        <class>co.com.expertla.training.model.entities.DcfDetail</class>
+        <class>co.com.expertla.training.model.entities.ReplaceActivity</class>
+        <class>co.com.expertla.training.model.entities.ModelEquipment</class>
+        <class>co.com.expertla.training.model.entities.VisibleFieldsUser</class>
+        <class>co.com.expertla.training.model.entities.DisciplineSport</class>
+        <class>co.com.expertla.training.model.entities.Weather</class>
+        <class>co.com.expertla.training.model.entities.Environment</class>
+        <class>co.com.expertla.training.model.entities.Option</class>
+        <class>co.com.expertla.training.model.entities.RoleOption</class>
+        <class>co.com.expertla.training.model.entities.Module</class>
+        <class>co.com.expertla.training.model.entities.BikeType</class>
+        <class>co.com.expertla.training.model.entities.CoachAssignedPlan</class>
+        <class>co.com.expertla.training.model.entities.PlanMessage</class>
+        <class>co.com.expertla.training.model.entities.UserZone</class>
+        <class>co.com.expertla.training.model.entities.StarTeam</class>
+        <class>co.com.expertla.training.model.entities.ManualActivity</class>
+        <class>co.com.expertla.training.model.entities.Characteristic</class>
+        <class>co.com.expertla.training.model.entities.TrainingPlanCharact</class>
+        <class>co.com.expertla.training.model.entities.UserTrainingOrder</class>
+        <class>co.com.expertla.training.model.entities.MailCommunication</class>
+        <class>co.com.expertla.training.model.entities.SupervStarCoach</class>
+        <class>co.com.expertla.training.model.entities.ColourIndicator</class>
+        <class>co.com.expertla.training.model.entities.UserActivityPerformance</class>
+        <class>co.com.expertla.training.model.entities.ActivityPerformanceMetafield</class>
+		<class>co.com.expertla.training.model.entities.PlanVideo</class>
+        <properties>
+            <property name="eclipselink.cache.shared.default" value="false"/>
+            <!--  Except for Customer which is shared by orders -->
+            <!--<property name="eclipselink.cache.shared.Customer" value="true" />-->
+            <!--<property name="eclipselink.cache.size.default" value="5000"/>-->
+            <property name="eclipselink.cache.type.default" value="NONE"/>
+            <!--Optimization #10 - batch writing-->
+            <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+            <property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
+            <!--Optimization #13 - close EntityManager on commit, to avoid cost of resume-->
+            <property name="eclipselink.persistence-context.close-on-commit" value="true"/>
+            <!--Optimization #14 - avoid auto flush cost on query execution-->
+            <property name="eclipselink.persistence-context.flush-mode" value="commit"/>
+            <!--Optimization #15 - avoid cost of persist on commit-->
+            <property name="eclipselink.persistence-context.persist-on-commit" value="false"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+      
+      
+<!--            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://181.143.227.220:5432/training"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="3xpert.2015#"/>-->
+        </properties>
+    </persistence-unit>
 </persistence>

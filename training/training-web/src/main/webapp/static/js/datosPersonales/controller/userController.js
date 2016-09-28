@@ -185,7 +185,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     .then(
                             function (msg) {
                                 $scope.getVisibleFieldsUserByUser();
-                                $scope.showMessage("Usuario registrado correctamente.");
+                                $scope.showMessage("datos actualizados correctamente.");
 
                             },
                             function (errResponse) {
@@ -225,8 +225,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.getUserSession(function (res) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            
-            if(user.indLoginFirstTime == '1') {
+            $scope.userSession = user;
+            if(user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' && user.planActiveId != null) {
                 $scope.showMessage("Para poder generar tu plan, debes ingresar los datos deportivos y darle click en el bot\u00f3n generar plan");
             }
             self.fetchAllCountries();
@@ -956,6 +956,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
             if ($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
                 form.weather.$setTouched();
+                valid = false;
+            }
+            if ($scope.userProfile.ageSport < 0) {
+                $scope.errorMessages = "La edad deportiva debe ser mayor o igual a 0 <br>";
                 valid = false;
             }
             if (!$scope.validateAvailability()) {

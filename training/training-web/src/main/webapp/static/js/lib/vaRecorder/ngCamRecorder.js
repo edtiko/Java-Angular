@@ -41,7 +41,8 @@ vaRecorder.directive("ngcamcecorder" , function(){
             var scripts = document.getElementsByTagName("script");
             src = scripts[scripts.length-1].src;
             src = src.substring(0, src.lastIndexOf("/"));
-            return src+"/vaRecorder/template/viditurecam.html";
+            console.log(src);
+            return window.location.origin+"/training/static/js/lib/vaRecorder/template/viditurecam.html";
         },
 
         link : function($scope, $element, $attrs){
@@ -96,9 +97,9 @@ vaRecorder.directive("ngcamcecorder" , function(){
 
          $scope.playback = function(){
 
-              if($scope.videoisavailabletoplay){
+             // if($scope.videoisavailabletoplay){
                 virec.play();
-              } 
+              //} 
          }
         
          $scope.clearrecording =function(){

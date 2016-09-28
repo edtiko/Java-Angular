@@ -5,7 +5,6 @@
  */
 package co.com.expertla.training.service.plan;
 
-import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import java.util.List;

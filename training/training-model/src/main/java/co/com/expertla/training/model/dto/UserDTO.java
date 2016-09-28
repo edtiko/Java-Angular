@@ -60,6 +60,7 @@ public class UserDTO {
     private Integer disciplineIdExt;
     private Integer userWordpressId;
     private Integer indLoginFirstTime;
+    private Integer planActiveId;
     
     public UserDTO() {
     }
@@ -207,6 +208,14 @@ public class UserDTO {
 
     public static List<UserDTO> mapFromUsersEntities(List<User> users) {
         return users.stream().map((user) -> mapFromUserEntity(user)).collect(Collectors.toList());
+    }
+
+    public Integer getPlanActiveId() {
+        return planActiveId;
+    }
+
+    public void setPlanActiveId(Integer planActiveId) {
+        this.planActiveId = planActiveId;
     }
 
     public Integer getUserId() {

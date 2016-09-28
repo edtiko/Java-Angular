@@ -55,15 +55,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Locale;
 
 @RestController
 public class UserController {
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
-    public static final String ROOT = "c:/upload-video/";
+
     private static final String apiKey = "45634832";
     private static final String apiSecret = "547b77a30287725ef942607913540d1eef48a161";
     private static OpenTok opentok;
@@ -255,9 +253,6 @@ public class UserController {
             userSession.setTypeUser(userDto.getTypeUser());
             userSession.setFullName(userDto.getFullName());
             userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
-            session.setAttribute("user", userSession);
-            Locale locale = new Locale("es", "CO");
-            Locale.setDefault(locale);
 
             if (userDto.getUserWordpressId() != null) {
                 UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
@@ -265,8 +260,7 @@ public class UserController {
                 objUserTrainingOrder.setStatus("pending");
                 List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
 
-                if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
-                    UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
+                for (UserTrainingOrder userTrainingOrder : userTrainingOrderList) {
                     String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
                     if (jsonResponse != null && !jsonResponse.isEmpty()) {
                         JsonParser jsonParser = new JsonParser();
@@ -307,23 +301,24 @@ public class UserController {
 
                                 userTrainingOrder.setStatus("integrated");
                                 userTrainingOrderService.store(userTrainingOrder);
-
-                                if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
-                                    response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
-                                    return null;
-                                }
                             } else {
                                 userTrainingOrder.setStatus("error");
                                 userTrainingOrderService.store(userTrainingOrder);
                             }
                         }
-
-                        response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
-                        return null;
                     }
                 }
             }
-
+            
+            List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+            if(trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
+                userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
+            }
+            
+            session.setAttribute("user", userSession);
+            Locale locale = new Locale("es", "CO");
+            Locale.setDefault(locale);
+            
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;
@@ -435,34 +430,7 @@ public class UserController {
         return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "/video/upload", method = RequestMethod.POST)
-    public @ResponseBody
-    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename) {
-        ResponseService responseService = new ResponseService();
-        StringBuilder strResponse = new StringBuilder();
-        if (!file.isEmpty()) {
-            try {
-                //byte[] bytes = file.getBytes();
-                Files.copy(file.getInputStream(), Paths.get(ROOT, filename));
-                strResponse.append("video cargado correctamente.");
-                responseService.setStatus(StatusResponse.SUCCESS.getName());
-                responseService.setOutput(strResponse);
-                return Response.status(Response.Status.OK).entity(responseService).build();
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
-                responseService.setOutput(strResponse);
-                responseService.setStatus(StatusResponse.FAIL.getName());
-                responseService.setDetail(e.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
-            }
-        } else {
-            strResponse.append("Video cargado esta vacio.");
-            responseService.setOutput(strResponse);
-            responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
-        }
-    }
-
+  
     @RequestMapping(value = "/session/opentok", method = RequestMethod.GET)
     public @ResponseBody
     Response getSessionOpenTok(HttpSession session, HttpServletResponse response) {

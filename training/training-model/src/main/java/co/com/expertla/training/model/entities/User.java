@@ -22,7 +22,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -55,6 +54,12 @@ public class User implements Serializable {
     @Lob
     @Column(name = "profile_photo")
     private byte[] profilePhoto;
+    @Column(name = "height")
+    private Float height;
+    @Column(name = "user_wordpress_id")
+    private Integer userWordpressId;
+    @Column(name = "ind_login_first_time")
+    private Integer indLoginFirstTime;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "starUserId")
     private Collection<StarTeam> startTeamCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "coachUserId")
@@ -144,16 +149,6 @@ public class User implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
-    @Column(name = "user_wordpress_id")
-    private Integer userWordpressId;
-    @Column(name = "ind_login_first_time")
-    private Integer indLoginFirstTime;
-	@Column(name = "height")
-    private Float height;
-    @OneToMany(mappedBy = "receivingUser")
-    private Collection<MailCommunication> mailCommunicationCollection;
-    @OneToMany(mappedBy = "sendingUser")
-    private Collection<MailCommunication> mailCommunicationCollection1;
 
     public User() {
     }
@@ -232,7 +227,6 @@ public class User implements Serializable {
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
-    
 
     public String getLastName() {
         return lastName;
@@ -345,37 +339,13 @@ public class User implements Serializable {
     public void setWebPage(String webPage) {
         this.webPage = webPage;
     }
-    
+
     public String getIndMetricSys() {
         return indMetricSys;
     }
 
     public void setIndMetricSys(String indMetricSys) {
         this.indMetricSys = indMetricSys;
-    }
-
-    public User getStarId() {
-        return starId;
-    }
-
-    public void setStarId(User starId) {
-        this.starId = starId;
-    }
-
-    public Integer getUserWordpressId() {
-        return userWordpressId;
-    }
-
-    public void setUserWordpressId(Integer userWordpressId) {
-        this.userWordpressId = userWordpressId;
-    }
-
-    public Integer getIndLoginFirstTime() {
-        return indLoginFirstTime;
-    }
-
-    public void setIndLoginFirstTime(Integer indLoginFirstTime) {
-        this.indLoginFirstTime = indLoginFirstTime;
     }
 
     public Date getCreationDate() {
@@ -385,6 +355,7 @@ public class User implements Serializable {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
     @JsonIgnore
     public Collection<QuestionnaireResponse> getQuestionnaireResponseCollection() {
         return questionnaireResponseCollection;
@@ -393,6 +364,7 @@ public class User implements Serializable {
     public void setQuestionnaireResponseCollection(Collection<QuestionnaireResponse> questionnaireResponseCollection) {
         this.questionnaireResponseCollection = questionnaireResponseCollection;
     }
+
     @JsonIgnore
     public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {
         return trainingPlanUserCollection;
@@ -401,6 +373,7 @@ public class User implements Serializable {
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
     }
+
     @JsonIgnore
     public Collection<UserProfile> getUserProfileCollection() {
         return userProfileCollection;
@@ -409,6 +382,7 @@ public class User implements Serializable {
     public void setUserProfileCollection(Collection<UserProfile> userProfileCollection) {
         this.userProfileCollection = userProfileCollection;
     }
+
     @JsonIgnore
     public Collection<VideoUser> getVideoUserCollection() {
         return videoUserCollection;
@@ -417,6 +391,7 @@ public class User implements Serializable {
     public void setVideoUserCollection(Collection<VideoUser> videoUserCollection) {
         this.videoUserCollection = videoUserCollection;
     }
+
     @JsonIgnore
     public Collection<DisciplineUser> getDisciplineUserCollection() {
         return disciplineUserCollection;
@@ -425,6 +400,7 @@ public class User implements Serializable {
     public void setDisciplineUserCollection(Collection<DisciplineUser> disciplineUserCollection) {
         this.disciplineUserCollection = disciplineUserCollection;
     }
+
     @JsonIgnore
     public Collection<RoleUser> getRoleUserCollection() {
         return roleUserCollection;
@@ -449,6 +425,7 @@ public class User implements Serializable {
     public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
+
     @JsonIgnore
     public Collection<User> getUserCollection() {
         return userCollection;
@@ -491,6 +468,7 @@ public class User implements Serializable {
     public void setStartTeamCollection(Collection<StarTeam> startTeamCollection) {
         this.startTeamCollection = startTeamCollection;
     }
+
     @JsonIgnore
     public Collection<StarTeam> getStartTeamCollection1() {
         return startTeamCollection1;
@@ -499,6 +477,7 @@ public class User implements Serializable {
     public void setStartTeamCollection1(Collection<StarTeam> startTeamCollection1) {
         this.startTeamCollection1 = startTeamCollection1;
     }
+
     @JsonIgnore
     public Collection<UserZone> getUserZoneCollection() {
         return userZoneCollection;
@@ -540,23 +519,19 @@ public class User implements Serializable {
         this.height = height;
     }
 
-    @XmlTransient
-    @JsonIgnore
-    public Collection<MailCommunication> getMailCommunicationCollection() {
-        return mailCommunicationCollection;
+    public Integer getUserWordpressId() {
+        return userWordpressId;
     }
 
-    public void setMailCommunicationCollection(Collection<MailCommunication> mailCommunicationCollection) {
-        this.mailCommunicationCollection = mailCommunicationCollection;
+    public void setUserWordpressId(Integer userWordpressId) {
+        this.userWordpressId = userWordpressId;
     }
 
-    @JsonIgnore
-    @XmlTransient
-    public Collection<MailCommunication> getMailCommunicationCollection1() {
-        return mailCommunicationCollection1;
+    public Integer getIndLoginFirstTime() {
+        return indLoginFirstTime;
     }
 
-    public void setMailCommunicationCollection1(Collection<MailCommunication> mailCommunicationCollection1) {
-        this.mailCommunicationCollection1 = mailCommunicationCollection1;
+    public void setIndLoginFirstTime(Integer indLoginFirstTime) {
+        this.indLoginFirstTime = indLoginFirstTime;
     }
 }

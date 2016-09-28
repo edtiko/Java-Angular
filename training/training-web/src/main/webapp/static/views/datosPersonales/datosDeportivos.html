@@ -6,7 +6,8 @@
                 <div flex="33">
                     <md-input-container class="md-block" >
                         <label>Disciplina Deportiva</label>
-                        <md-select id="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
+                        <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)"
+                            id="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
                             <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                                 {{d.name}}
                             </md-option>
@@ -361,6 +362,8 @@
                            ng-model="user_profilepower"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
+            
+            
             <div layout="row">
                 <div flex="33">
                     <table md-table md-row-select ng-model="selected1">
@@ -370,23 +373,23 @@
                                 <th md-column colspan="2">Power</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody md-body>
                             <tr md-row>
                                 <td md-cell>2 Aer&oacute;bico</td>
                                 <td md-cell><input type="number" placeholder="{{ftp56}}" style="width: 60px" ng-model="userProfile.ftp56"></td>
                                 <td md-cell><input type="number" placeholder="{{ftp75}}" style="width: 60px" ng-model="userProfile.ftp75"></td>
                             </tr>
-                            <tr>
+                            <tr md-row>
                                 <td md-cell>3 Tempo</td>
                                 <td md-cell><input type="number" placeholder="{{ftp76}}" style="width: 60px" ng-model="userProfile.ftp76"></td>
                                 <td md-cell><input type="number" placeholder="{{ftp90}}" style="width: 60px" ng-model="userProfile.ftp90"></td>
                             </tr>
-                            <tr>
+                            <tr md-row>
                                 <td md-cell>4 Umbral</td>
                                 <td md-cell><input type="number" placeholder="{{ftp91}}" style="width: 60px" ng-model="userProfile.ftp91"></td>
                                 <td md-cell><input type="number" placeholder="{{ftp105}}" style="width: 60px" ng-model="userProfile.ftp105"></td>
                             </tr>
-                            <tr>
+                            <tr md-row>
                                 <td md-cell>5 VO2 Max</td>
                                 <td md-cell><input type="number" placeholder="{{ftp106}}" style="width: 60px" ng-model="userProfile.ftp106"></td>
                                 <td md-cell><input type="number" placeholder="{{ftp120}}" style="width: 60px" ng-model="userProfile.ftp120"></td>
@@ -546,7 +549,7 @@
 
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                 <md-button class="md-raised" ng-click="submitUserProfile(formProfile, false, $event)">Guardar</md-button>
-                <md-button class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
+                <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
             </section>
         </form>
     </md-content>
