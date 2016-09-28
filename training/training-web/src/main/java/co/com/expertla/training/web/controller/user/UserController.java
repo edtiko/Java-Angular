@@ -253,9 +253,6 @@ public class UserController {
             userSession.setTypeUser(userDto.getTypeUser());
             userSession.setFullName(userDto.getFullName());
             userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
-            session.setAttribute("user", userSession);
-            Locale locale = new Locale("es", "CO");
-            Locale.setDefault(locale);
 
             if (userDto.getUserWordpressId() != null) {
                 UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
@@ -263,8 +260,7 @@ public class UserController {
                 objUserTrainingOrder.setStatus("pending");
                 List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
 
-                if (userTrainingOrderList != null && !userTrainingOrderList.isEmpty()) {
-                    UserTrainingOrder userTrainingOrder = userTrainingOrderList.get(0);
+                for (UserTrainingOrder userTrainingOrder : userTrainingOrderList) {
                     String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
                     if (jsonResponse != null && !jsonResponse.isEmpty()) {
                         JsonParser jsonParser = new JsonParser();
@@ -305,23 +301,24 @@ public class UserController {
 
                                 userTrainingOrder.setStatus("integrated");
                                 userTrainingOrderService.store(userTrainingOrder);
-
-                                if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
-                                    response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
-                                    return null;
-                                }
                             } else {
                                 userTrainingOrder.setStatus("error");
                                 userTrainingOrderService.store(userTrainingOrder);
                             }
                         }
-
-                        response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
-                        return null;
                     }
                 }
             }
-
+            
+            List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+            if(trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
+                userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
+            }
+            
+            session.setAttribute("user", userSession);
+            Locale locale = new Locale("es", "CO");
+            Locale.setDefault(locale);
+            
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;

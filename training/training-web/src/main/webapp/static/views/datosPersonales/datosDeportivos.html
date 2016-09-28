@@ -6,7 +6,8 @@
                 <div flex="33">
                     <md-input-container class="md-block" >
                         <label>Disciplina Deportiva</label>
-                        <md-select id="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
+                        <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)"
+                            id="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
                             <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                                 {{d.name}}
                             </md-option>
@@ -548,7 +549,7 @@
 
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                 <md-button class="md-raised" ng-click="submitUserProfile(formProfile, false, $event)">Guardar</md-button>
-                <md-button class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
+                <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
             </section>
         </form>
     </md-content>

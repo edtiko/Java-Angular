@@ -225,8 +225,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.getUserSession(function (res) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            
-            if(user.indLoginFirstTime == '1') {
+            $scope.userSession = user;
+            if(user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' && user.planActiveId != null) {
                 $scope.showMessage("Para poder generar tu plan, debes ingresar los datos deportivos y darle click en el bot\u00f3n generar plan");
             }
             self.fetchAllCountries();

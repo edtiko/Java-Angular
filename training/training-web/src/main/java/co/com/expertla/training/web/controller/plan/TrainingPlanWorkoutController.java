@@ -31,6 +31,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,7 +106,8 @@ public class TrainingPlanWorkoutController {
     }
 
     @RequestMapping(value = "trainingPlanWorkout/generate/planWorkout/for/user", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile) {
+    public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile, 
+            HttpSession session) {
         ResponseService responseService = new ResponseService();
         try {
 
@@ -118,7 +122,12 @@ public class TrainingPlanWorkoutController {
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);
             userService.updateUser(userDTO);
-
+            
+            if(session.getAttribute("user") != null) {
+                UserDTO userSession = (UserDTO)session.getAttribute("user");
+                userSession.setIndLoginFirstTime(0);
+            }
+            
             responseService.setOutput("Plan de Entrenamiento generado satisfactoriamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
