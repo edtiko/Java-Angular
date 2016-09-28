@@ -58,6 +58,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
                     }
                     $scope.sendedVideos();
                     $scope.setUrl();
+                    configuration.init();
                 }
             },
             recordingerror: function () {
