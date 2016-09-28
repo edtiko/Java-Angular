@@ -1,0 +1,2 @@
+--Menú Asignar Atletas Coach Externo
+insert into option(option_id, module_id, state_id, name, description, url, creation_date) values(nextval('option_option_id_seq'), 2, 1, 'Asignar Atletas', '', '#external-coach',now());

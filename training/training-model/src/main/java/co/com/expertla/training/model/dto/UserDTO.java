@@ -163,6 +163,7 @@ public class UserDTO {
         this.disciplineIdExt = disciplineIdExt;
     }
     
+    //constructor usado por mapFromUserEntity
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
             String sex, Float weight, String phone, String cellphone, Integer cityId,
             Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 

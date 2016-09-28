@@ -818,6 +818,30 @@ create table plan_video (
    constraint pk_plan_video primary key (plan_video_id)
 );
 
+create table coach_ext_athlete(
+coach_ext_athlete_id  serial not null,
+training_plan_user_id integer not null, --id plan coach externo
+user_training_id integer not null, --id referencia usuario atleta
+state_id integer not null, -- id estado ej: retirado, pendiente..
+creation_date timestamp without time zone, 
+constraint pk_coach_ext_athlete primary key (coach_ext_athlete_id)
+);
+
+alter table coach_ext_athlete
+add constraint fk_coach_ext_athlete_reference_training_plan_user foreign key (training_plan_user_id)
+references training_plan_user(training_plan_user_id)
+on delete restrict on update restrict;
+
+alter table coach_ext_athlete
+add constraint fk_coach_ext_athlete_reference_user_training foreign key (user_training_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table coach_ext_athlete
+add constraint fk_coach_ext_athlete_reference_state foreign key (state_id)
+references state(state_id)
+on delete restrict on update restrict;
+
 alter table plan_video
 add constraint fk_plan_video_from_reference_user foreign key (from_user_id)
 references user_training(user_id)

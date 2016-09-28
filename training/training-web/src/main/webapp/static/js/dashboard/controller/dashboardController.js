@@ -1,7 +1,7 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService','MailService','videoService',
-    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService,MailService,videoService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService','MailService','videoService','ExternalCoachService',
+    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService,MailService,videoService,ExternalCoachService) {
 
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -253,6 +253,20 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
         
+            self.getAthletesCoachExternal = function () {
+            ExternalCoachService.fetchAthletes($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.athletes = data.entity.output;
+                        if ($scope.athletes == null) {
+                            $scope.showMessage("No tiene atletas asignados.");
+                        }
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
         self.getAssignedUserBySupervisor = function () {
             DashboardService.getAssignedUserBySupervisor($scope.userSession.userId).then(
                     function (data) {
@@ -273,12 +287,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
             $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
-            if ($scope.userSession != null &&($scope.userSession.typeUser === $scope.userSessionTypeUserCoach 
-                    || $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno)) {              
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {              
                 self.getAssignedAthletes();
                 $scope.getUserById();
 
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+            }else if($scope.userSession.typeUser === $scope.userSessionTypeUserCoach){
+                 $scope.getUserById();
+                 self.getAthletesCoachExternal();
+            } 
+            else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 $scope.getUserSessionByResponse(res);
                 $scope.getUserById();
                 self.getAssignedCoach();
