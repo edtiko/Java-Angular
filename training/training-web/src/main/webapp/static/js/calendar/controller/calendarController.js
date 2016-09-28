@@ -64,8 +64,6 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             if (id != null) {
                 $scope.selectedActivity = id;
             }
-            console.debug('id ' + id)
-            console.debug($scope.selectedActivity)
         }
         $mdDialog.show({
             controller: ReplaceActivityController,
@@ -142,7 +140,6 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.activityReplaceList = [];
         //Consulta type zona igual a PPM por defecto
         $scope.getActivity = function () {
-            console.debug('$scope ' + $scope.selectedActivity)
             CalendarService.getActivityReplace($scope.selectedActivity).then(
                     function (data) {
                         $scope.activityReplaceList = angular.copy(data.output);
@@ -152,12 +149,19 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                     }
             );
         };
+        
+        $scope.changeActivityReplace = function (activityId) {
+            var userId = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            var objActivity = {'userId' : userId.userId, 'trainingPlanWorkoutId' : $scope.selectedActivity,
+                'activityDate' : $scope.selectedDay, 'activityId' : activityId};
+            createPlan(objActivity, true);
+        };
 
         $scope.getActivity();
         $scope.hide = function () {
             $mdDialog.hide();
         };
-        $scope.cancel = function () {
+        $scope.cancelReplaceActivity = function () {
             $mdDialog.cancel();
         };
     }

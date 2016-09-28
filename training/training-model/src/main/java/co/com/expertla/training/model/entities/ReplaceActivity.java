@@ -37,7 +37,7 @@ public class ReplaceActivity implements Serializable {
     @JoinColumn(name = "activity_id", referencedColumnName = "activity_id")
     @ManyToOne
     private Activity activityId;
-    @JoinColumn(name = "replace_id", referencedColumnName = "replace_id")
+    @JoinColumn(name = "replace_id", referencedColumnName = "activity_id")
     @ManyToOne
     private Activity replaceId;
 
