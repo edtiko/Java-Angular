@@ -1,8 +1,7 @@
 <td  ondragstart="drag(event)" data-event-id="cal_<%= event.id %>" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)" data-event-date="<%= data_day %>" class="calendar-td cal-month-day <%= cls %> cal-cell1 cal-cell ui-droppable" data-cal-row="-day<%= day %>">
     <!--cal-month-day  <%= cls %> cal-cell1 cal-cell ui-droppable-->        
     <span class="add-left" onClick="manualActivity(event)" data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
-    
-    <span class="add-right" onClick="replaceActivity(event)" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
+        
 
         <span data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" class="pull-right" data-cal-date="<%= data_day %>" data-cal-view="day" data-toggle="tooltip" title="<%= tooltip %>"><%= day %></span>
         <% if (events.length > 0) { %>
@@ -15,7 +14,8 @@
              <a id="cal_<%= event.id %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.id %>, <%= event.manualActivity %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
                class="pull-left event-back event " style="<%= style %>" data-toggle="tooltip"
                title="<%= event.title %>">
-                <div data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" style="width: 22px">
+                <span class="add-right" onClick="replaceActivity(event)" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
+                 <div data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" style="width: 22px">
                     <img src="static/img/<%= event['className'] %>" alt="<%= event['className'] %>"/>
                 </div>
                 <font id="calf_<%= event.id %>" data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" class="event-font"><%= event.title %></font>
