@@ -19,6 +19,7 @@ import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.entities.UserTrainingOrder;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.configuration.StartTeamService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import co.com.expertla.training.service.plan.TrainingPlanUserService;
 import co.com.expertla.training.service.plan.UserTrainingOrderService;
@@ -86,6 +87,9 @@ public class UserController {
 
     @Autowired
     CoachAssignedPlanService coachAssignedPlanService;
+    
+    @Autowired
+    StartTeamService startTeamService;
 
     /**
      * Upload single file using Spring Controller
@@ -297,6 +301,19 @@ public class UserController {
                                     coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
                                     coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
                                     coachAssignedPlanService.create(coachAssignedPlan);
+                                    List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
+                                    
+                                    if(starTeamList != null && !starTeamList.isEmpty()) {
+                                        StarTeam starTeam = starTeamList.get(0);
+                                        Integer starUserId = starTeam.getStarUserId().getUserId();
+                                        DisciplineUser disciplineUserStar = disciplineUserService.findByUserId(starUserId);
+                                        DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
+                                        
+                                        if(!disciplineUser.getDisciplineUserId().equals(disciplineUserStar.getDisciplineUserId())) {
+                                            disciplineUser.setDisciplineUserId(disciplineUserStar.getDisciplineUserId());
+                                            disciplineUserService.store(disciplineUser);
+                                        }
+                                    }
                                 }
 
                                 userTrainingOrder.setStatus("integrated");

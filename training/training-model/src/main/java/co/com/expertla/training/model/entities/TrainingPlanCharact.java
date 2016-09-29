@@ -72,6 +72,8 @@ public class TrainingPlanCharact implements Serializable {
     @JoinColumn(name = "membership_id", referencedColumnName = "membership_id")
     @ManyToOne(optional = false)
     private Membership membershipId;
+    @Column(name = "user_type")
+    private String userType;
     
 
     public TrainingPlanCharact() {
@@ -164,6 +166,14 @@ public class TrainingPlanCharact implements Serializable {
 
     public void setTrainingPlanId(TrainingPlan trainingPlanId) {
         this.trainingPlanId = trainingPlanId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     @Override

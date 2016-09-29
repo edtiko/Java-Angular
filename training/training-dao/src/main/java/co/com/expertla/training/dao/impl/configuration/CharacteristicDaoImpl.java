@@ -138,4 +138,24 @@ public class CharacteristicDaoImpl extends BaseDAOImpl<Characteristic> implement
         setParameter("name", characteristic.getName().trim());
         return createQuery(builder.toString());
     }
+    
+    @Override
+    public List<Characteristic> findAllByTypeMembershipOrPlan(boolean isMembership, String userType) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select Distinct a from Characteristic a, TrainingPlanCharact p ");
+        builder.append("WHERE a.characteristicId = p.characteristicId.characteristicId ");
+        builder.append("AND a.stateId = :active ");
+        
+        if(isMembership) {
+            builder.append("AND p.membershipId != null ");
+            builder.append("AND p.userType = :userType ");
+            setParameter("userType", userType);
+        } else {
+            builder.append("AND p.trainingPlanId != null ");
+        }
+
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
+        System.out.println("builder " + builder.toString());
+        return createQuery(builder.toString());
+    }
 }

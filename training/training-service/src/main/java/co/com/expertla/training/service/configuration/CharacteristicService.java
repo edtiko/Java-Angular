@@ -109,6 +109,18 @@ public interface CharacteristicService {
     * @throws Exception 
     */
     public List<Characteristic> findByName(Characteristic characteristic) throws Exception;  
+    
+    /**
+     * Obtiene todos los registros activos de characteristic por membership or plan <br>
+     * Info. Creación: <br>
+     * fecha 28/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param isMembership
+     * @param userType
+     * @return
+     * @throws Exception 
+     */
+    public List<Characteristic> findAllByTypeMembershipOrPlan(boolean isMembership, String userType) throws Exception;
 
     
 }

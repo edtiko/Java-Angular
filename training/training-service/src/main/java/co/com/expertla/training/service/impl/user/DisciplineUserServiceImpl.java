@@ -26,5 +26,15 @@ public class DisciplineUserServiceImpl implements DisciplineUserService {
     public DisciplineUser create(DisciplineUser disciplineUser) throws Exception {
         return disciplineUserDao.create(disciplineUser);
     }
+    
+    @Override
+    public DisciplineUser store(DisciplineUser disciplineUser) throws Exception {
+        return disciplineUserDao.merge(disciplineUser);
+    }
+
+    @Override
+    public DisciplineUser findByUserId(Integer id) throws Exception {
+        return disciplineUserDao.findByUserId(id);
+    }
  
 }
