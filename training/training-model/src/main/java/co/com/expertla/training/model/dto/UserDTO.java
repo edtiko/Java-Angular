@@ -45,6 +45,7 @@ public class UserDTO {
     private Integer federalStateId;
     private Integer countryId;
     private Integer disciplineId;
+    private String  disciplineName;
     private String typeUser;
     private Integer roleId;
     private String aboutMe;
@@ -61,6 +62,7 @@ public class UserDTO {
     private Integer userWordpressId;
     private Integer indLoginFirstTime;
     private Integer planActiveId;
+    private Integer trainingPlanUserId;
     
     public UserDTO() {
     }
@@ -560,5 +562,23 @@ public class UserDTO {
     public void setIndLoginFirstTime(Integer indLoginFirstTime) {
         this.indLoginFirstTime = indLoginFirstTime;
     }
+
+    public Integer getTrainingPlanUserId() {
+        return trainingPlanUserId;
+    }
+
+    public void setTrainingPlanUserId(Integer trainingPlanUserId) {
+        this.trainingPlanUserId = trainingPlanUserId;
+    }
+
+    public String getDisciplineName() {
+        return disciplineName;
+    }
+
+    public void setDisciplineName(String disciplineName) {
+        this.disciplineName = disciplineName;
+    }
+    
+    
     
 }

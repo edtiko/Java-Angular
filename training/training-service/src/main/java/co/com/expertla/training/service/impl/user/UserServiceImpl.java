@@ -1,6 +1,7 @@
 package co.com.expertla.training.service.impl.user;
 
 import co.com.expertla.training.dao.configuration.CityDao;
+import co.com.expertla.training.dao.configuration.DisciplineDao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.VideoUser;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.dao.user.VideoUserDao;
+import co.com.expertla.training.model.dto.DisciplineDTO;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -63,6 +65,9 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private VideoUserDao videoUserDao;
+    
+    @Autowired
+    private DisciplineDao disciplineDao;
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -91,6 +96,13 @@ public class UserServiceImpl implements UserService {
         if(user != null) {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
             user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
+            
+            List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
+            if(disciplineUser != null){
+                user.setDisciplineId(disciplineUser.get(0).getDisciplineId());
+                user.setDisciplineName(disciplineUser.get(0).getName());
+            }
+            
             return user;
         }
         
@@ -184,7 +196,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createInternalUser(UserDTO dto) throws Exception {
         User user = userDao.findUserByUsername(dto.getLogin());
-        if(user !=null) {
+        if (user != null) {
             throw new Exception("Ya existe ese nombre de usuario");
         }
         user = new User();
@@ -199,21 +211,23 @@ public class UserServiceImpl implements UserService {
         user.setCreationDate(new Date());
         user.setIndMetricSys("1");
         user.setCountryId(new Country(dto.getCountryId()));
-        
+
         DisciplineUser discipline = new DisciplineUser();
         discipline.setUserId(user);
-        discipline.setDiscipline(new Discipline(dto.getDisciplineId())); 
+        discipline.setDiscipline(new Discipline(dto.getDisciplineId()));
 
         VideoUser video = new VideoUser();
-        video.setStateId(new State(StateEnum.ACTIVE.getId()));
-        video.setUrl(dto.getUrlVideo());
-        video.setUserId(user);
-        video.setCreationDate(new Date());
-        
+        if (dto.getUrlVideo() != null) {
+            video.setStateId(new State(StateEnum.ACTIVE.getId()));
+            video.setUrl(dto.getUrlVideo());
+            video.setUserId(user);
+            video.setCreationDate(new Date());
+        }
+
         UserProfile profile = new UserProfile();
         profile.setUserId(user);
         profile.setAboutMe(dto.getAboutMe());
-        
+
         RoleUser roleUser = new RoleUser();
         roleUser.setUserId(user);
         roleUser.setRoleId(new Role(dto.getRoleId()));
@@ -222,7 +236,9 @@ public class UserServiceImpl implements UserService {
         disciplineUserDao.create(discipline);
         roleUserDao.create(roleUser);
         userProfileDao.create(profile);
-        videoUserDao.create(video);
+        if (dto.getUrlVideo() != null) {
+            videoUserDao.create(video);
+        }
         return user;
     }
 

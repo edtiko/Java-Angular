@@ -6,6 +6,7 @@
 package co.com.expertla.training.service.plan;
 
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import java.util.List;
 
 /**
  *
@@ -14,5 +15,9 @@ import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
 public interface CoachExtAthleteService {
 
     public void create(CoachExtAthleteDTO dto) throws Exception;
+
+    public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state)throws Exception;
+
+    public void retireAthlete(Integer userId)throws Exception;
     
 }

@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,8 +36,8 @@ public class CoachExtAthlete implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
+    @SequenceGenerator(name = "coach_ext_athlete_coach_ext_athlete_id_seq", sequenceName = "coach_ext_athlete_coach_ext_athlete_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coach_ext_athlete_coach_ext_athlete_id_seq")
     @Column(name = "coach_ext_athlete_id")
     private Integer coachExtAthleteId;
     @Column(name = "creation_date")

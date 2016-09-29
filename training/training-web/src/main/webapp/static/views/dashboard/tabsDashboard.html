@@ -1,13 +1,22 @@
-<div layout="column" style=" border: 1px solid #e1e1e1; height: 100%; min-height: 800px; border-radius: 25px;">
+<div layout="column" class="border" style="height: 100%; min-height: 800px; border-radius: 0 0 25px 25px">
+    <md-toolbar class="md-hue-2">
+        <div class="md-toolbar-tools">
+            <h2>
+                <span>Opciones</span>
+            </h2>
+        </div>
+    </md-toolbar>
     <md-content >
         <md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
-            <md-tab label="Atleta" md-on-select="onTabChanges(0)">
-                <md-content class="md-padding">
-                    <md-list-item ng-repeat="a in athletes" >
-                        <md-button md-no-ink class="md-primary" ng-click="selectAthlete(a)">{{a.athleteUserId.fullName}}</md-button>
-                        <md-divider></md-divider>
+            <md-tab label="Atletas" md-on-select="onTabChanges(0)">
+            
+                    <md-list-item ng-repeat="a in athletes" ng-click="selectAthlete(a)">
+                        <img data-ng-src="{{a.athleteUserId.profilePhotoBase64}}"  alt="{{a.athleteUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                        <div class="md-list-item-text">
+                            <p>{{a.athleteUserId.fullName}}</p>
+                        </div>
+                        <md-divider md-inset></md-divider>
                     </md-list-item>
-                </md-content>
             </md-tab>
             <md-tab label="Estrella" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno"  md-on-select="onTabChanges(1)" >
                 <md-content class="md-padding">
@@ -29,8 +38,8 @@
 
             <md-tab label="Bandeja de entrada"  md-on-select="onTabChanges(3)">
                 <md-content class="md-padding">
-                        <md-button md-no-ink class="md-primary" ng-click="selectUser(userSession.userId)">{{userSession.fullName}}</md-button>
-                        <md-divider></md-divider>
+                    <md-button md-no-ink class="md-primary" ng-click="selectUser(userSession.userId)">{{userSession.fullName}}</md-button>
+                    <md-divider></md-divider>
                 </md-content>
             </md-tab>
         </md-tabs>

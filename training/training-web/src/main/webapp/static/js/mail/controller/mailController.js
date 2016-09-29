@@ -120,8 +120,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             $window.location.href = "#mail";
         };
 
-        $scope.selectAthlete = function (coachAssignedPlanSelected) {
-            $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
+        $scope.selectAthlete = function (e) {
+            $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(e));
             $window.location.href = "#dashboard";
         };
         

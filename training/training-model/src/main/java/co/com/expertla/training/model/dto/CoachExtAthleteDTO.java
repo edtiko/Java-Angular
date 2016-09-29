@@ -18,9 +18,10 @@ import java.util.Date;
 public class CoachExtAthleteDTO {
 
     private Integer id;
-    private UserDTO athleteUser;
+    private UserDTO athleteUserId;
     private Integer trainingPlanUserId;
     private String state;
+    private Integer stateId;
     @JsonSerialize(using = JsonDateTimeSerializer.class)
     private Date creationDate;
 
@@ -28,10 +29,12 @@ public class CoachExtAthleteDTO {
 
     }
 
-    public CoachExtAthleteDTO(Integer id, User athleteUserId, Integer trainingPlanUserId, State stateId) {
+    public CoachExtAthleteDTO(Integer id, User athleteUserId, Date creationDate, State stateId) {
         this.id = id;
-        this.athleteUser = UserDTO.mapFromUserEntity(athleteUserId);
-        this.trainingPlanUserId = trainingPlanUserId;
+        this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
+        this.creationDate = creationDate;
+        //this.trainingPlanUserId = trainingPlanUserId;
+        this.stateId = stateId.getStateId();
         this.state = stateId.getName();
     }
 
@@ -43,12 +46,12 @@ public class CoachExtAthleteDTO {
         this.id = id;
     }
 
-    public UserDTO getAthleteUser() {
-        return athleteUser;
+    public UserDTO getAthleteUserId() {
+        return athleteUserId;
     }
 
-    public void setAthleteUser(UserDTO athleteUser) {
-        this.athleteUser = athleteUser;
+    public void setAthleteUserId(UserDTO athleteUser) {
+        this.athleteUserId = athleteUser;
     }
 
     public Integer getTrainingPlanUserId() {
@@ -74,5 +77,14 @@ public class CoachExtAthleteDTO {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
+    public Integer getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Integer stateId) {
+        this.stateId = stateId;
+    }
+      
 
 }

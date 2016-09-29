@@ -6,12 +6,19 @@
 package co.com.expertla.training.dao.plan;
 
 import co.com.expertla.base.jpa.BaseDAO;
+import co.com.expertla.base.jpa.DAOException;
+import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
 import co.com.expertla.training.model.entities.CoachExtAthlete;
+import java.util.List;
 
 /**
  *
  * @author Edwin G
  */
 public interface CoachExtAthleteDao extends BaseDAO<CoachExtAthlete>{
+
+    public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state) throws DAOException;
+
+    public CoachExtAthlete findById(Integer coachExtAthleteId) throws DAOException;
     
 }

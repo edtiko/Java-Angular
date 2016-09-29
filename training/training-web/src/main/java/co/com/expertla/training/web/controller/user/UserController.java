@@ -253,6 +253,8 @@ public class UserController {
             userSession.setTypeUser(userDto.getTypeUser());
             userSession.setFullName(userDto.getFullName());
             userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
+            userSession.setDisciplineId(userDto.getDisciplineId());
+            userSession.setDisciplineName(userDto.getDisciplineName());
 
             if (userDto.getUserWordpressId() != null) {
                 UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
@@ -313,6 +315,7 @@ public class UserController {
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
             if(trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
                 userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
+                userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
             }
             
             session.setAttribute("user", userSession);
