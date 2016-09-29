@@ -396,15 +396,14 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
         List<Activity> list = new ArrayList<>();
 
-        TrainingPlan trainingPlan = new TrainingPlan();
-        trainingPlan.setName(userProfile.getObjectiveId().getName() + "-" + userProfile.getModalityId().getName() + "-" + userProfile.getUserProfileId());
-        trainingPlan.setCreationDate(startDate);
-        trainingPlan.setEndDate(endDate);
-
-        TrainingPlanUser planUser = new TrainingPlanUser();
-        planUser.setTrainingPlanId(trainingPlan);
-        planUser.setUserId(new User(userProfile.getUserId().getUserId()));
-        planUser.setStateId(StateEnum.ACTIVE.getId());
+        TrainingPlanUser planUser = null;
+        
+        List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserDao.getTrainingPlanUserByUser(new User(userProfile.getUserId().getUserId()));
+        if(trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
+            planUser = trainingPlanUserlist.get(0);
+        } else {
+            throw new Exception("No existe un plan valido para el usuario actual");
+        }
 
         TrainingPlanWorkout workout = new TrainingPlanWorkout();
         int i = 0;
@@ -431,8 +430,6 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
         }
         
-        trainingPlanDao.create(trainingPlan);
-        trainingPlanUserDao.create(planUser);
         trainingPlanWorkoutDao.createList(workouts);
     }
       

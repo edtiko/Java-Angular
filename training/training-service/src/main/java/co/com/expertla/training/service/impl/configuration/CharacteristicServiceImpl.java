@@ -66,4 +66,9 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     public List<Characteristic> findByName(Characteristic characteristic) throws Exception {
         return characteristicDao.findByName(characteristic);
     }
+
+    @Override
+    public List<Characteristic> findAllByTypeMembershipOrPlan(boolean isMembership, String userType) throws Exception {
+        return characteristicDao.findAllByTypeMembershipOrPlan(isMembership, userType);
+    }
 }

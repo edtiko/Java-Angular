@@ -349,4 +349,53 @@ public class CharacteristicController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    /**
+     * Consulta characteristic by membership <br>
+     * Info. Creación: <br>
+     * fecha 28/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userType
+     * @return
+     */
+    @RequestMapping(value = "/characteristic/membership/get/{userType}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listByMembership(@PathVariable("userType") String userType) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<Characteristic> characteristicList = characteristicService.findAllByTypeMembershipOrPlan(true, userType);
+            responseService.setOutput(characteristicList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(CharacteristicController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta characteristic by plan <br>
+     * Info. Creación: <br>
+     * fecha 28/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @return
+     */
+    @RequestMapping(value = "/characteristic/plan/get/all", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listByPlan() {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<Characteristic> characteristicList = characteristicService.findAllByTypeMembershipOrPlan(false, null);
+            responseService.setOutput(characteristicList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(CharacteristicController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 }
