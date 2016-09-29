@@ -71,6 +71,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             templateUrl: 'static/views/calendar/replaceActivity.html',
             parent: angular.element(document.body),
             targetEvent: ev,
+            escapeToClose: true,
             clickOutsideToClose: true,
             fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
         })
@@ -158,10 +159,12 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         };
 
         $scope.getActivity();
-        $scope.hide = function () {
+        $scope.hideReplaceActivity = function () {
+            console.debug('hide');
             $mdDialog.hide();
         };
         $scope.cancelReplaceActivity = function () {
+            console.debug('cancel');
             $mdDialog.cancel();
         };
     }
