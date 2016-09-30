@@ -396,6 +396,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.errorMessages = "";
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
+            
+            if($scope.userSession.planActiveId == '0') {
+                $scope.showMessage("Para generar plan primero debe comprar ");
+                return;
+            }
+            
             if ($scope.validateFields(form)) {
                 $scope.getSessions(ev, generatePlan);
             } else {

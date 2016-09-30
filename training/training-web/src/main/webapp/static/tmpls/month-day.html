@@ -11,10 +11,15 @@
             <% if(event.manualActivity){ 
               style = 'background-color: rgba(180, 182, 181, 0.42) !important;'
              }%>
+             
              <a id="cal_<%= event.id %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.id %>, <%= event.manualActivity %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
                class="pull-left event-back event " style="<%= style %>" data-toggle="tooltip"
                title="<%= event.title %>">
-                 <span style="cursor:pointer" class="add-right" onClick="replaceActivity(event)" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
+                 <div>
+                    <span style="cursor:pointer" class="add-right" onClick="replaceActivity(event)" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
+                 </div>
+                 
+                 
                  <div data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" style="width: 22px">
                     <img src="static/img/<%= event['className'] %>" alt="<%= event['className'] %>"/>
                 </div>

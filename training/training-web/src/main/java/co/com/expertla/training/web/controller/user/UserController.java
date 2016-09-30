@@ -87,7 +87,7 @@ public class UserController {
 
     @Autowired
     CoachAssignedPlanService coachAssignedPlanService;
-    
+
     @Autowired
     StartTeamService startTeamService;
 
@@ -294,6 +294,8 @@ public class UserController {
 
                                 if (jo.get("starTeamId") != null
                                         && !jo.get("starTeamId").getAsString().trim().isEmpty()) {
+                                    userDto.setIndLoginFirstTime(1);
+                                    userService.updateUser(userDto);
                                     Integer starTeamId = jo.get("starTeamId").getAsInt();
                                     CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
                                     coachAssignedPlan.setCreationDate(new Date());
@@ -302,17 +304,20 @@ public class UserController {
                                     coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
                                     coachAssignedPlanService.create(coachAssignedPlan);
                                     List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
-                                    
-                                    if(starTeamList != null && !starTeamList.isEmpty()) {
+
+                                    if (starTeamList != null && !starTeamList.isEmpty()) {
                                         StarTeam starTeam = starTeamList.get(0);
                                         Integer starUserId = starTeam.getStarUserId().getUserId();
                                         DisciplineUser disciplineUserStar = disciplineUserService.findByUserId(starUserId);
                                         DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
-                                        
-                                        if(!disciplineUser.getDisciplineUserId().equals(disciplineUserStar.getDisciplineUserId())) {
-                                            disciplineUser.setDisciplineUserId(disciplineUserStar.getDisciplineUserId());
-                                            disciplineUserService.store(disciplineUser);
+
+                                        if (disciplineUserStar != null && disciplineUser != null) {
+                                            if (!disciplineUser.getDisciplineUserId().equals(disciplineUserStar.getDisciplineUserId())) {
+                                                disciplineUser.setDisciplineUserId(disciplineUserStar.getDisciplineUserId());
+                                                disciplineUserService.store(disciplineUser);
+                                            }
                                         }
+
                                     }
                                 }
 
@@ -326,16 +331,16 @@ public class UserController {
                     }
                 }
             }
-            
+
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-            if(trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
+            if (trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
                 userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
             }
-            
+
             session.setAttribute("user", userSession);
             Locale locale = new Locale("es", "CO");
             Locale.setDefault(locale);
-            
+
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;
@@ -447,7 +452,6 @@ public class UserController {
         return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-  
     @RequestMapping(value = "/session/opentok", method = RequestMethod.GET)
     public @ResponseBody
     Response getSessionOpenTok(HttpSession session, HttpServletResponse response) {

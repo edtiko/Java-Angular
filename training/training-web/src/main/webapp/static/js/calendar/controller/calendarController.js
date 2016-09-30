@@ -155,6 +155,8 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             var userId = JSON.parse($window.sessionStorage.getItem("userInfo"));
             var objActivity = {'userId' : userId.userId, 'trainingPlanWorkoutId' : $scope.selectedActivity,
                 'activityDate' : $scope.selectedDay, 'activityId' : activityId};
+            
+            console.debug(objActivity);
             createPlan(objActivity, true);
         };
 
