@@ -225,7 +225,7 @@ public class MailController {
     }
     
      /**
-     * Consulta todos los usuarios a quien puede enviar correos el usuario enviado<br>
+     * Consulta todos los usuarios a quien puede enviar correos el usuario coach <br>
      * Info. Creacion: <br>
      * fecha 12/09/2016 <br>
      *
@@ -233,13 +233,41 @@ public class MailController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/get/all/recipients/by/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/all/recipients/by/coach/{userId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAllRecipients(@PathVariable("userId") Integer userId) {
+    Response getAllRecipientsByCoach(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<UserDTO> mails = mailCommunicationService.getAllRecipientsByUserId(userId);
+            List<UserDTO> mails = mailCommunicationService.getAllRecipientsByCoachId(userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(mails);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    /**
+     * Consulta todos los usuarios a quien puede enviar correos la estrella <br>
+     * Info. Creacion: <br>
+     * fecha 12/09/2016 <br>
+     *
+     * @author Angela Ramirez
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/get/all/recipients/by/star/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getAllRecipientsByStar(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<UserDTO> mails = mailCommunicationService.getAllRecipientsByStarId(userId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(mails);
             return Response.status(Response.Status.OK).entity(responseService).build();

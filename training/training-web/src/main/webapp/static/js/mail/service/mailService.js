@@ -26,8 +26,20 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                         );
             },
             
-            getAllRecipients: function (userId) {
-                return $http.get($contextPath + '/get/all/recipients/by/' + userId)
+            getAllRecipientsByCoach: function (userId) {
+                return $http.get($contextPath + '/get/all/recipients/by/coach/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching mails');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getAllRecipientsByStar: function (userId) {
+                return $http.get($contextPath + '/get/all/recipients/by/star/' + userId)
                         .then(
                                 function (response) {
                                     return response.data;

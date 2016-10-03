@@ -40,4 +40,9 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
         return dao.create(coachAssignedPlan);
     }
     
+    @Override
+    public List<CoachAssignedPlanDTO> findByStarUserId(Integer userId) throws Exception {
+        return dao.findByStarUserId(userId);
+    }
+    
 }

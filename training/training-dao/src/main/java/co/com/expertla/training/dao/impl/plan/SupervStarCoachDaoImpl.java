@@ -5,6 +5,7 @@ import co.com.expertla.training.dao.plan.SupervStarCoachDao;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.SupervStarCoachDTO;
 import co.com.expertla.training.model.dto.UserAssignedSupervisorDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import java.util.List;
 import javax.persistence.Query;
@@ -147,6 +148,52 @@ public class SupervStarCoachDaoImpl extends BaseDAOImpl<SupervStarCoach> impleme
         builder.append(" a.supervStarCoachId, a.starTeamId.coachUserId, a.starTeamId.starUserId, a.starTeamId.starTeamId, a.supervisorId.userId ");
         builder.append(") from SupervStarCoach a ");
         builder.append("where a.supervisorId.userId = :id ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<UserAssignedSupervisorDTO> findAtleteCoachBySupervisorId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+        builder.append(" a.supervStarCoachId, a.supervisorId.userId, a.starTeamId.coachUserId, cp.trainingPlanUserId.userId ");
+        builder.append(") from SupervStarCoach a, CoachAssignedPlan cp ");
+        builder.append("where a.supervisorId.userId = :id ");
+        builder.append("and cp.starTeamId.starTeamId = a.starTeamId.starTeamId ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<UserAssignedSupervisorDTO> findUsersBySupervisorId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+        builder.append(" a.supervStarCoachId, a.supervisorId.userId, a.starTeamId.coachUserId ");
+        builder.append(") from SupervStarCoach a ");
+        builder.append("where a.supervisorId.userId = :id ");
+//        builder.append("UNION ");
+//        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+//        builder.append(" a.supervStarCoachId, a.supervisorId.userId, a.starTeamId.starUserId ");
+//        builder.append(") from SupervStarCoach a ");
+//        builder.append("where a.supervisorId.userId = :id ");
+//        builder.append("UNION ");
+//        builder.append("select new co.com.expertla.training.model.dto.UserAssignedSupervisorDTO( ");
+//        builder.append(" a.supervStarCoachId, a.supervisorId.userId, cp.trainingPlanUserId.userId ");
+//        builder.append(") from SupervStarCoach a, CoachAssignedPlan cp ");
+//        builder.append("where a.supervisorId.userId = :id ");
+//        builder.append("and cp.starTeamId.starTeamId = a.starTeamId.starTeamId ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("id", userId);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<SupervStarCoach> findByStarId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from SupervStarCoach a ");
+        builder.append("where a.starTeamId.starUserId.userId = :id ");
         Query query = this.getEntityManager().createQuery(builder.toString());
         query.setParameter("id", userId);
         return query.getResultList();

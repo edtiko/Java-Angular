@@ -10,6 +10,7 @@ import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import co.com.expertla.training.service.plan.MailCommunicationService;
+import co.com.expertla.training.service.plan.SupervStarCoachService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     private CoachAssignedPlanDao coachAssignedPlanDao;
     @Autowired
     private SupervStarCoachDao supervStarCoachDao;
+    @Autowired
+    private SupervStarCoachService supervStarCoachService;
     
 
     @Override
@@ -80,7 +83,7 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
     
     @Override
-    public List<UserDTO> getAllRecipientsByUserId(Integer userId) throws Exception {
+    public List<UserDTO> getAllRecipientsByCoachId(Integer userId) throws Exception {
         List<UserDTO> recipients = new ArrayList<>();
         List<CoachAssignedPlanDTO> starsAndAthletes = coachAssignedPlanDao.findByCoachUserId(userId);
         List<SupervStarCoach> supervisors = supervStarCoachDao.findByCoachId(userId);
@@ -92,5 +95,16 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
             recipients.add(u.getStarUserId());
         }
         return recipients;
+    }
+    
+    @Override
+    public List<UserDTO> getAllRecipientsByStarId(Integer userId) throws Exception {
+        List<UserDTO> users = supervStarCoachService.findByStarId(userId);
+        List<CoachAssignedPlanDTO> coachesAndAthletes = coachAssignedPlanDao.findByStarUserId(userId);
+        for (CoachAssignedPlanDTO u : coachesAndAthletes) {
+            users.add(u.getAthleteUserId());
+            users.add(u.getCoachUserId());
+        }
+        return users;
     }
 }

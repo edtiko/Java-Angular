@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
@@ -54,6 +49,9 @@ public class PlanMessage implements Serializable {
     @JoinColumn(name = "message_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User messageUserId;
+    @JoinColumn(name = "receiving_user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+    private User receivingUserId;
 
     public PlanMessage() {
     }
@@ -134,6 +132,14 @@ public class PlanMessage implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.PlanMessage[ planMessageId=" + planMessageId + " ]";
+    }
+
+    public User getReceivingUserId() {
+        return receivingUserId;
+    }
+
+    public void setReceivingUserId(User receivingUserId) {
+        this.receivingUserId = receivingUserId;
     }
     
 }

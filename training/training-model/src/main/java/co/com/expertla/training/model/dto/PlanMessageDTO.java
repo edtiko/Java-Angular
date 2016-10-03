@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.PlanMessage;
@@ -25,6 +20,7 @@ public class PlanMessageDTO {
     private Date creationDate;
     private Integer countMessagesCoach;
     private Integer countMessagesAthlete;
+    private UserDTO receivingUserId;
 
     public PlanMessageDTO() {
 
@@ -35,6 +31,14 @@ public class PlanMessageDTO {
         this.message = message;
         this.messageUserId = UserDTO.mapFromUserEntity(messageUserId);
         this.creationDate = creationDate;
+    }
+    
+    public PlanMessageDTO(Integer id, String message, User messageUserId, Date creationDate,User receivingUserId) {
+        this.id = id;
+        this.message = message;
+        this.messageUserId = UserDTO.mapFromUserEntity(messageUserId);
+        this.creationDate = creationDate;
+        this.receivingUserId = UserDTO.mapFromUserEntity(receivingUserId);
     }
     
      public static PlanMessageDTO mapFromPlanMessageEntity(PlanMessage e) {
@@ -98,6 +102,14 @@ public class PlanMessageDTO {
 
     public void setCountMessagesAthlete(Integer countMessagesAthlete) {
         this.countMessagesAthlete = countMessagesAthlete;
+    }
+
+    public UserDTO getReceivingUserId() {
+        return receivingUserId;
+    }
+
+    public void setReceivingUserId(UserDTO receivingUserId) {
+        this.receivingUserId = receivingUserId;
     }
     
    

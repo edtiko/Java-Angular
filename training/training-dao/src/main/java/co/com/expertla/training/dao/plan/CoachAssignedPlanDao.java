@@ -23,4 +23,14 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     
     public CoachAssignedPlan findById(Integer id) throws DAOException;
     
+     /**
+     * Consulta coachAssignedPlan por star user Id <br>
+     * Info. Creación: <br>
+     * fecha 13/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return 
+     * @throws Exception 
+     */
+    public List<CoachAssignedPlanDTO> findByStarUserId(Integer userId) throws Exception;
 }

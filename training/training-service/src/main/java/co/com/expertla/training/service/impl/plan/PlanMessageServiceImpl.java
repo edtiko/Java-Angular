@@ -47,10 +47,12 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     public PlanMessageDTO saveMessage(PlanMessageDTO message) throws Exception, TrainingException {
         PlanMessage planMessage = new PlanMessage();
         User messageUser = userDao.findById(message.getMessageUserId().getUserId());
+        User receivingUser = userDao.findById(message.getReceivingUserId().getUserId());
         CoachAssignedPlan plan = coachAssignedPlanDao.findById(message.getCoachAssignedPlanId().getId());
         planMessage.setCoachAssignedPlanId(plan);
         planMessage.setMessage(message.getMessage());
         planMessage.setMessageUserId(messageUser);
+        planMessage.setReceivingUserId(receivingUser);
         planMessage.setStateId(new Integer(Status.ACTIVE.getId()));
         planMessage.setCreationDate(new Date());
         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
@@ -78,4 +80,8 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         planMessageDao.readMessage(planMessageId);
     }
     
+    @Override
+    public List<PlanMessageDTO> getMessagesByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception {
+        return planMessageDao.getMessagesByReceivingUserAndSendingUser(receivingUserId, sendingUserId);
+    }
 }
