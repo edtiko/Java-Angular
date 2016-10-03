@@ -205,7 +205,21 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
+        
+        //Coach Interno
         self.getAvailableMessages = function (coachAssignedPlanId, userId) {
+            messageService.getAvailableMessages(coachAssignedPlanId, userId).then(
+                    function (data) {
+                        $scope.availableMessage = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+        //Coach Externo
+          self.getAvailableMessages = function (coachAssignedPlanId, userId) {
             messageService.getAvailableMessages(coachAssignedPlanId, userId).then(
                     function (data) {
                         $scope.availableMessage = data.entity.output;

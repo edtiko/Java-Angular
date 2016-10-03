@@ -778,7 +778,8 @@ create table coach_assigned_plan (
 /*==============================================================*/
 create table plan_message (
    plan_message_id           serial  not null,
-   coach_assigned_plan_id    integer not null,
+   coach_assigned_plan_id    integer,
+   coach_ext_athlete_id      integer, 
    message                   varchar(5000),
    message_user_id           integer not null,
    readed                    boolean  default false,
@@ -885,6 +886,11 @@ on delete restrict on update restrict;
 alter table plan_message
 add constraint fk_plan_message_reference_user foreign key (message_user_id)
 references user_training (user_id)
+on delete restrict on update restrict;
+
+alter table plan_message
+add constraint fk_plan_message_reference_coach_ext_athlete foreign key (coach_ext_athlete_id)
+references coach_ext_athlete (coach_ext_athlete_id)
 on delete restrict on update restrict;
 
 alter table model_equipment
