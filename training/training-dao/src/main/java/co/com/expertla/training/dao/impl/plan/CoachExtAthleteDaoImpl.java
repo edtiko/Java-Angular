@@ -25,7 +25,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.creationDate, m.stateId) ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId.userId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
         sql.append("FROM CoachExtAthlete m ");
         sql.append("Where m.trainingPlanUserId.trainingPlanUserId = :trainingPlanUserId ");
         if (!state.equals("ALL")) {
@@ -50,6 +50,20 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId.userId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
+        sql.append("FROM CoachExtAthlete m ");
+        sql.append("WHERE m.userTrainingId.userId = :userId ");
+        sql.append("AND m.trainingPlanUserId.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append("AND m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", athleteUserId);
+        List<CoachExtAthleteDTO> list = query.getResultList();
+        return (list == null || list.isEmpty()) ? null : list.get(0);
     }
     
 }

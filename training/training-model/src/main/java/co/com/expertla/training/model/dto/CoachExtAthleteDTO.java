@@ -6,6 +6,7 @@
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.State;
+import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -19,23 +20,29 @@ public class CoachExtAthleteDTO {
 
     private Integer id;
     private UserDTO athleteUserId;
+    private UserDTO coachUserId;
     private Integer trainingPlanUserId;
+    private TrainingPlanDTO trainingPlanId;
     private String state;
     private Integer stateId;
     @JsonSerialize(using = JsonDateTimeSerializer.class)
     private Date creationDate;
+    private boolean external;
 
     public CoachExtAthleteDTO() {
 
     }
 
-    public CoachExtAthleteDTO(Integer id, User athleteUserId, Date creationDate, State stateId) {
+    public CoachExtAthleteDTO(Integer id, User athleteUserId, User coachUserId, TrainingPlan trainingPlan, Date creationDate, State stateId) {
         this.id = id;
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
+        this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
         this.creationDate = creationDate;
         //this.trainingPlanUserId = trainingPlanUserId;
         this.stateId = stateId.getStateId();
         this.state = stateId.getName();
+        this.external = true;
+        this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(trainingPlan);
     }
 
     public Integer getId() {
@@ -85,6 +92,29 @@ public class CoachExtAthleteDTO {
     public void setStateId(Integer stateId) {
         this.stateId = stateId;
     }
-      
+
+    public TrainingPlanDTO getTrainingPlanId() {
+        return trainingPlanId;
+    }
+
+    public void setTrainingPlanId(TrainingPlanDTO trainingPlanId) {
+        this.trainingPlanId = trainingPlanId;
+    }
+
+    public UserDTO getCoachUserId() {
+        return coachUserId;
+    }
+
+    public void setCoachUserId(UserDTO coachUserId) {
+        this.coachUserId = coachUserId;
+    }
+
+    public boolean isExternal() {
+        return external;
+    }
+
+    public void setExternal(boolean external) {
+        this.external = external;
+    }
 
 }

@@ -14,18 +14,16 @@ import java.util.Date;
  *
  * @author Edwin G
  */
-public class CoachAssignedPlanDTO {
+public class CoachAssignedPlanDTO{
     
     private Integer id;
     private UserDTO athleteUserId;
     private UserDTO coachUserId;
     private UserDTO starUserId;
     private Integer starTeamId;
-    private Integer videoCount;
-    private Integer messageCount;
-    private Integer callCount;
-    private Integer emailCount;
+    private TrainingPlanDTO trainingPlanId; 
     private Date creationDate;
+    private boolean external;
     
      public CoachAssignedPlanDTO(){
          
@@ -37,11 +35,9 @@ public class CoachAssignedPlanDTO {
         this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
         this.starUserId = UserDTO.mapFromUserEntity(starUserId);
         this.starTeamId = startTeamId;
+        this.external = false;
         if(trainingPlan != null){
-            this.videoCount = trainingPlan.getVideoCount();
-            this.messageCount = trainingPlan.getMessageCount();
-            this.emailCount = trainingPlan.getEmailCount();
-            this.callCount = trainingPlan.getCallCount();
+           trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(trainingPlan);
         }
     }
 
@@ -94,38 +90,6 @@ public class CoachAssignedPlanDTO {
         this.starUserId = starUserId;
     }
 
-    public Integer getVideoCount() {
-        return videoCount;
-    }
-
-    public void setVideoCount(Integer videoCount) {
-        this.videoCount = videoCount;
-    }
-
-    public Integer getMessageCount() {
-        return messageCount;
-    }
-
-    public void setMessageCount(Integer messageCount) {
-        this.messageCount = messageCount;
-    }
-
-    public Integer getCallCount() {
-        return callCount;
-    }
-
-    public void setCallCount(Integer callCount) {
-        this.callCount = callCount;
-    }
-
-    public Integer getEmailCount() {
-        return emailCount;
-    }
-
-    public void setEmailCount(Integer emailCount) {
-        this.emailCount = emailCount;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
@@ -133,4 +97,22 @@ public class CoachAssignedPlanDTO {
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
+
+    public boolean isExternal() {
+        return external;
+    }
+
+    public void setExternal(boolean external) {
+        this.external = external;
+    }
+
+    public TrainingPlanDTO getTrainingPlanId() {
+        return trainingPlanId;
+    }
+
+    public void setTrainingPlanId(TrainingPlanDTO trainingPlanId) {
+        this.trainingPlanId = trainingPlanId;
+    }
+    
+    
 }

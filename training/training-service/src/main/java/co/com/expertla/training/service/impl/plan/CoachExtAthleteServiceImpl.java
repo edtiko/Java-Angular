@@ -64,5 +64,10 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
         e.setStateId(new State(StateEnum.RETIRED.getId()));
         coachExtAthleteDao.merge(e);
     }
+
+    @Override
+    public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId) throws Exception {
+        return coachExtAthleteDao.findByAthleteUserId(athleteUserId);
+    }
     
 }

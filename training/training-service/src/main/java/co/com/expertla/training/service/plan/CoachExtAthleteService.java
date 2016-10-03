@@ -19,5 +19,7 @@ public interface CoachExtAthleteService {
     public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state)throws Exception;
 
     public void retireAthlete(Integer userId)throws Exception;
+
+    public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId)throws Exception;
     
 }
