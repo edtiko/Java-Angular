@@ -6,6 +6,7 @@ import co.com.expertla.training.model.dto.MailCommunicationDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.SupervStarCoachDTO;
 import co.com.expertla.training.model.dto.UserAssignedSupervisorDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.ColourIndicator;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import java.util.List;
@@ -243,40 +244,40 @@ public class SupervStarCoachController {
                 }
             }
 
-            for (UserAssignedSupervisorDTO userAssignedSupervisorDTO : supervStarCoachList) {
-
-                List<MailCommunicationDTO> listMailCommunicationDTO = mailCommunicationService.getMailsByReceivingUserIdFromSendingUserRead(userId,
-                        userAssignedSupervisorDTO.getCoachUserId().getUserId(), false);
-                
-
-                if (listMailCommunicationDTO != null && !listMailCommunicationDTO.isEmpty()) {
-                    MailCommunicationDTO mail = listMailCommunicationDTO.get(0);
-                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
-                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
-                        userAssignedSupervisorDTO.setColourCoach(firstColour);
-                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
-                        userAssignedSupervisorDTO.setColourCoach(secondColour);
-                    } else {
-                        userAssignedSupervisorDTO.setColourCoach(thirdColour);
-                    }
-                }
-                
-                listMailCommunicationDTO = mailCommunicationService.getMailsByReceivingUserIdFromSendingUserRead(userId,
-                        userAssignedSupervisorDTO.getStarUserId().getUserId(), false);
-                
-
-                if (listMailCommunicationDTO != null && !listMailCommunicationDTO.isEmpty()) {
-                    MailCommunicationDTO mail = listMailCommunicationDTO.get(0);
-                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
-                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
-                        userAssignedSupervisorDTO.setColourStar(firstColour);
-                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
-                        userAssignedSupervisorDTO.setColourStar(secondColour);
-                    } else {
-                        userAssignedSupervisorDTO.setColourStar(thirdColour);
-                    }
-                }
-            }
+//            for (UserAssignedSupervisorDTO userAssignedSupervisorDTO : supervStarCoachList) {
+//
+//                List<MailCommunicationDTO> listMailCommunicationDTO = mailCommunicationService.getMailsByReceivingUserIdFromSendingUserRead(userId,
+//                        userAssignedSupervisorDTO.getCoachUserId().getUserId(), false);
+//                
+//
+//                if (listMailCommunicationDTO != null && !listMailCommunicationDTO.isEmpty()) {
+//                    MailCommunicationDTO mail = listMailCommunicationDTO.get(0);
+//                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+//                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+//                        userAssignedSupervisorDTO.setColourCoach(firstColour);
+//                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+//                        userAssignedSupervisorDTO.setColourCoach(secondColour);
+//                    } else {
+//                        userAssignedSupervisorDTO.setColourCoach(thirdColour);
+//                    }
+//                }
+//                
+//                listMailCommunicationDTO = mailCommunicationService.getMailsByReceivingUserIdFromSendingUserRead(userId,
+//                        userAssignedSupervisorDTO.getStarUserId().getUserId(), false);
+//                
+//
+//                if (listMailCommunicationDTO != null && !listMailCommunicationDTO.isEmpty()) {
+//                    MailCommunicationDTO mail = listMailCommunicationDTO.get(0);
+//                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+//                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+//                        userAssignedSupervisorDTO.setColourStar(firstColour);
+//                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+//                        userAssignedSupervisorDTO.setColourStar(secondColour);
+//                    } else {
+//                        userAssignedSupervisorDTO.setColourStar(thirdColour);
+//                    }
+//                }
+//            }
 
             responseService.setOutput(supervStarCoachList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -387,7 +388,7 @@ public class SupervStarCoachController {
     public ResponseEntity<ResponseService> findUsersBySupervisor(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
-            List<UserAssignedSupervisorDTO> supervStarCoachList = supervStarCoachService.findUsersBySupervisorId(userId);
+            List<UserDTO> supervStarCoachList = supervStarCoachService.findUsersBySupervisorId(userId);
             responseService.setOutput(supervStarCoachList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

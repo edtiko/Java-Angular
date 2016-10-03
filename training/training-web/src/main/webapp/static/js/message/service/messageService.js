@@ -60,6 +60,18 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
+        service.getMessagesByReceivingUserSendingUser = function (receivingUser,sendingUser) {
+            return $http.get($contextPath + '/get/messages/by/receivingUser/sendingUser/' + receivingUser +'/'+sendingUser)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching messages');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
         service.getAvailableMessages = function (coachAssignedPlanId, userId) {
             return $http.get($contextPath + 'get/count/available/messages/' + coachAssignedPlanId + '/' + userId)
                     .then(

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.web.controller.user;
 
 import co.com.expertla.training.model.dto.PlanMessageDTO;
@@ -140,6 +135,26 @@ public class MessageController {
             planMessageService.readMessage(planMessageId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Mensaje Leido Correctamente.");
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+    
+    @RequestMapping(value = "/get/messages/by/receivingUser/sendingUser/{recevingUserId}/{sendingUserId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getMessagesByReceivingUserAndSendingUser(@PathVariable("recevingUserId") Integer recevingUserId,@PathVariable("sendingUserId") Integer sendingUserId ) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<PlanMessageDTO> messages = planMessageService.getMessagesByReceivingUserAndSendingUser(recevingUserId,sendingUserId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(messages);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

@@ -10,8 +10,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.selectedItemReceiverUser = null;
         $scope.mailCommunication = {
             id: '',
-            receivingUser: {userId:''},
-            sendingUser: {userId:''},
+            receivingUser: {userId: ''},
+            sendingUser: {userId: ''},
             message: '',
             subject: ''
         };
@@ -21,6 +21,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.received = false;
         $scope.supervisors = [];
         $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
+        $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
         $scope.recipients = [];
 
         $scope.getMails = function () {
@@ -54,7 +55,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         console.error(error);
                     });
         };
-        
+
         $scope.getSentMailsByUserLogged = function () {
             MailService.getSentMails($scope.userSession.userId).then(
                     function (data) {
@@ -65,9 +66,20 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                         console.error(error);
                     });
         };
-        
-        $scope.getAllRecipients = function () {
-            MailService.getAllRecipients($scope.userSession.userId).then(
+
+        $scope.getAllRecipientsByCoach = function () {
+            MailService.getAllRecipientsByCoach($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.recipients = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+
+        $scope.getAllRecipientsByStar = function () {
+            MailService.getAllRecipientsByStar($scope.userSession.userId).then(
                     function (data) {
                         $scope.recipients = data.entity.output;
                     },
@@ -77,22 +89,23 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                     });
         };
         
-        $scope.selectedItemChange = function(item) {
-            if(item != undefined) {
+        $scope.selectedItemChange = function (item) {
+            if (item != undefined) {
                 $scope.receivingUserSelected = item;
             }
-            
+
         };
-        
+
         $scope.querySearchUsers = function (query, users, value) {
             var results = users;
-            if(query != null) {
+            if (query != null) {
                 results = users.filter(createFilterFor(query, value));
             }
             return results;
         };
 
-this.getAssignedAthletes = function () {            DashboardService.getAssignedAthletes($scope.userSession.userId).then(
+        $scope.getAssignedAthletes = function () {
+            DashboardService.getAssignedAthletes($scope.userSession.userId).then(
                     function (data) {
                         $scope.athletes = data.entity.output;
                         if ($scope.athletes == null) {
@@ -131,7 +144,6 @@ this.getAssignedAthletes = function () {            DashboardService.getAssigned
 
 
         };
-//        this.getAssignedAthletes();
 
         $scope.selectReceivedMail = function (id) {
             for (var i = 0; i < $scope.mailsReceived.length; i++) {
@@ -166,6 +178,35 @@ this.getAssignedAthletes = function () {            DashboardService.getAssigned
         $scope.selectAthlete = function (coachAssignedPlanSelected) {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
             $window.location.href = "#dashboard";
+        };
+        
+        $scope.selectCoach = function (coachAssignedPlanSelected) {
+             $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
+            $window.location.href = "#dashboard";
+//            var user = coachAssignedPlanSelected.coachUserId;
+//            $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
+//            $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
+//            $scope.showControl = true;
+//            $scope.showChat = true;
+//            $scope.showVideo = true;
+//            messageService.initialize(coachAssignedPlanSelected.id);
+//            DashboardService.getDashboard(user).then(
+//                    function (d) {
+//                        $scope.user = d;
+//
+//                        if ($scope.user.birthDate != null) {
+//                            var date = $scope.user.birthDate.split("/");
+//                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
+//                            $scope.user.age = $scope.calculateAge(birthdate);
+//                        }
+//                        $scope.getVisibleFieldsUserByUser(user);
+//                        $scope.getImageProfile(user.userId);
+//                    },
+//                    function (errResponse) {
+//                        console.error('Error while fetching the dashboard');
+//                        console.error(errResponse);
+//                    }
+//            );
         };
 
 
@@ -242,38 +283,125 @@ this.getAssignedAthletes = function () {            DashboardService.getAssigned
                             }
                     );
         };
-//        $scope.getSupervisorByCoachId($scope.userSession.userId);
 
         $scope.onTabChanges = function (currentTabIndex) {
             $window.sessionStorage.setItem("tabIndex", currentTabIndex);
             $scope.tabIndex = currentTabIndex;
-            if($scope.tabIndex == 3) {
-                $scope.getMails();
-                $scope.getSentMailsByUserLogged();
-            } else {
-                $scope.getSentMails();
-                $scope.getReceivedMails();
-            }
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
+                if ($scope.tabIndex == 3) {
+                    $scope.getMails();
+                    $scope.getSentMailsByUserLogged();
+                } else {
+                    $scope.getSentMails();
+                    $scope.getReceivedMails();
+                }
+            } 
+            else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserSupervisor) {
+                if (currentTabIndex == 0) {
+                    $scope.getAssignedStarCoachBySupervisor();
+                } else if (currentTabIndex == 1) {
+                    $scope.getAssignedAtleteCoachBySupervisor();
+                } else {
+                     $scope.getAssignedUserBySupervisor();
+                }
+            } else  if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                if ($scope.tabIndex == 2) {
+                    $scope.getMails();
+                    $scope.getSentMailsByUserLogged();
+                } 
+            } 
         };
 
-        $scope.init = function() {
-            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {              
+        $scope.onTabChanges2 = function (currentTabIndex) {
+            $window.sessionStorage.setItem("tabIndex2", currentTabIndex);
+            $scope.tabIndex2 = currentTabIndex;
+             $scope.getSentMails();
+                    $scope.getReceivedMails();
+        };
+
+        $scope.getAssignedStarCoachBySupervisor = function () {
+            DashboardService.getAssignedStarCoachBySupervisor($scope.userSession.userId).then(
+                    function (data) {
+                        var res = data.output;
+
+                        if (data.status == 'success') {
+                            $scope.supervisorUserAssignedList = angular.copy(res);
+                        }
+
+                    },
+                    function (error) {
+                        $scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+
+        $scope.getAssignedAtleteCoachBySupervisor = function () {
+            DashboardService.getAssignedAtleteCoachBySupervisor($scope.userSession.userId).then(
+                    function (data) {
+                        var res = data.output;
+
+                        if (data.status == 'success') {
+                            $scope.supervisorUserAssignedList = angular.copy(res);
+                        }
+
+                    },
+                    function (error) {
+                        $scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+        $scope.getAssignedUserBySupervisor = function () {
+            DashboardService.getAssignedUserBySupervisor($scope.userSession.userId).then(
+                    function (data) {
+                        var res = data.output;
+
+                        if (data.status == 'success') {
+                            $scope.recipients = angular.copy(res);
+                        }
+
+                    },
+                    function (error) {
+                        $scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
+        $scope.getAssignedAthletesByStar = function () {
+            DashboardService.getAssignedAthletesByStar($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.athletes = data.entity.output;
+                        if ($scope.athletes == null) {
+                            $scope.showMessage("No tiene planes asignados.");
+                        }
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+
+        $scope.init = function () {
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
                 $scope.getAssignedAthletes();
-            }else if ($scope.userSession != null &&$scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno ){   
-                $scope.getAllRecipients();          
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
+                $scope.getAllRecipientsByCoach();
                 $scope.getAssignedAthletes();
-                $scope.getSupervisorByCoachId($scope.userSession.userId); 
+                $scope.getSupervisorByCoachId($scope.userSession.userId);
                 $scope.getSentMails();
                 $scope.getReceivedMails();
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 $scope.getSentMails();
                 $scope.getReceivedMails();
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserSupervisor) {
-                
+                $scope.getAssignedStarCoachBySupervisor();
+            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                $scope.getAssignedAthletesByStar();
+                $scope.getAllRecipientsByStar();
             }
         };
 
-  /**
+        /**
          * Create filter function for a query string
          * @param {type} query
          * @returns {Function}
@@ -287,6 +415,7 @@ this.getAssignedAthletes = function () {            DashboardService.getAssigned
             };
 
         }
-        
+
         $scope.init();
+
     }]);

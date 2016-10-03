@@ -5,7 +5,6 @@
  */
 package co.com.expertla.training.service.plan;
 
-import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import java.util.List;
@@ -27,5 +26,17 @@ public interface PlanMessageService {
     public void readMessages(Integer coachAssignedPlanId, Integer userId) throws  Exception;
     
     public void readMessage(Integer planMessageId) throws  Exception;
+    
+    /**
+     * Consulta los mensajes para el chat por receiving user id and sending user id <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param receivingUserId
+     * @param sendingUserId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getMessagesByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception;
     
 }

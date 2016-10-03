@@ -115,7 +115,7 @@ public interface MailCommunicationService {
     public List<MailCommunicationDTO> getMailsByReceivingUserIdFromSendingUserRead(Integer receivingUserId, Integer sendingUserId, boolean read) throws Exception;
     
     /**
-     * Trae todos destinatarios asociados al usuario <br>
+     * Trae todos destinatarios asociados al coach <br>
      * Creation Date : <br>
      * date 22/09/2016 <br>
      * @author  Angela Ramirez
@@ -123,5 +123,16 @@ public interface MailCommunicationService {
      * @throws co.com.expertla.base.jpa.DAOException
      * @return
      */
-    public List<UserDTO> getAllRecipientsByUserId(Integer userId) throws Exception;
+    public List<UserDTO> getAllRecipientsByCoachId(Integer userId) throws Exception;
+    
+    /**
+     * Trae todos destinatarios asociados a la estrella <br>
+     * Creation Date : <br>
+     * date 22/09/2016 <br>
+     * @author  Angela Ramirez
+     * @param userId
+     * @throws co.com.expertla.base.jpa.DAOException
+     * @return
+     */
+    public List<UserDTO> getAllRecipientsByStarId(Integer userId) throws Exception;
 }

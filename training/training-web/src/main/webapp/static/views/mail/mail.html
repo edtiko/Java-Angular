@@ -1,5 +1,5 @@
 <div layout="row" layout-align="center" style="margin-top: 3%">
-    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno">
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
         <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
     </div>
 
@@ -31,7 +31,7 @@
                     <md-list-item class="md-3-line" ng-repeat="mail in mailsReceived| orderBy:'creationDate':true" ng-hide="mailSelected.mailCommunicationId != null || create"
                                   ng-click="selectReceivedMail(mail.mailCommunicationId)">
 
-                        <div ng-style="{{mail.colour}}" class="colour"></div>
+                        <div ng-style="{{mail.colour}}" class="colour" ng-if="tabIndex == 1 || tabIndex == 2"></div>
 
                         <div class="md-list-item-text" style="margin-left: 1%" ng-if="mail.read">
 
@@ -109,18 +109,40 @@
                     <form ng-submit="addMail()" name="mailForm">
                         <section layout="row" layout-sm="column" layout-wrap>
                             <div flex="90">
-                                <md-input-container ng-if="userSession.typeUser == userSessionTypeUserSupervisor" md-no-float class="md-block" ng-show="create && tabIndex == 1" >
+                                <!-- Destinatario atletas cuando user == Coach Ext - Int-->
+                                <md-input-container  md-no-float class="md-block" ng-show="create && tabIndex == 0" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno">
                                     <label>{{ 'RECEIVER_USER' | translate }}</label>
-
+                                
                                     <md-autocomplete 
                                         md-selected-item="receivingUserSelected" 
-                                        md-selected-item-change="selectedItemChange(item.userId.userId)"
-                                        md-items="item in querySearchUsers(searchTextReceiverUser, athletes, 'userId.fullName')" 
+                                        md-selected-item-change="selectedItemChange(item.athleteUserId.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, athletes, 'athleteUserId.fullName')" 
                                         md-min-length="0"
-                                        md-item-text="item.userId.fullName"
+                                        md-item-text="item.athleteUserId.fullName"
                                         md-search-text="searchTextReceiverUser">
                                         <md-item-template>
-                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.userId.fullName}}</span>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.athleteUserId.fullName}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados
+                                        </md-not-found>
+                                    </md-autocomplete>
+
+                                </md-input-container>
+                                
+                                <!-- Destinatario atletas cuando user == Coach Estrella-->
+                                <md-input-container  md-no-float class="md-block" ng-show="create && tabIndex == 0" ng-if="userSession.typeUser == userSessionTypeUserCoachEstrella">
+                                    <label>{{ 'RECEIVER_USER' | translate }}</label>
+                                
+                                    <md-autocomplete 
+                                        md-selected-item="receivingUserSelected" 
+                                        md-selected-item-change="selectedItemChange(item.athleteUserId.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, athletes, 'athleteUserId.fullName')" 
+                                        md-min-length="0"
+                                        md-item-text="item.athleteUserId.fullName"
+                                        md-search-text="searchTextReceiverUser">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.athleteUserId.fullName}}</span>
                                         </md-item-template>
                                         <md-not-found>
                                             No se encontraron resultados
@@ -129,7 +151,9 @@
 
                                 </md-input-container>
 
-                                <md-input-container ng-if="userSession.typeUser != userSessionTypeUserSupervisor" md-no-float class="md-block" ng-show="create && tabIndex == 1" >
+
+                                <!-- Destinatario estrellas cuando user == Coach Int-->
+                                <md-input-container ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno " md-no-float class="md-block" ng-show="create && tabIndex == 1" >
                                     <label>{{ 'RECEIVER_USER' | translate }}</label>
 
                                     <md-autocomplete 
@@ -147,8 +171,30 @@
                                         </md-not-found>
                                     </md-autocomplete>
                                 </md-input-container>
+                                
+                                <!-- Destinatario coaches cuando user == Coach Estrella-->
+                                <md-input-container ng-if="userSession.typeUser == userSessionTypeUserCoachEstrella" md-no-float class="md-block" ng-show="create && tabIndex == 1" >
+                                    <label>{{ 'RECEIVER_USER' | translate }}</label>
 
-                                <md-input-container md-no-float class="md-block" ng-show="create && tabIndex == 2" >
+                                    <md-autocomplete 
+                                        md-selected-item="receivingUserSelected" 
+                                        md-selected-item-change="selectedItemChange(item.coachUserId.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, athletes, 'coachUserId.fullName')" 
+                                        md-min-length="0"
+                                        md-item-text="item.coachUserId.fullName"
+                                        md-search-text="searchTextReceiverUser">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.coachUserId.fullName}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados
+                                        </md-not-found>
+                                    </md-autocomplete>
+                                </md-input-container>
+
+
+                                <!-- Destinatario supervisores cuando user == Coach Int-->
+                                <md-input-container md-no-float class="md-block" ng-show="create && tabIndex == 2" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno" >
                                     <label>{{ 'RECEIVER_USER' | translate }}</label>
                                     
                                     <md-autocomplete 
@@ -167,6 +213,107 @@
                                     </md-autocomplete>
 
                                 </md-input-container>
+                                
+                                <!-- Destinatario todos cuando user == Coach Int y el tab seleccionado tiene index = 3-->
+                                <md-input-container md-no-float class="md-block" ng-show="create && tabIndex == 3" >
+                                        <label>{{ 'RECEIVER_USER' | translate }}</label>                                        
+                                        <md-autocomplete 
+                                        md-selected-item="receivingUserSelected" 
+                                        md-selected-item-change="selectedItemChange(item.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, recipients, 'fullName')" 
+                                        md-min-length="0"
+                                        md-item-text="item.fullName"
+                                        md-search-text="searchTextReceiverUser">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.fullName}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados
+                                        </md-not-found>
+                                    </md-autocomplete>
+ 
+                                </md-input-container>
+                                
+                                <!-- Destinatario todos cuando user == Supervisor y el tab seleccionado tiene index = 0 e index2 = 0-->
+                                <md-input-container md-no-float class="md-block" ng-if="userSession.typeUser == userSessionTypeUserSupervisor" ng-show="(create && tabIndex == 0 && tabIndex2 == 0) || (create && tabIndex == 1 && tabIndex2 == 1)" >
+                                        <label>{{ 'RECEIVER_USER' | translate }}</label>                                        
+                                    <md-autocomplete 
+                                        md-selected-item="receivingUserSelected" 
+                                        md-selected-item-change="selectedItemChange(item.coachUserId.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, supervisorUserAssignedList, 'coachUserId.fullName')" 
+                                        md-min-length="0"
+                                        md-item-text="item.coachUserId.fullName"
+                                        md-search-text="searchTextReceiverUser">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.coachUserId.fullName}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados
+                                        </md-not-found>
+                                    </md-autocomplete>
+ 
+                                </md-input-container>
+                                
+                                <!-- Destinatario todos cuando user == Supervisor y el tab seleccionado tiene index = 0 e index2 = 1-->
+                                <md-input-container md-no-float class="md-block" ng-if="userSession.typeUser == userSessionTypeUserSupervisor" ng-show="create && tabIndex == 0 && tabIndex2 == 1" >
+                                        <label>{{ 'RECEIVER_USER' | translate }}</label>                                        
+                                    <md-autocomplete 
+                                        md-selected-item="receivingUserSelected" 
+                                        md-selected-item-change="selectedItemChange(item.starUserId.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, supervisorUserAssignedList, 'starUserId.fullName')" 
+                                        md-min-length="0"
+                                        md-item-text="item.starUserId.fullName"
+                                        md-search-text="searchTextReceiverUser">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.starUserId.fullName}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados
+                                        </md-not-found>
+                                    </md-autocomplete>
+ 
+                                </md-input-container>
+                                
+                                 <!-- Destinatario todos cuando user == Supervisor y el tab seleccionado tiene index = 0 e index2 = 1-->
+                                <md-input-container md-no-float class="md-block" ng-if="userSession.typeUser == userSessionTypeUserSupervisor" ng-show="create && tabIndex == 1 && tabIndex2 == 0" >
+                                        <label>{{ 'RECEIVER_USER' | translate }}</label>                                        
+                                    <md-autocomplete 
+                                        md-selected-item="receivingUserSelected" 
+                                        md-selected-item-change="selectedItemChange(item.atleteUserId.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, supervisorUserAssignedList, 'atleteUserId.fullName')" 
+                                        md-min-length="0"
+                                        md-item-text="item.atleteUserId.fullName"
+                                        md-search-text="searchTextReceiverUser">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.atleteUserId.fullName}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados
+                                        </md-not-found>
+                                    </md-autocomplete>
+ 
+                                </md-input-container>
+                                 
+                                  <!-- Destinatario todos cuando user == Supervisor y el tab seleccionado tiene index = 3-->
+                                <md-input-container md-no-float class="md-block" ng-if="userSession.typeUser == userSessionTypeUserSupervisor" ng-show="create && tabIndex == 2" >
+                                        <label>{{ 'RECEIVER_USER' | translate }}</label>                                        
+                                        <md-autocomplete 
+                                        md-selected-item="receivingUserSelected" 
+                                        md-selected-item-change="selectedItemChange(item.userId)"
+                                        md-items="item in querySearchUsers(searchTextReceiverUser, recipients, 'fullName')" 
+                                        md-min-length="0"
+                                        md-item-text="item.fullName"
+                                        md-search-text="searchTextReceiverUser">
+                                        <md-item-template>
+                                            <span md-highlight-text="searchTextReceiverUser" md-highlight-flags="^i">{{item.fullName}}</span>
+                                        </md-item-template>
+                                        <md-not-found>
+                                            No se encontraron resultados
+                                        </md-not-found>
+                                    </md-autocomplete>
+ 
+                                </md-input-container>
+                                    
                                 <md-input-container class="md-block" >
                                     <input type="text" placeholder="{{ 'SUBJECT' | translate }}" ng-model="mailCommunication.subject" />
                                 </md-input-container>

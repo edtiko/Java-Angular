@@ -2,6 +2,7 @@ package co.com.expertla.training.service.plan;
 
 import co.com.expertla.training.model.dto.SupervStarCoachDTO;
 import co.com.expertla.training.model.dto.UserAssignedSupervisorDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import java.util.List;
 
@@ -142,7 +143,18 @@ public interface SupervStarCoachService {
      * @return
      * @throws Exception 
      */
-    public List<UserAssignedSupervisorDTO> findUsersBySupervisorId(Integer userId) throws Exception;
+    public List<UserDTO> findUsersBySupervisorId(Integer userId) throws Exception;
+    
+    /**
+     * Obtiene todos los supervisores asociados a la estrella  Id<br>
+     * Info. Creación: <br>
+     * fecha 24/09/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<UserDTO> findByStarId(Integer userId) throws Exception;
 
     
 }

@@ -3,8 +3,10 @@ package co.com.expertla.training.service.impl.plan;
 import co.com.expertla.training.dao.plan.SupervStarCoachDao;
 import co.com.expertla.training.model.dto.SupervStarCoachDTO;
 import co.com.expertla.training.model.dto.UserAssignedSupervisorDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import co.com.expertla.training.service.plan.SupervStarCoachService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,8 +81,28 @@ public class SupervStarCoachServiceImpl implements SupervStarCoachService {
     }
     
     @Override
-    public List<UserAssignedSupervisorDTO> findUsersBySupervisorId(Integer userId) throws Exception {
-        return supervStarCoachDao.findUsersBySupervisorId(userId);
+    public List<UserDTO> findUsersBySupervisorId(Integer userId) throws Exception {
+        List<UserDTO> list = new ArrayList<>();
+        List<UserAssignedSupervisorDTO> athletesCoachs = supervStarCoachDao.findAtleteCoachBySupervisorId(userId);
+        List<UserAssignedSupervisorDTO> stars =  supervStarCoachDao.findBySupervisorId(userId);
+        for (UserAssignedSupervisorDTO star : stars) {
+            list.add(star.getStarUserId());
+        }
+        for(UserAssignedSupervisorDTO o : athletesCoachs) {
+            list.add(o.getAtleteUserId());
+            list.add(o.getCoachUserId());
+        }
+        return list;
+    }
+    
+    @Override
+    public List<UserDTO> findByStarId(Integer userId) throws Exception {
+        List<SupervStarCoach> supervisor = supervStarCoachDao.findByStarId(userId);
+        List<UserDTO> users = new ArrayList<>();
+        for (SupervStarCoach supervStarCoach : supervisor) {
+            users.add(UserDTO.mapFromUserEntity(supervStarCoach.getSupervisorId()));
+        }
+        return users;
     }
 
 }
