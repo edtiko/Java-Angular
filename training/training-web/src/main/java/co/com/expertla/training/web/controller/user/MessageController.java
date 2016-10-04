@@ -51,13 +51,13 @@ public class MessageController {
         //return new OutputMessage(message, new Date());
     }
 
-    @RequestMapping(value = "/get/messages/{coachAssignedPlanId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/messages/{coachAssignedPlanId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId) {
+    Response getMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(coachAssignedPlanId);
+            List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(coachAssignedPlanId, tipoPlan);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -71,13 +71,19 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/get/count/available/messages/{coachAssignedPlanId}/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/available/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId) {
+    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            Integer count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId);
+            Integer count = 0;
+            if (tipoPlan.equals("IN")) {
+                count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId);
+            } else if (tipoPlan.equals("EXT")) {
+                count = planMessageService.getCountMessagesByPlanExt(coachAssignedPlanId, userId);
+            }
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -91,13 +97,18 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/get/count/received/messages/{coachAssignedPlanId}/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/received/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId) {
+    Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            Integer count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId);
+            Integer count = 0;
+            if (tipoPlan.equals("IN")) {
+                count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId);
+            } else if (tipoPlan.equals("EXT")) {
+                count = planMessageService.getCountMessagesReceivedExt(coachAssignedPlanId, userId);
+            }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -110,14 +121,18 @@ public class MessageController {
         }
 
     }
-    
-    @RequestMapping(value = "/read/messages/{coachAssignedPlanId}/{userId}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/read/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId) {
+    Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            planMessageService.readMessages(coachAssignedPlanId, userId);
+            if (tipoPlan.equals("IN")) {
+                planMessageService.readMessages(coachAssignedPlanId, userId);
+            } else if (tipoPlan.equals("EXT")) {
+                planMessageService.readMessagesExt(coachAssignedPlanId, userId);
+            }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Mensajes Leidos Correctamente.");
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -130,7 +145,7 @@ public class MessageController {
         }
 
     }
-    
+
     @RequestMapping(value = "/read/message/{planMessageId}", method = RequestMethod.GET)
     public @ResponseBody
     Response readMessage(@PathVariable("planMessageId") Integer planMessageId) {

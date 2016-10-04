@@ -170,12 +170,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $window.sessionStorage.setItem("planSelected", JSON.stringify(plan));
             $scope.showControl = true;
             //mensajes 
-            self.getAvailableMessages(plan.id, $scope.userSession.userId);
-            self.getReceivedMessages(plan.id, user.userId);
+            self.getAvailableMessages(plan.id, $scope.userSession.userId, "EXT");
+            self.getReceivedMessages(plan.id, user.userId, "EXT");
             messageService.initialize(plan.id);
             //videos
-            self.getAvailableVideos(plan.id, $scope.userSession.userId);
-            self.getReceivedVideos(plan.id, user.userId);
+            self.getAvailableVideos(plan.id, $scope.userSession.userId, "EXT");
+            self.getReceivedVideos(plan.id, user.userId, "EXT");
             videoService.initialize(plan.id);
 
            self.getDashBoardByUser(user);
@@ -200,7 +200,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         
         self.getAvailableMessages = function (planId, userId, tipoPlan) {
-            messageService.getAvailableMessages(planId, userId).then(
+            messageService.getAvailableMessages(planId, userId, tipoPlan).then(
                     function (data) {
                         $scope.availableMessage = data.entity.output;
                     },
@@ -210,8 +210,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
         
-        self.getReceivedMessages = function (planId, userId) {
-            messageService.getMessagesReceived(planId, userId).then(
+        self.getReceivedMessages = function (planId, userId, tipoPlan) {
+            messageService.getMessagesReceived(planId, userId, tipoPlan).then(
                     function (data) {
                         $scope.messagesReceivedCount = data.entity.output;
                     },
@@ -221,8 +221,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
         
-          self.getAvailableVideos = function (planId, userId) {
-            videoService.getAvailableVideos(planId, userId).then(
+          self.getAvailableVideos = function (planId, userId, tipoPlan) {
+            videoService.getAvailableVideos(planId, userId, tipoPlan).then(
                     function (data) {
                         $scope.availableVideo = data.entity.output;
                     },
@@ -231,8 +231,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        self.getReceivedVideos = function (planId, userId) {
-            videoService.getVideosReceived(planId, userId).then(
+        self.getReceivedVideos = function (planId, userId, tipoPlan) {
+            videoService.getVideosReceived(planId, userId, tipoPlan).then(
                     function (data) {
                         $scope.videoReceivedCount = data.entity.output;
                     },
