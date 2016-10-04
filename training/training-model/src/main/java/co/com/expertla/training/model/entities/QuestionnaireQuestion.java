@@ -6,7 +6,9 @@
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -34,6 +36,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "QuestionnaireQuestion.findByCreationDate", query = "SELECT q FROM QuestionnaireQuestion q WHERE q.creationDate = :creationDate")})
 public class QuestionnaireQuestion implements Serializable {
 
+    @Column(name = "state_id")
+    private Short stateId;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -57,9 +62,6 @@ public class QuestionnaireQuestion implements Serializable {
     @JoinColumn(name = "questionnaire_category_id", referencedColumnName = "questionnaire_category_id")
     @ManyToOne
     private QuestionnaireCategory questionnaireCategoryId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
 
     public QuestionnaireQuestion() {
     }
@@ -99,7 +101,8 @@ public class QuestionnaireQuestion implements Serializable {
     }
 
     public Collection<QuestionnaireResponse> getQuestionnaireResponseCollection() {
-        return questionnaireResponseCollection;
+        
+        return Collections.unmodifiableList(new ArrayList<>(questionnaireResponseCollection));
     }
 
     public void setQuestionnaireResponseCollection(Collection<QuestionnaireResponse> questionnaireResponseCollection) {
@@ -130,11 +133,11 @@ public class QuestionnaireQuestion implements Serializable {
         this.questionnaireCategoryId = questionnaireCategoryId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 
@@ -162,5 +165,7 @@ public class QuestionnaireQuestion implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.QuestionnaireQuestion[ questionnaireQuestionId=" + questionnaireQuestionId + " ]";
     }
+
+
     
 }

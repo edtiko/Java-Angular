@@ -56,9 +56,9 @@ public class QuestionOption implements Serializable {
     @JoinColumn(name = "parent_question_option_id", referencedColumnName = "question_option_id")
     @ManyToOne
     private QuestionOption parentQuestionOptionId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    
+    @Column(name = "state_id")
+    private Short stateId;
 
     public QuestionOption() {
     }
@@ -144,11 +144,11 @@ public class QuestionOption implements Serializable {
         this.parentQuestionOptionId = parentQuestionOptionId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 

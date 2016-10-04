@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,18 +12,26 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author Edwin G
- */
+* Dcf <br>
+* Creation Date : <br>
+* date 21/07/2016 <br>
+* @author Angela Ramírez
+**/
 @Entity
 @Table(name = "dcf")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Dcf.findAll", query = "SELECT d FROM Dcf d"),
     @NamedQuery(name = "Dcf.findByDcfId", query = "SELECT d FROM Dcf d WHERE d.dcfId = :dcfId"),
-    @NamedQuery(name = "Dcf.findByPercentage", query = "SELECT d FROM Dcf d WHERE d.percentage = :percentage")})
+    @NamedQuery(name = "Dcf.findByPattern", query = "SELECT d FROM Dcf d WHERE d.pattern = :pattern"),
+    @NamedQuery(name = "Dcf.findBySessions", query = "SELECT d FROM Dcf d WHERE d.sessions = :sessions")})
 public class Dcf implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,14 +39,29 @@ public class Dcf implements Serializable {
     @Column(name = "dcf_id")
     private Integer dcfId;
     @Basic(optional = false)
-    @Column(name = "percentage")
-    private int percentage;
-    @JoinColumn(name = "objetive_id", referencedColumnName = "objetive_id")
+    @Column(name = "pattern")
+    private String pattern;
+    @Basic(optional = false)
+    @Column(name = "sessions")
+    private int sessions;
+    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
     @ManyToOne
-    private Objetive objetiveId;
-    @JoinColumn(name = "physiological_capacity_id", referencedColumnName = "physiological_capacity_id")
+    private Modality modalityId;
+    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
     @ManyToOne
-    private PhysiologicalCapacity physiologicalCapacityId;
+    private Objective objectiveId;
+    @Column(name = "state_id")
+    private Short stateId;
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
+    @Column(name = "last_update")
+    @Temporal(TemporalType.DATE)
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
 
     public Dcf() {
     }
@@ -50,9 +70,10 @@ public class Dcf implements Serializable {
         this.dcfId = dcfId;
     }
 
-    public Dcf(Integer dcfId, int percentage) {
+    public Dcf(Integer dcfId, String pattern, int sessions) {
         this.dcfId = dcfId;
-        this.percentage = percentage;
+        this.pattern = pattern;
+        this.sessions = sessions;
     }
 
     public Integer getDcfId() {
@@ -63,28 +84,36 @@ public class Dcf implements Serializable {
         this.dcfId = dcfId;
     }
 
-    public int getPercentage() {
-        return percentage;
+    public String getPattern() {
+        return pattern;
     }
 
-    public void setPercentage(int percentage) {
-        this.percentage = percentage;
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
-    public Objetive getObjetiveId() {
-        return objetiveId;
+    public int getSessions() {
+        return sessions;
     }
 
-    public void setObjetiveId(Objetive objetiveId) {
-        this.objetiveId = objetiveId;
+    public void setSessions(int sessions) {
+        this.sessions = sessions;
+    }
+    
+    public Modality getModalityId() {
+        return modalityId;
     }
 
-    public PhysiologicalCapacity getPhysiologicalCapacityId() {
-        return physiologicalCapacityId;
+    public void setModalityId(Modality modalityId) {
+        this.modalityId = modalityId;
     }
 
-    public void setPhysiologicalCapacityId(PhysiologicalCapacity physiologicalCapacityId) {
-        this.physiologicalCapacityId = physiologicalCapacityId;
+    public Objective getObjectiveId() {
+        return objectiveId;
+    }
+
+    public void setObjectiveId(Objective objectiveId) {
+        this.objectiveId = objectiveId;
     }
 
     @Override
@@ -111,5 +140,45 @@ public class Dcf implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.Dcf[ dcfId=" + dcfId + " ]";
     }
-    
+
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
 }

@@ -1,1 +1,159 @@
 @CHARSET "ISO-8859-1";
+
+.ontop {
+    height: 100px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    z-index: 2;
+}
+.container-fluid{
+    position: relative;
+}
+
+/*hr {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #C0C1C3 -moz-use-text-color #C0C1C3;
+    border-style: solid none;
+    border-width: 1px 0;
+    margin: 18px 0;
+}*/
+body{
+    width: 100%;
+    height: auto;
+}
+
+.circular {
+    border-radius: 50%;
+    border: 1px solid #e1e1e1; 
+}
+.circular-icon {
+    border-radius: 50%;
+    border-width: 1px 0;
+    border-color: #C0C1C3 -moz-use-text-color #C0C1C3;
+    border-style: solid none;
+}
+
+.icon-disabled{
+  opacity: 0.45; 
+  cursor: not-allowed;
+}
+
+input.ng-dirty.ng-invalid-required, input.ng-invalid-email {
+    border:  solid 1px #a94442;
+}
+
+.has-error{
+    color: #a94442;
+}
+
+ot-whiteboard {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+subscriber-stats {
+    color: white;
+}
+subscriber-stats button.show-stats-btn {
+    width: 25px;
+    height: 25px;
+    font-size: 27px;
+    cursor: pointer;
+    background-color: transparent;
+    margin-top: 2px;
+    border: none;
+    z-index: 99;
+}
+subscriber-stats div.show-stats-info {
+    background: rgba(0,0,0,.4);
+    padding: 10px;
+    margin-top: 4px;
+}
+
+subscriber-stats button.show-stats {
+    text-shadow: 0px 0px 8px #fff;
+}
+
+md-datepicker {
+    padding-top: 3px;
+    > button.md-datepicker-button.md-icon-button.md-button {
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        min-height: 30px;
+    }
+    > div.md-datepicker-input-container {
+        margin-left: 8px;
+        padding-bottom: 4px;
+    }
+    &.md-datepicker-open > div.md-datepicker-input-container > input.md-datepicker-input {
+        height: inherit;
+        margin-left: 20px;
+
+    }
+}
+
+.itsOpen{
+  overflow: hidden;
+}
+
+md-backdrop ~ md-content {
+position: fixed;
+overflow: hidden;
+}
+
+#user-container, #userProfileDiv, #surveyDiv{
+    margin: 100px;
+}
+#dashboard-container{
+    margin: 30px 30px 30px 30px;
+}
+
+#message-content{
+     border: 1px solid #e1e1e1;
+}
+
+md-tooltip .md-content {
+    height: auto;
+}
+
+md-tooltip ._md-content {
+    height: auto;
+}
+
+md-tooltip.tt-multiline ._md-content {
+    height: auto;
+}
+
+.border{
+    border: 1px solid #e1e1e1;
+}
+
+.Read{
+    background-color: green;
+}
+
+.colour {
+                float: left;
+                width: 30px;
+                height: 30px;
+                margin: 5px;
+                border: 1px solid rgba(0, 0, 0, .2);
+                border-radius: 50%;
+            }
+            
+            .link {
+                text-decoration: underline; cursor: pointer;
+            }

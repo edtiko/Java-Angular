@@ -1,0 +1,421 @@
+<div layout="row" ng-show="appReady" id="dashboard-container" layout-align="center center">
+
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserCoachEstrella  ">
+
+        <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
+    </div>
+    
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserSupervisor ">
+        <div  ng-include src="'static/views/dashboard/tabsDashboardSupervisor.html'"></div>
+    </div>
+    <div flex="60"  style="height: 100%; min-height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" >
+
+
+        <div layout="row" >
+            <div layout="column" layout-align="space-around center" flex>
+                <span class="md-headline" ng-if="userSession.typeUser == userSessionTypeUserAtleta">Atleta</span>
+                <a href="{{userSession.typeUser == userSessionTypeUserAtleta || !showControl? '#data-person':'javascript:void(0)'}}" >
+                    <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                    <md-tooltip md-direction="right">
+                        Ver Perfil
+                    </md-tooltip>
+                </a>
+                <h3> {{user.name}} {{user.secondName}} {{user.lastName}}</h3>
+            </div>
+            <div flex layout="column" layout-align="space-around center">
+
+                <a href="#calendar" >
+                    <img class="circular" data-ng-src="static/img/calendar_icon.jpg" style="height: 130px; width: 130px;">
+                    <md-tooltip md-direction="right">
+                        Ver Calendario
+                    </md-tooltip>
+                </a>
+                <h3> Calendario </h3>
+                <a href="#reports">
+                    <img class="circular" data-ng-src="static/img/graphic_icon.jpg" style="height: 130px; width: 130px;">
+                    <md-tooltip md-direction="right">
+                        Ver Gr&aacute;ficas de Desempe&ntilde;o
+                    </md-tooltip>
+                </a>
+                <h3> Gr&aacute;ficos </h3>
+
+            </div>
+
+        </div>
+        <div layout="row" > 
+
+            <div flex >
+                <div layout="column" layout-align="space-around center" style="margin-top: 2%">
+                    <!--Datos Personales Title-->
+                    <span class="md-headline">Datos Personales</span>
+                    <!--Panel de Datos Personales-->
+                    <div style="margin-top: 2%;">
+                        <div ng-show="visibleField('user_training', 'email')">
+
+                            <label>Correo Electr&oacute;nico</label>
+
+                            <md-subheader>{{user.email}}</md-subheader>
+
+                        </div>
+
+                        <div ng-show="visibleField('user_training', 'sex')">
+
+                            <label>Sexo</label>
+                            <div  ng-show="user.sex == 'f'">
+                                <md-subheader>Femenino</md-subheader>
+                            </div>
+
+                            <div  ng-show="user.sex == 'm'">
+                                <md-subheader> Masculino</md-subheader>
+                            </div>
+
+                        </div>
+
+                        <div  ng-show="visibleField('user_training', 'age')">
+
+                            <label>Edad</label>
+
+                            <md-subheader>{{user.age}}</md-subheader>
+
+
+                        </div>
+
+                        <div  ng-show="visibleField('user_training', 'phone')">
+
+                            <label>Tel&eacute;fono Fijo</label>
+
+                            <md-subheader>{{user.phone}}</md-subheader>
+
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'cellphone')">
+
+                            <label>Celular</label>
+
+                            <md-subheader>{{user.cellphone}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" >
+
+                            <label>Pa&iacute;s</label>
+
+                            <md-subheader>{{user.country}}</md-subheader>
+
+                        </div>
+
+                        <div class="row">
+
+                            <label>Estado</label>
+
+                            <md-subheader>{{user.federalState}}</md-subheader>
+
+                        </div>
+
+                        <div class="row">
+
+                            <label>Ciudad</label>
+
+                            <md-subheader>{{user.city}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'address')">
+
+                            <label>Direcci&oacute;n</label>
+
+                            <md-subheader>{{user.address}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'postal_code')">
+
+                            <label>C&oacute;digo Postal</label>
+
+                            <md-subheader>{{user.postalCode}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'birth_date')">
+
+                            <label>Fecha de Nacimiento</label>
+
+                            <md-subheader>{{user.birthDate}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'facebook_page')">
+
+                            <label>P&aacute;gina de Facebook </label>
+
+                            <md-subheader>{{user.facebookPage}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'twitter_page')">
+
+                            <label>P&aacute;gina de Twitter </label>
+
+                            <md-subheader>{{user.twitterPage}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'instagram_page')">
+
+                            <label>P&aacute;gina de Instagram </label>
+
+                            <md-subheader>{{user.instagramPage}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_training', 'web_page')">
+
+                            <label>P&aacute;gina Web </label>
+
+                            <md-subheader>{{user.webPage}}</md-subheader>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div flex >
+                <div layout="column" layout-align="space-around center" style="margin-top: 2%">
+                    <!--Datos Deportivos Title-->
+                    <div  ng-show="visibleField('user_profile', null)" >
+
+                        <span class="md-headline">Datos Deportivos</span>
+
+                    </div>
+                    <div  style="margin-top: 2%">
+                        <div ng-show="visibleField('user_profile', 'objective')">
+
+                            <label>Objetivo</label>
+
+                            <md-subheader>{{user.objective}}</md-subheader>
+
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'discipline')">
+
+                            <label>Disciplina Deportiva</label>
+
+                            <md-subheader>{{user.discipline}}</md-subheader>
+
+                        </div>
+
+
+                        <div class="row" ng-show="visibleField('user_profile', 'modality')">
+
+                            <label>Modalidad</label>
+
+                            <md-subheader>{{user.modality}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'ageSport')">
+
+                            <label>Edad Deportiva</label>
+
+                            <md-subheader>{{user.ageSport}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'user_availability')">
+
+                            <label>Disponibilidad de Tiempo</label>
+
+                            <md-subheader>{{user.availability}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'sport')">
+
+                            <label>Otro Deporte</label>
+
+                            <md-subheader>{{user.sport}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'aboutMe')">
+
+                            <label>Acerca de m&iacute;</label>
+
+                            <md-subheader>{{user.aboutMe}}</md-subheader>
+
+                        </div>
+                        <div class="row" ng-show="visibleField('user_profile', 'pulsometer')">
+
+                            <label>Puls&oacute;metro</label>
+
+                            <md-subheader>{{user.pulsometer}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'ppm')">
+
+                            <label>Ppm</label>
+
+                            <md-subheader>{{user.ppm}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'vo2_running')">
+
+                            <label>VO2 Running</label>
+
+                            <md-subheader>{{user.vo2Running}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'vo2_ciclismo')">
+
+                            <label>VO2 Ciclismo</label>
+
+                            <md-subheader>{{user.vo2Ciclismo}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'potentiometer')">
+
+                            <label>Potenci&oacute;metro</label>
+
+                            <md-subheader>{{user.potentiometer}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'bike')">
+
+                            <label>Bicicleta</label>
+
+                            <md-subheader>{{user.bikes}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'shoes')">
+
+                            <label>Zapato Deportivo</label>
+
+                            <md-subheader>{{user.shoes}}</md-subheader>
+
+                        </div>
+                        
+                         <div class="row" ng-show="visibleField('user_profile', 'weight')">
+
+                            <label>{{ 'WEIGHT' | translate }}</label>
+
+                            <md-subheader>{{user.weight}}</md-subheader>
+
+                        </div>
+                         <div class="row" ng-show="visibleField('user_profile', 'height')">
+
+                            <label>{{ 'HEIGHT' | translate }}</label>
+
+                            <md-subheader>{{user.height}}</md-subheader>
+
+                        </div>
+                         <div class="row" ng-show="visibleField('user_profile', 'imc')">
+
+                            <label>{{ 'IMC' | translate }}</label>
+
+                            <md-subheader>{{user.imc}}</md-subheader>
+
+                        </div>
+
+                        <div class="row" ng-show="visibleField('user_profile', 'power')">
+
+                            <label>Potencia</label>
+
+                            <md-subheader>{{user.power}}</md-subheader>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == userSessionTypeUserAtleta || userSession.typeUser == userSessionTypeUserCoachEstrella">
+        <div layout="column" layout-align="center center" style="margin: 34px;">
+            <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+                <div flex>
+                    <img class="circular" data-ng-src="{{profileImageStar}}" style="height: 80px; width: 80px;">
+                    <md-subheader>Estrella</md-subheader>
+                </div>
+                <div flex>
+                    <img class="circular" data-ng-src="{{profileImageCoach}}" style="height: 80px; width: 80px;">
+                    <md-subheader>Coach</md-subheader>
+                </div>
+            </div>
+            <div flex layout="column" layout-align="center center" >
+                <div flex ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showVideo">
+                     <notification-icon animation="grow" count="videoReceivedCount">
+                    <md-button aria-label="Video" class="md-fab md-raised md-primary" ng-click="goVideos()">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Video</md-tooltip>
+                        <i class="fa fa-video-camera fa-lg" aria-hidden="true"></i>
+                    </md-button>
+                     </notification-icon>
+                </div>
+
+                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella  || showVideo">{{availableVideo}} disponibles de {{coachAssignedPlan.videoCount}}</md-subheader>
+                <div flex ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">                  
+
+                    <notification-icon animation="grow" count="messagesReceivedCount">
+                    <md-button  aria-label="Mensajes" class="md-fab md-raised  md-primary " ng-click="goMessages()">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Mensajes</md-tooltip>
+                        <i class="fa fa-comments fa-lg"></i>
+                    </md-button>
+                    </notification-icon>
+                </div>
+    
+
+                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">{{availableMessage}} disponibles de {{coachAssignedPlan.messageCount}}</md-subheader>
+                <div flex ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+                    <notification-icon animation="grow" count="emailReceivedCount">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.coachUserId.userId)">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
+                        <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
+                    </md-button>
+                    </notification-icon>
+                </div>
+                <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserSupervisor">
+                    <notification-icon animation="grow" count="emailReceivedCount">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.athleteUserId.userId)">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
+                        <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
+                    </md-button>
+                    </notification-icon>
+                    
+                </div>
+
+                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserSupervisor ">{{availableEmail}} disponibles de {{coachAssignedPlan.emailCount}}</md-subheader>
+                <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">
+                     <notification-icon animation="grow" count="callReceivedCount">
+                    <md-button aria-label="Llamadas" class="md-fab md-raised md-primary ">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Llamadas</md-tooltip>
+                        <i class="fa fa-phone fa-lg" aria-hidden="true"></i>
+                    </md-button>
+                     </notification-icon>
+                </div>
+
+                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">{{availableCall}} disponibles de {{coachAssignedPlan.callCount}}</md-subheader>
+                
+                <div flex  ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserCoachEstrella">
+                    <notification-icon animation="grow" count="callReceivedCount">
+                    <md-button  aria-label="Script" class="md-fab md-raised  md-primary ">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Script</md-tooltip>
+                        <i class="fa fa-film fa-lg"></i>
+                    </md-button>
+                    </notification-icon>
+                </div>
+                <div flex="40" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserSupervisor">
+                    <md-button aria-label="Informes" class="md-fab md-raised md-primary">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Informes</md-tooltip>
+                        <i class="fa fa-file-text fa-lg" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

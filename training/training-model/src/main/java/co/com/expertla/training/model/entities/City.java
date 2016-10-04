@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -73,7 +74,7 @@ public class City implements Serializable {
     public void setFederalStateId(FederalState federalStateId) {
         this.federalStateId = federalStateId;
     }
-
+    @JsonIgnore
     public Collection<User> getUserCollection() {
         return userCollection;
     }

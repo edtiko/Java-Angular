@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -13,10 +9,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,7 +38,8 @@ public class TrainingPlan implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @Basic(optional = false)@SequenceGenerator(name = "training_plan_seq", sequenceName = "training_plan_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_plan_seq")
     @Column(name = "training_plan_id")
     private Integer trainingPlanId;
     @Basic(optional = false)
@@ -48,21 +48,40 @@ public class TrainingPlan implements Serializable {
     @Column(name = "description")
     private String description;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
     @Column(name = "duration")
     private BigDecimal duration;
     @Basic(optional = false)
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Basic(optional = false)
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    @Column(name = "video_count")
+    private Integer videoCount;
+    @Column(name = "message_count")
+    private Integer messageCount;
+    @Column(name = "email_count")
+    private Integer emailCount;
+    @Column(name = "call_count")
+    private Integer callCount;
+    @Column(name = "state_id")
+    private Short stateId;
     @OneToMany(mappedBy = "trainingPlanId")
     private Collection<TrainingPlanUser> trainingPlanUserCollection;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_update")
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
+    @Column(name = "price")
+    private Double price;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanId")
-    private Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection;
+    private Collection<TrainingPlanCharact> trainingPlanCharactCollection;
+    
 
     public TrainingPlan() {
     }
@@ -127,6 +146,38 @@ public class TrainingPlan implements Serializable {
         this.endDate = endDate;
     }
 
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+    @JsonIgnore
     public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {
         return trainingPlanUserCollection;
     }
@@ -134,13 +185,21 @@ public class TrainingPlan implements Serializable {
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
     }
-
-    public Collection<TrainingPlanWorkout> getTrainingPlanWorkoutCollection() {
-        return trainingPlanWorkoutCollection;
+    @JsonIgnore
+    public Collection<TrainingPlanCharact> getTrainingPlanCharactCollection() {
+        return trainingPlanCharactCollection;
     }
 
-    public void setTrainingPlanWorkoutCollection(Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection) {
-        this.trainingPlanWorkoutCollection = trainingPlanWorkoutCollection;
+    public void setTrainingPlanCharactCollection(Collection<TrainingPlanCharact> trainingPlanCharactCollection) {
+        this.trainingPlanCharactCollection = trainingPlanCharactCollection;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override
@@ -166,6 +225,38 @@ public class TrainingPlan implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.TrainingPlan[ trainingPlanId=" + trainingPlanId + " ]";
+    }
+
+    public Integer getVideoCount() {
+        return videoCount;
+    }
+
+    public void setVideoCount(Integer videoCount) {
+        this.videoCount = videoCount;
+    }
+
+    public Integer getMessageCount() {
+        return messageCount;
+    }
+
+    public void setMessageCount(Integer messageCount) {
+        this.messageCount = messageCount;
+    }
+
+    public Integer getEmailCount() {
+        return emailCount;
+    }
+
+    public void setEmailCount(Integer emailCount) {
+        this.emailCount = emailCount;
+    }
+
+    public Integer getCallCount() {
+        return callCount;
+    }
+
+    public void setCallCount(Integer callCount) {
+        this.callCount = callCount;
     }
     
 }

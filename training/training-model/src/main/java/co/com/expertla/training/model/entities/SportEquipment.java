@@ -1,21 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -30,9 +29,14 @@ import javax.persistence.Table;
     @NamedQuery(name = "SportEquipment.findByName", query = "SELECT s FROM SportEquipment s WHERE s.name = :name")})
 public class SportEquipment implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sportEquipmentId")
+    private Collection<ModelEquipment> modelEquipmentCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @SequenceGenerator(name = "sport_equipment_sport_equipment_id_seq", sequenceName = "sport_equipment_sport_equipment_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sport_equipment_sport_equipment_id_seq")
     @Column(name = "sport_equipment_id")
     private Integer sportEquipmentId;
     @Basic(optional = false)
@@ -46,6 +50,9 @@ public class SportEquipment implements Serializable {
     private SportEquipmentType sportEquipmentTypeId;
     @OneToMany(mappedBy = "sportEquipmentId")
     private Collection<EquipmentUserProfile> equipmentUserProfileCollection;
+    @JoinColumn(name = "bike_type_id", referencedColumnName = "bike_type_id")
+    @ManyToOne
+    private BikeType bikeTypeId;
 
     public SportEquipment() {
     }
@@ -122,6 +129,22 @@ public class SportEquipment implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.SportEquipment[ sportEquipmentId=" + sportEquipmentId + " ]";
+    }
+
+    public Collection<ModelEquipment> getModelEquipmentCollection() {
+        return modelEquipmentCollection;
+    }
+
+    public void setModelEquipmentCollection(Collection<ModelEquipment> modelEquipmentCollection) {
+        this.modelEquipmentCollection = modelEquipmentCollection;
+    }
+
+    public BikeType getBikeTypeId() {
+        return bikeTypeId;
+    }
+
+    public void setBikeTypeId(BikeType bikeTypeId) {
+        this.bikeTypeId = bikeTypeId;
     }
     
 }

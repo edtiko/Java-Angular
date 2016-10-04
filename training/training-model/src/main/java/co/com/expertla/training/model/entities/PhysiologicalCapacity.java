@@ -1,27 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author Edwin G
- */
+* PhysiologicalCapacity <br>
+* Creation Date : <br>
+* date 21/07/2016 <br>
+* @author Angela Ramírez
+**/
 @Entity
 @Table(name = "physiological_capacity")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PhysiologicalCapacity.findAll", query = "SELECT p FROM PhysiologicalCapacity p"),
     @NamedQuery(name = "PhysiologicalCapacity.findByPhysiologicalCapacityId", query = "SELECT p FROM PhysiologicalCapacity p WHERE p.physiologicalCapacityId = :physiologicalCapacityId"),
@@ -36,10 +36,20 @@ public class PhysiologicalCapacity implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "physiologicalCapacityId")
-    private Collection<Activity> activityCollection;
-    @OneToMany(mappedBy = "physiologicalCapacityId")
-    private Collection<Dcf> dcfCollection;
+    @Column(name = "code")
+    private String code;
+    @Column(name = "state_id")
+    private Short stateId;
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
+    @Column(name = "last_update")
+    @Temporal(TemporalType.DATE)
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
 
     public PhysiologicalCapacity() {
     }
@@ -69,20 +79,12 @@ public class PhysiologicalCapacity implements Serializable {
         this.name = name;
     }
 
-    public Collection<Activity> getActivityCollection() {
-        return activityCollection;
+    public String getCode() {
+        return code;
     }
 
-    public void setActivityCollection(Collection<Activity> activityCollection) {
-        this.activityCollection = activityCollection;
-    }
-
-    public Collection<Dcf> getDcfCollection() {
-        return dcfCollection;
-    }
-
-    public void setDcfCollection(Collection<Dcf> dcfCollection) {
-        this.dcfCollection = dcfCollection;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -109,5 +111,45 @@ public class PhysiologicalCapacity implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.PhysiologicalCapacity[ physiologicalCapacityId=" + physiologicalCapacityId + " ]";
     }
-    
+
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
 }

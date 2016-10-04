@@ -1,0 +1,48 @@
+<div>
+    <div>
+        <div>
+            <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+                <md-nav-item md-nav-click="getReport(null,7,false)" name="day">7 dias</md-nav-item>
+                <md-nav-item md-nav-click="getReport(null,28,true)" name="week">4 semanas</md-nav-item>
+                <md-nav-item md-nav-click="getReport(null,168,false)" name="sixmonths">6 meses</md-nav-item>
+                <md-nav-item md-nav-click="getReport(null,365,false)" name="twelvemonths">12 meses</md-nav-item>
+            </md-nav-bar>
+        </div>
+    </div>   
+    <center><h3></h3></center>
+</div>
+<div layout="row" >
+<div id="collapseFive" class="accordion-body collapse in">
+            <div class="accordion-inner">
+                <ul>     
+                    <li><a class="link" ng-click="getReport(1,null,false,currentNavItem)" title="{{ 'ACTIVITIES' | translate }} ">  
+                            {{ 'ACTIVITIES' | translate }}   
+                    </a></li>
+                    <li><a class="link" ng-click="getReport(2,null,false,currentNavItem)" title="{{ 'TOTAL_CALORIES' | translate }} ">
+                            {{ 'TOTAL_CALORIES' | translate }} 
+                    </a></li>
+                    <li><a class="link" ng-click="getReport(3,null,false,currentNavItem)"title="{{ 'TOTAL_DISTANCE' | translate }} " >
+                            {{ 'TOTAL_DISTANCE' | translate }} 
+                    </a></li>
+                    <li><a class="link" ng-click="getReport(4,null,false,currentNavItem)"title="{{ 'MAX_HEART_RATE' | translate }} " >
+                            {{ 'MAX_HEART_RATE' | translate }} 
+                    </a></li>
+                    <li><a class="link" ng-click="getReport(5,null,false,currentNavItem)"title="{{ 'AVERAGE_HEART_RATE' | translate }} " >
+                            {{ 'AVERAGE_HEART_RATE' | translate }} 
+                    </a></li>
+                    <li><a class="link" ng-click="getReport(6,null,false,currentNavItem)"title=" {{ 'AVERAGE_PACE' | translate }} ">
+                           {{ 'AVERAGE_PACE' | translate }} 
+                    </a></li>     
+                </ul>
+            </div>
+        </div>
+    <div flex id="chart_div">
+    
+    </div>
+</div>
+
+        <script type="text/javascript" src="static/js/lib/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {packages: ['corechart']});
+        </script>
+

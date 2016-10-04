@@ -1,0 +1,46 @@
+<div class="varecorderouter" style="width:{{width}}px; height:{{height}}px">
+
+    <div  id="videorecorder" class="videosection"  >
+        <video id="viredemovideoele" width="{{width}}px"; height="{{height}}px" ></video>  
+        <div ng-if="recordingonly" class="messageaboutrec">
+            <div class="recordicon"></div>
+            <div class="countdownvlaue">{{vicountervalue}}</div>
+        </div>
+
+        <div ng-if="loadingimageshow" class="loadingiconwrap">
+            <div class="loadingicondata"></div>
+        </div>
+
+    </div>
+    <div class="buttonssection">
+        <md-button aria-label="play" ng-if="videoready" class="md-fab md-mini md-primary" ng-click="startRecrodBut1()">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Grabar Video</md-tooltip>
+            <i class="fa fa-video-camera fa-lg" aria-hidden="true"></i>
+        </md-button>
+        <md-button aria-label="play" ng-if="videoready" class="md-fab md-mini md-primary" ng-click="stopRecBut1()" ng-class="recordingstarted ? 'videoisbeingrecorded' : ''">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Detener</md-tooltip>
+            <i class="fa fa-stop fa-lg" aria-hidden="true"></i>
+        </md-button>
+        <md-button aria-label="play" ng-if="videoready" class="md-fab md-mini md-primary" ng-click="playback()">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Reproducir</md-tooltip>
+            <i class="fa fa fa-play fa-lg" aria-hidden="true"></i>
+        </md-button>
+        <md-button aria-label="play" ng-if="videoready" class="md-fab md-mini md-primary" ng-click="clearrecording()">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Limpiar</md-tooltip>
+            <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
+        </md-button>
+        <md-button aria-label="play" ng-if="videoready" class="md-fab md-mini md-primary" ng-click="uploadrecord()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Cargar Video</md-tooltip>
+            <i class="fa fa-upload fa-lg" aria-hidden="true"></i>
+        </md-button>
+
+        <div ng-if="uploadpresentage" class="uploadloadingscreen" >
+            <div class="chilcuploadscreen">{{uploadpresentage}}%</div>
+            <div class="childloadinicon">
+                <div  class="loadingiconwrap">
+                    <div class="loadingicondata16"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

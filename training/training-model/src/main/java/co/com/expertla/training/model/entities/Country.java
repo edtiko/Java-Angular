@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -40,6 +41,8 @@ public class Country implements Serializable {
     private Collection<FederalState> federalStateCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "countryId")
     private Collection<PaymentMethod> paymentMethodCollection;
+    @OneToMany(mappedBy = "countryId")
+    private Collection<User> userCollection;
 
     public Country() {
     }
@@ -63,7 +66,7 @@ public class Country implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    @JsonIgnore
     public Collection<FederalState> getFederalStateCollection() {
         return federalStateCollection;
     }
@@ -71,9 +74,17 @@ public class Country implements Serializable {
     public void setFederalStateCollection(Collection<FederalState> federalStateCollection) {
         this.federalStateCollection = federalStateCollection;
     }
-
+    @JsonIgnore
     public Collection<PaymentMethod> getPaymentMethodCollection() {
         return paymentMethodCollection;
+    }
+    @JsonIgnore
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
     }
 
     public void setPaymentMethodCollection(Collection<PaymentMethod> paymentMethodCollection) {

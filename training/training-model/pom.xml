@@ -47,6 +47,18 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.3.2</version>
         </dependency>
+        
+        <dependency>
+            <groupId>co.com.expertla.base</groupId>
+            <artifactId>ExpertBaseEjb</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>1.3.2.RELEASE</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>

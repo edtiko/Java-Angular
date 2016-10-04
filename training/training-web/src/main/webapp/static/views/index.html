@@ -1,65 +1,154 @@
 <!DOCTYPE html>
 
 <!-- define angular app -->
-<html ng-app="trainingApp">
+<html>
 
-<head>
-  <!-- SCROLLS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
-  <link rel="stylesheet" href="static/css/app.css" >
-</head>
+    <head>
+        <!-- SCROLLS -->
+        <link rel="stylesheet" href="static/css/angular-material.min.css" />
+        <link rel="stylesheet" href="static/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="static/css/app.css" >
+        <link rel="stylesheet" href="static/css/md-data-table.min.css" >
+        <link rel="stylesheet" href="static/css/angular-notification-icons.min.css" >
+        <link rel="stylesheet" href="static/css/style.css" >
+        <link rel="stylesheet" href="static/css/avada-10.css" >
+        <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
 
-<!-- define angular controller -->
-<body ng-controller="mainController">
+    </head>
 
-  <nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">Custom Pro Training</a>
-      </div>
+    <!-- define angular controller -->
+    <body  ng-controller="mainController" id="trainingApp">
 
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#home"><i class="fa fa-home"></i> Inicio</a></li>
-        <li><a href="#about"><i class="fa fa-calendar"></i> Calendario</a></li>
-        <li role="presentation" class="dropdown">
-            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-user"></i> 
-                Cuenta
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu"> 
-                <li><a href="#data-person">Datos Personales</a></li> 
-                <li><a href="#profile">Perfil</a></li> 
-            </ul>
-        </li>
-        <li><a href="#logout"><i class="fa fa-sign-out"></i> Cerrar Sesión</a></li>
-      </ul>
-    </div>
-  </nav>
+        <div class="fusion-header-wrapper">
+            <div class="fusion-header-v3 fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo- fusion-mobile-menu-design-modern ">
 
-  <div id="main" class="container">
-  
-    <!-- angular templating -->
-		<!-- this is where content will be injected -->
-    <div ng-view style="" ></div>
-    
-  </div>
-  
-  <footer class="text-center">
-    <p>View the tutorial on <a href="http://scotch.io/tutorials/javascript/single-page-apps-with-angularjs-routing-and-templating">Scotch.io</a></p>
-  
-    <p>View a tutorial on <a href="http://scotch.io/tutorials/javascript/animating-angularjs-apps-ngview">Animating Your Angular Single Page App</a></p>
-  </footer>
-  
-      <!-- SPELLS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.js"></script>
-  <script type="text/javascript" src="static/js/app.js"></script>
-  <script type="text/javascript" src="static/js/service/user_service.js"></script>
-  <script type="text/javascript" src="static/js/controller/user_controller.js"></script>
-</body>
+                <div class="fusion-secondary-header">
+                    <div class="fusion-row"> 
+                        <div class="fusion-alignright">
+                            <div class="fusion-secondary-menu">
+                                <ul id="menu-top-menu" class="menu">
+                                    <li id="menu-item-275" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-275">
+                                        <a href="#" style="text-decoration:none !important"><span class="menu-text">
+                                                Bienvenido {{userLogin}}</span>
+                                        </a>
+                                    </li>
+                                    <li id="menu-item-369" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-369">
+                                        <a href="javascript:location.href=$wordPressContextPath+'/mi-cuenta/'" style="text-decoration:none !important">
+                                            <span class="menu-text">
+                                                <i class="fa fa-sign-in" aria-hidden="true">
+                                                </i> Mi Cuenta
+                                            </span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li style="width: 200px" id="menu-item-369" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-369">
+                                        <a href="#" ng-click="logout()" style="text-decoration:none !important">
+                                            <span class="menu-text">
+                                                <i class="fa fa-sign-in" aria-hidden="true">
+                                                </i> Cerrar Sesi&oacute;n
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fusion-header-sticky-height" style="height: 77px; display: none; overflow: visible;"></div>
+                <div class="fusion-header" style="height: 77px; overflow: visible;">
+                    <div class="fusion-row" style="padding-top: 0px; padding-bottom: 0px;">
+                        <div class="fusion-logo" data-margin-top="10px" data-margin-bottom="10px" data-margin-left="0px" data-margin-right="0px" style="margin-top: 10px; margin-bottom: 10px;">
+                            <a class="fusion-logo-link" href="javascript:location.href=$wordPressContextPath">
+                                <img src="static/img/logo.png" width="195" height="55" alt="Custom Pro Training" class="fusion-logo-1x fusion-standard-logo">
+                            </a>
+                        </div>
+                        <div class="fusion-main-menu" style="overflow: visible">
+                            <ul id="menu-menu-principal" class="fusion-menu">
+                                
+                                <li ng-repeat="m in moduleList" style="overflow: visible" id="menu-item-15" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-15 menu_parent fusion-dropdown-menu">
+                                    <a style="text-decoration:none !important"  ng-if="m.optionCollection.length <= 1" href="{{m.optionCollection[0].url}}" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                        <span class="menu-text">{{m.optionCollection[0].name}}</span>
+                                    </a>
+                                    <a style="text-decoration:none !important" ng-if="m.optionCollection.length > 1" href="javascript:this" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                        <span class="menu-text">{{m.name}}</span>
+                                    </a>
+                                    <ul class="sub-menu" ng-if="m.optionCollection.length > 1">
+                                        <li ng-repeat="o in m.optionCollection" id="menu-item-79" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-79 fusion-dropdown-submenu">
+                                            <a style="text-decoration:none !important" href="{{o.url}}">
+                                                <span class="">{{o.name}}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="width: 130px"  style="overflow: visible" id="menu-item-16" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-16 menu_parent fusion-dropdown-menu">
+                                    <a style="text-decoration:none !important" href="#" aria-haspopup="true" style="line-height: 60px; height: 60px;">
+                                        <span class="menu-text"></span>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>			<div class="fusion-mobile-menu-icons">
+                            <a href="#" class="fusion-icon fusion-icon-bars"></a>
+
+
+                            <a href="http://181.143.227.220:8081/cpt/carro/" class="fusion-icon fusion-icon-shopping-cart"></a>
+                        </div>
+
+
+                        <div class="fusion-mobile-nav-holder">
+                            <ul id="menu-menu-principal" class="fusion-menu">
+                                <li id="mobile-menu-item-15" class="fusion-mobile-nav-item" style="">
+                                    <span href="#" aria-haspopup="true" class="fusion-open-submenu"></span>
+                                    <a href="#"><span class="menu-text">Atletas</span></a>
+                                    <ul class="sub-menu" style="display: none;">
+                                        <li id="mobile-menu-item-79" class="fusion-mobile-nav-item" style="">
+                                            <a href="http://181.143.227.220:8081/cpt/plataforma-para-atletas/">
+                                                <span class="">Usa Nuestra Plataforma</span>
+                                            </a></li>
+                                        <li id="mobile-menu-item-329" class="fusion-mobile-nav-item" style="">
+                                            <a href="http://181.143.227.220:8081/cpt/plan-de-entrenamiento-deporte/">
+                                                <span class="">Adquiere nuestro Plan de Entrenamiento</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="mobile-menu-item-16" class="fusion-mobile-nav-item" style="">
+                                    <span href="#" aria-haspopup="true" class="fusion-open-submenu"></span>
+                                    <a href="#">
+                                        <span class="menu-text">Coaches</span>
+                                    </a>
+                                    <ul class="sub-menu" style="display: none;">
+                                        <li id="mobile-menu-item-82" class="fusion-mobile-nav-item" style="">
+                                            <a href="http://181.143.227.220:8081/cpt/plataforma-para-coaches/">
+                                                <span class="">Usa Nuestra Plataforma</span>
+                                            </a></li>
+                                        <li id="mobile-menu-item-23" class="fusion-mobile-nav-item" style="">
+                                            <a href="#"><span class="">Seguimiento de mis atletas</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="mobile-menu-item-19" class="fusion-mobile-nav-item" style="">
+                                    <a href="#">
+                                        <span class="menu-text">ContÃ¡ctenos</span>
+                                    </a>
+                                </li></ul></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="fusion-clearfix"></div>
+        </div>    
+
+
+        <div ng-view ng-show="appReady" ></div> 
+        <!-- SPELLS -->
+        <script type="text/javascript" data-main="static/js/run-custom-training"
+        src="static/js/lib/require.js"></script>
+        <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
+        <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
+    </body>
 
 </html>

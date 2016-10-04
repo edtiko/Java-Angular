@@ -1,19 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -30,8 +28,13 @@ public class EquipmentUserProfile implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @SequenceGenerator(name = "equipment_user_profile_equipment_user_profile_id_seq", sequenceName = "equipment_user_profile_equipment_user_profile_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "equipment_user_profile_equipment_user_profile_id_seq")
     @Column(name = "equipment_user_profile_id")
     private Integer equipmentUserProfileId;
+    @JoinColumn(name = "model_equipment_id", referencedColumnName = "model_equipment_id")
+    @ManyToOne
+    private ModelEquipment modelEquipmentId;
     @JoinColumn(name = "sport_equipment_id", referencedColumnName = "sport_equipment_id")
     @ManyToOne
     private SportEquipment sportEquipmentId;
@@ -52,6 +55,14 @@ public class EquipmentUserProfile implements Serializable {
 
     public void setEquipmentUserProfileId(Integer equipmentUserProfileId) {
         this.equipmentUserProfileId = equipmentUserProfileId;
+    }
+
+    public ModelEquipment getModelEquipmentId() {
+        return modelEquipmentId;
+    }
+
+    public void setModelEquipmentId(ModelEquipment modelEquipmentId) {
+        this.modelEquipmentId = modelEquipmentId;
     }
 
     public SportEquipment getSportEquipmentId() {
@@ -92,7 +103,7 @@ public class EquipmentUserProfile implements Serializable {
 
     @Override
     public String toString() {
-        return "co.com.expertla.training.model.entities.EquipmentUserProfile[ equipmentUserProfileId=" + equipmentUserProfileId + " ]";
+        return "co.com.expertla.training.constant.EquipmentUserProfile[ equipmentUserProfileId=" + equipmentUserProfileId + " ]";
     }
     
 }

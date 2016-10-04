@@ -6,8 +6,11 @@
 package co.com.expertla.training.model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -63,13 +66,12 @@ public class Question implements Serializable {
     @JoinColumn(name = "data_type_id", referencedColumnName = "data_type_id")
     @ManyToOne
     private DataType dataTypeId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
     @OneToMany(mappedBy = "questionId")
     private Collection<QuestionnaireQuestion> questionnaireQuestionCollection;
     @OneToMany(mappedBy = "questionId")
-    private Collection<QuestionOption> questionOptionCollection;
+    private List<QuestionOption> questionOptionCollection;
 
     public Question() {
     }
@@ -150,11 +152,11 @@ public class Question implements Serializable {
         this.dataTypeId = dataTypeId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 
@@ -166,11 +168,11 @@ public class Question implements Serializable {
         this.questionnaireQuestionCollection = questionnaireQuestionCollection;
     }
 
-    public Collection<QuestionOption> getQuestionOptionCollection() {
-        return questionOptionCollection;
+    public List<QuestionOption> getQuestionOptionCollection() {
+        return Collections.unmodifiableList(new ArrayList<>(questionOptionCollection));
     }
 
-    public void setQuestionOptionCollection(Collection<QuestionOption> questionOptionCollection) {
+    public void setQuestionOptionCollection(List<QuestionOption> questionOptionCollection) {
         this.questionOptionCollection = questionOptionCollection;
     }
 

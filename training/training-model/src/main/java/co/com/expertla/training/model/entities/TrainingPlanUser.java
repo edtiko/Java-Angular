@@ -1,19 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -27,26 +29,39 @@ import javax.persistence.Table;
     @NamedQuery(name = "TrainingPlanUser.findByTrainingPlanUserId", query = "SELECT t FROM TrainingPlanUser t WHERE t.trainingPlanUserId = :trainingPlanUserId")})
 public class TrainingPlanUser implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanUserId")
+    private Collection<CoachAssignedPlan> coachAssignedPlanCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
+    @Basic(optional = false)@SequenceGenerator(name = "training_plan_user_seq", sequenceName = "training_plan_user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_plan_user_seq")
     @Column(name = "training_plan_user_id")
     private Integer trainingPlanUserId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Integer stateId;
     @JoinColumn(name = "training_plan_id", referencedColumnName = "training_plan_id")
     @ManyToOne
     private TrainingPlan trainingPlanId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanUserId")
+    private Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection;
 
     public TrainingPlanUser() {
     }
 
     public TrainingPlanUser(Integer trainingPlanUserId) {
         this.trainingPlanUserId = trainingPlanUserId;
+    }
+    @JsonIgnore
+    public Collection<TrainingPlanWorkout> getTrainingPlanWorkoutCollection() {
+        return trainingPlanWorkoutCollection;
+    }
+
+    public void setTrainingPlanWorkoutCollection(Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection) {
+        this.trainingPlanWorkoutCollection = trainingPlanWorkoutCollection;
     }
 
     public Integer getTrainingPlanUserId() {
@@ -57,11 +72,11 @@ public class TrainingPlanUser implements Serializable {
         this.trainingPlanUserId = trainingPlanUserId;
     }
 
-    public State getStateId() {
+    public Integer getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Integer stateId) {
         this.stateId = stateId;
     }
 
@@ -104,6 +119,14 @@ public class TrainingPlanUser implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.TrainingPlanUser[ trainingPlanUserId=" + trainingPlanUserId + " ]";
+    }
+    @JsonIgnore
+    public Collection<CoachAssignedPlan> getCoachAssignedPlanCollection() {
+        return coachAssignedPlanCollection;
+    }
+
+    public void setCoachAssignedPlanCollection(Collection<CoachAssignedPlan> coachAssignedPlanCollection) {
+        this.coachAssignedPlanCollection = coachAssignedPlanCollection;
     }
     
 }

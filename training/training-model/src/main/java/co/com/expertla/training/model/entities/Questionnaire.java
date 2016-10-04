@@ -8,6 +8,7 @@ package co.com.expertla.training.model.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,6 +35,8 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Questionnaire.findByCreationDate", query = "SELECT q FROM Questionnaire q WHERE q.creationDate = :creationDate")})
 public class Questionnaire implements Serializable {
 
+ 
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -46,12 +49,13 @@ public class Questionnaire implements Serializable {
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
+    @Column(name = "state_id")
+    private Short stateId;
+    @JoinColumn(name = "discipline_id", referencedColumnName = "discipline_id")
     @ManyToOne
-    private State stateId;
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    @ManyToOne
-    private User userId;
+    private Discipline disciplineId;
+    @OneToMany(mappedBy = "questionnaireId")
+    private List<QuestionnaireUser> questionnaireUserList;
     @OneToMany(mappedBy = "questionnaireId")
     private Collection<QuestionnaireQuestion> questionnaireQuestionCollection;
 
@@ -92,20 +96,12 @@ public class Questionnaire implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
     }
 
     public Collection<QuestionnaireQuestion> getQuestionnaireQuestionCollection() {
@@ -139,6 +135,24 @@ public class Questionnaire implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.Questionnaire[ questionnaireId=" + questionnaireId + " ]";
+    }
+
+
+    public List<QuestionnaireUser> getQuestionnaireUserList() {
+        return questionnaireUserList;
+    }
+
+    public void setQuestionnaireUserList(List<QuestionnaireUser> questionnaireUserList) {
+        this.questionnaireUserList = questionnaireUserList;
+    }
+
+
+    public Discipline getDisciplineId() {
+        return disciplineId;
+    }
+
+    public void setDisciplineId(Discipline disciplineId) {
+        this.disciplineId = disciplineId;
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -58,11 +59,12 @@ public class Membership implements Serializable {
     @JoinColumn(name = "membership_promo_id", referencedColumnName = "membership_promo_id")
     @ManyToOne
     private MembershipPromotion membershipPromoId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
-    @ManyToOne
-    private State stateId;
+    @Column(name = "state_id")
+    private Short stateId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "membershipId")
     private Collection<MembershipPrice> membershipPriceCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "membershipId")
+    private Collection<TrainingPlanCharact> trainingPlanCharactCollection;
 
     public Membership() {
     }
@@ -126,20 +128,28 @@ public class Membership implements Serializable {
         this.membershipPromoId = membershipPromoId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
-
+    @JsonIgnore
     public Collection<MembershipPrice> getMembershipPriceCollection() {
         return membershipPriceCollection;
     }
 
     public void setMembershipPriceCollection(Collection<MembershipPrice> membershipPriceCollection) {
         this.membershipPriceCollection = membershipPriceCollection;
+    }
+    @JsonIgnore
+    public Collection<TrainingPlanCharact> getTrainingPlanCharactCollection() {
+        return trainingPlanCharactCollection;
+    }
+
+    public void setTrainingPlanCharactCollection(Collection<TrainingPlanCharact> trainingPlanCharactCollection) {
+        this.trainingPlanCharactCollection = trainingPlanCharactCollection;
     }
 
     @Override

@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
@@ -13,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -20,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,10 +49,29 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "User.findByCreationDate", query = "SELECT u FROM User u WHERE u.creationDate = :creationDate")})
 public class User implements Serializable {
 
+    @Column(name = "state_id")
+    private Short stateId;
+    @Lob
+    @Column(name = "profile_photo")
+    private byte[] profilePhoto;
+    @Column(name = "height")
+    private Float height;
+    @Column(name = "user_wordpress_id")
+    private Integer userWordpressId;
+    @Column(name = "ind_login_first_time")
+    private Integer indLoginFirstTime;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "starUserId")
+    private Collection<StarTeam> startTeamCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "coachUserId")
+    private Collection<StarTeam> startTeamCollection1;
+    @OneToMany(mappedBy = "userId")
+    private Collection<UserZone> userZoneCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @Column(name = "user_id")
+    @SequenceGenerator(name = "user_training_user_id_seq", sequenceName = "user_training_user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_training_user_id_seq")
+    @Column(name = "user_id", updatable = false)
     private Integer userId;
     @Basic(optional = false)
     @Column(name = "login")
@@ -63,6 +81,9 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    @Basic(optional = false)
+    @Column(name = "second_name")
+    private String secondName;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "email")
@@ -73,7 +94,7 @@ public class User implements Serializable {
     @Column(name = "sex")
     private String sex;
     @Column(name = "weight")
-    private BigInteger weight;
+    private Float weight;
     @Column(name = "phone")
     private String phone;
     @Column(name = "cellphone")
@@ -82,11 +103,14 @@ public class User implements Serializable {
     private String address;
     @Column(name = "postal_code")
     private String postalCode;
-    @Lob
-    @Column(name = "profile_photo")
-    private byte[] profilePhoto;
     @Column(name = "facebook_page")
     private String facebookPage;
+    @Column(name = "twitter_page")
+    private String twitterPage;
+    @Column(name = "instagram_page")
+    private String instagramPage;
+    @Column(name = "web_page")
+    private String webPage;
     @Basic(optional = false)
     @Column(name = "ind_metric_sys")
     private String indMetricSys;
@@ -96,8 +120,6 @@ public class User implements Serializable {
     private Date creationDate;
     @OneToMany(mappedBy = "userId")
     private Collection<QuestionnaireResponse> questionnaireResponseCollection;
-    @OneToMany(mappedBy = "userId")
-    private Collection<Questionnaire> questionnaireCollection;
     @OneToMany(mappedBy = "userId")
     private Collection<TrainingPlanUser> trainingPlanUserCollection;
     @OneToMany(mappedBy = "userId")
@@ -111,14 +133,22 @@ public class User implements Serializable {
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     @ManyToOne
     private City cityId;
-    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
+    @JoinColumn(name = "country_id", referencedColumnName = "country_id")
     @ManyToOne
-    private State stateId;
+    private Country countryId;
+
     @OneToMany(mappedBy = "starId")
     private Collection<User> userCollection;
     @JoinColumn(name = "star_id", referencedColumnName = "user_id")
     @ManyToOne
     private User starId;
+    @Column(name = "last_update")
+    @Temporal(TemporalType.DATE)
+    private Date lastUpdate;
+    @Column(name = "user_create")
+    private Integer userCreate;
+    @Column(name = "user_update")
+    private Integer userUpdate;
 
     public User() {
     }
@@ -127,12 +157,35 @@ public class User implements Serializable {
         this.userId = userId;
     }
 
-    public User(Integer userId, String login, String name, String indMetricSys, Date creationDate) {
+    public User(Integer userId, String name, String lastName, String email, Date birthDate, String address,
+            String sex, Float weight, String phone, String cellphone, City cityId,
+            Short stateId, String login, String password, String facebookPage, String postalCode, Date creationDate) {
         this.userId = userId;
         this.login = login;
+        this.password = password;
         this.name = name;
-        this.indMetricSys = indMetricSys;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.email = email;
+        this.sex = sex;
+        this.weight = weight;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        this.cityId = cityId;
+        this.stateId = stateId;
+        this.facebookPage = facebookPage;
+        this.postalCode = postalCode;
         this.creationDate = creationDate;
+
+    }
+
+    public Country getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Country countryId) {
+        this.countryId = countryId;
     }
 
     public Integer getUserId() {
@@ -167,6 +220,14 @@ public class User implements Serializable {
         this.name = name;
     }
 
+    public String getSecondName() {
+        return secondName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -199,11 +260,11 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public BigInteger getWeight() {
+    public Float getWeight() {
         return weight;
     }
 
-    public void setWeight(BigInteger weight) {
+    public void setWeight(Float weight) {
         this.weight = weight;
     }
 
@@ -255,6 +316,30 @@ public class User implements Serializable {
         this.facebookPage = facebookPage;
     }
 
+    public String getTwitterPage() {
+        return twitterPage;
+    }
+
+    public void setTwitterPage(String twitterPage) {
+        this.twitterPage = twitterPage;
+    }
+
+    public String getInstagramPage() {
+        return instagramPage;
+    }
+
+    public void setInstagramPage(String instagramPage) {
+        this.instagramPage = instagramPage;
+    }
+
+    public String getWebPage() {
+        return webPage;
+    }
+
+    public void setWebPage(String webPage) {
+        this.webPage = webPage;
+    }
+
     public String getIndMetricSys() {
         return indMetricSys;
     }
@@ -271,6 +356,7 @@ public class User implements Serializable {
         this.creationDate = creationDate;
     }
 
+    @JsonIgnore
     public Collection<QuestionnaireResponse> getQuestionnaireResponseCollection() {
         return questionnaireResponseCollection;
     }
@@ -279,14 +365,7 @@ public class User implements Serializable {
         this.questionnaireResponseCollection = questionnaireResponseCollection;
     }
 
-    public Collection<Questionnaire> getQuestionnaireCollection() {
-        return questionnaireCollection;
-    }
-
-    public void setQuestionnaireCollection(Collection<Questionnaire> questionnaireCollection) {
-        this.questionnaireCollection = questionnaireCollection;
-    }
-
+    @JsonIgnore
     public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {
         return trainingPlanUserCollection;
     }
@@ -295,6 +374,7 @@ public class User implements Serializable {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
     }
 
+    @JsonIgnore
     public Collection<UserProfile> getUserProfileCollection() {
         return userProfileCollection;
     }
@@ -303,6 +383,7 @@ public class User implements Serializable {
         this.userProfileCollection = userProfileCollection;
     }
 
+    @JsonIgnore
     public Collection<VideoUser> getVideoUserCollection() {
         return videoUserCollection;
     }
@@ -311,6 +392,7 @@ public class User implements Serializable {
         this.videoUserCollection = videoUserCollection;
     }
 
+    @JsonIgnore
     public Collection<DisciplineUser> getDisciplineUserCollection() {
         return disciplineUserCollection;
     }
@@ -319,6 +401,7 @@ public class User implements Serializable {
         this.disciplineUserCollection = disciplineUserCollection;
     }
 
+    @JsonIgnore
     public Collection<RoleUser> getRoleUserCollection() {
         return roleUserCollection;
     }
@@ -335,28 +418,21 @@ public class User implements Serializable {
         this.cityId = cityId;
     }
 
-    public State getStateId() {
+    public Short getStateId() {
         return stateId;
     }
 
-    public void setStateId(State stateId) {
+    public void setStateId(Short stateId) {
         this.stateId = stateId;
     }
 
+    @JsonIgnore
     public Collection<User> getUserCollection() {
         return userCollection;
     }
 
     public void setUserCollection(Collection<User> userCollection) {
         this.userCollection = userCollection;
-    }
-
-    public User getStarId() {
-        return starId;
-    }
-
-    public void setStarId(User starId) {
-        this.starId = starId;
     }
 
     @Override
@@ -383,5 +459,79 @@ public class User implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.User[ userId=" + userId + " ]";
     }
-    
+
+    @JsonIgnore
+    public Collection<StarTeam> getStartTeamCollection() {
+        return startTeamCollection;
+    }
+
+    public void setStartTeamCollection(Collection<StarTeam> startTeamCollection) {
+        this.startTeamCollection = startTeamCollection;
+    }
+
+    @JsonIgnore
+    public Collection<StarTeam> getStartTeamCollection1() {
+        return startTeamCollection1;
+    }
+
+    public void setStartTeamCollection1(Collection<StarTeam> startTeamCollection1) {
+        this.startTeamCollection1 = startTeamCollection1;
+    }
+
+    @JsonIgnore
+    public Collection<UserZone> getUserZoneCollection() {
+        return userZoneCollection;
+    }
+
+    public void setUserZoneCollection(Collection<UserZone> userZoneCollection) {
+        this.userZoneCollection = userZoneCollection;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Integer getUserCreate() {
+        return userCreate;
+    }
+
+    public void setUserCreate(Integer userCreate) {
+        this.userCreate = userCreate;
+    }
+
+    public Integer getUserUpdate() {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(Integer userUpdate) {
+        this.userUpdate = userUpdate;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
+    }
+
+    public Integer getUserWordpressId() {
+        return userWordpressId;
+    }
+
+    public void setUserWordpressId(Integer userWordpressId) {
+        this.userWordpressId = userWordpressId;
+    }
+
+    public Integer getIndLoginFirstTime() {
+        return indLoginFirstTime;
+    }
+
+    public void setIndLoginFirstTime(Integer indLoginFirstTime) {
+        this.indLoginFirstTime = indLoginFirstTime;
+    }
 }
