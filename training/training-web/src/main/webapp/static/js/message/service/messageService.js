@@ -18,7 +18,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
 
         service.send = function (message) {
             var id = Math.floor(Math.random() * 1000000);
-            var url = service.CHAT_BROKER + message.coachAssignedPlanId.id;
+            var url = service.CHAT_BROKER + service.SESSION_ID;
             socket.stomp.send(url, {
                 priority: 9
             }, JSON.stringify(message));
@@ -48,8 +48,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
-        service.getMessages = function (planId) {
-            return $http.get($contextPath + '/get/messages/' + planId)
+        service.getMessages = function (planId, tipoPlan) {
+            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan)
                     .then(
                             function (response) {
                                 return response.data;

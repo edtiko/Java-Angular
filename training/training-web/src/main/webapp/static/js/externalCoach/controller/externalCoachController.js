@@ -1,4 +1,4 @@
-trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachService', 'UserService', '$window', '$mdDialog', function ($scope, ExternalCoachService, UserService, $window, $mdDialog) {
+trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachService', 'UserService', '$window', '$mdDialog', '$q', function ($scope, ExternalCoachService, UserService, $window, $mdDialog, $q) {
 
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -42,6 +42,8 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
                                     $scope.resetAthlete();
                                     self.fetchAthletes();
                                     $scope.showMessage(response.entity.output);
+                                } else {
+                                    $scope.showMessage(response.entity.detail, "Error");
                                 }
                             },
                             function (errResponse) {
@@ -94,6 +96,78 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
 
         self.fetchAllCountries();
         self.fetchAthletes();
+
+        self.simulateQuery = false;
+        self.isDisabled = false;
+
+        self.repos = loadAthletes;
+        self.querySearch = querySearch;
+        self.selectedItemChange = selectedItemChange;
+        self.searchTextChange = searchTextChange;
+
+        // ******************************
+        // Internal methods
+        // ******************************
+
+        /**
+         * Search for repos... use $timeout to simulate
+         * remote dataservice call.
+         */
+        function querySearch(query) {
+            var results = query ? self.repos.filter(createFilterFor(query)) : self.repos,
+                    deferred;
+            if (self.simulateQuery) {
+                deferred = $q.defer();
+                $timeout(function () {
+                    deferred.resolve(results);
+                }, Math.random() * 1000, false);
+                return deferred.promise;
+            } else {
+                return results;
+            }
+        }
+
+        function searchTextChange(text) {
+            console.info('Text changed to ' + text);
+        }
+
+        function selectedItemChange(item) {
+            console.info('Item changed to ' + JSON.stringify(item));
+        }
+
+        /**
+         * Build `components` list of key/value pairs
+         */
+        function loadAthletes(){
+            var repos = [];
+            ExternalCoachService.loadAthletes().then(
+                            function (response) {
+
+                                repos = response;
+
+                            },
+                            function (errResponse) {
+                                console.error('Error while get athletes.');
+                            }
+                    );
+
+            return repos.map(function (repo) {
+                repo.value = repo.fullname.toLowerCase();
+                return repo;
+            });
+        };
+
+        /**
+         * Create filter function for a query string
+         */
+        function createFilterFor(query) {
+            var lowercaseQuery = angular.lowercase(query);
+
+            return function filterFn(item) {
+                return (item.value.indexOf(lowercaseQuery) === 0);
+            };
+
+        }
 
 
     }]);

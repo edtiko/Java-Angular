@@ -34,7 +34,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto) throws DAOException {
+    public List<PlanVideoDTO> getVideosByUser(Integer planId, Integer userId, String fromto, String tipoPlan) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, m.fromUserId, m.toUserId, m.creationDate) ");
         sql.append("FROM PlanVideo m ");
@@ -43,10 +43,14 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         } else {
             sql.append("Where m.toUserId.userId = :userId ");
         }
-        sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :coachAssignedPlanId ");
+        if (tipoPlan.equals("IN")) {
+            sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
+        } else {
+            sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
+        }
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
-        query.setParameter("coachAssignedPlanId", coachAssignedPlanId);
+        query.setParameter("planId", planId);
         return query.getResultList();
     }
 
@@ -85,6 +89,27 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
+    public Integer getCountVideoByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT CASE  ");
+        sql.append(" WHEN (t.video_count  - count(m.plan_video_id)) >= 0 THEN (t.video_count  - count(m.plan_video_id)) ");
+        sql.append(" ELSE t.video_count END ");
+        sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
+        sql.append(" LEFT JOIN plan_video m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
+        sql.append(" And m.from_user_id = ").append(fromUserId);
+        sql.append(" And m.coach_ext_athlete_id = ").append(planId);
+        sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
+        sql.append(" And c.coach_ext_athlete_id = ").append(planId);
+        sql.append(" And tu.training_plan_id = t.training_plan_id ");
+        sql.append(" Group by t.video_count ");
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.size() > 0 ? count.get(0).intValue() : 0;
+    }
+
+    @Override
     public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
@@ -101,12 +126,38 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
+    public Integer getCountVideosReceivedExt(Integer planId, Integer userId) throws DAOException {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(m.plan_video_id) ");
+        sql.append(" FROM plan_video m ");
+        sql.append(" Where m.from_user_id = ").append(userId);
+        sql.append(" And m.coach_ext_athlete_id = ").append(planId);
+        sql.append(" And m.readed = false");
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.get(0).intValue();
+    }
+
+    @Override
     public void readVideos(Integer coachAssignedPlanId, Integer userId) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append(" update plan_video ");
         builder.append(" set readed = true ");
         builder.append(" where  to_user_id = ").append(userId);
         builder.append(" and  coach_assigned_plan_id = ").append(coachAssignedPlanId);
+        executeNativeUpdate(builder.toString());
+    }
+
+    @Override
+    public void readVideosExt(Integer planId, Integer userId) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" update plan_video ");
+        builder.append(" set readed = true ");
+        builder.append(" where  to_user_id = ").append(userId);
+        builder.append(" and  coach_ext_athlete_id = ").append(planId);
         executeNativeUpdate(builder.toString());
     }
 

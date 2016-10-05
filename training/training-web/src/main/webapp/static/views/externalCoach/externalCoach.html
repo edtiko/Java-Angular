@@ -19,10 +19,10 @@
                             </div>
                             <md-subheader class="md-no-sticky"><strong>{{a.state}}</strong></md-subheader>
                             <md-button ng-show="a.stateId != retired" class=" md-mini md-icon-button" ng-click="showRemoveAthleteCoach(a.id, a.athleteUserId.fullName)" aria-label="remove">
-                                    <md-icon>
-                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                    </md-icon>
-                             </md-button>
+                                <md-icon>
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </md-icon>
+                            </md-button>
                         </md-list-item>
                         <md-divider></md-divider>
                     </md-list>
@@ -38,6 +38,33 @@
                     </md-tab>
                     <md-tab label="Vincular Atleta">
                         <md-content class="md-padding">
+                            <form ng-submit="$event.preventDefault()">
+                                <p>Atletas Existentes</p>
+                                <md-autocomplete
+                                    ng-disabled="isDisabled"
+                                    md-no-cache="noCache"
+                                    md-selected-item="selectedItem"
+                                    md-search-text-change="searchTextChange(searchText)"
+                                    md-search-text="searchText"
+                                    md-selected-item-change="selectedItemChange(item)"
+                                    md-items="item in querySearch(searchText)"
+                                    md-item-text="item.name"
+                                    md-min-length="0"
+                                    placeholder="Seleccione un Usuario"
+                                    md-menu-class="autocomplete-custom-template">
+                                    <md-item-template>
+                                        <span class="item-title">
+                                            <img data-ng-src="{{item.profilePhotoBase64}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                                            <span> {{item.fullname}} </span>
+                                        </span>
+                                        <span class="item-metadata">
+                                            <span class="item-metastat">
+                                                <strong>Atleta</strong>
+                                            </span>
+                                        </span>
+                                    </md-item-template>
+                                </md-autocomplete>
+                            </form>
                         </md-content>
                     </md-tab>
                 </md-tabs>

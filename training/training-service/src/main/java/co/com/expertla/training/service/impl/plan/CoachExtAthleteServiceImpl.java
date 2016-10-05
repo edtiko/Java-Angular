@@ -9,6 +9,7 @@ import co.com.expertla.training.dao.plan.CoachExtAthleteDao;
 import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.CoachExtAthlete;
 import co.com.expertla.training.model.entities.State;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
@@ -68,6 +69,11 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
     @Override
     public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId) throws Exception {
         return coachExtAthleteDao.findByAthleteUserId(athleteUserId);
+    }
+
+    @Override
+    public List<UserDTO> getUserAthletes() throws Exception {
+       return coachExtAthleteDao.getUserAthletes();
     }
     
 }

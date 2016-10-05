@@ -6,6 +6,7 @@
 package co.com.expertla.training.web.controller.plan;
 
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.CoachExtAthleteService;
 import co.com.expertla.training.web.enums.StatusResponse;
@@ -56,6 +57,20 @@ public class CoachExtAthleteController {
     public ResponseEntity<List<CoachExtAthleteDTO>> getAthletes(@PathVariable("trainingPlanUserId") Integer trainingPlanUserId, @PathVariable("state") String state) {
         try {
             List<CoachExtAthleteDTO> athletes = coachExtAthleteService.getAthletes(trainingPlanUserId, state);
+            if (athletes.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            }
+            return new ResponseEntity<>(athletes, HttpStatus.OK);
+        } catch (Exception e) {
+             LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @RequestMapping(value = "/get/user/athletes", method = RequestMethod.GET)
+    public ResponseEntity<List<UserDTO>> getUserAthletes() {
+        try {
+            List<UserDTO> athletes = coachExtAthleteService.getUserAthletes();
             if (athletes.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
             }

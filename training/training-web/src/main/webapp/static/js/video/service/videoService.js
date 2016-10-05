@@ -48,8 +48,8 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                 socket.stomp.onclose = reconnect;
             }
         };
-        service.getVideosByUser = function (planId, userId, fromto) {
-            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto)
+        service.getVideosByUser = function (planId, userId, fromto, tipoPlan) {
+            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan)
                     .then(
                             function (response) {
                                 return response.data;

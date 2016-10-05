@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
     private static final Logger LOGGER = Logger.getLogger(MessageController.class);
+    private static final String COACH_INTERNO = "IN";
+    private static final String COACH_EXTERNO = "EXT";
 
     @Autowired
     private PlanMessageService planMessageService;
@@ -78,9 +80,9 @@ public class MessageController {
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer count = 0;
-            if (tipoPlan.equals("IN")) {
+            if (tipoPlan.equals(COACH_INTERNO)) {
                 count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId);
-            } else if (tipoPlan.equals("EXT")) {
+            } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planMessageService.getCountMessagesByPlanExt(coachAssignedPlanId, userId);
             }
 
@@ -104,9 +106,9 @@ public class MessageController {
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer count = 0;
-            if (tipoPlan.equals("IN")) {
+            if (tipoPlan.equals(COACH_INTERNO)) {
                 count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId);
-            } else if (tipoPlan.equals("EXT")) {
+            } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planMessageService.getCountMessagesReceivedExt(coachAssignedPlanId, userId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -128,9 +130,9 @@ public class MessageController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            if (tipoPlan.equals("IN")) {
+            if (tipoPlan.equals(COACH_INTERNO)) {
                 planMessageService.readMessages(coachAssignedPlanId, userId);
-            } else if (tipoPlan.equals("EXT")) {
+            } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 planMessageService.readMessagesExt(coachAssignedPlanId, userId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());

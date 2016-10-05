@@ -357,7 +357,7 @@
                      </notification-icon>
                 </div>
 
-                <md-subheader>{{availableVideo}} disponibles de {{coachAssignedPlan.videoCount}}</md-subheader>
+                <md-subheader>{{availableVideo}} disponibles de {{planSelected.trainingPlanId.videoCount!=null?planSelected.trainingPlanId.videoCount:0}}</md-subheader>
                 
                 <div flex>
                     
@@ -370,10 +370,10 @@
                 </div>
     
 
-                <md-subheader>{{availableMessage}} disponibles de {{coachAssignedPlan.messageCount}}</md-subheader>
+                <md-subheader>{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserAtleta">
                     <notification-icon animation="grow" count="emailReceivedCount">
-                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.coachUserId.userId)">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.coachUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                         <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                     </md-button>
@@ -381,7 +381,7 @@
                 </div>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno">
                     <notification-icon animation="grow" count="emailReceivedCount">
-                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.athleteUserId.userId)">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.athleteUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                         <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                     </md-button>
@@ -389,7 +389,7 @@
                     
                 </div>
 
-                <md-subheader>{{availableEmail}} disponibles de {{coachAssignedPlan.emailCount}}</md-subheader>
+                <md-subheader>{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
                 <div flex>
                      <notification-icon animation="grow" count="callReceivedCount">
                     <md-button aria-label="Llamadas" class="md-fab md-raised md-primary ">
@@ -399,7 +399,7 @@
                      </notification-icon>
                 </div>
 
-                <md-subheader>{{availableCall}} disponibles de {{coachAssignedPlan.callCount}}</md-subheader>
+                <md-subheader>{{availableCall}} disponibles de {{planSelected.trainingPlanId.callCount!=null?planSelected.trainingPlanId.callCount:0}}</md-subheader>
                 
                 <div flex>
                     <notification-icon animation="grow" count="callReceivedCount">

@@ -37,6 +37,18 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            loadAthletes: function () {
+                return $http.get($contextPath + 'externalCoach/get/user/athletes')
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching athletes');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
         

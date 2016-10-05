@@ -6,6 +6,7 @@
 package co.com.expertla.training.service.plan;
 
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
 
 /**
@@ -21,5 +22,7 @@ public interface CoachExtAthleteService {
     public void retireAthlete(Integer userId)throws Exception;
 
     public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId)throws Exception;
+
+    public List<UserDTO> getUserAthletes()throws Exception;
     
 }
