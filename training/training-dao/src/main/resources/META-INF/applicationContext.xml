@@ -33,10 +33,10 @@
         </property>
         
         <property name="jpaPropertyMap">
-  <map>
-    <entry key="eclipselink.weaving" value="false"/>
-  </map>
-</property>
+            <map>
+                <entry key="eclipselink.weaving" value="false"/>
+            </map>
+        </property>
     </bean>  
   
     
@@ -45,7 +45,29 @@
         <property name="resourceRef" value="true" />        
     </bean>   
     <bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
+                
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="wisdom.dev@gmail.com" />
+        <property name="password" value="ed0853123" />
+
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- this is a template message that we can pre-load with default state -->
+    <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="support@custom-training.com"/>
+        <property name="subject" value="Invitación"/>
+    </bean>
 
 
 

@@ -3,14 +3,15 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.athleteUser = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', countryId: '', disciplineId: $scope.userSession.disciplineId, phone: ''};
-        $scope.coachExtAthlete = {id: '', athleteUserId: $scope.athleteUser, trainingPlanUserId: $scope.userSession.trainingPlanUserId};
+        $scope.coachExtAthlete = {id: '', athleteUserId: $scope.athleteUser, coachUserId:{ userId: $scope.userSession.userId}, trainingPlanUserId: $scope.userSession.trainingPlanUserId};
         $scope.sexOptions = [
             {code: "m", sex: "Masculino"},
             {code: "f", sex: "Femenino"}
         ];
         $scope.athletes = [];
         $scope.retired = "3"; //Estado RETIRADO
-
+        $scope.userSelected = null;
+         
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
                     .then(
@@ -99,63 +100,92 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
 
         self.simulateQuery = false;
         self.isDisabled = false;
+        $scope.users = [];
+       loadAthletes("ALL");
 
-        self.repos = loadAthletes;
-        self.querySearch = querySearch;
-        self.selectedItemChange = selectedItemChange;
-        self.searchTextChange = searchTextChange;
+        $scope.querySearch = function (query) {
+             return  false;
 
-        // ******************************
-        // Internal methods
-        // ******************************
+        };
+       
 
-        /**
-         * Search for repos... use $timeout to simulate
-         * remote dataservice call.
-         */
-        function querySearch(query) {
-            var results = query ? self.repos.filter(createFilterFor(query)) : self.repos,
-                    deferred;
-            if (self.simulateQuery) {
-                deferred = $q.defer();
-                $timeout(function () {
-                    deferred.resolve(results);
-                }, Math.random() * 1000, false);
-                return deferred.promise;
-            } else {
-                return results;
-            }
+    $scope.searchTextChange = function (query) {
+        $scope.userSelected = null;
+        var results = query ? $scope.repos.filter(createFilterFor(query)) : $scope.repos;
+
+        if (results.length > 0) {
+            $scope.repos = results;
+        } else {
+          $scope.repos = $scope.users;
+        }
+    };
+
+
+
+    function createFilterFor(query) {
+        var lowercaseQuery = angular.lowercase(query);
+
+        return function filterFn(item) {
+            var value = removeAccents(item.fullName.toLowerCase());
+            return (value.indexOf(lowercaseQuery) === 0);
+        };
+
+    }
+
+    $scope.ignoreAccents = function (item) {
+        if (!$scope.search)
+            return true;
+        var text = removeAccents(item.fullName.toLowerCase());
+        var search = removeAccents($scope.search.toLowerCase());
+        return text.indexOf(search) > -1;
+    };
+
+    function removeAccents(source) {
+
+        var accent = [
+            /[\300-\306]/g, /[\340-\346]/g, // A, a
+            /[\310-\313]/g, /[\350-\353]/g, // E, e
+            /[\314-\317]/g, /[\354-\357]/g, // I, i
+            /[\322-\330]/g, /[\362-\370]/g, // O, o
+            /[\331-\334]/g, /[\371-\374]/g, // U, u
+            /[\321]/g, /[\361]/g, // N, n
+            /[\307]/g, /[\347]/g, // C, c
+        ],
+                noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
+
+        for (var i = 0; i < accent.length; i++) {
+            source = source.replace(accent[i], noaccent[i]);
         }
 
-        function searchTextChange(text) {
-            console.info('Text changed to ' + text);
-        }
+        return source;
 
-        function selectedItemChange(item) {
-            console.info('Item changed to ' + JSON.stringify(item));
-        }
+    } // removeAccents
+
+        $scope.selectedItemChange = function(item) {
+           $scope.userSelected = item;
+        };
 
         /**
          * Build `components` list of key/value pairs
          */
-        function loadAthletes(){
-            var repos = [];
-            ExternalCoachService.loadAthletes().then(
+        function loadAthletes(search){
+                var deferred = $q.defer();
+            ExternalCoachService.loadAthletes(search).then(
                             function (response) {
 
-                                repos = response;
+                                $scope.repos = response;
+                                $scope.users = response;
+                                deferred.resolve(response);
 
                             },
                             function (errResponse) {
                                 console.error('Error while get athletes.');
                             }
                     );
-
-            return repos.map(function (repo) {
-                repo.value = repo.fullname.toLowerCase();
-                return repo;
-            });
-        };
+            
+             return deferred.promise;
+        }
+        ;
 
         /**
          * Create filter function for a query string
@@ -164,10 +194,38 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
             var lowercaseQuery = angular.lowercase(query);
 
             return function filterFn(item) {
-                return (item.value.indexOf(lowercaseQuery) === 0);
+                var name = item.fullName.toLowerCase();
+                var value = name.indexOf(lowercaseQuery) === 0;
+                return value;
             };
 
         }
+        
+        
+        $scope.sendInvitation = function () {
+            $scope.coachExtAthlete.athleteUserId.userId = $scope.userSelected.userId;
+            ExternalCoachService.sendInvitation($scope.coachExtAthlete).then(
+                    function (response) {
+                        if (response.entity.status == 'success') {
+                            self.fetchAthletes();
+                            $scope.showMessage(response.entity.output);
+                             self.clear();
+                        } else {
+                            $scope.showMessage(response.entity.detail, "Error");
+                        }
+
+                    },
+                    function (errResponse) {
+                        console.error('Error while get athletes.');
+                    }
+            );
+
+        };
+        
+        self.clear = function () {
+            $scope.userSelected = null;
+            $scope.searchText = '';
+        };
 
 
     }]);

@@ -20,6 +20,9 @@ import co.com.expertla.training.service.user.UserService;
 import java.util.Calendar;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +33,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
+    
+    @Autowired
+    private MailSender mailSender;
+    
+     @Autowired
+    private SimpleMailMessage templateMessage;
+    
+     public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+
+    public void setTemplateMessage(SimpleMailMessage templateMessage) {
+        this.templateMessage = templateMessage;
+    }
     
     @Autowired
     CoachExtAthleteDao coachExtAthleteDao;
@@ -72,8 +89,36 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
     }
 
     @Override
-    public List<UserDTO> getUserAthletes() throws Exception {
-       return coachExtAthleteDao.getUserAthletes();
+    public List<UserDTO> getUserAthletes(String query) throws Exception {
+       return coachExtAthleteDao.getUserAthletes(query);
     }
+
+    @Override
+    public void sendInvitation(CoachExtAthleteDTO dto) throws Exception {
+        
+        UserDTO user = userService.findById(dto.getAthleteUserId().getUserId());
+        UserDTO coach = userService.findById(dto.getCoachUserId().getUserId());
+        CoachExtAthlete entity = new CoachExtAthlete();
+        entity.setTrainingPlanUserId(new TrainingPlanUser(dto.getTrainingPlanUserId()));
+        entity.setUserTrainingId(new User(dto.getAthleteUserId().getUserId()));
+        entity.setStateId(new State(StateEnum.PENDING.getId()));
+        entity.setCreationDate(Calendar.getInstance().getTime());
+        coachExtAthleteDao.create(entity);
+        
+        // Create a thread safe "copy" of the template message and customize it
+        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        msg.setTo(user.getEmail());
+        msg.setText(
+            "Sr(a) " + user.getFullName()
+                + ", El Coach: "+coach.getFullName()+ " te invito a ser parte de su equipo en Pro-Custom-Training. ");
+        try{
+            this.mailSender.send(msg);
+        }
+        catch (MailException ex) {
+            // simply log it and go on...
+            System.err.println(ex.getMessage());
+        }
+    }
+    
     
 }

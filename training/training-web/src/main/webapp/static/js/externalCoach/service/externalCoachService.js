@@ -1,8 +1,8 @@
 trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q) {
-        
+
         return{
-             createAthlete: function (obj) {
-                 
+            createAthlete: function (obj) {
+
                 return $http.post($contextPath + 'externalCoach/create/athlete', obj)
                         .then(
                                 function (response) {
@@ -14,8 +14,8 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                                 }
                         );
             },
-             fetchAthletes: function (trainingPlanUserId, state) {
-                return $http.get($contextPath + 'externalCoach/get/athletes/' + trainingPlanUserId+"/"+state)
+            fetchAthletes: function (trainingPlanUserId, state) {
+                return $http.get($contextPath + 'externalCoach/get/athletes/' + trainingPlanUserId + "/" + state)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -38,8 +38,8 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                                 }
                         );
             },
-            loadAthletes: function () {
-                return $http.get($contextPath + 'externalCoach/get/user/athletes')
+            loadAthletes: function (query) {
+                return $http.get($contextPath + 'externalCoach/get/user/athletes/' + query)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -49,7 +49,19 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            sendInvitation: function (coachExtAthlete) {
+                return $http.post($contextPath + 'externalCoach/sendInvitation', coachExtAthlete)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (error) {
+                                    console.error('Error while creating user');
+                                    return $q.reject(error);
+                                }
+                        );
             }
         };
-        
-}]);
+
+    }]);

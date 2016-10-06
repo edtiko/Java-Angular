@@ -8,6 +8,7 @@ package co.com.expertla.training.dao.impl.plan;
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.CoachExtAthleteDao;
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
 import co.com.expertla.training.model.dto.UserDTO;
@@ -68,9 +69,26 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     }
 
     @Override
-    public List<UserDTO> getUserAthletes() throws DAOException {
+    public List<UserDTO> getUserAthletes(String search) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" select user_id, ");
+        sql.append(" SELECT new co.com.expertla.training.model.dto.UserDTO(u.userId, u.name, u.secondName, u.lastName,  u.login, u.profilePhoto) ");
+        sql.append(" FROM User u, RoleUser ru ");
+        sql.append(" WHERE not exists (select 1 from CoachExtAthlete   c where u.userId = c.userTrainingId.userId ) ");
+        sql.append(" And   not exists (select 1 from CoachAssignedPlan c where u.userId = c.trainingPlanUserId.userId.userId )");
+        sql.append(" And   u.userId = ru.userId.userId ");
+        sql.append(" And   ru.roleId.roleId = :role ");
+        if(!search.trim().equals("ALL")){
+             sql.append(" and concat(u.name,' ', u.secondName, ' ', u.lastName) like :search ");
+        }
+        sql.append(" ORDER BY u.name ASC ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("role", RoleEnum.ATLETA.getId());
+          if(search != null && !search.trim().equals("ALL")){
+              query.setParameter("search", "%"+search+"%");
+          }
+        List<UserDTO> list = query.getResultList();
+        
+       /* sql.append(" select user_id, ");
         sql.append(" name||' '||second_name||' '||last_name fullname, ");
         sql.append(" profile_photo ");
         sql.append(" from  user_training");
@@ -83,11 +101,9 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" where  coach_assigned_plan.training_plan_user_id = training_plan_user.training_plan_user_id  ");
         sql.append(" and    training_plan_user.user_id = user_training.user_id) ");
         sql.append(" and state_id = 1 ");
-        sql.append(" order by 2 ");
+        sql.append(" order by 2 ");*/
 
-        Query query = getEntityManager().createNativeQuery(sql.toString(), UserDTO.class);
-
-        return query.getResultList();
+        return list;
     }
     
 }

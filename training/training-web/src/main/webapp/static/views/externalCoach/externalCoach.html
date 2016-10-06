@@ -38,32 +38,31 @@
                     </md-tab>
                     <md-tab label="Vincular Atleta">
                         <md-content class="md-padding">
-                            <form ng-submit="$event.preventDefault()">
+                               <div layout="column"  ng-show="repos == null" layout-align="center center">
+                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                            <md-subheader class="md-no-sticky">Cargando Atletas..</md-subheader>
+                               </div>
+                            <form ng-submit="$event.preventDefault()" ng-show="repos.length > 0">
                                 <p>Atletas Existentes</p>
                                 <md-autocomplete
-                                    ng-disabled="isDisabled"
-                                    md-no-cache="noCache"
-                                    md-selected-item="selectedItem"
+                                    md-selected-item="userSelected"
                                     md-search-text-change="searchTextChange(searchText)"
                                     md-search-text="searchText"
                                     md-selected-item-change="selectedItemChange(item)"
-                                    md-items="item in querySearch(searchText)"
-                                    md-item-text="item.name"
-                                    md-min-length="0"
+                                    md-items="item in repos"
+                                    md-item-text="item.fullName"
+                                    md-input-maxlength="30" 
+                                    md-input-minlength="3" 
                                     placeholder="Seleccione un Usuario"
                                     md-menu-class="autocomplete-custom-template">
                                     <md-item-template>
                                         <span class="item-title">
-                                            <img data-ng-src="{{item.profilePhotoBase64}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
-                                            <span> {{item.fullname}} </span>
-                                        </span>
-                                        <span class="item-metadata">
-                                            <span class="item-metastat">
-                                                <strong>Atleta</strong>
-                                            </span>
+                                            <img data-ng-src="{{item.profilePhotoBase64}}"  alt="{{item.login}}" class="circular" style="height: 30px; width: 30px">
+                                            <span> {{item.fullName}} </span>
                                         </span>
                                     </md-item-template>
                                 </md-autocomplete>
+                                <md-button class="md-raised md-primary" ng-show="userSelected != null" ng-click="sendInvitation()">Enviar Invitaci&oacute;n</md-button>
                             </form>
                         </md-content>
                     </md-tab>

@@ -23,6 +23,8 @@ public interface CoachExtAthleteService {
 
     public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId)throws Exception;
 
-    public List<UserDTO> getUserAthletes()throws Exception;
+    public List<UserDTO> getUserAthletes(String query)throws Exception;
+
+    public void sendInvitation(CoachExtAthleteDTO dto)throws Exception;
     
 }

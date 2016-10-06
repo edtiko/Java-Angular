@@ -196,6 +196,15 @@ public class UserDTO {
         this.indLoginFirstTime = indLoginFirstTime;
         this.userWordpressId = userWordpressId;
     }
+    
+    public UserDTO(Integer userId, String firstName, String secondName, String lastName, String login, byte[] profilePhoto){
+        this.userId = userId;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.login = login;
+        this.profilePhoto = profilePhoto;
+    }
 
     public static UserDTO mapFromUserEntity(User user) {
         if (user != null) {
@@ -483,7 +492,7 @@ public class UserDTO {
     }
 
     public String getFullName() {
-        return this.firstName+" "+this.secondName+" "+this.lastName+""+this.fullName;
+        return this.firstName+" "+this.secondName+" "+this.lastName;
     }
 
     public void setFullName(String fullName) {
