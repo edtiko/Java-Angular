@@ -30,6 +30,21 @@
                         </md-input-container>
                     </div>
                 </div>
+
+                <div layout="row" ng-show="activityReplaceList.length > 0">
+                    <div flex>
+                        <md-input-container class="md-block">
+                            <label>Actividad de Reemplazo </label>
+                            <md-select 
+                                id="discipline" ng-model="replaceActivityId">
+                                <md-option ng-repeat="d in activityReplaceList" value="{{d.activityId}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+
                 <div layout="row" >
                     <div flex>
                         <md-input-container class="md-block">
@@ -57,45 +72,45 @@
 
                 </div>
                 <div class="border">
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Tiempo</label>
-                            <input type="text"  id="time" name="time" />
-                        </md-input-container>
+                    <div layout="row" >
+                        <div flex>
+                            <md-input-container class="md-block">
+                                <label>Tiempo</label>
+                                <input type="text"  id="time" name="time" />
+                            </md-input-container>
+                        </div>
                     </div>
-                </div>
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Distancia</label>
-                            <input type="text"  id="distance" name="distance" />
-                        </md-input-container>
+                    <div layout="row" >
+                        <div flex>
+                            <md-input-container class="md-block">
+                                <label>Distancia</label>
+                                <input type="text"  id="distance" name="distance" />
+                            </md-input-container>
+                        </div>
                     </div>
-                </div>
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Calor&iacute;as</label>
-                            <input type="text"  id="calories" name="calories" />
-                        </md-input-container>
+                    <div layout="row" >
+                        <div flex>
+                            <md-input-container class="md-block">
+                                <label>Calor&iacute;as</label>
+                                <input type="text"  id="calories" name="calories" />
+                            </md-input-container>
+                        </div>
                     </div>
-                </div>
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Descripci&oacute;n</label>
-                            <textarea id="desc" name="desc" ></textarea>
+                    <div layout="row" >
+                        <div flex>
+                            <md-input-container class="md-block">
+                                <label>Descripci&oacute;n</label>
+                                <textarea id="desc" name="desc" ></textarea>
 
-                        </md-input-container>
-                    </div>
+                            </md-input-container>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">  
-            <md-button class="md-raised" ng-click="cancel()">
+            <md-button class="md-raised" ng-click="guardarActividad()">
                 Aceptar
             </md-button>
         </md-dialog-actions>

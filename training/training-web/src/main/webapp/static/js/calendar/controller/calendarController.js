@@ -2,6 +2,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $window, $mdDialog) {
     $scope.activityList = [];
     $scope.trainingPow = 0;
+    $scope.replaceActivityId = null;
     $scope.labelTrainingPow = 'Entrenamiento por potencia';
     $scope.loading = true;
     $scope.userId = null;
@@ -49,7 +50,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         }
     };
     $scope.getActivityByUser();
-    
+
     $scope.showCreateReplaceActivity = function (ev) {
         $scope.selectedDay = null;
         $scope.selectedId = "";
@@ -60,7 +61,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             if (date != null) {
                 $scope.selectedDay = date;
             }
-            
+
             if (id != null) {
                 $scope.selectedActivity = id;
             }
@@ -81,7 +82,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                     $scope.status = 'You cancelled the dialog.';
                 });
     }
-    
+
     $scope.showCreateManualActivity = function (ev) {
 
         $scope.selectedDay = null;
@@ -135,7 +136,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
 
 
     };
-    
+
     function ReplaceActivityController($scope, $mdDialog) {
         $scope.searchReplaceActivity = "";
         $scope.activityReplaceList = [];
@@ -150,14 +151,18 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                     }
             );
         };
-        
+
         $scope.changeActivityReplace = function (activityId) {
             var userId = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            var objActivity = {'userId' : userId.userId, 'trainingPlanWorkoutId' : $scope.selectedActivity,
-                'activityDate' : $scope.selectedDay, 'activityId' : activityId};
-            
-            console.debug(objActivity);
-            createPlan(objActivity, true);
+            var objActivity = {'userId': userId.userId,
+                'activityDate': $scope.selectedDay, 'activityId': activityId};
+
+            createActivity(objActivity);
+
+            objActivity = {'userId': userId.userId, 'trainingPlanWorkoutId': $scope.selectedActivity,
+                'activityDate': $scope.selectedDay};
+            deletePlan(objActivity);
+            $mdDialog.hide();
         };
 
         $scope.getActivity();
@@ -170,7 +175,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             $mdDialog.cancel();
         };
     }
-    
+
     function ActivityController($scope, $mdDialog) {
 
         $scope.activity = {activityId: '', modality: '', title: '', activityDescription: '', workoutDate: '', userId: $scope.userId};
@@ -186,7 +191,18 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                     }
             );
         };
-
+        
+        $scope.getActivityReplace = function () {
+            CalendarService.getActivityReplace($scope.selectedId).then(
+                    function (data) {
+                        $scope.activityReplaceList = angular.copy(data.output);
+                    },
+                    function (error) {
+                        console.debug(error);
+                    }
+            );
+        };
+        
         $scope.changeTrainingPow = function (trainingPow) {
             $scope.trainingPow = trainingPow;
             CalendarService.getActivityPpm($scope.selectedId, trainingPow).then(
@@ -200,7 +216,13 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         };
         if ($scope.selectedId != "") {
             $scope.getActivity();
+            $scope.getActivityReplace();
         }
+        
+        $scope.guardarActividad = function () {
+            $mdDialog.hide();
+        };
+
         $scope.hide = function () {
             $mdDialog.hide();
         };
