@@ -27,4 +27,16 @@ public interface PlanMessageService {
     
     public void readMessage(Integer planMessageId) throws  Exception;
     
+    /**
+     * Consulta los mensajes para el chat por receiving user id and sending user id <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param receivingUserId
+     * @param sendingUserId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getMessagesByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception;
+    
 }

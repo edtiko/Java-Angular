@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Service("usuarioService")
 @Transactional
@@ -51,16 +53,16 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private FederalStateDao federalStateDao;
-     
-     @Autowired
-     private RoleUserDao roleUserDao;
+
+    @Autowired
+    private RoleUserDao roleUserDao;
 
     @Autowired
     private DisciplineUserDao disciplineUserDao;
-    
+
     @Autowired
     private UserProfileDao userProfileDao;
-    
+
     @Autowired
     private VideoUserDao videoUserDao;
 
@@ -87,15 +89,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findUserByUsername(String username) throws Exception {
         UserDTO user = UserDTO.mapFromUserEntity(userDao.findUserByUsername(username));
-        
-        if(user != null) {
+
+        if (user != null) {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
-            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
+            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString() : "");
             return user;
         }
-        
+
         return null;
-        
+
     }
 
     @Transactional
@@ -155,7 +157,6 @@ public class UserServiceImpl implements UserService {
 //    public List<CountryDTO> findAllCountries() {
 //        return countryDao.findAll().stream().map(CountryDTO::mapFromCountryEntity).collect(Collectors.toList());
 //    }
-
     @Override
     public List<FederalStateDTO> findStatesByCountry(Integer countryId) {
         return federalStateDao.findStatesByCountryId(countryId).stream().map(FederalStateDTO::mapFromStateEntity).collect(Collectors.toList());
@@ -184,7 +185,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createInternalUser(UserDTO dto) throws Exception {
         User user = userDao.findUserByUsername(dto.getLogin());
-        if(user !=null) {
+        if (user != null) {
             throw new Exception("Ya existe ese nombre de usuario");
         }
         user = new User();
@@ -199,25 +200,36 @@ public class UserServiceImpl implements UserService {
         user.setCreationDate(new Date());
         user.setIndMetricSys("1");
         user.setCountryId(new Country(dto.getCountryId()));
-        
+
         DisciplineUser discipline = new DisciplineUser();
         discipline.setUserId(user);
-        discipline.setDiscipline(new Discipline(dto.getDisciplineId())); 
+        discipline.setDiscipline(new Discipline(dto.getDisciplineId()));
 
         VideoUser video = new VideoUser();
         video.setStateId(new State(StateEnum.ACTIVE.getId()));
         video.setUrl(dto.getUrlVideo());
         video.setUserId(user);
         video.setCreationDate(new Date());
-        
+
         UserProfile profile = new UserProfile();
         profile.setUserId(user);
         profile.setAboutMe(dto.getAboutMe());
-        
+
         RoleUser roleUser = new RoleUser();
         roleUser.setUserId(user);
         roleUser.setRoleId(new Role(dto.getRoleId()));
-        String sdf = wordpressIntegrationUserRegistration(dto);
+        String jsonResponse = wordpressIntegrationUserRegistration(dto);
+        System.out.println(jsonResponse);
+        if (jsonResponse != null && !jsonResponse.isEmpty()) {
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+            String statusRes = jo.get("status").getAsString();
+
+            if (statusRes.equals("fail")) {
+                throw new Exception(jo.get("output").getAsJsonObject().get("errors").toString());
+            }
+        }
+        
         user = userDao.create(user);
         disciplineUserDao.create(discipline);
         roleUserDao.create(roleUser);
@@ -230,7 +242,7 @@ public class UserServiceImpl implements UserService {
     public void editInternalUser(UserDTO dto) throws Exception {
         User user = userDao.findById(dto.getUserId());
         User userExist = userDao.findUserByUsername(dto.getLogin());
-        if(userExist !=null && !userExist.getLogin().equals(user.getLogin())) {
+        if (userExist != null && !userExist.getLogin().equals(user.getLogin())) {
             throw new Exception("Ya existe ese nombre de usuario");
         }
         user.setLogin(dto.getLogin());
@@ -241,51 +253,47 @@ public class UserServiceImpl implements UserService {
         user.setSex(dto.getSex());
         user.setPhone(dto.getPhone());
         user.setStateId(dto.getStateId());
-        
-        if(dto.getIndLoginFirstTime() != null) {
+
+        if (dto.getIndLoginFirstTime() != null) {
             user.setIndLoginFirstTime(dto.getIndLoginFirstTime());
         }
         user.setCountryId(new Country(dto.getCountryId()));
-        
-        
+
         UserProfile profile = userProfileDao.findByUserId(dto.getUserId());
-        if(profile != null) {
+        if (profile != null) {
             profile.setAboutMe(dto.getAboutMe());
             userProfileDao.merge(profile);
         }
-        
+
         List<VideoUser> videoUserList = videoUserDao.getByUser(dto.getUserId());
-        if(videoUserList != null && !videoUserList.isEmpty()) {
+        if (videoUserList != null && !videoUserList.isEmpty()) {
             VideoUser videoUser = videoUserList.get(0);
             videoUser.setUrl(dto.getUrlVideo());
             videoUserDao.merge(videoUser);
         }
-        
+
         DisciplineUser discipline = disciplineUserDao.findByUserId(dto.getUserId());
         if (discipline != null) {
             discipline.setDiscipline(new Discipline(dto.getDisciplineId()));
             disciplineUserDao.merge(discipline);
         }
-        
-        RoleUser role  = roleUserDao.findByUserId(dto.getUserId());
-        if(role != null) {
+
+        RoleUser role = roleUserDao.findByUserId(dto.getUserId());
+        if (role != null) {
             role.setRoleId(new Role(dto.getRoleId()));
             roleUserDao.merge(role);
         }
 
         userDao.merge(user);
     }
-    
+
     private String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException {
         URL url = new URL("http://181.143.227.220:8081/cpt/create_user_internal.php");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setInstanceFollowRedirects(true);
-        String postData = "login="+dto.getLogin().trim()+"&email="+dto.getEmail();        
-        String userpass = "ck_5f3d8f11e98bce6be84270c691f26b9152ed9d46:cs_31f632c2dc0f3a5032216630c3941914a0547a10";
-        String basicAuth = "Basic " + new String(new Base64().encode(userpass.getBytes()));
-        con.setRequestProperty ("Authorization", basicAuth);
-        con.setRequestProperty("Content-Type", "application/json");
+        String postData = "login=" + dto.getLogin().trim() + "&email=" + dto.getEmail();
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("Content-length", String.valueOf(postData.length()));
         con.setDoOutput(true);
         con.setDoInput(true);
@@ -293,9 +301,6 @@ public class UserServiceImpl implements UserService {
             output.writeBytes(postData);
         }
         int code = con.getResponseCode(); // 200 = HTTP_OK
-        System.out.println("Response    (Code):" + code);
-        System.out.println("Response (Message):" + con.getResponseMessage());
-
         // read the response
         DataInputStream input = new DataInputStream(con.getInputStream());
         int c;
@@ -313,12 +318,12 @@ public class UserServiceImpl implements UserService {
         return userDao.findUserByRole(roleId);
     }
 
-	@Override
+    @Override
     public List<UserDTO> findPaginate(int first, int max, String order) throws Exception {
         return userDao.findPaginate(first, max, order);
     }
 
-	@Override
+    @Override
     public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception {
         return userDao.findUserWithDisciplineById(userId);
     }

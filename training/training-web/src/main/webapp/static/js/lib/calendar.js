@@ -918,6 +918,8 @@ if (!String.prototype.formatNum) {
                         var events = [];
                         var d_from = self.options.position.start;
                         var d_to = self.options.position.end;
+                        console.debug(d_from);
+                        console.debug(d_to);
                         var params = {from: d_from.getTime(), to: d_to.getTime(), utc_offset_from: d_from.getTimezoneOffset(), utc_offset_to: d_to.getTimezoneOffset()};
 
                         if (browser_timezone.length) {

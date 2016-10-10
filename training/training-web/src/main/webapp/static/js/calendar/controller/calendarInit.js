@@ -1,5 +1,6 @@
+var calendar;
 (function ($) {
-    var calendar = initCalendar();
+    calendar = initCalendar(true);
 
     $('.btn-group button[data-calendar-nav]').each(function () {
         var $this = $(this);
@@ -74,7 +75,7 @@
         }
     };
 
-function initCalendar() {
+function initCalendar(isNew) {
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
     var planAthleteSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
     if (planAthleteSelected != null) {
@@ -115,8 +116,13 @@ function initCalendar() {
             }
         }
     };
-
-    var calendar = $('#calendar').calendar(options);
+    
+    if(isNew) {
+        calendar = $('#calendar').calendar(options);
+    } else {
+        calendar.view();
+    }
+    
     return calendar;
 }
 function manualActivity(ev){
@@ -186,7 +192,7 @@ function createActivity(objActivity) {
             type: 'POST',
             data: JSON.stringify(objActivity)
         }).success(function (html) {
-            initCalendar();
+            initCalendar(false);
         }).error(function (html) {
             console.debug(html);
         });
@@ -202,7 +208,7 @@ function createPlan(objActivity, isDetelePlan) {
             if(isDetelePlan) {
                 deletePlan(objActivity);
             } else {
-                initCalendar();
+                initCalendar(false);
             }
         }).error(function (html) {
             console.debug(html);
@@ -216,7 +222,7 @@ function deletePlan(objActivity) {
             type: 'POST',
             data: JSON.stringify(objActivity)
         }).success(function (html) {
-            initCalendar();
+            initCalendar(false);
         }).error(function (html) {
             console.debug(html);
         });

@@ -8,7 +8,7 @@
                             <md-content class="md-padding">
                                 <md-list-item ng-repeat="a in supervisorUserAssignedList" >
                                     <div ng-style="{{a.colourCoach}}" class="colour"></div>
-                                    <md-button md-no-ink class="md-primary" ng-click="selectUserBySupervisor(a, a.coachUserId, 'coach')">{{a.coachUserId.fullName}}</md-button>
+                                    <md-button md-no-ink class="md-primary" ng-click="selectUser(a.coachUserId.userId)">{{a.coachUserId.fullName}}</md-button>
                                     <md-divider></md-divider>
                                 </md-list-item>
                             </md-content>
@@ -18,7 +18,7 @@
                             <md-content class="md-padding">
                                 <md-list-item ng-repeat="a in supervisorUserAssignedList" >
                                     <div ng-style="{{a.colourStar}}" class="colour"></div>
-                                    <md-button md-no-ink class="md-primary" ng-click="selectUserBySupervisor(a, a.starUserId, 'star')">{{a.starUserId.fullName}}</md-button>
+                                    <md-button md-no-ink class="md-primary" ng-click="selectUser(a.starUserId.userId)">{{a.starUserId.fullName}}</md-button>
                                     <md-divider></md-divider>
                                 </md-list-item>
                             </md-content>
@@ -34,7 +34,7 @@
                             <md-content class="md-padding">
                                 <md-list-item ng-repeat="a in supervisorUserAssignedList" >
                                     <div ng-style="{{a.colourAtlete}}" class="colour"></div>
-                                    <md-button md-no-ink class="md-primary" ng-click="selectUserBySupervisor(a, a.atleteUserId, 'atleta')">{{a.atleteUserId.fullName}}</md-button>
+                                    <md-button md-no-ink class="md-primary" ng-click="selectUser(a.atleteUserId.userId)">{{a.atleteUserId.fullName}}</md-button>
                                     <md-divider></md-divider>
                                 </md-list-item>
                             </md-content>
@@ -44,7 +44,7 @@
                             <md-content class="md-padding">
                                 <md-list-item ng-repeat="a in supervisorUserAssignedList" >
                                     <div ng-style="{{a.colourCoach}}" class="colour"></div>
-                                    <md-button md-no-ink class="md-primary" ng-click="selectUserBySupervisor(a, a.coachUserId, 'coach')">{{a.coachUserId.fullName}}</md-button>
+                                    <md-button md-no-ink class="md-primary" ng-click="selectUser(a.coachUserId.userId)">{{a.coachUserId.fullName}}</md-button>
                                     <md-divider></md-divider>
                                 </md-list-item>
                             </md-content>
@@ -53,9 +53,10 @@
                 </md-content>
             </md-tab>
 
-            <md-tab label="{{ 'INBOX' | translate }}">
+            <md-tab label="{{ 'INBOX' | translate }}" md-on-select="onTabChanges(2)">
                 <md-content class="md-padding">
-
+                    <md-button md-no-ink class="md-primary" ng-click="selectUser(userSession.userId)">{{userSession.fullName}}</md-button>
+                    <md-divider></md-divider>
                 </md-content>
             </md-tab>
         </md-tabs>

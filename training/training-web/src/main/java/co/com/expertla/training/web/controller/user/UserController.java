@@ -311,9 +311,9 @@ public class UserController {
                                         DisciplineUser disciplineUserStar = disciplineUserService.findByUserId(starUserId);
                                         DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
 
-                                        if (disciplineUserStar != null && disciplineUser != null) {
+                                        if (disciplineUser != null && disciplineUserStar != null) {
                                             if (!disciplineUser.getDisciplineUserId().equals(disciplineUserStar.getDisciplineUserId())) {
-                                                disciplineUser.setDisciplineUserId(disciplineUserStar.getDisciplineUserId());
+                                                disciplineUser.setDiscipline(disciplineUserStar.getDiscipline());
                                                 disciplineUserService.store(disciplineUser);
                                             }
                                         }

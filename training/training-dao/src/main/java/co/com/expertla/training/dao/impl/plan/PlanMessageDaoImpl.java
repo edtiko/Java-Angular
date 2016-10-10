@@ -10,6 +10,7 @@ import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.PlanMessageDao;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.entities.PlanMessage;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -88,5 +89,19 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         executeNativeUpdate(builder.toString());
     }
     
+     @Override
+    public List<PlanMessageDTO> getMessagesByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception {
+        List<Integer> ids = new ArrayList<>();
+        ids.add(sendingUserId);
+        ids.add(receivingUserId);
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate, m.receivingUserId) ");        
+        sql.append("FROM PlanMessage m ");
+        sql.append("Where m.messageUserId.userId in :ids ");
+        sql.append("AND m.receivingUserId.userId in :ids");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("ids", ids);
+        return query.getResultList();
+    }
     
 }
