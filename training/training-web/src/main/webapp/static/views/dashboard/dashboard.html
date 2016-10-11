@@ -337,7 +337,7 @@
     </div>
     <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == userSessionTypeUserAtleta || userSession.typeUser == userSessionTypeUserCoachEstrella">
         <div layout="column" layout-align="center center" style="margin: 34px;">
-            <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+            <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta && !planSelected.external">
                 <div flex>
                     <img class="circular" data-ng-src="{{profileImageStar}}" style="height: 80px; width: 80px;">
                     <md-subheader>Estrella</md-subheader>
@@ -357,9 +357,10 @@
                      </notification-icon>
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella  || showVideo">{{availableVideo}} disponibles de {{coachAssignedPlan.videoCount}}</md-subheader>
-                <div flex ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">                  
-
+                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella  || showVideo">{{availableVideo}} disponibles de {{planSelected.trainingPlanId.videoCount!=null?planSelected.trainingPlanId.videoCount:0}}</md-subheader>
+                
+                <div flex ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">
+                   
                     <notification-icon animation="grow" count="messagesReceivedCount">
                     <md-button  aria-label="Mensajes" class="md-fab md-raised  md-primary " ng-click="goMessages()">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Mensajes</md-tooltip>
@@ -368,11 +369,11 @@
                     </notification-icon>
                 </div>
     
+                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
 
-                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">{{availableMessage}} disponibles de {{coachAssignedPlan.messageCount}}</md-subheader>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserAtleta">
                     <notification-icon animation="grow" count="emailReceivedCount">
-                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.coachUserId.userId)">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.coachUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                         <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                     </md-button>
@@ -380,7 +381,7 @@
                 </div>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserSupervisor">
                     <notification-icon animation="grow" count="emailReceivedCount">
-                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(coachAssignedPlan.athleteUserId.userId)">
+                    <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.athleteUserId.userId)">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                         <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                     </md-button>
@@ -388,8 +389,9 @@
                     
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserSupervisor ">{{availableEmail}} disponibles de {{coachAssignedPlan.emailCount}}</md-subheader>
+                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserSupervisor ">{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">
+
                      <notification-icon animation="grow" count="callReceivedCount">
                     <md-button aria-label="Llamadas" class="md-fab md-raised md-primary ">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Llamadas</md-tooltip>
@@ -398,8 +400,7 @@
                      </notification-icon>
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">{{availableCall}} disponibles de {{coachAssignedPlan.callCount}}</md-subheader>
-                
+                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">{{availableCall}} disponibles de {{planSelected.trainingPlanId.callCount!=null?planSelected.trainingPlanId.callCount:0}}</md-subheader>
                 <div flex  ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserCoachEstrella">
                     <notification-icon animation="grow" count="callReceivedCount">
                     <md-button  aria-label="Script" class="md-fab md-raised  md-primary ">

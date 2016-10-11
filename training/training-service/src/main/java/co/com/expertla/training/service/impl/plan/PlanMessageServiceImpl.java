@@ -12,6 +12,7 @@ import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
+import co.com.expertla.training.model.entities.CoachExtAthlete;
 import co.com.expertla.training.model.entities.PlanMessage;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.plan.PlanMessageService;
@@ -39,20 +40,28 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     CoachAssignedPlanDao coachAssignedPlanDao;
 
     @Override
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId) throws Exception, TrainingException {
-        return planMessageDao.getMessagesByPlan(coachAssignedPlanId);
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan) throws Exception, TrainingException {
+        return planMessageDao.getMessagesByPlan(coachAssignedPlanId, tipoPlan);
     }
 
     @Override
     public PlanMessageDTO saveMessage(PlanMessageDTO message) throws Exception, TrainingException {
         PlanMessage planMessage = new PlanMessage();
         User messageUser = userDao.findById(message.getMessageUserId().getUserId());
-        User receivingUser = userDao.findById(message.getReceivingUserId().getUserId());
-        CoachAssignedPlan plan = coachAssignedPlanDao.findById(message.getCoachAssignedPlanId().getId());
-        planMessage.setCoachAssignedPlanId(plan);
+
+        if (message.getReceivingUserId() != null && message.getReceivingUserId().getUserId() != null) {
+            User receivingUser = userDao.findById(message.getReceivingUserId().getUserId());
+            planMessage.setReceivingUserId(receivingUser);
+        }
+
+        if (message.getCoachAssignedPlanId() != null && message.getCoachAssignedPlanId().getId() != null) {
+            planMessage.setCoachAssignedPlanId(new CoachAssignedPlan(message.getCoachAssignedPlanId().getId()));
+        } else if (message.getCoachExtAthleteId() != null && message.getCoachExtAthleteId().getId() != null) {
+            planMessage.setCoachExtAthleteId(new CoachExtAthlete(message.getCoachExtAthleteId().getId()));
+        }
+
         planMessage.setMessage(message.getMessage());
         planMessage.setMessageUserId(messageUser);
-        planMessage.setReceivingUserId(receivingUser);
         planMessage.setStateId(new Integer(Status.ACTIVE.getId()));
         planMessage.setCreationDate(new Date());
         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
@@ -78,6 +87,21 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     @Override
     public void readMessage(Integer planMessageId) throws Exception {
         planMessageDao.readMessage(planMessageId);
+    }
+
+    @Override
+    public Integer getCountMessagesByPlanExt(Integer planId, Integer userId) throws Exception {
+       return planMessageDao.getCountMessagesByPlanExt(planId, userId);
+    }
+
+    @Override
+    public Integer getCountMessagesReceivedExt(Integer planId, Integer userId) throws Exception {
+       return planMessageDao.getCountMessagesReceivedExt(planId, userId);
+    }
+
+    @Override
+    public void readMessagesExt(Integer planId, Integer userId) throws Exception {
+          planMessageDao.readMessagesExt(planId, userId);
     }
     
     @Override

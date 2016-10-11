@@ -118,6 +118,8 @@
     <class>co.com.expertla.training.model.entities.ActivityPerformanceMetafield</class>
     <class>co.com.expertla.training.model.entities.PlanVideo</class>
     <class>co.com.expertla.training.model.entities.ScriptVideo</class>
+    <class>co.com.expertla.training.model.entities.CoachExtAthlete</class>
+
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

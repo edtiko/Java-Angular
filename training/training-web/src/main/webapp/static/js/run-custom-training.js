@@ -67,7 +67,8 @@ require.config({
         angularPickList: 'lib/picklist',        
         mailService: "mail/service/mailService",
         supervStarCoachService: "mail/service/supervStarCoachService",
-        userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService"
+        userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService",
+        externalCoachService: "externalCoach/service/externalCoachService"
     },
     shim: {
         angular: {
@@ -232,6 +233,9 @@ require.config({
         userActivityPerformanceService: {
             deps: ['angular','trainingApp']
         },
+        externalCoachService: {
+            deps: ['angular','trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -242,7 +246,7 @@ require.config({
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService'
                 ,'videoService','dcfService', 'characteristicService','brandService',
-		'mailService','supervStarCoachService','userActivityPerformanceService'
+		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService'
 
             ] }
     }

@@ -778,7 +778,8 @@ create table coach_assigned_plan (
 /*==============================================================*/
 create table plan_message (
    plan_message_id           serial  not null,
-   coach_assigned_plan_id    integer not null,
+   coach_assigned_plan_id    integer,
+   coach_ext_athlete_id      integer, 
    message                   varchar(5000),
    message_user_id           integer not null,
    readed                    boolean  default false,
@@ -813,10 +814,35 @@ create table plan_video (
    from_user_id              integer not null,
    to_user_id                integer not null,    
    coach_assigned_plan_id    integer null,   
+   coach_ext_athlete_id      integer, 
    readed boolean DEFAULT false,
    creation_date             timestamp without time zone,
    constraint pk_plan_video primary key (plan_video_id)
 );
+
+create table coach_ext_athlete(
+coach_ext_athlete_id  serial not null,
+training_plan_user_id integer not null, --id plan coach externo
+user_training_id integer not null, --id referencia usuario atleta
+state_id integer not null, -- id estado ej: retirado, pendiente..
+creation_date timestamp without time zone, 
+constraint pk_coach_ext_athlete primary key (coach_ext_athlete_id)
+);
+
+alter table coach_ext_athlete
+add constraint fk_coach_ext_athlete_reference_training_plan_user foreign key (training_plan_user_id)
+references training_plan_user(training_plan_user_id)
+on delete restrict on update restrict;
+
+alter table coach_ext_athlete
+add constraint fk_coach_ext_athlete_reference_user_training foreign key (user_training_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table coach_ext_athlete
+add constraint fk_coach_ext_athlete_reference_state foreign key (state_id)
+references state(state_id)
+on delete restrict on update restrict;
 
 alter table plan_video
 add constraint fk_plan_video_from_reference_user foreign key (from_user_id)
@@ -831,6 +857,11 @@ on delete restrict on update restrict;
 alter table plan_video
 add constraint fk_plan_video_ref_coach_assigned_plan foreign key (coach_assigned_plan_id)
 references coach_assigned_plan(coach_assigned_plan_id)
+on delete restrict on update restrict;
+
+alter table plan_video
+add constraint fk_plan_video_ref_coach_ext_athlete foreign key (coach_ext_athlete_id)
+references coach_ext_athlete(coach_ext_athlete_id)
 on delete restrict on update restrict;
 
 alter table star_team
@@ -861,6 +892,11 @@ on delete restrict on update restrict;
 alter table plan_message
 add constraint fk_plan_message_reference_user foreign key (message_user_id)
 references user_training (user_id)
+on delete restrict on update restrict;
+
+alter table plan_message
+add constraint fk_plan_message_ref_coach_ext_athlete foreign key (coach_ext_athlete_id)
+references coach_ext_athlete (coach_ext_athlete_id)
 on delete restrict on update restrict;
 
 alter table model_equipment

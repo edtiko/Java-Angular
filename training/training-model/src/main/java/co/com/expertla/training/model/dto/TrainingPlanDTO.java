@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
@@ -38,6 +39,27 @@ public class TrainingPlanDTO {
 
     public TrainingPlanDTO() {
     }
+    
+    //Short
+    public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
+            Integer videoCount, Integer messageCount, Integer emailCount, Integer callCount,
+            Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate,
+            Integer userCreate, Integer userUpdate) {
+        this.trainingPlanId = trainingPlanId;
+        this.name = name;
+        this.description = description;
+        this.creationDate = creationDate;
+        this.lastUpdate = lastUpdate;
+        this.userCreate = userCreate;
+        this.userUpdate = userUpdate;
+        this.videoCount = videoCount;
+        this.messageCount = messageCount;
+        this.emailCount = emailCount;
+        this.callCount = callCount;
+        this.endDate = endDate;
+        this.stateId = stateId;
+        this.price = price;
+    }
 
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description, 
             Integer videoCount, Integer messageCount, Integer emailCount, Integer callCount,
@@ -60,6 +82,17 @@ public class TrainingPlanDTO {
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
+    }
+    
+    public static TrainingPlanDTO mapFromTrainingPlanEntity(TrainingPlan plan) {
+        if (plan != null) {
+            return new TrainingPlanDTO(plan.getTrainingPlanId(), plan.getName(), plan.getDescription(),
+                    plan.getVideoCount(), plan.getMessageCount(), plan.getEmailCount(),
+                    plan.getCallCount(), plan.getEndDate(), plan.getStateId(),
+                    plan.getPrice(), plan.getCreationDate(), plan.getLastUpdate(),
+                    plan.getUserCreate(), plan.getUserUpdate());
+        }
+        return null;
     }
 
     public Integer getTrainingPlanId() {

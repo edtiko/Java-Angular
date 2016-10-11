@@ -1,0 +1,73 @@
+<md-content class="md-padding">
+    <div layout="row" layout-align="space-around">
+
+        <div flex="25">
+            <md-toolbar class="md-hue-2">
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Atletas Asignados</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-content class="border" style="height: 600px">
+                <section>
+                    <md-list ng-repeat="a  in athletes| orderBy:'creationDate':false">
+                        <md-list-item ng-click="null" class="md-3-line">
+                            <img data-ng-src="{{a.athleteUserId.profilePhotoBase64}}"  alt="{{a.athleteUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                            <div class="md-list-item-text">
+                                <p>{{a.athleteUserId.fullName}}</p>
+                            </div>
+                            <md-subheader class="md-no-sticky"><strong>{{a.state}}</strong></md-subheader>
+                            <md-button ng-show="a.stateId != retired" class=" md-mini md-icon-button" ng-click="showRemoveAthleteCoach(a.id, a.athleteUserId.fullName)" aria-label="remove">
+                                <md-icon>
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </md-icon>
+                            </md-button>
+                        </md-list-item>
+                        <md-divider></md-divider>
+                    </md-list>
+                </section>
+
+            </md-content>
+        </div>
+        <div flex="65">
+            <md-content>
+                <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom>
+                    <md-tab label="Crear Atleta">
+                        <div ng-include src="'static/views/externalCoach/athleteForm.html'"></div>
+                    </md-tab>
+                    <md-tab label="Vincular Atleta">
+                        <md-content class="md-padding">
+                               <div layout="column"  ng-show="repos == null" layout-align="center center">
+                            <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                            <md-subheader class="md-no-sticky">Cargando Atletas..</md-subheader>
+                               </div>
+                            <form ng-submit="$event.preventDefault()" ng-show="repos.length > 0">
+                                <p>Atletas Existentes</p>
+                                <md-autocomplete
+                                    md-selected-item="userSelected"
+                                    md-search-text-change="searchTextChange(searchText)"
+                                    md-search-text="searchText"
+                                    md-selected-item-change="selectedItemChange(item)"
+                                    md-items="item in repos"
+                                    md-item-text="item.fullName"
+                                    md-input-maxlength="30" 
+                                    md-input-minlength="3" 
+                                    placeholder="Seleccione un Usuario"
+                                    md-menu-class="autocomplete-custom-template">
+                                    <md-item-template>
+                                        <span class="item-title">
+                                            <img data-ng-src="{{item.profilePhotoBase64}}"  alt="{{item.login}}" class="circular" style="height: 30px; width: 30px">
+                                            <span> {{item.fullName}} </span>
+                                        </span>
+                                    </md-item-template>
+                                </md-autocomplete>
+                                <md-button class="md-raised md-primary" ng-show="userSelected != null" ng-click="sendInvitation()">Enviar Invitaci&oacute;n</md-button>
+                            </form>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+        </div>
+    </div>
+</md-content>

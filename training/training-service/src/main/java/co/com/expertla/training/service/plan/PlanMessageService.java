@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface PlanMessageService {
 
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId)throws  Exception, TrainingException;
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan)throws  Exception, TrainingException;
 
     public PlanMessageDTO saveMessage(PlanMessageDTO message)throws  Exception, TrainingException;
 
@@ -26,6 +26,12 @@ public interface PlanMessageService {
     public void readMessages(Integer coachAssignedPlanId, Integer userId) throws  Exception;
     
     public void readMessage(Integer planMessageId) throws  Exception;
+
+    public Integer getCountMessagesByPlanExt(Integer coachAssignedPlanId, Integer userId)throws  Exception;
+    
+    public Integer getCountMessagesReceivedExt(Integer coachAssignedPlanId, Integer userId)throws  Exception;
+    
+    public void readMessagesExt(Integer planId, Integer userId)throws  Exception;
     
     /**
      * Consulta los mensajes para el chat por receiving user id and sending user id <br>

@@ -15,6 +15,7 @@ public class PlanMessageDTO {
     private Integer id;
     private String message;
     private CoachAssignedPlanDTO coachAssignedPlanId;
+    private CoachExtAthleteDTO coachExtAthleteId;
     private UserDTO messageUserId;
     @JsonSerialize(using = JsonDateTimeSerializer.class)
     private Date creationDate;
@@ -110,6 +111,14 @@ public class PlanMessageDTO {
 
     public void setReceivingUserId(UserDTO receivingUserId) {
         this.receivingUserId = receivingUserId;
+    }
+    public CoachExtAthleteDTO getCoachExtAthleteId() {
+        return coachExtAthleteId;
+    }
+
+    public void setCoachExtAthleteId(CoachExtAthleteDTO coachExtAthleteId) {
+        this.coachExtAthleteId = coachExtAthleteId;
+
     }
     
    

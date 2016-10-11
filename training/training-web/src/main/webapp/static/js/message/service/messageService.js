@@ -18,7 +18,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
 
         service.send = function (message) {
             var id = Math.floor(Math.random() * 1000000);
-            var url = service.CHAT_BROKER + message.coachAssignedPlanId.id;
+            var url = service.CHAT_BROKER + service.SESSION_ID;
             socket.stomp.send(url, {
                 priority: 9
             }, JSON.stringify(message));
@@ -48,8 +48,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
-        service.getMessages = function (coachAssignedPlanId) {
-            return $http.get($contextPath + '/get/messages/' + coachAssignedPlanId)
+        service.getMessages = function (planId, tipoPlan) {
+            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan)
                     .then(
                             function (response) {
                                 return response.data;
@@ -60,6 +60,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
+
         service.getMessagesByReceivingUserSendingUser = function (receivingUser,sendingUser) {
             return $http.get($contextPath + '/get/messages/by/receivingUser/sendingUser/' + receivingUser +'/'+sendingUser)
                     .then(
@@ -72,8 +73,10 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
-        service.getAvailableMessages = function (coachAssignedPlanId, userId) {
-            return $http.get($contextPath + 'get/count/available/messages/' + coachAssignedPlanId + '/' + userId)
+
+        service.getAvailableMessages = function (planId, userId, tipoPlan) {
+            return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+'/'+tipoPlan)
+
                     .then(
                             function (response) {
                                 return response.data;
@@ -85,8 +88,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
         
-         service.getMessagesReceived = function (coachAssignedPlanId, userId) {
-            return $http.get($contextPath + 'get/count/received/messages/' + coachAssignedPlanId + '/' + userId)
+         service.getMessagesReceived = function (planId, userId, tipoPlan) {
+            return $http.get($contextPath + 'get/count/received/messages/' + planId + '/' + userId+'/'+tipoPlan)
                     .then(
                             function (response) {
                                 return response.data;
@@ -98,8 +101,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
         
-         service.readMessages = function (coachAssignedPlanId, userId) {
-            return $http.get($contextPath + 'read/messages/' + coachAssignedPlanId + '/' + userId)
+         service.readMessages = function (planId, userId, tipoPlan) {
+            return $http.get($contextPath + 'read/messages/' + planId + '/' + userId+'/'+tipoPlan)
                     .then(
                             function (response) {
                                 return response.data;

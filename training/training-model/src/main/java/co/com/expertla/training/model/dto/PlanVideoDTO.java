@@ -28,6 +28,7 @@ public class PlanVideoDTO {
     private Date    createDate;
     private Integer sesionId;
     private Integer coachAssignedPlanId;
+    private Integer coachExtAthleteId;
     
     public PlanVideoDTO(){
         
@@ -144,8 +145,14 @@ public class PlanVideoDTO {
     public void setFromUser(UserDTO fromUser) {
         this.fromUser = fromUser;
     }
+
+    public Integer getCoachExtAthleteId() {
+        return coachExtAthleteId;
+    }
+
+    public void setCoachExtAthleteId(Integer coachExtAthleteId) {
+        this.coachExtAthleteId = coachExtAthleteId;
+    }
     
-    
-    
-    
+      
 }

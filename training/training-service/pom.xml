@@ -34,13 +34,18 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>co.com.expertla.training.dao</groupId>
             <artifactId>training-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-          <dependency>
+        <dependency>
             <groupId>co.com.expertla.training.model</groupId>
             <artifactId>training-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
