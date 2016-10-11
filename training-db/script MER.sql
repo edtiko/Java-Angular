@@ -782,6 +782,7 @@ create table plan_message (
    coach_ext_athlete_id      integer, 
    message                   varchar(5000),
    message_user_id           integer not null,
+   receiving_user_id         integer null, 
    readed                    boolean  default false,
    state_id                  integer  null,
    creation_date             timestamp without time zone,
