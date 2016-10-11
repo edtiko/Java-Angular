@@ -170,7 +170,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             DashboardService.getAssignedCoach(userId).then(
                     function (data) {
                         var res = data.entity.output;
-                        if (data.status == 'success') {
+                        if (data.entity.status == 'success') {
                             $scope.selectAthlete(res);
                         } else {
                             $scope.showMessage(res, "Error");

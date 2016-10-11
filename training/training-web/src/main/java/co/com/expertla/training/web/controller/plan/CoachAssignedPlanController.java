@@ -80,7 +80,7 @@ public class CoachAssignedPlanController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            responseService.setOutput(strResponse);
+            responseService.setOutput(e.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();

@@ -26,5 +26,11 @@ public interface CoachExtAthleteService {
     public List<UserDTO> getUserAthletes(String query)throws Exception;
 
     public void sendInvitation(CoachExtAthleteDTO dto)throws Exception;
+
+    public CoachExtAthleteDTO getInvitation(Integer userId)throws Exception;
+
+    public void acceptInvitation(Integer coachExtAthleteId)throws Exception;
+
+    public void rejectInvitation(Integer coachExtAthleteId)throws Exception;
     
 }

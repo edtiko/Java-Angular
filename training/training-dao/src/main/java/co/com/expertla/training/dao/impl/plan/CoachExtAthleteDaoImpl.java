@@ -57,11 +57,11 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
-        sql.append("FROM CoachExtAthlete m ");
-        sql.append("WHERE m.userTrainingId.userId = :userId ");
-        sql.append("AND m.trainingPlanUserId.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
-        sql.append("AND m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append(" SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
+        sql.append(" FROM CoachExtAthlete m ");
+        sql.append(" WHERE m.userTrainingId.userId = :userId ");
+        sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        //sql.append(" AND m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", athleteUserId);
         List<CoachExtAthleteDTO> list = query.getResultList();
@@ -104,6 +104,20 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" order by 2 ");*/
 
         return list;
+    }
+
+    @Override
+    public CoachExtAthleteDTO getInvitation(Integer userId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
+        sql.append(" FROM CoachExtAthlete m ");
+        sql.append(" WHERE m.userTrainingId.userId = :userId ");
+        sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append(" AND m.stateId.stateId = ").append(StateEnum.PENDING.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<CoachExtAthleteDTO> list = query.getResultList();
+        return (list == null || list.isEmpty()) ? null : list.get(0);
     }
     
 }

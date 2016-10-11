@@ -119,6 +119,25 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
             System.err.println(ex.getMessage());
         }
     }
+
+    @Override
+    public CoachExtAthleteDTO getInvitation(Integer userId) throws Exception {
+        return coachExtAthleteDao.getInvitation(userId);
+    }
+
+    @Override
+    public void acceptInvitation(Integer coachExtAthleteId) throws Exception {
+        CoachExtAthlete e = coachExtAthleteDao.findById(coachExtAthleteId);
+        e.setStateId(new State(StateEnum.ACTIVE.getId()));
+        coachExtAthleteDao.merge(e);
+    }
+
+    @Override
+    public void rejectInvitation(Integer coachExtAthleteId) throws Exception {
+        CoachExtAthlete e = coachExtAthleteDao.findById(coachExtAthleteId);
+        e.setStateId(new State(StateEnum.REJECTED.getId()));
+        coachExtAthleteDao.merge(e);
+    }
     
     
 }

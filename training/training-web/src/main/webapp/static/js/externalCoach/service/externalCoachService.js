@@ -61,7 +61,44 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                                     return $q.reject(error);
                                 }
                         );
+            },
+            getInvitation: function (userId) {
+                return $http.get($contextPath + 'externalCoach/get/invitation/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching invitation');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            acceptInvitation: function (id) {
+                return $http.get($contextPath + 'externalCoach/accept/invitation/' + id)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching invitation');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            rejectInvitation: function (id) {
+                return $http.get($contextPath + 'externalCoach/reject/invitation/' + id)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching invitation');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
+            
         };
 
     }]);

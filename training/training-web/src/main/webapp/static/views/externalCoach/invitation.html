@@ -1,0 +1,28 @@
+<md-dialog aria-label="Invitación" style="width: 350px">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Invitaci&oacute;n</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div ng-show="invitation != null">
+                <p>El coach {{invitation.coachUserId.fullName}} te invito a ser parte de su equipo.</p>
+            </div>
+            <div ng-show="invitation == null">
+                <p>No tiene invitaciones pendientes</p>
+            </div>
+            <md-dialog-actions layout="row" ng-show="invitation != null">
+                <md-button class="md-primary md-raised" ng-click="acceptInvitation()">Aceptar</md-button>
+                <md-button class="md-raised" ng-click="rejectInvitation()">Rechazar</md-button>
+            </md-dialog-actions>
+            <md-dialog-actions layout="row" ng-show="invitation == null">  
+                <md-button class="md-raised" ng-click="cancel()">Aceptar</md-button>
+            </md-dialog-actions>
+        </div>
+    </md-dialog-content>
+</md-dialog>

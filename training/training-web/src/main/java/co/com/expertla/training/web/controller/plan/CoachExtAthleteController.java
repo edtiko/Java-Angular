@@ -124,4 +124,60 @@ public class CoachExtAthleteController {
 
     }
     
+     @RequestMapping(value = "/get/invitation/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<CoachExtAthleteDTO> getInvitation(@PathVariable("userId") Integer userId) {
+        try {
+            CoachExtAthleteDTO invitation = coachExtAthleteService.getInvitation(userId);
+            if (invitation == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+            }
+            return new ResponseEntity<>(invitation, HttpStatus.OK);
+        } catch (Exception e) {
+             LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    @RequestMapping(value = "/accept/invitation/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response acceptInvitation(@PathVariable("id") Integer coachExtAthleteId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            coachExtAthleteService.acceptInvitation(coachExtAthleteId);
+            strResponse.append("Invitación aceptada éxitosamente.");
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(strResponse);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+    
+    @RequestMapping(value = "/reject/invitation/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response rejectInvitation(@PathVariable("id") Integer coachExtAthleteId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            coachExtAthleteService.rejectInvitation(coachExtAthleteId);
+            strResponse.append("Invitación rechazada éxitosamente.");
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(strResponse);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+    
 }
