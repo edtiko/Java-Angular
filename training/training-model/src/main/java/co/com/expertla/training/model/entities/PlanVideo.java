@@ -5,7 +5,9 @@
  */
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -64,6 +67,8 @@ public class PlanVideo implements Serializable {
     @JoinColumn(name = "coach_assigned_plan_id", referencedColumnName = "coach_assigned_plan_id")
     @ManyToOne(optional = false)
     private CoachAssignedPlan coachAssignedPlanId;
+    @OneToMany(mappedBy = "planVideoId")
+    private Collection<ScriptVideo> scriptVideoCollection;
 
     public PlanVideo() {
     }
@@ -85,6 +90,14 @@ public class PlanVideo implements Serializable {
 
     public void setPlanVideoId(Integer planVideoId) {
         this.planVideoId = planVideoId;
+    }
+    @JsonIgnore
+    public Collection<ScriptVideo> getScriptVideoCollection() {
+        return scriptVideoCollection;
+    }
+
+    public void setScriptVideoCollection(Collection<ScriptVideo> scriptVideoCollection) {
+        this.scriptVideoCollection = scriptVideoCollection;
     }
 
     public String getName() {
