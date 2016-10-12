@@ -294,6 +294,17 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
         };
         
+           $scope.goAudioMessages = function () {
+            var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+            if ($scope.userSession != null && planSelected == null) {
+                $scope.showMessage("Debe seleccionar un atleta");
+            }else if($scope.availableMessage == 0){
+                $scope.showMessage("No tiene Audio Mensajes disponibles.");
+            }  else {
+                $window.location.href = "#audio-messages";
+            }
+        };
+        
         $scope.goVideos = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null &&  planSelected == null) {

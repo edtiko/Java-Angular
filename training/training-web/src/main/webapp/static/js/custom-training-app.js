@@ -4,7 +4,7 @@
 
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
-    'ngMessages', 'ngMaterial', 'pascalprecht.translate','angular-notification-icons', 'md.data.table', 'ngSanitize','luegg.directives','angular.filter','ngCamRecorder'])
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate','angular-notification-icons', 'md.data.table', 'ngSanitize','luegg.directives','angular.filter','ngCamRecorder','angularAudioRecorder'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
                 $translateProvider) {
 
@@ -64,7 +64,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             
                     .when('/reports', route.resolve('reports', 'reports/'))
             
-                    .when('/external-coach', route.resolve('externalCoach', 'externalCoach/'));
+                    .when('/external-coach', route.resolve('externalCoach', 'externalCoach/'))
+            
+                    .when('/audio-messages', route.resolve('audioMessage', 'audioMessage/'));
 
 
             $translateProvider.useStaticFilesLoader({

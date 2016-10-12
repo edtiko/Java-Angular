@@ -393,9 +393,9 @@
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">
 
                      <notification-icon animation="grow" count="callReceivedCount">
-                    <md-button aria-label="Llamadas" class="md-fab md-raised md-primary ">
-                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Llamadas</md-tooltip>
-                        <i class="fa fa-phone fa-lg" aria-hidden="true"></i>
+                    <md-button aria-label="Audio Mensajes" class="md-fab md-raised md-primary " ng-click="goAudioMessages()">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">Audio Mensajes</md-tooltip>
+                        <i class="fa fa-microphone fa-lg" aria-hidden="true"></i>
                     </md-button>
                      </notification-icon>
                 </div>
