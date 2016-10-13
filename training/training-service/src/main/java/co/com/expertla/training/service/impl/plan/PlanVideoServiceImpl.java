@@ -65,5 +65,10 @@ public class PlanVideoServiceImpl implements PlanVideoService{
     public void readVideo(Integer planMessageId) throws Exception {
         planVideoDao.readVideo(planMessageId);
     }
+
+    @Override
+    public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception {
+        return planVideoDao.getPlanVideoStarByCoach(userId);
+    }
     
 }

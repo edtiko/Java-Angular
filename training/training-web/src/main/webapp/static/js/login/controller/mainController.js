@@ -33,6 +33,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.closeToast = function () {
             $mdToast.hide();
         };
+
         $scope.showMessage = function (msg, title) {
             // Appending dialog to document.body to cover sidenav in docs app
             // Modal dialogs should fully cover application
@@ -114,7 +115,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
         $scope.setUserSession();
         $scope.getMenuByUser();
-        
+
         $scope.getVisibleFieldsUserByUser = function (user) {
             if (user != null) {
                 VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
@@ -154,6 +155,137 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.logout = function () {
             window.location = 'http://181.143.227.220:8081/cpt/mi-cuenta/customer-logout/';
         };
+        
+        var mediaSource = new MediaSource();
+        mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
+        var mediaRecorder;
+        var recordedBlobs;
+        var sourceBuffer;
+
+        var constraints = {
+            audio: true,
+            video: true
+        };
+
+        function handleSuccess(stream) {
+            console.log('getUserMedia() got stream: ', stream);
+            window.stream = stream;
+            if (window.URL) {
+                $scope.gumVideo.src = window.URL.createObjectURL(stream);
+            } else {
+                $scope.gumVideo.src = stream;
+            }
+        }
+
+        function handleError(error) {
+            console.log('navigator.getUserMedia error: ', error);
+        }
+
+        function handleSourceOpen(event) {
+            console.log('MediaSource opened');
+            sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
+            console.log('Source buffer: ', sourceBuffer);
+        }
+
+
+
+        function handleDataAvailable(event) {
+            if (event.data && event.data.size > 0) {
+                recordedBlobs.push(event.data);
+            }
+        }
+
+        function handleStop(event) {
+            console.log('Recorder stopped: ', event);
+        }
+        
+        $scope.recordedVideo = '';
+        $scope.gumVideo = '';
+        $scope.mediaRecorder = '';
+
+        $scope.initVideo = function (recordedVideo, gumVideo) {
+            console.debug('ok');
+            
+            if(gumVideo != undefined && gumVideo != '') {
+                $scope.gumVideo = document.querySelector('video#'+gumVideo);
+            }
+            
+            $scope.recordedVideo = document.querySelector('video#'+recordedVideo);
+            navigator.mediaDevices.getUserMedia(constraints).
+                    then(handleSuccess).catch(handleError);
+
+            $scope.recordedVideo.addEventListener('error', function (ev) {
+                console.error('MediaRecording.recordedMedia.error()');
+                alert('Your browser can not play\n\n' + $scope.recordedVideo.src
+                        + '\n\n media clip. event: ' + JSON.stringify(ev));
+            }, true);
+        };
+        // The nested try blocks will be simplified when Chrome 47 moves to Stable
+        $scope.startRecordingVideo = function () {
+            $scope.gumVideo.controls = true;
+            recordedBlobs = [];
+            var options = {mimeType: 'video/webm;codecs=vp9'};
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                console.log(options.mimeType + ' is not Supported');
+                options = {mimeType: 'video/webm;codecs=vp8'};
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    console.log(options.mimeType + ' is not Supported');
+                    options = {mimeType: 'video/webm'};
+                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                        console.log(options.mimeType + ' is not Supported');
+                        options = {mimeType: ''};
+                    }
+                }
+            }
+            try {
+                $scope.mediaRecorder = new MediaRecorder(window.stream, options);
+            } catch (e) {
+                console.error('Exception while creating MediaRecorder: ' + e);
+                alert('Exception while creating MediaRecorder: '
+                        + e + '. mimeType: ' + options.mimeType);
+                return;
+            }
+            console.log('Created MediaRecorder', $scope.mediaRecorder, 'with options', options);
+            $scope.mediaRecorder.onstop = handleStop;
+            $scope.mediaRecorder.ondataavailable = handleDataAvailable;
+            $scope.mediaRecorder.start(10); // collect 10ms of data
+            console.log('MediaRecorder started', mediaRecorder);
+        };
+
+        $scope.stopRecordingVideo = function () {
+            if($scope.mediaRecorder.state != 'inactive') {
+                $scope.gumVideo.controls = false;
+                $scope.mediaRecorder.stop();
+                console.log('Recorded Blobs: ', recordedBlobs);
+            }
+            
+        };
+
+        $scope.playVideo = function (path) {
+            $scope.recordedVideo.controls = true;
+//            var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
+            $scope.recordedVideo.src = $contextPath + "video/files/" + path;
+        };
+
+        $scope.savePlanVideo = function () {
+            var blob = new Blob(recordedBlobs, {type: 'video/webm'});
+            var fd = new FormData();
+            fd.append("fileToUpload", blob);
+
+            $http.post($contextPath + 'video/upload/s/1/1', fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+                    .then(
+                            function (response) {
+                                $scope.showMessage(response.data.output);
+                            },
+                            function (errResponse) {
+                                console.error('Error while getting ' + errResponse);
+                            }
+                    );
+        };
+
     }]);
 trainingApp.directive('stringToNumber', function () {
     return {

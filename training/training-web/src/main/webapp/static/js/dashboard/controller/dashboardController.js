@@ -279,6 +279,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
         };
         
+        $scope.goScript = function() {
+            $window.location.href = "#script";
+        };
+        
         $scope.goVideos = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
             if ($scope.userSession != null && ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach 

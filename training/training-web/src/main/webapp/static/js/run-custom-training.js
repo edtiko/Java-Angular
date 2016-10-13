@@ -67,7 +67,9 @@ require.config({
         angularPickList: 'lib/picklist',        
         mailService: "mail/service/mailService",
         supervStarCoachService: "mail/service/supervStarCoachService",
-        userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService"
+        userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService",
+        adapter: "lib/adapter",
+        scriptService:"script/service/scriptService"
     },
     shim: {
         angular: {
@@ -169,10 +171,14 @@ require.config({
         angularPickList: {
             deps: ['angular']
         },
+        adapter: {
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
-                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList'
+                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder',
+                'angularPickList', 'adapter'
             ]
         },
         surveyService: {
@@ -232,6 +238,9 @@ require.config({
         userActivityPerformanceService: {
             deps: ['angular','trainingApp']
         },
+        scriptService : {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -242,7 +251,7 @@ require.config({
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService'
                 ,'videoService','dcfService', 'characteristicService','brandService',
-		'mailService','supervStarCoachService','userActivityPerformanceService'
+		'mailService','supervStarCoachService','userActivityPerformanceService', 'scriptService'
 
             ] }
     }

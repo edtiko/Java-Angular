@@ -30,5 +30,7 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
     public void readVideos(Integer coachAssignedPlanId, Integer userId) throws DAOException;
 
     public void readVideo(Integer planVideoId) throws DAOException;
+    
+    public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception;
 
 }

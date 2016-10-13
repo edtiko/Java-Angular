@@ -31,4 +31,6 @@ public interface PlanVideoService {
     
     public void readVideo(Integer planMessageId) throws Exception;
     
+    public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception;
+    
 }
