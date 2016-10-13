@@ -6,9 +6,11 @@
 package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.plan.PlanVideoDao;
+import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import co.com.expertla.training.service.plan.PlanVideoService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +71,34 @@ public class PlanVideoServiceImpl implements PlanVideoService{
     @Override
     public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception {
         return planVideoDao.getPlanVideoStarByCoach(userId);
+    }
+
+    @Override
+    public List<ChartReportDTO> getResponseCountVideo(Integer userId) throws Exception {
+        List<PlanVideo> planVideoList = planVideoDao.getResponseCountVideo(userId);
+        List<ChartReportDTO> charList = new ArrayList<>();
+        ChartReportDTO chartReportDTO = null;
+        for (PlanVideo planVideo : planVideoList) {
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("rojo");
+            chartReportDTO.setValue(1);
+            chartReportDTO.setStyle("red");
+            charList.add(chartReportDTO);
+            
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("amarillo");
+            chartReportDTO.setValue(4);
+            chartReportDTO.setStyle("yellow");
+            charList.add(chartReportDTO);
+            
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("verde");
+            chartReportDTO.setValue(10);
+            chartReportDTO.setStyle("green");
+            charList.add(chartReportDTO);
+        }
+        
+        return charList;
     }
     
 }

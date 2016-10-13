@@ -1,0 +1,41 @@
+<div class="demo-md-panel md-padding">
+    <!--<md-content layout-padding>-->
+        <span class="md-headline">{{ 'INFORMES' | translate }}</span>
+        <div layout="row" >
+            <div flex-gt-sm="10" flex="">
+                <md-list flex="">
+                    <md-list-item class="md-3-line">
+                        <md-button class="md-raised md-primary" 
+                                   ng-click="showVideo()">{{ 'VIDEO' | translate }}</md-button>
+                    </md-list-item>
+                    <md-list-item class="md-3-line">
+                        <md-button class="md-raised md-primary" 
+                                   ng-click="showChat()">{{ 'CHAT' | translate }}</md-button>
+                    </md-list-item>
+                    <md-list-item class="md-3-line">
+                        <md-button class="md-raised md-primary" 
+                                   ng-click="showScript()">{{ 'SCRIPT' | translate }}</md-button>
+                    </md-list-item>
+                    <md-list-item class="md-3-line">
+                        <md-button class="md-raised md-primary" 
+                                   ng-click="showEmail()">{{ 'EMAIL' | translate }}</md-button>
+                    </md-list-item>
+                    <md-list-item class="md-3-line">
+                        <md-button class="md-raised md-primary" 
+                                   ng-click="showRendimiento()">{{ 'RENDIMIENTO' | translate }}</md-button>
+                    </md-list-item>
+                </md-list>
+            </div>
+
+            <!--<div flex-gt-sm="50" flex="">-->
+                <div flex id="chart_rendimiento_div">
+                    
+                </div>
+            <!--</div>-->
+</div>
+    <!--</md-content>-->
+</div>
+<script type="text/javascript" src="static/js/lib/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {packages: ['corechart']});
+        </script>

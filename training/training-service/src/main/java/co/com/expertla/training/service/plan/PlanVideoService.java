@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.service.plan;
 
+import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import java.util.List;
@@ -32,5 +33,16 @@ public interface PlanVideoService {
     public void readVideo(Integer planMessageId) throws Exception;
     
     public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception;
+    
+    /**
+     * Consulta la cantidad de videos repondidos por el usuario <br>
+     * Info. Creación: <br>
+     * fecha 13/10/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return 
+     * @throws Exception 
+     */
+    public List<ChartReportDTO> getResponseCountVideo(Integer userId) throws Exception;
     
 }

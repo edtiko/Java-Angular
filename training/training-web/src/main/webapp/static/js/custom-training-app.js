@@ -64,6 +64,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/reports', route.resolve('reports', 'reports/'))
                     
                     .when('/script', route.resolve('script', 'script/'))
+            
+                    .when('/informe', route.resolve('informe', 'informe/'))
 
 
             $translateProvider.useStaticFilesLoader({

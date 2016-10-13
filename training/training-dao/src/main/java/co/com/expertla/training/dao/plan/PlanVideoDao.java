@@ -32,5 +32,16 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
     public void readVideo(Integer planVideoId) throws DAOException;
     
     public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception;
+    
+    /**
+     * Consulta la cantidad de videos repondidos por el usuario <br>
+     * Info. Creación: <br>
+     * fecha 13/10/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanVideo> getResponseCountVideo(Integer userId) throws Exception;
 
 }

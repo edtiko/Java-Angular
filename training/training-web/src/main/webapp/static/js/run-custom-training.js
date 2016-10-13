@@ -69,7 +69,8 @@ require.config({
         supervStarCoachService: "mail/service/supervStarCoachService",
         userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService",
         adapter: "lib/adapter",
-        scriptService:"script/service/scriptService"
+        scriptService:"script/service/scriptService",
+        informeService:"informe/service/informeService"
     },
     shim: {
         angular: {
@@ -241,6 +242,9 @@ require.config({
         scriptService : {
             deps: ['angular', 'trainingApp']
         },
+        informeService : {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -251,7 +255,7 @@ require.config({
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService'
                 ,'videoService','dcfService', 'characteristicService','brandService',
-		'mailService','supervStarCoachService','userActivityPerformanceService', 'scriptService'
+		'mailService','supervStarCoachService','userActivityPerformanceService', 'scriptService', 'informeService'
 
             ] }
     }

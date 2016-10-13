@@ -71,5 +71,11 @@
     "SUPERVISOR": "Supervisor",
     "COACH": "Coach",
     "PERSONAL": "Personal",
-    "CLIENTE": "Cliente"
+    "CLIENTE": "Cliente",
+    "INFORMES":"Informes",
+    "VIDEO": "Video",
+    "CHAT": "Chat",
+    "SCRIPT": "Script",
+    "EMAIL": "Email",
+    "RENDIMIENTO": "Rendimiento"
 }

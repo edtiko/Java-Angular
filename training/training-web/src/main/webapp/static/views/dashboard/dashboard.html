@@ -407,7 +407,7 @@
                     </md-button>
                 </div>
                 <div flex="40" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserSupervisor">
-                    <md-button aria-label="Informes" class="md-fab md-raised md-primary">
+                    <md-button aria-label="Informes" class="md-fab md-raised md-primary" ng-click="goInforme()"> 
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Informes</md-tooltip>
                         <i class="fa fa-file-text fa-lg" aria-hidden="true"></i>
                     </md-button>
