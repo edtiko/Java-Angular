@@ -57,7 +57,7 @@ public class AudioMessageController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/voice/{sessionId}")
+    @MessageMapping("voice/{sessionId}")
     //@SendTo("/topic/message")
     public void sendMessage(PlanAudioDTO message, @DestinationVariable("sessionId") Integer sessionId) {
         PlanAudioDTO msg = null;
@@ -71,18 +71,18 @@ public class AudioMessageController {
         //return new OutputMessage(message, new Date());
     }
 
-    @RequestMapping(value = "/upload/{toUserId}/{fromUserId}/{coachAssignedPlanId}/{dateString}/{tipoPlan}", method = RequestMethod.POST)
+    @RequestMapping(value = "upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, @PathVariable Integer coachAssignedPlanId, @PathVariable String dateString, @PathVariable String tipoPlan) {
+    Response uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         int availableAudios = 0;
         if (!file.isEmpty()) {
             try {
                 if (tipoPlan.equals(COACH_INTERNO)) {
-                    availableAudios = planAudioService.getCountAudioByPlan(coachAssignedPlanId, fromUserId);
+                    availableAudios = planAudioService.getCountAudioByPlan(planId, fromUserId);
                 } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                    availableAudios = planAudioService.getCountAudioByPlanExt(coachAssignedPlanId, fromUserId);
+                    availableAudios = planAudioService.getCountAudioByPlanExt(planId, fromUserId);
                 }
                 if (availableAudios == 0) {
                     strResponse.append("Ya consumió el limite de audios permitidos para su plan.");
@@ -90,35 +90,35 @@ public class AudioMessageController {
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return Response.status(Response.Status.OK).entity(responseService).build();
                 }
-                String fileName = dateString + "_" + fromUserId + "_" + toUserId;
-                File directory = new File(ROOT + fileName);
-                File archivo = new File(ROOT + fileName + "/" + filename);
+                String fileName = dateString + "_" + fromUserId + "_" + toUserId+".wav";
+
+                File directory = new File(ROOT);
+                File archivo = new File(ROOT + "/" + fileName);
                 if (!directory.exists()) {
                     if (directory.mkdir()) {
-                        Files.copy(file.getInputStream(), Paths.get(ROOT + fileName, filename));
-                        //storageService.store(file);
+                        Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
                     }
                 } else if (!archivo.exists()) {
-                    Files.copy(file.getInputStream(), Paths.get(ROOT + fileName, filename));
-                    //storageService.store(file);
+                    Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
                 }
-
-                PlanAudioDTO dto = planAudioService.getByAudioPath(fileName);
+                 PlanAudioDTO dto = planAudioService.getByAudioPath(fileName);
                 if (dto == null) {
                     PlanAudio audio = new PlanAudio();
                     audio.setFromUserId(new User(fromUserId));
                     audio.setName(fileName);
                     audio.setToUserId(new User(toUserId));
                     audio.setCreationDate(Calendar.getInstance().getTime());
-                    audio.setName(fileName);
                     if (tipoPlan.equals(COACH_INTERNO)) {
-                        audio.setCoachAssignedPlanId(new CoachAssignedPlan(coachAssignedPlanId));
+                        audio.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
                     } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                        audio.setCoachExtAthleteId(new CoachExtAthlete(coachAssignedPlanId));
+                        audio.setCoachExtAthleteId(new CoachExtAthlete(planId));
                     }
                     dto = planAudioService.create(audio);
+                 simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
                 }
-                //strResponse.append("audio cargado correctamente.");
+                
+
+                //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 responseService.setOutput(dto);
                 return Response.status(Response.Status.OK).entity(responseService).build();
@@ -137,13 +137,13 @@ public class AudioMessageController {
         }
     }
 
-    @RequestMapping(value = "/get/audios/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/audios/{planId}/{userId}/{fromto}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAudiosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAudiosByUser(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(coachAssignedPlanId, userId, fromto, tipoPlan);
+            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(planId, userId, fromto, tipoPlan);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(audios);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -168,17 +168,17 @@ public class AudioMessageController {
                 .body(file);
     }
 
-    @RequestMapping(value = "/get/count/available/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/available/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAvailableVideos(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planAudioService.getCountAudioByPlan(coachAssignedPlanId, userId);
+                count = planAudioService.getCountAudioByPlan(planId, userId);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                count = planAudioService.getCountAudioByPlanExt(coachAssignedPlanId, userId);
+                count = planAudioService.getCountAudioByPlanExt(planId, userId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
@@ -193,17 +193,17 @@ public class AudioMessageController {
 
     }
 
-    @RequestMapping(value = "/get/count/received/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/received/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getVideosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planAudioService.getCountAudiosReceived(coachAssignedPlanId, userId);
+                count = planAudioService.getCountAudiosReceived(planId, userId);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                count = planAudioService.getCountAudiosReceivedExt(coachAssignedPlanId, userId);
+                count = planAudioService.getCountAudiosReceivedExt(planId, userId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
@@ -218,16 +218,16 @@ public class AudioMessageController {
 
     }
 
-    @RequestMapping(value = "/read/all/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/read/all/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response readVideos(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                planAudioService.readAudios(coachAssignedPlanId, userId);
+                planAudioService.readAudios(planId, userId);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                planAudioService.readAudiosExt(coachAssignedPlanId, userId);
+                planAudioService.readAudiosExt(planId, userId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Audios Leidos Correctamente.");
@@ -244,7 +244,7 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/read/{planAudioId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readMessage(@PathVariable("planAudioId") Integer planAudioId) {
+    Response readVideo(@PathVariable("planAudioId") Integer planAudioId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {

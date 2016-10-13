@@ -158,5 +158,5 @@ md-tooltip.tt-multiline ._md-content {
     text-decoration: underline; cursor: pointer;
 }
 .recording{
- background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
+ background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%);
 }

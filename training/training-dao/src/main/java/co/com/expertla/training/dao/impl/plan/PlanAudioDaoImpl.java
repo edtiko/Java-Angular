@@ -19,8 +19,8 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     @Override
     public PlanAudio getByAudioPath(String fileName)throws DAOException {
         try {
-            String qlString = "SELECT v FROM PlanAudio v WHERE v.audioPath = :audioPath ";
-            setParameter("audioPath", fileName);
+            String qlString = "SELECT v FROM PlanAudio v WHERE v.name = :name ";
+            setParameter("name", fileName);
             List<PlanAudio> query = createQuery(qlString);
             return query.get(0);
         } catch (Exception e) {
@@ -66,8 +66,8 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.audio_count  - count(m.plan_audio_id)) >= 0 THEN (t.audio_count  - count(m.plan_audio_id)) ");
-        sql.append(" ELSE t.audio_count END ");
+        sql.append(" WHEN (t.call_count  - count(m.plan_audio_id)) >= 0 THEN (t.call_count  - count(m.plan_audio_id)) ");
+        sql.append(" ELSE t.call_count END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
@@ -75,7 +75,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.audio_count ");
+        sql.append(" Group by t.call_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -87,8 +87,8 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     public Integer getCountAudioByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.audio_count  - count(m.plan_audio_id)) >= 0 THEN (t.audio_count  - count(m.plan_audio_id)) ");
-        sql.append(" ELSE t.audio_count END ");
+        sql.append(" WHEN (t.call_count  - count(m.plan_audio_id)) >= 0 THEN (t.call_count  - count(m.plan_audio_id)) ");
+        sql.append(" ELSE t.call_count END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
@@ -96,7 +96,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.audio_count ");
+        sql.append(" Group by t.call_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();

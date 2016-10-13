@@ -1,7 +1,7 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService','MailService','videoService','ExternalCoachService',
-    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService,MailService,videoService,ExternalCoachService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService','SupervStarCoachService','MailService','videoService','ExternalCoachService','AudioMessageService',
+    function ($scope, UserService, DashboardService, $window, messageService,SupervStarCoachService,MailService,videoService,ExternalCoachService,AudioMessageService) {
 
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -18,10 +18,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.coachAssignedPlanId = null;
         $scope.availableMessage = 0;
-        $scope.availableCall = 0;
+        $scope.availableAudio = 0;
         $scope.availableVideo = 0;
         $scope.availableEmail = 0;
-        $scope.callReceivedCount = 0;
+        $scope.audioReceivedCount = 0;
         $scope.videoReceivedCount = 0;
         $scope.emailReceivedCount = 0;
         $scope.messagesReceivedCount = 0;
@@ -107,6 +107,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.videoReceivedCount++;
             
         });
+        
+            //notificación audios recibidos
+        AudioMessageService.receive().then(null, null, function (audio) {
+
+                $scope.audioReceivedCount++;
+            
+        });
+
 
        
         //Selecciona un Atleta
@@ -203,14 +211,21 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $window.sessionStorage.setItem("planSelected", JSON.stringify(plan));
              $scope.planSelected= angular.copy(plan);
             $scope.showControl = true;
+            
             //mensajes 
             self.getAvailableMessages(plan.id, $scope.userSession.userId, tipoPlan);
             self.getReceivedMessages(plan.id, user.userId, tipoPlan);
             messageService.initialize(plan.id);
+            
             //videos
             self.getAvailableVideos(plan.id, $scope.userSession.userId, tipoPlan);
             self.getReceivedVideos(plan.id, user.userId, tipoPlan);
             videoService.initialize(plan.id);
+            
+             //audios
+            self.getAvailableAudios(plan.id, $scope.userSession.userId, tipoPlan);
+            self.getReceivedAudios(plan.id, user.userId, tipoPlan);
+            AudioMessageService.initialize(plan.id);
 
             if (tipoPlan == "IN") {
                 if (plan.starUserId.profilePhotoBase64 != "") {
@@ -241,6 +256,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
         
+        //MESSAGES COUNT
         self.getAvailableMessages = function (planId, userId, tipoPlan) {
             messageService.getAvailableMessages(planId, userId, tipoPlan).then(
                     function (data) {
@@ -263,6 +279,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
         
+        //VIDEOS COUNT
+        
           self.getAvailableVideos = function (planId, userId, tipoPlan) {
             videoService.getAvailableVideos(planId, userId, tipoPlan).then(
                     function (data) {
@@ -283,13 +301,36 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
+        
+        //AUDIOS COUNT
+         self.getAvailableAudios = function (planId, userId, tipoPlan) {
+            AudioMessageService.getAvailableAudios(planId, userId, tipoPlan).then(
+                    function (data) {
+                        $scope.availableAudio = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        self.getReceivedAudios = function (planId, userId, tipoPlan) {
+            AudioMessageService.getAudiosReceived(planId, userId, tipoPlan).then(
+                    function (data) {
+                        $scope.audioReceivedCount = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
         $scope.goMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta");
-            }else if($scope.availableMessage == 0){
+            }
+             /*else if($scope.availableMessage == 0){
                 $scope.showMessage("No tiene mensajes disponibles.");
-            }  else {
+            } */ else {
                 $window.location.href = "#message";
             }
         };
@@ -298,9 +339,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta");
-            }else if($scope.availableMessage == 0){
+            }/*else if($scope.availableMessage == 0){
                 $scope.showMessage("No tiene Audio Mensajes disponibles.");
-            }  else {
+            }  */else {
                 $window.location.href = "#audio-messages";
             }
         };
@@ -309,9 +350,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null &&  planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta");
-            }else if($scope.availableVideo == 0){
+            }/*else if($scope.availableVideo == 0){
                 $scope.showMessage("No tiene videos disponibles.");
-            } 
+            } */
             else {
                 window.location.href = $contextPath+"#/video";
             }

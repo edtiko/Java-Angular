@@ -392,7 +392,7 @@
                 <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserSupervisor ">{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">
 
-                     <notification-icon animation="grow" count="callReceivedCount">
+                     <notification-icon animation="grow" count="audioReceivedCount">
                     <md-button aria-label="Audio Mensajes" class="md-fab md-raised md-primary " ng-click="goAudioMessages()">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Audio Mensajes</md-tooltip>
                         <i class="fa fa-microphone fa-lg" aria-hidden="true"></i>
@@ -400,7 +400,7 @@
                      </notification-icon>
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">{{availableCall}} disponibles de {{planSelected.trainingPlanId.callCount!=null?planSelected.trainingPlanId.callCount:0}}</md-subheader>
+                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">{{availableAudio}} disponibles de {{planSelected.trainingPlanId.callCount!=null?planSelected.trainingPlanId.callCount:0}}</md-subheader>
                 <div flex  ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserCoachEstrella">
                     <notification-icon animation="grow" count="callReceivedCount">
                     <md-button  aria-label="Script" class="md-fab md-raised  md-primary ">

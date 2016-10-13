@@ -6,8 +6,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
         };
         
         service.RECONNECT_TIMEOUT = 30000;
-        service.SOCKET_URL = $contextPath + "/send";
-        service.CHAT_BROKER = "/app/send/";
+        service.SOCKET_URL = $contextPath + "/voice";
+        service.CHAT_BROKER = "/app/voice/";
         service.SESSION_ID = "";
 
         service.receive = function () {
@@ -51,6 +51,19 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
         };
         service.getAudiosByUser = function (planId, userId, fromto, tipoPlan) {
             return $http.get($contextPath + 'audio/get/audios/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching user videos ');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+          service.uploadRecord = function (blob) {
+            return $http.post($contextPath + 'audio/upload/',blob)
                     .then(
                             function (response) {
                                 return response.data;
