@@ -4,8 +4,10 @@ import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.dao.plan.MailCommunicationDao;
 import co.com.expertla.training.dao.plan.SupervStarCoachDao;
+import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.entities.SupervStarCoach;
@@ -106,5 +108,72 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
             users.add(u.getCoachUserId());
         }
         return users;
+    }
+    
+    @Override
+    public List<PlanMessageDTO> getResponseTimeMails(Integer userId, Integer roleId) throws Exception {
+        List<UserDTO> users = new ArrayList<>();
+        if(roleId == 5) {
+           users = getAllRecipientsByStarId(userId);
+        } else {
+           users = getAllRecipientsByCoachId(userId);           
+        }   
+        return mailCommunicationDao.getResponseTimeMails(userId, users);
+    }
+    
+    @Override
+    public List<ChartReportDTO> getResponseCountMails(Integer userId,Integer roleId) throws Exception {
+        List<UserDTO> users = new ArrayList<>();
+        if(roleId == 5) {
+           users = getAllRecipientsByStarId(userId);
+        } else {
+           users = getAllRecipientsByCoachId(userId);           
+        }
+        List<PlanMessageDTO> planMessageList = mailCommunicationDao.getResponseCountMails(userId,users);
+        List<ChartReportDTO> charList = new ArrayList<>();
+        ChartReportDTO chartReportDTO = null;
+        Integer redCount = 0;
+        Integer yellowCount = 0;
+        Integer greenCount = 0;
+        String colour = "";
+        for (PlanMessageDTO msg : planMessageList) {
+            colour = getColour(msg);
+            if(colour.equals("red")) {
+                redCount++;
+            } else if (colour.equals("yellow")) {
+                yellowCount++;
+            } else {
+                greenCount++;
+            }
+        }
+        
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("Rojo");
+            chartReportDTO.setValue(redCount);
+            chartReportDTO.setStyle("red");
+            charList.add(chartReportDTO);
+            
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("Amarillo");
+            chartReportDTO.setValue(yellowCount);
+            chartReportDTO.setStyle("yellow");
+            charList.add(chartReportDTO);
+            
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("Verde");
+            chartReportDTO.setValue(greenCount);
+            chartReportDTO.setStyle("green");
+            charList.add(chartReportDTO);
+        return charList;
+    }
+    
+    private String getColour(PlanMessageDTO msg) {
+        if(msg.getHours() <= 8) {
+            return "green";
+        } else if (msg.getHours() > 16) {
+            return "red";
+        } else {
+            return "yellow";
+        }
     }
 }

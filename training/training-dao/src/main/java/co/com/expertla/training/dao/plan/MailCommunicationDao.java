@@ -3,6 +3,8 @@ package co.com.expertla.training.dao.plan;
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.PlanMessageDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import java.util.List;
 
@@ -86,5 +88,28 @@ public interface MailCommunicationDao extends BaseDAO<MailCommunication>{
      */
     public List<MailCommunicationDTO> getMailsByReceivingUserIdFromSendingUserRead(Integer receivingUserId, Integer sendingUserId, boolean read) throws Exception;
 
+     
+    /**
+     * Consulta los tiempos de respuesta de los mails <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param users
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getResponseTimeMails(Integer userId, List<UserDTO> users)throws  Exception;
     
+    /**
+     * Consulta los tiempos de respuesta en horas <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param users
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getResponseCountMails(Integer userId,List<UserDTO> users) throws Exception;
 }

@@ -358,6 +358,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
         };
 
+        
+        $scope.goScript = function() {
+            $window.location.href = "#script";
+        };
+        
+        $scope.goInforme = function() {
+            $window.location.href = "#informe";
+        };
+        
+
         $scope.goVideos = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {

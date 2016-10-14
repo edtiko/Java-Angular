@@ -8,6 +8,7 @@ package co.com.expertla.training.dao.plan;
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.PlanMessage;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -48,5 +49,29 @@ public interface PlanMessageDao extends BaseDAO<PlanMessage> {
 
     public void readMessagesExt(Integer planId, Integer userId) throws DAOException;
 
+
+    /**
+     * Consulta los tiempos de respuesta de los mensajes <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param users
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getResponseTimeMessages(Integer userId, List<UserDTO> users)throws  Exception;
+    
+    /**
+     * Consulta los tiempos de respuesta en horas <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param users
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getResponseCountMessages(Integer userId,List<UserDTO> users) throws Exception;
 
 }

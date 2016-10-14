@@ -1,5 +1,7 @@
 package co.com.expertla.training.web.controller.plan;
 
+import co.com.expertla.base.util.DateUtil;
+import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.CoachExtAthlete;
@@ -121,6 +123,63 @@ public class PlanVideoController {
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 responseService.setOutput(dto);
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                responseService.setDetail(e.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            }
+        } else {
+            strResponse.append("Video cargado esta vacio.");
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "/upload/{filename}/{toUserId}/{fromUserId}", method = RequestMethod.POST)
+    public @ResponseBody
+    Response uploadPlanVideoToUserFromUser(@RequestParam("fileToUpload") MultipartFile file, 
+            @PathVariable String filename, 
+            @PathVariable Integer toUserId, 
+            @PathVariable Integer fromUserId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        if (!file.isEmpty()) {
+            try {
+                
+                String fileName = DateUtil.getCurrentDate("ddMMyyyyHHmm") + "_" + fromUserId + "_" + toUserId;
+                
+                if(filename != null && !filename.isEmpty()) {
+                    fileName = fileName + "_" + filename;
+                }
+                File directory = new File(ROOT);
+                File archivo = new File(ROOT + fileName);
+                if (!directory.exists()) {
+                    if (directory.mkdir()) {
+                        Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                        //storageService.store(file);
+                    }
+                } else if (!archivo.exists()) {
+                    Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                    //storageService.store(file);
+                }
+
+                PlanVideoDTO dto = planVideoService.getByVideoPath(fileName);
+                if (dto == null) {
+                    PlanVideo video = new PlanVideo();
+                    video.setFromUserId(new User(fromUserId));
+                    video.setName(fileName);
+                    video.setToUserId(new User(toUserId));
+                    video.setCreationDate(Calendar.getInstance().getTime());
+                    video.setVideoPath(fileName);
+                    dto = planVideoService.create(video);
+                }
+                //strResponse.append("video cargado correctamente.");
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                responseService.setOutput("Video Cargado Correctamente.");
                 return Response.status(Response.Status.OK).entity(responseService).build();
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
@@ -259,7 +318,63 @@ public class PlanVideoController {
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
-
+    }
+    
+    @RequestMapping(value = "/planVideo/get/planVideoStarByCoach/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getPlanVideoStarByCoach(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<PlanVideo> planVideoList = planVideoService.getPlanVideoStarByCoach(userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "/planVideo/get/response/count/video/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getResponseCountVideo(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<ChartReportDTO> planVideoList = planVideoService.getResponseCountVideo(userId,roleId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "/planVideo/get/timeResponse/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getTimeResponse(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<PlanVideoDTO> planVideoList = planVideoService.getResponseTimeVideos(userId,roleId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
     }
 
 }

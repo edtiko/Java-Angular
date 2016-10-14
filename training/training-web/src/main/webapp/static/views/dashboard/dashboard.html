@@ -335,7 +335,7 @@
             </div>
         </div>
     </div>
-    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == userSessionTypeUserAtleta || userSession.typeUser == userSessionTypeUserCoachEstrella">
+    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == userSessionTypeUserAtleta || userSession.typeUser == userSessionTypeUserCoachEstrella||userSession.typeUser == userSessionTypeUserCoachInterno">
         <div layout="column" layout-align="center center" style="margin: 34px;">
             <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta && !planSelected.external">
                 <div flex>
@@ -402,15 +402,13 @@
 
                 <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">{{availableAudio}} disponibles de {{planSelected.trainingPlanId.audioCount!=null?planSelected.trainingPlanId.audioCount:0}}</md-subheader>
                 <div flex  ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserCoachEstrella">
-                    <notification-icon animation="grow" count="callReceivedCount">
-                    <md-button  aria-label="Script" class="md-fab md-raised  md-primary ">
+                    <md-button  aria-label="Script" class="md-fab md-raised  md-primary " ng-click="goScript()">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Script</md-tooltip>
                         <i class="fa fa-film fa-lg"></i>
                     </md-button>
-                    </notification-icon>
                 </div>
                 <div flex="40" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserSupervisor">
-                    <md-button aria-label="Informes" class="md-fab md-raised md-primary">
+                    <md-button aria-label="Informes" class="md-fab md-raised md-primary" ng-click="goInforme()"> 
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Informes</md-tooltip>
                         <i class="fa fa-file-text fa-lg" aria-hidden="true"></i>
                     </md-button>

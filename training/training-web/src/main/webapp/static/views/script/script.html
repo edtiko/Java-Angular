@@ -1,0 +1,31 @@
+<div layout="row" layout-align="center" style="margin-top: 3%">
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno">
+        <div  ng-include src="'static/views/script/tabsCoach.html'"></div>
+    </div>
+
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserSupervisor">
+        <div  ng-include src="'static/views/script/tabsStar.html'"></div>
+    </div>
+
+    <div flex="70" layout="column"  layout-align="space-between none" class="demo-content">
+        <div layout="column" style="height:800px">
+            <md-content style="overflow-x: hidden;" scroll-glue="glued">
+                <video id="gum" autoplay></video>
+                <video style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" id="recorded" autoplay loop  controls ></video>
+
+                <div>
+                    <md-button class="md-raised md-primary" id="record" ng-click="startRecordingVideo()">Start Recording</md-button>
+                    <md-button class="md-raised md-primary" id="record" ng-click="stopRecordingVideo()">Stop Recording</md-button>
+                    <md-button class="md-raised md-primary" id="play" ng-click="playVideo()">Play</md-button>
+                    <md-button class="md-raised md-primary" id="download" ng-click="savePlanVideo()">Download</md-button>
+                </div>
+            </md-content>
+        </div>
+        <br />  
+    </div>
+
+</div>
+
+<script>
+angular.element(document.getElementById('trainingApp')).scope().initVideo('recorded', 'gum');
+</script>

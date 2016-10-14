@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.PlanVideo;
@@ -29,6 +24,8 @@ public class PlanVideoDTO {
     private Integer sesionId;
     private Integer coachAssignedPlanId;
     private Integer coachExtAthleteId;
+    private String readableTime;
+    private Double hours;
     
     public PlanVideoDTO(){
         
@@ -154,5 +151,22 @@ public class PlanVideoDTO {
         this.coachExtAthleteId = coachExtAthleteId;
     }
     
+
+    public String getReadableTime() {
+        return readableTime;
+    }
+
+    public void setReadableTime(String readableTime) {
+        this.readableTime = readableTime;
+    }
+
+    public Double getHours() {
+        return hours;
+    }
+
+    public void setHours(Double hours) {
+        this.hours = hours;
+    }
+
       
 }

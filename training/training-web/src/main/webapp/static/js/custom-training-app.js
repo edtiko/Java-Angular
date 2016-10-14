@@ -63,12 +63,14 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/mail', route.resolve('mail', 'mail/'))
             
                     .when('/reports', route.resolve('reports', 'reports/'))
-            
+        
                     .when('/external-coach', route.resolve('externalCoach', 'externalCoach/'))
             
-                    .when('/audio-messages', route.resolve('audioMessage', 'audioMessage/'));
-
-
+                    .when('/audio-messages', route.resolve('audioMessage', 'audioMessage/'))
+                 
+                    .when('/script', route.resolve('script', 'script/'))
+            
+                    .when('/informe', route.resolve('informe', 'informe/'));
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',
                 suffix: '.json'

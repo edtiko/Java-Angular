@@ -25,7 +25,9 @@ public class MailCommunicationDTO implements Serializable {
     private User receivingUser;
     private User sendingUser;
     private String colour;
-    private long hoursSpent;      
+    private long hoursSpent; 
+    private Double hours;
+    private String readableTime;
 
     public MailCommunicationDTO(Integer mailCommunicationId, String subject, String message, Integer stateId, Date creationDate, 
             Boolean read, User receivingUser, User sendingUser) {
@@ -124,6 +126,22 @@ public class MailCommunicationDTO implements Serializable {
 
     public void setHoursSpent(long hoursSpent) {
         this.hoursSpent = hoursSpent;
+    }
+
+    public Double getHours() {
+        return hours;
+    }
+
+    public void setHours(Double hours) {
+        this.hours = hours;
+    }
+
+    public String getReadableTime() {
+        return readableTime;
+    }
+
+    public void setReadableTime(String readableTime) {
+        this.readableTime = readableTime;
     }
 
 }

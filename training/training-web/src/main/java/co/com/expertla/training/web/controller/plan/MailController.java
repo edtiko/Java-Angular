@@ -2,7 +2,9 @@ package co.com.expertla.training.web.controller.plan;
 
 import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.StateEnum;
+import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.ColourIndicator;
 import co.com.expertla.training.model.entities.MailCommunication;
@@ -285,5 +287,43 @@ public class MailController {
         long diff = now.getTime() - creationDate.getTime();
         long hoursSpent = diff / (60 * 60 * 1000);
         return hoursSpent;
+    }
+    
+     @RequestMapping(value = "mail/get/response/count/mail/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getResponseCountVideo(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<ChartReportDTO> planVideoList = mailCommunicationService.getResponseCountMails(userId,roleId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "mail/get/timeResponse/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getTimeResponse(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<PlanMessageDTO> planVideoList = mailCommunicationService.getResponseTimeMails(userId,roleId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
     }
 }

@@ -71,7 +71,10 @@ require.config({
         supervStarCoachService: "mail/service/supervStarCoachService",
         userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService",
         externalCoachService: "externalCoach/service/externalCoachService",
-        audioMessageService: "audioMessage/service/audioMessageService"
+        audioMessageService: "audioMessage/service/audioMessageService",
+        adapter: "lib/adapter",
+        scriptService:"script/service/scriptService",
+        informeService:"informe/service/informeService"
     },
     shim: {
         angular: {
@@ -177,10 +180,14 @@ require.config({
         angularPickList: {
             deps: ['angular']
         },
+        adapter: {
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
-                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder','wavesurfer'
+                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder','wavesurfer','adapter'
+
             ]
         },
         surveyService: {
@@ -246,6 +253,12 @@ require.config({
         audioMessageService: {
             deps: ['angular','trainingApp']
         },
+        scriptService : {
+            deps: ['angular', 'trainingApp']
+        },
+        informeService : {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -256,8 +269,9 @@ require.config({
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService'
                 ,'videoService','dcfService', 'characteristicService','brandService',
+
 		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService',
-                'audioMessageService'
+                'audioMessageService', 'scriptService', 'informeService'
 
             ] }
     }

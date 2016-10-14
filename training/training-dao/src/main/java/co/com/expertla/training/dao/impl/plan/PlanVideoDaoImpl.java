@@ -8,10 +8,16 @@ package co.com.expertla.training.dao.impl.plan;
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.PlanVideoDao;
+import co.com.expertla.training.dao.user.UserDao;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,6 +26,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVideoDao {
+    
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public PlanVideo getByVideoPath(String fileName) throws DAOException {
@@ -168,6 +177,112 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         builder.append(" set readed = true ");
         builder.append(" where  plan_video_id = ").append(planVideoId);
         executeNativeUpdate(builder.toString());
+    }
+    
+    @Override
+    public List<PlanVideoDTO> getResponseTimeVideos(Integer userId, List<UserDTO> users) throws Exception {
+        
+        HashMap<Integer,UserDTO> mapUsers = new HashMap<>();
+        for (UserDTO user : users) {
+            mapUsers.put(user.getUserId(),user);
+        }
+        
+        UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(userId));
+        mapUsers.put(userId, user);
+        StringBuilder builder = new StringBuilder();
+        builder.append("select *, abs(extract(epoch from creation_date - lead(creation_date) over (order by creation_date))  )as seconds ");
+        builder.append("from plan_video  p where (p.from_user_id = ").append(userId).append(" or p.to_user_id = ").append(userId).append(") ");
+        builder.append("and exists (");
+        builder.append("select 'x' from plan_video pp where pp.to_user_id = p.from_user_id and pp.from_user_id = p.to_user_id ");
+        builder.append(")");
+        Query query = this.getEntityManager().createNativeQuery(builder.toString());
+        List<Object[]> list = query.getResultList();
+        List<PlanVideoDTO> messageList = new ArrayList<>();
+        PlanVideoDTO obj = new PlanVideoDTO();
+        for (Object[] result : list) {
+            obj = new PlanVideoDTO();
+            obj.setFromUser(mapUsers.get((Integer) result[4]));
+            obj.setToUser(mapUsers.get((Integer) result[5]));
+            obj.setCreateDate((Date) result[6]);
+            Double seconds = (Double) result[10];
+            obj.setReadableTime(getTime(seconds,obj.getCreateDate()));
+            messageList.add(obj);
+        }
+        return messageList;
+    }
+    
+    private String getTime(Double seconds, Date creationDate ){
+        Double time;
+        if(seconds == null) {
+            Date now = new Date();
+            Long diff = now.getTime() - creationDate.getTime();
+            diff = diff /1000;
+            time = diff.doubleValue();
+        } else {
+            time = seconds;
+        }
+         if(time > 60) {
+             int mins = time.intValue() / 60;
+             if(mins > 60) {
+                 mins = mins /60;
+                 return mins + " hrs";
+             } else {
+                 return mins + " mins";
+             }
+         } else {
+             return seconds + " segs";
+         }
+    }
+
+    @Override
+    public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception {
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT p FROM PlanVideo p ");
+            builder.append("WHERE p.fromUserId.userId = :userId ");
+            builder.append("AND EXISTS(  ");
+            builder.append("SELECT a FROM StarTeam a  ");
+            builder.append("WHERE a.coachUserId.userId = p.fromUserId.userId  ");
+            builder.append("AND a.starUserId.userId = p.toUserId.userId  ");
+            builder.append(")  ");
+            setParameter("userId", userId);
+            return createQuery(builder.toString());
+    }
+
+    @Override
+    public List<PlanVideoDTO> getResponseCountVideo(Integer userId,List<UserDTO> users) throws Exception {
+        HashMap<Integer,UserDTO> mapUsers = new HashMap<>();
+        for (UserDTO user : users) {
+            mapUsers.put(user.getUserId(),user);
+        }
+        UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(userId));
+        mapUsers.put(userId, user);
+        StringBuilder builder = new StringBuilder();
+        builder.append("select *, abs(extract(epoch from creation_date - lead(creation_date) over (order by creation_date)) / 3600 )as hours ");
+        builder.append("from plan_video  p where (p.from_user_id = ").append(userId).append(" or p.to_user_id = ").append(userId).append(") ");
+        builder.append("and exists (");
+        builder.append("select 'x' from plan_video pp where pp.to_user_id = p.from_user_id and pp.from_user_id = p.to_user_id ");
+        builder.append(")");
+        Query query = this.getEntityManager().createNativeQuery(builder.toString());
+        List<Object[]> list = query.getResultList();
+        List<PlanVideoDTO> messageList = new ArrayList<>();
+        PlanVideoDTO obj = new PlanVideoDTO();
+        for (Object[] result : list) {
+            obj = new PlanVideoDTO();
+            obj.setFromUser(mapUsers.get((Integer) result[5]));
+            obj.setToUser(mapUsers.get((Integer) result[5]));
+            obj.setCreateDate((Date) result[6]);
+            obj.setHours( result[10] == null ? getHours(obj.getCreateDate()) : (Double) result[10]);
+            messageList.add(obj);
+        }
+        return messageList;
+    }
+    
+    private Double getHours(Date creationDate ){
+          Date now = new Date();
+            Long diff = now.getTime() - creationDate.getTime();
+            diff = diff /1000;
+            diff = diff / 3600;
+            return diff.doubleValue();
     }
 
 }

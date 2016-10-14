@@ -2,6 +2,11 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
 
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        
+        if($scope.userSession.typeUser != $scope.userSessionTypeUserCoach){
+         $scope.showMessage("Acceso permitido solo para el Rol Coach"); 
+           $window.location.href = "#dashboard";
+        }
         $scope.athleteUser = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', countryId: '', disciplineId: $scope.userSession.disciplineId, phone: ''};
         $scope.coachExtAthlete = {id: '', athleteUserId: $scope.athleteUser, coachUserId:{ userId: $scope.userSession.userId}, trainingPlanUserId: $scope.userSession.trainingPlanUserId};
         $scope.sexOptions = [

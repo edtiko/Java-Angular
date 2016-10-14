@@ -8,6 +8,7 @@ package co.com.expertla.training.dao.plan;
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import java.util.List;
 
@@ -36,5 +37,30 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
     public void readVideosExt(Integer planId, Integer userId) throws DAOException;
 
     public void readVideo(Integer planVideoId) throws DAOException;
+    
+    public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception;
+    
+    /**
+     * Consulta la cantidad de videos repondidos por el usuario <br>
+     * Info. Creación: <br>
+     * fecha 13/10/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanVideoDTO> getResponseCountVideo(Integer userId,List<UserDTO> users) throws Exception;
 
+    
+    /**
+     * Consulta los tiempos de respuesta de los videos <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param users
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanVideoDTO> getResponseTimeVideos(Integer userId, List<UserDTO> users)throws  Exception;
 }
