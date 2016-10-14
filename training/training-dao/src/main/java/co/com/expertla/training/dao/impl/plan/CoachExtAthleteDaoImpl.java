@@ -61,7 +61,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" FROM CoachExtAthlete m ");
         sql.append(" WHERE m.userTrainingId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
-        //sql.append(" AND m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append(" AND m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", athleteUserId);
         List<CoachExtAthleteDTO> list = query.getResultList();
@@ -71,9 +71,9 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public List<UserDTO> getUserAthletes(String search) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new co.com.expertla.training.model.dto.UserDTO(u.userId, u.name, u.secondName, u.lastName,  u.login, u.profilePhoto) ");
+        sql.append(" SELECT new co.com.expertla.training.model.dto.UserDTO(u.userId, u.name, u.secondName, u.lastName, u.email, u.login, u.profilePhoto) ");
         sql.append(" FROM User u, RoleUser ru ");
-        sql.append(" WHERE not exists (select 1 from CoachExtAthlete   c where u.userId = c.userTrainingId.userId ) ");
+        sql.append(" WHERE not exists (select 1 from CoachExtAthlete   c where u.userId = c.userTrainingId.userId and c.stateId.stateId = :stateId ) ");
         sql.append(" And   not exists (select 1 from CoachAssignedPlan c where u.userId = c.trainingPlanUserId.userId.userId )");
         sql.append(" And   u.userId = ru.userId.userId ");
         sql.append(" And   ru.roleId.roleId = :role ");
@@ -82,6 +82,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         }
         sql.append(" ORDER BY u.name ASC ");
         Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("stateId", StateEnum.ACTIVE.getId());
         query.setParameter("role", RoleEnum.ATLETA.getId());
           if(search != null && !search.trim().equals("ALL")){
               query.setParameter("search", "%"+search+"%");

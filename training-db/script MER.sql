@@ -565,10 +565,16 @@ create table training_plan (
    name                 varchar(500)         not null,
    description          varchar(5000)        null,
    duration             decimal(10,2)        null,
-   video_count          integer              null,
-   message_count        integer              null,
-   email_count          integer              null,
-   call_count           integer              null,
+   video_count          integer              not null default 0,
+   video_emergency      integer              not null default 0,      
+   video_duration       integer              not null default 0,
+   message_count        integer              not null default 0,
+   message_emergency    integer              not null default 0,
+   email_count          integer              not null default 0,
+   email_emergency      integer              not null default 0,
+   audio_count          integer              not null default 0,
+   audio_emergency      integer              not null default 0,
+   audio_duration       integer              not null default 0,    
    creation_date        date                 not null,
    end_date             date                 not null,
    constraint pk_training_plan primary key (training_plan_id)
@@ -821,6 +827,24 @@ create table plan_video (
    constraint pk_plan_video primary key (plan_video_id)
 );
 
+
+/*==============================================================*/
+/* Table: plan_audio                                         */
+/*==============================================================*/
+create table plan_audio (
+   plan_audio_id             serial  not null,
+   name                      varchar(1000) not null,
+   from_user_id              integer not null,
+   to_user_id                integer not null,    
+   coach_assigned_plan_id    integer null,   
+   coach_ext_athlete_id      integer, 
+   readed boolean not null DEFAULT false,
+   creation_date             timestamp without time zone,
+   constraint pk_plan_audio primary key (plan_audio_id)
+);
+
+7436677 ext 310 cristian pelaez
+
 create table coach_ext_athlete(
 coach_ext_athlete_id  serial not null,
 training_plan_user_id integer not null, --id plan coach externo
@@ -862,6 +886,26 @@ on delete restrict on update restrict;
 
 alter table plan_video
 add constraint fk_plan_video_ref_coach_ext_athlete foreign key (coach_ext_athlete_id)
+references coach_ext_athlete(coach_ext_athlete_id)
+on delete restrict on update restrict;
+
+alter table plan_audio
+add constraint fk_plan_audio_from_reference_user foreign key (from_user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table plan_audio
+add constraint fk_plan_video_to_reference_user foreign key (to_user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table plan_audio
+add constraint fk_plan_audio_ref_coach_assigned_plan foreign key (coach_assigned_plan_id)
+references coach_assigned_plan(coach_assigned_plan_id)
+on delete restrict on update restrict;
+
+alter table plan_audio
+add constraint fk_plan_audio_ref_coach_ext_athlete foreign key (coach_ext_athlete_id)
 references coach_ext_athlete(coach_ext_athlete_id)
 on delete restrict on update restrict;
 

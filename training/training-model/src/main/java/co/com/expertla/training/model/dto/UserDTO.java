@@ -197,12 +197,13 @@ public class UserDTO {
         this.userWordpressId = userWordpressId;
     }
     
-    public UserDTO(Integer userId, String firstName, String secondName, String lastName, String login, byte[] profilePhoto){
+    public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, String login, byte[] profilePhoto){
         this.userId = userId;
         this.firstName = firstName;
         this.secondName = secondName;
         this.lastName = lastName;
         this.login = login;
+        this.email = email;
         this.profilePhoto = profilePhoto;
     }
 

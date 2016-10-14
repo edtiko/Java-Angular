@@ -60,12 +60,24 @@ public class TrainingPlan implements Serializable {
     private Date endDate;
     @Column(name = "video_count")
     private Integer videoCount;
+    @Column(name = "video_duration")
+    private Integer videoDuration;
+    @Column(name = "video_emergency")
+    private Integer videoEmergency;
     @Column(name = "message_count")
     private Integer messageCount;
+    @Column(name = "message_emergency")
+    private Integer messageEmergency;
     @Column(name = "email_count")
     private Integer emailCount;
-    @Column(name = "call_count")
-    private Integer callCount;
+    @Column(name = "email_emergency")
+    private Integer emailEmergency;
+    @Column(name = "audio_count")
+    private Integer audioCount;
+    @Column(name = "audio_emergency")
+    private Integer audioEmergency;
+    @Column(name = "audio_duration")
+    private Integer audioDuration;
     @Column(name = "state_id")
     private Short stateId;
     @OneToMany(mappedBy = "trainingPlanId")
@@ -202,6 +214,48 @@ public class TrainingPlan implements Serializable {
         this.price = price;
     }
 
+    public Integer getVideoDuration() {
+        return videoDuration;
+    }
+
+    public void setVideoDuration(Integer videoDuration) {
+        this.videoDuration = videoDuration;
+    }
+
+    public Integer getVideoEmergency() {
+        return videoEmergency;
+    }
+
+    public void setVideoEmergency(Integer videoEmergency) {
+        this.videoEmergency = videoEmergency;
+    }
+
+    public Integer getMessageEmergency() {
+        return messageEmergency;
+    }
+
+    public void setMessageEmergency(Integer messageEmergency) {
+        this.messageEmergency = messageEmergency;
+    }
+
+    public Integer getAudioEmergency() {
+        return audioEmergency;
+    }
+
+    public void setAudioEmergency(Integer audioEmergency) {
+        this.audioEmergency = audioEmergency;
+    }
+
+    public Integer getAudioDuration() {
+        return audioDuration;
+    }
+
+    public void setAudioDuration(Integer audioDuration) {
+        this.audioDuration = audioDuration;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -251,12 +305,20 @@ public class TrainingPlan implements Serializable {
         this.emailCount = emailCount;
     }
 
-    public Integer getCallCount() {
-        return callCount;
+    public Integer getAudioCount() {
+        return audioCount;
     }
 
-    public void setCallCount(Integer callCount) {
-        this.callCount = callCount;
+    public void setAudioCount(Integer audioCount) {
+        this.audioCount = audioCount;
+    }
+
+    public Integer getEmailEmergency() {
+        return emailEmergency;
+    }
+
+    public void setEmailEmergency(Integer emailEmergency) {
+        this.emailEmergency = emailEmergency;
     }
     
 }

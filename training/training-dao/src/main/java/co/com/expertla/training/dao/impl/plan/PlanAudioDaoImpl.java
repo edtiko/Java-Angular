@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.expertla.training.dao.impl.plan;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
-import co.com.expertla.training.dao.plan.PlanVideoDao;
-import co.com.expertla.training.model.dto.PlanVideoDTO;
-import co.com.expertla.training.model.entities.PlanVideo;
+import co.com.expertla.training.dao.plan.PlanAudioDao;
+import co.com.expertla.training.model.dto.PlanAudioDTO;
+import co.com.expertla.training.model.entities.PlanAudio;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -19,14 +14,14 @@ import org.springframework.stereotype.Repository;
  * @author Edwin G
  */
 @Repository
-public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVideoDao {
+public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudioDao {
 
     @Override
-    public PlanVideo getByVideoPath(String fileName) throws DAOException {
+    public PlanAudio getByAudioPath(String fileName)throws DAOException {
         try {
-            String qlString = "SELECT v FROM PlanVideo v WHERE v.videoPath = :videoPath ";
-            setParameter("videoPath", fileName);
-            List<PlanVideo> query = createQuery(qlString);
+            String qlString = "SELECT v FROM PlanAudio v WHERE v.name = :name ";
+            setParameter("name", fileName);
+            List<PlanAudio> query = createQuery(qlString);
             return query.get(0);
         } catch (Exception e) {
             return null;
@@ -34,10 +29,10 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public List<PlanVideoDTO> getVideosByUser(Integer planId, Integer userId, String fromto, String tipoPlan) throws DAOException {
+    public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, String fromto, String tipoPlan) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, m.fromUserId, m.toUserId, m.creationDate) ");
-        sql.append("FROM PlanVideo m ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.fromUserId, m.toUserId, m.creationDate) ");
+        sql.append("FROM PlanAudio m ");
         if (fromto.equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");
         } else {
@@ -55,11 +50,11 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public PlanVideo getVideoById(Integer id) throws DAOException {
+    public PlanAudio getAudioById(Integer id) throws DAOException {
         try {
-            String qlString = "SELECT v FROM PlanVideo v WHERE v.planVideoId = :planVideoId ";
-            setParameter("planVideoId", id);
-            List<PlanVideo> query = createQuery(qlString);
+            String qlString = "SELECT v FROM PlanAudio v WHERE v.planAudioId = :planAudioId ";
+            setParameter("planAudioId", id);
+            List<PlanAudio> query = createQuery(qlString);
             return query.get(0);
         } catch (Exception e) {
             return null;
@@ -68,19 +63,19 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer fromUserId) throws DAOException {
+    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.video_count  - count(m.plan_video_id)) >= 0 THEN (t.video_count  - count(m.plan_video_id)) ");
-        sql.append(" ELSE (t.video_emergency) END ");
+        sql.append(" WHEN (t.audio_count  - count(m.plan_audio_id)) > 0 THEN (t.audio_count - count(m.plan_audio_id)) ");
+        sql.append(" ELSE (t.audio_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
-        sql.append(" LEFT JOIN plan_video m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
+        sql.append(" LEFT JOIN plan_audio m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.video_count, t.video_emergency ");
+        sql.append(" Group by t.audio_count, t.audio_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -89,19 +84,19 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public Integer getCountVideoByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
+    public Integer getCountAudioByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.video_count  - count(m.plan_video_id)) > 0 THEN (t.video_count  - count(m.plan_video_id)) ");
-        sql.append(" ELSE (t.video_emergency) END ");
+        sql.append(" WHEN (t.audio_count - count(m.plan_audio_id)) > 0 THEN (t.audio_count  - count(m.plan_audio_id)) ");
+        sql.append(" ELSE (t.audio_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
-        sql.append(" LEFT JOIN plan_video m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
+        sql.append(" LEFT JOIN plan_audio m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.video_count, t.video_emergency ");
+        sql.append(" Group by t.audio_count, t.audio_emergency  ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -110,12 +105,12 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId) throws DAOException {
+    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(m.plan_video_id) ");
-        sql.append(" FROM plan_video m ");
-        sql.append(" Where m.from_user_id = ").append(userId);
+        sql.append("SELECT COUNT(m.plan_audio_id) ");
+        sql.append(" FROM plan_audio m ");
+        sql.append(" Where m.to_user_id = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And m.readed = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());
@@ -126,12 +121,12 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public Integer getCountVideosReceivedExt(Integer planId, Integer userId) throws DAOException {
+    public Integer getCountAudiosReceivedExt(Integer planId, Integer userId) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(m.plan_video_id) ");
-        sql.append(" FROM plan_video m ");
-        sql.append(" Where m.from_user_id = ").append(userId);
+        sql.append("SELECT COUNT(m.plan_audio_id) ");
+        sql.append(" FROM plan_audio m ");
+        sql.append(" Where m.to_user_id = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" And m.readed = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());
@@ -142,9 +137,9 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public void readVideos(Integer coachAssignedPlanId, Integer userId) throws DAOException {
+    public void readAudios(Integer coachAssignedPlanId, Integer userId) throws DAOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(" update plan_video ");
+        builder.append(" update plan_audio ");
         builder.append(" set readed = true ");
         builder.append(" where  to_user_id = ").append(userId);
         builder.append(" and  coach_assigned_plan_id = ").append(coachAssignedPlanId);
@@ -152,9 +147,9 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public void readVideosExt(Integer planId, Integer userId) throws DAOException {
+    public void readAudiosExt(Integer planId, Integer userId) throws DAOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(" update plan_video ");
+        builder.append(" update plan_audio ");
         builder.append(" set readed = true ");
         builder.append(" where  to_user_id = ").append(userId);
         builder.append(" and  coach_ext_athlete_id = ").append(planId);
@@ -162,11 +157,11 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public void readVideo(Integer planVideoId) throws DAOException {
+    public void readAudio(Integer planAudioId) throws DAOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(" update plan_video ");
+        builder.append(" update plan_audio ");
         builder.append(" set readed = true ");
-        builder.append(" where  plan_video_id = ").append(planVideoId);
+        builder.append(" where  plan_audio_id = ").append(planAudioId);
         executeNativeUpdate(builder.toString());
     }
 
