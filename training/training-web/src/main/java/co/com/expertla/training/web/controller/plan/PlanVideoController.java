@@ -318,13 +318,32 @@ public class PlanVideoController {
         }
     }
     
-    @RequestMapping(value = "/planVideo/get/response/count/video/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/planVideo/get/response/count/video/{userId}/{roleId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getResponseCountVideo(@PathVariable("userId") Integer userId) {
+    Response getResponseCountVideo(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<ChartReportDTO> planVideoList = planVideoService.getResponseCountVideo(userId);
+            List<ChartReportDTO> planVideoList = planVideoService.getResponseCountVideo(userId,roleId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "/planVideo/get/timeResponse/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getTimeResponse(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<PlanVideoDTO> planVideoList = planVideoService.getResponseTimeVideos(userId,roleId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(planVideoList);
             return Response.status(Response.Status.OK).entity(responseService).build();

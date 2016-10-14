@@ -516,7 +516,7 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()">
+                        <input type="text" id="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()">
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileheight, 'user_profile', 'height')"

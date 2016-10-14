@@ -21,6 +21,8 @@ public class PlanMessageDTO {
     private Integer countMessagesCoach;
     private Integer countMessagesAthlete;
     private UserDTO receivingUserId;
+    private String readableTime;
+    private Double hours;
 
     public PlanMessageDTO() {
 
@@ -111,6 +113,21 @@ public class PlanMessageDTO {
     public void setReceivingUserId(UserDTO receivingUserId) {
         this.receivingUserId = receivingUserId;
     }
+
+    public String getReadableTime() {
+        return readableTime;
+    }
+
+    public void setReadableTime(String readableTime) {
+        this.readableTime = readableTime;
+    }
+
+    public Double getHours() {
+        return hours;
+    }
+
+    public void setHours(Double hours) {
+        this.hours = hours;
+    }
     
-   
 }

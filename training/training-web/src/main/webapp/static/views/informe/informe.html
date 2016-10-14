@@ -1,41 +1,125 @@
 <div class="demo-md-panel md-padding">
     <!--<md-content layout-padding>-->
-        <span class="md-headline">{{ 'INFORMES' | translate }}</span>
-        <div layout="row" >
-            <div flex-gt-sm="10" flex="">
-                <md-list flex="">
-                    <md-list-item class="md-3-line">
-                        <md-button class="md-raised md-primary" 
-                                   ng-click="showVideo()">{{ 'VIDEO' | translate }}</md-button>
-                    </md-list-item>
-                    <md-list-item class="md-3-line">
-                        <md-button class="md-raised md-primary" 
-                                   ng-click="showChat()">{{ 'CHAT' | translate }}</md-button>
-                    </md-list-item>
-                    <md-list-item class="md-3-line">
-                        <md-button class="md-raised md-primary" 
-                                   ng-click="showScript()">{{ 'SCRIPT' | translate }}</md-button>
-                    </md-list-item>
-                    <md-list-item class="md-3-line">
-                        <md-button class="md-raised md-primary" 
-                                   ng-click="showEmail()">{{ 'EMAIL' | translate }}</md-button>
-                    </md-list-item>
-                    <md-list-item class="md-3-line">
-                        <md-button class="md-raised md-primary" 
-                                   ng-click="showRendimiento()">{{ 'RENDIMIENTO' | translate }}</md-button>
-                    </md-list-item>
-                </md-list>
+    <span class="md-headline">{{ 'INFORMES' | translate }}</span>
+    <div layout="row" >
+        <div flex-gt-sm="10" flex="">
+            <md-list flex="">
+                <md-list-item class="md-3-line">
+                    <md-button class="md-raised md-primary" 
+                               ng-click="showVideo()">{{ 'VIDEO' | translate }}</md-button>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                    <md-button class="md-raised md-primary" 
+                               ng-click="showChat()">{{ 'CHAT' | translate }}</md-button>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                    <md-button class="md-raised md-primary" 
+                               ng-click="showScript()">{{ 'SCRIPT' | translate }}</md-button>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                    <md-button class="md-raised md-primary" 
+                               ng-click="showEmail()">{{ 'EMAIL' | translate }}</md-button>
+                </md-list-item>
+                <md-list-item class="md-3-line">
+                    <md-button class="md-raised md-primary" 
+                               ng-click="showRendimiento()">{{ 'RENDIMIENTO' | translate }}</md-button>
+                </md-list-item>
+            </md-list>
+        </div>
+
+        <!--<div flex-gt-sm="50" flex="">-->
+        <br>
+        <div ng-if="option == 1">
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <span>Videos</span>
+                </div>
+            </md-toolbar>
+            <md-table-container>
+                <table md-table>
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column class="md-column">Remitente</th>
+                            <th md-column class="md-column">Destinatario</th>
+                            <th md-column class="md-column">Fecha de Creaci&oacute;n</th>
+                            <th md-column class="md-column">Tiempo de Respuesta</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="u in videoList">
+                            <td md-cell>{{u.fromUser.fullName}}</td>
+                            <td md-cell>{{u.toUser.fullName}}</td>
+                            <td md-cell>{{u.createDate}}</td>
+                            <td md-cell>{{u.readableTime}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </div>
+        <div ng-if="option == 3">
+                <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <span>Correo</span>
+        </div>
+    </md-toolbar>
+    <md-table-container>
+        <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column class="md-column">Remitente</th>
+                    <th md-column class="md-column">Destinatario</th>
+                    <th md-column class="md-column">Fecha de Creaci&oacute;n</th>
+                    <th md-column class="md-column">Tiempo de Respuesta</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row ng-repeat="u in mailList">
+                    <td md-cell>{{u.messageUserId.fullName}}</td>
+                    <td md-cell>{{u.receivingUserId.fullName}}</td>
+                    <td md-cell>{{u.creationDate}}</td>
+                    <td md-cell>{{u.readableTime}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+            </div>
+        <div ng-if="option == 2">
+                <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <span>Mensajes de Chat</span>
+        </div>
+    </md-toolbar>
+    <md-table-container>
+        <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column class="md-column">Remitente</th>
+                    <th md-column class="md-column">Destinatario</th>
+                    <th md-column class="md-column">Fecha de Creaci&oacute;n</th>
+                    <th md-column class="md-column">Tiempo de Respuesta</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row ng-repeat="u in chatList">
+                    <td md-cell>{{u.messageUserId.fullName}}</td>
+                    <td md-cell>{{u.receivingUserId.fullName}}</td>
+                    <td md-cell>{{u.creationDate}}</td>
+                    <td md-cell>{{u.readableTime}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </md-table-container>
             </div>
 
-            <!--<div flex-gt-sm="50" flex="">-->
-                <div flex id="chart_rendimiento_div">
-                    
-                </div>
-            <!--</div>-->
-</div>
-    <!--</md-content>-->
+
+    </div>
+    <div class="row">
+        <div flex id="chart_rendimiento_div">
+
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="static/js/lib/loader.js"></script>
-        <script type="text/javascript">
-          google.charts.load('current', {packages: ['corechart']});
-        </script>
+<script type="text/javascript">
+                google.charts.load('current', {packages: ['corechart']});
+</script>

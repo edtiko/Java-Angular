@@ -1,7 +1,9 @@
 package co.com.expertla.training.service.plan;
 
 import co.com.expertla.base.jpa.DAOException;
+import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import java.util.List;
@@ -135,4 +137,28 @@ public interface MailCommunicationService {
      * @return
      */
     public List<UserDTO> getAllRecipientsByStarId(Integer userId) throws Exception;
+    
+    /**
+     * Consulta los tiempos de respuesta de los mails <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param roleId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getResponseTimeMails(Integer userId, Integer roleId)throws  Exception;
+    
+    /**
+     * Consulta los tiempos de respuesta en horas <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param roleId
+     * @return 
+     * @throws Exception 
+     */
+    public List<ChartReportDTO> getResponseCountMails(Integer userId,Integer roleId) throws Exception;
 }

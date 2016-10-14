@@ -17,6 +17,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             {code: "f", sex: "Femenino"}
         ];
         $scope.isImage = false;
+        $scope.previousValue = "";
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
                     .then(
@@ -412,14 +413,50 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.calculateIMC = function () {
+//            document.getElementById('height').onkeyup = oneDigitAndDecimals();
+             $scope.userProfile.height = convertToDecimal( $scope.userProfile.height );
             if ($scope.userProfile.weight != null && $scope.userProfile.height != null
+            && $scope.userProfile.weight != "" && $scope.userProfile.height != ""
                     && isNumeric($scope.userProfile.weight) && isNumeric($scope.userProfile.height)) {
                 $scope.userProfile.imc = Math.round( $scope.userProfile.weight / ($scope.userProfile.height*$scope.userProfile.height) * 10 ) / 10;
+            } else if ($scope.userProfile.weight == "" || $scope.userProfile.height == "") {
+                $scope.userProfile.imc= null;
             }
         };
         
         function isNumeric(num) {
             return !isNaN(num);
+        }
+        
+        function oneDigitAndDecimals() {
+            if($scope.previousValue == "") { 
+            $scope.previousValue = $scope.userProfile.height;
+        }
+            var pattern = /^\d{1}((\.|,)\d*)?$/;
+
+//            function validateInput(event) {
+//                event = event || window.event;
+                var newValue = $scope.userProfile.height;
+
+                if (newValue.match(pattern)) {
+                    // Valid input; update previousValue:
+                    $scope.previousValue = newValue;
+                } else {
+                    // Invalid input; reset field value:
+                    $scope.userProfile.height = $scope.previousValue;
+                }
+//            }
+
+//            document.getElementById('height').onkeyup = validateInput;
+        }
+        
+        function convertToDecimal(num) {
+            var sd ="";
+            if(num.indexOf(".") == -1) {
+            sd = num.splice(1,0,",");
+            return sd;
+        }
+        return num;
         }
         
 

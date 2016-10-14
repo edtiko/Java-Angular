@@ -6,7 +6,9 @@
 package co.com.expertla.training.service.plan;
 
 import co.com.expertla.training.exception.TrainingException;
+import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
 
 /**
@@ -39,4 +41,27 @@ public interface PlanMessageService {
      */
     public List<PlanMessageDTO> getMessagesByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception;
     
+    /**
+     * Consulta los tiempos de respuesta de los mensajes <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param roleId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getResponseTimeMessages(Integer userId, Integer roleId)throws  Exception;
+    
+    /**
+     * Consulta los tiempos de respuesta en horas <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param roleId
+     * @return 
+     * @throws Exception 
+     */
+    public List<ChartReportDTO> getResponseCountMessages(Integer userId,Integer roleId) throws Exception;
 }

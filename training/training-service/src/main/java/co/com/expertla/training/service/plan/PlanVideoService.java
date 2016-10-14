@@ -43,6 +43,20 @@ public interface PlanVideoService {
      * @return 
      * @throws Exception 
      */
-    public List<ChartReportDTO> getResponseCountVideo(Integer userId) throws Exception;
+    public List<ChartReportDTO> getResponseCountVideo(Integer userId, Integer roleId) throws Exception;
+    
+    /**
+     * Consulta los tiempos de respuesta de los videos <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param roleId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanVideoDTO> getResponseTimeVideos(Integer userId, Integer roleId)throws  Exception;
+    
+    
     
 }
