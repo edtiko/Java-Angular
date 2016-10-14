@@ -60,6 +60,14 @@
                                             <img data-ng-src="{{item.profilePhotoBase64}}"  alt="{{item.login}}" class="circular" style="height: 30px; width: 30px">
                                             <span> {{item.fullName}} </span>
                                         </span>
+                                        <span class="item-metadata">
+                                            <span class="item-metastat">
+                                                <strong>Correo: </strong>{{item.email}}
+                                            </span>
+                                            <span class="item-metastat">
+                                                <strong>Usuario: </strong>{{item.login}}
+                                            </span>
+                                        </span>
                                     </md-item-template>
                                 </md-autocomplete>
                                 <md-button class="md-raised md-primary" ng-show="userSelected != null" ng-click="sendInvitation()">Enviar Invitaci&oacute;n</md-button>
@@ -71,3 +79,23 @@
         </div>
     </div>
 </md-content>
+<style>
+.autocomplete-custom-template li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: normal; }
+
+.autocomplete-custom-template li:last-child {
+  border-bottom-width: 0; }
+
+.autocomplete-custom-template .item-title,
+.autocomplete-custom-template .item-metadata {
+  display: block;
+  line-height: 2; }
+
+.autocomplete-custom-template .item-title img {
+  height: 18px;
+  width: 18px; }
+</style>

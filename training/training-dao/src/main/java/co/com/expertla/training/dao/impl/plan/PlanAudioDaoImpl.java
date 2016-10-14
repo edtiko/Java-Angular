@@ -66,8 +66,8 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.call_count  - count(m.plan_audio_id)) >= 0 THEN (t.call_count  - count(m.plan_audio_id)) ");
-        sql.append(" ELSE t.call_count END ");
+        sql.append(" WHEN (t.audio_count  - count(m.plan_audio_id)) > 0 THEN (t.audio_count - count(m.plan_audio_id)) ");
+        sql.append(" ELSE (t.audio_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
@@ -75,7 +75,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.call_count ");
+        sql.append(" Group by t.audio_count, t.audio_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -87,8 +87,8 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     public Integer getCountAudioByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.call_count  - count(m.plan_audio_id)) >= 0 THEN (t.call_count  - count(m.plan_audio_id)) ");
-        sql.append(" ELSE t.call_count END ");
+        sql.append(" WHEN (t.audio_count - count(m.plan_audio_id)) > 0 THEN (t.audio_count  - count(m.plan_audio_id)) ");
+        sql.append(" ELSE (t.audio_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
@@ -96,7 +96,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.call_count ");
+        sql.append(" Group by t.audio_count, t.audio_emergency  ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -110,7 +110,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.plan_audio_id) ");
         sql.append(" FROM plan_audio m ");
-        sql.append(" Where m.from_user_id = ").append(userId);
+        sql.append(" Where m.to_user_id = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And m.readed = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());
@@ -126,7 +126,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.plan_audio_id) ");
         sql.append(" FROM plan_audio m ");
-        sql.append(" Where m.from_user_id = ").append(userId);
+        sql.append(" Where m.to_user_id = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" And m.readed = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());

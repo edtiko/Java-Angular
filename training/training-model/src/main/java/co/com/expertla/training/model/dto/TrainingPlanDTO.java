@@ -15,14 +15,15 @@ import java.util.Date;
  * @author Andres Lopez
  */
 public class TrainingPlanDTO {
+
     private Integer trainingPlanId;
     private String name;
     private String description;
-    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date creationDate;
-    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date lastUpdate;
-    @JsonSerialize(using=JsonDateSerializer.class)
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date endDate;
     private Integer userCreate;
     private Integer userUpdate;
@@ -30,21 +31,28 @@ public class TrainingPlanDTO {
     private String userUpdateName;
     private Short stateId;
     private Integer videoCount;
+    private Integer videoDuration;
+    private Integer videoEmergency;
     private Integer messageCount;
+    private Integer messageEmergency;
     private Integer emailCount;
-    private Integer callCount;
+    private Integer emailEmergency;
+    private Integer audioCount;
+    private Integer audioEmergency;
+    private Integer audioDuration;
     private Double price;
-    
+
     private int count;
 
     public TrainingPlanDTO() {
     }
-    
+
     //Short
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
-            Integer videoCount, Integer messageCount, Integer emailCount, Integer callCount,
-            Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate,
-            Integer userCreate, Integer userUpdate) {
+            Integer videoCount, Integer videoDuration, Integer videoEmergency, Integer messageCount,
+            Integer messageEmergency, Integer emailCount, Integer emailEmergency, Integer audioCount, Integer audioDuration,
+            Integer audioEmergency, Date endDate, Short stateId, Double price, Date creationDate,
+            Date lastUpdate, Integer userCreate, Integer userUpdate) {
         this.trainingPlanId = trainingPlanId;
         this.name = name;
         this.description = description;
@@ -53,17 +61,23 @@ public class TrainingPlanDTO {
         this.userCreate = userCreate;
         this.userUpdate = userUpdate;
         this.videoCount = videoCount;
+        this.videoDuration = videoDuration;
+        this.videoEmergency = videoEmergency;
         this.messageCount = messageCount;
+        this.messageEmergency = messageEmergency;
         this.emailCount = emailCount;
-        this.callCount = callCount;
+        this.emailEmergency = emailEmergency;
+        this.audioCount = audioCount;
+        this.audioDuration = audioDuration;
+        this.audioEmergency = audioEmergency;
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
     }
 
-    public TrainingPlanDTO(Integer trainingPlanId, String name, String description, 
-            Integer videoCount, Integer messageCount, Integer emailCount, Integer callCount,
-            Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate, 
+    public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
+            Integer videoCount, Integer messageCount, Integer emailCount, Integer audioCount,
+            Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate,
             String userCreateName, String userUpdateName,
             Integer userCreate, Integer userUpdate) {
         this.trainingPlanId = trainingPlanId;
@@ -78,19 +92,20 @@ public class TrainingPlanDTO {
         this.videoCount = videoCount;
         this.messageCount = messageCount;
         this.emailCount = emailCount;
-        this.callCount = callCount;
+        this.audioCount = audioCount;
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
     }
-    
+
     public static TrainingPlanDTO mapFromTrainingPlanEntity(TrainingPlan plan) {
         if (plan != null) {
             return new TrainingPlanDTO(plan.getTrainingPlanId(), plan.getName(), plan.getDescription(),
-                    plan.getVideoCount(), plan.getMessageCount(), plan.getEmailCount(),
-                    plan.getCallCount(), plan.getEndDate(), plan.getStateId(),
-                    plan.getPrice(), plan.getCreationDate(), plan.getLastUpdate(),
-                    plan.getUserCreate(), plan.getUserUpdate());
+                    plan.getVideoCount(), plan.getVideoDuration(), plan.getVideoEmergency(),
+                    plan.getMessageCount(), plan.getMessageEmergency(), plan.getEmailCount(), plan.getEmailEmergency(),
+                    plan.getAudioCount(), plan.getAudioDuration(), plan.getAudioEmergency(),
+                    plan.getEndDate(), plan.getStateId(), plan.getPrice(), plan.getCreationDate(),
+                    plan.getLastUpdate(), plan.getUserCreate(), plan.getUserUpdate());
         }
         return null;
     }
@@ -112,6 +127,9 @@ public class TrainingPlanDTO {
     }
 
     public Integer getVideoCount() {
+        if(videoCount == 0){
+            return videoEmergency;
+        }
         return videoCount;
     }
 
@@ -120,6 +138,9 @@ public class TrainingPlanDTO {
     }
 
     public Integer getMessageCount() {
+        if(messageCount==0){
+            return messageEmergency;
+        }
         return messageCount;
     }
 
@@ -128,6 +149,9 @@ public class TrainingPlanDTO {
     }
 
     public Integer getEmailCount() {
+        if (emailCount == 0) {
+            return emailEmergency;
+        }
         return emailCount;
     }
 
@@ -135,14 +159,29 @@ public class TrainingPlanDTO {
         this.emailCount = emailCount;
     }
 
-    public Integer getCallCount() {
-        return callCount;
+    public Integer getAudioCount() {
+        if(audioCount == 0){
+            return audioEmergency;
+        }
+        return audioCount;
     }
 
-    public void setCallCount(Integer callCount) {
-        this.callCount = callCount;
+    public void setAudioCount(Integer audioCount) {
+        this.audioCount = audioCount;
     }
-    
+
+    public Integer getTotalAudioCount() {
+        return audioCount + audioEmergency;
+    }
+
+    public Integer getTotalMessageCount() {
+        return messageCount + messageEmergency;
+    }
+
+    public Integer getTotalVideoCount() {
+        return videoCount + videoEmergency;
+    }
+
     public String getName() {
         return name;
     }
@@ -230,4 +269,45 @@ public class TrainingPlanDTO {
     public void setPrice(Double price) {
         this.price = price;
     }
+
+    public Integer getVideoDuration() {
+        return videoDuration;
+    }
+
+    public void setVideoDuration(Integer videoDuration) {
+        this.videoDuration = videoDuration;
+    }
+
+    public Integer getVideoEmergency() {
+        return videoEmergency;
+    }
+
+    public void setVideoEmergency(Integer videoEmergency) {
+        this.videoEmergency = videoEmergency;
+    }
+
+    public Integer getMessageEmergency() {
+        return messageEmergency;
+    }
+
+    public void setMessageEmergency(Integer messageEmergency) {
+        this.messageEmergency = messageEmergency;
+    }
+
+    public Integer getAudioEmergency() {
+        return audioEmergency;
+    }
+
+    public void setAudioEmergency(Integer audioEmergency) {
+        this.audioEmergency = audioEmergency;
+    }
+
+    public Integer getAudioDuration() {
+        return audioDuration;
+    }
+
+    public void setAudioDuration(Integer audioDuration) {
+        this.audioDuration = audioDuration;
+    }
+
 }

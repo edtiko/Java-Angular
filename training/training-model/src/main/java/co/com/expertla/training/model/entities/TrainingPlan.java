@@ -70,6 +70,8 @@ public class TrainingPlan implements Serializable {
     private Integer messageEmergency;
     @Column(name = "email_count")
     private Integer emailCount;
+    @Column(name = "email_emergency")
+    private Integer emailEmergency;
     @Column(name = "audio_count")
     private Integer audioCount;
     @Column(name = "audio_emergency")
@@ -307,8 +309,16 @@ public class TrainingPlan implements Serializable {
         return audioCount;
     }
 
-    public void setAudioCount(Integer callCount) {
-        this.audioCount = callCount;
+    public void setAudioCount(Integer audioCount) {
+        this.audioCount = audioCount;
+    }
+
+    public Integer getEmailEmergency() {
+        return emailEmergency;
+    }
+
+    public void setEmailEmergency(Integer emailEmergency) {
+        this.emailEmergency = emailEmergency;
     }
     
 }

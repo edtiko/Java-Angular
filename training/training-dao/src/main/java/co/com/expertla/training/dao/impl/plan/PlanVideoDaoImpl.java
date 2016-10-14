@@ -72,7 +72,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
         sql.append(" WHEN (t.video_count  - count(m.plan_video_id)) >= 0 THEN (t.video_count  - count(m.plan_video_id)) ");
-        sql.append(" ELSE t.video_count END ");
+        sql.append(" ELSE (t.video_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_video m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
@@ -80,7 +80,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.video_count ");
+        sql.append(" Group by t.video_count, t.video_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -92,8 +92,8 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     public Integer getCountVideoByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.video_count  - count(m.plan_video_id)) >= 0 THEN (t.video_count  - count(m.plan_video_id)) ");
-        sql.append(" ELSE t.video_count END ");
+        sql.append(" WHEN (t.video_count  - count(m.plan_video_id)) > 0 THEN (t.video_count  - count(m.plan_video_id)) ");
+        sql.append(" ELSE (t.video_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_video m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
@@ -101,7 +101,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.video_count ");
+        sql.append(" Group by t.video_count, t.video_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();

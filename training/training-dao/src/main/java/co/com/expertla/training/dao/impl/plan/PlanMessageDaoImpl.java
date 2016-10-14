@@ -41,8 +41,8 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");     
-        sql.append(" WHEN (t.message_count  - count(m.plan_message_id)) >= 0 THEN (t.message_count  - count(m.plan_message_id)) ");
-        sql.append(" ELSE t.message_count END ");
+        sql.append(" WHEN (t.message_count  - count(m.plan_message_id)) > 0 THEN (t.message_count   - count(m.plan_message_id)) ");
+        sql.append(" ELSE (t.message_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_message m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.message_user_id = ").append(userId);
@@ -50,7 +50,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.message_count ");
+        sql.append(" Group by t.message_count, t.message_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
        
         List<Number> count = (List<Number>) query.getResultList();
@@ -97,8 +97,8 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     public Integer getCountMessagesByPlanExt(Integer planId, Integer userId) throws DAOException {
                 StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");     
-        sql.append(" WHEN (t.message_count  - count(m.plan_message_id)) >= 0 THEN (t.message_count  - count(m.plan_message_id)) ");
-        sql.append(" ELSE t.message_count END ");
+        sql.append(" WHEN (t.message_count - count(m.plan_message_id)) > 0 THEN (t.message_count  - count(m.plan_message_id)) ");
+        sql.append(" ELSE (t.message_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_message m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.message_user_id = ").append(userId);
@@ -106,7 +106,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.message_count ");
+        sql.append(" Group by t.message_count, t.message_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
        
         List<Number> count = (List<Number>) query.getResultList();
@@ -119,7 +119,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.plan_message_id) ");     
         sql.append(" FROM plan_message m ");
-        sql.append(" Where m.message_user_id != ").append(userId);
+        sql.append(" Where m.message_user_id = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" And m.readed = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());

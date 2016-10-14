@@ -14,10 +14,16 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
 
             }
             AudioMessageService.initialize($scope.planSelected.id);
+            //establece la duración del audio según la configuración del plan
+            if ($scope.planSelected.trainingPlanId.audioDuration != undefined && $scope.planSelected.trainingPlanId.audioDuration != "") {
+                $scope.timeLimit = $scope.planSelected.trainingPlanId.audioDuration;
+            }else{
+                $scope.timeLimit = 0;
+            }
         }
         $scope.selectedIndex = 0;
 
-        $scope.receivedAudios = function (tipoPlan) {
+        self.receivedAudios = function (tipoPlan) {
 
             AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan).then(
                     function (data) {
@@ -29,7 +35,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     });
         };
 
-        $scope.sendedAudios = function (tipoPlan) {
+        self.sendedAudios = function (tipoPlan) {
 
             AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan).then(
                     function (data) {
@@ -41,7 +47,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     });
         };
 
-        $scope.getUrl = function () {
+        self.getUrl = function () {
             var tipoPlan = "IN";
             var date = new Date();
             var month = date.getMonth() + 1;
@@ -61,7 +67,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         $scope.uploadRecord = function () {
             var audio = $scope.recordedInput;
             var fd = new FormData();
-            var url = $scope.getUrl();
+            var url = self.getUrl();
             //fd.append('filename', 'test.wav');
             fd.append('fileToUpload', audio);
             $.ajax({
@@ -74,12 +80,12 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                 if (data.entity.status == 'success') {
                     $scope.showMessage("Audio cargado correctamente.");
                     if ($scope.planSelected.external) {
-                        $scope.sendedAudios("EXT");
+                        self.sendedAudios("EXT");
                     } else {
-                        $scope.sendedAudios("IN");
+                        self.sendedAudios("IN");
                     }
                 } else {
-                    $scope.showMessage(data.entity.output);
+                    $scope.showMessage("Ha ocurrido un error, comuniquese con el Administrador.");
                 }
                 console.log(data);
             }).error(function (error) {
@@ -124,11 +130,11 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
 
 
         if ($scope.planSelected.external) {
-            $scope.receivedAudios("EXT");
-            $scope.sendedAudios("EXT");
+            self.receivedAudios("EXT");
+            self.sendedAudios("EXT");
         } else {
-            $scope.receivedAudios("IN");
-            $scope.sendedAudios("IN");
+            self.receivedAudios("IN");
+            self.sendedAudios("IN");
         }
 
     }]);

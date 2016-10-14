@@ -108,6 +108,7 @@ public class AudioMessageController {
                     audio.setName(fileName);
                     audio.setToUserId(new User(toUserId));
                     audio.setCreationDate(Calendar.getInstance().getTime());
+                    audio.setReaded(Boolean.FALSE);
                     if (tipoPlan.equals(COACH_INTERNO)) {
                         audio.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
                     } else if (tipoPlan.equals(COACH_EXTERNO)) {

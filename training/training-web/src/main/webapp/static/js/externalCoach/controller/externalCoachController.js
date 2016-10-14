@@ -195,7 +195,9 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
 
             return function filterFn(item) {
                 var name = item.fullName.toLowerCase();
-                var value = name.indexOf(lowercaseQuery) === 0;
+                var email = item.email != null?item.email.toLowerCase():"";
+                var login = item.login.toLowerCase();
+                var value = (name.indexOf(lowercaseQuery) === 0) || (email.indexOf(lowercaseQuery) === 0) || (login.indexOf(lowercaseQuery) === 0);
                 return value;
             };
 
