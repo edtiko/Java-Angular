@@ -115,6 +115,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" WHERE m.userTrainingId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
         sql.append(" AND m.stateId.stateId = ").append(StateEnum.PENDING.getId());
+        sql.append(" ORDER BY m.creationDate ASC ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         List<CoachExtAthleteDTO> list = query.getResultList();
