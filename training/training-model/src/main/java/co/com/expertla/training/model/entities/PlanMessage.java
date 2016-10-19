@@ -46,6 +46,9 @@ public class PlanMessage implements Serializable {
     @JoinColumn(name = "coach_assigned_plan_id", referencedColumnName = "coach_assigned_plan_id")
     @ManyToOne(optional = false)
     private CoachAssignedPlan coachAssignedPlanId;
+    @JoinColumn(name = "coach_ext_athlete_id", referencedColumnName = "coach_ext_athlete_id")
+    @ManyToOne(optional = false)
+    private CoachExtAthlete coachExtAthleteId;
     @JoinColumn(name = "message_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User messageUserId;
@@ -107,8 +110,15 @@ public class PlanMessage implements Serializable {
     public void setMessageUserId(User messageUserId) {
         this.messageUserId = messageUserId;
     }
-    
 
+    public CoachExtAthlete getCoachExtAthleteId() {
+        return coachExtAthleteId;
+    }
+
+    public void setCoachExtAthleteId(CoachExtAthlete coachExtAthleteId) {
+        this.coachExtAthleteId = coachExtAthleteId;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

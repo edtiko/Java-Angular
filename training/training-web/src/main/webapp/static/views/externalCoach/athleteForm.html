@@ -1,0 +1,104 @@
+<md-content class="md-padding">
+    <form  name="myFormUser" novalidate>
+        <input type="hidden" ng-model="athleteUser.userId" />
+        <div layout="row" layout-align="space-around">
+            <div flex="35">
+                <md-input-container class="md-block" >
+                    <input type="text" ng-model="athleteUser.firstName" id="uname" name="uname"  placeholder="Primer Nombre" required="" ng-minlength="3"/>
+                    <div class="has-error" ng-messages="myFormUser.uname.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div flex="35">
+                <md-input-container class="md-block">
+                    <input type="text" ng-model="athleteUser.secondName" id="secondName" name="secondName"  placeholder="Segundo Nombre"  ng-minlength="3"/>
+
+                </md-input-container>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-around">
+            <div flex="35">
+                <md-input-container class="md-block">
+                    <input type="text" ng-model="athleteUser.lastName" id="lname" name="lname"  placeholder="Apellidos" required ng-minlength="3"/>
+                    <div class="has-error" ng-messages="myFormUser.lname.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div flex="35">
+                <md-input-container class="md-block">
+                    <input type="email" ng-model="athleteUser.email" id="email" name="email"  placeholder="Correo Electr&oacute;nico" required/>
+
+                    <div class="has-error" ng-messages="myFormUser.email.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="email">Su correo es inv&aacute;lido</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-around">
+            <div flex="35">
+                <md-input-container class="md-block" >
+                    <label  for="sex">Sexo</label>
+
+                    <md-select id="sex" ng-model="athleteUser.sex">
+                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                            {{s.sex}}
+                        </md-option>
+                    </md-select>
+                    <div class="has-error" ng-messages="myFormUser.sex.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div flex="35">
+                <md-input-container class="md-block" >
+                    <input type="text"  id="discipline" ng-model="userSession.disciplineName" placeholder="Disciplina Deportiva" readonly="true"/>
+                </md-input-container>
+            </div> 
+
+        </div>
+        <div layout="row" layout-align="space-around">
+            <div flex="35">
+                <md-input-container class="md-block">
+                    <input type="text" ng-model="athleteUser.phone" id="phone"  placeholder="Tel&eacute;fono"/>
+                </md-input-container>
+            </div>
+            <div flex="35">
+                <md-input-container class="md-block">
+                    <label>Pa&iacute;s</label>
+                    <md-select class="md-block" id="country" ng-model="athleteUser.countryId" >
+                        <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
+                            {{country.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-around">
+            <div flex="35">
+                <md-input-container class="md-block">
+                    <input type="text" ng-model="athleteUser.login" id="login" name="login"  placeholder="Nombre de Usuario" required ng-minlength="3"/>
+                    <div class="has-error" ng-messages="myFormUser.login.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <div flex="35"></div>
+        </div>
+        <div layout="row" layout-align="space-around">
+            <div flex="35">
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                    <md-button ng-click="submitAthlete()" ng-disabled="myFormUser.$invalid" class="md-raised md-primary">Guardar</md-button>
+                    <md-button  ng-click="resetAthlete()" class="md-raised md-primary">Cancelar</md-button>
+                </section>
+            </div>
+            <div flex="35"></div>
+        </div>
+
+    </form>
+</md-content>

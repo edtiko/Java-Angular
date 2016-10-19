@@ -45,6 +45,7 @@ public class UserDTO {
     private Integer federalStateId;
     private Integer countryId;
     private Integer disciplineId;
+    private String  disciplineName;
     private String typeUser;
     private Integer roleId;
     private String aboutMe;
@@ -61,6 +62,7 @@ public class UserDTO {
     private Integer userWordpressId;
     private Integer indLoginFirstTime;
     private Integer planActiveId;
+    private Integer trainingPlanUserId;
     
     public UserDTO() {
     }
@@ -163,6 +165,7 @@ public class UserDTO {
         this.disciplineIdExt = disciplineIdExt;
     }
     
+    //constructor usado por mapFromUserEntity
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
             String sex, Float weight, String phone, String cellphone, Integer cityId,
             Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
@@ -192,6 +195,16 @@ public class UserDTO {
         this.profilePhoto = profilePhoto;
         this.indLoginFirstTime = indLoginFirstTime;
         this.userWordpressId = userWordpressId;
+    }
+    
+    public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, String login, byte[] profilePhoto){
+        this.userId = userId;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.login = login;
+        this.email = email;
+        this.profilePhoto = profilePhoto;
     }
 
     public static UserDTO mapFromUserEntity(User user) {
@@ -559,5 +572,23 @@ public class UserDTO {
     public void setIndLoginFirstTime(Integer indLoginFirstTime) {
         this.indLoginFirstTime = indLoginFirstTime;
     }
+
+    public Integer getTrainingPlanUserId() {
+        return trainingPlanUserId;
+    }
+
+    public void setTrainingPlanUserId(Integer trainingPlanUserId) {
+        this.trainingPlanUserId = trainingPlanUserId;
+    }
+
+    public String getDisciplineName() {
+        return disciplineName;
+    }
+
+    public void setDisciplineName(String disciplineName) {
+        this.disciplineName = disciplineName;
+    }
+    
+    
     
 }

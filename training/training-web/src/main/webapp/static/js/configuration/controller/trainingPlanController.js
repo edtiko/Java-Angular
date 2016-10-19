@@ -7,7 +7,7 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
         videoCount: '',
         messageCount: '',
         emailCount: '',
-        callCount: '',
+        audioCount: '',
         endDate: '',
         stateId:'',
         userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: '', price:''};
@@ -166,7 +166,7 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
             videoCount: '',
             messageCount: '',
             emailCount: '',
-            callCount: '',
+            audioCount: '',
             endDate: '',
             stateId:'',
             userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: '', price:''};

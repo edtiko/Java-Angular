@@ -61,7 +61,7 @@
                     <div layout="row">
                         <div flex="33">
                             <md-input-container class="md-block">
-                                <input type="number" class="form-control input-sm" style=" display: inline" ng-model="trainingPlan.callCount" placeholder="Cantidad de Llamadas">
+                                <input type="number" class="form-control input-sm" style=" display: inline" ng-model="trainingPlan.audioCount" placeholder="Cantidad de Llamadas">
                             </md-input-container>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
                     <th md-column md-order-by="videoCount" class="md-column">Cant. de Videos</th>
                     <th md-column md-order-by="messageCount" class="md-column">Cant. Mensajes</th>
                     <th md-column md-order-by="emailCount" class="md-column">Cant. Correos</th>
-                    <th md-column md-order-by="callCount" class="md-column">Cant. Llamadas</th>
+                    <th md-column md-order-by="audioCount" class="md-column">Cant. Audios</th>
                     <th md-column md-order-by="endDate" class="md-column">Fecha Final</th>
                     <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
                     <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
@@ -124,7 +124,7 @@
                     <td md-cell>{{trainingPlan.videoCount}}</td>
                     <td md-cell>{{trainingPlan.messageCount}}</td>
                     <td md-cell>{{trainingPlan.emailCount}}</td>
-                    <td md-cell>{{trainingPlan.callCount}}</td>
+                    <td md-cell>{{trainingPlan.audioCount}}</td>
                     <td md-cell>{{trainingPlan.endDate}}</td>
                     <td md-cell>{{trainingPlan.userCreateName}}</td>
                     <td md-cell>{{trainingPlan.creationDate}}</td>

@@ -23,6 +23,7 @@ public class PlanVideoDTO {
     private Date    createDate;
     private Integer sesionId;
     private Integer coachAssignedPlanId;
+    private Integer coachExtAthleteId;
     private String readableTime;
     private Double hours;
     
@@ -142,6 +143,15 @@ public class PlanVideoDTO {
         this.fromUser = fromUser;
     }
 
+    public Integer getCoachExtAthleteId() {
+        return coachExtAthleteId;
+    }
+
+    public void setCoachExtAthleteId(Integer coachExtAthleteId) {
+        this.coachExtAthleteId = coachExtAthleteId;
+    }
+    
+
     public String getReadableTime() {
         return readableTime;
     }
@@ -157,5 +167,6 @@ public class PlanVideoDTO {
     public void setHours(Double hours) {
         this.hours = hours;
     }
+
       
 }

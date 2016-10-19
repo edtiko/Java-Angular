@@ -29,6 +29,8 @@ require.config({
         angularFilter: 'lib/angular-filter',
         accordion: 'lib/ang-accordion',
         trainingApp: "custom-training-app",
+        angularAudioRecorder: "lib/angular-audio-recorder",
+        wavesurfer: "lib/wavesurfer.min",
         userService: "datosPersonales/service/userService",
         userProfileService: "datosPersonales/service/userProfileService",
         disciplineService: "configuration/service/disciplineService",
@@ -68,6 +70,8 @@ require.config({
         mailService: "mail/service/mailService",
         supervStarCoachService: "mail/service/supervStarCoachService",
         userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService",
+        externalCoachService: "externalCoach/service/externalCoachService",
+        audioMessageService: "audioMessage/service/audioMessageService",
         adapter: "lib/adapter",
         scriptService:"script/service/scriptService",
         informeService:"informe/service/informeService"
@@ -127,6 +131,10 @@ require.config({
         csrfInterceptor: {
             deps: ['angular']
         },
+        angularAudioRecorder: {
+            exports: 'angularAudioRecorder',
+            deps: ['angular']
+        },
         userService: {
             deps: ['angular', 'trainingApp']
         },
@@ -178,8 +186,8 @@ require.config({
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
-                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder',
-                'angularPickList', 'adapter'
+                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder','wavesurfer','adapter'
+
             ]
         },
         surveyService: {
@@ -239,6 +247,12 @@ require.config({
         userActivityPerformanceService: {
             deps: ['angular','trainingApp']
         },
+        externalCoachService: {
+            deps: ['angular','trainingApp']
+        },
+        audioMessageService: {
+            deps: ['angular','trainingApp']
+        },
         scriptService : {
             deps: ['angular', 'trainingApp']
         },
@@ -255,7 +269,9 @@ require.config({
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService'
                 ,'videoService','dcfService', 'characteristicService','brandService',
-		'mailService','supervStarCoachService','userActivityPerformanceService', 'scriptService', 'informeService'
+
+		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService',
+                'audioMessageService', 'scriptService', 'informeService'
 
             ] }
     }

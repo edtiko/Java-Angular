@@ -1,9 +1,10 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
-    'VisibleFieldsUserService', 'ModuleService',
+    'VisibleFieldsUserService', 'ModuleService', 'ExternalCoachService',
     '$window', '$mdDialog', '$mdToast', '$location', function ($http, $scope,
-            AuthService, VisibleFieldsUserService, ModuleService, $window, $mdDialog, $mdToast, $location) {
+            AuthService, VisibleFieldsUserService, ModuleService, ExternalCoachService, $window, $mdDialog, $mdToast, $location) {
 
+        var self = this;
         $scope.successTextAlert = "";
         $scope.fields = [];
         $scope.visibleFields = [];
@@ -16,6 +17,26 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.userSessionTypeUserCoachInterno = "4";//CoachInterno
         $scope.userSessionTypeUserCoachEstrella = "5";//CoachEstrella
         $scope.userSessionTypeUserSupervisor = "6";//Supervisor
+        $scope.invitation = null;
+
+
+        self.viewInvitations = function (userId) {
+            ExternalCoachService.getInvitation(userId).then(
+                    function (response) {
+                        if (response != null && response != "") {
+                            $scope.invitation = angular.copy(response);
+                        }else{
+                            $scope.invitation = null;
+                        }
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+
+            );
+
+        };
+
         $scope.switchBool = function (id) {
             var e = angular.element('#' + id);
             e.hide();
@@ -90,6 +111,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             $http.get($contextPath + '/user/getUserSession')
                     .then(function (res) {
                         var id = res.data.entity.output;
+                        $scope.userId = id.userId;
                         ModuleService.getModuleByUserId(id.userId).then(
                                 function (d) {
                                     if (d.status == 'success') {
@@ -102,6 +124,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                                     console.error('Error while merging the profile');
                                     console.error(errResponse);
                                 });
+
+
+                        self.viewInvitations($scope.userId);
                     }, function (errResponse) {
                         console.error('Error while getting ' + errResponse);
                     }
@@ -155,7 +180,57 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.logout = function () {
             window.location = 'http://181.143.227.220:8081/cpt/mi-cuenta/customer-logout/';
         };
-        
+
+        $scope.viewInvitationDialog = function () {
+            $mdDialog.show({
+                controller: InvitationController,
+                scope: $scope.$new(),
+                templateUrl: 'static/views/externalCoach/invitation.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen
+            });
+        };
+
+        function InvitationController($scope, $mdDialog) {
+
+            $scope.acceptInvitation = function () {
+
+                ExternalCoachService.acceptInvitation($scope.invitation.id).then(
+                        function (data) {
+                            $scope.hide();
+                            self.viewInvitations($scope.userId);
+                        },
+                        function (error) {
+
+                        }
+                );
+            };
+
+            $scope.rejectInvitation = function () {
+
+                ExternalCoachService.rejectInvitation($scope.invitation.id).then(
+                        function (data) {
+                            $scope.hide();
+                            self.viewInvitations($scope.userId);
+                        },
+                        function (error) {
+
+                        }
+                );
+            };
+
+            $scope.hide = function () {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+
+        }
+
+       
         var mediaSource = new MediaSource();
         mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
         var mediaRecorder;

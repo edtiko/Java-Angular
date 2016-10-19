@@ -1,6 +1,6 @@
-trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', function ($scope, videoService, $sce) {
+trainingApp.controller("VideoController", ['$scope', 'videoService', function ($scope, videoService) {
 
-        $scope.planSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
+        $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
         if ($scope.appReady && $scope.planSelected != null) {
             $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoach || $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
@@ -14,14 +14,14 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
             }
             videoService.initialize($scope.planSelected.id);
         }
-        var date = new Date();
+        /*var date = new Date();
         var month = date.getMonth() + 1;
         var day = date.getDate();
         var year = date.getFullYear();
         var hh = date.getHours();
         var mm = date.getMinutes();
         var ss = date.getSeconds();
-        $scope.dateString = "" + day + month + year + hh + mm + ss;
+        $scope.dateString = "" + day + month + year + hh + mm + ss;*/
         $scope.selectedIndex = 0;
 
         var configuration = {
@@ -35,7 +35,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
             },
             recfuncConf: {
                 showbuton: 2000,
-                url: $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" +$scope.planSelected.id+ "/" +$scope.dateString,
+                //url: $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" +$scope.planSelected.id+ "/" +$scope.dateString,
                 chunksize: 1048576,
                 recordingtime: 17,
                 requestparam: "filename",
@@ -69,12 +69,13 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
 
         setTimeout(function () {
             configuration.init();
+             $scope.setUrl();
         }, $scope.camconfiguration.recfuncConf.showbuton);
 
 
-        $scope.receivedVideos = function () {
+        $scope.receivedVideos = function (tipoPlan) {
 
-            videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "to").then(
+            videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan).then(
                     function (data) {
                         $scope.receivedvideos = data.entity.output;
                     },
@@ -85,6 +86,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
         };
         
         $scope.setUrl = function(){
+        var tipoPlan = "IN";
         var date = new Date();
         var month = date.getMonth() + 1;
         var day = date.getDate();
@@ -93,13 +95,16 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
         var mm = date.getMinutes();
         var ss = date.getSeconds();
         $scope.dateString = "" + day + month + year + hh + mm + ss;
-        var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" +$scope.planSelected.id+ "/" +$scope.dateString;
+        if($scope.planSelected != null && $scope.planSelected.external){
+            tipoPlan = "EXT";
+        }
+        var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" +$scope.planSelected.id+ "/" +$scope.dateString+"/"+tipoPlan;
         $scope.camconfiguration.recfuncConf.url = url;
         };
 
-        $scope.sendedVideos = function () {
+        $scope.sendedVideos = function (tipoPlan) {
 
-            videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from").then(
+            videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan).then(
                     function (data) {
                         $scope.sendedvideos = data.entity.output;
                     },
@@ -153,6 +158,11 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', '$sce', fun
 
         });
 
-        $scope.receivedVideos();
-        $scope.sendedVideos();
+        if ($scope.planSelected.external) {
+            $scope.receivedVideos("EXT");
+            $scope.sendedVideos("EXT");
+        } else {
+            $scope.receivedVideos("IN");
+            $scope.sendedVideos("IN");
+        }
     }]);

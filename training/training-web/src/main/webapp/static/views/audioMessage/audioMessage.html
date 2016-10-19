@@ -1,0 +1,128 @@
+<md-content class="md-padding" id="audioContent">
+    <div layout="row" layout-align="center">
+
+        <div flex="40" class="border" layout-align="center center">
+            <md-tabs md-dynamic-height md-selected="selectedIndex">
+                <md-tab label="Grabar Audio">
+                    <md-content class="md-padding">
+                            <ng-audio-recorder id='audioInput' audio-model='recordedInput' show-player="false" time-limit="timeLimit">
+                                <!-- Start controls, exposed via recorder-->
+                                <div ng-if="recorder.isAvailable">
+                                    <div layout="column" layout-align="center center">
+                                        <div flex>
+                                            <img id="record" data-ng-src="static/img/mic128.png"   ng-class="recorder.status.isRecording ? 'recording' : ''">
+                                    
+                                        </div>
+                                        <div flex>
+                                    <md-button aria-label="play"  class="md-fab md-mini md-primary" ng-click="recorder.startRecord()" ng-disabled="recorder.status.isRecording">
+                                        <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Empezar Grabaci&oacute;n</md-tooltip>
+                                        <i class="fa fa-microphone fa-lg" aria-hidden="true"></i>
+                                    </md-button>
+                                    <md-button aria-label="stop" class="md-fab md-mini md-primary" ng-click="recorder.stopRecord()" ng-disabled="recorder.status.isRecording === false">
+                                        <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Detener</md-tooltip>
+                                        <i class="fa fa-stop fa-lg" aria-hidden="true"></i>
+                                    </md-button>
+                                    <md-button aria-label="playBack" class="md-fab md-mini md-primary" ng-click="recorder.playbackRecording()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                                        <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Reproducir</md-tooltip>
+                                        <i class="fa fa fa-play fa-lg" aria-hidden="true"></i>
+                                    </md-button>
+                                       <md-button aria-label="upload"  class="md-fab md-mini md-primary" onclick="onUpload()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Cargar Audio</md-tooltip>
+                                <i class="fa fa-upload fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                                        </div>
+                                            
+                                    </div>
+                                </div>
+
+                                <div ng-if="!recorder.isAvailable">
+                                    Message for users when recording is not possible.
+                                </div>
+                                <!-- End controls-->
+                            </ng-audio-recorder>
+                         
+                    </md-content>
+                </md-tab>
+                <md-tab label="Reproducir Audio">
+                    <md-content class="md-padding">
+                        <div layout="column" layout-align="center center">
+                                        <div flex>
+                                            <i class="fa fa-volume-up fa-5x" aria-hidden="true"></i>
+                                    
+                                        </div>
+                        <div id="recorded" flex>
+                            
+                        </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+
+        </div>
+        <div flex="40" >
+
+            <md-toolbar class="md-hue-2">
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Audios Enviados</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-content class="border" style="height: 250px">
+                <section>
+                    <md-list ng-repeat="vr  in sendedaudios| orderBy:'creationDate':false">
+                        <md-list-item ng-click="null" class="md-3-line">
+                            <img data-ng-src="{{vr.fromUser.profilePhotoBase64}}"  alt="{{vr.fromUser.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                            <div class="md-list-item-text">
+                                <p>{{vr.fromUser.fullName}}</p>
+                            </div>
+                            <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playAudio(vr.name, vr.id, 'from')">
+                                <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                                <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                        </md-list-item>
+                        <md-divider></md-divider>
+                    </md-list>
+                </section>
+
+            </md-content>
+            <md-toolbar class="md-hue-2">
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Audios Recibidos</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-content class="border" style="height: 250px">
+                <section>
+                    <md-list ng-repeat="vr  in receivedaudios| orderBy:'creationDate':false">
+                        <md-list-item ng-click="null" class="md-3-line">
+                            <img data-ng-src="{{vr.fromUser.profilePhotoBase64}}"  alt="{{vr.fromUser.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                            <div class="md-list-item-text">
+                                <p>{{vr.fromUser.fullName}}</p>
+                            </div>
+                            <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playAudio(vr.name, vr.id, 'to')">
+                                <md-tooltip md-direction="right" md-visible="tooltipVisible">Reproducir Audio</md-tooltip>
+                                <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                        </md-list-item>
+                        <md-divider></md-divider>
+                    </md-list>
+                </section>
+
+            </md-content>
+        </div>
+
+    </div>
+</md-content>
+<script>
+            
+        function onUpload(){
+        var scope =  angular.element($("#audioContent")).scope();
+          scope.$apply(function(){
+        scope.uploadRecord();
+    });    
+}
+</script>

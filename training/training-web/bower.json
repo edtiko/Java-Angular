@@ -18,8 +18,6 @@
     "font-awesome": "4.0.0",
     "angular-ui-bootstrap": "2.0.0",
     "sockjs": "0.3.4",
-    "stomp-websocket": "2.3.4",
-    "opentok-layout-js": "^0.3.0",
-    "vjs-video": "^0.1.6"
+    "stomp-websocket": "2.3.4"
   }
 }
