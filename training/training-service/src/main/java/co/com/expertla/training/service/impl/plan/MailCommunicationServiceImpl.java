@@ -8,10 +8,13 @@ import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
+import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import co.com.expertla.training.service.plan.MailCommunicationService;
+import co.com.expertla.training.service.plan.PlanMessageService;
+import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.service.plan.SupervStarCoachService;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +40,10 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     private SupervStarCoachDao supervStarCoachDao;
     @Autowired
     private SupervStarCoachService supervStarCoachService;
-    
+    @Autowired
+    private PlanMessageService planMessageService;
+    @Autowired
+    private PlanVideoService planVideoService;
 
     @Override
     public MailCommunication create(MailCommunication mailCommunication) throws Exception {
@@ -175,5 +181,103 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         } else {
             return "yellow";
         }
+    }
+    
+    @Override
+    public List<ChartReportDTO> getPerformance(Integer userId,Integer roleId) throws Exception {
+        List<ChartReportDTO> planMessageList = planMessageService.getResponseCountMessages(userId,roleId);
+        List<ChartReportDTO> videoList = planVideoService.getResponseCountVideo(userId,roleId);
+        List<ChartReportDTO> charList = getResponseCountMails(userId, roleId);
+        ChartReportDTO chartReportDTO = null;
+        Integer redCount = 0;
+        Integer yellowCount = 0;
+        Integer greenCount = 0;
+        String colour = "";
+        for (ChartReportDTO msg : planMessageList) {
+            if(msg.getStyle().equals("red")) {
+                redCount = redCount + msg.getValue();
+            } else if (msg.getStyle().equals("yellow")) {
+                yellowCount = yellowCount + msg.getValue();
+            } else {
+                greenCount = greenCount + msg.getValue();
+            }
+        }
+        
+        for (ChartReportDTO msg : videoList) {
+            if(msg.getStyle().equals("red")) {
+                redCount = redCount + msg.getValue();
+            } else if (msg.getStyle().equals("yellow")) {
+                yellowCount = yellowCount + msg.getValue();
+            } else {
+                greenCount = greenCount + msg.getValue();
+            }
+        }
+        
+        
+        
+        for (ChartReportDTO msg : charList) {
+            if(msg.getStyle().equals("red")) {
+                redCount = redCount + msg.getValue();
+            } else if (msg.getStyle().equals("yellow")) {
+                yellowCount = yellowCount + msg.getValue();
+            } else {
+                greenCount = greenCount + msg.getValue();
+            }
+        }
+        
+        charList = new ArrayList<>();
+
+        chartReportDTO = new ChartReportDTO();
+        chartReportDTO.setName("Rojo");
+        chartReportDTO.setValue(redCount);
+        chartReportDTO.setStyle("red");
+        charList.add(chartReportDTO);
+
+        chartReportDTO = new ChartReportDTO();
+        chartReportDTO.setName("Amarillo");
+        chartReportDTO.setValue(yellowCount);
+        chartReportDTO.setStyle("yellow");
+        charList.add(chartReportDTO);
+
+        chartReportDTO = new ChartReportDTO();
+        chartReportDTO.setName("Verde");
+        chartReportDTO.setValue(greenCount);
+        chartReportDTO.setStyle("green");
+        charList.add(chartReportDTO);
+        return charList;
+    }
+    
+    @Override
+    public PlanMessageDTO getResponseTime(Integer userId, Integer roleId)throws  Exception {
+        List<PlanMessageDTO> planMessageList = planMessageService.getResponseTimeMessages(userId,roleId);
+        List<PlanVideoDTO> videoList = planVideoService.getResponseTimeVideos(userId,roleId);
+        List<PlanMessageDTO> mailList = getResponseTimeMails(userId, roleId);
+        Double i = 0d;
+        Double sum = 0d;
+        for (PlanMessageDTO msg : planMessageList) {
+            i++;
+            sum = sum + msg.getHours();
+        }
+        i--;
+        sum = sum - planMessageList.get(planMessageList.size() -1 ).getHours();
+        for (PlanVideoDTO msg : videoList) {
+            i++;
+            sum = sum + msg.getHours();
+        }
+        i--;
+        sum = sum - videoList.get(videoList.size() -1 ).getHours();
+     
+        
+        for (PlanMessageDTO msg : mailList) {
+            i++;
+            sum = sum + msg.getHours();
+        }
+        i--;
+        sum = sum - mailList.get(mailList.size() -1 ).getHours();
+
+        PlanMessageDTO plan = new PlanMessageDTO();
+        plan.setHours(sum/i);
+        return plan;
+        
     }
 }

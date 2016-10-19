@@ -313,8 +313,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.mediaRecorder = '';
 
         $scope.initVideo = function (recordedVideo, gumVideo) {
-            console.debug('ok');
-            
             if(gumVideo != undefined && gumVideo != '') {
                 $scope.gumVideo = document.querySelector('video#'+gumVideo);
             }
@@ -372,23 +370,26 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
 
         $scope.playVideo = function (path) {
             $scope.recordedVideo.controls = true;
-//            var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
             $scope.recordedVideo.src = $contextPath + "video/files/" + path;
+            console.debug($scope.recordedVideo)
         };
 
-        $scope.savePlanVideo = function () {
+        $scope.savePlanVideo = function (url, fnResponse) {
+            $scope.gumVideo.controls = false;
+            if($scope.mediaRecorder.state != 'inactive') {
+                $scope.mediaRecorder.stop();
+            }
+            
             var blob = new Blob(recordedBlobs, {type: 'video/webm'});
             var fd = new FormData();
             fd.append("fileToUpload", blob);
 
-            $http.post($contextPath + 'video/upload/s/1/1', fd, {
+            $http.post(url, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })
                     .then(
-                            function (response) {
-                                $scope.showMessage(response.data.output);
-                            },
+                            fnResponse,
                             function (errResponse) {
                                 console.error('Error while getting ' + errResponse);
                             }

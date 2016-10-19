@@ -1,8 +1,13 @@
 package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.plan.ScriptVideoDao;
+import co.com.expertla.training.model.dto.ChartReportDTO;
+import co.com.expertla.training.model.dto.PlanMessageDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.ScriptVideo;
+import co.com.expertla.training.service.plan.MailCommunicationService;
 import co.com.expertla.training.service.plan.ScriptVideoService;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +25,8 @@ public class ScriptVideoServiceImpl implements ScriptVideoService {
 
     @Autowired
     private ScriptVideoDao scriptVideoDao;
+    @Autowired
+    private MailCommunicationService mailCommunicationService;
 
     @Override
     public ScriptVideo create(ScriptVideo scriptVideo) throws Exception {
@@ -52,8 +59,80 @@ public class ScriptVideoServiceImpl implements ScriptVideoService {
     }
     
     @Override
-    public List<ScriptVideo> getScriptVideoByUserId(Integer userId) throws Exception {
-        return scriptVideoDao.getScriptVideoByUserId(userId);
+    public List<ScriptVideo> getScriptVideoToStarId(Integer userId) throws Exception {
+        return scriptVideoDao.getScriptVideoToStarId(userId);
+    }
+    
+    @Override
+    public List<ScriptVideo> getScriptVideoByStarId(Integer userId) throws Exception {
+        return scriptVideoDao.getScriptVideoByStarId(userId);
+    }
+    
+    @Override
+    public List<PlanMessageDTO> getResponseTimeScripts(Integer userId, Integer roleId) throws Exception {
+        List<UserDTO> users = new ArrayList<>();
+        if(roleId == 5) {
+           users = mailCommunicationService.getAllRecipientsByStarId(userId);
+        } else {
+           users = mailCommunicationService.getAllRecipientsByCoachId(userId);           
+        }   
+        return scriptVideoDao.getResponseTimeScripts(userId, users);
+    }
+    
+    @Override
+    public List<ChartReportDTO> getResponseCountScripts(Integer userId,Integer roleId) throws Exception {
+        List<UserDTO> users = new ArrayList<>();
+        if(roleId == 5) {
+           users = mailCommunicationService.getAllRecipientsByStarId(userId);
+        } else {
+           users = mailCommunicationService.getAllRecipientsByCoachId(userId);           
+        }
+        List<PlanMessageDTO> planMessageList = scriptVideoDao.getResponseCountScripts(userId,users);
+        List<ChartReportDTO> charList = new ArrayList<>();
+        ChartReportDTO chartReportDTO = null;
+        Integer redCount = 0;
+        Integer yellowCount = 0;
+        Integer greenCount = 0;
+        String colour = "";
+        for (PlanMessageDTO msg : planMessageList) {
+            colour = getColour(msg);
+            if(colour.equals("red")) {
+                redCount++;
+            } else if (colour.equals("yellow")) {
+                yellowCount++;
+            } else {
+                greenCount++;
+            }
+        }
+        
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("Rojo");
+            chartReportDTO.setValue(redCount);
+            chartReportDTO.setStyle("red");
+            charList.add(chartReportDTO);
+            
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("Amarillo");
+            chartReportDTO.setValue(yellowCount);
+            chartReportDTO.setStyle("yellow");
+            charList.add(chartReportDTO);
+            
+            chartReportDTO = new ChartReportDTO();
+            chartReportDTO.setName("Verde");
+            chartReportDTO.setValue(greenCount);
+            chartReportDTO.setStyle("green");
+            charList.add(chartReportDTO);
+        return charList;
+    }
+    
+    private String getColour(PlanMessageDTO msg) {
+        if(msg.getHours() <= 8) {
+            return "green";
+        } else if (msg.getHours() > 16) {
+            return "red";
+        } else {
+            return "yellow";
+        }
     }
 
 }

@@ -238,12 +238,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception {
             StringBuilder builder = new StringBuilder();
             builder.append("SELECT p FROM PlanVideo p ");
-            builder.append("WHERE p.fromUserId.userId = :userId ");
-            builder.append("AND EXISTS(  ");
-            builder.append("SELECT a FROM StarTeam a  ");
-            builder.append("WHERE a.coachUserId.userId = p.fromUserId.userId  ");
-            builder.append("AND a.starUserId.userId = p.toUserId.userId  ");
-            builder.append(")  ");
+            builder.append("WHERE p.toUserId.userId = :userId ");
             setParameter("userId", userId);
             return createQuery(builder.toString());
     }

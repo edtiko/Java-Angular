@@ -6,15 +6,18 @@ import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.CoachExtAthlete;
 import co.com.expertla.training.model.entities.PlanVideo;
+import co.com.expertla.training.model.entities.ScriptVideo;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.StorageService;
 import co.com.expertla.training.service.plan.PlanVideoService;
+import co.com.expertla.training.service.plan.ScriptVideoService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
@@ -50,6 +53,9 @@ public class PlanVideoController {
 
     @Autowired
     private PlanVideoService planVideoService;
+    
+    @Autowired
+    private ScriptVideoService scriptVideoService;
 
     @Autowired
     public PlanVideoController(StorageService storageService) {
@@ -75,7 +81,9 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/upload/{toUserId}/{fromUserId}/{coachAssignedPlanId}/{dateString}/{tipoPlan}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, @PathVariable Integer coachAssignedPlanId, @PathVariable String dateString, @PathVariable String tipoPlan) {
+    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename, @PathVariable Integer toUserId,
+            @PathVariable Integer fromUserId, @PathVariable Integer coachAssignedPlanId, 
+            @PathVariable String dateString, @PathVariable String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         int availableVideos = 0;
@@ -139,10 +147,68 @@ public class PlanVideoController {
         }
     }
     
-    @RequestMapping(value = "/upload/{filename}/{toUserId}/{fromUserId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadScript/{toUserId}/{fromUserId}/{coachAssignedPlanId}/{dateString}/{tipoPlan}/{guion}", method = RequestMethod.POST)
+    public @ResponseBody
+    Response uploadScriptVideo(@RequestParam("fileToUpload") MultipartFile file, 
+            @PathVariable Integer toUserId, @PathVariable Integer fromUserId, 
+            @PathVariable Integer coachAssignedPlanId, @PathVariable String dateString,
+            @PathVariable String tipoPlan, @PathVariable String guion) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        if (!file.isEmpty()) {
+            try {
+                String fileName = dateString + "_" + fromUserId + "_" + toUserId;
+                File directory = new File(ROOT);
+                File archivo = new File(ROOT + fileName);
+                if (!directory.exists()) {
+                    if (directory.mkdir()) {
+                        Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                        //storageService.store(file);
+                    }
+                } else if (!archivo.exists()) {
+                    Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                    //storageService.store(file);
+                }
+
+                PlanVideoDTO dto = planVideoService.getByVideoPath(fileName);
+                if (dto == null) {
+                    PlanVideo video = new PlanVideo();
+                    video.setFromUserId(new User(fromUserId));
+                    video.setName(fileName);
+                    video.setToUserId(new User(toUserId));
+                    video.setCreationDate(Calendar.getInstance().getTime());
+                    video.setVideoPath(fileName);
+                    video.setCoachAssignedPlanId(new CoachAssignedPlan(coachAssignedPlanId));
+                    dto = planVideoService.create(video);
+                    ScriptVideo script = new ScriptVideo();
+                    script.setGuion(guion);
+                    script.setCreationDate(new Date());
+                    script.setPlanVideoId(new PlanVideo(dto.getId()));
+                    scriptVideoService.create(script);
+                }
+                //strResponse.append("video cargado correctamente.");
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                responseService.setOutput(dto);
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                responseService.setDetail(e.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            }
+        } else {
+            strResponse.append("Video cargado esta vacio.");
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
+    
+    @RequestMapping(value = "/uploadVideo/{toUserId}/{fromUserId}", method = RequestMethod.POST)
     public @ResponseBody
     Response uploadPlanVideoToUserFromUser(@RequestParam("fileToUpload") MultipartFile file, 
-            @PathVariable String filename, 
             @PathVariable Integer toUserId, 
             @PathVariable Integer fromUserId) {
         ResponseService responseService = new ResponseService();
@@ -151,10 +217,6 @@ public class PlanVideoController {
             try {
                 
                 String fileName = DateUtil.getCurrentDate("ddMMyyyyHHmm") + "_" + fromUserId + "_" + toUserId;
-                
-                if(filename != null && !filename.isEmpty()) {
-                    fileName = fileName + "_" + filename;
-                }
                 File directory = new File(ROOT);
                 File archivo = new File(ROOT + fileName);
                 if (!directory.exists()) {
@@ -216,11 +278,11 @@ public class PlanVideoController {
 
     }
 
-    @RequestMapping(value = "/files/{videoPath}/{filename:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/files/{videoPath}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String videoPath, @PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String videoPath) {
 
-        Resource file = storageService.loadAsResource(videoPath + "/" + filename);
+        Resource file = storageService.loadAsResource(videoPath);
         return ResponseEntity
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")

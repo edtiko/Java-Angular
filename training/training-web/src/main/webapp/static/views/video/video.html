@@ -1,44 +1,67 @@
 
-<link rel="stylesheet" type="text/css" href="static/js/lib/vaRecorder/css/virecorder.css">
+<!--<link rel="stylesheet" type="text/css" href="static/js/lib/vaRecorder/css/virecorder.css">-->
 <md-content class="md-padding">
-<div layout="row" layout-align="center">
-    
-    <div flex="40">
-        <md-tabs md-dynamic-height md-selected="selectedIndex">
-            <md-tab label="Grabar Video">
-                <md-content class="md-padding">
-                    <ngcamcecorder configuration="camconfiguration"></ngcamcecorder>
-                </md-content>
-            </md-tab>
-            <md-tab label="Ver Video">
-                <md-content class="md-padding">
-                    <div id="recorded"></div>
-                </md-content>
-            </md-tab>
-        </md-tabs>
-        
-        <!--<md-button ng-show="!videoready" class="md-primary" ng-click = "camconfiguration.init()" >Empezar Grabaci&oacute;n</md-button>-->
-       <!-- <img ng-src="{{camconfiguration.output.recordingthumb}}" />-->
-    </div>
-    <div flex="40" >
+    <div layout="row" layout-align="center">
 
-         <md-toolbar class="md-hue-2">
-      <div class="md-toolbar-tools">
-        <h2>
-          <span>Videos Enviados</span>
-        </h2>
-      </div>
-    </md-toolbar>
-         <md-content class="border" style="height: 250px">
+        <div flex="40">
+            <!--<md-tabs md-dynamic-height md-selected="selectedIndex">-->
+
+                <!--<md-tab label="Grabar Video">-->
+                    <div layout="row" ng-show="isToStar"> 
+                        <md-input-container class="md-block" >
+                            <label>Gui&oacute;n</label>
+                            <textarea md-maxlength="500" ng-model="guion" md-select-on-focus></textarea>
+                        </md-input-container>
+                    </div>
+
+                <md-content class="md-padding"  >
+                        <video id="gumVideo" ng-show="isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" autoplay></video>
+                        <video id="recordedVideo" ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" autoplay loop  controls ></video>
+                        <div>
+                            <md-button ng-click="inicioGrabarVideo()" class="fa fa-video-camera fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" aria-label="play" style="">
+                                <div class="md-ripple-container"></div>
+                            </md-button>
+                            <md-button class="fa fa-stop fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                                       type="button" ng-transclude="" aria-label="play" 
+                                       ng-click="stopRecordingVideo()" style="">
+                                <div class="md-ripple-container"></div></md-button>
+                                <md-button class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
+                                       aria-label="play" ng-click="verVideo()" style="">
+                                <div class="md-ripple-container"></div></md-button>
+
+                            <md-button class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                                       type="button" ng-transclude="" aria-label="play" 
+                                       ng-click="enviarVideo()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
+                                <div class="md-ripple-container"></div></md-button>
+                        </div>
+                    </md-content>
+<!--                </md-tab>
+                <md-tab label="Ver Video">-->
+                <!--</md-tab>-->
+            <!--</md-tabs>-->
+
+            <!--<md-button ng-show="!videoready" class="md-primary" ng-click = "camconfiguration.init()" >Empezar Grabaci&oacute;n</md-button>-->
+            <!-- <img ng-src="{{camconfiguration.output.recordingthumb}}" />-->
+        </div>
+        <div flex="40" >
+
+            <md-toolbar class="md-hue-2">
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Videos Enviados</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-content class="border" style="height: 250px">
                 <section>
                     <md-list ng-repeat="vr  in sendedvideos| orderBy:'creationDate':false">
                         <md-list-item ng-click="null" class="md-3-line">
                             <img data-ng-src="{{vr.fromUser.profilePhotoBase64}}"  alt="{{vr.fromUser.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
-                              <div class="md-list-item-text">
+                            <div class="md-list-item-text">
                                 <p>{{vr.fromUser.fullName}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name, vr.id, 'from')">
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="verVideo(vr.name, vr.id, 'from')">
                                 <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
@@ -48,19 +71,19 @@
                 </section>
 
             </md-content>
-          <md-toolbar class="md-hue-2">
-      <div class="md-toolbar-tools">
-        <h2>
-          <span>Videos Recibidos</span>
-        </h2>
-      </div>
-    </md-toolbar>
-         <md-content class="border" style="height: 250px">
+            <md-toolbar class="md-hue-2">
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Videos Recibidos</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-content class="border" style="height: 250px">
                 <section>
                     <md-list ng-repeat="vr  in receivedvideos| orderBy:'creationDate':false">
                         <md-list-item ng-click="null" class="md-3-line">
                             <img data-ng-src="{{vr.fromUser.profilePhotoBase64}}"  alt="{{vr.fromUser.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
-                              <div class="md-list-item-text">
+                            <div class="md-list-item-text">
                                 <p>{{vr.fromUser.fullName}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
@@ -69,15 +92,15 @@
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
                         </md-list-item>
-                         <md-divider></md-divider>
+                        <md-divider></md-divider>
                     </md-list>
                 </section>
 
             </md-content>
-    </div>
+        </div>
 
-</div>
+    </div>
 </md-content>
 <script>
-
+    angular.element(document.getElementById('trainingApp')).scope().initVideo('recordedVideo', 'gumVideo');
 </script>
