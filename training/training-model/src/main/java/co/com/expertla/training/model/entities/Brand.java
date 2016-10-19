@@ -39,7 +39,7 @@ public class Brand implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "brandId")
+    @OneToMany(mappedBy = "brandId", orphanRemoval=true)
     private Collection<SportEquipment> sportEquipmentCollection;
     @Column(name = "state_id")
     private Short stateId;

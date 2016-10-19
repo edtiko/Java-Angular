@@ -113,3 +113,8 @@ function compileAngularElement(element) {
             $scope.$apply();
         }]);
 }
+
+trainingApp.config(function($mdAriaProvider) {
+  // Globally disables all ARIA warnings.
+  $mdAriaProvider.disableWarnings();
+});

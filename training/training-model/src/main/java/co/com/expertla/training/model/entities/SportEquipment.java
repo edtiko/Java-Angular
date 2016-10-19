@@ -48,7 +48,7 @@ public class SportEquipment implements Serializable {
     @JoinColumn(name = "sport_equipment_type_id", referencedColumnName = "sport_equipment_type_id")
     @ManyToOne
     private SportEquipmentType sportEquipmentTypeId;
-    @OneToMany(mappedBy = "sportEquipmentId")
+    @OneToMany(mappedBy = "sportEquipmentId", orphanRemoval=true)
     private Collection<EquipmentUserProfile> equipmentUserProfileCollection;
     @JoinColumn(name = "bike_type_id", referencedColumnName = "bike_type_id")
     @ManyToOne
