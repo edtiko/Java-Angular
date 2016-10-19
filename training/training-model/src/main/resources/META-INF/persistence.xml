@@ -120,6 +120,7 @@
     <class>co.com.expertla.training.model.entities.ScriptVideo</class>
     <class>co.com.expertla.training.model.entities.CoachExtAthlete</class>
     <class>co.com.expertla.training.model.entities.PlanAudio</class>
+    <class>co.com.expertla.training.model.entities.Model</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->
