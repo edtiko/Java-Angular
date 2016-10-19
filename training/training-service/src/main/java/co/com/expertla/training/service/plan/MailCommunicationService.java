@@ -173,4 +173,16 @@ public interface MailCommunicationService {
      * @throws Exception 
      */
     public List<ChartReportDTO> getPerformance(Integer userId,Integer roleId) throws Exception;
+    
+    /**
+     * Consulta los tiempos de respuesta de los mails , video , msjs<br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param roleId
+     * @return 
+     * @throws Exception 
+     */
+    public PlanMessageDTO getResponseTime(Integer userId, Integer roleId)throws  Exception;
 }

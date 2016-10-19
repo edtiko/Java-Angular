@@ -345,4 +345,23 @@ public class MailController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
     }
+    
+     @RequestMapping(value = "get/timeResponse/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getGeneralResponseTime(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            PlanMessageDTO plan = mailCommunicationService.getResponseTime(userId,roleId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(plan);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
 }

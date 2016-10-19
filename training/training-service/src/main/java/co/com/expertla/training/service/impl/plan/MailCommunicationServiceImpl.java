@@ -8,6 +8,7 @@ import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
+import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.entities.SupervStarCoach;
@@ -244,5 +245,39 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         chartReportDTO.setStyle("green");
         charList.add(chartReportDTO);
         return charList;
+    }
+    
+    @Override
+    public PlanMessageDTO getResponseTime(Integer userId, Integer roleId)throws  Exception {
+        List<PlanMessageDTO> planMessageList = planMessageService.getResponseTimeMessages(userId,roleId);
+        List<PlanVideoDTO> videoList = planVideoService.getResponseTimeVideos(userId,roleId);
+        List<PlanMessageDTO> mailList = getResponseTimeMails(userId, roleId);
+        Double i = 0d;
+        Double sum = 0d;
+        for (PlanMessageDTO msg : planMessageList) {
+            i++;
+            sum = sum + msg.getHours();
+        }
+        i--;
+        sum = sum - planMessageList.get(planMessageList.size() -1 ).getHours();
+        for (PlanVideoDTO msg : videoList) {
+            i++;
+            sum = sum + msg.getHours();
+        }
+        i--;
+        sum = sum - videoList.get(videoList.size() -1 ).getHours();
+     
+        
+        for (PlanMessageDTO msg : mailList) {
+            i++;
+            sum = sum + msg.getHours();
+        }
+        i--;
+        sum = sum - mailList.get(mailList.size() -1 ).getHours();
+
+        PlanMessageDTO plan = new PlanMessageDTO();
+        plan.setHours(sum/i);
+        return plan;
+        
     }
 }

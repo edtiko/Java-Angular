@@ -5,6 +5,7 @@ trainingApp.controller('InformeController', ['$scope', 'InformeService', '$windo
         $scope.chatList = [];
         $scope.mailList = [];
         $scope.scriptList = [];
+        $scope.responseTime = {};
         $scope.option = 0;
 
         $scope.getVideoReport = function () {
@@ -220,16 +221,16 @@ trainingApp.controller('InformeController', ['$scope', 'InformeService', '$windo
                             }
                     );
             
-//            InformeService.getVideoReportTimeResponse(user.userId,user.typeUser)
-//                    .then(
-//                            function (response) {
-//                                console.debug(response)
-//                                $scope.videoList = response.output;
-//                            },
-//                            function (errResponse) {
-//                                console.error('Error while fetching response time');
-//                            }
-//                    );
+            InformeService.getResponseTime(user.userId,user.typeUser)
+                    .then(
+                            function (response) {
+                                console.debug(response)
+                                $scope.responseTime = response.output;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching response time');
+                            }
+                    );
         };
         
         $scope.getScriptReport = function () {

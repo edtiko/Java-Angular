@@ -34,6 +34,26 @@
         <div flex id="chart_rendimiento_div">
 
         </div>
+        <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <span>Tiempo de Respuesta Promedio</span>
+                </div>
+            </md-toolbar>
+            <md-table-container>
+                <table md-table>
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column class="md-column">Tiempo de Respuesta</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row>
+                            <td md-cell>{{responseTime.hours}} horas</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        
     </div>
         <div ng-if="option == 1">
             <md-toolbar class="md-table-toolbar md-default">
