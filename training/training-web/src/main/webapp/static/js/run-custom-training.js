@@ -3,8 +3,8 @@
 // Defines the javascript files that need to be loaded and their dependencies.
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//var $contextPath = "https://181.143.227.220:8543/training/";
-var $contextPath = window.location.origin+"/training/";
+var $contextPath = "https://181.143.227.220:8543/training/";
+//var $contextPath = window.location.origin+"/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
