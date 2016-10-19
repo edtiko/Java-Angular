@@ -59,8 +59,13 @@ public class ScriptVideoServiceImpl implements ScriptVideoService {
     }
     
     @Override
-    public List<ScriptVideo> getScriptVideoByUserId(Integer userId) throws Exception {
-        return scriptVideoDao.getScriptVideoByUserId(userId);
+    public List<ScriptVideo> getScriptVideoToStarId(Integer userId) throws Exception {
+        return scriptVideoDao.getScriptVideoToStarId(userId);
+    }
+    
+    @Override
+    public List<ScriptVideo> getScriptVideoByStarId(Integer userId) throws Exception {
+        return scriptVideoDao.getScriptVideoByStarId(userId);
     }
     
     @Override

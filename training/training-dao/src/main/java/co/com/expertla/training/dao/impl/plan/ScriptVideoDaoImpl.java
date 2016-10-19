@@ -59,15 +59,20 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
     }
     
     @Override
-    public List<ScriptVideo> getScriptVideoByUserId(Integer userId) throws Exception {
+    public List<ScriptVideo> getScriptVideoToStarId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select p from ScriptVideo p ");
+        builder.append("WHERE p.planVideoId.toUserId.userId = :userId ");
+        setParameter("userId", userId);
+
+        return createQuery(builder.toString());
+    }
+    
+    @Override
+    public List<ScriptVideo> getScriptVideoByStarId(Integer userId) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select p from ScriptVideo p ");
         builder.append("WHERE p.planVideoId.fromUserId.userId = :userId ");
-        builder.append("AND EXISTS(  ");
-        builder.append("SELECT a FROM StarTeam a  ");
-        builder.append("WHERE a.coachUserId.userId = p.planVideoId.fromUserId.userId  ");
-        builder.append("AND a.starUserId.userId = p.planVideoId.toUserId.userId  ");
-        builder.append(")  ");
         setParameter("userId", userId);
 
         return createQuery(builder.toString());

@@ -843,8 +843,6 @@ create table plan_audio (
    constraint pk_plan_audio primary key (plan_audio_id)
 );
 
-7436677 ext 310 cristian pelaez
-
 create table coach_ext_athlete(
 coach_ext_athlete_id  serial not null,
 training_plan_user_id integer not null, --id plan coach externo
