@@ -5,6 +5,8 @@
  */
 package co.com.expertla.training.web.controller.plan;
 
+import co.com.expertla.training.model.dto.ChartReportDTO;
+import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import co.com.expertla.training.model.entities.ScriptVideo;
 import co.com.expertla.training.model.util.ResponseService;
@@ -59,6 +61,44 @@ public class ScriptVideoController {
         StringBuilder strResponse = new StringBuilder();
         try {
             List<ScriptVideo> planVideoList = scriptVideoService.getScriptVideoByStarId(userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "get/response/count/script/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getResponseCountScript(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<ChartReportDTO> planVideoList = scriptVideoService.getResponseCountScripts(userId,roleId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "get/timeResponse/{userId}/{roleId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getTimeResponse(@PathVariable("userId") Integer userId,@PathVariable("roleId") Integer roleId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<PlanMessageDTO> planVideoList = scriptVideoService.getResponseTimeScripts(userId,roleId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(planVideoList);
             return Response.status(Response.Status.OK).entity(responseService).build();

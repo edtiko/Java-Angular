@@ -161,4 +161,16 @@ public interface MailCommunicationService {
      * @throws Exception 
      */
     public List<ChartReportDTO> getResponseCountMails(Integer userId,Integer roleId) throws Exception;
+    
+    /**
+     * Consulta el rendimiento de los mail, msj y video<br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @param roleId
+     * @return 
+     * @throws Exception 
+     */
+    public List<ChartReportDTO> getPerformance(Integer userId,Integer roleId) throws Exception;
 }

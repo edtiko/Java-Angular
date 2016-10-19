@@ -12,6 +12,8 @@ import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.entities.SupervStarCoach;
 import co.com.expertla.training.service.plan.MailCommunicationService;
+import co.com.expertla.training.service.plan.PlanMessageService;
+import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.service.plan.SupervStarCoachService;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,10 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     private SupervStarCoachDao supervStarCoachDao;
     @Autowired
     private SupervStarCoachService supervStarCoachService;
-    
+    @Autowired
+    private PlanMessageService planMessageService;
+    @Autowired
+    private PlanVideoService planVideoService;
 
     @Override
     public MailCommunication create(MailCommunication mailCommunication) throws Exception {
@@ -175,5 +180,69 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         } else {
             return "yellow";
         }
+    }
+    
+    @Override
+    public List<ChartReportDTO> getPerformance(Integer userId,Integer roleId) throws Exception {
+        List<ChartReportDTO> planMessageList = planMessageService.getResponseCountMessages(userId,roleId);
+        List<ChartReportDTO> videoList = planVideoService.getResponseCountVideo(userId,roleId);
+        List<ChartReportDTO> charList = getResponseCountMails(userId, roleId);
+        ChartReportDTO chartReportDTO = null;
+        Integer redCount = 0;
+        Integer yellowCount = 0;
+        Integer greenCount = 0;
+        String colour = "";
+        for (ChartReportDTO msg : planMessageList) {
+            if(msg.getStyle().equals("red")) {
+                redCount = redCount + msg.getValue();
+            } else if (msg.getStyle().equals("yellow")) {
+                yellowCount = yellowCount + msg.getValue();
+            } else {
+                greenCount = greenCount + msg.getValue();
+            }
+        }
+        
+        for (ChartReportDTO msg : videoList) {
+            if(msg.getStyle().equals("red")) {
+                redCount = redCount + msg.getValue();
+            } else if (msg.getStyle().equals("yellow")) {
+                yellowCount = yellowCount + msg.getValue();
+            } else {
+                greenCount = greenCount + msg.getValue();
+            }
+        }
+        
+        
+        
+        for (ChartReportDTO msg : charList) {
+            if(msg.getStyle().equals("red")) {
+                redCount = redCount + msg.getValue();
+            } else if (msg.getStyle().equals("yellow")) {
+                yellowCount = yellowCount + msg.getValue();
+            } else {
+                greenCount = greenCount + msg.getValue();
+            }
+        }
+        
+        charList = new ArrayList<>();
+
+        chartReportDTO = new ChartReportDTO();
+        chartReportDTO.setName("Rojo");
+        chartReportDTO.setValue(redCount);
+        chartReportDTO.setStyle("red");
+        charList.add(chartReportDTO);
+
+        chartReportDTO = new ChartReportDTO();
+        chartReportDTO.setName("Amarillo");
+        chartReportDTO.setValue(yellowCount);
+        chartReportDTO.setStyle("yellow");
+        charList.add(chartReportDTO);
+
+        chartReportDTO = new ChartReportDTO();
+        chartReportDTO.setName("Verde");
+        chartReportDTO.setValue(greenCount);
+        chartReportDTO.setStyle("green");
+        charList.add(chartReportDTO);
+        return charList;
     }
 }
