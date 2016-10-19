@@ -29,6 +29,12 @@
 
         <!--<div flex-gt-sm="50" flex="">-->
         <br>
+        
+    <div class="row" ng-if="option == 5">
+        <div flex id="chart_rendimiento_div">
+
+        </div>
+    </div>
         <div ng-if="option == 1">
             <md-toolbar class="md-table-toolbar md-default">
                 <div class="md-toolbar-tools">
@@ -110,10 +116,37 @@
         </table>
     </md-table-container>
             </div>
+        <div ng-if="option == 4">
+            <md-toolbar class="md-table-toolbar md-default">
+                <div class="md-toolbar-tools">
+                    <span>Videos</span>
+                </div>
+            </md-toolbar>
+            <md-table-container>
+                <table md-table>
+            <thead md-head>
+                <tr md-row>
+                    <th md-column class="md-column">Remitente</th>
+                    <th md-column class="md-column">Destinatario</th>
+                    <th md-column class="md-column">Fecha de Creaci&oacute;n</th>
+                    <th md-column class="md-column">Tiempo de Respuesta</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row ng-repeat="u in scriptList">
+                    <td md-cell>{{u.messageUserId.fullName}}</td>
+                    <td md-cell>{{u.receivingUserId.fullName}}</td>
+                    <td md-cell>{{u.creationDate}}</td>
+                    <td md-cell>{{u.readableTime}}</td>
+            </tr>
+            </tbody>
+        </table>
+            </md-table-container>
+        </div>
 
 
     </div>
-    <div class="row">
+    <div class="row" ng-if="option != 5">
         <div flex id="chart_rendimiento_div">
 
         </div>

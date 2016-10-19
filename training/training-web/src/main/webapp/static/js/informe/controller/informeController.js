@@ -299,7 +299,7 @@ trainingApp.controller('InformeController', ['$scope', 'InformeService', '$windo
         };
 
         $scope.showEmail = function() {
-            $scope.option = 3;
+            $scope.option = 4;
             $scope.getMailReport();
         };
         
@@ -309,7 +309,7 @@ trainingApp.controller('InformeController', ['$scope', 'InformeService', '$windo
         };
         
         $scope.showScript = function() {
-            $scope.option = 4;
+            $scope.option = 3;
             $scope.getScriptReport();
         };
         
