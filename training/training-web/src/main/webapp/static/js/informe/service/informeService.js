@@ -84,6 +84,20 @@ trainingApp.service('InformeService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getPerformance: function (userId,roleId) {
+
+                return $http.get($contextPath + 'get/performance/'+userId+'/'+roleId)
+                        .then(
+                                function (response) {
+                                    return response.data.entity;
+                                },
+                                function (errResponse) {
+                                    console.error(userProfile);
+                                    console.error('Error while getting');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
 
             
