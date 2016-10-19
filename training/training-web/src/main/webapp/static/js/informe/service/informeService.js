@@ -98,7 +98,35 @@ trainingApp.service('InformeService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
-            }
+            },
+            getScriptReportRendimiento: function (userId,roleId) {
+
+                return $http.get($contextPath + '/script/get/response/count/script/'+userId+'/'+roleId)
+                        .then(
+                                function (response) {
+                                    return response.data.entity;
+                                },
+                                function (errResponse) {
+                                    console.error(userProfile);
+                                    console.error('Error while getting');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getScriptReportTimeResponse: function (userId,roleId) {
+
+                return $http.get($contextPath + '/script/get/timeResponse/'+userId+'/'+roleId)
+                        .then(
+                                function (response) {
+                                    return response.data.entity;
+                                },
+                                function (errResponse) {
+                                    console.error(userProfile);
+                                    console.error('Error while getting');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
 
             
         };

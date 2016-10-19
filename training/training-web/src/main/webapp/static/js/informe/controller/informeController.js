@@ -4,6 +4,7 @@ trainingApp.controller('InformeController', ['$scope', 'InformeService', '$windo
         $scope.videoList = [];
         $scope.chatList = [];
         $scope.mailList = [];
+        $scope.scriptList = [];
         $scope.option = 0;
 
         $scope.getVideoReport = function () {
@@ -231,6 +232,62 @@ trainingApp.controller('InformeController', ['$scope', 'InformeService', '$windo
 //                    );
         };
         
+        $scope.getScriptReport = function () {
+            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+
+            InformeService.getScriptReportRendimiento(user.userId,user.typeUser)
+                    .then(
+                            function (response) {
+                                console.debug(response)
+                                $scope.charList = response.output;
+
+                                google.charts.setOnLoadCallback(drawChart);
+                                function drawChart() {
+
+                                    var title = 'Rendimiento';
+                                    
+                                    
+                                    var rows = new Array();
+                                    rows[0] = [];
+                                    rows[0] = ['Element', 'Valor', { role: 'style' }];
+                                    for (var i = 0; i < $scope.charList.length; i++) {
+                                        rows[i+1] = [];
+                                        rows[i+1] = [$scope.charList[i].name, 
+                                        Number($scope.charList[i].value), $scope.charList[i].style];
+                                    }
+                                    
+                                  console.debug(rows)
+                                    var data = google.visualization.arrayToDataTable(rows);
+                                    // Set chart options
+
+                                    var options = {'title': title,
+                                        "hAxis": {showTextEvery: 1},
+                                        'width': 1100,
+                                        'pointSize': 7,
+                                        'height': 600};
+
+                                    // Instantiate and draw our chart, passing in some options.
+                                    var chart = new google.visualization.ColumnChart(document.getElementById('chart_rendimiento_div'));
+                                    chart.draw(data, options);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching activity performance');
+                            }
+                    );
+            
+            InformeService.getScriptReportTimeResponse(user.userId,user.typeUser)
+                    .then(
+                            function (response) {
+                                console.debug(response)
+                                $scope.scriptList = response.output;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching response time');
+                            }
+                    );
+        };
+        
         $scope.showVideo = function() {
             $scope.option = 1;
             $scope.getVideoReport();
@@ -249,7 +306,12 @@ trainingApp.controller('InformeController', ['$scope', 'InformeService', '$windo
         $scope.showRendimiento = function() {
             $scope.option = 5;
             $scope.getPerformanceReport();
-        }
+        };
+        
+        $scope.showScript = function() {
+            $scope.option = 4;
+            $scope.getScriptReport();
+        };
         
         $scope.parseDateToJavascriptDate = function (date) {
             var dateParts = date.split("-");
