@@ -1,25 +1,36 @@
 <div layout="row" layout-align="center" style="margin-top: 3%">
-    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno">
-        <div  ng-include src="'static/views/script/tabsCoach.html'"></div>
-    </div>
-
-    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserSupervisor">
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoachEstrella">
         <div  ng-include src="'static/views/script/tabsStar.html'"></div>
     </div>
 
     <div flex="70" layout="column"  layout-align="space-between none" class="demo-content">
         <div layout="column" style="height:800px">
-            <md-content style="overflow-x: hidden;" scroll-glue="glued">
-                <video id="gum" autoplay></video>
-                <video style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" id="recorded" autoplay loop  controls ></video>
+            <div layout="row"> 
+                <md-input-container class="md-block" >
+                    <label>Gui&oacute;n</label>
+                    <textarea md-maxlength="500" ng-model="planVideo.guion" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
+            <div layout="row"> 
+                <md-content style="overflow-x: hidden;width: 100%;height: 100%;" scroll-glue="glued">
+                    <video ng-show="isRecord" id="gum" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" autoplay></video>
+                    <video ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" id="recorded" autoplay loop  controls ></video>
 
-                <div>
-                    <md-button class="md-raised md-primary" id="record" ng-click="startRecordingVideo()">Start Recording</md-button>
-                    <md-button class="md-raised md-primary" id="record" ng-click="stopRecordingVideo()">Stop Recording</md-button>
-                    <md-button class="md-raised md-primary" id="play" ng-click="playVideo()">Play</md-button>
-                    <md-button class="md-raised md-primary" id="download" ng-click="savePlanVideo()">Download</md-button>
-                </div>
-            </md-content>
+                    <div>
+                        <md-button ng-click="inicioGrabarVideo()" class="fa fa-video-camera fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" aria-label="play" style="">
+                            <div class="md-ripple-container"></div>
+                        </md-button>
+                        <md-button class="fa fa-stop fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                                type="button" ng-transclude="" aria-label="play" 
+                                ng-click="stopRecordingVideo()" style="">
+                            <div class="md-ripple-container"></div></md-button>
+                        <md-button class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                                type="button" ng-transclude="" aria-label="play" 
+                                ng-click="enviarVideoToCoach()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
+                            <div class="md-ripple-container"></div></md-button>
+                    </div>
+                </md-content>
+            </div>
         </div>
         <br />  
     </div>
@@ -27,5 +38,5 @@
 </div>
 
 <script>
-angular.element(document.getElementById('trainingApp')).scope().initVideo('recorded', 'gum');
+    angular.element(document.getElementById('trainingApp')).scope().initVideo('recorded', 'gum');
 </script>

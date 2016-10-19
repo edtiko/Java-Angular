@@ -2,10 +2,10 @@ trainingApp.service('ScriptService', ['$http', '$q', function ($http, $q) {
         return {
             getPlanVideoStarByCoach: function (userId) {
 
-                return $http.post($contextPath + '/video/planVideo/get/planVideoStarByCoach/', userId)
+                return $http.get($contextPath + '/script/get/getScriptVideoStarByCoach/' + userId)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data.entity.output;
                                 },
                                 function (errResponse) {
                                     console.error(userProfile);
@@ -17,10 +17,10 @@ trainingApp.service('ScriptService', ['$http', '$q', function ($http, $q) {
             
             getScriptVideoStarByCoach: function (userId) {
 
-                return $http.post($contextPath + '/script/get/getScriptVideoStarByCoach/', userId)
+                return $http.get($contextPath + '/script/get/getScriptVideoStarByStar/' + userId)
                         .then(
                                 function (response) {
-                                    return response.data.output;
+                                    return response.data.entity.output;
                                 },
                                 function (errResponse) {
                                     console.error(userProfile);

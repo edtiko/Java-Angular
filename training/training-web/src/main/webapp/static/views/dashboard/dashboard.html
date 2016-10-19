@@ -401,7 +401,7 @@
                 </div>
 
                 <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach ||userSession.typeUser == userSessionTypeUserCoachInterno||userSession.typeUser == userSessionTypeUserAtleta">{{availableAudio}} disponibles de {{planSelected.trainingPlanId.audioCount!=null?planSelected.trainingPlanId.audioCount:0}}</md-subheader>
-                <div flex  ng-if="userSession.typeUser == userSessionTypeUserCoachInterno ||userSession.typeUser == userSessionTypeUserCoachEstrella">
+                <div flex  ng-if="userSession.typeUser == userSessionTypeUserCoachEstrella">
                     <md-button  aria-label="Script" class="md-fab md-raised  md-primary " ng-click="goScript()">
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Script</md-tooltip>
                         <i class="fa fa-film fa-lg"></i>

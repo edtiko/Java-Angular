@@ -369,9 +369,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         
 
         $scope.goVideos = function () {
+            
+            var coachAssignedPlanSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            if ($scope.userSession != null && planSelected == null) {
-                $scope.showMessage("Debe seleccionar un atleta");
+            if ($scope.userSession != null && planSelected == null && coachAssignedPlanSelected == null) {
+                $scope.showMessage("Debe seleccionar un atleta o una estrella");
             }/*else if($scope.availableVideo == 0){
              $scope.showMessage("No tiene videos disponibles.");
              } */

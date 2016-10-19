@@ -39,7 +39,26 @@ public class ScriptVideoController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<ScriptVideo> planVideoList = scriptVideoService.getScriptVideoByUserId(userId);
+            List<ScriptVideo> planVideoList = scriptVideoService.getScriptVideoToStarId(userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(planVideoList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "get/getScriptVideoStarByStar/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getScriptVideoByStarId(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<ScriptVideo> planVideoList = scriptVideoService.getScriptVideoByStarId(userId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(planVideoList);
             return Response.status(Response.Status.OK).entity(responseService).build();

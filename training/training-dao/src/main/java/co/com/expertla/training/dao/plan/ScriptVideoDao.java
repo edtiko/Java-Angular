@@ -56,6 +56,17 @@ public interface ScriptVideoDao extends BaseDAO<ScriptVideo> {
      * @return
      * @throws Exception 
      */
-    public List<ScriptVideo> getScriptVideoByUserId(Integer userId) throws Exception; 
+    public List<ScriptVideo> getScriptVideoToStarId(Integer userId) throws Exception; 
+    
+    /**
+     * Obtiene todos los registros de scriptVideo por usuario que lo envio <br>
+     * Info. Creación: <br>
+     * fecha 11/10/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return
+     * @throws Exception 
+     */
+    public List<ScriptVideo> getScriptVideoByStarId(Integer userId) throws Exception; 
 
 }
