@@ -85,6 +85,10 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception {
         return planVideoDao.getPlanVideoStarByCoach(userId);
     }
+    
+    public List<PlanVideo> getPlanVideoStarByStar(Integer userId) throws Exception {
+        return planVideoDao.getPlanVideoStarByStar(userId);
+    }
 
     @Override
     public List<ChartReportDTO> getResponseCountVideo(Integer userId,Integer roleId) throws Exception {

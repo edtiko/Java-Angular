@@ -26,7 +26,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVideoDao {
-    
+
     @Autowired
     private UserDao userDao;
 
@@ -52,14 +52,22 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         } else {
             sql.append("Where m.toUserId.userId = :userId ");
         }
-        if (tipoPlan.equals("IN")) {
-            sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
+
+        if (planId != -1) {
+            if (tipoPlan.equals("IN")) {
+                sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
+            } else {
+                sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
+            }
         } else {
-            sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
+            sql.append("And m.coachAssignedPlanId = null ");
         }
+
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
-        query.setParameter("planId", planId);
+        if (planId != -1) {
+            query.setParameter("planId", planId);
+        }        
         return query.getResultList();
     }
 
@@ -178,15 +186,15 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         builder.append(" where  plan_video_id = ").append(planVideoId);
         executeNativeUpdate(builder.toString());
     }
-    
+
     @Override
     public List<PlanVideoDTO> getResponseTimeVideos(Integer userId, List<UserDTO> users) throws Exception {
-        
-        HashMap<Integer,UserDTO> mapUsers = new HashMap<>();
+
+        HashMap<Integer, UserDTO> mapUsers = new HashMap<>();
         for (UserDTO user : users) {
-            mapUsers.put(user.getUserId(),user);
+            mapUsers.put(user.getUserId(), user);
         }
-        
+
         UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(userId));
         mapUsers.put(userId, user);
         StringBuilder builder = new StringBuilder();
@@ -205,49 +213,58 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
             obj.setToUser(mapUsers.get((Integer) result[5]));
             obj.setCreateDate((Date) result[6]);
             Double seconds = (Double) result[10];
-            obj.setReadableTime(getTime(seconds,obj.getCreateDate()));
+            obj.setReadableTime(getTime(seconds, obj.getCreateDate()));
             messageList.add(obj);
         }
         return messageList;
     }
-    
-    private String getTime(Double seconds, Date creationDate ){
+
+    private String getTime(Double seconds, Date creationDate) {
         Double time;
-        if(seconds == null) {
+        if (seconds == null) {
             Date now = new Date();
             Long diff = now.getTime() - creationDate.getTime();
-            diff = diff /1000;
+            diff = diff / 1000;
             time = diff.doubleValue();
         } else {
             time = seconds;
         }
-         if(time > 60) {
-             int mins = time.intValue() / 60;
-             if(mins > 60) {
-                 mins = mins /60;
-                 return mins + " hrs";
-             } else {
-                 return mins + " mins";
-             }
-         } else {
-             return seconds + " segs";
-         }
+        if (time > 60) {
+            int mins = time.intValue() / 60;
+            if (mins > 60) {
+                mins = mins / 60;
+                return mins + " hrs";
+            } else {
+                return mins + " mins";
+            }
+        } else {
+            return seconds + " segs";
+        }
     }
 
     @Override
     public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception {
-            StringBuilder builder = new StringBuilder();
-            builder.append("SELECT p FROM PlanVideo p ");
-            builder.append("WHERE p.toUserId.userId = :userId ");
-            setParameter("userId", userId);
-            return createQuery(builder.toString());
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT p FROM PlanVideo p ");
+        builder.append("WHERE p.toUserId.userId = :userId ");
+        setParameter("userId", userId);
+        return createQuery(builder.toString());
     }
 
     @Override
-    public List<PlanVideoDTO> getResponseCountVideo(Integer userId,List<UserDTO> users) throws Exception {
-        HashMap<Integer,UserDTO> mapUsers = new HashMap<>();
+    public List<PlanVideo> getPlanVideoStarByStar(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT p FROM PlanVideo p ");
+        builder.append("WHERE p.fromUserId.userId = :userId ");
+        setParameter("userId", userId);
+        return createQuery(builder.toString());
+    }
+
+    @Override
+    public List<PlanVideoDTO> getResponseCountVideo(Integer userId, List<UserDTO> users) throws Exception {
+        HashMap<Integer, UserDTO> mapUsers = new HashMap<>();
         for (UserDTO user : users) {
-            mapUsers.put(user.getUserId(),user);
+            mapUsers.put(user.getUserId(), user);
         }
         UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(userId));
         mapUsers.put(userId, user);
@@ -266,18 +283,18 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
             obj.setFromUser(mapUsers.get((Integer) result[5]));
             obj.setToUser(mapUsers.get((Integer) result[5]));
             obj.setCreateDate((Date) result[6]);
-            obj.setHours( result[10] == null ? getHours(obj.getCreateDate()) : (Double) result[10]);
+            obj.setHours(result[10] == null ? getHours(obj.getCreateDate()) : (Double) result[10]);
             messageList.add(obj);
         }
         return messageList;
     }
-    
-    private Double getHours(Date creationDate ){
-          Date now = new Date();
-            Long diff = now.getTime() - creationDate.getTime();
-            diff = diff /1000;
-            diff = diff / 3600;
-            return diff.doubleValue();
+
+    private Double getHours(Date creationDate) {
+        Date now = new Date();
+        Long diff = now.getTime() - creationDate.getTime();
+        diff = diff / 1000;
+        diff = diff / 3600;
+        return diff.doubleValue();
     }
 
 }

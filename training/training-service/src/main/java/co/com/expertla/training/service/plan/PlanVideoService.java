@@ -41,6 +41,8 @@ public interface PlanVideoService {
     
     public List<PlanVideo> getPlanVideoStarByCoach(Integer userId) throws Exception;
     
+    public List<PlanVideo> getPlanVideoStarByStar(Integer userId) throws Exception;
+    
     /**
      * Consulta la cantidad de videos repondidos por el usuario <br>
      * Info. Creación: <br>

@@ -6,38 +6,38 @@
         <div flex="40">
             <!--<md-tabs md-dynamic-height md-selected="selectedIndex">-->
 
-                <!--<md-tab label="Grabar Video">-->
-                    <div layout="row" ng-show="isToStar"> 
-                        <md-input-container class="md-block" >
-                            <label>Gui&oacute;n</label>
-                            <textarea md-maxlength="500" ng-model="guion" md-select-on-focus></textarea>
-                        </md-input-container>
-                    </div>
+            <!--<md-tab label="Grabar Video">-->
+            <div layout="row" ng-show="isToStar"> 
+                <md-input-container class="md-block" >
+                    <label>Gui&oacute;n</label>
+                    <textarea md-maxlength="500" ng-model="guion" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
 
-                <md-content class="md-padding"  >
-                        <video id="gumVideo" ng-show="isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" autoplay></video>
-                        <video id="recordedVideo" ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" autoplay loop  controls ></video>
-                        <div>
-                            <md-button ng-click="inicioGrabarVideo()" class="fa fa-video-camera fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" aria-label="play" style="">
-                                <div class="md-ripple-container"></div>
-                            </md-button>
-                            <md-button class="fa fa-stop fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
-                                       type="button" ng-transclude="" aria-label="play" 
-                                       ng-click="stopRecordingVideo()" style="">
-                                <div class="md-ripple-container"></div></md-button>
-                                <md-button class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
-                                       aria-label="play" ng-click="verVideo()" style="">
-                                <div class="md-ripple-container"></div></md-button>
+            <md-content class="md-padding"  >
+                <video id="gumVideo" ng-show="isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" autoplay  muted></video>
+                <video id="recordedVideo" ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" autoplay loop  controls></video>
+                <div>
+                    <md-button style="{{colorGrabacion}}" ng-click="inicioGrabarVideo()" class="fa fa-video-camera fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" aria-label="play" style="">
+                        <div class="md-ripple-container"></div>
+                    </md-button>
+                    <md-button class="fa fa-stop fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                               type="button" ng-transclude="" aria-label="play" 
+                               ng-click="stopVideo()" style="">
+                        <div class="md-ripple-container"></div></md-button>
+                    <md-button class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
+                               aria-label="play" ng-click="verVideoGrabado()" style="">
+                        <div class="md-ripple-container"></div></md-button>
 
-                            <md-button class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
-                                       type="button" ng-transclude="" aria-label="play" 
-                                       ng-click="enviarVideo()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
-                                <div class="md-ripple-container"></div></md-button>
-                        </div>
-                    </md-content>
-<!--                </md-tab>
-                <md-tab label="Ver Video">-->
-                <!--</md-tab>-->
+                    <md-button class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                               type="button" ng-transclude="" aria-label="play" 
+                               ng-click="enviarVideo()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
+                        <div class="md-ripple-container"></div></md-button>
+                </div>
+            </md-content>
+            <!--                </md-tab>
+                            <md-tab label="Ver Video">-->
+            <!--</md-tab>-->
             <!--</md-tabs>-->
 
             <!--<md-button ng-show="!videoready" class="md-primary" ng-click = "camconfiguration.init()" >Empezar Grabaci&oacute;n</md-button>-->
@@ -87,7 +87,7 @@
                                 <p>{{vr.fromUser.fullName}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playVideo(vr.name, vr.id, 'to')">
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="verVideo(vr.name, vr.id, 'to')">
                                 <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>

@@ -2,8 +2,14 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
         $scope.guion = '';
         $scope.isToStar = false;
         $scope.isRecord = true;
+        $scope.colorGrabacion = '';
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
-        $scope.coachAssignedPlanSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
+        
+        if($scope.planSelected != null && $scope.planSelected.starUserId != null)  {
+            $scope.coachAssignedPlanSelected = $scope.planSelected;
+            $scope.planSelected = null;
+        }
+        
         if ($scope.appReady && $scope.planSelected != null) {
             $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoach || $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
@@ -22,60 +28,11 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
         }
         $scope.selectedIndex = 0;
 
-//        var configuration = {
-//            init: $scope.initiateRecord,
-//            recConf: {
-//                recorvideodsize: 0.4,
-//                webpquality: 0.7,
-//                framerate: 15,
-//                videoWidth: 600,
-//                videoHeight: 475
-//            },
-//            recfuncConf: {
-//                showbuton: 2000,
-//                //url: $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" +$scope.planSelected.id+ "/" +$scope.dateString,
-//                chunksize: 1048576,
-//                recordingtime: 17,
-//                requestparam: "filename",
-//                videoname: "video.webm",
-//                audioname: "audio.wav"
-//            },
-//            output: {
-//                recordingthumb: null,
-//                recordinguploaded: function (data) {
-//                    var response = JSON.parse(data);
-//                    if (response.entity.status == 'success') {
-//                        $scope.showMessage("Video cargado correctamente.");
-//                        var video = response.entity.output;
-//                        if (video != "") {
-//                            video.sesionId = $scope.planSelected.id;
-//                            videoService.send(video);
-//                        }
-//                    } else {
-//                        $scope.showMessage(response.entity.output, "error");
-//                    }
-//                    $scope.sendedVideos();
-//                    $scope.setUrl();
-//                    configuration.init();
-//                }
-//            },
-//            recordingerror: function () {
-//                alert("browser not compatible");
-//            }
-//        };
-//        $scope.camconfiguration = configuration;
-
-//        setTimeout(function () {
-//            configuration.init();
-//            $scope.setUrl();
-//        }, $scope.camconfiguration.recfuncConf.showbuton);
-
-
         $scope.receivedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
-                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.user.userId, "to", tipoPlan).then(
+                videoService.getVideosByUser(-1, $scope.user.userId, "to", tipoPlan).then(
                         function (data) {
-                            $scope.sendedvideos = data.entity.output;
+                            $scope.receivedvideos = data.entity.output;
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -95,8 +52,20 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
         };
 
         $scope.inicioGrabarVideo = function () {
+            $scope.colorGrabacion = 'color:red';
             $scope.isRecord = true;
             $scope.startRecordingVideo();
+        };
+        
+        $scope.stopVideo = function() {
+            $scope.colorGrabacion = '';
+            $scope.stopRecordingVideo();
+        };
+        
+        $scope.verVideoGrabado = function () {
+            $scope.colorGrabacion = '';
+            $scope.isRecord = false;
+            $scope.playVideoLocal();
         };
 
         $scope.verVideo = function (path, planVideoId, fromto) {
@@ -117,6 +86,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
         };
 
         $scope.enviarVideo = function () {
+            $scope.colorGrabacion = '';
             var tipoPlan = "IN";
             var date = new Date();
             var month = date.getMonth() + 1;
@@ -163,28 +133,6 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
                     }
             );
         };
-//        $scope.setUrl = function () {
-//            var tipoPlan = "IN";
-//            var date = new Date();
-//            var month = date.getMonth() + 1;
-//            var day = date.getDate();
-//            var year = date.getFullYear();
-//            var hh = date.getHours();
-//            var mm = date.getMinutes();
-//            var ss = date.getSeconds();
-//            $scope.dateString = "" + day + month + year + hh + mm + ss;
-//            if ($scope.planSelected != null && $scope.planSelected.external) {
-//                tipoPlan = "EXT";
-//            }
-//            var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/";
-//            if ($scope.isToStar) {
-//                url = $contextPath + "video/uploadScript/" + $scope.toUserId + "/" + $scope.user.userId + "/" + $scope.coachAssignedPlanSelected.id + "/" +
-//                        $scope.dateString + "/I/" + $scope.guion;
-//            } else {
-//                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan;
-//            }
-//            $scope.camconfiguration.recfuncConf.url = url;
-//        };
 
         $scope.sendedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
@@ -208,42 +156,6 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
             }
 
         };
-
-//        $scope.playVideo = function (path, planVideoId, fromto) {
-//
-//            //$scope.showRecord = false;
-//            $scope.selectedIndex = 1;
-//            var videoPath = $contextPath + "video/files/" + path + "/video.webm";
-//            var audioPath = $contextPath + "video/files/" + path + "/audio.wav";
-//            var video = angular.element("#recorded");
-//            var htmlVideo = '<video ng-show="!showRecord" id="myvideo" controls width="600" height="475" >';
-//            htmlVideo += '<source src="' + videoPath + '" type="video/webm" />';
-//            htmlVideo += '<audio id="myaudio" controls><source src="' + audioPath + '" type="audio/wav"/></audio></video>';
-//
-//            video.html(htmlVideo);
-//            var myvideo = document.getElementById("myvideo");
-//            var myaudio = document.getElementById("myaudio");
-//
-//            myvideo.onplay = function () {
-//                myaudio.play();
-//            };
-//            myvideo.onpause = function () {
-//                myaudio.pause();
-//            };
-//
-//            //marcar video como visto
-//            if (fromto == 'to') {
-//                videoService.readVideo(planVideoId).then(
-//                        function (data) {
-//                            console.log(data.entity.output);
-//                        },
-//                        function (error) {
-//                            //$scope.showMessage(error);
-//                            console.error(error);
-//                        });
-//
-//            }
-//        };
 
         //lee los videos recibidos en tiempo real
         videoService.receive().then(null, null, function (video) {
