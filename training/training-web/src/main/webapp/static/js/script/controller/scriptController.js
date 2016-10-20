@@ -36,7 +36,7 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
             $scope.planVideo = o;
             $scope.verVideo();
         };
-        
+
         $scope.selectVideoStar = function (o) {
             $scope.planVideo = o;
             $scope.colorGrabacion = '';
@@ -49,12 +49,12 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
             $scope.isRecord = true;
             $scope.startRecordingVideo();
         };
-        
-        $scope.stopVideo = function() {
+
+        $scope.stopVideo = function () {
             $scope.colorGrabacion = '';
             $scope.stopRecordingVideo();
         };
-        
+
         $scope.verVideoGrabado = function () {
             $scope.colorGrabacion = '';
             $scope.isRecord = false;
@@ -73,12 +73,14 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
 
         $scope.enviarVideoToCoach = function () {
             if ($scope.planVideo != null && $scope.planVideo.planVideoId.fromUserId != null) {
-                var url = $contextPath + 'video/uploadVideo/'+$scope.planVideo.planVideoId.fromUserId.userId+'/'+$scope.userSession.userId;
+                var url = $contextPath + 'video/uploadVideo/' + $scope.planVideo.planVideoId.fromUserId.userId + '/' + $scope.userSession.userId;
                 $scope.savePlanVideo(url,
-                            function (response) {
-                                $scope.showMessage(response.data.entity.output);
-                                }
-                        );
+                        function (response) {
+                            $scope.getPlanVideoStarByCoach();
+                            $scope.getScriptVideoStarByCoach();
+                            $scope.showMessage(response.data.entity.output);
+                        }
+                );
             } else {
                 $scope.showMessage('Debe seleccionar un video');
             }

@@ -358,7 +358,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
 
         $scope.stopRecordingVideo = function () {
-            $scope.recordedVideo.src = '';
             if($scope.mediaRecorder.state != 'inactive') {
                 $scope.gumVideo.controls = false;
                 $scope.mediaRecorder.stop();
@@ -368,7 +367,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.playVideo = function (path) {
             $scope.recordedVideo.controls = true;
             $scope.recordedVideo.src = $contextPath + "video/files/" + path;
-            console.debug($scope.recordedVideo)
         };
         
         $scope.playVideoLocal = function () {

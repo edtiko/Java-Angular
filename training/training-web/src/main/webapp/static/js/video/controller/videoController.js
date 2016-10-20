@@ -30,7 +30,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
 
         $scope.receivedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
-                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.user.userId, "to", tipoPlan).then(
+                videoService.getVideosByUser(-1, $scope.user.userId, "to", tipoPlan).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
                         },
