@@ -10,6 +10,7 @@ import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import co.com.expertla.training.model.entities.ScriptVideo;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.service.plan.ScriptVideoService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.List;
@@ -34,6 +35,9 @@ public class ScriptVideoController {
     
     @Autowired
     private ScriptVideoService scriptVideoService;
+    
+    @Autowired
+    private PlanVideoService planVideoService;
     
     @RequestMapping(value = "get/getScriptVideoStarByCoach/{userId}", method = RequestMethod.GET)
     public @ResponseBody
@@ -60,7 +64,7 @@ public class ScriptVideoController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<ScriptVideo> planVideoList = scriptVideoService.getScriptVideoByStarId(userId);
+            List<PlanVideo> planVideoList = planVideoService.getPlanVideoStarByStar(userId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(planVideoList);
             return Response.status(Response.Status.OK).entity(responseService).build();

@@ -242,6 +242,15 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
             setParameter("userId", userId);
             return createQuery(builder.toString());
     }
+    
+    @Override
+    public List<PlanVideo> getPlanVideoStarByStar(Integer userId) throws Exception {
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT p FROM PlanVideo p ");
+            builder.append("WHERE p.fromUserId.userId = :userId ");
+            setParameter("userId", userId);
+            return createQuery(builder.toString());
+    }
 
     @Override
     public List<PlanVideoDTO> getResponseCountVideo(Integer userId,List<UserDTO> users) throws Exception {
