@@ -37,4 +37,8 @@ public interface PlanAudioService {
 
     public void readAudiosExt(Integer planId, Integer userId) throws Exception;
 
+    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId)throws Exception;
+
+    public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId)throws Exception;
+
 }

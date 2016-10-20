@@ -18,6 +18,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         ];
         $scope.isImage = false;
         $scope.previousValue = "";
+        $scope.maxDate = new Date();
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
                     .then(

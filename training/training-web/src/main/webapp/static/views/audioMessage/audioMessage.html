@@ -5,7 +5,7 @@
             <md-tabs md-dynamic-height md-selected="selectedIndex">
                 <md-tab label="Grabar Audio">
                     <md-content class="md-padding">
-                            <ng-audio-recorder id='audioInput' audio-model='recordedInput' show-player="false" time-limit="timeLimit">
+                            <ng-audio-recorder id='audioInput'  audio-model='recordedInput' ng-show="timeLimit > 0" show-player="false" time-limit="timeLimit">
                                 <!-- Start controls, exposed via recorder-->
                                 <div ng-if="recorder.isAvailable">
                                     <div layout="column" layout-align="center center">
@@ -40,6 +40,9 @@
                                 </div>
                                 <!-- End controls-->
                             </ng-audio-recorder>
+                         <div layout="row" ng-if="timeLimit == 0" layout-align="center">
+                           No tiene tiempo configurado para enviar mensajes de audio.  
+                         </div>
                          
                     </md-content>
                 </md-tab>

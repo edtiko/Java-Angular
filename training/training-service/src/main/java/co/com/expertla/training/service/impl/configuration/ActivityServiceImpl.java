@@ -129,4 +129,9 @@ public class ActivityServiceImpl implements ActivityService {
         return activityDao.findActivityReplaceByActivity(activityId);
     }
 
+    @Override
+    public boolean existManualActivity(ActivityCalendarDTO activity) throws Exception {
+       return manualActivityDao.existManualActivity(activity);
+    }
+
 }

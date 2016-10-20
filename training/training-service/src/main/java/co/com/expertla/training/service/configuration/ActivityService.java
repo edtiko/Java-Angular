@@ -133,6 +133,8 @@ public interface ActivityService {
      */
     public List<Activity> findActivityReplaceByActivity(Integer activityId) throws Exception;   
 
+    public boolean existManualActivity(ActivityCalendarDTO activity) throws Exception;  
+
 
     
 }

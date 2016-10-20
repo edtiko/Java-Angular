@@ -243,6 +243,12 @@ public class ActivityController {
         ResponseService responseService = new ResponseService();
         try {
             Integer id = null;
+            boolean exists = activityService.existManualActivity(activity);
+            if (exists) {
+                responseService.setOutput("El nombre de la actividad ya se encuentra asociada al deporte seleccionado.");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
             if (activity.getId() != null) {
                 id = activityService.updateManualActivity(activity);
             } else {

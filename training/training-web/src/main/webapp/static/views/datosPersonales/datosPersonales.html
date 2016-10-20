@@ -87,7 +87,7 @@
                 <div flex="33">
                     <md-input-container class="md-block" >
                         <label>Fecha de Nacimiento (mm/dd/yyyy)</label>
-                        <md-datepicker id="birthDate" name="birthDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
+                        <md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
 
                         </md-datepicker>
 
@@ -104,7 +104,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" ng-model="user.age" id="phone"  placeholder="Edad" readonly="true"/>
+                        <input type="text" ng-model="user.age" id="age"  placeholder="Edad" readonly="true"/>
                     </md-input-container>
                 </div> 
 
@@ -114,7 +114,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="text" ng-model="user.phone" id="phone"  placeholder="Tel&eacute;fono fijo"/>
+                        <input type="number" ng-model="user.phone" id="phone"  placeholder="Tel&eacute;fono fijo"/>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingphone, 'user_training', 'phone')"
@@ -124,7 +124,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="text" ng-model="user.cellphone" id="cellphone"  placeholder="Celular"/>
+                        <input type="number" ng-model="user.cellphone" id="cellphone"  placeholder="Celular"/>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingcellphone, 'user_training', 'cellphone')"
@@ -184,7 +184,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="text" ng-model="user.postalCode" id="postalCode"  placeholder="C&oacute;digo Postal"/>
+                        <input type="number" ng-model="user.postalCode" id="postalCode"  placeholder="C&oacute;digo Postal"/>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingpostal_code, 'user_training', 'postal_code')"

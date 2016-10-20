@@ -47,4 +47,23 @@ public class ManualActivityDaoImpl extends BaseDAOImpl<ManualActivity> implement
         return list!=null?list.get(0):null;
     }
 
+    @Override
+    public boolean existManualActivity(ActivityCalendarDTO activity) throws DAOException {
+        
+     StringBuilder sql = new StringBuilder();
+        sql.append("SELECT count(manual_activity_id)  ");
+        sql.append(" FROM manual_activity ");
+        sql.append(" WHERE name = '").append(activity.getName()).append("'");
+        sql.append(" And sport_id = ").append(activity.getSportId());
+        sql.append(" And user_id  = ").append(activity.getUserId());
+        if(activity.getId() != null){
+        sql.append(" And manual_activity_id  != ").append(activity.getId());
+        }
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.get(0).intValue() > 0;
+    }
+
 }
