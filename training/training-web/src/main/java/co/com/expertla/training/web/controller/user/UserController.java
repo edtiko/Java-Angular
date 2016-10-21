@@ -1,5 +1,6 @@
 package co.com.expertla.training.web.controller.user;
 
+import co.com.expertla.training.constant.UrlProperties;
 import co.com.expertla.training.service.configuration.CountryService;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
@@ -261,77 +262,7 @@ public class UserController {
             userSession.setDisciplineName(userDto.getDisciplineName());
 
             if (userDto.getUserWordpressId() != null) {
-                UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
-                objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
-                objUserTrainingOrder.setStatus("pending");
-                List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
-
-                for (UserTrainingOrder userTrainingOrder : userTrainingOrderList) {
-                    String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
-                    if (jsonResponse != null && !jsonResponse.isEmpty()) {
-                        JsonParser jsonParser = new JsonParser();
-                        JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
-                        String statusRes = jo.get("status").getAsString();
-
-                        if (statusRes.equals("success")) {
-
-                            if (jo.get("planId") != null && !jo.get("planId").isJsonNull()
-                                    && !jo.get("planId").getAsString().trim().isEmpty()) {
-                                Integer trainingPlanId = jo.get("planId").getAsInt();
-
-                                List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-
-                                for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
-                                    trainingPlanUser.setStateId(StateEnum.INACTIVE.getId());
-                                    trainingPlanUserService.store(trainingPlanUser);
-                                }
-
-                                TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
-                                User userId = new User();
-                                userId.setUserId(userDto.getUserId());
-                                trainingPlanUser.setUserId(userId);
-                                trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
-                                trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
-                                trainingPlanUserService.create(trainingPlanUser);
-
-                                if (jo.get("starTeamId") != null
-                                        && !jo.get("starTeamId").getAsString().trim().isEmpty()) {
-                                    userDto.setIndLoginFirstTime(1);
-                                    userService.updateUser(userDto);
-                                    Integer starTeamId = jo.get("starTeamId").getAsInt();
-                                    CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
-                                    coachAssignedPlan.setCreationDate(new Date());
-                                    coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
-                                    coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
-                                    coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
-                                    coachAssignedPlanService.create(coachAssignedPlan);
-                                    List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
-
-                                    if (starTeamList != null && !starTeamList.isEmpty()) {
-                                        StarTeam starTeam = starTeamList.get(0);
-                                        Integer starUserId = starTeam.getStarUserId().getUserId();
-                                        DisciplineUser disciplineUserStar = disciplineUserService.findByUserId(starUserId);
-                                        DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
-
-                                        if (disciplineUser != null && disciplineUserStar != null) {
-                                            if (!disciplineUser.getDisciplineUserId().equals(disciplineUserStar.getDisciplineUserId())) {
-                                                disciplineUser.setDiscipline(disciplineUserStar.getDiscipline());
-                                                disciplineUserService.store(disciplineUser);
-                                            }
-                                        }
-
-                                    }
-                                }
-
-                                userTrainingOrder.setStatus("integrated");
-                                userTrainingOrderService.store(userTrainingOrder);
-                            } else {
-                                userTrainingOrder.setStatus("error");
-                                userTrainingOrderService.store(userTrainingOrder);
-                            }
-                        }
-                    }
-                }
+                createOrderFromAuthetication(userDto);
             }
 
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
@@ -577,6 +508,144 @@ public class UserController {
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+
+    @RequestMapping(value = "user/authenticate/movil", method = RequestMethod.POST)
+    public ResponseEntity<ResponseService> autenticateUserMovil(@RequestBody UserDTO user) {
+        ResponseService responseService = new ResponseService();
+        try {
+            UserDTO userDto = userService.findUserByUsername(user.getLogin());
+            if (userDto == null) {
+                responseService.setOutput("El usuario " + user.getLogin() + " no existe");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
+            String postData = "login=" + user.getLogin().trim() + "&password=" + user.getPassword();
+            String url = UrlProperties.URL_PORTAL + "authenticate_user.php"; 
+            String jsonResponse = userService.sendPostWordpress(url, postData);
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+
+                if (statusRes.equals("fail")) {
+                    responseService.setOutput(jo.get("output"));
+                    responseService.setStatus(StatusResponse.FAIL.getName());
+                    return new ResponseEntity<>(responseService, HttpStatus.OK);
+                }
+            }
+
+            UserDTO userSession = new UserDTO();
+            userSession.setUserId(userDto.getUserId());
+            userSession.setFirstName(userDto.getFirstName());
+            userSession.setLastName(userDto.getLastName());
+            userSession.setSecondName(userDto.getSecondName());
+            userSession.setTypeUser(userDto.getTypeUser());
+            userSession.setFullName(userDto.getFullName());
+            userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
+            userSession.setDisciplineId(userDto.getDisciplineId());
+            userSession.setDisciplineName(userDto.getDisciplineName());
+
+            if (userDto.getUserWordpressId() != null) {
+                createOrderFromAuthetication(userDto);
+            }
+
+            List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+            if (trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
+                userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
+                userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
+            }
+
+            responseService.setOutput(userSession);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error interno");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * 
+     * @param userDto
+     * @throws Exception 
+     */
+    private void createOrderFromAuthetication(UserDTO userDto) throws Exception {
+        UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();
+        objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
+        objUserTrainingOrder.setStatus("pending");
+        List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
+
+        for (UserTrainingOrder userTrainingOrder : userTrainingOrderList) {
+            String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+
+                if (statusRes.equals("success")) {
+
+                    if (jo.get("planId") != null && !jo.get("planId").isJsonNull()
+                            && !jo.get("planId").getAsString().trim().isEmpty()) {
+                        Integer trainingPlanId = jo.get("planId").getAsInt();
+
+                        List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+
+                        for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
+                            trainingPlanUser.setStateId(StateEnum.INACTIVE.getId());
+                            trainingPlanUserService.store(trainingPlanUser);
+                        }
+
+                        TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+                        User userId = new User();
+                        userId.setUserId(userDto.getUserId());
+                        trainingPlanUser.setUserId(userId);
+                        trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+                        trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
+                        trainingPlanUserService.create(trainingPlanUser);
+
+                        if (jo.get("starTeamId") != null
+                                && !jo.get("starTeamId").getAsString().trim().isEmpty()) {
+                            userDto.setIndLoginFirstTime(1);
+                            userService.updateUser(userDto);
+                            Integer starTeamId = jo.get("starTeamId").getAsInt();
+                            CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
+                            coachAssignedPlan.setCreationDate(new Date());
+                            coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
+                            coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
+                            coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                            coachAssignedPlanService.create(coachAssignedPlan);
+                            List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
+
+                            if (starTeamList != null && !starTeamList.isEmpty()) {
+                                StarTeam starTeam = starTeamList.get(0);
+                                Integer starUserId = starTeam.getStarUserId().getUserId();
+                                DisciplineUser disciplineUserStar = disciplineUserService.findByUserId(starUserId);
+                                DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
+
+                                if (disciplineUser != null && disciplineUserStar != null) {
+                                    if (!disciplineUser.getDisciplineUserId().equals(disciplineUserStar.getDisciplineUserId())) {
+                                        disciplineUser.setDiscipline(disciplineUserStar.getDiscipline());
+                                        disciplineUserService.store(disciplineUser);
+                                    }
+                                }
+
+                            }
+                        }
+
+                        userTrainingOrder.setStatus("integrated");
+                        userTrainingOrderService.store(userTrainingOrder);
+                    } else {
+                        userTrainingOrder.setStatus("error");
+                        userTrainingOrderService.store(userTrainingOrder);
+                    }
+                }
+            }
         }
     }
 }

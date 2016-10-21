@@ -1,7 +1,6 @@
 trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
         return {
             getDashboard: function (userProfile) {
-
                 return $http.post($contextPath + 'dashboard/get/by/id', userProfile)
                         .then(
                                 function (response) {
@@ -28,7 +27,8 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
 
             },
              getAssignedAthletesByStar: function (starUserId) {
-                return $http.get($contextPath + 'get/athtletes/by/star/' + starUserId)
+//                return $http.get($contextPath + 'get/athtletes/by/star/' + starUserId)
+return $http.post('https://localhost:8443/training/user/authenticate/movil', {'login':'cardian','password':'expert2016'})
                         .then(
                                 function (response) {
                                     return response.data;
