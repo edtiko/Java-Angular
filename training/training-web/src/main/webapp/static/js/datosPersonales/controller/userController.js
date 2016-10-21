@@ -416,7 +416,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.calculateIMC = function () {
 //            document.getElementById('height').onkeyup = oneDigitAndDecimals();
-             $scope.userProfile.height = convertToDecimal( $scope.userProfile.height );
+            if ($scope.userProfile.height != null && $scope.userProfile.height != "") {
+                $scope.userProfile.height = convertToDecimal($scope.userProfile.height);
+            }
             if ($scope.userProfile.weight != null && $scope.userProfile.height != null
             && $scope.userProfile.weight != "" && $scope.userProfile.height != ""
                     && isNumeric($scope.userProfile.weight) && isNumeric($scope.userProfile.height)) {
@@ -495,7 +497,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                     }
                                     var msg = '';
                                     if (days < weeklyDays) {
-                                        msg = "<br> Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
+                                        msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
                                     }
                                     if (generatePlan) {
                                         if($scope.userSession.planActiveId == '0') {
@@ -526,7 +528,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Perfil Creado satisfactoriamente.");
+                                $scope.showMessage("Datos Deportivos creados exitosamente.");
                             }
                         },
                         function (errResponse) {
@@ -544,7 +546,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Perfil editado satisfactoriamente.");
+                                $scope.showMessage("Datos Deportivos creados exitosamente.");
                             }
 
                         },

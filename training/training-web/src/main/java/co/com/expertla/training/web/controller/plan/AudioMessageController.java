@@ -88,7 +88,7 @@ public class AudioMessageController {
                     emergencyAudios = planAudioService.getCountAudioByEmergencyPlanExt(planId, fromUserId);
                 }
                 if(availableAudios == 0 && emergencyAudios > 0){
-                     responseService.setOutput("Audio cargado correctamente, usando los audio mensajes de emergencia configurados.");
+                     responseService.setOutput("Audio cargado correctamente, se estan consumiendo los audio mensajes de emergencia ("+emergencyAudios+")");
                 }
                 else if (availableAudios == 0 && emergencyAudios == 0) {
                     strResponse.append("Ya consumió el limite de audios permitidos para su plan.");
