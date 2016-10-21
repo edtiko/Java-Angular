@@ -5,6 +5,7 @@ import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.User;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -106,5 +107,14 @@ public interface UserService {
      * @return dto
      */
     public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception;
+    
+    /**
+     * 
+     * @param uri
+     * @param params
+     * @return
+     * @throws IOException 
+     */
+    public String sendPostWordpress(String uri, String params) throws IOException;
    
 }

@@ -1,5 +1,6 @@
 package co.com.expertla.training.service.impl.user;
 
+import co.com.expertla.training.constant.UrlProperties;
 import co.com.expertla.training.dao.configuration.CityDao;
 import co.com.expertla.training.dao.configuration.DisciplineDao;
 import java.util.List;
@@ -99,6 +100,7 @@ public class UserServiceImpl implements UserService {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
 
             user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
+            user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId():null);
             
             List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
             if(disciplineUser != null){
@@ -303,13 +305,21 @@ public class UserServiceImpl implements UserService {
 
         userDao.merge(user);
     }
-
-    private String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException {
-        URL url = new URL("http://181.143.227.220:8081/cpt/create_user_internal.php");
+    
+    /**
+     * 
+     * @param uri
+     * @param params
+     * @return
+     * @throws IOException 
+     */
+    @Override
+    public String sendPostWordpress(String uri, String params) throws IOException {
+        URL url = new URL(uri);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setInstanceFollowRedirects(true);
-        String postData = "login=" + dto.getLogin().trim() + "&email=" + dto.getEmail();
+        String postData = params;
         con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         con.setRequestProperty("Content-length", String.valueOf(postData.length()));
         con.setDoOutput(true);
@@ -328,6 +338,17 @@ public class UserServiceImpl implements UserService {
         input.close();
 
         return resultBuf.toString();
+    }
+    
+    /**
+     * 
+     * @param dto
+     * @return
+     * @throws IOException 
+     */
+    private String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException {
+        String postData = "login=" + dto.getLogin().trim() + "&email=" + dto.getEmail();
+        return sendPostWordpress(UrlProperties.URL_PORTAL + "create_user_internal.php", postData);        
     }
 
     @Override
