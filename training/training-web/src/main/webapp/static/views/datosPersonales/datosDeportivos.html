@@ -1,7 +1,7 @@
 <div class="demo-md-panel md-padding">
     <md-content layout-padding>
         <span class="md-headline">Datos Deportivos</span>
-        <form name="formProfile" novalidate> 
+        <form name="formProfile" > 
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
@@ -546,9 +546,9 @@
                     </md-input-container>
                 </div>
             </div>
-
+  <br /><br />
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button class="md-raised" ng-click="submitUserProfile(formProfile, false, $event)">Guardar</md-button>
+                <md-button class="md-raised md-primary" ng-disabled="formProfile.$invalid" ng-click="submitUserProfile(formProfile, false, $event)">Guardar</md-button>
                 <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
             </section>
         </form>

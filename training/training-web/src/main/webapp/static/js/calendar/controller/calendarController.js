@@ -261,6 +261,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.saveActivity = function () {
             CalendarService.createManualActivity($scope.manualActivity).then(
                     function (data) {
+                        if(data.status == 'success'){
                         $scope.getManualActivities();
                         if ($scope.selectedDay != null && $scope.selectedId == "") {
                             var objActivity = {'userId': $scope.userId, 'manualActivityId': data.output, 'activityDate': $scope.selectedDay};
@@ -270,6 +271,9 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                             initCalendar();
                         }
                         $scope.cancel();
+                    }else{
+                        $scope.showMessage(data.output,"Error");
+                    }
                     },
                     function (error) {
 

@@ -69,6 +69,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
             var fd = new FormData();
             var url = self.getUrl();
             //fd.append('filename', 'test.wav');
+            if(audio != undefined && audio != null){
             fd.append('fileToUpload', audio);
             $.ajax({
                 type: 'POST',
@@ -78,20 +79,23 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                 contentType: false
             }).done(function (data) {
                 if (data.entity.status == 'success') {
-                    $scope.showMessage("Audio cargado correctamente.");
+                    $scope.showMessage(data.entity.output);
                     if ($scope.planSelected.external) {
                         self.sendedAudios("EXT");
                     } else {
                         self.sendedAudios("IN");
                     }
                 } else {
-                    $scope.showMessage("Ha ocurrido un error, comuniquese con el Administrador.");
+                    $scope.showMessage(data.entity.output);
                 }
                 console.log(data);
             }).error(function (error) {
                 $scope.showMessage("Ha ocurrido un error.");
                 console.log(error);
             });
+        }else{
+           $scope.showMessage("Ha ocurrido un error obteniendo el audio, comuniquese con el Administrador."); 
+        }
 
         };
 

@@ -87,7 +87,7 @@
                 <div flex="33">
                     <md-input-container class="md-block" >
                         <label>Fecha de Nacimiento (mm/dd/yyyy)</label>
-                        <md-datepicker id="birthDate" name="birthDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
+                        <md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
 
                         </md-datepicker>
 
@@ -104,7 +104,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" ng-model="user.age" id="phone"  placeholder="Edad" readonly="true"/>
+                        <input type="text" ng-model="user.age" id="age"  placeholder="Edad" readonly="true"/>
                     </md-input-container>
                 </div> 
 
@@ -114,7 +114,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="text" ng-model="user.phone" id="phone"  placeholder="Tel&eacute;fono fijo"/>
+                        <input type="number" ng-model="user.phone" string-to-number id="phone"  placeholder="Tel&eacute;fono fijo"/>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingphone, 'user_training', 'phone')"
@@ -124,7 +124,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="text" ng-model="user.cellphone" id="cellphone"  placeholder="Celular"/>
+                        <input type="number" ng-model="user.cellphone" string-to-number id="cellphone"  placeholder="Celular"/>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingcellphone, 'user_training', 'cellphone')"
@@ -184,7 +184,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="text" ng-model="user.postalCode" id="postalCode"  placeholder="C&oacute;digo Postal"/>
+                        <input type="number" ng-model="user.postalCode" string-to-number id="postalCode"  placeholder="C&oacute;digo Postal"/>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingpostal_code, 'user_training', 'postal_code')"
@@ -233,7 +233,7 @@
                     <md-input-container class="md-block">
                         <label  for="picture">Foto de Perfil</label>
                         <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil"/>
-                        <md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>
+                        <!--<md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>-->
 
                     </md-input-container>
 
@@ -253,9 +253,9 @@
                 <img  data-ng-src="static/img/strava.png" class="circular-icon icon-disabled" title="Strava" style="height: 60px; width: 60px;"/>
 
             </div>
-
+            <br /><br />
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button ng-click="submitUser()" ng-disabled="myFormUser.$invalid" class="md-raised md-primary">Guardar</md-button>
+                <md-button ng-click="submitUser(myFile)" ng-disabled="myFormUser.$invalid" class="md-raised md-primary">Guardar</md-button>
             </section>
 
         </form>

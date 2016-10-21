@@ -75,4 +75,14 @@ public class PlanAudioServiceImpl implements PlanAudioService {
         planAudioDao.readAudiosExt(planId, userId);
     }
 
+    @Override
+    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId) throws Exception {
+        return planAudioDao.getCountAudioEmergencyByPlan(planId, fromUserId);
+    }
+
+    @Override
+    public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId) throws Exception {
+         return planAudioDao.getCountAudioByEmergencyPlanExt(planId, fromUserId);
+    }
+
 }
