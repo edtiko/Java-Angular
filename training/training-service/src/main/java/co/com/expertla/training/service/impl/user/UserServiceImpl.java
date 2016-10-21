@@ -100,6 +100,7 @@ public class UserServiceImpl implements UserService {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
 
             user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
+            user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId():null);
             
             List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
             if(disciplineUser != null){
