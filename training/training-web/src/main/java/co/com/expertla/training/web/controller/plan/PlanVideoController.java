@@ -101,15 +101,15 @@ public class PlanVideoController {
                     return Response.status(Response.Status.OK).entity(responseService).build();
                 }
                 String fileName = dateString + "_" + fromUserId + "_" + toUserId;
-                File directory = new File(ROOT + fileName);
-                File archivo = new File(ROOT + fileName + "/" + filename);
+                File directory = new File(ROOT);
+                File archivo = new File(ROOT + fileName);
                 if (!directory.exists()) {
                     if (directory.mkdir()) {
-                        Files.copy(file.getInputStream(), Paths.get(ROOT + fileName, filename));
+                        Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
                         //storageService.store(file);
                     }
                 } else if (!archivo.exists()) {
-                    Files.copy(file.getInputStream(), Paths.get(ROOT + fileName, filename));
+                    Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
                     //storageService.store(file);
                 }
 

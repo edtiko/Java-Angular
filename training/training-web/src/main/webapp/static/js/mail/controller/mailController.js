@@ -216,7 +216,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                 $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
                 $scope.mailCommunication.receivingUser.userId = $scope.sendingUserId;
                 if ($scope.create) {
-                    if ($scope.receivingUserSelected != '') {
+                    if ($scope.receivingUserSelected != '' && parseInt($scope.receivingUserSelected) > 0) {
                         $scope.mailCommunication.receivingUser.userId = $scope.receivingUserSelected;
                     }
                 }
