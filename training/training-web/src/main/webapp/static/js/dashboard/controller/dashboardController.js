@@ -181,6 +181,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.selectStar = function (coachAssignedPlanSelected) {
             var user = coachAssignedPlanSelected.starUserId;
             $window.sessionStorage.setItem("planSelected", JSON.stringify(coachAssignedPlanSelected));
+            $window.sessionStorage.setItem("planSelectedStar", JSON.stringify(coachAssignedPlanSelected));
             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
             $scope.showControl = true;
             $scope.showChat = true;
@@ -339,7 +340,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.goMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
-                $scope.showMessage("Debe seleccionar un atleta ó tener un plan activo");
+                $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
             }
             /*else if($scope.availableMessage == 0){
              $scope.showMessage("No tiene mensajes disponibles.");
@@ -351,7 +352,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.goAudioMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
-                $scope.showMessage("Debe seleccionar un atleta ó tener un plan activo");
+                $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
             }/*else if($scope.availableMessage == 0){
              $scope.showMessage("No tiene Audio Mensajes disponibles.");
              }  */else {
@@ -374,7 +375,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             var coachAssignedPlanSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null && coachAssignedPlanSelected == null) {
-                $scope.showMessage("Debe seleccionar un atleta ó tener un plan activo");
+                $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
             }/*else if($scope.availableVideo == 0){
              $scope.showMessage("No tiene videos disponibles.");
              } */
@@ -479,6 +480,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("planSelected", null);
+            $window.sessionStorage.setItem("planSelectedStar", null);
             $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
             if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {

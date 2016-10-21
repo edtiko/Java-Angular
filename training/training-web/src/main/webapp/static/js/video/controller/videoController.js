@@ -4,8 +4,10 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
         $scope.isRecord = true;
         $scope.colorGrabacion = '';
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
+        $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
         
-        if($scope.planSelected != null && $scope.planSelected.starUserId != null)  {
+        
+        if($scope.planSelected != null && $scope.planSelectedStar != null)  {
             $scope.coachAssignedPlanSelected = $scope.planSelected;
             $scope.planSelected = null;
         }
@@ -110,7 +112,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
                     return;
                 }
             } else {
-                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan;
+                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + '?filename=1';
             }
             $scope.savePlanVideo(url,
                     function (response) {

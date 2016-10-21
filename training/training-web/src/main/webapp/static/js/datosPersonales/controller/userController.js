@@ -405,11 +405,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
             
-            if($scope.userSession.planActiveId == '0') {
-                $scope.showMessage("Para generar plan primero debe comprar ");
-                return;
-            }
-            
             if ($scope.validateFields(form)) {
                 $scope.getSessions(ev, generatePlan);
             } else {
@@ -458,7 +453,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         }
         
         function convertToDecimal(num) {
-            var sd ="";
+            var sd ="";num = num + '';
             if(num.indexOf(".") == -1) {
             sd = num.splice(1,0,",");
             return sd;
@@ -503,6 +498,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                         msg = "<br> Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
                                     }
                                     if (generatePlan) {
+                                        if($scope.userSession.planActiveId == '0') {
+                                            $scope.showMessage("Para generar plan primero debe comprar ");
+                                            return;
+                                        }
                                         $scope.confirmDialogGeneratePlan(ev, generatePlan, msg);
                                     } else {
                                         $scope.confirmDialogGuardarUserProfile(ev, generatePlan, msg);
