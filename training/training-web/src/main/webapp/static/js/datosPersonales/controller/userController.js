@@ -154,12 +154,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
         };
 
-        self.createUser = function (user) {
+        self.createUser = function (user, file) {
             user.birthDate = $scope.birthdateDt;
             UserService.createUser(user)
                     .then(
                             function (msg) {
                                 $scope.getVisibleFieldsUserByUser();
+                                if (file !== undefined && file != null) {
+                                    $scope.uploadFile(file);
+                                }
                                 $scope.showMessage("Usuario registrado correctamente.");
                             },
                             function (errResponse) {
@@ -178,7 +181,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
 
-        self.updateUser = function (user, id) {
+        self.updateUser = function (user, id, file) {
             user.birthDate = $scope.birthdateDt;
             var userUpdate = user;
             userUpdate.profilePhoto = '';
@@ -187,7 +190,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     .then(
                             function (msg) {
                                 $scope.getVisibleFieldsUserByUser();
-                                $scope.showMessage("datos actualizados correctamente.");
+                                if (file !== undefined && file != null) {
+                                    $scope.uploadFile(file);
+                                }
+                                $scope.showMessage("Datos actualizados correctamente.");
 
                             },
                             function (errResponse) {
@@ -236,11 +242,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             self.getAllQuestionnaireQuestion();
         });
 
-        $scope.submitUser = function () {
+        $scope.submitUser = function (file) {
             if ($scope.user.userId === null) {
-                self.createUser($scope.user);
+                self.createUser($scope.user,file);
             } else {
-                self.updateUser($scope.user, $scope.user.userId);
+                self.updateUser($scope.user, $scope.user.userId, file);
             }
         };
 
@@ -1003,23 +1009,23 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 valid = false;
             }
             if ($scope.userProfile.ageSport < 0) {
-                $scope.errorMessages = "La edad deportiva debe ser mayor o igual a 0 <br>";
+                $scope.errorMessages = "La edad deportiva debe ser mayor o igual a 0";
                 valid = false;
             }
             if (!$scope.validateAvailability()) {
-                $scope.errorMessages = "La disponiblidad de tiempo es obligatoria <br>";
+                $scope.errorMessages = "La disponiblidad de tiempo es obligatoria ";
                 valid = false;
             }
             if (!$scope.validatePpm()) {
-                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de potencia <br>";
+                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de potencia ";
                 valid = false;
             }
             if (!$scope.validatePower()) {
-                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de ppm <br>";
+                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de ppm ";
                 valid = false;
             }
             if (!isNumeric($scope.userProfile.height)) {
-                $scope.errorMessages = $scope.errorMessages + "La altura debe ser un numero <br>";
+                $scope.errorMessages = $scope.errorMessages + "La altura debe ser un numero ";
                 valid = false;
             }
             return valid;
