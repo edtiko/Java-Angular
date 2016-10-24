@@ -7,7 +7,9 @@ import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
+import co.com.expertla.training.model.dto.RoleEnumMovilDTO;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.dto.UserMovilDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.Country;
 import co.com.expertla.training.model.entities.Discipline;
@@ -34,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.controller.security.OptionController;
 import co.com.expertla.training.web.enums.StatusResponse;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.opentok.OpenTok;
@@ -175,60 +178,7 @@ public class UserController {
     public Response createUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
         try {
-            User user = new User();
-            user.setLogin(userDTO.getLogin());
-            user.setName(userDTO.getFirstName());
-            user.setSecondName(userDTO.getSecondName());
-            user.setPassword(userDTO.getPassword());
-            user.setEmail(userDTO.getEmail());
-            user.setIndMetricSys(userDTO.getIndMetricSys());
-            user.setPhone(userDTO.getPhone());
-            user.setLastName(userDTO.getLastName());
-            user.setSex(userDTO.getSex());
-            user.setStateId(StateEnum.ACTIVE.getId().shortValue());
-            user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
-            user.setUserWordpressId(userDTO.getUserWordpressId());
-
-            if (userDTO.getCountryId() != null) {
-                user.setCountryId(new Country(userDTO.getCountryId()));
-            }
-
-            if (userService.findUserByUsername(user.getLogin()) != null) {
-                responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
-                responseService.setStatus(StatusResponse.FAIL.getName());
-                return Response.status(Response.Status.OK).entity(responseService).build();
-            }
-
-            user.setCreationDate(new Date());
-            Integer userId = userService.saveUser(user);
-            DisciplineUser disciplineUser = new DisciplineUser();
-            disciplineUser.setUserId(new User(userId));
-            disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
-            disciplineUserService.create(disciplineUser);
-
-            if (userDTO.getTypeUser() != null) {
-                Role role = new Role();
-                if (userDTO.getTypeUser().equals("atleta")) {
-                    role.setRoleId(1);
-                } else if (userDTO.getTypeUser().equals("coach")) {
-                    role.setRoleId(2);
-                } else {
-                    role.setRoleId(3);
-                }
-
-                RoleUser roleUser = new RoleUser();
-                roleUser.setRoleId(role);
-                roleUser.setUserId(user);
-                roleUserService.create(roleUser);
-            }
-
-            TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
-            trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
-            trainingPlanUser.setUserId(user);
-            trainingPlanUser.setTrainingPlanId(new TrainingPlan(0));//Plan basico por defecto
-            trainingPlanUserService.create(trainingPlanUser);
-
-            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService = createUserPlan(userDTO);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -237,6 +187,71 @@ public class UserController {
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
+    }
+    
+    /**
+     * 
+     * @param userDTO
+     * @return
+     * @throws Exception 
+     */
+    private ResponseService createUserPlan(UserDTO userDTO) throws Exception {
+        ResponseService responseService = new ResponseService();
+        User user = new User();
+        user.setLogin(userDTO.getLogin());
+        user.setName(userDTO.getFirstName());
+        user.setSecondName(userDTO.getSecondName());
+        user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
+        user.setIndMetricSys(userDTO.getIndMetricSys());
+        user.setPhone(userDTO.getPhone());
+        user.setLastName(userDTO.getLastName());
+        user.setSex(userDTO.getSex());
+        user.setStateId(StateEnum.ACTIVE.getId().shortValue());
+        user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
+        user.setUserWordpressId(userDTO.getUserWordpressId());
+
+        if (userDTO.getCountryId() != null) {
+            user.setCountryId(new Country(userDTO.getCountryId()));
+        }
+
+        if (userService.findUserByUsername(user.getLogin()) != null) {
+            responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return responseService;
+        }
+
+        user.setCreationDate(new Date());
+        Integer userId = userService.saveUser(user);
+        DisciplineUser disciplineUser = new DisciplineUser();
+        disciplineUser.setUserId(new User(userId));
+        disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
+        disciplineUserService.create(disciplineUser);
+
+        if (userDTO.getTypeUser() != null) {
+            Role role = new Role();
+            if (userDTO.getTypeUser().equals("atleta")) {
+                role.setRoleId(1);
+            } else if (userDTO.getTypeUser().equals("coach")) {
+                role.setRoleId(2);
+            } else {
+                role.setRoleId(3);
+            }
+
+            RoleUser roleUser = new RoleUser();
+            roleUser.setRoleId(role);
+            roleUser.setUserId(user);
+            roleUserService.create(roleUser);
+        }
+
+        TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+        trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+        trainingPlanUser.setUserId(user);
+        trainingPlanUser.setTrainingPlanId(new TrainingPlan(0));//Plan basico por defecto
+        trainingPlanUserService.create(trainingPlanUser);
+
+        responseService.setStatus(StatusResponse.SUCCESS.getName());
+        return responseService;
     }
 
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
@@ -512,7 +527,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "user/authenticate/movil", method = RequestMethod.POST)
-    public ResponseEntity<ResponseService> autenticateUserMovil(@RequestBody UserDTO user) {
+    public ResponseEntity<ResponseService> autenticateUserMovil(@RequestBody UserDTO user, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
             UserDTO userDto = userService.findUserByUsername(user.getLogin());
@@ -522,7 +537,7 @@ public class UserController {
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             String postData = "login=" + user.getLogin().trim() + "&password=" + user.getPassword();
-            String url = UrlProperties.URL_PORTAL + "authenticate_user.php"; 
+            String url = UrlProperties.URL_PORTAL + "authenticate_user.php";
             String jsonResponse = userService.sendPostWordpress(url, postData);
             if (jsonResponse != null && !jsonResponse.isEmpty()) {
                 JsonParser jsonParser = new JsonParser();
@@ -536,7 +551,7 @@ public class UserController {
                 }
             }
 
-            UserDTO userSession = new UserDTO();
+            UserMovilDTO userSession = new UserMovilDTO();
             userSession.setUserId(userDto.getUserId());
             userSession.setFirstName(userDto.getFirstName());
             userSession.setLastName(userDto.getLastName());
@@ -547,6 +562,7 @@ public class UserController {
             userSession.setDisciplineId(userDto.getDisciplineId());
             userSession.setDisciplineName(userDto.getDisciplineName());
             userSession.setRoleId(userDto.getRoleId());
+            userSession.setRole(RoleEnumMovilDTO.getRoleEnum());
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
@@ -571,10 +587,47 @@ public class UserController {
         }
     }
     
+    @RequestMapping(value = "user/register/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> registerUserMovil(@RequestBody UserDTO userDTO) {
+        ResponseService responseService = new ResponseService();
+        try {
+            responseService = createUserPlan(userDTO);
+            
+            if(responseService.getOutput() == null) {
+                responseService.setOutput("Usuario registrado exitosamente");
+            }
+            
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/user/update/personal/data", method = RequestMethod.POST)
+    public ResponseEntity<ResponseService> updateUserPersonal(@RequestBody UserDTO user) {
+        ResponseService responseService = new ResponseService();
+        UserDTO currentUser = userService.findById(user.getUserId());
+
+        if (currentUser == null) {
+            responseService.setOutput("El usuario no existe");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+        userService.updateUser(user);
+        responseService.setOutput("Usuario editado exitosamente");
+        responseService.setStatus(StatusResponse.SUCCESS.getName());
+        return new ResponseEntity<>(responseService, HttpStatus.OK);
+    }
+
     /**
-     * 
+     *
      * @param userDto
-     * @throws Exception 
+     * @throws Exception
      */
     private void createOrderFromAuthetication(UserDTO userDto) throws Exception {
         UserTrainingOrder objUserTrainingOrder = new UserTrainingOrder();

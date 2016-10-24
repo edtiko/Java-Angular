@@ -15,6 +15,8 @@ public class PlanWorkoutDTO {
     private Integer manualActivityId;
     private String activityDate;
     private Integer trainingPlanWorkoutId;
+    private long from;
+    private long to;
 
     public Integer getUserId() {
         return userId;
@@ -54,6 +56,22 @@ public class PlanWorkoutDTO {
 
     public void setManualActivityId(Integer manualActivityId) {
         this.manualActivityId = manualActivityId;
+    }
+
+    public long getFrom() {
+        return from;
+    }
+
+    public void setFrom(long from) {
+        this.from = from;
+    }
+
+    public long getTo() {
+        return to;
+    }
+
+    public void setTo(long to) {
+        this.to = to;
     }
     
     

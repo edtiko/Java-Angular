@@ -210,4 +210,25 @@ public class DisciplineController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    /**
+     * 
+     * @return 
+     */
+    @RequestMapping(value = "/discipline/get/movil", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listMovil() {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<Discipline> disciplineList = disciplineService.findAllActive();
+            responseService.setOutput(disciplineList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(DisciplineController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 }

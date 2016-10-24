@@ -75,25 +75,7 @@ public class TrainingPlanWorkoutController {
                 return calendarEventDto;
             }
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(from);
-            Date fromDate = calendar.getTime();
-
-            calendar.setTimeInMillis(to);
-            Date toDate = calendar.getTime();
-
-            List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(user), fromDate, toDate);
-
-            for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {
-                trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
-                trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
-                trainingPlanWorkoutDto.setClassName(trainingPlanWorkoutDto.getSportIcon());
-            }
-
-            if (list == null) {
-                list = new ArrayList();
-            }
-
+            List<TrainingPlanWorkoutDto> list = getTrainingPlanWorkoutByIntervalDateUserId(user, from, to);
             calendarEventDto.setSuccess(1);
             calendarEventDto.setResult(list);
             return calendarEventDto;
@@ -105,8 +87,40 @@ public class TrainingPlanWorkoutController {
         }
     }
 
+    /**
+     * 
+     * @param user
+     * @param from
+     * @param to
+     * @return
+     * @throws Exception 
+     */
+    private List<TrainingPlanWorkoutDto> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
+            long from, long to) throws Exception {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(from);
+        Date fromDate = calendar.getTime();
+
+        calendar.setTimeInMillis(to);
+        Date toDate = calendar.getTime();
+
+        List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(user), fromDate, toDate);
+
+        for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {
+            trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
+            trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
+            trainingPlanWorkoutDto.setClassName(trainingPlanWorkoutDto.getSportIcon());
+        }
+
+        if (list == null) {
+            list = new ArrayList();
+        }
+        
+        return list;
+    }
+
     @RequestMapping(value = "trainingPlanWorkout/generate/planWorkout/for/user", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile, 
+    public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile,
             HttpSession session) {
         ResponseService responseService = new ResponseService();
         try {
@@ -122,12 +136,12 @@ public class TrainingPlanWorkoutController {
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);
             userService.updateUser(userDTO);
-            
-            if(session.getAttribute("user") != null) {
-                UserDTO userSession = (UserDTO)session.getAttribute("user");
+
+            if (session.getAttribute("user") != null) {
+                UserDTO userSession = (UserDTO) session.getAttribute("user");
                 userSession.setIndLoginFirstTime(0);
             }
-            
+
             responseService.setOutput("Plan de Entrenamiento generado satisfactoriamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -215,6 +229,22 @@ public class TrainingPlanWorkoutController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear plan");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/trainingPlanWorkout/get/by/user/intervalDate/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getTrainingPlanWorkoutByUserInterval(@RequestBody PlanWorkoutDTO trainingPlanWorkout) {
+        ResponseService responseService = new ResponseService();
+        try {
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(getPlanWorkoutByUser(trainingPlanWorkout.getUserId(), trainingPlanWorkout.getFrom(), trainingPlanWorkout.getTo()));            
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar plan de entrenamiento");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

@@ -6,6 +6,7 @@ import co.com.expertla.training.constant.MessageBundle;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.QuestionnaireQuestionDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.Questionnaire;
 import co.com.expertla.training.model.entities.QuestionnaireQuestion;
 import co.com.expertla.training.model.util.ResponseService;
@@ -16,7 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
  * REST Web Service of QuestionnaireQuestion <br>
  * Creation Info:  <br>
  * date 26/07/2016 <br>
+ *
  * @author Edwin Gómez
  */
 @RequestMapping("questionnaireQuestion")
@@ -39,9 +43,9 @@ public class QuestionnaireQuestionController {
     @Autowired
     private DisciplineService disciplineService;
 
-
     @RequestMapping(value = "/create/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response create(@RequestBody List<QuestionnaireQuestionDTO> questionnaireQuestionList) {
+    public @ResponseBody
+    Response create(@RequestBody List<QuestionnaireQuestionDTO> questionnaireQuestionList) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -73,9 +77,9 @@ public class QuestionnaireQuestionController {
         }
     }
 
-
     @RequestMapping(value = "/update/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response updateQuestionnaireQuestion(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
+    public @ResponseBody
+    Response updateQuestionnaireQuestion(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -116,9 +120,9 @@ public class QuestionnaireQuestionController {
         }
     }
 
-
     @RequestMapping(value = "/delete/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response deleteQuestionnaireQuestion(@RequestBody List<QuestionnaireQuestion> questionnaireQuestion) {
+    public @ResponseBody
+    Response deleteQuestionnaireQuestion(@RequestBody List<QuestionnaireQuestion> questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -156,9 +160,9 @@ public class QuestionnaireQuestionController {
         }
     }
 
-
     @RequestMapping(value = "/get/by/id/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response getQuestionnaireQuestionById(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
+    public @ResponseBody
+    Response getQuestionnaireQuestionById(@RequestBody QuestionnaireQuestion questionnaireQuestion) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -190,23 +194,23 @@ public class QuestionnaireQuestionController {
         }
     }
 
-
     @RequestMapping(value = "/get/questionnaire/user/{userId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response getAllQuestionnaireQuestion(@PathVariable("userId") Integer userId) {
+    public @ResponseBody
+    Response getAllQuestionnaireQuestion(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer disciplineId = disciplineService.findByUserId(userId).getDisciplineId();
-            if(disciplineId == null){
-            strResponse.append("No existe una disciplina asociada al usuario recibido");
-            responseService.setOutput(strResponse);
-            responseService.setStatus(StatusResponse.SUCCESS.getName());
-            return Response.status(Response.Status.NOT_FOUND).entity(responseService).build();
-            }else{
-            List<QuestionnaireQuestionDTO> questionnaireQuestionList = questionnaireQuestionService.findByDisciplineId(disciplineId, userId);
-            responseService.setOutput(questionnaireQuestionList);
-            responseService.setStatus(StatusResponse.SUCCESS.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            if (disciplineId == null) {
+                strResponse.append("No existe una disciplina asociada al usuario recibido");
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                return Response.status(Response.Status.NOT_FOUND).entity(responseService).build();
+            } else {
+                List<QuestionnaireQuestionDTO> questionnaireQuestionList = questionnaireQuestionService.findByDisciplineId(disciplineId, userId);
+                responseService.setOutput(questionnaireQuestionList);
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                return Response.status(Response.Status.OK).entity(responseService).build();
             }
         } catch (Exception e) {
             Logger.getLogger(QuestionnaireQuestionController.class.getName()).log(Level.SEVERE, null, e);
@@ -217,10 +221,10 @@ public class QuestionnaireQuestionController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
     }
-    
-  
+
     @RequestMapping(value = "/get/by/questionnaireId/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Response getByQuestionnaireId(@RequestBody Questionnaire questionnaire) {
+    public @ResponseBody
+    Response getByQuestionnaireId(@RequestBody Questionnaire questionnaire) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -230,9 +234,9 @@ public class QuestionnaireQuestionController {
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-            
+
             List<QuestionnaireQuestion> questionnaireQuestionList = questionnaireQuestionService.findByQuestionnaireId(questionnaire);
-            if(questionnaireQuestionList != null && !questionnaireQuestionList.isEmpty()) {
+            if (questionnaireQuestionList != null && !questionnaireQuestionList.isEmpty()) {
                 responseService.setOutput(questionnaireQuestionList);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
             } else {
@@ -248,6 +252,34 @@ public class QuestionnaireQuestionController {
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+
+    @RequestMapping(value = "/get/questionnaire/user/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getAllQuestionnaireQuestionMovil(@RequestBody UserDTO userDto) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            Integer disciplineId = disciplineService.findByUserId(userDto.getUserId()).getDisciplineId();
+            if (disciplineId == null) {
+                strResponse.append("No existe una disciplina asociada al usuario recibido");
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.NOT_FOUND);
+            } else {
+                List<QuestionnaireQuestionDTO> questionnaireQuestionList = questionnaireQuestionService.findByDisciplineId(disciplineId, userDto.getUserId());
+                responseService.setOutput(questionnaireQuestionList);
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(QuestionnaireQuestionController.class.getName()).log(Level.SEVERE, null, e);
+            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
