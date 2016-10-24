@@ -3,7 +3,7 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             $window, DisciplineService, RoleService) {
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', phone: '', countryId: '',
-            disciplineId: '', stateId: '', roleId: '', profilePhoto: '', urlVideo: '', aboutMe: ''};
+            disciplineId: '', stateId: '', roleId: '', profilePhoto: '', urlVideo: '', aboutMe: '', userCreate: '', updateUser: ''};
         $scope.users = [];
         $scope.countries = [];
         $scope.sexOptions = [
@@ -72,7 +72,9 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                                     $scope.showMessage("Usuario registrado correctamente.");
                                     $scope.profileImage = "static/img/profile-default.png";
                                     $scope.user = d.output;
-                                    $scope.uploadFile(file);
+                                    if (file !== undefined && file != null) {
+                                        $scope.uploadFile(file);
+                                    }
                                     $scope.fetchAllUsers();                                    
                                 } else {
                                     $scope.showMessage(d.detail);
@@ -116,8 +118,10 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
 
         $scope.submitUser = function (file) {
             if ($scope.user.userId === null) {
+                $scope.user.userCreate = $scope.userSession.userId;
                 self.createUser($scope.user,file);
             } else {
+                $scope.user.userUpdate = $scope.userSession.userId;
                 self.updateUser($scope.user,file);
             }
         };

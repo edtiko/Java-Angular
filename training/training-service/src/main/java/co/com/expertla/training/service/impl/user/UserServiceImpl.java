@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 
             user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
             user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId():null);
-            
+            user.setRoleName(roleUser != null ? roleUser.getRoleId().getName():"");
             List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
             if(disciplineUser != null){
                 user.setDisciplineId(disciplineUser.get(0).getDisciplineId());
@@ -138,6 +138,7 @@ public class UserServiceImpl implements UserService {
         user.setWeight(userDTO.getWeight());
         user.setPhone(userDTO.getPhone());
         user.setCellphone(userDTO.getCellphone());
+        user.setCountryId(new Country(userDTO.getCountryId()));
         user.setCityId(city);
         user.setPostalCode(userDTO.getPostalCode());
         user.setFacebookPage(userDTO.getFacebookPage());
@@ -215,6 +216,7 @@ public class UserServiceImpl implements UserService {
         user.setCreationDate(new Date());
         user.setIndMetricSys("1");
         user.setCountryId(new Country(dto.getCountryId()));
+        user.setUserCreate(dto.getUserCreate());
 
         DisciplineUser discipline = new DisciplineUser();
         discipline.setUserId(user);
@@ -272,6 +274,8 @@ public class UserServiceImpl implements UserService {
         user.setSex(dto.getSex());
         user.setPhone(dto.getPhone());
         user.setStateId(dto.getStateId());
+        user.setUserUpdate(dto.getUserUpdate());
+        user.setLastUpdate(new Date());
 
         if (dto.getIndLoginFirstTime() != null) {
             user.setIndLoginFirstTime(dto.getIndLoginFirstTime());

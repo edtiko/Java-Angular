@@ -112,6 +112,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                     .then(function (res) {
                         var id = res.data.entity.output;
                         $scope.userId = id.userId;
+                        $scope.roleName = id.roleName;
                         ModuleService.getModuleByUserId(id.userId).then(
                                 function (d) {
                                     if (d.status == 'success') {

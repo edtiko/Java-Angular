@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.City;
 import co.com.expertla.training.model.entities.Country;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigInteger;
@@ -54,7 +55,7 @@ public class DashboardDTO {
 
     public DashboardDTO(Integer userId, String name,String secondName, String lastName, String email, Date birthDate, String sex, Float weight,
             String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
-            String indMetricSys, String city, String federalState, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
+            String indMetricSys, City city, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
             String sportsAchievements, String aboutMe, String objective, String modality, String twitterPage, String instagramPage, 
             String webPage, Integer vo2Running, Integer vo2Ciclismo) {
         this.userId = userId;
@@ -72,8 +73,6 @@ public class DashboardDTO {
         this.profilePhoto = profilePhoto;
         this.facebookPage = facebookPage;
         this.indMetricSys = indMetricSys;
-        this.city = city;
-        this.federalState = federalState;
         this.country = country;
         this.ageSport = ageSport;
         this.ppm = ppm;
@@ -87,14 +86,21 @@ public class DashboardDTO {
         this.webPage = webPage;
         this.vo2Running = vo2Running;
         this.vo2Ciclismo = vo2Ciclismo;
+        if (city != null) {
+            this.city = city.getName();
+            if (city.getFederalStateId() != null) {
+                this.federalState = city.getFederalStateId().getName();
+            }
+        }
     }
     
-    public DashboardDTO(Integer userId, String name, String lastName, String email, Date birthDate, String sex, Float weight,
+    public DashboardDTO(Integer userId, String name, String secondName, String lastName, String email, Date birthDate, String sex, Float weight,
             String phone, String cellphone, String address, 
             String postalCode, byte[] profilePhoto, String facebookPage,
-            String indMetricSys, Country objCountry) {
+            String indMetricSys, Country objCountry, City city) {
         this.userId = userId;
         this.name = name;
+        this.secondName = secondName;
         this.lastName = lastName;
         this.email = email;
         this.birthDate = birthDate;
@@ -107,6 +113,12 @@ public class DashboardDTO {
         this.profilePhoto = profilePhoto;
         this.facebookPage = facebookPage;
         this.indMetricSys = indMetricSys;
+        if (city != null) {
+            this.city = city.getName();
+            if (city.getFederalStateId() != null) {
+                this.federalState = city.getFederalStateId().getName();
+            }
+        }
         
         if(objCountry != null) {
             this.country = objCountry.getName();

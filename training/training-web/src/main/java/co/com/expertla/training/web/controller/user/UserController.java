@@ -260,6 +260,7 @@ public class UserController {
             userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
             userSession.setDisciplineId(userDto.getDisciplineId());
             userSession.setDisciplineName(userDto.getDisciplineName());
+            userSession.setRoleName(userDto.getRoleName());
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);

@@ -96,22 +96,25 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         //notificación mensajes recibidos
         messageService.receive().then(null, null, function (message) {
-
-            $scope.messagesReceivedCount++;
+            if (message.toUserId == $scope.user.userId) {
+                $scope.messagesReceivedCount++;
+            }
 
         });
 
         //notificación videos recibidos
         videoService.receive().then(null, null, function (video) {
-
-            $scope.videoReceivedCount++;
+            if (video.toUserId == $scope.user.userId) {
+                $scope.videoReceivedCount++;
+            }
 
         });
 
         //notificación audios recibidos
         AudioMessageService.receive().then(null, null, function (audio) {
-
+       if (audio.toUserId.userId == $scope.user.userId) {
             $scope.audioReceivedCount++;
+        }
 
         });
 

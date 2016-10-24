@@ -496,11 +496,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                         }
                                     }
                                     var msg = '';
-                                    if (days < weeklyDays) {
-                                        msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
-                                    }
+
                                     if (generatePlan) {
-                                        if($scope.userSession.planActiveId == '0') {
+                                        if (days < weeklyDays) {
+                                            msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
+                                        }
+                                        if ($scope.userSession.planActiveId == '0') {
                                             $scope.showMessage("Para generar plan primero debe comprar ");
                                             return;
                                         }
@@ -528,7 +529,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Datos Deportivos creados exitosamente.");
+                                $scope.showMessage("Datos Deportivos registrados exitosamente.");
                             }
                         },
                         function (errResponse) {
@@ -1050,6 +1051,18 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.showTooltipPower = function () {
             $scope.showMessage("El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba.", "Potencia");
+        };
+        
+        $scope.showTooltipImc = function(){
+           $scope.showMessage(" No hay informacion disponible "); 
+        };
+        
+        $scope.showTooltipVo2Running = function(){
+           $scope.showMessage(" No hay informacion disponible "); 
+        };
+        
+         $scope.showTooltipVo2Ciclismo = function(){
+           $scope.showMessage(" No hay informacion disponible "); 
         };
 
         this.getBikeTypes = function () {

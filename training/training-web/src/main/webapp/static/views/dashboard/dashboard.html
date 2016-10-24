@@ -15,7 +15,7 @@
             <div layout="column" layout-align="space-around center" flex>
                 <span class="md-headline" ng-if="userSession.typeUser == userSessionTypeUserAtleta">Atleta</span>
                 <a href="{{userSession.typeUser == userSessionTypeUserAtleta || !showControl? '#data-person':'javascript:void(0)'}}" >
-                    <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                    <img ng-show="visibleField('user_training', 'profile_photo')" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
                     <md-tooltip md-direction="right">
                         Ver Perfil
                     </md-tooltip>

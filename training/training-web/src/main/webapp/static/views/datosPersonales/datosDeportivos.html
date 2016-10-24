@@ -121,6 +121,39 @@
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileage_sport, 'user_profile', 'age_sport')"
                            ng-model="user_profileage_sport"> {{ 'SHOW' | translate }}</md-switch>
             </div>
+                        
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-change="calculateIMC()">
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileweight, 'user_profile', 'weight')"
+                           ng-model="user_profileweight"> {{ 'SHOW' | translate }}</md-switch>
+            </div>
+            
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" id="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()">
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileheight, 'user_profile', 'height')"
+                           ng-model="user_profileheight"> {{ 'SHOW' | translate }}</md-switch>
+            </div>
+            
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="userProfile.imc" id="imc"  placeholder="{{ 'IMC' | translate }}" readonly="true"/>
+                    </md-input-container>
+                </div> 
+                <md-button class="md-icon-button launch md-primary" aria-label="imc" ng-click="showTooltipImc()">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                </md-button>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileimc, 'user_profile', 'imc')"
+                           ng-model="user_profileimc"> {{ 'SHOW' | translate }} </md-switch>
+            </div>
 
             <div layout="row"> 
                 <label>Disponibilidad: </label>
@@ -404,6 +437,9 @@
                         <input type="number"  ng-model="userProfile.vo2Running">
                     </md-input-container>
                 </div>
+                <md-button class="md-icon-button launch md-primary" aria-label="running" ng-click="showTooltipVo2Running()">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilevo2_running, 'user_profile', 'vo2_running')"
                            ng-model="user_profilevo2_running"> {{ 'SHOW' | translate }}</md-switch>
             </div>
@@ -415,6 +451,9 @@
                         <input type="number"  ng-model="userProfile.vo2Ciclismo">
                     </md-input-container>
                 </div>
+                 <md-button class="md-icon-button launch md-primary" aria-label="running" ng-click="showTooltipVo2Ciclismo()">
+                    <i class="fa fa-info-circle" aria-hidden="true"></i>
+                </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilevo2_ciclismo, 'user_profile', 'vo2_ciclismo')"
                            ng-model="user_profilevo2_ciclismo"> {{ 'SHOW' | translate }}</md-switch>
 
@@ -501,38 +540,6 @@
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileshoes, 'user_profile', 'shoes')"
                            ng-model="user_profileshoes"> {{ 'SHOW' | translate }}</md-switch>
             </div>
-            
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <input type="text" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-change="calculateIMC()">
-                    </md-input-container>
-                </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileweight, 'user_profile', 'weight')"
-                           ng-model="user_profileweight"> {{ 'SHOW' | translate }}</md-switch>
-            </div>
-            
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <input type="text" id="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()">
-                    </md-input-container>
-                </div>
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileheight, 'user_profile', 'height')"
-                           ng-model="user_profileheight"> {{ 'SHOW' | translate }}</md-switch>
-            </div>
-            
-            <div layout="row">
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <input type="text" ng-model="userProfile.imc" id="imc"  placeholder="{{ 'IMC' | translate }}" readonly="true"/>
-                    </md-input-container>
-                </div> 
-
-                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileimc, 'user_profile', 'imc')"
-                           ng-model="user_profileimc"> {{ 'SHOW' | translate }} </md-switch>
-            </div>
-
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >

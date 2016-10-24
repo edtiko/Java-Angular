@@ -53,7 +53,7 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.DashboardDTO(u.userId.userId,u.userId.name,u.userId.secondName, u.userId.lastName, ");
         sql.append("u.userId.email,u.userId.birthDate,u.userId.sex,u.userId.weight,u.userId.phone,u.userId.cellphone,u.userId.address, ");
-        sql.append("u.userId.postalCode,u.userId.profilePhoto,u.userId.facebookPage, u.userId.indMetricSys,u.userId.cityId.name,u.userId.cityId.federalStateId.name, ");
+        sql.append("u.userId.postalCode,u.userId.profilePhoto,u.userId.facebookPage, u.userId.indMetricSys,u.userId.cityId, ");
         sql.append("u.userId.countryId.name,u.ageSport, u.ppm, u.power, u.sportsAchievements, u.aboutMe, o.name, u.modalityId.name, ");
         sql.append("u.userId.twitterPage, u.userId.instagramPage, u.userId.webPage, u.vo2Running, u.vo2Ciclismo )");
         sql.append("FROM UserProfile u ");
@@ -66,9 +66,9 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         
         if(list == null || list.isEmpty()) {
             sql = new StringBuilder();
-            sql.append("SELECT new co.com.expertla.training.model.dto.DashboardDTO(u.userId, u.name, u.lastName, ");
+            sql.append("SELECT new co.com.expertla.training.model.dto.DashboardDTO(u.userId, u.name,u.secondName, u.lastName, ");
             sql.append("u.email,u.birthDate,u.sex,u.weight,u.phone,u.cellphone,u.address, ");
-            sql.append("u.postalCode,u.profilePhoto,u.facebookPage, u.indMetricSys, u.countryId ");
+            sql.append("u.postalCode,u.profilePhoto,u.facebookPage, u.indMetricSys, u.countryId, u.cityId");
             sql.append(" ) ");
             sql.append("FROM User u ");
             sql.append("WHERE u.userId = :id ");
