@@ -74,8 +74,15 @@ public class TrainingPlanWorkoutController {
                 calendarEventDto.setSuccess(1);
                 return calendarEventDto;
             }
+            
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(from);
+            Date fromDate = calendar.getTime();
 
-            List<TrainingPlanWorkoutDto> list = getTrainingPlanWorkoutByIntervalDateUserId(user, from, to);
+            calendar.setTimeInMillis(to);
+            Date toDate = calendar.getTime();
+
+            List<TrainingPlanWorkoutDto> list = getTrainingPlanWorkoutByIntervalDateUserId(user, fromDate, toDate);
             calendarEventDto.setSuccess(1);
             calendarEventDto.setResult(list);
             return calendarEventDto;
@@ -96,14 +103,7 @@ public class TrainingPlanWorkoutController {
      * @throws Exception 
      */
     private List<TrainingPlanWorkoutDto> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
-            long from, long to) throws Exception {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(from);
-        Date fromDate = calendar.getTime();
-
-        calendar.setTimeInMillis(to);
-        Date toDate = calendar.getTime();
-
+            Date fromDate, Date toDate) throws Exception {
         List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(user), fromDate, toDate);
 
         for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {
@@ -239,8 +239,28 @@ public class TrainingPlanWorkoutController {
     public ResponseEntity<ResponseService> getTrainingPlanWorkoutByUserInterval(@RequestBody PlanWorkoutDTO trainingPlanWorkout) {
         ResponseService responseService = new ResponseService();
         try {
+            Calendar calendar = Calendar.getInstance();
+            Calendar calendarTo = Calendar.getInstance();
+            
+            if(trainingPlanWorkout.getYear() > 0) {
+                calendar.set(Calendar.YEAR, trainingPlanWorkout.getYear());
+                calendarTo.set(Calendar.YEAR, trainingPlanWorkout.getYear());
+            }
+            
+            if(trainingPlanWorkout.getMonth() > 0) {
+                calendar.set(Calendar.MONTH, trainingPlanWorkout.getMonth());
+                calendarTo.set(Calendar.MONTH, trainingPlanWorkout.getMonth()+1);
+            }
+            
+            if(trainingPlanWorkout.getWeekMonth() > 0) {
+                calendar.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth());
+                calendarTo.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth()+1);
+            }
+            
+            Date fromDate = calendar.getTime();
+            Date toDate = calendarTo.getTime();
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(getPlanWorkoutByUser(trainingPlanWorkout.getUserId(), trainingPlanWorkout.getFrom(), trainingPlanWorkout.getTo()));            
+            responseService.setOutput(getTrainingPlanWorkoutByIntervalDateUserId(trainingPlanWorkout.getUserId(), fromDate,toDate));            
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);

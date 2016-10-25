@@ -15,8 +15,9 @@ public class PlanWorkoutDTO {
     private Integer manualActivityId;
     private String activityDate;
     private Integer trainingPlanWorkoutId;
-    private long from;
-    private long to;
+    private int year;
+    private int month;
+    private int weekMonth;
 
     public Integer getUserId() {
         return userId;
@@ -58,21 +59,30 @@ public class PlanWorkoutDTO {
         this.manualActivityId = manualActivityId;
     }
 
-    public long getFrom() {
-        return from;
+    public int getYear() {
+        return year;
     }
 
-    public void setFrom(long from) {
-        this.from = from;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    public long getTo() {
-        return to;
+    public int getMonth() {
+        return month;
     }
 
-    public void setTo(long to) {
-        this.to = to;
+    public void setMonth(int month) {
+        this.month = month;
     }
+
+    public int getWeekMonth() {
+        return weekMonth;
+    }
+
+    public void setWeekMonth(int weekMonth) {
+        this.weekMonth = weekMonth;
+    }
+
     
     
 }
