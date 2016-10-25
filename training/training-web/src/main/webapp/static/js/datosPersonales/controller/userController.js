@@ -19,6 +19,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.isImage = false;
         $scope.previousValue = "";
         $scope.maxDate = new Date();
+        $scope.selected1 = [];
+        $scope.selected = [];
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
                     .then(
@@ -99,7 +101,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
                                     if ($scope.user.birthDate != null) {
                                         var date = $scope.user.birthDate.split("/");
-                                        $scope.birthdateDt = new Date(date[2], date[1] - 1, date[0]);
+                                        $scope.birthdateDt = new Date(date[2], date[1], date[0]);
                                         $scope.user.age = $scope.calculateAge($scope.birthdateDt);
                                     }
                                 },
@@ -110,14 +112,23 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
 
                 UserProfileService.getProfile(user).then(
-                        function (d) {
-                            $scope.userProfile = d;
+                        function (data) {
+                            if(data != ""){
+                            $scope.userProfile = angular.copy(data);
+                            }
                             if ($scope.userProfile.bikes != null && $scope.userProfile.bikes != -1) {
                                 $scope.indBike = 1;
                             }
+
+                            if ($scope.userProfile.objective == !undefined && $scope.userProfile.objective != "") {
+                                $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
+                            }
                             var disc = $scope.userProfile.discipline;
-                            $scope.getObjectivesByDiscipline($scope.userProfile.discipline);
-                            $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
+                            if (disc != undefined && disc != "") {
+                                $scope.getObjectivesByDiscipline(disc);
+                            }
+
+                         
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
                                 $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
                             }
@@ -193,7 +204,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 if (file !== undefined && file != null) {
                                     $scope.uploadFile(file);
                                 }
-                                $scope.showMessage("Datos actualizados correctamente.");
+                                $scope.showMessage("Usuario editado correctamente.");
 
                             },
                             function (errResponse) {
@@ -330,7 +341,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             power: '',
             sportsAchievements: '',
             aboutMe: '',
-            userId: '',
+            userId: $scope.user.userId,
             indMetricSys: '-1',
             discipline: '',
             sport: '',
@@ -353,6 +364,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             modality: '',
             environmentId: '',
             weatherId: '',
+            injuryId: '',
+            disease: '',
             availability: [
                 {day: 'Lunes', checked: false},
                 {day: 'Martes', checked: false},
@@ -398,10 +411,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.modalities = [];
         $scope.entornos = [];
         $scope.climas = [];
+        $scope.lesiones = [];
         $scope.indBike = '';
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
         $scope.bikeTypes = [];
-        $scope.errorMessages = "";
+        $scope.errorMessages = [];
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
             
@@ -409,8 +423,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.getSessions(ev, generatePlan);
             } else {
                 if ($scope.errorMessages.length != 0) {
-                    $scope.showMessage($scope.errorMessages);
+                    $scope.showMessage($scope.errorMessages, "Alerta", true);
                 }
+                 $scope.errorMessages = [];
             }
         };
 
@@ -521,6 +536,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.createOrMergeUserProfile = function (userProfile, generatePlan) {
             if (userProfile.userProfileId == null) {
+                userProfile.userId = $scope.user.userId;
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
                             $scope.userProfile = d;
@@ -800,6 +816,19 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
         this.getClimas();
+        
+          this.getLesiones = function () {
+            SportService.getLesiones().then(
+                    function (d) {
+                        $scope.lesiones = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error get lesiones');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        this.getLesiones();
 
         $scope.getAvailabilityIdx = function (value) {
             var response = $scope.userProfile.availability;
@@ -1014,20 +1043,20 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.errorMessages = "La edad deportiva debe ser mayor o igual a 0";
                 valid = false;
             }
-            if (!$scope.validateAvailability()) {
-                $scope.errorMessages = "La disponiblidad de tiempo es obligatoria ";
+            if ($scope.userProfile.availability != undefined && !$scope.validateAvailability()) {
+                $scope.errorMessages.push("La disponiblidad de tiempo es obligatoria ");
                 valid = false;
             }
             if (!$scope.validatePpm()) {
-                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de potencia ";
+                $scope.errorMessages.push("Debe llenar todas las zonas de potencia ");
                 valid = false;
             }
             if (!$scope.validatePower()) {
-                $scope.errorMessages = $scope.errorMessages + "Debe llenar todas las zonas de ppm ";
+                $scope.errorMessages.push( "Debe llenar todas las zonas de ppm ");
                 valid = false;
             }
             if (!isNumeric($scope.userProfile.height)) {
-                $scope.errorMessages = $scope.errorMessages + "La altura debe ser un numero ";
+                $scope.errorMessages.push( "La altura debe ser un n\u00famero ");
                 valid = false;
             }
             return valid;
@@ -1054,15 +1083,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
         
         $scope.showTooltipImc = function(){
-           $scope.showMessage(" No hay informacion disponible "); 
+           $scope.showMessage("El \u00edndice de masa corporal (IMC) es un n\u00famero calculado con base al peso y la altura de nuestro cuerpo. Este \u00edndice es un indicador de la cantidad de grasa corporal. ","IMC"); 
         };
         
         $scope.showTooltipVo2Running = function(){
-           $scope.showMessage(" No hay informacion disponible "); 
+           $scope.showMessage("Volumen m\u00e1ximo de oxigeno que el organismo es capaz de metabolizar por unidad de tiempo determinado.","VO2 Max Running"); 
         };
         
          $scope.showTooltipVo2Ciclismo = function(){
-           $scope.showMessage(" No hay informacion disponible "); 
+           $scope.showMessage("Volumen m\u00e1ximo de oxigeno que el organismo es capaz de metabolizar por unidad de tiempo determinado.","VO2 Max Ciclismo"); 
         };
 
         this.getBikeTypes = function () {

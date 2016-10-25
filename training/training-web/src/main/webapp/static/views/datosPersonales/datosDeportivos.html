@@ -7,7 +7,7 @@
                     <md-input-container class="md-block" >
                         <label>Disciplina Deportiva</label>
                         <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && (userSession.planActiveId != null && userSession.planActiveId != '0'))"
-                            id="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
+                                   id="discipline" name="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
                             <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                                 {{d.name}}
                             </md-option>
@@ -38,9 +38,6 @@
                            ng-change="setVisibleField(user_profileobjective, 'user_profile', 'objective')"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
-            
-            
-            
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
@@ -121,27 +118,33 @@
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileage_sport, 'user_profile', 'age_sport')"
                            ng-model="user_profileage_sport"> {{ 'SHOW' | translate }}</md-switch>
             </div>
-                        
+
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-change="calculateIMC()">
+                        <input type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-change="calculateIMC()" required>
+                         <div class="has-error" ng-messages="formProfile.weight.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileweight, 'user_profile', 'weight')"
                            ng-model="user_profileweight"> {{ 'SHOW' | translate }}</md-switch>
             </div>
-            
+
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" id="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()">
+                        <input type="text" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()" required>
+                         <div class="has-error" ng-messages="formProfile.height.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileheight, 'user_profile', 'height')"
                            ng-model="user_profileheight"> {{ 'SHOW' | translate }}</md-switch>
             </div>
-            
+
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block" >
@@ -153,6 +156,32 @@
                 </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileimc, 'user_profile', 'imc')"
                            ng-model="user_profileimc"> {{ 'SHOW' | translate }} </md-switch>
+            </div>
+
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+
+                        <label>Lesiones</label>
+                        <md-select  ng-model="userProfile.injuryId" id="injury" name="injury">
+                            <md-option ng-repeat="l in lesiones" value="{{l.injuryId}}" >
+                                {{l.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <md-switch ng-change="setVisibleField(user_profileinjuryId, 'user_profile', 'injuryId')" ng-model="user_profileinjuryId"> {{ 'SHOW' | translate }}</md-switch>
+            </div>
+
+            <div layout="row"> 
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label>Enfermedades</label>
+                        <textarea md-maxlength="500" id="disease" name="disease" ng-model="userProfile.disease" md-select-on-focus></textarea>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profiledisease, 'user_profile', 'disease')"
+                           ng-model="user_profiledisease"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
             <div layout="row"> 
@@ -265,7 +294,7 @@
                     <md-input-container class="md-block" >
                         <label>Ppm
                         </label>
-                        <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.ppm" ng-blur="calculatePpm()" >
+                        <input type="number" ng-model="userProfile.ppm" id="ppm" name="ppm"  ng-blur="calculatePpm()" >
                     </md-input-container>
                 </div>
 
@@ -315,8 +344,8 @@
                     </table>
                 </div>
             </div>
-            
-            
+
+
             <div layout="row"> 
                 <span class="md-subhead">&iquest;Tienes potenciometro?</span>
             </div>
@@ -383,7 +412,7 @@
                     <md-input-container class="md-block" >
                         <label>Potencia
                         </label>
-                        <input type="number" class="form-control input-sm" style=" display: inline" ng-model="userProfile.power" ng-blur="calculateZone()">
+                        <input type="number"  ng-model="userProfile.power"  id="power" name="power" ng-blur="calculateZone(userProfile)">
                     </md-input-container>
                 </div>
 
@@ -394,8 +423,8 @@
                            ng-model="user_profilepower"> {{ 'SHOW' | translate }}</md-switch>
 
             </div>
-            
-            
+
+
             <div layout="row">
                 <div flex="33">
                     <table md-table md-row-select ng-model="selected1">
@@ -451,7 +480,7 @@
                         <input type="number"  ng-model="userProfile.vo2Ciclismo">
                     </md-input-container>
                 </div>
-                 <md-button class="md-icon-button launch md-primary" aria-label="running" ng-click="showTooltipVo2Ciclismo()">
+                <md-button class="md-icon-button launch md-primary" aria-label="running" ng-click="showTooltipVo2Ciclismo()">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                 </md-button>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilevo2_ciclismo, 'user_profile', 'vo2_ciclismo')"
@@ -552,7 +581,7 @@
                     </md-input-container>
                 </div>
             </div>
-  <br /><br />
+            <br /><br />
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                 <md-button class="md-raised md-primary" ng-disabled="formProfile.$invalid" ng-click="submitUserProfile(formProfile, false, $event)">Guardar</md-button>
                 <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>

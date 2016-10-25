@@ -55,7 +55,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             $mdToast.hide();
         };
 
-        $scope.showMessage = function (msg, title) {
+        $scope.showMessage = function (msg, title, html=false) {
             // Appending dialog to document.body to cover sidenav in docs app
             // Modal dialogs should fully cover application
             // to prevent interaction outside of dialog
@@ -64,7 +64,23 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             if (title != "") {
                 titleDefault = title;
             }
-
+            
+            if (html) {
+                $scope.message = msg;
+                $scope.title = title;
+                $mdDialog.show({
+                    scope: $scope,
+                    templateUrl: 'static/tmpls/dialogConfirmation.html',
+                    parent: angular.element(document.querySelector('#trainingApp')),
+                    clickOutsideToClose: true,
+                    fullscreen: $scope.customFullscreen,
+                    controller: function (){
+                        $scope.cancel = function(){
+                             $mdDialog.cancel();
+                        }
+                    }
+                });
+            }else{
 
             $mdDialog.show(
                     $mdDialog.alert()
@@ -76,7 +92,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                     .ok('Aceptar')
                     //.targetEvent(ev)
                     );
+        }
         };
+        
         $scope.goCalendar = function () {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
             $location.path("/calendar");

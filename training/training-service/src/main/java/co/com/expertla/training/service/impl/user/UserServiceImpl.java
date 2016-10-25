@@ -38,9 +38,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.apache.commons.codec.binary.Base64;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service("usuarioService")
 @Transactional
@@ -126,13 +129,19 @@ public class UserServiceImpl implements UserService {
     public int updateUser(UserDTO userDTO) {
         User user = userDao.findById(userDTO.getUserId());
         City city = cityDao.findById(userDTO.getCityId());
+        Date javaDate = null;
+        try {
+             javaDate = new SimpleDateFormat("dd/MM/yyyy").parse(userDTO.getBirthDate().toString());
+        } catch (ParseException ex) {
+            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         user.setName(userDTO.getFirstName());
         user.setSecondName(userDTO.getSecondName());
         user.setLogin(userDTO.getLogin());
         user.setPassword(userDTO.getPassword());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
-        user.setBirthDate(userDTO.getBirthDate());
+        user.setBirthDate(javaDate);
         user.setAddress(userDTO.getAddress());
         user.setSex(userDTO.getSex());
         user.setWeight(userDTO.getWeight());

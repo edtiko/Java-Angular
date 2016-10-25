@@ -1,7 +1,26 @@
-<div class="ngdialog-message">
-    <h3>Confirmaci&oacute;n</h3>
-    <p>{{message}}</p>
-</div>
-<div class="ngdialog-buttons">
-    <button type="button" class="ngdialog-button btn btn-primary btn-sm" ng-click="closeThisDialog('Cancel')">Aceptar</button>
-</div>
+<md-dialog aria-label="Alerta" style="width: 350px">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div ng-if="message.length > 0">
+                <div ng-repeat="msg in message">
+                    <span> -{{msg}} </span>
+                </div>
+            </div>
+            <div ng-if="message.length == 0">
+            {{message}}
+            </div>
+            <md-dialog-actions layout="row" >
+                <md-button class="md-raised" ng-click="cancel()">Aceptar</md-button>
+            </md-dialog-actions>
+        </div>
+    </md-dialog-content>
+</md-dialog>

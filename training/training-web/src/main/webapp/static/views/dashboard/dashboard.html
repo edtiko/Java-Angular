@@ -322,6 +322,20 @@
                             <md-subheader>{{user.imc}}</md-subheader>
 
                         </div>
+                         <div class="row" ng-show="visibleField('user_profile', 'injuryId')">
+
+                            <label>{{ 'INJURY' | translate }}</label>
+
+                            <md-subheader>{{user.injury}}</md-subheader>
+
+                        </div>
+                        <div class="row" ng-show="visibleField('user_profile', 'disease')">
+
+                            <label>{{ 'DISEASE' | translate }}</label>
+
+                            <md-subheader>{{user.disease}}</md-subheader>
+
+                        </div>
 
                         <div class="row" ng-show="visibleField('user_profile', 'power')">
 
