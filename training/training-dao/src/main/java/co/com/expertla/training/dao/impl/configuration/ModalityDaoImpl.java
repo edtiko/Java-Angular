@@ -26,7 +26,7 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Modality a ");
         builder.append("WHERE a.stateId = :active ");
-
+        builder.append("order by a.name ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }

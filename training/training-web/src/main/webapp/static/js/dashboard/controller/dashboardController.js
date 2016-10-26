@@ -10,7 +10,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             ageSport: '', ppm: '', power: '', sportsAchievements: '',
             aboutMe: '', indMetricSys: '', discipline: '', sport: '', shoes: '', bikes: '', potentiometer: '',
             modelPotentiometer: '', pulsometer: '', modelPulsometer: '', objective: '', modality: '',
-            availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: ''
+            availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '', 
+            injury: '', disease:''
         };
         $scope.profileImage = "static/img/profile-default.png";
         $scope.profileImageStar = "static/img/profile-default.png";
@@ -96,22 +97,25 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         //notificación mensajes recibidos
         messageService.receive().then(null, null, function (message) {
-
-            $scope.messagesReceivedCount++;
+            if (message.toUserId == $scope.user.userId) {
+                $scope.messagesReceivedCount++;
+            }
 
         });
 
         //notificación videos recibidos
         videoService.receive().then(null, null, function (video) {
-
-            $scope.videoReceivedCount++;
+            if (video.toUserId == $scope.user.userId) {
+                $scope.videoReceivedCount++;
+            }
 
         });
 
         //notificación audios recibidos
         AudioMessageService.receive().then(null, null, function (audio) {
-
+       if (audio.toUserId.userId == $scope.user.userId) {
             $scope.audioReceivedCount++;
+        }
 
         });
 

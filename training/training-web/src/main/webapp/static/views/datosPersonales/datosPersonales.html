@@ -67,7 +67,7 @@
                     <md-input-container class="md-block" >
                         <label  for="sex">Sexo</label>
 
-                        <md-select id="sex" ng-model="user.sex" layout-margin>
+                        <md-select id="sex" ng-model="user.sex" >
                             <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
                                 {{s.sex}}
                             </md-option>
@@ -86,11 +86,12 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <label>Fecha de Nacimiento (mm/dd/yyyy)</label>
-                        <md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
+                        <label>Fecha de Nacimiento (dd/mm/yyyy)</label>
+                        <!--<md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
 
-                        </md-datepicker>
-
+                        </md-datepicker>-->
+                        <input type="text" id="birthDate"  ng-model-options="{updateOn: 'blur'}" name="birthDate" ng-model="birthdateDt" jqdatepicker  ng-required="true" />
+                          <!--<input type="text" ng-model="birthdateDt" id="birthDate" ng-blur="showAge(this.birthdateDt)" name="birthDate" />-->
                         <div class="has-error" ng-messages="myFormUser.birthDate.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                             <div ng-message="date">Este campo es inv&aacute;lido</div>
@@ -156,6 +157,8 @@
 
                     </md-input-container>
                 </div>
+                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingfederalStateId, 'user_training', 'federalStateId')"
+                           ng-model="user_trainingfederalStateId"> Mostrar</md-switch>
             </div>
             <div layout="row">
                 <div flex="33">
@@ -234,20 +237,19 @@
                         <label  for="picture">Foto de Perfil</label>
                         <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil"/>
                         <!--<md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>-->
-
                     </md-input-container>
-
-
                 </div>
+                <md-switch class="md-primary" aria-label="Mostrar" type="checkbox" ng-change="setVisibleField(user_trainingprofile_photo, 'user_training', 'profile_photo')"
+                           ng-model="user_trainingprofile_photo"> Mostrar</md-switch>
             </div>
             <div layout="row">
                 <span class="md-subhead">&iquest;Usted posee una cuenta de usuario de estas p&aacute;ginas?</span>
             </div>
             <div layout="row">
 
-                <a ng-href="https://my.garmin.com/mygarmin/login.htm" ><img data-ng-src="static/img/garmin.png" class="circular-icon" title="Garmin" style="height: 60px; width: 60px;"/></a>
-                <a ng-href="https://www.polar.com" ><img  data-ng-src="static/img/polar.png" class="circular-icon" title="Polar" style="height: 60px; width: 60px;"/></a>
-                <a ng-href="https://www.underarmour.com" ><img  data-ng-src="static/img/under_armour.png" class="circular-icon" title="Under Armour" style="height: 60px; width: 60px;"/></a>
+                <a ng-href="https://my.garmin.com/mygarmin/login.htm" target="_blank"><img data-ng-src="static/img/garmin.png" class="circular-icon" title="Garmin" style="height: 60px; width: 60px;"/></a>
+                <a ng-href="https://www.polar.com" target="_blank"><img  data-ng-src="static/img/polar.png" class="circular-icon" title="Polar" style="height: 60px; width: 60px;"/></a>
+                <a ng-href="https://www.underarmour.com" target="_blank"><img  data-ng-src="static/img/under_armour.png" class="circular-icon" title="Under Armour" style="height: 60px; width: 60px;"/></a>
                 <img  data-ng-src="static/img/nike.png" class="circular-icon icon-disabled" title="Nike" style="height: 60px; width: 60px;"/>
                 <img  data-ng-src="static/img/suunto.png" class="circular-icon icon-disabled" title="Suunto" style="height: 60px; width: 60px;"/>
                 <img  data-ng-src="static/img/strava.png" class="circular-icon icon-disabled" title="Strava" style="height: 60px; width: 60px;"/>

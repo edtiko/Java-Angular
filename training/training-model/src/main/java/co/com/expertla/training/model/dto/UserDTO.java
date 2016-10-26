@@ -48,6 +48,7 @@ public class UserDTO {
     private String  disciplineName;
     private String typeUser;
     private Integer roleId;
+    private String roleName;
     private String aboutMe;
     private String urlVideo;
     private String fullName;
@@ -587,6 +588,14 @@ public class UserDTO {
 
     public void setDisciplineName(String disciplineName) {
         this.disciplineName = disciplineName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
     
     

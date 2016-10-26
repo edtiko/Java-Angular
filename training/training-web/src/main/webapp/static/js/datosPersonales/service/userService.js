@@ -161,8 +161,11 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                         );
             },
             updateUser: function (user, id) {
-                user.birthDate = user.birthDate.getDate() + '/' + (user.birthDate.getMonth() + 1) + '/' + user.birthDate.getFullYear();
-                return $http.put($contextPath + '/user/' + id, user)
+                 var date = user.birthDate.split("/");
+                 var dateFormat = new Date(date[2], date[1] - 1, date[0]);
+                 var dto = user;
+                dto.birthDate = ("0" + (dateFormat.getDate()+1)).slice(-2)+"/"+("0" + (dateFormat.getMonth() + 1)).slice(-2)+"/"+dateFormat.getFullYear();
+                return $http.put($contextPath + '/user/' + id, dto)
                         .then(
                                 function (response) {
                                     return response.data;

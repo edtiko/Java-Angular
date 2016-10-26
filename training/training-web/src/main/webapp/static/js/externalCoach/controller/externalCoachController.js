@@ -96,8 +96,8 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
         };
 
         $scope.resetAthlete = function () {
-            $scope.athleteUser = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', countryId: '', phone: ''};
-            //$scope.myFormUser.$setPristine(); 
+        $scope.athleteUser = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', countryId: '', disciplineId: $scope.userSession.disciplineId, phone: ''};
+        $scope.coachExtAthlete = {id: '', athleteUserId: $scope.athleteUser, coachUserId:{ userId: $scope.userSession.userId}, trainingPlanUserId: $scope.userSession.trainingPlanUserId};
         };
 
         self.fetchAllCountries();

@@ -638,6 +638,8 @@ create table user_profile (
    about_me             varchar(1000)        null,
    environment_id       integer              not null,
    weather_id           integer              not null,
+   injury_id            integer              null,
+   disease              varchar(500)         null,  
    constraint pk_user_profile primary key (user_profile_id)
 );
 
@@ -1277,6 +1279,11 @@ alter table user_profile
    add constraint fk_user_pro_reference_weather foreign key (weather_id)
       references weather (weather_id)
       on delete restrict on update restrict;	  
+	  
+	  alter table user_profile
+   add constraint fk_user_pro_reference_injury foreign key (injury_id)
+      references injury (injury_id)
+      on delete restrict on update restrict;	
 
 alter table user_sport
    add constraint fk_user_spo_reference_user_pro foreign key (user_profile_id)

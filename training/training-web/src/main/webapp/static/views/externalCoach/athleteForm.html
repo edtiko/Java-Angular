@@ -44,7 +44,7 @@
                 <md-input-container class="md-block" >
                     <label  for="sex">Sexo</label>
 
-                    <md-select id="sex" ng-model="athleteUser.sex">
+                    <md-select id="sex" name="sex" ng-model="athleteUser.sex" required>
                         <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
                             {{s.sex}}
                         </md-option>
@@ -70,11 +70,14 @@
             <div flex="35">
                 <md-input-container class="md-block">
                     <label>Pa&iacute;s</label>
-                    <md-select class="md-block" id="country" ng-model="athleteUser.countryId" >
+                    <md-select class="md-block" id="country" name="country" ng-model="athleteUser.countryId" required>
                         <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
                             {{country.name}}
                         </md-option>
                     </md-select>
+                      <div class="has-error" ng-messages="myFormUser.country.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
                 </md-input-container>
             </div>
         </div>

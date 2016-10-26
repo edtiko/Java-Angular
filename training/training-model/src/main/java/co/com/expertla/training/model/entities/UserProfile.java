@@ -80,6 +80,11 @@ public class UserProfile implements Serializable {
     @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
     @ManyToOne
     private Modality modalityId;
+    @JoinColumn(name = "injury_id", referencedColumnName = "injury_id")
+    @ManyToOne
+    private Injury injuryId;
+    @Column(name = "disease")
+    private String disease;
     @OneToMany(mappedBy = "userProfileId")
     private Collection<UserSport> userSportCollection;
     @OneToMany(mappedBy = "userProfileId")
@@ -267,5 +272,22 @@ public class UserProfile implements Serializable {
         this.modalityId = modalityId;
 
     }
+
+    public Injury getInjuryId() {
+        return injuryId;
+    }
+
+    public void setInjuryId(Injury injuryId) {
+        this.injuryId = injuryId;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+      
     
 }

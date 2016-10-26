@@ -20,6 +20,7 @@ import co.com.expertla.training.model.entities.Discipline;
 import co.com.expertla.training.model.entities.DisciplineUser;
 import co.com.expertla.training.model.entities.Environment;
 import co.com.expertla.training.model.entities.EquipmentUserProfile;
+import co.com.expertla.training.model.entities.Injury;
 import co.com.expertla.training.model.entities.Modality;
 import co.com.expertla.training.model.entities.ModelEquipment;
 import co.com.expertla.training.model.entities.Objective;
@@ -355,8 +356,12 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setUserProfileId(dto.getUserProfileId());
         userProfile.setEnvironmentId(new Environment(dto.getEnvironmentId()));
         userProfile.setWeatherId(new Weather(dto.getWeatherId()));
+        userProfile.setInjuryId(dto.getInjuryId() == null?null: new Injury(dto.getInjuryId()));
+        userProfile.setDisease(dto.getDisease());
         User user = userDao.findById(dto.getUserId());
+        if(!dto.getIndMetricSys().equals("-1")){
         user.setIndMetricSys(dto.getIndMetricSys());
+        }
         user.setWeight(dto.getWeight());
         user.setHeight(dto.getHeight());
 
@@ -626,6 +631,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setEnvironmentId(new Environment(dto.getEnvironmentId()));
         userProfile.setWeatherId(new Weather(dto.getWeatherId()));
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
+        userProfile.setInjuryId(new Injury(dto.getInjuryId()));
+        userProfile.setDisease(dto.getDisease());
     }
 
     /**

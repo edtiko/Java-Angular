@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Injury;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
@@ -64,6 +65,8 @@ public class UserProfileDTO implements Serializable {
     private BigInteger ppm106;
     private Float weight;
     private Float height;
+    private Integer injuryId;
+    private String disease;
 
     public UserProfileDTO() {
     }
@@ -71,7 +74,7 @@ public class UserProfileDTO implements Serializable {
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
             BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,  
             Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
-            Float weight, Float height) {
+            Float weight, Float height, Injury injury, String disease) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -90,6 +93,10 @@ public class UserProfileDTO implements Serializable {
         this.weatherId = weatherId;
         this.weight = weight;
         this.height = height;
+        if(injury != null){
+        this.injuryId = injury.getInjuryId();
+        }
+        this.disease = disease;
     }
 
     public Integer getUserProfileId() {
@@ -515,5 +522,21 @@ public class UserProfileDTO implements Serializable {
     public void setHeight(Float height) {
         this.height = height;
     }
-    
+
+    public Integer getInjuryId() {
+        return injuryId;
+    }
+
+    public void setInjuryId(Integer injuryId) {
+        this.injuryId = injuryId;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+        
 }

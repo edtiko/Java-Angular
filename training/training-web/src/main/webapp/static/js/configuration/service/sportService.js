@@ -39,6 +39,19 @@ trainingApp.factory('SportService', ['$http', '$q', function($http, $q){
                                     }
                             );
             },
+
+            getLesiones: function () {
+                return $http.get($contextPath + 'injury/get/all')
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while getting injuries');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
             
             getSportDisciplines: function(){
                     return $http.get($contextPath+'sport/get/all/sportDisciplines')
