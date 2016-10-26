@@ -74,7 +74,7 @@ public class TrainingPlanWorkoutController {
                 calendarEventDto.setSuccess(1);
                 return calendarEventDto;
             }
-            
+
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(from);
             Date fromDate = calendar.getTime();
@@ -95,12 +95,12 @@ public class TrainingPlanWorkoutController {
     }
 
     /**
-     * 
+     *
      * @param user
      * @param from
      * @param to
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     private List<TrainingPlanWorkoutDto> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
             Date fromDate, Date toDate) throws Exception {
@@ -115,7 +115,7 @@ public class TrainingPlanWorkoutController {
         if (list == null) {
             list = new ArrayList();
         }
-        
+
         return list;
     }
 
@@ -234,33 +234,50 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
     @RequestMapping(value = "/trainingPlanWorkout/get/by/user/intervalDate/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> getTrainingPlanWorkoutByUserInterval(@RequestBody PlanWorkoutDTO trainingPlanWorkout) {
+    public ResponseEntity<ResponseService> getTrainingPlanWorkoutByUserInterval(@RequestBody PlanWorkoutDTO trainingPlanWorkout, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
             Calendar calendar = Calendar.getInstance();
             Calendar calendarTo = Calendar.getInstance();
-            
-            if(trainingPlanWorkout.getYear() > 0) {
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            calendarTo.set(Calendar.DAY_OF_MONTH, 1);
+            if (trainingPlanWorkout.getYear() > 0) {
                 calendar.set(Calendar.YEAR, trainingPlanWorkout.getYear());
                 calendarTo.set(Calendar.YEAR, trainingPlanWorkout.getYear());
             }
-            
-            if(trainingPlanWorkout.getMonth() > 0) {
+
+            if (trainingPlanWorkout.getMonth() > 0) {
                 calendar.set(Calendar.MONTH, trainingPlanWorkout.getMonth());
-                calendarTo.set(Calendar.MONTH, trainingPlanWorkout.getMonth()+1);
+                calendarTo.set(Calendar.MONTH, trainingPlanWorkout.getMonth() + 1);
             }
-            
-            if(trainingPlanWorkout.getWeekMonth() > 0) {
+
+            if (trainingPlanWorkout.getWeekMonth() > 0) {
                 calendar.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth());
-                calendarTo.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth()+1);
+                calendarTo.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth() + 1);
             }
-            
+
             Date fromDate = calendar.getTime();
             Date toDate = calendarTo.getTime();
+
+            List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(trainingPlanWorkout.getUserId()),
+                    fromDate, toDate);
+
+            for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {
+                trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
+                trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
+                String url = request.getRequestURL().substring(0, request.getRequestURL().indexOf("trainingPlanWorkout"));
+                url+= "static/img/";
+                trainingPlanWorkoutDto.setClassName(url + "/" + trainingPlanWorkoutDto.getSportIcon());
+            }
+
+            if (list == null) {
+                list = new ArrayList();
+            }
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(getTrainingPlanWorkoutByIntervalDateUserId(trainingPlanWorkout.getUserId(), fromDate,toDate));            
+            responseService.setOutput(list);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
