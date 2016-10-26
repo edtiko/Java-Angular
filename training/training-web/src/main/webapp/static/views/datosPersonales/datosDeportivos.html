@@ -1,10 +1,10 @@
 <div class="demo-md-panel md-padding">
     <md-content layout-padding>
         <span class="md-headline">Datos Deportivos</span>
-        <form name="formProfile" > 
+        <form name="formProfile" novalidate> 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Disciplina Deportiva</label>
                         <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && (userSession.planActiveId != null && userSession.planActiveId != '0'))"
                                    id="discipline" name="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
@@ -22,7 +22,7 @@
             </div>
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Objetivo</label>
                         <md-select id="objective" name="objective" ng-model="userProfile.objective"  ng-change="getModalitiesByObjectiveId(userProfile.objective)">
                             <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
@@ -40,7 +40,7 @@
             </div>
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Modalidad </label>
                         <md-select  ng-model="userProfile.modality" id="modality" name="modality" >
                             <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
@@ -58,7 +58,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Entorno Geogr&aacute;fico
                         </label>
                         <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" required>
@@ -82,7 +82,7 @@
             </div>
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
 
                         <label>Clima predominante en sus entrenamientos
                         </label>
@@ -105,7 +105,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Edad Deportiva</label>
 
                         <input type="number" ng-model="userProfile.ageSport">
@@ -147,7 +147,7 @@
 
             <div layout="row">
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <input type="text" ng-model="userProfile.imc" id="imc"  placeholder="{{ 'IMC' | translate }}" readonly="true"/>
                     </md-input-container>
                 </div> 
@@ -175,7 +175,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Enfermedades</label>
                         <textarea md-maxlength="500" id="disease" name="disease" ng-model="userProfile.disease" md-select-on-focus></textarea>
                     </md-input-container>
@@ -204,7 +204,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>&iquest;Practicas otros deportes?</label>
                         <md-select  ng-model="userProfile.sport" id="sport" name="sport">
                             <md-option ng-repeat="m in sports" value="{{m.sportId}}" >
@@ -219,7 +219,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Acerca de m&iacute;</label>
                         <textarea md-maxlength="500" ng-model="userProfile.aboutMe" md-select-on-focus></textarea>
                     </md-input-container>
@@ -246,7 +246,7 @@
             <div ng-show="userProfile.indPulsometer == 1">
                 <div layout="row"> 
                     <div flex="33">
-                        <md-input-container class="md-block" >
+                        <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.pulsometer" id="pulsometer" name="pulsometer" ng-change="getModelsPulsometer(userProfile.pulsometer)">
                                 <md-option ng-repeat="m in pulsometers" value="{{m.sportEquipmentId}}" >
@@ -259,7 +259,7 @@
                 <div ng-show="showModelPulsometer">
                     <div layout="row"> 
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <label >Modelo</label>
                                 <md-select  ng-model="userProfile.modelPulsometer" >
                                     <md-option ng-repeat="m in modelsPulsometer" value="{{m.modelEquipmentId}}" >
@@ -273,14 +273,14 @@
                 <div ng-show="showAnotherPulsometer">
                     <div layout="row">
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <input type="text" name="otherPulsometer" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherPulsometer" class="form-control" ng-model="userProfile.otherPulsometer">
                             </md-input-container>
                         </div>
                     </div>
                     <div layout="row">
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <input  name="otherModelPulsometer" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherPulsometer" type="text" ng-model="userProfile.otherModelPulsometer">
                             </md-input-container>
                         </div>
@@ -291,7 +291,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Ppm
                         </label>
                         <input type="number" ng-model="userProfile.ppm" id="ppm" name="ppm"  ng-blur="calculatePpm()" >
@@ -363,7 +363,7 @@
             <div ng-show="userProfile.indPower == 1">
                 <div layout="row"> 
                     <div flex="33">
-                        <md-input-container class="md-block" >
+                        <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.potentiometer" id="potentiometer" name="potentiometer" ng-change="getModelsPotentiometer(userProfile.potentiometer)">
                                 <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
@@ -377,7 +377,7 @@
                 <div ng-show="showModelPotentiometer">
                     <div layout="row"> 
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <label>Modelo</label>
                                 <md-select  ng-model="userProfile.modelPotentiometer" id="modelPotentiometer" name="modelPotentiometer">
                                     <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
@@ -391,14 +391,14 @@
                 <div ng-show="showAnotherPotentiometer">
                     <div layout="row"> 
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <input type="text" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherPotentiometer" class="form-control" ng-model="userProfile.otherPotentiometer">
                             </md-input-container>
                         </div>
                     </div>
                     <div layout="row"> 
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <input  class="form-control" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherPotentiometer" type="text" ng-model="userProfile.otherModelPotentiometer">
                             </md-input-container>
                         </div>
@@ -409,7 +409,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Potencia
                         </label>
                         <input type="number"  ng-model="userProfile.power"  id="power" name="power" ng-blur="calculateZone(userProfile)">
@@ -461,7 +461,7 @@
             </div>
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>VO2 M&aacute;ximo Running</label>
                         <input type="number"  ng-model="userProfile.vo2Running">
                     </md-input-container>
@@ -474,7 +474,7 @@
             </div>
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>VO2 M&aacute;ximo Ciclismo</label>
 
                         <input type="number"  ng-model="userProfile.vo2Ciclismo">
@@ -502,7 +502,7 @@
             <div  ng-show="indBike == 1">
                 <div layout="row"> 
                     <div flex="33">
-                        <md-input-container class="md-block" >
+                        <md-input-container class="md-block md-input-has-placeholder" >
                             <label>Tipo de Bicicleta</label>
                             <md-select  ng-model="userProfile.bikeType"
                                         ng-change="getBikes(userProfile.bikeType)">
@@ -515,7 +515,7 @@
                 </div>
                 <div layout="row"> 
                     <div flex="33">
-                        <md-input-container class="md-block" >
+                        <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
                                 <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
@@ -527,7 +527,7 @@
                 </div>
                 <div layout="row" ng-show="showModelBike"> 
                     <div flex="33">
-                        <md-input-container class="md-block" >
+                        <md-input-container class="md-block md-input-has-placeholder" >
                             <label >Modelo</label>
                             <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
                                 <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
@@ -540,14 +540,14 @@
                 <div ng-show="showAnotherBike">
                     <div layout="row">
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <input type="text" name="otherBike" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherBike" class="form-control" ng-model="userProfile.otherBike">
                             </md-input-container>
                         </div>
                     </div>
                     <div layout="row">
                         <div flex="33">
-                            <md-input-container class="md-block" >
+                            <md-input-container class="md-block md-input-has-placeholder" >
                                 <input  name="otherModelBike" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherBike" type="text" ng-model="userProfile.otherModelBike">
                             </md-input-container>
                         </div>
@@ -557,7 +557,7 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder" >
                         <label>&iquest;Qu&eacute; tipo de zapato para correr usas?</label>
                         <md-select  ng-model="userProfile.shoes" id="shoe" name="shoe">
                             <md-option ng-repeat="m in shoes" value="{{m.sportEquipmentId}}" >
@@ -571,7 +571,7 @@
             </div>
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder">
                         <label>Sistema de medici&oacute;n </label>
                         <md-select  ng-model="userProfile.indMetricSys" id="indMetricSys" name="indMetricSys">
                             <md-option ng-repeat="m in metricSystems" value="{{m.id}}" >

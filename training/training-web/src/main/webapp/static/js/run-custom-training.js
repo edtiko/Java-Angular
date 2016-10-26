@@ -47,6 +47,7 @@ require.config({
         app: "routeResolver",
         sockjs: "lib/sockjs.min",
         moment: "lib/moment.min",
+        jqueryui: "lib/jquery-ui.min",
         stompWebsocket: "lib/stomp.min",
         ngCamRecorder: "lib/vaRecorder/ngCamRecorder",
         recorder: "lib/vaRecorder/recorder",
@@ -187,7 +188,8 @@ require.config({
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
-                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder','wavesurfer','adapter','moment'
+                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder',
+                'wavesurfer','adapter','moment','jqueryui'
 
             ]
         },

@@ -79,9 +79,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.resetProfile = function () {
             self.getUserById();
         };
-        $scope.showAge = function (date) {
-            $scope.birthdateDt = date;
-            $scope.user.age = $scope.calculateAge(date);
+        $scope.showAge = function (d) {
+            $scope.birthdateDt = d;
+ 
+            var date = d.split("/");
+            var obj = new Date(date[2], date[1], date[0]);
+            $scope.user.age = $scope.calculateAge(obj);
         };
 
         self.getUserById = function () {
@@ -101,8 +104,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
                                     if ($scope.user.birthDate != null) {
                                         var date = $scope.user.birthDate.split("/");
-                                        $scope.birthdateDt = new Date(date[2], date[1], date[0]);
-                                        $scope.user.age = $scope.calculateAge($scope.birthdateDt);
+                                        var obj =  new Date(date[2], date[1], date[0]);
+                                        $scope.birthdateDt = $scope.user.birthDate;
+                                        $scope.user.age = $scope.calculateAge(obj);
                                     }
                                 },
                                 function (errResponse) {
@@ -193,7 +197,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         self.updateUser = function (user, id, file) {
-            user.birthDate = $scope.birthdateDt;
+            user.birthDate = $scope.birthdateDt; 
             var userUpdate = user;
             userUpdate.profilePhoto = '';
             userUpdate.profilePhotoBase64 = '';
@@ -1052,11 +1056,19 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 valid = false;
             }
             if (!$scope.validatePower()) {
-                $scope.errorMessages.push( "Debe llenar todas las zonas de ppm ");
+                $scope.errorMessages.push("Debe llenar todas las zonas de ppm ");
+                valid = false;
+            }
+            if ($scope.userProfile.height <= 0) {
+                $scope.errorMessages.push("La altura debe ser mayor a cero ");
+                valid = false;
+            }
+            if ($scope.userProfile.weight <= 0) {
+                $scope.errorMessages.push("El peso debe ser mayor a cero ");
                 valid = false;
             }
             if (!isNumeric($scope.userProfile.height)) {
-                $scope.errorMessages.push( "La altura debe ser un n\u00famero ");
+                $scope.errorMessages.push("La altura debe ser un n\u00famero ");
                 valid = false;
             }
             return valid;

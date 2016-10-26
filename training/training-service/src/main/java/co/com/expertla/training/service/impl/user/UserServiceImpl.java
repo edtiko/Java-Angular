@@ -126,22 +126,16 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public int updateUser(UserDTO userDTO) {
+    public int updateUser(UserDTO userDTO) {       
         User user = userDao.findById(userDTO.getUserId());
         City city = cityDao.findById(userDTO.getCityId());
-        Date javaDate = null;
-        try {
-             javaDate = new SimpleDateFormat("dd/MM/yyyy").parse(userDTO.getBirthDate().toString());
-        } catch (ParseException ex) {
-            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
         user.setName(userDTO.getFirstName());
         user.setSecondName(userDTO.getSecondName());
         user.setLogin(userDTO.getLogin());
         user.setPassword(userDTO.getPassword());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
-        user.setBirthDate(javaDate);
+        user.setBirthDate(userDTO.getBirthDate());
         user.setAddress(userDTO.getAddress());
         user.setSex(userDTO.getSex());
         user.setWeight(userDTO.getWeight());

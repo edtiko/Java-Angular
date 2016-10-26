@@ -1,18 +1,10 @@
-<md-dialog aria-label="Alerta" style="width: 350px">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
+<md-dialog aria-label="Alerta" style="width: 350px;">
             <h2>{{title}}</h2>
-            <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </md-button>
-        </div>
-    </md-toolbar>
     <md-dialog-content>
         <div class="md-dialog-content">
             <div ng-if="message.length > 0">
                 <div ng-repeat="msg in message">
-                    <span> -{{msg}} </span>
+                    <span> - {{msg}} </span>
                 </div>
             </div>
             <div ng-if="message.length == 0">

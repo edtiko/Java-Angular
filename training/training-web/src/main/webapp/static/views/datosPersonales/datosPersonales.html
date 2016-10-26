@@ -67,7 +67,7 @@
                     <md-input-container class="md-block" >
                         <label  for="sex">Sexo</label>
 
-                        <md-select id="sex" ng-model="user.sex" layout-margin>
+                        <md-select id="sex" ng-model="user.sex" >
                             <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
                                 {{s.sex}}
                             </md-option>
@@ -87,9 +87,10 @@
                 <div flex="33">
                     <md-input-container class="md-block" >
                         <label>Fecha de Nacimiento (dd/mm/yyyy)</label>
-                        <md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
+                        <!--<md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
 
-                        </md-datepicker>
+                        </md-datepicker>-->
+                        <input type="text" id="birthDate"  ng-model-options="{updateOn: 'blur'}" name="birthDate" ng-model="birthdateDt" jqdatepicker  ng-required="true" />
                           <!--<input type="text" ng-model="birthdateDt" id="birthDate" ng-blur="showAge(this.birthdateDt)" name="birthDate" />-->
                         <div class="has-error" ng-messages="myFormUser.birthDate.$error">
                             <div ng-message="required">Este es un campo requerido</div>
