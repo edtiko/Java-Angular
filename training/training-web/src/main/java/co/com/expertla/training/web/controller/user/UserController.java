@@ -7,7 +7,6 @@ import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
-import co.com.expertla.training.model.dto.RoleEnumMovilDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.dto.UserMovilDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
@@ -36,12 +35,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.controller.security.OptionController;
 import co.com.expertla.training.web.enums.StatusResponse;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.opentok.OpenTok;
 import com.opentok.exception.OpenTokException;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -188,12 +190,12 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     /**
-     * 
+     *
      * @param userDTO
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     private ResponseService createUserPlan(UserDTO userDTO) throws Exception {
         ResponseService responseService = new ResponseService();
@@ -532,7 +534,7 @@ public class UserController {
         try {
             UserDTO userDto = userService.findUserByUsername(user.getLogin());
             if (userDto == null) {
-                responseService.setOutput("El usuario " + user.getLogin() + " no existe");
+                responseService.setOutput("El usuario " + user.getLogin() + " o la contraseña son invalidos");
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
@@ -553,6 +555,7 @@ public class UserController {
 
             UserMovilDTO userSession = new UserMovilDTO();
             userSession.setUserId(userDto.getUserId());
+            userSession.setLogin(userDto.getLogin());
             userSession.setFirstName(userDto.getFirstName());
             userSession.setLastName(userDto.getLastName());
             userSession.setSecondName(userDto.getSecondName());
@@ -562,7 +565,6 @@ public class UserController {
             userSession.setDisciplineId(userDto.getDisciplineId());
             userSession.setDisciplineName(userDto.getDisciplineName());
             userSession.setRoleId(userDto.getRoleId());
-            userSession.setRole(RoleEnumMovilDTO.getRoleEnum());
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
@@ -586,17 +588,53 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
+    @RequestMapping(value = "/user/download/photo/{userId}", method = RequestMethod.GET,
+            produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity downloadPhotoByUser(@PathVariable("userId") Integer userId, HttpServletRequest request) {
+        try {
+            UserDTO userDto = userService.findById(userId);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            
+            if (userDto != null) {
+                responseHeaders.add("content-disposition", "inline; filename=user.jpg");
+                
+                if(userDto.getProfilePhoto()!= null) {
+                    return new ResponseEntity(userDto.getProfilePhoto(), responseHeaders, HttpStatus.OK);
+                }
+                String uri = request.getRequestURL().substring(0, request.getRequestURL().indexOf("user/download"));
+                uri += "static/img/profile-default.png";
+                URL url = new URL(uri);
+                InputStream in = new BufferedInputStream(url.openStream());
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                int n = 0;
+                while (-1 != (n = in.read(buf))) {
+                    out.write(buf, 0, n);
+                }
+                out.close();
+                in.close();
+                byte[] response = out.toByteArray();
+                return new ResponseEntity(response, responseHeaders, HttpStatus.OK);
+            }
+
+            return new ResponseEntity("El usuario no existe", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "user/register/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> registerUserMovil(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
         try {
             responseService = createUserPlan(userDTO);
-            
-            if(responseService.getOutput() == null) {
+
+            if (responseService.getOutput() == null) {
                 responseService.setOutput("Usuario registrado exitosamente");
             }
-            
+
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -606,7 +644,7 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
     @RequestMapping(value = "/user/update/personal/data", method = RequestMethod.POST)
     public ResponseEntity<ResponseService> updateUserPersonal(@RequestBody UserDTO user) {
         ResponseService responseService = new ResponseService();

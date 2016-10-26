@@ -353,16 +353,16 @@ public class ActivityController {
             }
 
             if (listUserZone != null && !listUserZone.isEmpty()) {
-                activity = activity.replaceAll("zona 2", "en " + listUserZone.get(0).getZoneTwo());
-                activity = activity.replaceAll("zona 3", "en " + listUserZone.get(0).getZoneThree());
-                activity = activity.replaceAll("zona 4", "en " + listUserZone.get(0).getZoneFour());
-                activity = activity.replaceAll("zona 5", "en " + listUserZone.get(0).getZoneFive());
-                activity = activity.replaceAll("zona 6", "en " + listUserZone.get(0).getZoneSix());
-                activity = activity.replaceAll("zona2", "en " + listUserZone.get(0).getZoneTwo());
-                activity = activity.replaceAll("zona3", "en " + listUserZone.get(0).getZoneThree());
-                activity = activity.replaceAll("zona4", "en " + listUserZone.get(0).getZoneFour());
-                activity = activity.replaceAll("zona5", "en " + listUserZone.get(0).getZoneFive());
-                activity = activity.replaceAll("zona6", "en " + listUserZone.get(0).getZoneSix());
+                activity = activity.replaceAll("(?i)zona 2", "en " + listUserZone.get(0).getZoneTwo());
+                activity = activity.replaceAll("(?i)zona 3", "en " + listUserZone.get(0).getZoneThree());
+                activity = activity.replaceAll("(?i)zona 4", "en " + listUserZone.get(0).getZoneFour());
+                activity = activity.replaceAll("(?i)zona 5", "en " + listUserZone.get(0).getZoneFive());
+                activity = activity.replaceAll("(?i)zona 6", "en " + listUserZone.get(0).getZoneSix());
+                activity = activity.replaceAll("(?i)zona2", "en " + listUserZone.get(0).getZoneTwo());
+                activity = activity.replaceAll("(?i)zona3", "en " + listUserZone.get(0).getZoneThree());
+                activity = activity.replaceAll("(?i)zona4", "en " + listUserZone.get(0).getZoneFour());
+                activity = activity.replaceAll("(?i)zona5", "en " + listUserZone.get(0).getZoneFive());
+                activity = activity.replaceAll("(?i)zona6", "en " + listUserZone.get(0).getZoneSix());
                 trainingPlanWorkoutDto.setActivityDescription(activity);
             }
 
@@ -410,16 +410,16 @@ public class ActivityController {
                 for (UserZone userZone : listUserZone) {
 
                     if (userZone.getZoneType().equals(ppm.toString())) {
-                        activity = activity.replaceAll("zona 2", "en " + userZone.getZoneTwo());
-                        activity = activity.replaceAll("zona 3", "en " + userZone.getZoneThree());
-                        activity = activity.replaceAll("zona 4", "en " + userZone.getZoneFour());
-                        activity = activity.replaceAll("zona 5", "en " + userZone.getZoneFive());
-                        activity = activity.replaceAll("zona 6", "en " + userZone.getZoneSix());
-                        activity = activity.replaceAll("zona2", "en " + userZone.getZoneTwo());
-                        activity = activity.replaceAll("zona3", "en " + userZone.getZoneThree());
-                        activity = activity.replaceAll("zona4", "en " + userZone.getZoneFour());
-                        activity = activity.replaceAll("zona5", "en " + userZone.getZoneFive());
-                        activity = activity.replaceAll("zona6", "en " + userZone.getZoneSix());
+                        activity = activity.replaceAll("(?i)zona 2", "en " + userZone.getZoneTwo());
+                        activity = activity.replaceAll("(?i)zona 3", "en " + userZone.getZoneThree());
+                        activity = activity.replaceAll("(?i)zona 4", "en " + userZone.getZoneFour());
+                        activity = activity.replaceAll("(?i)zona 5", "en " + userZone.getZoneFive());
+                        activity = activity.replaceAll("(?i)zona 6", "en " + userZone.getZoneSix());
+                        activity = activity.replaceAll("(?i)zona2", "en " + userZone.getZoneTwo());
+                        activity = activity.replaceAll("(?i)zona3", "en " + userZone.getZoneThree());
+                        activity = activity.replaceAll("(?i)zona4", "en " + userZone.getZoneFour());
+                        activity = activity.replaceAll("(?i)zona5", "en " + userZone.getZoneFive());
+                        activity = activity.replaceAll("(?i)zona6", "en " + userZone.getZoneSix());
                         trainingPlanWorkoutDto.setActivityDescription(activity);
                         break;
                     }
@@ -453,6 +453,36 @@ public class ActivityController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al traer manual activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "create/update/manual/activity/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> createManualActivityMovil(@RequestBody ActivityCalendarDTO activity) {
+        ResponseService responseService = new ResponseService();
+        try {
+            Integer id = null;
+            boolean exists = activityService.existManualActivity(activity);
+            if (exists) {
+                responseService.setOutput("El nombre de la actividad ya se encuentra asociada al deporte seleccionado.");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
+            if (activity.getId() != null) {
+                id = activityService.updateManualActivity(activity);
+                responseService.setOutput("Actividad creada exitosamente");
+            } else {
+                id = activityService.createManualActivity(activity);
+                responseService.setOutput("Actividad modificada exitosamente");
+            }
+            
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear activity");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

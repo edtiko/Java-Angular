@@ -46,7 +46,6 @@ public class UserMovilDTO {
     private String disciplineName;
     private String typeUser;
     private Integer roleId;
-    private List<RoleEnumMovilDTO> role;
     private String aboutMe;
     private String urlVideo;
     private String fullName;
@@ -392,14 +391,6 @@ public class UserMovilDTO {
 
     public void setDisciplineName(String disciplineName) {
         this.disciplineName = disciplineName;
-    }
-
-    public List<RoleEnumMovilDTO> getRole() {
-        return role;
-    }
-
-    public void setRole(List<RoleEnumMovilDTO> role) {
-        this.role = role;
     }
 
 }
