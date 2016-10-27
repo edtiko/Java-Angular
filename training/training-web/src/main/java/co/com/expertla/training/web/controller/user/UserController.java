@@ -548,7 +548,8 @@ public class UserController {
                 String statusRes = jo.get("status").getAsString();
 
                 if (statusRes.equals("fail")) {
-                    responseService.setOutput(jo.get("output"));
+                    java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, jo.get("output").getAsString());
+                    responseService.setOutput("Usuario o contraseña invalidos");
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }
