@@ -382,6 +382,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                 $scope.mediaRecorder.stop();
             }
         };
+        
+        $scope.cleanVideo = function() {
+            recordedBlobs = [];
+        };
 
         $scope.playVideo = function (path) {
             $scope.recordedVideo.controls = true;

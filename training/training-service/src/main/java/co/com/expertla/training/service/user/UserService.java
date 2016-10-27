@@ -116,5 +116,7 @@ public interface UserService {
      * @throws IOException 
      */
     public String sendPostWordpress(String uri, String params) throws IOException;
+    
+    public String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException;
    
 }

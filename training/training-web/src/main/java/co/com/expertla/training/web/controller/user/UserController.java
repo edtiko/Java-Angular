@@ -206,6 +206,11 @@ public class UserController {
         user.setPassword(userDTO.getPassword());
         user.setEmail(userDTO.getEmail());
         user.setIndMetricSys(userDTO.getIndMetricSys());
+
+        if (userDTO.getIndMetricSys() == null || userDTO.getIndMetricSys().isEmpty()) {
+            user.setIndMetricSys("1");
+        }
+
         user.setPhone(userDTO.getPhone());
         user.setLastName(userDTO.getLastName());
         user.setSex(userDTO.getSex());
@@ -218,9 +223,7 @@ public class UserController {
         }
 
         if (userService.findUserByUsername(user.getLogin()) != null) {
-            responseService.setOutput("El usuario " + user.getLogin() + " ya existe");
-            responseService.setStatus(StatusResponse.FAIL.getName());
-            return responseService;
+            throw new Exception("El usuario " + user.getLogin() + " ya existe");
         }
 
         user.setCreationDate(new Date());
@@ -596,11 +599,11 @@ public class UserController {
         try {
             UserDTO userDto = userService.findById(userId);
             HttpHeaders responseHeaders = new HttpHeaders();
-            
+
             if (userDto != null) {
                 responseHeaders.add("content-disposition", "inline; filename=user.jpg");
-                
-                if(userDto.getProfilePhoto()!= null) {
+
+                if (userDto.getProfilePhoto() != null) {
                     return new ResponseEntity(userDto.getProfilePhoto(), responseHeaders, HttpStatus.OK);
                 }
                 String uri = request.getRequestURL().substring(0, request.getRequestURL().indexOf("user/download"));
@@ -631,6 +634,17 @@ public class UserController {
         ResponseService responseService = new ResponseService();
         try {
             responseService = createUserPlan(userDTO);
+            String jsonResponse = userService.wordpressIntegrationUserRegistration(userDTO);
+
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+
+                if (statusRes.equals("fail")) {
+                    throw new Exception(jo.get("output").getAsJsonObject().get("errors").toString());
+                }
+            }
 
             if (responseService.getOutput() == null) {
                 responseService.setOutput("Usuario registrado exitosamente");

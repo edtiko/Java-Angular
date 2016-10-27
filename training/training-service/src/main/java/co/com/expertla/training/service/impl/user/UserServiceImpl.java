@@ -353,7 +353,8 @@ public class UserServiceImpl implements UserService {
      * @return
      * @throws IOException 
      */
-    private String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException {
+    @Override
+    public String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException {
         String postData = "login=" + dto.getLogin().trim() + "&email=" + dto.getEmail();
         return sendPostWordpress(UrlProperties.URL_PORTAL + "create_user_internal.php", postData);        
     }

@@ -72,6 +72,8 @@ public class PlanVideo implements Serializable {
     @JoinColumn(name = "coach_ext_athlete_id", referencedColumnName = "coach_ext_athlete_id")
     @ManyToOne(optional = false)
     private CoachExtAthlete coachExtAthleteId;
+    @Column(name = "ind_rejected")
+    private Integer indRejected;
 
 
     public PlanVideo() {
@@ -166,6 +168,14 @@ public class PlanVideo implements Serializable {
 
     public void setCoachExtAthleteId(CoachExtAthlete coachExtAthleteId) {
         this.coachExtAthleteId = coachExtAthleteId;
+    }
+
+    public Integer getIndRejected() {
+        return indRejected;
+    }
+
+    public void setIndRejected(Integer indRejected) {
+        this.indRejected = indRejected;
     }
     
     @Override

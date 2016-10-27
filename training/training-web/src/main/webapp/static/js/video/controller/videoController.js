@@ -69,6 +69,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
             $scope.isRecord = false;
             $scope.playVideoLocal();
         };
+        
+        $scope.eliminarVideoGrabado = function() {
+            $scope.isRecord = true;
+            $scope.cleanVideo();
+            $scope.colorGrabacion = '';
+        };
 
         $scope.verVideo = function (path, planVideoId, fromto) {
             $scope.isRecord = false;
