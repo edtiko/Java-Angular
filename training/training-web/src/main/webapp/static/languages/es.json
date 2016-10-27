@@ -36,6 +36,8 @@
     "CREATE_CHARACTERISTIC": "Creaci\u00f3n de Caracter\u00edsticas",
     "WEIGHT":"Peso",
     "HEIGHT":"Altura",
+    "INJURY": "Lesiones",
+    "DISEASE": "Enfermedades",
     "VALUE_TYPE":"Tipo de Valor",
     "NUMERIC":"Num\u00e9rico",
     "PORCENTAGE":"Porcentaje",

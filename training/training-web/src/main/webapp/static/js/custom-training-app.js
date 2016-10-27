@@ -128,7 +128,7 @@ trainingApp.directive('jqdatepicker', function ($parse) {
                 buttonImageOnly: true,
                 changeMonth: true,
                 changeYear: true,
-                yearRange: '1910:2010',
+                yearRange: '-90:-18',
                 onSelect: function (date) {
                  //scope.date = date;
                     scope.showAge(date);

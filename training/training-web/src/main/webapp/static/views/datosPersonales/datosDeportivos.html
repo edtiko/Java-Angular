@@ -1,18 +1,19 @@
 <div class="demo-md-panel md-padding">
     <md-content layout-padding>
         <span class="md-headline">Datos Deportivos</span>
-        <form name="formProfile" novalidate> 
+        <form name="formProfile" ng-submit="submitUserProfile(formProfile, false, $event)" > 
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Disciplina Deportiva</label>
                         <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && (userSession.planActiveId != null && userSession.planActiveId != '0'))"
-                                   id="discipline" name="discipline" ng-model="userProfile.discipline" required ng-change="getObjectivesByDiscipline(userProfile.discipline)">
-                            <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
+                                   id="discipline" name="discipline" ng-model="userProfile.discipline"  ng-change="getObjectivesByDiscipline(userProfile.discipline)" ng-required="true">
+                           <md-select-label>{{d || 'Seleccione una disciplina'}}</md-select-label>
+                            <md-option ng-repeat="d in disciplines" ng-value="$index" >
                                 {{d.name}}
                             </md-option>
                         </md-select>
-                        <div class="has-error" ng-messages="formProfile.discipline.$error">
+                        <div class="has-error" role="alert" ng-messages="formProfile.discipline.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -24,12 +25,13 @@
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Objetivo</label>
-                        <md-select id="objective" name="objective" ng-model="userProfile.objective"  ng-change="getModalitiesByObjectiveId(userProfile.objective)">
-                            <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
+                        <md-select id="objective" name="objective" ng-model="userProfile.objective"  ng-change="getModalitiesByObjectiveId(userProfile.objective)" ng-required="true">
+                            <md-select-label>{{d || 'Seleccione un objetivo'}}</md-select-label>
+                            <md-option ng-repeat="o in objectives" ng-value="$index" >
                                 {{o.name}}
                             </md-option>
                         </md-select>
-                        <div class="has-error" ng-messages="formProfile.objective.$error">
+                        <div class="has-error" role="alert" ng-messages="formProfile.objective.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -42,12 +44,13 @@
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Modalidad </label>
-                        <md-select  ng-model="userProfile.modality" id="modality" name="modality" >
-                            <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
+                        <md-select  ng-model="userProfile.modality" id="modality" name="modality" ng-required="true">
+                             <md-select-label>{{d || 'Seleccione una modalidad'}}</md-select-label>
+                            <md-option ng-repeat="m in modalities" ng-value="$index" >
                                 {{m.name}}
                             </md-option>
                         </md-select>
-                        <div class="has-error" ng-messages="formProfile.modality.$error">
+                        <div class="has-error" role="alert" ng-messages="formProfile.modality.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -61,12 +64,13 @@
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Entorno Geogr&aacute;fico
                         </label>
-                        <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" required>
+                        <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" ng-required="true">
+                            <md-select-label>{{m || 'Seleccione un entorno geogr&aacute;fico'}}</md-select-label>
                             <md-option ng-repeat="m in entornos" value="{{m.environmentId}}" >
                                 {{m.name}}
                             </md-option>
                         </md-select>
-                        <div class="has-error" ng-messages="formProfile.environment.$error">
+                        <div class="has-error" role="alert" ng-messages="formProfile.environment.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -86,12 +90,13 @@
 
                         <label>Clima predominante en sus entrenamientos
                         </label>
-                        <md-select  ng-model="userProfile.weatherId" id="weather" name="weather" required>
+                        <md-select  ng-model="userProfile.weatherId" id="weather" name="weather" ng-required="true">
+                            <md-select-label>{{m || 'Seleccione el clima'}}</md-select-label>
                             <md-option ng-repeat="m in climas" value="{{m.weatherId}}" >
                                 {{m.name}}
                             </md-option>
                         </md-select>
-                        <div class="has-error" ng-messages="formProfile.weather.$error">
+                        <div class="has-error" role="alert" ng-messages="formProfile.weather.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -99,7 +104,7 @@
                 <md-button class="md-icon-button launch md-primary" aria-label="Clima" ng-click="showTooltipWeather()">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>
                 </md-button>
-                <md-switch ng-change="setVisibleField(user_profileweatherId, 'user_profile', 'weatherId')" ng-model="user_profileweatherId"> {{ 'SHOW' | translate }}</md-switch>
+                <md-switch class="md-primary" ng-change="setVisibleField(user_profileweatherId, 'user_profile', 'weatherId')" ng-model="user_profileweatherId"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
 
@@ -121,9 +126,9 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
-                        <input type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-change="calculateIMC()" required>
-                         <div class="has-error" ng-messages="formProfile.weight.$error">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <input type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
+                         <div class="has-error" role="alert" ng-messages="formProfile.weight.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -134,9 +139,9 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
-                        <input type="text" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-change="calculateIMC()" required>
-                         <div class="has-error" ng-messages="formProfile.height.$error">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <input type="text" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
+                         <div class="has-error" role="alert" ng-messages="formProfile.height.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -160,17 +165,18 @@
 
             <div layout="row"> 
                 <div flex="33">
-                    <md-input-container class="md-block" >
+                    <md-input-container class="md-block md-input-has-placeholder">
 
                         <label>Lesiones</label>
                         <md-select  ng-model="userProfile.injuryId" id="injury" name="injury">
+                             <md-select-label>{{l || 'Seleccione una lesi&oacute;n'}}</md-select-label>
                             <md-option ng-repeat="l in lesiones" value="{{l.injuryId}}" >
                                 {{l.name}}
                             </md-option>
                         </md-select>
                     </md-input-container>
                 </div>
-                <md-switch ng-change="setVisibleField(user_profileinjuryId, 'user_profile', 'injuryId')" ng-model="user_profileinjuryId"> {{ 'SHOW' | translate }}</md-switch>
+                <md-switch class="md-primary" ng-change="setVisibleField(user_profileinjuryId, 'user_profile', 'injuryId')" ng-model="user_profileinjuryId"> {{ 'SHOW' | translate }}</md-switch>
             </div>
 
             <div layout="row"> 
@@ -191,6 +197,7 @@
                 <div flex="33">
                     <div ng-repeat="d in userProfile.availability"  style="display: inline">
                         <md-checkbox  ng-checked="d.checked"
+                                      ng-required="true"
                                       ng-click="setAvailabilityResponse(d)">
                             {{d.day}}
                         </md-checkbox>
@@ -207,6 +214,7 @@
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>&iquest;Practicas otros deportes?</label>
                         <md-select  ng-model="userProfile.sport" id="sport" name="sport">
+                             <md-select-label>{{m || 'Seleccione un deporte'}}</md-select-label>
                             <md-option ng-repeat="m in sports" value="{{m.sportId}}" >
                                 {{m.name}}
                             </md-option>
@@ -249,6 +257,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.pulsometer" id="pulsometer" name="pulsometer" ng-change="getModelsPulsometer(userProfile.pulsometer)">
+                                 <md-select-label>{{m || 'Seleccione un pulsometro'}}</md-select-label>
                                 <md-option ng-repeat="m in pulsometers" value="{{m.sportEquipmentId}}" >
                                     {{m.brand}}
                                 </md-option>
@@ -262,6 +271,7 @@
                             <md-input-container class="md-block md-input-has-placeholder" >
                                 <label >Modelo</label>
                                 <md-select  ng-model="userProfile.modelPulsometer" >
+                                     <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>
                                     <md-option ng-repeat="m in modelsPulsometer" value="{{m.modelEquipmentId}}" >
                                         {{m.name}}
                                     </md-option>
@@ -366,6 +376,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.potentiometer" id="potentiometer" name="potentiometer" ng-change="getModelsPotentiometer(userProfile.potentiometer)">
+                                 <md-select-label>{{m || 'Seleccione un potenciometro'}}</md-select-label>
                                 <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
                                     {{m.brand}}
                                 </md-option>
@@ -380,6 +391,7 @@
                             <md-input-container class="md-block md-input-has-placeholder" >
                                 <label>Modelo</label>
                                 <md-select  ng-model="userProfile.modelPotentiometer" id="modelPotentiometer" name="modelPotentiometer">
+                                     <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>
                                     <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
                                         {{m.name}}
                                     </md-option>
@@ -506,6 +518,7 @@
                             <label>Tipo de Bicicleta</label>
                             <md-select  ng-model="userProfile.bikeType"
                                         ng-change="getBikes(userProfile.bikeType)">
+                                 <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>
                                 <md-option ng-repeat="p in bikeTypes" value="{{p.bikeTypeId}}" >
                                     {{p.name}}
                                 </md-option>
@@ -518,6 +531,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
+                                 <md-select-label>{{m || 'Seleccione una bicicleta'}}</md-select-label>
                                 <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
                                     {{m.brand}}
                                 </md-option>
@@ -530,6 +544,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label >Modelo</label>
                             <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
+                                 <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>
                                 <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
                                     {{m.name}}
                                 </md-option>
@@ -560,6 +575,7 @@
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>&iquest;Qu&eacute; tipo de zapato para correr usas?</label>
                         <md-select  ng-model="userProfile.shoes" id="shoe" name="shoe">
+                             <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>
                             <md-option ng-repeat="m in shoes" value="{{m.sportEquipmentId}}" >
                                 {{m.brand}}
                             </md-option>
@@ -574,6 +590,7 @@
                     <md-input-container class="md-block md-input-has-placeholder">
                         <label>Sistema de medici&oacute;n </label>
                         <md-select  ng-model="userProfile.indMetricSys" id="indMetricSys" name="indMetricSys">
+                             <md-select-label>{{m || 'Seleccione un sistema de medici&oacute;n'}}</md-select-label>
                             <md-option ng-repeat="m in metricSystems" value="{{m.id}}" >
                                 {{m.name}}
                             </md-option>
@@ -583,7 +600,7 @@
             </div>
             <br /><br />
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button class="md-raised md-primary" ng-disabled="formProfile.$invalid" ng-click="submitUserProfile(formProfile, false, $event)">Guardar</md-button>
+                <md-button type="submit" class="md-raised md-primary">Guardar</md-button>
                 <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
             </section>
         </form>
