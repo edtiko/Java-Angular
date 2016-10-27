@@ -494,7 +494,12 @@ public class UserDTO {
     }
 
     public String getFullName() {
-        return this.firstName+" "+this.secondName+" "+this.lastName;
+        if(this.secondName != null) {
+            return this.firstName+" "+this.secondName+" "+this.lastName;
+        }
+        
+        return this.firstName+" "+this.lastName;
+        
     }
 
     public void setFullName(String fullName) {

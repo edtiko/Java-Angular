@@ -1,17 +1,19 @@
-trainingApp.controller("VideoController", ['$scope', 'videoService', function ($scope, videoService) {
+trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService',
+    function ($scope, videoService, UserService) {
         $scope.guion = '';
         $scope.isToStar = false;
+        $scope.showGuion = false;
         $scope.isRecord = true;
         $scope.colorGrabacion = '';
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
         $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
-        
-        
-        if($scope.planSelected != null && $scope.planSelectedStar != null)  {
+
+
+        if ($scope.planSelected != null && $scope.planSelectedStar != null) {
             $scope.coachAssignedPlanSelected = $scope.planSelected;
             $scope.planSelected = null;
         }
-        
+
         if ($scope.appReady && $scope.planSelected != null) {
             $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoach || $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
@@ -22,6 +24,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
             videoService.initialize($scope.planSelected.id);
         } else if ($scope.appReady && $scope.coachAssignedPlanSelected != null) {
             $scope.isToStar = true;
+            $scope.showGuion = true;
             $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
                 $scope.toUserId = $scope.coachAssignedPlanSelected.starUserId.userId;
@@ -58,19 +61,19 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
             $scope.isRecord = true;
             $scope.startRecordingVideo();
         };
-        
-        $scope.stopVideo = function() {
+
+        $scope.stopVideo = function () {
             $scope.colorGrabacion = '';
             $scope.stopRecordingVideo();
         };
-        
+
         $scope.verVideoGrabado = function () {
             $scope.colorGrabacion = '';
             $scope.isRecord = false;
             $scope.playVideoLocal();
         };
-        
-        $scope.eliminarVideoGrabado = function() {
+
+        $scope.eliminarVideoGrabado = function () {
             $scope.isRecord = true;
             $scope.cleanVideo();
             $scope.colorGrabacion = '';
@@ -78,19 +81,31 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', function ($
 
         $scope.verVideo = function (path, planVideoId, fromto) {
             $scope.isRecord = false;
-            $scope.playVideo(path);
+            UserService.getUserById(planVideoId.fromUser.userId)
+                    .then(
+                            function (d) {
+                                if(d.typeUser === $scope.userSessionTypeUserAtleta) {
+                                    $scope.showGuion = true;
+                                }
+                                $scope.playVideo(path);
+                                if (fromto == 'to') {
+                                    videoService.readVideo(planVideoId.id).then(
+                                            function (data) {
+                                                console.log(data.entity.output);
+                                            },
+                                            function (error) {
+                                                //$scope.showMessage(error);
+                                                console.error(error);
+                                            });
 
-            if (fromto == 'to') {
-                videoService.readVideo(planVideoId).then(
-                        function (data) {
-                            console.log(data.entity.output);
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching Currencies');
+                            }
+                    );
 
-            }
+
         };
 
         $scope.enviarVideo = function () {

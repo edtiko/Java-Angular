@@ -180,6 +180,11 @@ public class UserController {
     public Response createUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
         try {
+            if (userService.findUserByUsername(userDTO.getLogin()) != null) {
+                responseService.setOutput("El usuario " + userDTO.getLogin() + " ya existe");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            }
             responseService = createUserPlan(userDTO);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception ex) {
@@ -220,10 +225,6 @@ public class UserController {
 
         if (userDTO.getCountryId() != null) {
             user.setCountryId(new Country(userDTO.getCountryId()));
-        }
-
-        if (userService.findUserByUsername(user.getLogin()) != null) {
-            throw new Exception("El usuario " + user.getLogin() + " ya existe");
         }
 
         user.setCreationDate(new Date());
@@ -634,6 +635,11 @@ public class UserController {
     public ResponseEntity<ResponseService> registerUserMovil(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
         try {
+            if (userService.findUserByUsername(userDTO.getLogin()) != null) {
+                responseService.setOutput("El usuario " + userDTO.getLogin() + " ya existe");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
             responseService = createUserPlan(userDTO);
             String jsonResponse = userService.wordpressIntegrationUserRegistration(userDTO);
 

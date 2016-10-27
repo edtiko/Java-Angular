@@ -305,7 +305,10 @@ public class UserMovilDTO {
     }
 
     public String getFullName() {
-        return this.fullName = this.firstName + " " + this.secondName + " " + this.lastName;
+        if(this.secondName != null) {
+            return this.fullName = this.firstName + " " + this.secondName + " " + this.lastName;
+        }
+        return this.fullName = this.firstName + " " + this.lastName;        
     }
 
     public void setFullName(String fullName) {

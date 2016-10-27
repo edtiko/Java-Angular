@@ -25,7 +25,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                     function (response) {
                         if (response != null && response != "") {
                             $scope.invitation = angular.copy(response);
-                        }else{
+                        } else {
                             $scope.invitation = null;
                         }
                     },
@@ -64,7 +64,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             if (title != "") {
                 titleDefault = title;
             }
-            
+
             if (html) {
                 $scope.message = msg;
                 $scope.title = title;
@@ -74,27 +74,27 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                     parent: angular.element(document.querySelector('#trainingApp')),
                     clickOutsideToClose: true,
                     fullscreen: $scope.customFullscreen,
-                    controller: function (){
-                        $scope.cancel = function(){
-                             $mdDialog.cancel();
+                    controller: function () {
+                        $scope.cancel = function () {
+                            $mdDialog.cancel();
                         }
                     }
                 });
-            }else{
+            } else {
 
-            $mdDialog.show(
-                    $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#user-container')))
-                    .clickOutsideToClose(true)
-                    .title(titleDefault)
-                    .textContent(msg)
-                    .ariaLabel('Alert Dialog Demo')
-                    .ok('Aceptar')
-                    //.targetEvent(ev)
-                    );
-        }
+                $mdDialog.show(
+                        $mdDialog.alert()
+                        .parent(angular.element(document.querySelector('#user-container')))
+                        .clickOutsideToClose(true)
+                        .title(titleDefault)
+                        .textContent(msg)
+                        .ariaLabel('Alert Dialog Demo')
+                        .ok('Aceptar')
+                        //.targetEvent(ev)
+                        );
+            }
         };
-        
+
         $scope.goCalendar = function () {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
             $location.path("/calendar");
@@ -248,12 +248,12 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
 
 
         }
-        
-   
+
+
         $scope.offPlanDialog = function (ev) {
             var confirm = $mdDialog.confirm()
                     .title('Confirmar')
-                    .textContent('\u00BFEsta seguro de salir del plan con el Coach: '+$scope.planSelected.coachUserId.fullName+'?')
+                    .textContent('\u00BFEsta seguro de salir del plan con el Coach: ' + $scope.planSelected.coachUserId.fullName + '?')
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Salir del plan')
@@ -265,7 +265,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                 $scope.status = 'You decided to keep on the plan';
             });
         };
-        
+
         self.desactivarPlanActivo = function () {
             if ($scope.planSelected != null) {
                 ExternalCoachService.removeAthleteCoach($scope.planSelected.id)
@@ -281,9 +281,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                         );
             }
         };
-        
-        
-        
+
+
+
         var mediaSource = new MediaSource();
         mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
         var mediaRecorder;
@@ -326,17 +326,17 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         function handleStop(event) {
             console.log('Recorder stopped: ', event);
         }
-        
+
         $scope.recordedVideo = '';
         $scope.gumVideo = '';
         $scope.mediaRecorder = '';
 
         $scope.initVideo = function (recordedVideo, gumVideo) {
-            if(gumVideo != undefined && gumVideo != '') {
-                $scope.gumVideo = document.querySelector('video#'+gumVideo);
+            if (gumVideo != undefined && gumVideo != '') {
+                $scope.gumVideo = document.querySelector('video#' + gumVideo);
             }
-            
-            $scope.recordedVideo = document.querySelector('video#'+recordedVideo);
+
+            $scope.recordedVideo = document.querySelector('video#' + recordedVideo);
             navigator.mediaDevices.getUserMedia(constraints).
                     then(handleSuccess).catch(handleError);
 
@@ -377,21 +377,42 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
 
         $scope.stopRecordingVideo = function () {
-            if($scope.mediaRecorder.state != 'inactive') {
+            if ($scope.mediaRecorder.state != 'inactive') {
                 $scope.gumVideo.controls = false;
                 $scope.mediaRecorder.stop();
             }
         };
-        
-        $scope.cleanVideo = function() {
+
+        $scope.cleanVideo = function () {
             recordedBlobs = [];
+            var options = {mimeType: 'video/webm;codecs=vp9'};
+            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                console.log(options.mimeType + ' is not Supported');
+                options = {mimeType: 'video/webm;codecs=vp8'};
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    console.log(options.mimeType + ' is not Supported');
+                    options = {mimeType: 'video/webm'};
+                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                        console.log(options.mimeType + ' is not Supported');
+                        options = {mimeType: ''};
+                    }
+                }
+            }
+            try {
+                $scope.mediaRecorder = new MediaRecorder(window.stream, options);
+            } catch (e) {
+                console.error('Exception while creating MediaRecorder: ' + e);
+                alert('Exception while creating MediaRecorder: '
+                        + e + '. mimeType: ' + options.mimeType);
+                return;
+            }
         };
 
         $scope.playVideo = function (path) {
             $scope.recordedVideo.controls = true;
             $scope.recordedVideo.src = $contextPath + "video/files/" + path;
         };
-        
+
         $scope.playVideoLocal = function () {
             var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
             $scope.recordedVideo.controls = true;
@@ -400,18 +421,18 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
 
         $scope.savePlanVideo = function (url, fnResponse) {
             $scope.gumVideo.controls = false;
-            if($scope.mediaRecorder.state != 'inactive') {
+            if ($scope.mediaRecorder.state != 'inactive') {
                 $scope.mediaRecorder.stop();
             }
-            
+
             var blob = new Blob(recordedBlobs, {type: 'video/webm'});
             var fd = new FormData();
             fd.append("fileToUpload", blob);
 
             $http.post(url, fd, {
-            transformRequest: angular.identity,
-            headers: {'Content-Type': undefined}
-        })
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            })
                     .then(
                             fnResponse,
                             function (errResponse) {
@@ -419,9 +440,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                             }
                     );
         };
-        
-            $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+
+        $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
     }]);
 trainingApp.directive('stringToNumber', function () {
