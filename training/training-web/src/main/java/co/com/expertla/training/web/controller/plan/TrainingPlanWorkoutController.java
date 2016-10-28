@@ -254,6 +254,7 @@ public class TrainingPlanWorkoutController {
             }
 
             if (trainingPlanWorkout.getWeekMonth() > 0) {
+                calendarTo.set(Calendar.MONTH, trainingPlanWorkout.getMonth());
                 calendar.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth());
                 calendarTo.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth() + 1);
             }

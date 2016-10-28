@@ -640,7 +640,6 @@ public class UserController {
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
-            responseService = createUserPlan(userDTO);
             String jsonResponse = userService.wordpressIntegrationUserRegistration(userDTO);
 
             if (jsonResponse != null && !jsonResponse.isEmpty()) {
@@ -649,14 +648,24 @@ public class UserController {
                 String statusRes = jo.get("status").getAsString();
 
                 if (statusRes.equals("fail")) {
-                    throw new Exception(jo.get("output").getAsJsonObject().get("errors").toString());
+                    responseService.setOutput(jo.get("output").getAsJsonObject().get("errors").toString());
+                    responseService.setDetail(null);
+                    responseService.setStatus(StatusResponse.FAIL.getName());
+                    return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }
+
+                responseService = createUserPlan(userDTO);
+
+                if (responseService.getOutput() == null) {
+                    responseService.setOutput("Usuario registrado exitosamente");
+                }
+
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
 
-            if (responseService.getOutput() == null) {
-                responseService.setOutput("Usuario registrado exitosamente");
-            }
-
+            responseService.setOutput("Error al crear usuario");
+            responseService.setDetail(null);
+            responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
