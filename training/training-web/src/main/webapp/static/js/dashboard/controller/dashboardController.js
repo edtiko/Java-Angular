@@ -5,9 +5,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
-            weight: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
+            weight: '', height:'', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
-            ageSport: '', ppm: '', power: '', sportsAchievements: '',
+            ageSport: '', ppm: '', imc:'', power: '', sportsAchievements: '',
             aboutMe: '', indMetricSys: '', discipline: '', sport: '', shoes: '', bikes: '', potentiometer: '',
             modelPotentiometer: '', pulsometer: '', modelPulsometer: '', objective: '', modality: '',
             availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '', 
@@ -29,6 +29,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
         $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
         $scope.planSelected = null;
+        
+        $scope.calculateIMC = function () {
+
+            if ($scope.user.weight != null && $scope.user.height != null
+                    && $scope.user.weight != "" && $scope.user.height != "") {
+                $scope.user.imc = Math.round($scope.user.weight / ($scope.user.height * $scope.user.height) * 10) / 10;
+            } else if ($scope.user.weight == "" || $scope.user.height == "") {
+                $scope.user.imc = null;
+            }
+        };
 
         $scope.getUserById = function () {
 
@@ -41,8 +51,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
                 DashboardService.getDashboard(user).then(
                         function (d) {
-                            $scope.user = d;
-
+                            $scope.user = angular.copy(d);                          
+                            $scope.calculateIMC(); 
                             if ($scope.user.birthDate != null) {
                                 var date = $scope.user.birthDate.split("/");
                                 var birthdate = new Date(date[2], date[1] - 1, date[0]);
@@ -139,7 +149,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             DashboardService.getDashboard(user).then(
                     function (d) {
                         $scope.user = d;
-
+                        $scope.calculateIMC();
                         if ($scope.user.birthDate != null) {
                             var date = $scope.user.birthDate.split("/");
                             var birthdate = new Date(date[2], date[1] - 1, date[0]);
@@ -570,6 +580,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-
+        
     }]);
 

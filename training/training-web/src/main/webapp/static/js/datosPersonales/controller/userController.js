@@ -168,6 +168,69 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.showMessage("El usuario no se encuentra logueado.", "error");
             }
         };
+        
+            $scope.validateFieldsUser = function (form) {
+            var valid = true;
+            if ($scope.user.firstName == '' || $scope.user.firstName  == null) {
+                form.uname.$setTouched();
+                valid = false;
+            }
+            if ($scope.user.lastName == '' || $scope.user.lastName == null) {
+                form.lname.$setTouched();
+                valid = false;
+            }
+            if ($scope.user.email == '' || $scope.user.email == null) {
+                form.email.$setTouched();
+                valid = false;
+            }
+            if ($scope.birthdateDt == '' || $scope.birthdateDt == null) {
+                form.birthDate.$setTouched();
+                valid = false;
+            }
+            if (form.postalCode.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","C\u00f3digo Postal");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+             if (form.address.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","Direcci\u00f3n");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+             if (form.phone.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","Tel\u00e9fono");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+             if (form.cellphone.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","Celular");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+             if (form.facebookPage.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","Pagina de Facebook");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+             if (form.twitterPage.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","Pagina de Twitter");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+             if (form.instagramPage.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","Pagina de Instagram");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+             if (form.webPage.$error.maxlength) {
+                $scope.showMessage("Ha excedido el limite de caracteres","Pagina Web");
+                form.postalCode.$setTouched();
+                valid = false;
+            }
+            
+            
+            return valid;
+        };
 
         self.createUser = function (user, file) {
             user.birthDate = $scope.birthdateDt;
@@ -257,11 +320,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             self.getAllQuestionnaireQuestion();
         });
 
-        $scope.submitUser = function (file) {
-            if ($scope.user.userId === null) {
-                self.createUser($scope.user,file);
+        $scope.submitUser = function (form, file) {
+            if ($scope.validateFieldsUser(form)) {
+                if ($scope.user.userId === null) {
+                    self.createUser($scope.user, file);
+                } else {
+                    self.updateUser($scope.user, $scope.user.userId, file);
+                }
             } else {
-                self.updateUser($scope.user, $scope.user.userId, file);
+               window.scrollTo(0, 200);
             }
         };
 
@@ -430,6 +497,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     $scope.showMessage($scope.errorMessages, "Alerta", true);
                 }
                  $scope.errorMessages = [];
+                 window.scrollTo(0, 2400);
             }
         };
 
@@ -442,7 +510,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             && $scope.userProfile.weight != "" && $scope.userProfile.height != ""
                     && isNumeric($scope.userProfile.weight) && isNumeric($scope.userProfile.height)) {
                 $scope.userProfile.imc = Math.round( $scope.userProfile.weight / ($scope.userProfile.height*$scope.userProfile.height) * 10 ) / 10;
-            } else if ($scope.userProfile.weight == "" || $scope.userProfile.height == "") {
+            } else if ($scope.userProfile.weight == undefined || $scope.userProfile.weight == "" ||$scope.userProfile.height == undefined || $scope.userProfile.height == "" ) {
                 $scope.userProfile.imc= null;
             }
         };
@@ -1041,6 +1109,14 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
             if ($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
                 form.weather.$setTouched();
+                valid = false;
+            }
+             if ($scope.userProfile.weight == '' || $scope.userProfile.weight == null) {
+                form.weight.$setTouched();
+                valid = false;
+            }
+            if ($scope.userProfile.height == '' || $scope.userProfile.height == null) {
+                form.height.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.ageSport < 0) {

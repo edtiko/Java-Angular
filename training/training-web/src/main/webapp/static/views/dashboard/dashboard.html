@@ -353,11 +353,17 @@
         <div layout="column" layout-align="center center" style="margin: 34px;">
             <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta && !planSelected.external">
                 <div flex>
-                    <img class="circular" data-ng-src="{{profileImageStar}}" style="height: 80px; width: 80px;">
+               
+                        <img class="circular" data-ng-src="{{profileImageStar}}" style="height: 80px; width: 80px;">
+                        <md-tooltip md-direction="left" md-visible="tooltipVisible">{{planSelected.starUserId.fullName}}</md-tooltip>
+                        </img>
                     <md-subheader>Estrella</md-subheader>
                 </div>
                 <div flex>
-                    <img class="circular" data-ng-src="{{profileImageCoach}}" style="height: 80px; width: 80px;">
+                  
+                        <img class="circular" data-ng-src="{{profileImageCoach}}" style="height: 80px; width: 80px;">
+                        <md-tooltip md-direction="right" md-visible="tooltipVisible">{{planSelected.coachUserId.fullName}}</md-tooltip>
+                       </img>
                     <md-subheader>Coach</md-subheader>
                 </div>
             </div>

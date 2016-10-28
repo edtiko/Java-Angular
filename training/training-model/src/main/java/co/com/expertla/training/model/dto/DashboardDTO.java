@@ -18,6 +18,7 @@ public class DashboardDTO {
     private Date birthDate;
     private String sex;
     private Float weight;
+    private Float height;
     private String phone;
     private String cellphone;
     private String address;
@@ -56,7 +57,8 @@ public class DashboardDTO {
     public DashboardDTO() {
     }
 
-    public DashboardDTO(Integer userId, String name,String secondName, String lastName, String email, Date birthDate, String sex, Float weight,
+    public DashboardDTO(Integer userId, String name,String secondName, String lastName, String email, Date birthDate, 
+            String sex, Float weight,Float height,
             String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
             String indMetricSys, City city, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
             String sportsAchievements, String aboutMe, String objective, String modality, String twitterPage, String instagramPage, 
@@ -69,6 +71,7 @@ public class DashboardDTO {
         this.birthDate = birthDate;
         this.sex = sex;
         this.weight = weight;
+        this.height = height;
         this.phone = phone;
         this.cellphone = cellphone;
         this.address = address;
@@ -444,5 +447,31 @@ public class DashboardDTO {
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
+
+    public String getInjury() {
+        return injury;
+    }
+
+    public void setInjury(String injury) {
+        this.injury = injury;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+
+    public Float getHeight() {
+        return height;
+    }
+
+    public void setHeight(Float height) {
+        this.height = height;
+    }
+    
+    
 
 }
