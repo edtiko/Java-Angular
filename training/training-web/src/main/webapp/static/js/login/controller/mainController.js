@@ -69,7 +69,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                 $scope.message = msg;
                 $scope.title = title;
                 $mdDialog.show({
-                    scope: $scope,
+                    scope: $scope.$new(),
                     templateUrl: 'static/tmpls/dialogConfirmation.html',
                     parent: angular.element(document.querySelector('#trainingApp')),
                     clickOutsideToClose: true,
