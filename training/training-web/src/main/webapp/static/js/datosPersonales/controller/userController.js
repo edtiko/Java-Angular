@@ -808,7 +808,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
         this.getPotentiometers();
 
-        $scope.getObjectivesByDiscipline = function (disciplineId) {
+        $scope.getObjectivesByDiscipline = function (disciplineId, change) {
+            if (change) {
+                $scope.userProfile.objective = '';
+                $scope.userProfile.modality = '';
+            }
             ObjectiveService.getObjectivesByDiscipline(disciplineId).then(
                     function (d) {
                         $scope.objectives = d.output;
@@ -844,7 +848,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
 
-        $scope.getModalitiesByObjectiveId = function (id) {
+        $scope.getModalitiesByObjectiveId = function (id, change) {
+            if(change){
+                $scope.userProfile.modality = '';
+            }
             ModalityService.getModalitiesByObjectiveId(id).then(
                     function (d) {
                         $scope.modalities = d;
