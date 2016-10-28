@@ -26,6 +26,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.ObjectiveDTO(o.objectiveId,o.name, o.level) ");
         sql.append("FROM Objective o ");
+        sql.append("order by o.name ");
         Query query = getEntityManager().createQuery(sql.toString());
         return query.getResultList();
     }
@@ -95,6 +96,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
             builder.append("AND a.disciplineId.disciplineId = :discipline ");
             setParameter("discipline", objective.getDisciplineId().getDisciplineId());
         }
+            builder.append(" ORDER BY a.name ");
 
 
         return createQuery(builder.toString());
@@ -105,7 +107,8 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.ObjectiveDTO(o.objectiveId,o.name, o.level) ");
         sql.append("FROM Objective o ");
-        sql.append("WHERE o.disciplineId.disciplineId = :disciplineId");
+        sql.append("WHERE o.disciplineId.disciplineId = :disciplineId ");
+        sql.append(" ORDER BY o.name ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("disciplineId", disciplineId);
         return query.getResultList();

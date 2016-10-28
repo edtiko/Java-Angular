@@ -622,7 +622,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Datos Deportivos registrados exitosamente.");
+                                $scope.showMessage("Datos Deportivos creados exitosamente.");
                             }
                         },
                         function (errResponse) {
@@ -640,7 +640,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Datos Deportivos creados exitosamente.");
+                                $scope.showMessage("Datos Deportivos editados exitosamente.");
                             }
 
                         },
