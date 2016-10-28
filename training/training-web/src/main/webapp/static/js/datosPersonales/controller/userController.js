@@ -703,7 +703,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .htmlContent('\u00BFDesea generar su Plan de Entrenamiento?' + msg)
+                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?' + msg)
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
@@ -1306,8 +1306,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                     }
                                 }
                             });
-                            console.log($scope.survey);
-                            console.log($scope.categories);
+                            //console.log($scope.survey);
+                            //console.log($scope.categories);
                         },
                         function (errResponse) {
                             console.error('Error while fetching Currencies');
