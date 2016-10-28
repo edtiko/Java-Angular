@@ -78,7 +78,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
             $translateProvider.preferredLanguage('es');
 
-
+$translateProvider.useSanitizeValueStrategy('sanitize');
 
         });
 

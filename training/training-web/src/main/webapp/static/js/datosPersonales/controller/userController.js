@@ -125,14 +125,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 $scope.indBike = 1;
                             }
 
-                            if ($scope.userProfile.objective == !undefined && $scope.userProfile.objective != "") {
-                                $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
-                            }
                             var disc = $scope.userProfile.discipline;
                             if (disc != undefined && disc != "") {
                                 $scope.getObjectivesByDiscipline(disc);
                             }
-
+                            if ($scope.userProfile.objective != undefined && $scope.userProfile.objective != "") {
+                                $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
+                            }
                          
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
                                 $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
@@ -560,7 +559,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.confirmDialogGuardarUserProfile = function (ev, generatePlan, msg) {
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .htmlContent('\u00BFDesea guardar sus datos deportivos?' + msg)
+                    .textContent('\u00BFDesea guardar sus datos deportivos?' + msg)
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
