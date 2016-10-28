@@ -310,6 +310,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.getUserSession(function (res) {
+            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));          
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             $scope.userSession = user;
             if(user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' && user.planActiveId != null) {
