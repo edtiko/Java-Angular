@@ -157,5 +157,19 @@ public class PlanVideoServiceImpl implements PlanVideoService {
         }
         return planVideoDao.getResponseTimeVideos(userId, users);
     }
-
+    
+    @Override
+    public void rejectedVideo(Integer planVideoId) throws Exception {
+        planVideoDao.rejectedVideo(planVideoId);
+    }
+    
+    @Override
+    public PlanVideo getPlanVideoById(Integer id) throws Exception {
+        return planVideoDao.getVideoById(id);
+    }
+    
+    @Override
+    public PlanVideo store(PlanVideo video) throws Exception {
+        return planVideoDao.merge(video);
+    }
 }

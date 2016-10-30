@@ -377,9 +377,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
 
         $scope.stopRecordingVideo = function () {
-            if ($scope.mediaRecorder.state != 'inactive') {
+            if ($scope.mediaRecorder.state != 'inactive' && $scope.mediaRecorder.state != undefined) {
                 $scope.gumVideo.controls = false;
                 $scope.mediaRecorder.stop();
+            } else {
+                $scope.recordedVideo.pause();
             }
         };
 
@@ -406,6 +408,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                         + e + '. mimeType: ' + options.mimeType);
                 return;
             }
+            $scope.mediaRecorder.onstop = handleStop;
+            $scope.mediaRecorder.ondataavailable = handleDataAvailable;
+            $scope.mediaRecorder.start(10);
         };
 
         $scope.playVideo = function (path) {
@@ -417,7 +422,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
             $scope.recordedVideo.controls = true;
             $scope.recordedVideo.src = window.URL.createObjectURL(superBuffer);
-        }
+        };
+        
+        $scope.playVideoRecorded = function () {
+            $scope.recordedVideo.play();
+        };
 
         $scope.savePlanVideo = function (url, fnResponse) {
             $scope.gumVideo.controls = false;

@@ -125,6 +125,45 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
+        
+        service.rejectedVideo = function (planVideoId) {
+            return $http.get($contextPath + 'video/rejected/atlethe/'+planVideoId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching user videos ');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+        service.sendVideoAtletheToStar = function (userId, planVideoId, guion) {
+            return $http.get($contextPath + 'video/send/video/atlethe/to/star/'+planVideoId + '/' + userId + '?guion=' + guion)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching user videos ');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+        service.sendVideoToAtlethe = function (userId, planVideoId) {
+            return $http.get($contextPath + 'video/send/video/to/atlethe/'+planVideoId + '/' + userId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching user videos ');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
 
         return service;
 

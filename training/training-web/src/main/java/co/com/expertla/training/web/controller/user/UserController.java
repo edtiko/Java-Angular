@@ -147,7 +147,7 @@ public class UserController {
             } else {
                 return null;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             return null;
         }
@@ -166,13 +166,18 @@ public class UserController {
     //-------------------Retrieve Single User--------------------------------------------------------
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Integer userId) {
-        System.out.println("Fetching User with id " + userId);
-        UserDTO user = userService.findById(userId);
-        if (user == null) {
-            System.out.println("User with id " + userId + " not found");
+        try {
+            System.out.println("Fetching User with id " + userId);
+            UserDTO user = userService.findById(userId);
+            if (user == null) {
+                System.out.println("User with id " + userId + " not found");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     //-------------------Create a User--------------------------------------------------------
@@ -330,32 +335,42 @@ public class UserController {
     //------------------- Update a User --------------------------------------------------------
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.PUT)
     public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Integer userId, @RequestBody UserDTO user) {
-        System.out.println("Updating User " + userId);
-
-        UserDTO currentUser = userService.findById(userId);
-
-        if (currentUser == null) {
-            System.out.println("User with id " + userId + " not found");
+        try {
+            System.out.println("Updating User " + userId);
+            
+            UserDTO currentUser = userService.findById(userId);
+            
+            if (currentUser == null) {
+                System.out.println("User with id " + userId + " not found");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            
+            userService.updateUser(user);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        userService.updateUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     //------------------- Delete a User --------------------------------------------------------
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.DELETE)
     public ResponseEntity<UserDTO> deleteUser(@PathVariable("userId") Integer userId) {
-        System.out.println("Fetching & Deleting User with id " + userId);
-
-        UserDTO user = userService.findById(userId);
-        if (user == null) {
-            System.out.println("Unable to delete. User with id " + userId + " not found");
+        try {
+            System.out.println("Fetching & Deleting User with id " + userId);
+            
+            UserDTO user = userService.findById(userId);
+            if (user == null) {
+                System.out.println("Unable to delete. User with id " + userId + " not found");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            
+            userService.deleteUserById(userId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        userService.deleteUserById(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     //------------------- Delete All Users --------------------------------------------------------
@@ -679,18 +694,26 @@ public class UserController {
     @RequestMapping(value = "/user/update/personal/data", method = RequestMethod.POST)
     public ResponseEntity<ResponseService> updateUserPersonal(@RequestBody UserDTO user) {
         ResponseService responseService = new ResponseService();
-        UserDTO currentUser = userService.findById(user.getUserId());
-
-        if (currentUser == null) {
-            responseService.setOutput("El usuario no existe");
+        try {            
+            UserDTO currentUser = userService.findById(user.getUserId());
+            
+            if (currentUser == null) {
+                responseService.setOutput("El usuario no existe");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
+            
+            userService.updateUser(user);
+            responseService.setOutput("Usuario editado exitosamente");
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al modificar datos");
             responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(ex.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-
-        userService.updateUser(user);
-        responseService.setOutput("Usuario editado exitosamente");
-        responseService.setStatus(StatusResponse.SUCCESS.getName());
-        return new ResponseEntity<>(responseService, HttpStatus.OK);
     }
 
     /**

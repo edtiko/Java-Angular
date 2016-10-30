@@ -73,4 +73,15 @@ public interface UserDao extends BaseDAO<User> {
      * @throws Exception 
      */
     public List<UserDTO> findPaginate(int first, int max, String order) throws Exception;
+    
+    /**
+     * Consulta la estrella de un atleta <br>
+     * Info. Creación: <br>
+     * fecha Oct 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return 
+     * @throws Exception 
+     */
+    public List<User> getStarFromAtlethe(Integer userId)throws  Exception;
 }

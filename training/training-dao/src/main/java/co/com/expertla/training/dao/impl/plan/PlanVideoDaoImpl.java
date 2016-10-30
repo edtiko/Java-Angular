@@ -186,6 +186,15 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         builder.append(" where  plan_video_id = ").append(planVideoId);
         executeNativeUpdate(builder.toString());
     }
+    
+    @Override
+    public void rejectedVideo(Integer planVideoId) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" update plan_video ");
+        builder.append(" set ind_rejected = 1 ");
+        builder.append(" where  plan_video_id = ").append(planVideoId);
+        executeNativeUpdate(builder.toString());
+    }
 
     @Override
     public List<PlanVideoDTO> getResponseTimeVideos(Integer userId, List<UserDTO> users) throws Exception {

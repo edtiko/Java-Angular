@@ -54,6 +54,9 @@ public class ScriptVideo implements Serializable {
     @JoinColumn(name = "plan_video_id", referencedColumnName = "plan_video_id")
     @ManyToOne(optional = false)
     private PlanVideo planVideoId;
+    @JoinColumn(name = "from_plan_video_id", referencedColumnName = "plan_video_id")
+    @ManyToOne(optional = false)
+    private PlanVideo fromPlanVideoId;
 
     public ScriptVideo() {
     }
@@ -66,6 +69,14 @@ public class ScriptVideo implements Serializable {
         this.scriptVideoId = scriptVideoId;
         this.guion = guion;
         this.creationDate = creationDate;
+    }
+
+    public PlanVideo getFromPlanVideoId() {
+        return fromPlanVideoId;
+    }
+
+    public void setFromPlanVideoId(PlanVideo fromPlanVideoId) {
+        this.fromPlanVideoId = fromPlanVideoId;
     }
 
     public Integer getScriptVideoId() {

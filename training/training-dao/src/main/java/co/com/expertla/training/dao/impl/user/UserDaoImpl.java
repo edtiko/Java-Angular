@@ -191,4 +191,18 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         
         return list;
     }
+    
+    @Override
+    public List<User> getStarFromAtlethe(Integer userId) throws Exception {
+        StringBuilder string = new StringBuilder();
+        string.append("SELECT s.starUserId FROM CoachAssignedPlan c, TrainingPlanUser tp, StarTeam s ");
+        string.append("WHERE c.trainingPlanUserId.trainingPlanUserId = tp.trainingPlanUserId ");
+        string.append("AND c.starTeamId.starTeamId = s.starTeamId ");
+        string.append("AND tp.userId.userId = :userId ");
+        string.append("AND tp.stateId = :active ");
+        setParameter("userId", userId);
+        setParameter("active", 1);
+        List<User> query = createQuery(string.toString());
+        return query;
+    }
 }

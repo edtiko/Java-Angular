@@ -241,6 +241,7 @@ public class TrainingPlanWorkoutController {
         try {
             Calendar calendar = Calendar.getInstance();
             Calendar calendarTo = Calendar.getInstance();
+            int month = trainingPlanWorkout.getMonth()-1;
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             calendarTo.set(Calendar.DAY_OF_MONTH, 1);
             if (trainingPlanWorkout.getYear() > 0) {
@@ -249,12 +250,12 @@ public class TrainingPlanWorkoutController {
             }
 
             if (trainingPlanWorkout.getMonth() > 0) {
-                calendar.set(Calendar.MONTH, trainingPlanWorkout.getMonth());
-                calendarTo.set(Calendar.MONTH, trainingPlanWorkout.getMonth() + 1);
+                calendar.set(Calendar.MONTH, month);
+                calendarTo.set(Calendar.MONTH, month + 1);
             }
 
             if (trainingPlanWorkout.getWeekMonth() > 0) {
-                calendarTo.set(Calendar.MONTH, trainingPlanWorkout.getMonth());
+                calendarTo.set(Calendar.MONTH, month);
                 calendar.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth());
                 calendarTo.set(Calendar.WEEK_OF_MONTH, trainingPlanWorkout.getWeekMonth() + 1);
             }

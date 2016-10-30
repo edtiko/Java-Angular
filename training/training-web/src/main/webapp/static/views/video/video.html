@@ -29,19 +29,41 @@
                         <md-tooltip md-direction="right" md-visible="tooltipVisible">Parar Video</md-tooltip>
                         <div class="md-ripple-container"></div></md-button>
                     
-                        <md-button ng-disabled="gumVideo.controls" class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
+                        <md-button ng-show="isVisibleToRefuseAtlethe" ng-disabled="gumVideo.controls" class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
+                               aria-label="play" ng-click="verVideoRecibido()" style="">
+                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                        <div class="md-ripple-container"></div></md-button>
+                        
+                        <md-button ng-show="isVisibleSendVideo" ng-disabled="gumVideo.controls" class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
                                aria-label="play" ng-click="verVideoGrabado()" style="">
                         <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
                         <div class="md-ripple-container"></div></md-button>
+                        
+                        <md-button ng-show="isVisibleToRefuseAtlethe" class="fa fa fa-times fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
+                               aria-label="play" ng-click="refuseVideoToAtlethe()" style="">
+                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Rechazar Video</md-tooltip>
+                        <div class="md-ripple-container"></div></md-button>
                     
-                        <md-button ng-disabled="gumVideo.controls" class="fa fa fa-times fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
+                        <md-button ng-show="isSendToStar" class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                               type="button" ng-transclude="" aria-label="play" 
+                               ng-click="sendVideoToStar()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
+                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Enviar Video a Estrella</md-tooltip>
+                        <div class="md-ripple-container"></div></md-button>
+                        
+                        <md-button ng-show="isSendToAtlethe" class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                               type="button" ng-transclude="" aria-label="play" 
+                               ng-click="sendVideoToAtlethe()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
+                        <md-tooltip md-direction="right" md-visible="tooltipVisible">Enviar Video al Atleta</md-tooltip>
+                        <div class="md-ripple-container"></div></md-button>
+                        
+                        <md-button ng-show="isVisibleDeleteVideo" ng-disabled="gumVideo.controls" class="fa fa fa-times fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
                                aria-label="play" ng-click="eliminarVideoGrabado()" style="">
                         <md-tooltip md-direction="right" md-visible="tooltipVisible">Limpiar Video</md-tooltip>
                         <div class="md-ripple-container"></div></md-button>
                     
-                        <md-button class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
+                        <md-button ng-show="isVisibleSendVideo" class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
                                type="button" ng-transclude="" aria-label="play" 
-                               ng-click="enviarVideo()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
+                               ng-click="enviarVideo()">
                         <md-tooltip md-direction="right" md-visible="tooltipVisible">Enviar Video</md-tooltip>
                         <div class="md-ripple-container"></div>
                     </md-button>
@@ -63,7 +85,7 @@
                         <md-list-item ng-click="null" class="md-3-line">
                             <img data-ng-src="{{vr.toUser.profilePhotoBase64}}"  alt="{{vr.toUser.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                             <div class="md-list-item-text">
-                                <p>{{vr.toUser.fullName}}</p>
+                                <p>{{vr.toUser.fullName}} {{showStatusVideo(vr.indRejected)}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
                             <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="verVideo(vr.name, vr.id, 'from')">
