@@ -136,10 +136,17 @@ public class TrainingPlanWorkoutController {
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);
             userService.updateUser(userDTO);
+            
+            List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userProfile.getUserId()));
 
             if (session.getAttribute("user") != null) {
                 UserDTO userSession = (UserDTO) session.getAttribute("user");
                 userSession.setIndLoginFirstTime(0);
+
+                if (trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
+                    userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
+                    userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
+                }
             }
 
             responseService.setOutput("Plan de Entrenamiento generado satisfactoriamente.");

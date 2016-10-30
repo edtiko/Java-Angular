@@ -94,7 +94,7 @@ trainingApp.controller('SurveyController', ['$scope', 'surveyService', '$window'
         self.getAllQuestionnaireQuestion = function () {
             if ($scope.appReady) {
                 //var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-                surveyService.getAllQuestionnaireQuestion(2).then(
+                surveyService.getAllQuestionnaireQuestion($scope.user.userId).then(
                         function (response) {
                             angular.forEach(response.data.entity.output, function (value, key) {
                                 $scope.survey[key] = value;

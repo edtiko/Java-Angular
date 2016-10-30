@@ -21,6 +21,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.maxDate = new Date();
         $scope.selected1 = [];
         $scope.selected = [];
+        $scope.errorMessages = [];
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
                     .then(
@@ -124,14 +125,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 $scope.indBike = 1;
                             }
 
-                            if ($scope.userProfile.objective == !undefined && $scope.userProfile.objective != "") {
-                                $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
-                            }
                             var disc = $scope.userProfile.discipline;
                             if (disc != undefined && disc != "") {
                                 $scope.getObjectivesByDiscipline(disc);
                             }
-
+                            if ($scope.userProfile.objective != undefined && $scope.userProfile.objective != "") {
+                                $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
+                            }
                          
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
                                 $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
@@ -188,43 +188,43 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 valid = false;
             }
             if (form.postalCode.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","C\u00f3digo Postal");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("C\u00f3digo Postal: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
              if (form.address.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","Direcci\u00f3n");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("Direcci\u00f3n: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
              if (form.phone.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","Tel\u00e9fono");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("Tel\u00e9fono: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
              if (form.cellphone.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","Celular");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("Celular: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
              if (form.facebookPage.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","Pagina de Facebook");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("Pagina de Facebook: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
              if (form.twitterPage.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","Pagina de Twitter");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("Pagina de Twitter: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
              if (form.instagramPage.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","Pagina de Instagram");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("Pagina de Instagram: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
              if (form.webPage.$error.maxlength) {
-                $scope.showMessage("Ha excedido el limite de caracteres","Pagina Web");
-                form.postalCode.$setTouched();
+                $scope.errorMessages.push("Pagina Web: Ha excedido el l\u00edmite de caracteres");
+                //form.postalCode.$setTouched();
                 valid = false;
             }
             
@@ -310,6 +310,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.getUserSession(function (res) {
+            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));          
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             $scope.userSession = user;
             if(user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' && user.planActiveId != null) {
@@ -321,6 +322,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         });
 
         $scope.submitUser = function (form, file) {
+            var user = $scope.user;
             if ($scope.validateFieldsUser(form)) {
                 if ($scope.user.userId === null) {
                     self.createUser($scope.user, file);
@@ -328,6 +330,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     self.updateUser($scope.user, $scope.user.userId, file);
                 }
             } else {
+                if($scope.errorMessages.length > 0){
+                    $scope.showMessage($scope.errorMessages, "Alerta",true);
+                }
+                $scope.user = user;
+               $scope.errorMessages = [];
                window.scrollTo(0, 200);
             }
         };
@@ -486,7 +493,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.indBike = '';
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
         $scope.bikeTypes = [];
-        $scope.errorMessages = [];
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
             
@@ -554,7 +560,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.confirmDialogGuardarUserProfile = function (ev, generatePlan, msg) {
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .htmlContent('\u00BFDesea guardar sus datos deportivos?' + msg)
+                    .textContent('\u00BFDesea guardar sus datos deportivos?' + msg)
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
@@ -617,7 +623,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Datos Deportivos registrados exitosamente.");
+                                $scope.showMessage("Datos Deportivos creados exitosamente.");
                             }
                         },
                         function (errResponse) {
@@ -635,7 +641,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.generatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Datos Deportivos creados exitosamente.");
+                                $scope.showMessage("Datos Deportivos editados exitosamente.");
                             }
 
                         },
@@ -698,7 +704,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .htmlContent('\u00BFDesea generar su Plan de Entrenamiento?' + msg)
+                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?' + msg)
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
@@ -803,7 +809,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
         this.getPotentiometers();
 
-        $scope.getObjectivesByDiscipline = function (disciplineId) {
+        $scope.getObjectivesByDiscipline = function (disciplineId, change) {
+            if (change) {
+                $scope.userProfile.objective = '';
+                $scope.userProfile.modality = '';
+            }
             ObjectiveService.getObjectivesByDiscipline(disciplineId).then(
                     function (d) {
                         $scope.objectives = d.output;
@@ -839,7 +849,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
 
-        $scope.getModalitiesByObjectiveId = function (id) {
+        $scope.getModalitiesByObjectiveId = function (id, change) {
+            if(change){
+                $scope.userProfile.modality = '';
+            }
             ModalityService.getModalitiesByObjectiveId(id).then(
                     function (d) {
                         $scope.modalities = d;
@@ -1120,7 +1133,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 valid = false;
             }
             if ($scope.userProfile.ageSport < 0) {
-                $scope.errorMessages = "La edad deportiva debe ser mayor o igual a 0";
+                $scope.errorMessages.push("La edad deportiva debe ser mayor o igual a 0");
                 valid = false;
             }
             if ($scope.userProfile.availability != undefined && !$scope.validateAvailability()) {
@@ -1301,8 +1314,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                     }
                                 }
                             });
-                            console.log($scope.survey);
-                            console.log($scope.categories);
+                            //console.log($scope.survey);
+                            //console.log($scope.categories);
                         },
                         function (errResponse) {
                             console.error('Error while fetching Currencies');

@@ -114,6 +114,8 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
             builder.append("AND a.stateId = :state ");
             setParameter("state", modality.getStateId());
         }
+        
+            builder.append(" ORDER BY a.name ");
 
         return createQuery(builder.toString());
     }
@@ -123,6 +125,7 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.ModalityDTO(m.modalityId,m.name) ");
         sql.append("FROM Modality m ");
+        sql.append("order by m.name ");
         Query query = getEntityManager().createQuery(sql.toString());
         return query.getResultList();
     }
@@ -133,6 +136,7 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
         sql.append("SELECT new co.com.expertla.training.model.dto.ModalityDTO(m.modalityId,m.name) ");
         sql.append("FROM Modality m ");
         sql.append("WHERE m.disciplineId.disciplineId = :id");
+        sql.append("order by m.name ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", id);
         return query.getResultList();
@@ -143,7 +147,8 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT DISTINCT new co.com.expertla.training.model.dto.ModalityDTO(m.modalityId.modalityId,m.modalityId.name) ");
         sql.append("FROM Dcf m ");
-        sql.append("WHERE m.objectiveId.objectiveId = :id");
+        sql.append("WHERE m.objectiveId.objectiveId = :id ");
+        sql.append(" ORDER BY m.modalityId.name ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", objectiveId);
         return query.getResultList();

@@ -50,12 +50,12 @@
 
                                 </div>
                                 <div ng-switch-when="radio">
-                                    <md-radio-group ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId">
+                                    <md-radio-group md-no-ink ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId">
                                         <md-radio-button ng-repeat="questionOption in question.questionId.questionOptionList"
                                                          ng-required="question.questionId.questionType=='M'"
                                                          ng-click="setValue($parent.$index)"
                                                          ng-value="questionOption.questionOptionId"
-                                                         aria-label="{{questionOption.name}}">{{questionOption.name}}</md-radio-button>
+                                                         >{{questionOption.name}}</md-radio-button>
                                     </md-radio-group>
                                 </div>
                             </div>

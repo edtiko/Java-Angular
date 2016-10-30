@@ -56,6 +56,7 @@ define([], function () {
                         }]
                 };
                 routeDef.templateUrl = routeConfig.getViewsDirectory() + path + baseName + '.html';
+                //routeDef.cache = false;
 
                 return routeDef;
 
