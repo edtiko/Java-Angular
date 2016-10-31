@@ -96,6 +96,8 @@ public interface OptionService {
      * @throws Exception 
      */
     public List<Option> findByFiltro(Option option) throws Exception; 
+    
+    public List<Option> findByUserId(Integer userId, Integer moduleId) throws Exception;
 
 
 

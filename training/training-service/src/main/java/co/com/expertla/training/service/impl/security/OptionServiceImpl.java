@@ -61,5 +61,10 @@ public class OptionServiceImpl implements OptionService {
     public List<Option> findByFiltro(Option option) throws Exception {
         return optionDao.findByFiltro(option);
     }
+    
+    @Override
+    public List<Option> findByUserId(Integer userId, Integer moduleId) throws Exception {
+        return optionDao.findByUserId(userId, moduleId);
+    }
 
 }

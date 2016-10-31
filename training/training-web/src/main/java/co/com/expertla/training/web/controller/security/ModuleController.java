@@ -201,7 +201,7 @@ public class ModuleController {
                 Option option = new Option();
                 option.setModuleId(module);
                 option.setStateId(Short.valueOf(StateEnum.ACTIVE.getId().toString()));
-                moduleDTO.setOptionCollection(optionService.findByFiltro(option));
+                moduleDTO.setOptionCollection(optionService.findByUserId(userId, module.getModuleId()));
                 moduleDTOList.add(moduleDTO);
             }
             responseService.setOutput(moduleDTOList);

@@ -68,5 +68,7 @@ public interface OptionDao extends BaseDAO<Option> {
      * @throws Exception 
      */
     public List<Option> findByFiltro(Option option) throws Exception; 
+    
+    public List<Option> findByUserId(Integer userId, Integer moduleId) throws Exception;
 
 }
