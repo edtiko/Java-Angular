@@ -496,7 +496,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $window.sessionStorage.setItem("planSelected", null);
             $window.sessionStorage.setItem("planSelectedStar", null);
             $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-
+            
+            if ($scope.userSession != null) {
+                $scope.getVisibleFieldsUserByUser($scope.userSession);
+            }
+            
             if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
                 self.getAssignedAthletes();
                 $scope.getUserById();
@@ -509,13 +513,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.getUserById();
                 $scope.getAssignedCoach($scope.userSession.userId);
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserSupervisor) {
+                $scope.getUserById();
                 self.getAssignedStarCoachBySupervisor();
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                $scope.getUserById();
                 $scope.getAssignedAthletesByStar();
             }
 
             $scope.getSupervisorByCoachId($scope.userSession.userId);
-//            $scope.getAllRecipients();
         });
 
         $scope.init = function () {
