@@ -81,8 +81,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findById(Integer id) {
-        return UserDTO.mapFromUserEntity(userDao.findById(id));
+    public UserDTO findById(Integer id) throws Exception {
+        UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(id));
+        
+        if (user != null) {
+            RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
+
+            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
+            user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId():null);
+            List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
+            if(disciplineUser != null){
+                user.setDisciplineId(disciplineUser.get(0).getDisciplineId());
+                user.setDisciplineName(disciplineUser.get(0).getName());
+            }
+            
+            return user;
+        }
+        
+        return null;
     }
 
     @Override
@@ -377,5 +393,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception {
         return userDao.findUserWithDisciplineById(userId);
+    }
+    
+    @Override
+    public User getStarFromAtlethe(Integer userId) throws Exception {
+        List<User> userList = userDao.getStarFromAtlethe(userId);
+        
+        if(userList != null && !userList.isEmpty()) {
+            return userList.get(0);
+        }
+        
+        return null;
     }
 }

@@ -12,6 +12,7 @@ import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.StorageService;
 import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.service.plan.ScriptVideoService;
+import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.io.File;
 import java.nio.file.Files;
@@ -24,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -56,6 +58,9 @@ public class PlanVideoController {
     
     @Autowired
     private ScriptVideoService scriptVideoService;
+    
+    @Autowired
+    private UserService userService;
 
     @Autowired
     public PlanVideoController(StorageService storageService) {
@@ -257,6 +262,63 @@ public class PlanVideoController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
+    
+    @RequestMapping(value = "/uploadVideo/star/to/coach/{toUserId}/{fromUserId}/{fromPlanVideoId}", method = RequestMethod.POST)
+    public @ResponseBody
+    Response uploadPlanVideoStarToCoach(@RequestParam("fileToUpload") MultipartFile file, 
+            @PathVariable Integer toUserId, 
+            @PathVariable Integer fromUserId,
+            @PathVariable Integer fromPlanVideoId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        if (!file.isEmpty()) {
+            try {
+                
+                String fileName = DateUtil.getCurrentDate("ddMMyyyyHHmm") + "_" + fromUserId + "_" + toUserId;
+                File directory = new File(ROOT);
+                File archivo = new File(ROOT + fileName);
+                if (!directory.exists()) {
+                    if (directory.mkdir()) {
+                        Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                        //storageService.store(file);
+                    }
+                } else if (!archivo.exists()) {
+                    Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                    //storageService.store(file);
+                }
+
+                PlanVideoDTO dto = planVideoService.getByVideoPath(fileName);
+                if (dto == null) {
+                    PlanVideo video = new PlanVideo();
+                    video.setFromUserId(new User(fromUserId));
+                    video.setName(fileName);
+                    video.setToUserId(new User(toUserId));
+                    video.setCreationDate(Calendar.getInstance().getTime());
+                    video.setVideoPath(fileName);
+                    if(fromPlanVideoId != null && fromPlanVideoId > 0) {
+                        video.setFromPlanVideoId(new PlanVideo(fromPlanVideoId));
+                    }
+                    
+                    dto = planVideoService.create(video);
+                }
+                //strResponse.append("video cargado correctamente.");
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                responseService.setOutput("Video Cargado Correctamente.");
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                responseService.setDetail(e.getMessage());
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            }
+        } else {
+            strResponse.append("Video cargado esta vacio.");
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
 
     @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
@@ -311,7 +373,6 @@ public class PlanVideoController {
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
-
     }
 
     @RequestMapping(value = "/get/count/received/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
@@ -436,6 +497,87 @@ public class PlanVideoController {
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "/rejected/atlethe/{planVideoId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> rejectedVideo(@PathVariable("planVideoId") Integer planVideoId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            planVideoService.rejectedVideo(planVideoId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Video rechazado exitosamente");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput("Error al rechazar video");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/send/video/atlethe/to/star/{planVideoId}/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> sendVideoAtletheToStar(@PathVariable("planVideoId") Integer planVideoId,
+            @PathVariable("userId") Integer userId, @RequestParam("guion") String guion) {
+        ResponseService responseService = new ResponseService();
+        try {
+            PlanVideoDTO video = planVideoService.getVideoById(planVideoId);
+            User starId = userService.getStarFromAtlethe(video.getFromUser().getUserId());
+            PlanVideo planVideo = new PlanVideo();
+            planVideo.setFromUserId(new User(userId));
+            planVideo.setVideoPath(video.getName());
+            planVideo.setName(video.getName());
+            planVideo.setToUserId(starId);
+            planVideo.setCreationDate(new Date());
+            planVideoService.create(planVideo);
+            ScriptVideo script = new ScriptVideo();
+            script.setGuion(guion);
+            script.setCreationDate(new Date());
+            script.setPlanVideoId(planVideo);
+            script.setFromPlanVideoId(new PlanVideo(planVideoId));
+            scriptVideoService.create(script);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Video enviado exitosamente");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput("Error al enviar video");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/send/video/to/atlethe/{planVideoId}/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> sendVideoAtletheToStar(@PathVariable("planVideoId") Integer planVideoId,
+            @PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            PlanVideo video = planVideoService.getPlanVideoById(planVideoId);
+            PlanVideo fromPlan = video.getFromPlanVideoId();
+            PlanVideo planVideo = new PlanVideo();
+            planVideo.setFromUserId(new User(userId));
+            planVideo.setVideoPath(video.getName());
+            planVideo.setName(video.getName());
+            planVideo.setToUserId(fromPlan.getFromUserId());
+            planVideo.setCreationDate(new Date());
+            planVideo.setCoachAssignedPlanId(fromPlan.getCoachAssignedPlanId());
+            planVideoService.create(planVideo);
+            fromPlan.setIndRejected(0);
+            planVideoService.store(fromPlan);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Video enviado exitosamente");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput("Error al enviar video");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 

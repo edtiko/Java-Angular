@@ -31,6 +31,8 @@ public interface PlanVideoService {
     public void readVideos(Integer coachAssignedPlanId, Integer userId) throws Exception;
 
     public void readVideo(Integer planMessageId) throws Exception;
+    
+    public void rejectedVideo(Integer planVideoId) throws Exception;
 
     public Integer getCountVideoByPlanExt(Integer planId, Integer userId) throws Exception;
 
@@ -66,5 +68,7 @@ public interface PlanVideoService {
      */
     public List<PlanVideoDTO> getResponseTimeVideos(Integer userId, Integer roleId)throws  Exception;
     
+    public PlanVideo getPlanVideoById(Integer id) throws Exception;
     
+    public PlanVideo store(PlanVideo video) throws Exception;
 }

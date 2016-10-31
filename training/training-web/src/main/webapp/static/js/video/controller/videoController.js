@@ -4,6 +4,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.isToStar = false;
         $scope.showGuion = false;
         $scope.isRecord = true;
+        $scope.isVisibleSendVideo = true;
+        $scope.isVisibleDeleteVideo = true;
+        $scope.isSendToStar = false;
+        $scope.isVisibleToRefuseAtlethe = false;
+        $scope.isSendToAtlethe = false;
+        $scope.planVideoSelected = null;
         $scope.colorGrabacion = '';
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
         $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
@@ -57,6 +63,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.inicioGrabarVideo = function () {
+            $scope.isVisibleSendVideo = true;
+            $scope.isVisibleDeleteVideo = true;
             $scope.colorGrabacion = 'color:red';
             $scope.isRecord = true;
             $scope.startRecordingVideo();
@@ -73,6 +81,10 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             $scope.playVideoLocal();
         };
 
+        $scope.verVideoRecibido = function () {
+            $scope.playVideoRecorded();
+        };
+
         $scope.eliminarVideoGrabado = function () {
             $scope.isRecord = true;
             $scope.cleanVideo();
@@ -81,31 +93,112 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
         $scope.verVideo = function (path, planVideoId, fromto) {
             $scope.isRecord = false;
-            UserService.getUserById(planVideoId.fromUser.userId)
+            $scope.planVideoSelected = planVideoId;
+            if (planVideoId.fromUser != undefined) {
+                UserService.getUserById(planVideoId.fromUser.userId)
+                        .then(
+                                function (d) {
+                                    if (d.typeUser === $scope.userSessionTypeUserAtleta) {
+                                        $scope.showGuion = true;
+                                        $scope.isVisibleSendVideo = false;
+                                        $scope.isVisibleDeleteVideo = false;
+                                        $scope.isSendToStar = true;
+                                        $scope.isVisibleToRefuseAtlethe = true;
+                                    }
+
+                                    if (d.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                                        $scope.showGuion = true;
+                                        $scope.isVisibleSendVideo = false;
+                                        $scope.isVisibleDeleteVideo = false;
+                                        $scope.isVisibleToRefuseAtlethe = true;
+                                        $scope.isSendToStar = false;
+                                        $scope.isSendToAtlethe = true;
+                                    }
+                                    $scope.playVideo(path);
+                                    if (fromto == 'to') {
+                                        videoService.readVideo(planVideoId.id).then(
+                                                function (data) {
+                                                    console.log(data.entity.output);
+                                                },
+                                                function (error) {
+                                                    //$scope.showMessage(error);
+                                                    console.error(error);
+                                                });
+
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching Currencies');
+                                }
+                        );
+            } else {
+                $scope.playVideo(path);
+            }
+
+        };
+
+        $scope.refuseVideoToAtlethe = function () {
+            $scope.isRecord = false;
+            var planVideoId = $scope.planVideoSelected;
+            videoService.rejectedVideo(planVideoId.id)
                     .then(
                             function (d) {
-                                if(d.typeUser === $scope.userSessionTypeUserAtleta) {
-                                    $scope.showGuion = true;
-                                }
-                                $scope.playVideo(path);
-                                if (fromto == 'to') {
-                                    videoService.readVideo(planVideoId.id).then(
-                                            function (data) {
-                                                console.log(data.entity.output);
-                                            },
-                                            function (error) {
-                                                //$scope.showMessage(error);
-                                                console.error(error);
-                                            });
 
+                                if (planVideoId.fromPlanVideoId != null) {
+                                    videoService.rejectedVideo(planVideoId.fromPlanVideoId.id)
+                                            .then(
+                                                    function (d) {
+                                                        $scope.showMessage(d.output);
+                                                    },
+                                                    function (errResponse) {
+                                                        console.error('Error while fetching');
+                                                    }
+                                            );
+                                } else {
+                                    $scope.showMessage(d.output);
                                 }
+
                             },
                             function (errResponse) {
-                                console.error('Error while fetching Currencies');
+                                console.error('Error while fetching');
                             }
                     );
 
 
+        };
+
+        $scope.sendVideoToStar = function () {
+            var planVideoId = $scope.planVideoSelected;
+            $scope.isRecord = false;
+            if ($scope.guion == '') {
+                $scope.showMessage('Debe ingresar el gui\u00f3n');
+                return;
+            }
+
+            videoService.sendVideoAtletheToStar($scope.user.userId, planVideoId.id, $scope.guion)
+                    .then(
+                            function (d) {
+                                $scope.showMessage(d.output);
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching');
+                            }
+                    );
+        };
+        
+        $scope.sendVideoToAtlethe= function () {
+            var planVideoId = $scope.planVideoSelected;
+            $scope.isRecord = false;
+
+            videoService.sendVideoToAtlethe($scope.user.userId, planVideoId.id)
+                    .then(
+                            function (d) {
+                                $scope.showMessage(d.output);
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching');
+                            }
+                    );
         };
 
         $scope.enviarVideo = function () {
@@ -156,6 +249,16 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     }
             );
         };
+        
+        $scope.showStatusVideo = function(indRejected) {
+            if(indRejected == '') {
+                return 'Pendiente';
+            } else if(indRejected == 1) {
+                return 'Rechazado';
+            } else {
+                return 'Aceptado';
+            }
+        }
 
         $scope.sendedVideos = function (tipoPlan) {
             if ($scope.isToStar) {

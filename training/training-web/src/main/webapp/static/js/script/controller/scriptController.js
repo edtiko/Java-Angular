@@ -73,7 +73,14 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
 
         $scope.enviarVideoToCoach = function () {
             if ($scope.planVideo != null && $scope.planVideo.planVideoId.fromUserId != null) {
-                var url = $contextPath + 'video/uploadVideo/' + $scope.planVideo.planVideoId.fromUserId.userId + '/' + $scope.userSession.userId;
+                var fromPlanVideoId = 0;
+                
+                if($scope.planVideo.fromPlanVideoId != null) {
+                    fromPlanVideoId = $scope.planVideo.fromPlanVideoId.planVideoId;
+                }
+                var url = $contextPath + 'video/uploadVideo/star/to/coach/' + 
+                        $scope.planVideo.planVideoId.fromUserId.userId + '/' + $scope.userSession.userId+
+                        '/' + fromPlanVideoId;
                 $scope.savePlanVideo(url,
                         function (response) {
                             $scope.getPlanVideoStarByCoach();

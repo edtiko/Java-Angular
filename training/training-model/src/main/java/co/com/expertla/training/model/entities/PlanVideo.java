@@ -74,7 +74,13 @@ public class PlanVideo implements Serializable {
     private CoachExtAthlete coachExtAthleteId;
     @Column(name = "ind_rejected")
     private Integer indRejected;
-
+    @OneToMany(mappedBy = "fromPlanVideoId")
+    private Collection<ScriptVideo> scriptVideoCollection2;
+    @JoinColumn(name = "from_plan_video_id", referencedColumnName = "plan_video_id")
+    @ManyToOne(optional = false)
+    private PlanVideo fromPlanVideoId;
+    @OneToMany(mappedBy = "fromPlanVideoId")
+    private Collection<PlanVideo> planVideoCollection2;
 
     public PlanVideo() {
     }
@@ -88,6 +94,32 @@ public class PlanVideo implements Serializable {
         this.name = name;
         this.videoPath = videoPath;
         this.creationDate = creationDate;
+    }
+
+    public PlanVideo getFromPlanVideoId() {
+        return fromPlanVideoId;
+    }
+
+    public void setFromPlanVideoId(PlanVideo fromPlanVideoId) {
+        this.fromPlanVideoId = fromPlanVideoId;
+    }
+    @JsonIgnore
+    public Collection<PlanVideo> getPlanVideoCollection2() {
+        return planVideoCollection2;
+    }
+
+    public void setPlanVideoCollection2(Collection<PlanVideo> planVideoCollection2) {
+        this.planVideoCollection2 = planVideoCollection2;
+    }
+    
+    
+    @JsonIgnore
+    public Collection<ScriptVideo> getScriptVideoCollection2() {
+        return scriptVideoCollection2;
+    }
+
+    public void setScriptVideoCollection2(Collection<ScriptVideo> scriptVideoCollection2) {
+        this.scriptVideoCollection2 = scriptVideoCollection2;
     }
 
     public Integer getPlanVideoId() {

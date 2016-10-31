@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    UserDTO findById(Integer id);
+    UserDTO findById(Integer id) throws Exception;
 
     UserDTO findByName(String name);
 
@@ -118,5 +118,16 @@ public interface UserService {
     public String sendPostWordpress(String uri, String params) throws IOException;
     
     public String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException;
+    
+    /**
+     * Consulta la estrella de un atleta <br>
+     * Info. Creación: <br>
+     * fecha Oct 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param userId
+     * @return 
+     * @throws Exception 
+     */
+    public User getStarFromAtlethe(Integer userId)throws  Exception;
    
 }

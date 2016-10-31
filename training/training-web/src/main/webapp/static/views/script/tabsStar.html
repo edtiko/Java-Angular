@@ -3,17 +3,31 @@
         <md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
             <md-tab label="{{ 'RECEIVED' | translate }}" md-on-select="onTabChanges(0)">
                 <md-content class="md-padding">
-                    <md-list-item ng-repeat="a in planVideoList" >
-                        <md-button md-no-ink class="md-primary" ng-click="selectVideo(a)">{{a.planVideoId.name}}</md-button>
-                        <md-divider></md-divider>
+                    <md-list-item ng-repeat="vr in planVideoList" >
+                        <img data-ng-src="data:image/png;base64,{{vr.planVideoId.fromUserId.profilePhoto}}"  alt="{{vr.planVideoId.fromUserId.firstName}}  {{vr.planVideoId.fromUserId.secondName}} {{vr.planVideoId.fromUserId.lastName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                        <div class="md-list-item-text">
+                            <p>{{vr.planVideoId.fromUserId.firstName}}  {{vr.planVideoId.fromUserId.secondName}} {{vr.planVideoId.fromUserId.lastName}}</p>
+                        </div>
+                        <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
+                        <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="selectVideo(vr)">
+                            <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                            <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                        </md-button>
                     </md-list-item>
                 </md-content>
             </md-tab>
             <md-tab label="{{ 'SENT' | translate }}"  md-on-select="onTabChanges(1)" >
                 <md-content class="md-padding">
                     <md-list-item ng-repeat="a in scriptVideoList" >
-                        <md-button md-no-ink class="md-primary" ng-click="selectVideoStar(a)">{{a.name}}</md-button>
-                        <md-divider></md-divider>
+                        <img data-ng-src="data:image/png;base64,{{vr.toUserId.profilePhoto}}"  alt="{{vr.toUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                        <div class="md-list-item-text">
+                            <p>{{vr.toUserId.fullName}}</p>
+                        </div>
+                        <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
+                        <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="selectVideoStar(vr)">
+                            <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                            <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                        </md-button>
                     </md-list-item>
                 </md-content>
             </md-tab>
