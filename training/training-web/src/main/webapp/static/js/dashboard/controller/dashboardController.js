@@ -274,7 +274,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         if (data.entity.status == 'success') {
                             $scope.selectAthlete(res);
                         } else {
-                            $scope.showMessage(res, "Error");
+                            $scope.showMessage(res, "Alerta");
                         }
 
                     },
