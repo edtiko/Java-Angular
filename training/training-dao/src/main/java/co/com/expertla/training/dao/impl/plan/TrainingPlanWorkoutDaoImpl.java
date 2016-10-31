@@ -108,6 +108,11 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("trainingPlanWorkoutId", trainingPlanWorkoutId);
         List<TrainingPlanWorkoutDto> list = query.getResultList();
-        return list != null? list.get(0):null;
+        
+        if(list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        
+        return null;
     }
 }
