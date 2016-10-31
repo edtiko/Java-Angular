@@ -70,7 +70,7 @@
                         <label  for="sex">Sexo</label>
 
                         <md-select id="sex" ng-model="user.sex" ng-required="true">
-                            <md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>
+                            <!--<md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>-->
                             <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
                                 {{s.sex}}
                             </md-option>
@@ -145,7 +145,7 @@
                     <md-input-container class="md-block md-input-has-placeholder">
                         <label>Pa&iacute;s</label>
                         <md-select class="md-block" id="country" ng-model="user.countryId" ng-change="getStatesByCountry(user.countryId)" >
-                            <md-select-label>{{country || 'Seleccione un pa&aiacute;s'}}</md-select-label>
+                            <!--<md-select-label>{{country || 'Seleccione un pa&aiacute;s'}}</md-select-label>-->
                             <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
                                 {{country.name}}
                             </md-option>
@@ -160,7 +160,7 @@
                         <label  for="state">Estado</label>
 
                         <md-select  id="state"  ng-model="user.federalStateId"  ng-change="getCitiesByState(user.federalStateId)" >
-                            <md-select-label>{{state || 'Seleccione una estado'}}</md-select-label>
+                            <!--<md-select-label>{{state || 'Seleccione una estado'}}</md-select-label>-->
                             <md-option ng-repeat="state in states" value="{{state.federalStateId}}" >
                                 {{state.name}}
                             </md-option>
@@ -177,7 +177,7 @@
                         <label for="city">Ciudad</label>
 
                         <md-select  id="city" ng-model="user.cityId" >
-                            <md-select-label>{{city || 'Seleccione una ciudad'}}</md-select-label>
+                            <!--<md-select-label>{{city || 'Seleccione una ciudad'}}</md-select-label>-->
                             <md-option ng-repeat="city in cities" value="{{city.cityId}}" >
                                 {{city.name}}
                             </md-option>

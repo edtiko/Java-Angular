@@ -8,7 +8,7 @@
                         <label>Disciplina Deportiva</label>
                         <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && (userSession.planActiveId != null && userSession.planActiveId != '0'))"
                                    id="discipline" name="discipline" ng-model="userProfile.discipline"  ng-change="getObjectivesByDiscipline(userProfile.discipline, true)" ng-required="true">
-                           <md-select-label>{{d || 'Seleccione una disciplina'}}</md-select-label>
+                           <!--<md-select-label>{{d || 'Seleccione una disciplina'}}</md-select-label>-->
                             <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                                 {{d.name}}
                             </md-option>
@@ -25,8 +25,8 @@
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Objetivo</label>
-                        <md-select id="objective"  name="objective" ng-model="userProfile.objective"  ng-change="getModalitiesByObjectiveId(userProfile.objective, true)" ng-required="true">
-                            <md-select-label>{{d || 'Seleccione un objetivo'}}</md-select-label>
+                        <md-select id="objective"  name="objective" ng-model="userProfile.objective"  ng-change="getModalitiesByObjectiveId(userProfile.objective, true)">
+                            <!--<md-select-label>{{d || 'Seleccione un objetivo'}}</md-select-label>-->
                             <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
                                 {{o.name}}
                             </md-option>
@@ -44,8 +44,8 @@
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Modalidad </label>
-                        <md-select  ng-model="userProfile.modality" id="modality" name="modality" ng-required="true">
-                             <md-select-label>{{d || 'Seleccione una modalidad'}}</md-select-label>
+                         <md-select  ng-model="userProfile.modality" id="modality" name="modality" >
+                            <!-- <md-select-label>{{d || 'Seleccione una modalidad'}}</md-select-label>-->
                             <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
                                 {{m.name}}
                             </md-option>
@@ -64,8 +64,8 @@
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>Entorno Geogr&aacute;fico
                         </label>
-                        <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" ng-required="true">
-                            <md-select-label>{{m || 'Seleccione un entorno geogr&aacute;fico'}}</md-select-label>
+                        <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" >
+                            <!--<md-select-label>{{m || 'Seleccione un entorno geogr&aacute;fico'}}</md-select-label>-->
                             <md-option ng-repeat="m in entornos" value="{{m.environmentId}}" >
                                 {{m.name}}
                             </md-option>
@@ -90,8 +90,8 @@
 
                         <label>Clima predominante en sus entrenamientos
                         </label>
-                        <md-select  ng-model="userProfile.weatherId" id="weather" name="weather" ng-required="true">
-                            <md-select-label>{{m || 'Seleccione el clima'}}</md-select-label>
+                        <md-select  ng-model="userProfile.weatherId" id="weather" name="weather">
+                            <!--<md-select-label>{{m || 'Seleccione el clima'}}</md-select-label>-->
                             <md-option ng-repeat="m in climas" value="{{m.weatherId}}" >
                                 {{m.name}}
                             </md-option>
@@ -169,7 +169,7 @@
 
                         <label>Lesiones</label>
                         <md-select  ng-model="userProfile.injuryId" id="injury" name="injury">
-                             <md-select-label>{{l || 'Seleccione una lesi&oacute;n'}}</md-select-label>
+                            <!-- <md-select-label>{{l || 'Seleccione una lesi&oacute;n'}}</md-select-label>-->
                             <md-option ng-repeat="l in lesiones" value="{{l.injuryId}}" >
                                 {{l.name}}
                             </md-option>
@@ -214,7 +214,7 @@
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>&iquest;Practicas otros deportes?</label>
                         <md-select  ng-model="userProfile.sport" id="sport" name="sport">
-                             <md-select-label>{{m || 'Seleccione un deporte'}}</md-select-label>
+                            <!-- <md-select-label>{{m || 'Seleccione un deporte'}}</md-select-label>-->
                             <md-option ng-repeat="m in sports" value="{{m.sportId}}" >
                                 {{m.name}}
                             </md-option>
@@ -257,7 +257,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.pulsometer" id="pulsometer" name="pulsometer" ng-change="getModelsPulsometer(userProfile.pulsometer)">
-                                 <md-select-label>{{m || 'Seleccione un pulsometro'}}</md-select-label>
+                                <!-- <md-select-label>{{m || 'Seleccione un pulsometro'}}</md-select-label>-->
                                 <md-option ng-repeat="m in pulsometers" value="{{m.sportEquipmentId}}" >
                                     {{m.brand}}
                                 </md-option>
@@ -271,7 +271,7 @@
                             <md-input-container class="md-block md-input-has-placeholder" >
                                 <label >Modelo</label>
                                 <md-select  ng-model="userProfile.modelPulsometer" >
-                                     <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>
+                                    <!-- <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>-->
                                     <md-option ng-repeat="m in modelsPulsometer" value="{{m.modelEquipmentId}}" >
                                         {{m.name}}
                                     </md-option>
@@ -376,7 +376,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.potentiometer" id="potentiometer" name="potentiometer" ng-change="getModelsPotentiometer(userProfile.potentiometer)">
-                                 <md-select-label>{{m || 'Seleccione un potenciometro'}}</md-select-label>
+                                 <!--<md-select-label>{{m || 'Seleccione un potenciometro'}}</md-select-label>-->
                                 <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
                                     {{m.brand}}
                                 </md-option>
@@ -391,7 +391,7 @@
                             <md-input-container class="md-block md-input-has-placeholder" >
                                 <label>Modelo</label>
                                 <md-select  ng-model="userProfile.modelPotentiometer" id="modelPotentiometer" name="modelPotentiometer">
-                                     <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>
+                                     <!--<md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>-->
                                     <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
                                         {{m.name}}
                                     </md-option>
@@ -518,7 +518,7 @@
                             <label>Tipo de Bicicleta</label>
                             <md-select  ng-model="userProfile.bikeType"
                                         ng-change="getBikes(userProfile.bikeType)">
-                                 <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>
+                                <!-- <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>-->
                                 <md-option ng-repeat="p in bikeTypes" value="{{p.bikeTypeId}}" >
                                     {{p.name}}
                                 </md-option>
@@ -531,7 +531,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label>&iquest;Cu&aacute;l?</label>
                             <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
-                                 <md-select-label>{{m || 'Seleccione una bicicleta'}}</md-select-label>
+                                <!-- <md-select-label>{{m || 'Seleccione una bicicleta'}}</md-select-label>-->
                                 <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
                                     {{m.brand}}
                                 </md-option>
@@ -544,7 +544,7 @@
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label >Modelo</label>
                             <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
-                                 <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>
+                                <!-- <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>-->
                                 <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
                                     {{m.name}}
                                 </md-option>
@@ -575,7 +575,7 @@
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label>&iquest;Qu&eacute; tipo de zapato para correr usas?</label>
                         <md-select  ng-model="userProfile.shoes" id="shoe" name="shoe">
-                             <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>
+                            <!-- <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>-->
                             <md-option ng-repeat="m in shoes" value="{{m.sportEquipmentId}}" >
                                 {{m.brand}}
                             </md-option>
@@ -590,7 +590,7 @@
                     <md-input-container class="md-block md-input-has-placeholder">
                         <label>Sistema de medici&oacute;n </label>
                         <md-select  ng-model="userProfile.indMetricSys" id="indMetricSys" name="indMetricSys">
-                             <md-select-label>{{m || 'Seleccione un sistema de medici&oacute;n'}}</md-select-label>
+                            <!-- <md-select-label>{{m || 'Seleccione un sistema de medici&oacute;n'}}</md-select-label>-->
                             <md-option ng-repeat="m in metricSystems" value="{{m.id}}" >
                                 {{m.name}}
                             </md-option>

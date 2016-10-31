@@ -1105,22 +1105,27 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.validateFields = function (form) {
             var valid = true;
             if ($scope.userProfile.objective == '' || $scope.userProfile.objective == null) {
+               $scope.errorMessages.push("Debe seleccionar un objetivo");
                 form.objective.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.discipline == '' || $scope.userProfile.discipline == null) {
+                $scope.errorMessages.push("Debe seleccionar una disciplina");
                 form.discipline.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.modality == '' || $scope.userProfile.modality == null) {
+                  $scope.errorMessages.push("Debe seleccionar una modalidad");
                 form.modality.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.environmentId == '' || $scope.userProfile.environmentId == null) {
+               $scope.errorMessages.push("Debe seleccionar un entorno");
                 form.environment.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
+                 $scope.errorMessages.push("Debe seleccionar un clima predominante");
                 form.weather.$setTouched();
                 valid = false;
             }
