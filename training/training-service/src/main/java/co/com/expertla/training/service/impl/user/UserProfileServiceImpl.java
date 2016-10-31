@@ -631,7 +631,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setEnvironmentId(new Environment(dto.getEnvironmentId()));
         userProfile.setWeatherId(new Weather(dto.getWeatherId()));
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
-        userProfile.setInjuryId(new Injury(dto.getInjuryId()));
+        userProfile.setInjuryId(dto.getInjuryId() == null?null: new Injury(dto.getInjuryId()));
         userProfile.setDisease(dto.getDisease());
     }
 
