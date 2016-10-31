@@ -65,6 +65,10 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.inicioGrabarVideo = function () {
             $scope.isVisibleSendVideo = true;
             $scope.isVisibleDeleteVideo = true;
+            $scope.isSendToStar = false;
+            $scope.isVisibleToRefuseAtlethe = false;
+            $scope.isSendToAtlethe = false;
+
             $scope.colorGrabacion = 'color:red';
             $scope.isRecord = true;
             $scope.startRecordingVideo();
@@ -185,8 +189,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             }
                     );
         };
-        
-        $scope.sendVideoToAtlethe= function () {
+
+        $scope.sendVideoToAtlethe = function () {
             var planVideoId = $scope.planVideoSelected;
             $scope.isRecord = false;
 
@@ -249,11 +253,11 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     }
             );
         };
-        
-        $scope.showStatusVideo = function(indRejected) {
-            if(indRejected == '') {
+
+        $scope.showStatusVideo = function (indRejected) {
+            if (indRejected == '') {
                 return 'Pendiente';
-            } else if(indRejected == 1) {
+            } else if (indRejected == 1) {
                 return 'Rechazado';
             } else {
                 return 'Aceptado';

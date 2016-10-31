@@ -126,5 +126,22 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
 
         return createQuery(builder.toString());
     }
+    
+    @Override
+    public List<Option> findByUserId(Integer userId, Integer moduleId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select Distinct o from Option o, Module a, RoleUser ru, RoleOption ro ");
+        builder.append("WHERE a.stateId = :active ");
+        builder.append("AND a.moduleId = o.moduleId.moduleId ");
+        builder.append("AND ro.roleId.roleId = ru.roleId.roleId ");
+        builder.append("AND ru.userId.userId = :userId ");
+        builder.append("AND ro.optionId.optionId = o.optionId ");
+        builder.append("AND ro.optionId.stateId = :active ");
+        builder.append("AND a.moduleId = :moduleId ");
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
+        setParameter("userId", userId);
+        setParameter("moduleId", moduleId);
+        return createQuery(builder.toString());
+    }
 
 }
