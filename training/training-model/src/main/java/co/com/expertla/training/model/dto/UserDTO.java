@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Role;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -58,6 +59,8 @@ public class UserDTO {
     private Integer userUpdate;
     private String userCreateName;
     private String userUpdateName;
+    private String roleCreate;
+    private Integer roleCreateId;
     private int count;
     private Integer disciplineIdExt;
     private Integer userWordpressId;
@@ -89,9 +92,10 @@ public class UserDTO {
     }
     
     //Constructor usado en findPaginate
-    public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
+    public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex,
             String phone, Integer disciplineId, Short stateId, Integer roleId, Integer countryId, byte[] profilePhoto, String urlVideo, String aboutMe,
-            Date creationDate, Date lastUpdate, String userCreateName, String userUpdateName,Integer userCreate, Integer userUpdate) {
+            Date creationDate, Date lastUpdate, String userCreateName, String userUpdateName, Integer userCreate, Integer userUpdate,
+            Role roleCreate) {
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -113,6 +117,10 @@ public class UserDTO {
         this.userUpdate = userUpdate;
         this.userCreateName = userCreateName;
         this.lastUpdate = lastUpdate;
+        if(roleCreate != null){
+        this.roleCreate = roleCreate.getName();
+        this.roleCreateId = roleCreate.getRoleId();
+        }
     }
 
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
@@ -601,6 +609,22 @@ public class UserDTO {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getRoleCreate() {
+        return roleCreate;
+    }
+
+    public void setRoleCreate(String roleCreate) {
+        this.roleCreate = roleCreate;
+    }
+
+    public Integer getRoleCreateId() {
+        return roleCreateId;
+    }
+
+    public void setRoleCreateId(Integer roleCreateId) {
+        this.roleCreateId = roleCreateId;
     }
     
     

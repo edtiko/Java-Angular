@@ -25,7 +25,11 @@
                 <div class="ontop">
 
                     <img class="circular" data-ng-src="{{dataImage}}"  data-err-src="static/img/profile-default.png" style="height: 250px; width: 250px;"/>
-
+                   
+                </div>
+                <div class="choose-file">
+                     <a href="" id="upload_link">Cambiar foto del perfil</a>
+                    <md-button class="md-fab md-mini md-primary fa fa-upload" ng-disabled="myFile==null" ng-click="uploadFile(myFile)" aria-label="Subir"> </md-button>
                 </div>
             </div>
             <div layout="row" >
@@ -144,7 +148,7 @@
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder">
                         <label>Pa&iacute;s</label>
-                        <md-select class="md-block" id="country" ng-model="user.countryId" ng-change="getStatesByCountry(user.countryId)" >
+                        <md-select class="md-block" id="country" ng-model="user.countryId" ng-change="getStatesByCountry(user.countryId,true)" >
                             <!--<md-select-label>{{country || 'Seleccione un pa&aiacute;s'}}</md-select-label>-->
                             <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
                                 {{country.name}}
@@ -159,7 +163,7 @@
 
                         <label  for="state">Estado</label>
 
-                        <md-select  id="state"  ng-model="user.federalStateId"  ng-change="getCitiesByState(user.federalStateId)" >
+                        <md-select  id="state"  ng-model="user.federalStateId"  ng-change="getCitiesByState(user.federalStateId,true)" >
                             <!--<md-select-label>{{state || 'Seleccione una estado'}}</md-select-label>-->
                             <md-option ng-repeat="state in states" value="{{state.federalStateId}}" >
                                 {{state.name}}
@@ -265,7 +269,7 @@
                 <div flex="33">
                     <md-input-container class="md-block">
                         <label  for="picture">Foto de Perfil</label>
-                        <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil"/>
+                        <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil" ng-change=""/>
                         <!--<md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>-->
                     </md-input-container>
                 </div>
@@ -294,3 +298,12 @@
 
     </md-content>
 </div>
+<script>
+    $(function(){
+    $("#upload_link").on('click', function(e){
+        e.preventDefault();
+        $("#picture").trigger('click');
+    });
+    
+});
+</script>

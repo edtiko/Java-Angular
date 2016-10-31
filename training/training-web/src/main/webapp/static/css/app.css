@@ -7,6 +7,11 @@
     left: 50%;
     z-index: 2;
 }
+.choose-file {
+    position: absolute;
+    top: 260px;
+    left: 53%;
+}
 .container-fluid{
     position: relative;
 }
