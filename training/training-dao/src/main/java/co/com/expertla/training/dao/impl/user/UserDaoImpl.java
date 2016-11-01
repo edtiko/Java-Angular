@@ -173,17 +173,17 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         builder.append("(select a.login FROM User a WHERE u.userUpdate = a.userId),  ");
         builder.append("(select a.userId FROM User a WHERE u.userCreate = a.userId), ");
         builder.append("(select a.userId FROM User a WHERE u.userUpdate = a.userId),  ");
-        builder.append(" ru.roleId  ");
-        builder.append(") from User u, DisciplineUser du, RoleUser r, RoleUser ru ");
+        builder.append(" r.roleId  ");
+        builder.append(") from User u, DisciplineUser du, RoleUser r ");
         builder.append("WHERE u.userId = du.userId.userId "); 
         builder.append("AND u.userId = r.userId.userId ");
-        builder.append("AND u.userCreate = ru.userId.userId ");
-        if (order.equals("roleCreate")) {
-            builder.append("order by ru.roleId.name");
+        if (order.contains("roleId.name")) {
+            builder.append("order by r.");
         } else {
             builder.append("order by u.");
-            builder.append(order);
         }
+        
+            builder.append(order);
         int count = findAllUsers().size();
 
         Query query = this.getEntityManager().createQuery(builder.toString());
