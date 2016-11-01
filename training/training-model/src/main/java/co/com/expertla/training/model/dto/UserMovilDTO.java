@@ -60,8 +60,26 @@ public class UserMovilDTO {
     private Integer indLoginFirstTime;
     private Integer planActiveId;
     private Integer trainingPlanUserId;
+    private UserBasicMovilDTO starUser;
+    private UserBasicMovilDTO coachUser;
 
     public UserMovilDTO() {
+    }
+
+    public UserBasicMovilDTO getStarUser() {
+        return starUser;
+    }
+
+    public void setStarUser(UserBasicMovilDTO starUser) {
+        this.starUser = starUser;
+    }
+
+    public UserBasicMovilDTO getCoachUser() {
+        return coachUser;
+    }
+
+    public void setCoachUser(UserBasicMovilDTO coachUser) {
+        this.coachUser = coachUser;
     }
 
     public Integer getPlanActiveId() {

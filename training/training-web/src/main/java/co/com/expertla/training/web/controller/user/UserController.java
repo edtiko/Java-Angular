@@ -1,12 +1,15 @@
 package co.com.expertla.training.web.controller.user;
 
 import co.com.expertla.training.constant.UrlProperties;
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.service.configuration.CountryService;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
+import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
+import co.com.expertla.training.model.dto.UserBasicMovilDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.dto.UserMovilDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
@@ -41,7 +44,6 @@ import com.opentok.OpenTok;
 import com.opentok.exception.OpenTokException;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
@@ -346,6 +348,22 @@ public class UserController {
             }
             
             userService.updateUser(user);
+            
+            String postData = "id=" + user.getUserWordpressId() + "&discipline_id=" + user.getDisciplineId()+
+                    "&country_id=" + user.getCountryId();
+            String url = UrlProperties.URL_PORTAL + "update_user.php";
+            String jsonResponse = userService.sendPostWordpress(url, postData);
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+
+                if (statusRes.equals("fail")) {
+                    java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, jo.get("output").getAsString());
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+            
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -585,10 +603,48 @@ public class UserController {
             userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
             userSession.setDisciplineId(userDto.getDisciplineId());
             userSession.setDisciplineName(userDto.getDisciplineName());
+            userSession.setEmail(userDto.getEmail());
             userSession.setRoleId(userDto.getRoleId());
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
+            }
+            
+            if(userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
+                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId());
+                UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
+                UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
+                userCoach.setUserId(coachUserDTO.getUserId());
+                userCoach.setLogin(coachUserDTO.getLogin());
+                userCoach.setFirstName(coachUserDTO.getFirstName());
+                userCoach.setLastName(coachUserDTO.getLastName());
+                userCoach.setSecondName(coachUserDTO.getSecondName());
+                userCoach.setTypeUser(coachUserDTO.getTypeUser());
+                userCoach.setFullName(coachUserDTO.getFullName());
+                userCoach.setDisciplineId(coachUserDTO.getDisciplineId());
+                userCoach.setDisciplineName(coachUserDTO.getDisciplineName());
+                userCoach.setRoleId(coachUserDTO.getRoleId());
+                userCoach.setEmail(coachUserDTO.getEmail());
+                userCoach.setSex(coachUserDTO.getSex());
+                userCoach.setBirthDate(coachUserDTO.getBirthDate());
+                
+                UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
+                UserBasicMovilDTO userStar = new UserBasicMovilDTO();
+                userStar.setUserId(starUserDTO.getUserId());
+                userStar.setLogin(starUserDTO.getLogin());
+                userStar.setFirstName(starUserDTO.getFirstName());
+                userStar.setLastName(starUserDTO.getLastName());
+                userStar.setSecondName(starUserDTO.getSecondName());
+                userStar.setTypeUser(starUserDTO.getTypeUser());
+                userStar.setFullName(starUserDTO.getFullName());
+                userStar.setDisciplineId(starUserDTO.getDisciplineId());
+                userStar.setDisciplineName(starUserDTO.getDisciplineName());
+                userStar.setRoleId(starUserDTO.getRoleId());
+                userStar.setEmail(starUserDTO.getEmail());
+                userStar.setSex(starUserDTO.getSex());
+                userStar.setBirthDate(starUserDTO.getBirthDate());
+                userSession.setStarUser(userStar);
+                userSession.setCoachUser(userCoach);
             }
 
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
