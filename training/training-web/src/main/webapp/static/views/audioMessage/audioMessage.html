@@ -9,9 +9,11 @@
                                 <!-- Start controls, exposed via recorder-->
                                 <div ng-if="recorder.isAvailable">
                                     <div layout="column" layout-align="center center">
-                                        <div flex>
+                                        <div layout="row" layout-align="space-around center" flex>
                                             <img id="record" data-ng-src="static/img/mic128.png"   ng-class="recorder.status.isRecording ? 'recording' : ''">
-                                    
+                                            <md-button class="md-fab md-mini" aria-label="elapsed time">
+                                                {{recorder.elapsedTime}}
+                                            </md-button>  
                                         </div>
                                         <div flex>
                                     <md-button aria-label="play"  class="md-fab md-mini md-primary" ng-click="recorder.startRecord()" ng-disabled="recorder.status.isRecording">

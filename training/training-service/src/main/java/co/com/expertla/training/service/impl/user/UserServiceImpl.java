@@ -32,7 +32,9 @@ import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.VideoUser;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.dao.user.VideoUserDao;
+import co.com.expertla.training.dao.user.VisibleFieldsUserDao;
 import co.com.expertla.training.model.dto.DisciplineDTO;
+import co.com.expertla.training.model.entities.VisibleFieldsUser;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -40,10 +42,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service("usuarioService")
 @Transactional
@@ -74,6 +72,9 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private DisciplineDao disciplineDao;
+    
+    @Autowired
+    private VisibleFieldsUserDao visibleFieldsDao;
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -275,6 +276,15 @@ public class UserServiceImpl implements UserService {
         if (dto.getUrlVideo() != null) {
             videoUserDao.create(video);
         }
+        //mostrar por defecto la foto de perfil
+        if(user != null){
+        VisibleFieldsUser visibleDefault = new VisibleFieldsUser();
+        visibleDefault.setColumnName("profile_photo");
+        visibleDefault.setTableName("user_training");
+        visibleDefault.setUserId(user.getUserId());
+        visibleFieldsDao.create(visibleDefault);
+        }
+        
         return user;
     }
 
