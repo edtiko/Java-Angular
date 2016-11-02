@@ -33,7 +33,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             }
                     );
         };
-        $scope.getStatesByCountry = function (countryId) {
+        $scope.getStatesByCountry = function (countryId, change) {
+            if (change) {
+                $scope.user.cityId = '';
+                $scope.user.federalStateId = '';
+            }
             if (countryId != null) {
                 UserService.getStatesByCountry(countryId)
                         .then(
@@ -46,7 +50,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         );
             }
         };
-        $scope.getCitiesByState = function (stateId) {
+        $scope.getCitiesByState = function (stateId, change) {
+            if (change) {
+                $scope.user.cityId = '';
+            }
             if (stateId != null) {
                 UserService.getCitiesByState(stateId)
                         .then(

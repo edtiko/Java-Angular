@@ -7,6 +7,7 @@ package co.com.expertla.training.service.plan;
 
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
+import co.com.expertla.training.model.entities.User;
 import java.util.List;
 
 /**
@@ -40,5 +41,7 @@ public interface CoachAssignedPlanService {
      * @throws Exception 
      */
     public List<CoachAssignedPlanDTO> findByStarUserId(Integer userId) throws Exception;
+    
+    public List<User> findCoachByStarUserId(Integer userId) throws Exception;
     
 }

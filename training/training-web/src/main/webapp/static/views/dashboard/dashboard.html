@@ -8,6 +8,9 @@
     <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserSupervisor">
         <div  ng-include src="'static/views/dashboard/tabsDashboardSupervisor.html'"></div>
     </div>
+     <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserAdmin ">
+        <div  ng-include src="'static/views/dashboard/tabsDashboardAdmin.html'"></div>
+    </div>
     <div flex="60"  style="height: 100%; min-height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" >
 
 
@@ -22,7 +25,7 @@
                 </a>
                 <h3> {{user.name}} {{user.secondName}} {{user.lastName}}</h3>
             </div>
-            <div flex layout="column" layout-align="space-around center">
+            <div flex layout="column" layout-align="space-around center" ng-show="userSession.typeUser != userSessionTypeUserAdmin">
 
                 <a href="#calendar" >
                     <img class="circular" data-ng-src="static/img/calendar_icon.jpg" style="height: 130px; width: 130px;">

@@ -9,6 +9,7 @@ import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
+import co.com.expertla.training.model.entities.User;
 import java.util.List;
 
 /**
@@ -33,4 +34,6 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
      * @throws Exception 
      */
     public List<CoachAssignedPlanDTO> findByStarUserId(Integer userId) throws Exception;
+    
+    public List<User> findCoachByStarUserId(Integer userId) throws Exception;
 }

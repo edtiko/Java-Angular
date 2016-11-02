@@ -220,6 +220,42 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
+             getCoaches: function (id) {
+                return $http.get($contextPath + '/user/get/coaches')
+                        .then(
+                                function (response) {
+                                    return response.data.entity;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching users');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+             getStars: function (id) {
+                return $http.get($contextPath + '/user/get/stars')
+                        .then(
+                                function (response) {
+                                    return response.data.entity;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching users');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+             getSupervisors: function () {
+                return $http.get($contextPath + '/user/get/supervisors')
+                        .then(
+                                function (response) {
+                                    return response.data.entity;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching users');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
             isImage: function (src) {
 
                 var deferred = $q.defer();

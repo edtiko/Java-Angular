@@ -183,30 +183,6 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.selectCoach = function (coachAssignedPlanSelected) {
              $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
             $window.location.href = "#dashboard";
-//            var user = coachAssignedPlanSelected.coachUserId;
-//            $window.sessionStorage.setItem("coachAssignedPlanSelected", JSON.stringify(coachAssignedPlanSelected));
-//            $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
-//            $scope.showControl = true;
-//            $scope.showChat = true;
-//            $scope.showVideo = true;
-//            messageService.initialize(coachAssignedPlanSelected.id);
-//            DashboardService.getDashboard(user).then(
-//                    function (d) {
-//                        $scope.user = d;
-//
-//                        if ($scope.user.birthDate != null) {
-//                            var date = $scope.user.birthDate.split("/");
-//                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
-//                            $scope.user.age = $scope.calculateAge(birthdate);
-//                        }
-//                        $scope.getVisibleFieldsUserByUser(user);
-//                        $scope.getImageProfile(user.userId);
-//                    },
-//                    function (errResponse) {
-//                        console.error('Error while fetching the dashboard');
-//                        console.error(errResponse);
-//                    }
-//            );
         };
 
 

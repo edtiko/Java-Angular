@@ -49,22 +49,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     $scope.setUserSession();
                 }
 
-                DashboardService.getDashboard(user).then(
-                        function (d) {
-                            $scope.user = angular.copy(d);                          
-                            $scope.calculateIMC(); 
-                            if ($scope.user.birthDate != null) {
-                                var date = $scope.user.birthDate.split("/");
-                                var birthdate = new Date(date[2], date[1] - 1, date[0]);
-                                $scope.user.age = $scope.calculateAge(birthdate);
-                            }
-                            $scope.getImageProfile(user.userId);
-                        },
-                        function (errResponse) {
-                            console.error('Error while fetching the dashboard');
-                            console.error(errResponse);
-                        }
-                );
+               self.getDashBoardByUser(user);
             } else {
                 $scope.showMessage("El usuario no se encuentra logueado.", "error");
             }
@@ -107,7 +92,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         //notificación mensajes recibidos
         messageService.receive().then(null, null, function (message) {
-            if (message.toUserId == $scope.user.userId) {
+            if ($scope.user.userId != message.messageUserId.userId) {
                 $scope.messagesReceivedCount++;
             }
 
@@ -509,6 +494,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
                 self.getAssignedAthletes();
                 $scope.getUserById();
+                $scope.getSupervisorByCoachId($scope.userSession.userId);
 
             } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
                 $scope.getUserById();
@@ -523,10 +509,62 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
                 $scope.getUserById();
                 $scope.getAssignedAthletesByStar();
+            } else if($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAdmin){
+                $scope.getUserById();
+                self.getCoaches();
+                self.getStars();
+                self.getSupervisors();
             }
 
-            $scope.getSupervisorByCoachId($scope.userSession.userId);
         });
+        
+        self.getCoaches = function(){
+              UserService.getCoaches()
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.coaches = d.output;
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while getting coaches');
+                            }
+                    );
+        };
+        
+        self.getStars = function(){
+             UserService.getStars()
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.stars = d.output;
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while getting stars');
+                            }
+                    ); 
+        };
+        
+        self.getSupervisors = function(){
+              UserService.getSupervisors()
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.supervisors = d.output;
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while getting supervisors');
+                            }
+                    );
+        };
 
         $scope.init = function () {
             var coach = JSON.parse($window.sessionStorage.getItem("planSelected"));
