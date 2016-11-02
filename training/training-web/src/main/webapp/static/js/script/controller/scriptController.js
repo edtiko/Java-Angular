@@ -19,6 +19,36 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
                             }
                     );
         };
+        
+        $scope.formatTimeToString = function(time) {
+            if(time < 10) {
+                time = '0' + time;
+            };
+            
+            return time;
+        };
+        
+        $scope.convertMilisecondsToDate = function(mili) {
+            var date = new Date(mili);
+            var month = $scope.formatTimeToString(date.getMonth()+1);
+            var day = $scope.formatTimeToString(date.getDate());
+            var hours = $scope.formatTimeToString(date.getHours());
+            var minutes = $scope.formatTimeToString(date.getMinutes());
+            var seconds = $scope.formatTimeToString(date.getSeconds());
+            
+            return date.getFullYear() + ' ' + month + ' ' + day + ' ' + hours + ':' + 
+                    minutes + ':' + seconds;
+        };
+        
+        $scope.showStatusVideo = function (indRejected) {
+            if (indRejected == '') {
+                return 'Pendiente';
+            } else if (indRejected == 1) {
+                return 'Rechazado';
+            } else {
+                return 'Aceptado';
+            }
+        };
 
         $scope.getScriptVideoStarByCoach = function () {
             ScriptService.getScriptVideoStarByCoach($scope.userSession.userId)

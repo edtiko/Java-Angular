@@ -55,7 +55,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             $mdToast.hide();
         };
 
-        $scope.showMessage = function (msg, title, html=false) {
+        $scope.showMessage = function (msg, title, html = false) {
             // Appending dialog to document.body to cover sidenav in docs app
             // Modal dialogs should fully cover application
             // to prevent interaction outside of dialog
@@ -93,7 +93,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                         //.targetEvent(ev)
                         );
             }
-        };
+        }
+        ;
 
         $scope.goCalendar = function () {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);
@@ -348,7 +349,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
         // The nested try blocks will be simplified when Chrome 47 moves to Stable
         $scope.startRecordingVideo = function () {
-            $scope.gumVideo.controls = true;
+            $scope.gumVideo.controls = false;
+            $scope.gumVideo.addEventListener("play", function (event)
+            {
+                    $scope.gumVideo.currentTime = 0;
+            }, false);
             recordedBlobs = [];
             var options = {mimeType: 'video/webm;codecs=vp9'};
             if (!MediaRecorder.isTypeSupported(options.mimeType)) {
@@ -371,9 +376,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                         + e + '. mimeType: ' + options.mimeType);
                 return;
             }
+            $scope.mediaRecorder.currentTime = 0;
             $scope.mediaRecorder.onstop = handleStop;
             $scope.mediaRecorder.ondataavailable = handleDataAvailable;
-            $scope.mediaRecorder.start(10); // collect 10ms of data
+            $scope.mediaRecorder.start(0); // collect 10ms of data
         };
 
         $scope.stopRecordingVideo = function () {
@@ -386,31 +392,14 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
 
         $scope.cleanVideo = function () {
-            recordedBlobs = [];
-            var options = {mimeType: 'video/webm;codecs=vp9'};
-            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                console.log(options.mimeType + ' is not Supported');
-                options = {mimeType: 'video/webm;codecs=vp8'};
-                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                    console.log(options.mimeType + ' is not Supported');
-                    options = {mimeType: 'video/webm'};
-                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                        console.log(options.mimeType + ' is not Supported');
-                        options = {mimeType: ''};
-                    }
-                }
-            }
-            try {
-                $scope.mediaRecorder = new MediaRecorder(window.stream, options);
-            } catch (e) {
-                console.error('Exception while creating MediaRecorder: ' + e);
-                alert('Exception while creating MediaRecorder: '
-                        + e + '. mimeType: ' + options.mimeType);
-                return;
-            }
-            $scope.mediaRecorder.onstop = handleStop;
-            $scope.mediaRecorder.ondataavailable = handleDataAvailable;
-            $scope.mediaRecorder.start(10);
+            $scope.gumVideo = document.querySelector('video#gumVideo');
+            document.getElementById('gumVideo').currentTime = 0;
+            $scope.gumVideo.controls = false;
+            $scope.gumVideo.src = '';
+            window.stream = null;
+            navigator.mediaDevices.getUserMedia(constraints).
+                    then(handleSuccess).catch(handleError);
+
         };
 
         $scope.playVideo = function (path) {
@@ -423,7 +412,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             $scope.recordedVideo.controls = true;
             $scope.recordedVideo.src = window.URL.createObjectURL(superBuffer);
         };
-        
+
         $scope.playVideoRecorded = function () {
             $scope.recordedVideo.play();
         };

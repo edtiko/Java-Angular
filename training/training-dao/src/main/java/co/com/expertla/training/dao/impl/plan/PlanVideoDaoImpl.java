@@ -45,7 +45,8 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     @Override
     public List<PlanVideoDTO> getVideosByUser(Integer planId, Integer userId, String fromto, String tipoPlan) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, m.fromUserId, m.toUserId, m.creationDate) ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, ");
+        sql.append("m.fromUserId, m.toUserId, m.creationDate, m.indRejected) ");
         sql.append("FROM PlanVideo m ");
         if (fromto.equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");

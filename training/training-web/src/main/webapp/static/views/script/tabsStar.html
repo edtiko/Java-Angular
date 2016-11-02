@@ -6,7 +6,7 @@
                     <md-list-item ng-repeat="vr in planVideoList" >
                         <img data-ng-src="data:image/png;base64,{{vr.planVideoId.fromUserId.profilePhoto}}"  alt="{{vr.planVideoId.fromUserId.firstName}}  {{vr.planVideoId.fromUserId.secondName}} {{vr.planVideoId.fromUserId.lastName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                         <div class="md-list-item-text">
-                            <p>{{vr.planVideoId.fromUserId.firstName}}  {{vr.planVideoId.fromUserId.secondName}} {{vr.planVideoId.fromUserId.lastName}}</p>
+                            <p>{{convertMilisecondsToDate(vr.creationDate)}}</p>
                         </div>
                         <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
                         <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="selectVideo(vr)">
@@ -19,11 +19,11 @@
             <md-tab label="{{ 'SENT' | translate }}"  md-on-select="onTabChanges(1)" >
                 <md-content class="md-padding">
                     <md-list-item ng-repeat="a in scriptVideoList" >
-                        <img data-ng-src="data:image/png;base64,{{vr.toUserId.profilePhoto}}"  alt="{{vr.toUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                        <img data-ng-src="data:image/png;base64,{{a.toUserId.profilePhoto}}"  alt="{{a.toUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                         <div class="md-list-item-text">
-                            <p>{{vr.toUserId.fullName}}</p>
+                            <p>{{convertMilisecondsToDate(a.creationDate)}} {{showStatusVideo(a.indRejected)}}</p>
                         </div>
-                        <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
+                        <md-subheader class="md-no-sticky">{{a.createDate}}</md-subheader>
                         <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="selectVideoStar(vr)">
                             <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
                             <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>

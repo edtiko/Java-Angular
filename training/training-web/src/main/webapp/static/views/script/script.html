@@ -21,17 +21,23 @@
                             <div class="md-ripple-container"></div>
                         </md-button>
                         <md-button class="fa fa-stop fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
-                                type="button" ng-transclude="" aria-label="play" 
-                                ng-click="stopVideo()" style="">
-                            <div class="md-ripple-container"></div></md-button>
-                            <md-button class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
-                               aria-label="play" ng-click="verVideoGrabado()" style="">
-                        <div class="md-ripple-container"></div></md-button>
+                                   type="button" ng-transclude="" aria-label="play" 
+                                   ng-click="stopVideo()" style="">
+                            <div class="md-ripple-container"></div>
+                            <md-tooltip md-direction="right" md-visible="tooltipVisible">Parar Video</md-tooltip>
+                        </md-button>
+                        <md-button class="fa fa fa-play fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" 
+                                   aria-label="play" ng-click="verVideoGrabado()" style="">
+                            <div class="md-ripple-container"></div>
+                            <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                        </md-button>
 
                         <md-button class="fa fa-upload fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 
-                                type="button" ng-transclude="" aria-label="play" 
-                                ng-click="enviarVideoToCoach()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
-                            <div class="md-ripple-container"></div></md-button>
+                                   type="button" ng-transclude="" aria-label="play" 
+                                   ng-click="enviarVideoToCoach()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''" style="">
+                            <div class="md-ripple-container"></div>
+                            <md-tooltip md-direction="right" md-visible="tooltipVisible">Enviar Video al Coach</md-tooltip>
+                        </md-button>
                     </div>
                 </md-content>
             </div>

@@ -63,6 +63,7 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
         StringBuilder builder = new StringBuilder();
         builder.append("select p from ScriptVideo p ");
         builder.append("WHERE p.planVideoId.toUserId.userId = :userId ");
+        builder.append("order by p.creationDate desc ");
         setParameter("userId", userId);
 
         return createQuery(builder.toString());
@@ -73,6 +74,7 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
         StringBuilder builder = new StringBuilder();
         builder.append("select p from ScriptVideo p ");
         builder.append("WHERE p.planVideoId.fromUserId.userId = :userId ");
+        builder.append("order by p.creationDate desc ");
         setParameter("userId", userId);
 
         return createQuery(builder.toString());

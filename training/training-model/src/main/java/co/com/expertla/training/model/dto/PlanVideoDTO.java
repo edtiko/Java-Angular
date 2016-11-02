@@ -26,9 +26,20 @@ public class PlanVideoDTO {
     private Integer coachExtAthleteId;
     private String readableTime;
     private Double hours;
+    private Integer indRejected;
     
     public PlanVideoDTO(){
         
+    }
+    
+    public PlanVideoDTO(Integer planVideoId, String name, User fromUserId,
+            User toUserId, Date createDate, Integer indRejected){
+        this.id = planVideoId;
+        this.name = name;
+        this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
+        this.toUser =   UserDTO.mapFromUserEntity(toUserId);
+        this.createDate = createDate;
+        this.indRejected = indRejected;
     }
     
     public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate){
@@ -37,10 +48,9 @@ public class PlanVideoDTO {
         this.fromUserId = fromUserId;
         this.toUserId =  toUserId;
         this.createDate = createDate;
-        
     }
     
-      public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate){
+    public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate){
         this.id = planVideoId;
         this.name = name;
         this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
@@ -56,11 +66,19 @@ public class PlanVideoDTO {
         return null;
     }
     
-      public static PlanVideoDTO mapFromPlanVideoEntity(PlanVideo video) {
+    public static PlanVideoDTO mapFromPlanVideoEntity(PlanVideo video) {
         if (video != null) {
             return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId(), video.getToUserId(), video.getCreationDate());
         }
         return null;
+    }
+
+    public Integer getIndRejected() {
+        return indRejected;
+    }
+
+    public void setIndRejected(Integer indRejected) {
+        this.indRejected = indRejected;
     }
 
     public Integer getId() {
