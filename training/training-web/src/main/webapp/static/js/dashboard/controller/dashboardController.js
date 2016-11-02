@@ -92,7 +92,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         //notificación mensajes recibidos
         messageService.receive().then(null, null, function (message) {
-            if (message.toUserId == $scope.user.userId) {
+            if ($scope.user.userId != message.messageUserId.userId) {
                 $scope.messagesReceivedCount++;
             }
 
