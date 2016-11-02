@@ -127,7 +127,7 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
-                        <input type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
+                        <input type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }} {{weightmetric}}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
                          <div class="has-error" role="alert" ng-messages="formProfile.weight.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
@@ -140,8 +140,8 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
-                        <input type="text" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
-                         <div class="has-error" role="alert" ng-messages="formProfile.height.$error">
+                        <input type="text" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }} {{heightmetric}}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
+                        <div class="has-error" role="alert" ng-messages="formProfile.height.$error">
                             <div ng-message="required">Este es un campo requerido</div>
                         </div>
                     </md-input-container>
@@ -589,7 +589,7 @@
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder">
                         <label>Sistema de medici&oacute;n </label>
-                        <md-select  ng-model="userProfile.indMetricSys" id="indMetricSys" name="indMetricSys">
+                        <md-select  ng-model="userProfile.indMetricSys" id="indMetricSys" name="indMetricSys" ng-change="setUnit(userProfile.indMetricSys)">
                             <!-- <md-select-label>{{m || 'Seleccione un sistema de medici&oacute;n'}}</md-select-label>-->
                             <md-option ng-repeat="m in metricSystems" value="{{m.id}}" >
                                 {{m.name}}

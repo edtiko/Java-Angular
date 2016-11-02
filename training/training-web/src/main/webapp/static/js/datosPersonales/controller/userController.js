@@ -416,7 +416,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
         };
 
-        // Controller User-Profile //
+        //----------------------------------------------------------- Controller User-Profile -------------------------------------------------------------------------------- //
         $scope.userProfile = {
             userProfileId: null,
             indPulsometer: '',
@@ -500,6 +500,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.indBike = '';
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
         $scope.bikeTypes = [];
+        $scope.weightmetric = '(Kg)';
+        $scope.heightmetric = '(Mts)'; 
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
             
@@ -522,7 +524,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             if ($scope.userProfile.weight != null && $scope.userProfile.height != null
             && $scope.userProfile.weight != "" && $scope.userProfile.height != ""
                     && isNumeric($scope.userProfile.weight) && isNumeric($scope.userProfile.height)) {
-                $scope.userProfile.imc = Math.round( $scope.userProfile.weight / ($scope.userProfile.height*$scope.userProfile.height) * 10 ) / 10;
+                if ($scope.userProfile.indMetricSys == '0') { //Si es anglosajon pasamos a metros y kilogramos para calcular IMC
+                    var weight = ($scope.userProfile.weight * 0.45);
+                    var height = convertToDecimal($scope.userProfile.height * 30.0);
+                    $scope.userProfile.imc = Math.round(weight / (height * height) * 10) / 10;
+                } else {
+                    $scope.userProfile.imc = Math.round($scope.userProfile.weight / ($scope.userProfile.height * $scope.userProfile.height) * 10) / 10;
+                }
             } else if ($scope.userProfile.weight == undefined || $scope.userProfile.weight == "" ||$scope.userProfile.height == undefined || $scope.userProfile.height == "" ) {
                 $scope.userProfile.imc= null;
             }
@@ -562,6 +570,21 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         }
         return num;
         }
+        
+        $scope.setUnit = function(metricSystem){
+            if(metricSystem == '0'){
+                $scope.weightmetric = '(Lb)';
+                $scope.userProfile.weight = ($scope.userProfile.weight * 2.2);
+                $scope.heightmetric = '(Ft)';
+                $scope.userProfile.height = ($scope.userProfile.height * 3.3);
+            }else{
+                $scope.weightmetric = '(Kg)';
+                $scope.userProfile.weight = Math.round($scope.userProfile.weight * 0.45);
+                $scope.heightmetric = '(Mts)';
+                $scope.userProfile.height = convertToDecimal($scope.userProfile.height /100);
+                $scope.userProfile.height = ($scope.userProfile.height * 30.0);
+            }
+        };
         
 
         $scope.confirmDialogGuardarUserProfile = function (ev, generatePlan, msg) {
