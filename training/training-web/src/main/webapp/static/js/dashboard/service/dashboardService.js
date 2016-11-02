@@ -27,7 +27,7 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
 
             },
              getAssignedAthletesByStar: function (starUserId) {
-                return $http.get($contextPath + 'get/athtletes/by/star/' + starUserId)
+                 return $http.get($contextPath + 'get/athtletes/by/star/' + starUserId)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -37,6 +37,16 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+//                return $http.get($contextPath + 'get/athtletes/by/star/' + starUserId)
+//                        .then(
+//                                function (response) {
+//                                    return response.data;
+//                                },
+//                                function (errResponse) {
+//                                    console.error('Error while fetching athletes');
+//                                    return $q.reject(errResponse);
+//                                }
+//                        );
 
             },
             getAssignedCoach: function (athleteUserId) {

@@ -29,7 +29,6 @@ import org.apache.commons.codec.binary.Base64;
  * @author Andres Lopez
  */
 public class CurlServiceWordpress {
-    
     private String urlService;
 
     public String sendData() throws IOException {
@@ -38,6 +37,8 @@ public class CurlServiceWordpress {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
         //  CURLOPT_POST
+        
+        
         con.setRequestMethod("POST");
 
         // CURLOPT_FOLLOWLOCATION
@@ -100,9 +101,10 @@ public class CurlServiceWordpress {
     }
     
     public static void main(String[] args) throws IOException {
-        CurlServiceWordpress curlServiceWordpress = new CurlServiceWordpress();
-        String data = curlServiceWordpress.sendData();
+//        CurlServiceWordpress curlServiceWordpress = new CurlServiceWordpress();
+//        String data = curlServiceWordpress.sendData();
 //        curlServiceWordpress.send();
-        System.out.println("data " + data);
+Integer s = Integer.valueOf("33.33");
+//        System.out.println("data " + data);
     }
 }

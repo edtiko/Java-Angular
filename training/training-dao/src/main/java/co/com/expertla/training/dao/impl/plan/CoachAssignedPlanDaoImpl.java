@@ -11,6 +11,7 @@ import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
+import co.com.expertla.training.model.entities.User;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -63,6 +64,18 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     public List<CoachAssignedPlanDTO> findByStarUserId(Integer userId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.trainingPlanUserId.userId, m.starTeamId.coachUserId, m.starTeamId.starUserId, m.starTeamId.starTeamId, m.trainingPlanUserId.trainingPlanId) ");        
+        sql.append("FROM CoachAssignedPlan m ");
+        sql.append("WHERE m.starTeamId.starUserId.userId = :userId ");
+        sql.append("AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<User> findCoachByStarUserId(Integer userId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT DISTINCT m.starTeamId.coachUserId ");        
         sql.append("FROM CoachAssignedPlan m ");
         sql.append("WHERE m.starTeamId.starUserId.userId = :userId ");
         sql.append("AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());

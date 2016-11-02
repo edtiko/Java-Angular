@@ -7,10 +7,13 @@ package co.com.expertla.training.web.controller.plan;
 
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import co.com.expertla.training.service.plan.CoachExtAthleteService;
 import co.com.expertla.training.web.enums.StatusResponse;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
@@ -88,15 +91,40 @@ public class CoachAssignedPlanController {
 
     }
     
+//    @RequestMapping(value = "get/athtletes/by/star/{starUserId}", method = RequestMethod.GET)
+//    public @ResponseBody
+//    Response getAssignedAthletesByStarUserId(@PathVariable("starUserId") Integer starUserId) {
+//        ResponseService responseService = new ResponseService();
+//        StringBuilder strResponse = new StringBuilder();
+//        try {
+//            List<CoachAssignedPlanDTO> athletes = coachService.findByStarUserId(starUserId);
+//            responseService.setStatus(StatusResponse.SUCCESS.getName());
+//            responseService.setOutput(athletes);
+//            return Response.status(Response.Status.OK).entity(responseService).build();
+//        } catch (Exception e) {
+//            LOGGER.error(e.getMessage(), e);
+//            responseService.setOutput(strResponse);
+//            responseService.setStatus(StatusResponse.FAIL.getName());
+//            responseService.setDetail(e.getMessage());
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+//        }
+//    }
+    
     @RequestMapping(value = "get/athtletes/by/star/{starUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedAthletesByStarUserId(@PathVariable("starUserId") Integer starUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<CoachAssignedPlanDTO> athletes = coachService.findByStarUserId(starUserId);
+            List<User> athletes = coachService.findCoachByStarUserId(starUserId);
+            List<CoachAssignedPlanDTO> coachAssignedPlanDTOList = new ArrayList<>();
+            for (User athlete : athletes) {
+                CoachAssignedPlanDTO assignedPlanDTO = new CoachAssignedPlanDTO();
+                assignedPlanDTO.setCoachUserId(UserDTO.mapFromUserEntity(athlete));
+                coachAssignedPlanDTOList.add(assignedPlanDTO);
+            }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(athletes);
+            responseService.setOutput(coachAssignedPlanDTOList);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

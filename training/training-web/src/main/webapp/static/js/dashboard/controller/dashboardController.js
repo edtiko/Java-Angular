@@ -156,7 +156,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
             $scope.showControl = true;
             $scope.showChat = true;
-            $scope.showVideo = true;
+            
+            var user = JSON.parse(sessionStorage.getItem("userInfo"));
+            if (user != null && user.typeUser !== $scope.userSessionTypeUserCoachEstrella) {
+                $scope.showVideo = true;
+            }
+            
             messageService.initialize(coachAssignedPlanSelected.id);
             DashboardService.getDashboard(user).then(
                     function (d) {

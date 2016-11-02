@@ -1,5 +1,5 @@
-trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService',
-    function ($scope, videoService, UserService) {
+trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout',
+    function ($scope, videoService, UserService, $timeout) {
         $scope.guion = '';
         $scope.isToStar = false;
         $scope.showGuion = false;
@@ -11,6 +11,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.isSendToAtlethe = false;
         $scope.planVideoSelected = null;
         $scope.colorGrabacion = '';
+        $scope.counterRecord = 0;
+        $scope.counterRecordInitial = 0;
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
         $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
 
@@ -26,6 +28,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 $scope.toUserId = $scope.planSelected.athleteUserId.userId;
             } else if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
                 $scope.toUserId = $scope.planSelected.coachUserId.userId;
+                $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
+                $scope.counterRecord = $scope.counterRecordInitial;
             }
             videoService.initialize($scope.planSelected.id);
         } else if ($scope.appReady && $scope.coachAssignedPlanSelected != null) {
@@ -46,7 +50,6 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             $scope.receivedvideos = data.entity.output;
                         },
                         function (error) {
-                            //$scope.showMessage(error);
                             console.error(error);
                         });
             } else {
@@ -55,14 +58,37 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             $scope.receivedvideos = data.entity.output;
                         },
                         function (error) {
-                            //$scope.showMessage(error);
                             console.error(error);
                         });
             }
 
         };
 
+        $scope.initCounterRecord = function () {
+            $scope.colorTime = 'color:red';
+            $scope.onTimeout = function () {
+                if ($scope.counterRecord <= 0) {
+                    $scope.stop();
+                    $scope.stopVideo();
+                    return;
+                }
+                $scope.counterRecord--;
+                mytimeout = $timeout($scope.onTimeout, 1000);
+            };
+            var mytimeout = $timeout($scope.onTimeout, 1000);
+
+            $scope.stop = function () {
+                $timeout.cancel(mytimeout);
+            };
+        };
+
         $scope.inicioGrabarVideo = function () {
+            if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
+                $scope.colorTime = '';
+                $scope.counterRecord = $scope.counterRecordInitial;
+                $scope.initCounterRecord();
+            }
+
             $scope.isVisibleSendVideo = true;
             $scope.isVisibleDeleteVideo = true;
             $scope.isSendToStar = false;
@@ -75,6 +101,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.stopVideo = function () {
+            if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
+                if (typeof $scope.stop === "function") {
+                    $scope.stop();
+                }
+            }
+            
             $scope.colorGrabacion = '';
             $scope.stopRecordingVideo();
         };
@@ -141,9 +173,10 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
         };
 
-        $scope.refuseVideoToAtlethe = function () {
+        $scope.refuseVideo = function () {
             $scope.isRecord = false;
             var planVideoId = $scope.planVideoSelected;
+            
             videoService.rejectedVideo(planVideoId.id)
                     .then(
                             function (d) {
@@ -167,8 +200,6 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                 console.error('Error while fetching');
                             }
                     );
-
-
         };
 
         $scope.sendVideoToStar = function () {
@@ -262,7 +293,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             } else {
                 return 'Aceptado';
             }
-        }
+        };
 
         $scope.sendedVideos = function (tipoPlan) {
             if ($scope.isToStar) {

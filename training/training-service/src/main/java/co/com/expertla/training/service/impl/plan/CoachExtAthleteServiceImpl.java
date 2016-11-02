@@ -106,17 +106,25 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
         coachExtAthleteDao.create(entity);
         
         // Create a thread safe "copy" of the template message and customize it
-        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-        msg.setTo(user.getEmail());
-        msg.setText(
+        String message = 
             "Sr(a) " + user.getFullName()
-                + ", El Coach: "+coach.getFullName()+ " te invito a ser parte de su equipo en Pro-Custom-Training. ");
+                + ", El Coach: "+coach.getFullName()+ " te invito a ser parte de su equipo en Pro-Custom-Training. ";
+        sendEmail(message, user.getEmail());
+    }
+    
+    @Override
+    public boolean sendEmail(String message, String email) {
+        SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+        msg.setTo(email);
+        msg.setText(message);
         try{
             this.mailSender.send(msg);
+            return true;
         }
         catch (MailException ex) {
             // simply log it and go on...
             System.err.println(ex.getMessage());
+            return false;
         }
     }
 

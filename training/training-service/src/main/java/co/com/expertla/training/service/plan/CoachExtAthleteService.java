@@ -33,4 +33,6 @@ public interface CoachExtAthleteService {
 
     public void rejectInvitation(Integer coachExtAthleteId)throws Exception;
     
+    public boolean sendEmail(String message, String email);
+    
 }
