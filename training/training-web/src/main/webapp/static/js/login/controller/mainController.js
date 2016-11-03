@@ -349,40 +349,42 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
         // The nested try blocks will be simplified when Chrome 47 moves to Stable
         $scope.startRecordingVideo = function () {
-            $scope.gumVideo.controls = false;
-            $scope.gumVideo.addEventListener("play", function (event)
-            {
-                    $scope.gumVideo.currentTime = 0;
-            }, false);
-            recordedBlobs = [];
-            var options = {mimeType: 'video/webm;codecs=vp9'};
-            if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                console.log(options.mimeType + ' is not Supported');
-                options = {mimeType: 'video/webm;codecs=vp8'};
+            if ($scope.mediaRecorder.state == undefined) {
+                $scope.gumVideo.controls = false;
+                recordedBlobs = [];
+                var options = {mimeType: 'video/webm;codecs=vp9'};
                 if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                     console.log(options.mimeType + ' is not Supported');
-                    options = {mimeType: 'video/webm'};
+                    options = {mimeType: 'video/webm;codecs=vp8'};
                     if (!MediaRecorder.isTypeSupported(options.mimeType)) {
                         console.log(options.mimeType + ' is not Supported');
-                        options = {mimeType: ''};
+                        options = {mimeType: 'video/webm'};
+                        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                            console.log(options.mimeType + ' is not Supported');
+                            options = {mimeType: ''};
+                        }
                     }
                 }
+                try {
+                    $scope.mediaRecorder = new MediaRecorder(window.stream, options);
+                } catch (e) {
+                    console.error('Exception while creating MediaRecorder: ' + e);
+                    alert('Exception while creating MediaRecorder: '
+                            + e + '. mimeType: ' + options.mimeType);
+                    return;
+                }
+                $scope.mediaRecorder.currentTime = 0;
+                $scope.mediaRecorder.onstop = handleStop;
+                $scope.mediaRecorder.ondataavailable = handleDataAvailable;
+                $scope.mediaRecorder.start(0); // collect 10ms of data
+            } else {
+                $scope.mediaRecorder.start();
             }
-            try {
-                $scope.mediaRecorder = new MediaRecorder(window.stream, options);
-            } catch (e) {
-                console.error('Exception while creating MediaRecorder: ' + e);
-                alert('Exception while creating MediaRecorder: '
-                        + e + '. mimeType: ' + options.mimeType);
-                return;
-            }
-            $scope.mediaRecorder.currentTime = 0;
-            $scope.mediaRecorder.onstop = handleStop;
-            $scope.mediaRecorder.ondataavailable = handleDataAvailable;
-            $scope.mediaRecorder.start(0); // collect 10ms of data
+
         };
 
         $scope.stopRecordingVideo = function () {
+            console.debug($scope.mediaRecorder.state)
             if ($scope.mediaRecorder.state != 'inactive' && $scope.mediaRecorder.state != undefined) {
                 $scope.gumVideo.controls = false;
                 $scope.mediaRecorder.stop();
