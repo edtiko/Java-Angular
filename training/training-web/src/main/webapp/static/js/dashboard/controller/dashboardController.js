@@ -157,10 +157,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
             $scope.showControl = true;
             $scope.showChat = true;
-            $scope.isStar = false;
-            var user = JSON.parse(sessionStorage.getItem("userInfo"));
-            if (user != null && user.typeUser !== $scope.userSessionTypeUserCoachEstrella) {
+            
+            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+            if (userInfo != null && userInfo.typeUser !== $scope.userSessionTypeUserCoachEstrella) {
                 $scope.showVideo = true;
+            }
+            
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                $scope.isStar = false;
             }
             
             messageService.initialize(coachAssignedPlanSelected.id);
@@ -523,6 +527,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.getUserById();
                 self.getAssignedStarCoachBySupervisor();
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                $scope.isStar = true;
                 $scope.getUserById();
                 $scope.getAssignedAthletesByStar();
             } else if($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAdmin){

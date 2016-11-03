@@ -22,6 +22,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             $scope.planSelected = null;
         }
 
+        if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
+            $scope.colorTime = '';
+            $scope.counterRecord = $scope.counterRecordInitial;
+            $scope.initCounterRecord();
+        }
+
         if ($scope.appReady && $scope.planSelected != null) {
             $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoach || $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
@@ -106,12 +112,13 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     $scope.stop();
                 }
             }
-            
+
             $scope.colorGrabacion = '';
             $scope.stopRecordingVideo();
         };
 
         $scope.verVideoGrabado = function () {
+            $scope.stopVideo();
             $scope.colorGrabacion = '';
             $scope.isRecord = false;
             $scope.playVideoLocal();
@@ -176,7 +183,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.refuseVideo = function () {
             $scope.isRecord = false;
             var planVideoId = $scope.planVideoSelected;
-            
+
             videoService.rejectedVideo(planVideoId.id)
                     .then(
                             function (d) {
