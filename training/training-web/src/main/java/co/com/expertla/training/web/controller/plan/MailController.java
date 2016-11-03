@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MailController {
 
     private static final Logger LOGGER = Logger.getLogger(MailController.class);
+    private static final String COACH_INTERNO = "IN";
+    private static final String COACH_EXTERNO = "EXT";
 
     @Autowired
     private MailCommunicationService mailCommunicationService;
@@ -363,5 +365,56 @@ public class MailController {
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
+    }
+    
+    @RequestMapping(value = "mail/get/count/available/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getAvailableMails(@PathVariable("coachAssignedPlanId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            Integer count = 0;
+            if (tipoPlan.equals(COACH_INTERNO)) {
+                count = mailCommunicationService.getCountMailsByPlan(planId, userId);
+            } else if (tipoPlan.equals(COACH_EXTERNO)) {
+                count = mailCommunicationService.getCountMailsByPlanExt(planId, userId);
+            }
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(count);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+
+    @RequestMapping(value = "mail/get/count/received/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getReceivedMails(@PathVariable("coachAssignedPlanId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            Integer count = 0;
+            if (tipoPlan.equals(COACH_INTERNO)) {
+                count = mailCommunicationService.getCountMailsReceived(planId, userId);
+            } else if (tipoPlan.equals(COACH_EXTERNO)) {
+                count = mailCommunicationService.getCountMailsReceivedExt(planId, userId);
+            }
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(count);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
     }
 }

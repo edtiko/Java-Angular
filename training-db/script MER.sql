@@ -839,10 +839,38 @@ create table plan_audio (
    from_user_id              integer not null,
    to_user_id                integer not null,    
    coach_assigned_plan_id    integer null,   
-   coach_ext_athlete_id      integer, 
+   coach_ext_athlete_id      integer null, 
    readed boolean not null DEFAULT false,
    creation_date             timestamp without time zone,
    constraint pk_plan_audio primary key (plan_audio_id)
+);
+
+CREATE TABLE mail_communication
+(
+  mail_communication_id serial NOT NULL,
+  receiving_user integer,
+  sending_user integer,
+  subject character varying(200),
+  message character varying(5000),
+  state_id integer,
+  creation_date timestamp without time zone,
+  read boolean DEFAULT false,
+  mail_communication_parent_id integer,
+  coach_assigned_plan_id    integer null,   
+  coach_ext_athlete_id      integer null, 
+  CONSTRAINT pk_email PRIMARY KEY (mail_communication_id),
+  CONSTRAINT fk_email_ref_user_sending FOREIGN KEY (sending_user)
+      REFERENCES user_training (user_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_email_reference_user FOREIGN KEY (receiving_user)
+      REFERENCES user_training (user_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+CONSTRAINT fk_email_ref_coach_assigned_plan FOREIGN KEY (coach_assigned_plan_id)
+      REFERENCES coach_assigned_plan (coach_assigned_plan_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_email_ref_coach_ext_athlete FOREIGN KEY (coach_ext_athlete_id)
+      REFERENCES coach_ext_athlete (coach_ext_athlete_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
 create table coach_ext_athlete(

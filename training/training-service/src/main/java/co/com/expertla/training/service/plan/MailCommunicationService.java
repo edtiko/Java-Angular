@@ -185,4 +185,12 @@ public interface MailCommunicationService {
      * @throws Exception 
      */
     public PlanMessageDTO getResponseTime(Integer userId, Integer roleId)throws  Exception;
+
+    public Integer getCountMailsByPlan(Integer planId, Integer userId)throws  Exception;
+
+    public Integer getCountMailsByPlanExt(Integer planId, Integer userId)throws  Exception;
+
+    public Integer getCountMailsReceived(Integer planId, Integer userId)throws  Exception;
+
+    public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws  Exception;
 }

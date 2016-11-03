@@ -421,7 +421,7 @@
 
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserSupervisor">{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
+                <md-subheader >{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserAtleta">
 
                     <notification-icon animation="grow" count="audioReceivedCount">

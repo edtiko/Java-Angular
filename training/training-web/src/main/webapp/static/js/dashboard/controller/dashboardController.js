@@ -243,6 +243,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 self.getReceivedAudios(plan.id, plan.athleteUserId.userId, tipoPlan);
             }
             AudioMessageService.initialize(plan.id);
+            
+             //email
+            self.getAvailableEmails(plan.id, $scope.userSession.userId, tipoPlan);
+            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta || $scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
+                self.getReceivedEmails(plan.id, plan.coachUserId.userId, tipoPlan);
+            } else {
+                self.getReceivedEmails(plan.id, plan.athleteUserId.userId, tipoPlan);
+            }
+            MailService.initialize(plan.id);
 
             //Carga imagenes de perfil de coach y estrella, si el plan es con Coach Interno
             if (tipoPlan == "IN") {
@@ -341,6 +350,30 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
+        
+        //EMAIL COUNT
+        self.getAvailableMails = function (planId, userId, tipoPlan) {
+            MailService.getAvailableMails(planId, userId, tipoPlan).then(
+                    function (data) {
+                        $scope.availableEmail = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+
+        self.getReceivedMails = function (planId, userId, tipoPlan) {
+            MailService.getReceivedMails(planId, userId, tipoPlan).then(
+                    function (data) {
+                        $scope.emailReceivedCount = data.entity.output;
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
+        
         $scope.goMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {

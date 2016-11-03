@@ -280,4 +280,24 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         return plan;
         
     }
+
+    @Override
+    public Integer getCountMailsByPlan(Integer planId, Integer userId) throws Exception {
+       return mailCommunicationDao.getCountMailsByPlan(planId, userId);
+    }
+
+    @Override
+    public Integer getCountMailsByPlanExt(Integer planId, Integer userId) throws Exception {
+          return mailCommunicationDao.getCountMailsByPlanExt(planId, userId);
+    }
+
+    @Override
+    public Integer getCountMailsReceived(Integer planId, Integer userId) throws Exception {
+        return mailCommunicationDao.getCountMailsReceived(planId, userId);
+    }
+
+    @Override
+    public Integer getCountMailsReceivedExt(Integer planId, Integer userId) throws Exception {
+        return mailCommunicationDao.getCountMailsReceivedExt(planId, userId);
+    }
 }
