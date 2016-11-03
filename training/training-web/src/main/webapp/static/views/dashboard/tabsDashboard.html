@@ -28,7 +28,7 @@
             </md-tab>
             <md-tab label="Estrella" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno"  md-on-select="onTabChanges(1)" >
                 <md-content class="md-padding">
-                    <md-list-item ng-repeat="a in athletes" >
+                    <md-list-item ng-repeat="a in starsByCoach" >
                         <md-button md-no-ink class="md-primary" ng-click="selectStar(a)">{{a.starUserId.fullName}}</md-button>
                         <md-divider></md-divider>
                     </md-list-item>

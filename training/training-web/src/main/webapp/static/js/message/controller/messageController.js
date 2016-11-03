@@ -156,7 +156,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
             if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
 
                 //self.getAssignedAthletes();
-                self.getChatUserEstrella();
+//                self.getChatUserEstrella();
             }
 
             if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
