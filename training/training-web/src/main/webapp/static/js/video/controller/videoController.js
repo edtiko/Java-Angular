@@ -293,12 +293,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.showStatusVideo = function (indRejected) {
-            if (indRejected == '') {
-                return 'Pendiente';
+            if (indRejected == 0) {
+                return 'Aceptado';
             } else if (indRejected == 1) {
                 return 'Rechazado';
             } else {
-                return 'Aceptado';
+                return 'Pendiente';
             }
         };
 

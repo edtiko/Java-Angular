@@ -10,7 +10,7 @@
             <div layout="row" ng-show="showGuion"> 
                 <md-input-container class="md-block" >
                     <label>Gui&oacute;n</label>
-                    <textarea rows="3" md-maxlength="500" ng-model="guion" md-select-on-focus></textarea>
+                    <textarea style="width: 155%;max-height: 150px;overflow-y: scroll"  rows="3" md-maxlength="500" ng-model="guion" md-select-on-focus></textarea>
                 </md-input-container>
             </div>
             <label style="margin-left: 20px;{{colorTime}}" ng-if="userSession.typeUser == userSessionTypeUserAtleta">Tiempo disponible {{counterRecord}}s</label>

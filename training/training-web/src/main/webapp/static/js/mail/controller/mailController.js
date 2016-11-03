@@ -4,7 +4,11 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.mailsSent = [];
         $scope.athletes = [];
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-        $scope.sendingUserId = JSON.parse($window.sessionStorage.getItem("sendingUserId"));
+        $scope.sendingUserId = '';
+        if($window.sessionStorage.getItem("sendingUserId") != 'undefined') {
+            $scope.sendingUserId = JSON.parse($window.sessionStorage.getItem("sendingUserId"));
+        }
+        
         $scope.mailSelected = '';
         $scope.searchTextReceiverUser = '';
         $scope.selectedItemReceiverUser = null;

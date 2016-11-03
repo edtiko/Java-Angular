@@ -622,7 +622,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
                                     if (generatePlan) {
                                         if (days < weeklyDays) {
-                                            msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias";
+                                            msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias, pulse Aceptar si desea que el sistema los genere aleatoriamente o Cancelar si desea hacerlo manualmente";
                                         }
                                         if ($scope.userSession.planActiveId == '0') {
                                             $scope.showMessage("Para generar plan primero debe comprar ");
