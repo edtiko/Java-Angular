@@ -60,6 +60,37 @@ public class CoachAssignedPlanController {
 
     }
     
+    @RequestMapping(value = "get/star/{coachUserId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getAssignedStar(@PathVariable("coachUserId") Integer coachUserId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<User> athletes = coachService.findStarByCoachUserId(coachUserId);
+            List<CoachAssignedPlanDTO> coachAssignedPlanDTOList = new ArrayList<>();
+            athletes.stream().map((athlete) -> {
+                CoachAssignedPlanDTO assignedPlanDTO = new CoachAssignedPlanDTO();
+                assignedPlanDTO.setStarUserId(UserDTO.mapFromUserEntity(athlete));
+                assignedPlanDTO.setAthleteUserId(UserDTO.mapFromUserEntity(athlete));
+                assignedPlanDTO.setId(athlete.getUserId());
+                return assignedPlanDTO;
+            }).forEach((assignedPlanDTO) -> {
+                coachAssignedPlanDTOList.add(assignedPlanDTO);
+            });
+            
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(coachAssignedPlanDTOList);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+    
     @RequestMapping(value = "get/coach/{athleteUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedCoach(@PathVariable("athleteUserId") Integer athleteUserId) {
@@ -91,25 +122,6 @@ public class CoachAssignedPlanController {
 
     }
     
-//    @RequestMapping(value = "get/athtletes/by/star/{starUserId}", method = RequestMethod.GET)
-//    public @ResponseBody
-//    Response getAssignedAthletesByStarUserId(@PathVariable("starUserId") Integer starUserId) {
-//        ResponseService responseService = new ResponseService();
-//        StringBuilder strResponse = new StringBuilder();
-//        try {
-//            List<CoachAssignedPlanDTO> athletes = coachService.findByStarUserId(starUserId);
-//            responseService.setStatus(StatusResponse.SUCCESS.getName());
-//            responseService.setOutput(athletes);
-//            return Response.status(Response.Status.OK).entity(responseService).build();
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage(), e);
-//            responseService.setOutput(strResponse);
-//            responseService.setStatus(StatusResponse.FAIL.getName());
-//            responseService.setDetail(e.getMessage());
-//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
-//        }
-//    }
-    
     @RequestMapping(value = "get/athtletes/by/star/{starUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedAthletesByStarUserId(@PathVariable("starUserId") Integer starUserId) {
@@ -118,11 +130,15 @@ public class CoachAssignedPlanController {
         try {
             List<User> athletes = coachService.findCoachByStarUserId(starUserId);
             List<CoachAssignedPlanDTO> coachAssignedPlanDTOList = new ArrayList<>();
-            for (User athlete : athletes) {
+            athletes.stream().map((athlete) -> {
                 CoachAssignedPlanDTO assignedPlanDTO = new CoachAssignedPlanDTO();
                 assignedPlanDTO.setCoachUserId(UserDTO.mapFromUserEntity(athlete));
+                assignedPlanDTO.setAthleteUserId(UserDTO.mapFromUserEntity(athlete));
+                assignedPlanDTO.setId(athlete.getUserId());
+                return assignedPlanDTO;
+            }).forEach((assignedPlanDTO) -> {
                 coachAssignedPlanDTOList.add(assignedPlanDTO);
-            }
+            });
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(coachAssignedPlanDTOList);
             return Response.status(Response.Status.OK).entity(responseService).build();

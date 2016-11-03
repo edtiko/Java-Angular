@@ -118,6 +118,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         //Selecciona un Atleta
         $scope.selectAthlete = function (planSelected) {
+            $scope.isStar = false;
             if (planSelected != "" && planSelected != null) {
                 if (planSelected.external) {
                     self.initControls(planSelected, "EXT");
@@ -157,9 +158,13 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.showControl = true;
             $scope.showChat = true;
             
-            var user = JSON.parse(sessionStorage.getItem("userInfo"));
-            if (user != null && user.typeUser !== $scope.userSessionTypeUserCoachEstrella) {
+            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+            if (userInfo != null && userInfo.typeUser !== $scope.userSessionTypeUserCoachEstrella) {
                 $scope.showVideo = true;
+            }
+            
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                $scope.isStar = false;
             }
             
             messageService.initialize(coachAssignedPlanSelected.id);
@@ -190,6 +195,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.showControl = true;
             $scope.showChat = true;
             $scope.showVideo = true;
+            $scope.isStar = true;
             messageService.initialize(coachAssignedPlanSelected.id);
             DashboardService.getDashboard(user).then(
                     function (d) {
@@ -439,6 +445,20 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
+        
+        self.getAssignedStar = function () {
+            DashboardService.getAssignedStarByCoach($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.starsByCoach = data.entity.output;
+                        if ($scope.starsByCoach == null) {
+                            $scope.showMessage("No tiene planes asignados.");
+                        }
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
         //Obtener atletas de Coach Externo
         self.getAthletesCoachExternal = function () {
             ExternalCoachService.fetchAthletes($scope.userSession.trainingPlanUserId, "ACTIVE").then(
@@ -528,7 +548,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 self.getAssignedAthletes();
                 $scope.getUserById();
                 $scope.getSupervisorByCoachId($scope.userSession.userId);
-
+                self.getAssignedStar();
             } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
                 $scope.getUserById();
                 self.getAthletesCoachExternal();
@@ -540,6 +560,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.getUserById();
                 self.getAssignedStarCoachBySupervisor();
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                $scope.isStar = true;
                 $scope.getUserById();
                 $scope.getAssignedAthletesByStar();
             } else if($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAdmin){
