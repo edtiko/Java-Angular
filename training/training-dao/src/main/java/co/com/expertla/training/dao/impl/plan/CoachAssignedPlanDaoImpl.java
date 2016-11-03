@@ -84,5 +84,17 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
         return query.getResultList();
     }
     
+    @Override
+    public List<User> findStarByCoachUserId(Integer userId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT DISTINCT m.starTeamId.starUserId ");        
+        sql.append("FROM CoachAssignedPlan m ");
+        sql.append("WHERE m.starTeamId.coachUserId.userId = :userId ");
+        sql.append("AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
+    
     
 }

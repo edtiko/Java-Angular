@@ -44,4 +44,6 @@ public interface CoachAssignedPlanService {
     
     public List<User> findCoachByStarUserId(Integer userId) throws Exception;
     
+    public List<User> findStarByCoachUserId(Integer userId) throws Exception;
+    
 }
