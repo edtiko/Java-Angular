@@ -29,6 +29,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
         $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
         $scope.planSelected = null;
+        $scope.selectedIndex = null;
         
         $scope.views = {
             profile: {page:'static/views/dashboard/profile.html', controller:""},
@@ -130,7 +131,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
 
         //Selecciona un Atleta
-        $scope.selectAthlete = function (planSelected) {
+        $scope.selectAthlete = function (planSelected, index) {
+            if ($scope.selectedIndex === null) {
+                $scope.selectedIndex = index;
+            } else if ($scope.selectedIndex === index) {
+                $scope.selectedIndex = null;
+            } else {
+                $scope.selectedIndex = index;
+            }
             $scope.pageSelected = $scope.views.profile.page;
             $scope.isStar = false;
             if (planSelected != "" && planSelected != null) {
@@ -445,7 +453,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
         $scope.selectUser = function (userId) {
             $window.sessionStorage.setItem("sendingUserId", userId);
-            $window.location.href = "#mail";
+            //$window.location.href = "#mail";
+            $scope.pageSelected = $scope.views.email.page;
 
         };
        //Obtener atletas de Coach Interno  

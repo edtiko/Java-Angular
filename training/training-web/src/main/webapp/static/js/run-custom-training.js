@@ -45,6 +45,7 @@ require.config({
         messageController: "message/controller/messageController",
         videoController: "video/controller/videoController",
         audioMessageController: "audioMessage/controller/audioMessageController",
+        mailController: "mail/controller/mailController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         app: "routeResolver",
@@ -179,6 +180,9 @@ require.config({
         audioMessageController: {
             deps: ['angular', 'trainingApp']
         },
+        mailController: {
+            deps: ['angular', 'trainingApp']
+        },
         dashboardService: {
             deps: ['angular', 'trainingApp']
         },
@@ -284,9 +288,9 @@ require.config({
                 'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
                 'physiologicalCapacityService','activityService'
                 ,'videoService','dcfService', 'characteristicService','brandService',
-
 		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService',
-                'audioMessageService', 'scriptService', 'informeService', 'messageController', 'videoController', 'audioMessageController'
+                'audioMessageService', 'scriptService', 'informeService', 'messageController', 'videoController', 
+                'audioMessageController', 'mailController'
 
             ] }
     }

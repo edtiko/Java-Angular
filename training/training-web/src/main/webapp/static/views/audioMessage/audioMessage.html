@@ -1,7 +1,7 @@
-<md-content class="md-padding" id="audioContent" ng-controller="AudioMessageController">
+<md-content layout-padding id="audioContent" ng-controller="AudioMessageController">
     <div layout="row" layout-align="center">
 
-        <div flex="40" class="border" layout-align="center center">
+        <div flex="50"  layout-align="center center">
             <md-tabs md-dynamic-height md-selected="selectedIndex">
                 <md-tab label="Grabar Audio">
                     <md-content class="md-padding">
@@ -64,7 +64,7 @@
             </md-tabs>
 
         </div>
-        <div flex="40" >
+        <div flex="60" >
 
             <md-toolbar class="md-hue-2">
                 <div class="md-toolbar-tools">
@@ -83,7 +83,7 @@
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
                             <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playAudio(vr.name, vr.id, 'from')">
-                                <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                                <md-tooltip md-direction="right" md-visible="tooltipVisible">Reproducir Audio</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
                         </md-list-item>
