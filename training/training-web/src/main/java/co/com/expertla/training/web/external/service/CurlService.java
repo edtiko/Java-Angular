@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.apache.commons.codec.binary.Base64;
-
 /**
  *
  * @author Andres Lopez
