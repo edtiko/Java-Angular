@@ -517,7 +517,11 @@ public class PlanVideoController {
             String message = 
             "Sr(a) " + user.getName() + " " + user.getLastName()
                 + ", Su video ha sido rechazado ";
-            coachExtAthleteService.sendEmail(message, user.getEmail());
+            boolean envio = coachExtAthleteService.sendEmail(message, user.getEmail());
+            
+            System.out.println("envio " + envio);
+            System.out.println("message " + message + " email " + user.getEmail());
+            
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Video rechazado exitosamente");
             return new ResponseEntity<>(responseService, HttpStatus.OK);
