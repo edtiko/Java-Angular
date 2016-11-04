@@ -5,6 +5,7 @@ import co.com.expertla.training.dao.configuration.ActivityDao;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
+import co.com.expertla.training.model.dto.ActivityMovilDTO;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
 import javax.persistence.Query;
@@ -167,5 +168,50 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
         query.setParameter("activityId", activityId);
         return query.getResultList();
     }
+    
+    @Override
+    public List<ActivityMovilDTO> findActivityDefaultByUserDiscipline(Integer usuarioId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO( ");
+        builder.append("a.activityId, a.name, a.description, a.modalityId.modalityId, a.modalityId.name, a.objectiveId.objectiveId, a.sportId.sportId, a.physiologicalCapacityId.name  ) ");
+        
+        builder.append("FROM Activity a, DisciplineUser du ");
+        builder.append("WHERE a.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");
+        builder.append("AND du.userId.userId = :userId ");
 
+        Query query = getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", usuarioId);
+        List<ActivityMovilDTO> list = query.getResultList();
+        return list;
+    }
+    
+    @Override
+    public List<ActivityMovilDTO> findActivityReplaceByActivityMovil(Integer usuarioId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO( ");
+        builder.append("a.activityId, a.name, a.description, a.modalityId.modalityId, a.modalityId.name, a.objectiveId.objectiveId, a.sportId.sportId, a.physiologicalCapacityId.name  ) ");
+        
+        builder.append("FROM ReplaceActivity a, DisciplineUser du ");
+        builder.append("WHERE a.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");
+        builder.append("AND du.userId.userId = :userId ");
+
+        Query query = getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", usuarioId);
+        List<ActivityMovilDTO> list = query.getResultList();
+        return list;
+    }
+    
+    @Override
+    public List<ActivityMovilDTO> findManualActivitiesMovilByUserId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO(ma.manualActivityId, ma.name, ma.description, null, null, null, ma.sportId.sportId, null  )");
+        sql.append("FROM ManualActivity ma ");
+        sql.append("WHERE ma.userId.userId = :userId ");
+        sql.append("ORDER BY ma.name ASC ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<ActivityMovilDTO> list = query.getResultList();
+        return list;
+    }
 }

@@ -2,6 +2,7 @@ package co.com.expertla.training.service.configuration;
 
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
+import co.com.expertla.training.model.dto.ActivityMovilDTO;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
 
@@ -134,7 +135,11 @@ public interface ActivityService {
     public List<Activity> findActivityReplaceByActivity(Integer activityId) throws Exception;   
 
     public boolean existManualActivity(ActivityCalendarDTO activity) throws Exception;  
-
-
     
+    public List<ActivityMovilDTO> findActivityDefaultByUserDiscipline(Integer usuarioId) throws Exception;
+    
+    public List<ActivityMovilDTO> findActivityReplaceByActivityMovil(Integer activityId) throws Exception;
+    
+    public List<ActivityMovilDTO> findManualActivitiesMovilByUserId(Integer userId) throws Exception;
+
 }

@@ -11,6 +11,7 @@ import co.com.expertla.training.model.entities.User;
 import java.util.Calendar;
 
 import co.com.expertla.training.model.dto.ActivityDTO;
+import co.com.expertla.training.model.dto.ActivityMovilDTO;
 import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.entities.Sport;
 import co.com.expertla.training.service.configuration.ActivityService;
@@ -83,6 +84,11 @@ public class ActivityServiceImpl implements ActivityService {
     public List<ActivityCalendarDTO> findByUserDiscipline(Integer usuarioId) throws Exception {
         return activityDao.findByUserDiscipline(usuarioId);
     }
+    
+    @Override
+    public List<ActivityMovilDTO> findActivityDefaultByUserDiscipline(Integer usuarioId) throws Exception {
+        return activityDao.findActivityDefaultByUserDiscipline(usuarioId);
+    }
   
     @Override
      public Integer createManualActivity(ActivityCalendarDTO activity) throws Exception {
@@ -132,6 +138,14 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public boolean existManualActivity(ActivityCalendarDTO activity) throws Exception {
        return manualActivityDao.existManualActivity(activity);
+    }
+    
+    public List<ActivityMovilDTO> findActivityReplaceByActivityMovil(Integer activityId) throws Exception {
+        return activityDao.findActivityReplaceByActivityMovil(activityId);
+    }
+    
+    public List<ActivityMovilDTO> findManualActivitiesMovilByUserId(Integer activityId) throws Exception {
+        return activityDao.findManualActivitiesMovilByUserId(activityId);
     }
 
 }

@@ -3,6 +3,7 @@ package co.com.expertla.training.dao.configuration;
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
+import co.com.expertla.training.model.dto.ActivityMovilDTO;
 import co.com.expertla.training.model.entities.Activity;
 import java.util.List;
 
@@ -113,6 +114,13 @@ public interface ActivityDao extends BaseDAO<Activity> {
      * @return
      * @throws Exception 
      */
-    public List<Activity> findActivityReplaceByActivity(Integer activityId) throws Exception;   
+    public List<Activity> findActivityReplaceByActivity(Integer activityId) throws Exception;  
+    
+    public List<ActivityMovilDTO> findActivityDefaultByUserDiscipline(Integer usuarioId) throws Exception;
+    
+    public List<ActivityMovilDTO> findActivityReplaceByActivityMovil(Integer activityId) throws Exception;
+    
+    public List<ActivityMovilDTO> findManualActivitiesMovilByUserId(Integer userId) throws Exception;
+    
 
 }

@@ -5,20 +5,16 @@
  */
 package co.com.expertla.training.web.external.service;
 
-import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.enums.Status;
-import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.web.controller.configuration.ActivityController;
 import co.com.expertla.training.web.enums.StatusResponse;
-import java.util.Date;
 import java.util.logging.Level;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,20 +25,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/strava")
 public class StravaActivityController {
     /**
-     * Crea activity <br>
+     * Obtiene actividades de strava <br>
      * Info. Creación: <br>
-     * fecha 5/08/2016 <br>
+     * fecha 04/11/2016 <br>
      *
      * @author Andres Felipe Lopez Rodriguez
-     * @param activity
+     * @param codeAuth
      * @return
      */
-    @RequestMapping(value = "activities", method = RequestMethod.POST, 
+    @RequestMapping(value = "activities", method = RequestMethod.GET, 
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> createActivity(@RequestBody Activity activity) {
+    public ResponseEntity<ResponseService> getActivityList(@RequestParam("code") String codeAuth) {
         ResponseService responseService = new ResponseService();
         try {
-            responseService.setOutput(null);
+            CurlService curlService = new CurlService();
+            String response = curlService.sendPost("https://www.strava.com/api/v3/activities", null, true, codeAuth);
+            responseService.setOutput(response);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

@@ -4,10 +4,10 @@ import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ActivityCalendarDTO;
 import co.com.expertla.training.model.dto.ActivityDTO;
+import co.com.expertla.training.model.dto.ActivityMovilDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.Activity;
-import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.model.entities.UserZone;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
@@ -483,6 +483,60 @@ public class ActivityController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/activity/default/movil/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listByDisciplineUserMovil(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<ActivityMovilDTO> activityList = activityService.findActivityDefaultByUserDiscipline(userId);
+            responseService.setOutput(activityList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/get/activity/replace/id/movil/{trainingPlanWorkoutId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getActivityReplaceMovil(
+            @PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            Integer activityId = trainingPlanWorkoutDto.getActivityId();
+            List<ActivityMovilDTO> activityList = activityService.findActivityReplaceByActivityMovil(activityId);
+            responseService.setOutput(activityList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/get/manual/activity/movil/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> manualActivityListMovil(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<ActivityMovilDTO> activityList = activityService.findManualActivitiesMovilByUserId(userId);
+            responseService.setOutput(activityList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al traer manual activity");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
