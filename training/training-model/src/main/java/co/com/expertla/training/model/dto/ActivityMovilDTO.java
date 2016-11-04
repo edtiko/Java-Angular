@@ -48,6 +48,14 @@ public class ActivityMovilDTO {
         this.capacity = capacity;
     }
     
+    public ActivityMovilDTO(Integer activityId, String name, String description,
+            Integer sportId) {
+        this.activityId = activityId;
+        this.name = name;
+        this.description = description;
+        this.sportId = sportId;
+    }
+    
     public ActivityMovilDTO(Integer activityId, String name, String description, 
             Modality modalityId, Integer objectiveId, Integer sportId, String capacity) {
         this.activityId = activityId;

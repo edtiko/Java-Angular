@@ -186,26 +186,25 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     }
     
     @Override
-    public List<ActivityMovilDTO> findActivityReplaceByActivityMovil(Integer usuarioId) throws Exception {
+    public List<ActivityMovilDTO> findActivityReplaceByActivityMovil(Integer activityId) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO( ");
-        builder.append("a.activityId, a.name, a.description, a.modalityId.modalityId, a.modalityId.name, a.objectiveId.objectiveId, a.sportId.sportId, a.physiologicalCapacityId.name  ) ");
+        builder.append("a.replaceId.activityId, a.replaceId.name, a.replaceId.description, a.replaceId.modalityId.modalityId, a.replaceId.modalityId.name, a.replaceId.objectiveId.objectiveId, a.replaceId.sportId.sportId, a.replaceId.physiologicalCapacityId.name  ) ");
         
         builder.append("FROM ReplaceActivity a, DisciplineUser du ");
-        builder.append("WHERE a.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");
-        builder.append("AND du.userId.userId = :userId ");
+        builder.append("WHERE a.replaceId.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");
+        builder.append("AND a.activityId.activityId = :activityId ");
 
         Query query = getEntityManager().createQuery(builder.toString());
-        query.setParameter("userId", usuarioId);
+        query.setParameter("activityId", activityId);
         List<ActivityMovilDTO> list = query.getResultList();
         return list;
     }
     
     @Override
     public List<ActivityMovilDTO> findManualActivitiesMovilByUserId(Integer userId) throws Exception {
-        StringBuilder builder = new StringBuilder();
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO(ma.manualActivityId, ma.name, ma.description, null, null, null, ma.sportId.sportId, null  )");
+        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO(ma.manualActivityId, ma.name, ma.description, ma.sportId.sportId  )");
         sql.append("FROM ManualActivity ma ");
         sql.append("WHERE ma.userId.userId = :userId ");
         sql.append("ORDER BY ma.name ASC ");
