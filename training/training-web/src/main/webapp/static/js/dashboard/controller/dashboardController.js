@@ -29,6 +29,20 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
         $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
         $scope.planSelected = null;
+        $scope.selectedIndex = null;
+        
+        $scope.views = {
+            profile: {page:'static/views/dashboard/profile.html', controller:""},
+            video: {page:'static/views/video/video.html',controller:"VideoController"},
+            message: {page:'static/views/message/message.html',controller:"MessageController"},
+            audioMessage: {page:'static/views/audioMessage/audioMessage.html',controller:"AudioMessageController"},
+            email: {page:'static/views/mail/mail.html',controller:"MailController"},
+            script: {page:'static/views/script/script.html', controller:"ScriptController"},
+            report: {page:'static/views/reports/reports.html', controller:"ReportsController"}
+        };
+        
+        $scope.pageSelected = $scope.views.profile.page;
+        $scope.controllerSelected = null;
         
         $scope.calculateIMC = function () {
 
@@ -117,7 +131,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
 
         //Selecciona un Atleta
-        $scope.selectAthlete = function (planSelected) {
+        $scope.selectAthlete = function (planSelected, index) {
+            if ($scope.selectedIndex === null) {
+                $scope.selectedIndex = index;
+            } else if ($scope.selectedIndex === index) {
+                $scope.selectedIndex = null;
+            } else {
+                $scope.selectedIndex = index;
+            }
+            $scope.pageSelected = $scope.views.profile.page;
             $scope.isStar = false;
             if (planSelected != "" && planSelected != null) {
                 if (planSelected.external) {
@@ -251,11 +273,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             AudioMessageService.initialize(plan.id);
             
              //email
-            self.getAvailableEmails(plan.id, $scope.userSession.userId, tipoPlan);
+            self.getAvailableMails(plan.id, $scope.userSession.userId, tipoPlan);
             if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta || $scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
-                self.getReceivedEmails(plan.id, plan.coachUserId.userId, tipoPlan);
+                self.getReceivedMails(plan.id, plan.coachUserId.userId, tipoPlan);
             } else {
-                self.getReceivedEmails(plan.id, plan.athleteUserId.userId, tipoPlan);
+                self.getReceivedMails(plan.id, plan.athleteUserId.userId, tipoPlan);
             }
             MailService.initialize(plan.id);
 
@@ -388,7 +410,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             /*else if($scope.availableMessage == 0){
              $scope.showMessage("No tiene mensajes disponibles.");
              } */ else {
-                $window.location.href = "#message";
+                //$window.location.href = "#message";
+                $scope.pageSelected = $scope.views.message.page;
             }
         };
 
@@ -399,7 +422,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }/*else if($scope.availableMessage == 0){
              $scope.showMessage("No tiene Audio Mensajes disponibles.");
              }  */else {
-                $window.location.href = "#audio-messages";
+                //$window.location.href = "#audio-messages";
+                   $scope.pageSelected = $scope.views.audioMessage.page;
             }
         };
 
@@ -423,12 +447,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
              $scope.showMessage("No tiene videos disponibles.");
              } */
             else {
-                window.location.href = $contextPath + "#/video";
+                //window.location.href = $contextPath + "#/video";
+                $scope.pageSelected = $scope.views.video.page;
             }
         };
         $scope.selectUser = function (userId) {
             $window.sessionStorage.setItem("sendingUserId", userId);
-            $window.location.href = "#mail";
+            //$window.location.href = "#mail";
+            $scope.pageSelected = $scope.views.email.page;
 
         };
        //Obtener atletas de Coach Interno  

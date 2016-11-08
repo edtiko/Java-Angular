@@ -1,5 +1,5 @@
-trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout',
-    function ($scope, videoService, UserService, $timeout) {
+trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout','$mdSidenav',
+    function ($scope, videoService, UserService, $timeout, $mdSidenav) {
         $scope.guion = '';
         $scope.isToStar = false;
         $scope.showGuion = false;
@@ -15,6 +15,18 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.counterRecordInitial = 0;
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
         $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
+        $scope.toggleLeft = buildToggler('left');
+        $scope.toggleRight = buildToggler('right');
+
+        function buildToggler(componentId) {
+            return function () {
+                $mdSidenav(componentId).toggle();
+            };
+        }
+
+        $scope.isOpenRight = function () {
+            return $mdSidenav('right').isOpen();
+        };
 
 
         if ($scope.planSelected != null && $scope.planSelectedStar != null) {

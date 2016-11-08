@@ -1,6 +1,18 @@
-<md-content layout-padding>
-    <div layout="row" layout-align="center" style="margin-top: 3%">
-        <div flex="50" layout="column"  layout-align="space-between none" class="demo-content">
+<md-content ng-controller="MessageController">
+    <div layout="row" layout-align="center" style="margin: 2%">
+        <!--<div flex="20" layout="column"  style="margin-top:  0px">
+            <md-card layout-align="center">
+                <md-card-content layout="row" layout-align="center" style="height: 500px;">
+                    <div layout="column" layout-align="center">
+                        <img data-ng-src="{{dataImage}}" class="circular" data-err-src="static/img/profile-default.png" style="height: 100px; width: 100px;"/> 
+                        <h3>{{userChat}}</h3>
+                    </div>
+                </md-card-content>
+
+
+            </md-card>
+        </div>-->
+        <div flex="80" layout="column"  layout-align="space-between none" class="demo-content">
             <div layout="column" style="height:550px" id="message-content">
                 <md-toolbar >
                     <div class="md-toolbar-tools">
@@ -20,9 +32,9 @@
                                     {{message.message}}
                                 </p>
                             </div>
-                             
+
                             <md-subheader class="md-no-sticky">{{message.creationDate}}</md-subheader>
-                           
+
                             <md-divider md-inset ></md-divider>
                         </md-list-item>
                     </md-list>
@@ -30,34 +42,23 @@
             </div>
             <br />
             <div flex layout="column" style="border: 1px solid #e1e1e1; ">
-            <form ng-submit="addMessage()" name="messageForm">
-                 <section layout="row" layout-sm="column" layout-wrap>
-                     <div flex="90">
-                   <md-input-container class="md-block" >
-                <input type="text" placeholder="Escriba aqu&iacute; su mensaje..." ng-model="planMessage.message" />
-                   </md-input-container>
-                     </div>
-                     <div >
-                    <!--<span class="count" ng-bind="max - planMessage.message.length" ng-class="{danger: planMessage.message.length > max}">140</span>
-                    <button ng-disabled="planMessage.message.length > max || planMessage.message.length === 0">Enviar</button>-->
-                    <md-button ng-click="addMessage()" ng-disabled="planMessage.message.length === 0" class="md-raised md-primary">Enviar</md-button>
-                     </div>
-                 </section>
-            </form>
+                <form ng-submit="addMessage()" name="messageForm">
+                    <section layout="row" layout-sm="column" layout-wrap>
+                        <div flex="80">
+                            <md-input-container class="md-block" >
+                                <input type="text" placeholder="Escriba aqu&iacute; su mensaje..." ng-model="planMessage.message" />
+                            </md-input-container>
+                        </div>
+                        <div >
+                            <!--<span class="count" ng-bind="max - planMessage.message.length" ng-class="{danger: planMessage.message.length > max}">140</span>
+                            <button ng-disabled="planMessage.message.length > max || planMessage.message.length === 0">Enviar</button>-->
+                            <md-button ng-click="addMessage()" ng-disabled="planMessage.message.length === 0" class="md-raised md-primary">Enviar</md-button>
+                        </div>
+                    </section>
+                </form>
             </div>
         </div>
-        <div flex="20" layout="column"  style="margin-top:  0px">
-            <md-card layout-align="center">
-                <md-card-content layout="row" layout-align="center" style="height: 500px;">
-                    <div layout="column" layout-align="center">
-                        <img data-ng-src="{{dataImage}}" class="circular" data-err-src="static/img/profile-default.png" style="height: 200px; width: 200px;"/> 
-                        <h3>{{userChat}}</h3>
-                    </div>
-                </md-card-content>
-                
-          
-            </md-card>
-        </div>
+
 
     </div>
 

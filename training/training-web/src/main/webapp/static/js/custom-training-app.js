@@ -140,7 +140,28 @@ trainingApp.directive('jqdatepicker', function ($parse) {
             });
         }
     };
+    
 });
+
+trainingApp.directive('dynController', ['$compile', '$parse',function($compile, $parse) {
+  return {
+    restrict: 'A',
+    terminal: true,
+    priority: 100000,
+    link: function(scope, elem, attrs) {
+            // Parse the scope variable
+            var name = $parse(elem.attr('dyn-controller'))(scope);
+            elem.removeAttr('dyn-controller');
+            elem.attr('ng-controller', name);
+
+            // Compile the element with the ng-controller attribute
+            $compile(elem)(scope);       
+        }
+    };
+    
+}]);
+
+
 /**
  * 
  * @param {type} element

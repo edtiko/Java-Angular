@@ -369,7 +369,7 @@ public class MailController {
     
     @RequestMapping(value = "mail/get/count/available/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableMails(@PathVariable("coachAssignedPlanId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAvailableMails(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -393,9 +393,9 @@ public class MailController {
 
     }
 
-    @RequestMapping(value = "mail/get/count/received/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "mail/get/count/received/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getReceivedMails(@PathVariable("coachAssignedPlanId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getReceivedMails(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
