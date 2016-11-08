@@ -176,7 +176,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             $scope.mailSelected = null;
             $window.sessionStorage.setItem("sendingUserId", userId);
             $scope.received = false;
-            $window.location.href = "#mail";
+            $scope.pageSelected = $scope.views.email.page;
+            //$window.location.href = "#mail";
         };
 
         $scope.selectAthlete = function (e) {

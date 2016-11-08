@@ -1,0 +1,43 @@
+        <div layout="row" >
+            <div layout="column" layout-align="space-around center" flex>
+                <span class="md-headline" ng-if="userSession.typeUser == userSessionTypeUserAtleta">Atleta</span>
+                <a  ng-show="visibleField('user_training', 'profile_photo')" href="{{userSession.typeUser == userSessionTypeUserAtleta|| !showControl? '#data-person':'javascript:void(0)'}}" >
+                    <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                    <md-tooltip md-direction="right">
+                        Ver Perfil
+                    </md-tooltip>
+                </a>
+                <img ng-show="isStar" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                <h3> {{user.name}} {{user.secondName}} {{user.lastName}}</h3>
+            </div>
+            <div flex layout="column" layout-align="space-around center" ng-show="userSession.typeUser != userSessionTypeUserAdmin">
+
+                <a href="#calendar" >
+                    <img class="circular" data-ng-src="static/img/calendar_icon.jpg" style="height: 130px; width: 130px;">
+                    <md-tooltip md-direction="right">
+                        Ver Calendario
+                    </md-tooltip>
+                </a>
+                <h3> Calendario </h3>
+                <a href="#reports">
+                    <img class="circular" data-ng-src="static/img/graphic_icon.jpg" style="height: 130px; width: 130px;">
+                    <md-tooltip md-direction="right">
+                        Ver Gr&aacute;ficas de Desempe&ntilde;o
+                    </md-tooltip>
+                </a>
+                <h3> Gr&aacute;ficos </h3>
+
+            </div>
+
+        </div>
+        <div layout="row" > 
+
+            <div flex >
+                <!------------------------------------------  DATOS PERSONALES VIEW  ------------------------------------------------------->
+                <div  id="personal-data"  ng-include src="'static/views/dashboard/datosPersonales.html'"></div> 
+            </div>
+            <div flex >
+                <!------------------------------------------  DATOS DEPORTIVOS VIEW  ------------------------------------------------------->
+                <div  id="sports-data"  ng-include src="'static/views/dashboard/datosDeportivos.html'"></div>            
+            </div>
+        </div>

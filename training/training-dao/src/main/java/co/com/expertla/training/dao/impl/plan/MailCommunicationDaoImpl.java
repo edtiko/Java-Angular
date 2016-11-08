@@ -207,7 +207,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" ELSE (t.email_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
         sql.append(" LEFT JOIN mail_communication m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
-        sql.append(" And m.message_user_id = ").append(userId);
+        sql.append(" And m.sending_user = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(planId);
