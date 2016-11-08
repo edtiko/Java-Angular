@@ -50,7 +50,7 @@
 
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserAtleta">
                     <notification-icon animation="grow" count="emailReceivedCount">
-                        <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.coachUserId.userId)">
+                        <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.coachUserId)">
                             <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                             <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                         </md-button>
@@ -58,7 +58,7 @@
                 </div>
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserSupervisor">
                     <notification-icon animation="grow" count="emailReceivedCount">
-                        <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.athleteUserId.userId)">
+                        <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.athleteUserId)">
                             <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                             <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                         </md-button>

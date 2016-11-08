@@ -439,9 +439,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         $scope.goVideos = function () {
             
-            var coachAssignedPlanSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            if ($scope.userSession != null && planSelected == null && coachAssignedPlanSelected == null) {
+            if ($scope.userSession != null && planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
             }/*else if($scope.availableVideo == 0){
              $scope.showMessage("No tiene videos disponibles.");
@@ -451,10 +450,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.pageSelected = $scope.views.video.page;
             }
         };
-        $scope.selectUser = function (userId) {
-            $window.sessionStorage.setItem("sendingUserId", userId);
+        $scope.selectUser = function (user) {
+            $window.sessionStorage.setItem("sendingUser", JSON.stringify(user));
             //$window.location.href = "#mail";
-            $scope.pageSelected = $scope.views.email.page;
+            if ($scope.userSession != null && user == null) {
+                $scope.showMessage("Debe seleccionar un usuario \u00f3 tener un plan activo");
+            } else {
+                $scope.pageSelected = $scope.views.email.page;
+            }
 
         };
        //Obtener atletas de Coach Interno  
