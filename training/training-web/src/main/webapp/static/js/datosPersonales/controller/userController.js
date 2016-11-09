@@ -320,7 +320,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));          
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             $scope.userSession = user;
-            if(user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' && user.planActiveId != null) {
+            if(user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' &&
+                    user.planActiveId != null && user.planActiveId != 0) {
                 $scope.showMessage("Para poder generar tu plan, debes ingresar los datos deportivos y darle click en el bot\u00f3n generar plan");
             }
             self.fetchAllCountries();
@@ -625,7 +626,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                             msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias, pulse Aceptar si desea que el sistema los genere aleatoriamente o Cancelar si desea hacerlo manualmente";
                                         }
                                         if ($scope.userSession.planActiveId == '0') {
-                                            $scope.showMessage("Para generar plan primero debe comprar ");
+                                            $scope.showMessage(
+                                                    "Para generar tu plan debes adquirir un plan de entrenamiento. <br> <a target='_blank_' href='"+urlCompraPlanEntrenamiento+"'>Click Aqui</a> si deseas adquirirlo. Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios."
+                                                    , 'Informaci\u00f3n', true);
                                             return;
                                         }
                                         $scope.confirmDialogGeneratePlan(ev, generatePlan, msg);

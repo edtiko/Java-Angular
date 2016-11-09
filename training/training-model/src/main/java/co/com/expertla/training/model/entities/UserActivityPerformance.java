@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,7 +37,8 @@ public class UserActivityPerformance implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "user_activity_performance_user_activity_performance_id_seq", sequenceName = "user_activity_performance_user_activity_performance_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_activity_performance_user_activity_performance_id_seq")
     @Basic(optional = false)
     @Column(name = "user_activity_performance_id")
     private Integer userActivityPerformanceId;
@@ -57,6 +59,8 @@ public class UserActivityPerformance implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
+    @Column(name = "activity_external_id")
+    private String activityExternalId;
 
     public UserActivityPerformance() {
     }
@@ -95,6 +99,14 @@ public class UserActivityPerformance implements Serializable {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getActivityExternalId() {
+        return activityExternalId;
+    }
+
+    public void setActivityExternalId(String activityExternalId) {
+        this.activityExternalId = activityExternalId;
     }
 
     public Activity getActivityId() {
