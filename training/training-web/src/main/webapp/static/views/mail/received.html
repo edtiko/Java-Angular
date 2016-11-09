@@ -3,17 +3,16 @@
     <md-list>
         <md-list-item class="md-3-line" ng-repeat="mail in mailsReceived| orderBy:'creationDate':true"
                       ng-click="selectReceivedMail(mail.mailCommunicationId)">
-
-            <div ng-style="{{mail.colour}}" class="colour" ng-if="tabIndex == 1 || tabIndex == 2"></div>
+            <div ng-style="{{mail.colour}}" class="colour" ></div>
 
             <div class="md-list-item-text" style="margin-left: 1%" ng-if="mail.read">
 
-                <h3>{{ 'FROM' | translate }}: {{mail.sendingUser.name}} {{mail.sendingUser.secondName}} {{mail.sendingUser.lastName}}</h3>
+                <h3>{{ 'FROM' | translate }}: {{mail.sendingUser.fullName}}</h3>
                 {{ 'SUBJECT' | translate }}: {{mail.subject}}
             </div>
             <div class="md-list-item-text" style="margin-left: 1%;font-weight: bold" ng-if="mail.read == false">
 
-                <h3 style="font-weight: bold" >{{ 'FROM' | translate }}: {{mail.sendingUser.name}} {{mail.sendingUser.secondName}} {{mail.sendingUser.lastName}}</h3>
+                <h3 style="font-weight: bold" >{{ 'FROM' | translate }}: {{mail.sendingUser.fullName}}</h3>
                 {{ 'SUBJECT' | translate }}: {{mail.subject}}
             </div>
 
@@ -21,6 +20,5 @@
 
             <md-divider></md-divider>
         </md-list-item>
-        <md-divider></md-divider>
     </md-list>
 </md-content>

@@ -48,25 +48,20 @@
 
                 <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
 
-                <div flex ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+                    <!--  Email -->
+
+                <div flex >
                     <notification-icon animation="grow" count="emailReceivedCount">
-                        <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.coachUserId)">
-                            <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
-                            <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
-                        </md-button>
-                    </notification-icon>
-                </div>
-                <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserSupervisor">
-                    <notification-icon animation="grow" count="emailReceivedCount">
-                        <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="selectUser(planSelected.athleteUserId)">
+                        <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="goEmail()">
                             <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
                             <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
                         </md-button>
                     </notification-icon>
 
                 </div>
-
-                <md-subheader >{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountEmail">{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
+                
+                <!--Audio Messages-->
                 <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserAtleta">
 
                     <notification-icon animation="grow" count="audioReceivedCount">
@@ -79,6 +74,7 @@
 
                 <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserAtleta">{{availableAudio}} disponibles de {{planSelected.trainingPlanId.audioCount!=null?planSelected.trainingPlanId.audioCount:0}}</md-subheader>
 
+                 <!--Informes-->
                 <div flex="40" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserSupervisor">
                     <md-button aria-label="Informes" class="md-fab md-raised md-primary" ng-click="goInforme()"> 
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Informes</md-tooltip>

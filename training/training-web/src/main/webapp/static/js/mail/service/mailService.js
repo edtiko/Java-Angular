@@ -137,6 +137,18 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
                 },
+                  service.getMailsByPlan = function (tipoPlan, userId, planId) {
+                    return $http.get($contextPath + '/get/mails/by/plan/' + tipoPlan + '/' + userId + '/' +planId)
+                            .then(
+                                    function (response) {
+                                        return response.data;
+                                    },
+                                    function (errResponse) {
+                                        console.error('Error while fetching mails by plan');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+                },
                 service.createMailCommunication = function (mail) {
                     return $http.post($contextPath + '/mailCommunication/create', mail)
                             .then(
@@ -149,8 +161,8 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
                 },
-                service.updateMailCommunication = function (mail) {
-                    return $http.post($contextPath + '/mailCommunication/update', mail)
+                service.readEmail = function (id) {
+                    return $http.get($contextPath + '/mailCommunication/read/'+id)
                             .then(
                                     function (response) {
                                         return response.data;

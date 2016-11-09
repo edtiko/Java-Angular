@@ -1,10 +1,11 @@
-<md-content style="overflow-x: hidden;" scroll-glue="glued">
+<md-content style="overflow-x: hidden; margin: 3%" scroll-glue="glued">
 
     <section layout="row" layout-sm="column" layout-wrap>
-        <div flex="90"  ng-hide="create || received == false" ng-show="received">
+        <div flex="90"  ng-hide="received == false" ng-show="received">
+          <img class="circular"  data-ng-src="{{mailSelected.receivingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
             <md-input-container class="md-block" >
                 {{ 'DATE' | translate }}: {{mailSelected.creationDate}} <br>
-                {{ 'FROM' | translate }}: {{mailSelected.sendingUser.name}} {{mailSelected.sendingUser.secondName}} {{mailSelected.sendingUser.lastName}} <br>
+                {{ 'FROM' | translate }}: {{mailSelected.sendingUser.fullName}} <br>
                 {{ 'SUBJECT' | translate }}: {{mailSelected.subject}} <br>
 
             </md-input-container>
@@ -15,10 +16,11 @@
     </section>
 
     <section layout="row" layout-sm="column" layout-wrap>
-        <div flex="90"  ng-hide="create || received">
+        <div flex="90"  ng-hide="received" ng-show="!received">
+             <img class="circular"  data-ng-src="{{mailSelected.sendingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
             <md-input-container class="md-block" >
                 {{ 'DATE' | translate }}: {{mailSelected.creationDate}} <br>
-                {{ 'TO' | translate }}: {{mailSelected.receivingUser.name}} {{mailSelected.receivingUser.secondName}} {{mailSelected.receivingUser.lastName}} <br>
+                {{ 'TO' | translate }}: {{mailSelected.receivingUser.fullName}}<br>
                 {{ 'SUBJECT' | translate }}: {{mailSelected.subject}} <br>
 
             </md-input-container>

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,9 @@ public class MailController {
 
     @Autowired
     private ColourIndicatorService colourIndicatorService;
+    
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     /**
      * Consulta los mail por destinatario <br>
@@ -132,6 +136,71 @@ public class MailController {
         }
 
     }
+    
+        /**
+     * Consulta los mail por plan asociado<br>
+     * Info. Creacion: <br>
+     * fecha 09/11/2016 <br>
+     *
+     * @author Edwin Gomez
+     * @param tipoPlan
+     * @param userId
+     * @param planId
+     * @return
+     */
+    @RequestMapping(value = "/get/mails/by/plan/{tipoPlan}/{userId}/{planId}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getMailsByPlan(@PathVariable("tipoPlan") String tipoPlan, @PathVariable("userId") Integer userId, @PathVariable("planId") Integer planId ) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByPlan(tipoPlan, userId, planId);
+            List<ColourIndicator> colours = colourIndicatorService.findAll();
+            
+            int firstOrder = 0;
+            int secondOrder = 0;
+            int thirdOrder = 0;
+            String firstColour = "{'background-color':'white'}";
+            String secondColour = "{'background-color':'white'}";
+            String thirdColour = "{'background-color':'white'}";
+            for (ColourIndicator colour : colours) {
+                if(colour.getColourOrder().equals(1)) {
+                    firstOrder = colour.getHoursSpent();
+                    firstColour = colour.getColour();
+                }
+                if(colour.getColourOrder().equals(2)) {
+                    secondOrder = colour.getHoursSpent();
+                    secondColour = colour.getColour();
+                }
+                if(colour.getColourOrder().equals(3)) {
+                    thirdOrder = colour.getHoursSpent();
+                    thirdColour = colour.getColour();
+                }
+            }
+            
+            for (MailCommunicationDTO mail : mails) {
+                mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+                if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+                    mail.setColour(firstColour);
+                } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+                    mail.setColour(secondColour);
+                } else {
+                    mail.setColour(thirdColour);
+                }
+
+            }
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(mails);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
 
     /**
      * Crea mailComunnication <br>
@@ -145,12 +214,37 @@ public class MailController {
     @RequestMapping(value = "mailCommunication/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> createMailCommunication(@RequestBody MailCommunication mailCommunication) {
         ResponseService responseService = new ResponseService();
+        Integer sessionId = null;
+        int availableMails = 0;
+        int emergencyMails = 0;
         try {
-            mailCommunication.setRead(Boolean.FALSE);
-            mailCommunication.setStateId(StateEnum.ACTIVE.getId());
-            mailCommunication.setCreationDate(new Date());
+         
             mailCommunicationService.create(mailCommunication);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
+            
+            if(mailCommunication.getCoachAssignedPlanId() != null){
+                sessionId = mailCommunication.getCoachAssignedPlanId().getCoachAssignedPlanId();
+                  availableMails =  mailCommunicationService.getCountMailsByPlan(sessionId, mailCommunication.getSendingUser().getUserId());
+                    emergencyMails = mailCommunicationService.getMailsEmergencyByPlan(sessionId, mailCommunication.getSendingUser().getUserId());
+            }else if(mailCommunication.getCoachExtAthleteId() != null){
+                sessionId = mailCommunication.getCoachExtAthleteId().getCoachExtAthleteId();
+                   availableMails = mailCommunicationService.getCountMailsByPlanExt(sessionId, mailCommunication.getReceivingUser().getUserId());
+                   emergencyMails = mailCommunicationService.getMailsEmergencyByPlanExt(sessionId, mailCommunication.getSendingUser().getUserId());
+            }else{
+                sessionId = mailCommunication.getReceivingUser().getUserId()+mailCommunication.getSendingUser().getUserId();
+            }
+            
+                if(availableMails == 0 && emergencyMails > 0){
+                     responseService.setOutput("Mensaje enviado correctamente, se estan consumiendo los correos de emergencia ("+emergencyMails+")");
+                }
+                else if (availableMails == 0 && emergencyMails == 0) {
+                    responseService.setOutput("Ya consumió el limite de correos permitidos para su plan.");
+                    responseService.setStatus(StatusResponse.FAIL.getName());
+                    return new ResponseEntity<>(responseService, HttpStatus.OK);
+                }else{
+                     responseService.setOutput("Mensaje enviado correctamente."); 
+                }
+            simpMessagingTemplate.convertAndSend("/queue/mail/" + sessionId, mailCommunication);
+            //responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
@@ -165,28 +259,24 @@ public class MailController {
     /**
      * Modifica mail Communication para marcarlos como leidos <br>
      * Info. Creacion: <br>
-     * fecha 12/09/2016 <br>
+     * fecha 09/11/2016 <br>
      *
-     * @author Angela Ramirez
-     * @param mail
+     * @author Edwin Gómez
+     * @param id
      * @return
      */
-    @RequestMapping(value = "mailCommunication/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> updateMailCommunication(@RequestBody MailCommunication mail) {
+    @RequestMapping(value = "mailCommunication/read/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> updateMailCommunication(@PathVariable("id") Integer id) {
         ResponseService responseService = new ResponseService();
         try {
-            MailCommunication mailCommunication = mailCommunicationService.findById(mail);
+            MailCommunication mailCommunication = mailCommunicationService.findById(id);
             if (mailCommunication == null) {
                 responseService.setOutput("El registro no existe");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
-            mailCommunication.setMessage(mail.getMessage());
-            mailCommunication.setSubject(mail.getSubject());
-            mailCommunication.setRead(mail.getRead());
-            mailCommunication.setReceivingUser(mail.getReceivingUser());
-            mailCommunication.setSendingUser(mail.getSendingUser());
-            mailCommunication.setStateId(mail.getStateId());
+         
+            mailCommunication.setRead(Boolean.TRUE);
             mailCommunicationService.store(mailCommunication);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgRegistroEditado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());

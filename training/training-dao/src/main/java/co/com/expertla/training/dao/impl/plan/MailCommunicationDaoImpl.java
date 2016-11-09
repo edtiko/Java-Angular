@@ -23,13 +23,13 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     private UserDao userDao;
 
     @Override
-    public MailCommunication findById(MailCommunication mailCommunication) throws Exception {
+    public MailCommunication findById(Integer mailCommunicationId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT m ");
         sql.append("FROM MailCommunication m ");
         sql.append("Where m.mailCommunicationId = :id ");
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("id", mailCommunication.getMailCommunicationId());
+        query.setParameter("id", mailCommunicationId);
         List<MailCommunication> list = query.getResultList();
         return list == null ? null : list.get(0);
     }
@@ -224,11 +224,11 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     public Integer getCountMailsReceived(Integer planId, Integer userId) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(m.plan_message_id) ");
-        sql.append(" FROM plan_message m ");
-        sql.append(" Where m.message_user_id = ").append(userId);
+        sql.append("SELECT COUNT(m.mail_communication_id) ");
+        sql.append(" FROM mail_communication m ");
+        sql.append(" Where m.sending_user = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
-        sql.append(" And m.readed = false");
+        sql.append(" And m.read = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -238,37 +238,97 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
 
     @Override
     public Integer getCountMailsByPlanExt(Integer planId, Integer userId) throws DAOException {
-                        StringBuilder sql = new StringBuilder();
-        sql.append("SELECT CASE  ");     
-        sql.append(" WHEN (t.email_count - count(m.plan_message_id)) > 0 THEN (t.email_count  - count(m.plan_message_id)) ");
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT CASE  ");
+        sql.append(" WHEN (t.email_count - count(m.mail_communication_id)) > 0 THEN (t.email_count  - count(m.mail_communication_id)) ");
         sql.append(" ELSE (t.email_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
-        sql.append(" LEFT JOIN plan_message m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
-        sql.append(" And m.message_user_id = ").append(userId);
+        sql.append(" LEFT JOIN mail_communication m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
+        sql.append(" And m.sending_user = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" Group by t.email_count, t.email_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
-       
+
         List<Number> count = (List<Number>) query.getResultList();
 
-        return count.size() > 0?count.get(0).intValue():0;
+        return count.size() > 0 ? count.get(0).intValue() : 0;
     }
 
     @Override
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId) throws DAOException {
-          StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(m.plan_message_id) ");     
-        sql.append(" FROM plan_message m ");
-        sql.append(" Where m.message_user_id = ").append(userId);
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(m.mail_communication_id) ");
+        sql.append(" FROM mail_communication m ");
+        sql.append(" Where m.sending_user = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
-        sql.append(" And m.readed = false");
+        sql.append(" And m.read = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());
-       
+
         List<Number> count = (List<Number>) query.getResultList();
 
         return count.get(0).intValue();
+    }
+
+    @Override
+    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT CASE  ");
+        sql.append(" WHEN ((t.email_count + t.email_emergency)  - count(m.mail_communication_id)) > 0 THEN ((t.email_count + t.email_emergency) - count(m.mail_communication_id)) ");
+        sql.append(" ELSE 0 END ");
+        sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
+        sql.append(" LEFT JOIN mail_communication m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
+        sql.append(" And m.sending_user = ").append(fromUserId);
+        sql.append(" And m.coach_assigned_plan_id = ").append(planId);
+        sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
+        sql.append(" And c.coach_assigned_plan_id = ").append(planId);
+        sql.append(" And tu.training_plan_id = t.training_plan_id ");
+        sql.append(" Group by t.email_count, t.email_emergency ");
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.size() > 0 ? count.get(0).intValue() : 0;
+    }
+
+    @Override
+    public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT CASE  ");
+        sql.append(" WHEN ((t.email_count + t.email_emergency)  - count(m.mail_communication_id)) > 0 THEN ((t.email_count + t.email_emergency) - count(m.mail_communication_id)) ");
+        sql.append(" ELSE 0 END ");
+        sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
+        sql.append(" LEFT JOIN mail_communication m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
+        sql.append(" And m.sending_user = ").append(fromUserId);
+        sql.append(" And m.coach_ext_athlete_id = ").append(planId);
+        sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
+        sql.append(" And c.coach_ext_athlete_id = ").append(planId);
+        sql.append(" And tu.training_plan_id = t.training_plan_id ");
+        sql.append(" Group by t.email_count, t.email_emergency ");
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.size() > 0 ? count.get(0).intValue() : 0;
+    }
+
+    @Override
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.MailCommunicationDTO(m.mailCommunicationId, m.subject,m.message, m.stateId, ");
+        sql.append("m.creationDate, m.read,m.receivingUser,m.sendingUser ) ");
+        sql.append("FROM MailCommunication m ");
+        sql.append("Where m.sendingUser.userId = :sendingUser ");
+        if (tipoPlan.equals("EXT")) {
+            sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
+        } else {
+            sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
+        }
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("sendingUser", userId);
+        query.setParameter("planId", planId);
+        return query.getResultList();
     }
 }

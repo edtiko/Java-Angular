@@ -5,13 +5,13 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
-            weight: '', height:'', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
+            weight: '', height: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
-            ageSport: '', ppm: '', imc:'', power: '', sportsAchievements: '',
+            ageSport: '', ppm: '', imc: '', power: '', sportsAchievements: '',
             aboutMe: '', indMetricSys: '', discipline: '', sport: '', shoes: '', bikes: '', potentiometer: '',
             modelPotentiometer: '', pulsometer: '', modelPulsometer: '', objective: '', modality: '',
-            availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '', 
-            injury: '', disease:''
+            availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '',
+            injury: '', disease: ''
         };
         $scope.profileImage = "static/img/profile-default.png";
         $scope.profileImageStar = "static/img/profile-default.png";
@@ -30,20 +30,20 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
         $scope.planSelected = null;
         $scope.selectedIndex = null;
-        
+
         $scope.views = {
-            profile: {page:'static/views/dashboard/profile.html', controller:""},
-            video: {page:'static/views/video/video.html',controller:"VideoController"},
-            message: {page:'static/views/message/message.html',controller:"MessageController"},
-            audioMessage: {page:'static/views/audioMessage/audioMessage.html',controller:"AudioMessageController"},
-            email: {page:'static/views/mail/mail.html',controller:"MailController"},
-            script: {page:'static/views/script/script.html', controller:"ScriptController"},
-            report: {page:'static/views/reports/reports.html', controller:"ReportsController"}
+            profile: {page: 'static/views/dashboard/profile.html', controller: ""},
+            video: {page: 'static/views/video/video.html', controller: "VideoController"},
+            message: {page: 'static/views/message/message.html', controller: "MessageController"},
+            audioMessage: {page: 'static/views/audioMessage/audioMessage.html', controller: "AudioMessageController"},
+            email: {page: 'static/views/mail/mail.html', controller: "MailController"},
+            script: {page: 'static/views/script/script.html', controller: "ScriptController"},
+            report: {page: 'static/views/reports/reports.html', controller: "ReportsController"}
         };
-        
+
         $scope.pageSelected = $scope.views.profile.page;
         $scope.controllerSelected = null;
-        
+
         $scope.calculateIMC = function () {
 
             if ($scope.user.weight != null && $scope.user.height != null
@@ -63,7 +63,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     $scope.setUserSession();
                 }
 
-               self.getDashBoardByUser(user);
+                self.getDashBoardByUser(user);
             } else {
                 $scope.showMessage("El usuario no se encuentra logueado.", "error");
             }
@@ -122,9 +122,17 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         //notificación audios recibidos
         AudioMessageService.receive().then(null, null, function (audio) {
-       if (audio.toUserId.userId == $scope.user.userId) {
-            $scope.audioReceivedCount++;
-        }
+            if (audio.toUserId.userId == $scope.user.userId) {
+                $scope.audioReceivedCount++;
+            }
+
+        });
+        
+        //notificación emails recibidos
+        MailService.receive().then(null, null, function (email) {
+            if (email.sendingUser.userId == $scope.user.userId) {
+                $scope.emailReceivedCount++;
+            }
 
         });
 
@@ -142,6 +150,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.pageSelected = $scope.views.profile.page;
             $scope.isStar = false;
             if (planSelected != "" && planSelected != null) {
+                $scope.showCountEmail = true;
                 if (planSelected.external) {
                     self.initControls(planSelected, "EXT");
                 } else {
@@ -179,16 +188,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
             $scope.showControl = true;
             $scope.showChat = true;
-            
+
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if (userInfo != null && userInfo.typeUser !== $scope.userSessionTypeUserCoachEstrella) {
                 $scope.showVideo = true;
             }
-            
+
             if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
                 $scope.isStar = false;
             }
-            
+
             messageService.initialize(coachAssignedPlanSelected.id);
             DashboardService.getDashboard(user).then(
                     function (d) {
@@ -271,8 +280,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 self.getReceivedAudios(plan.id, plan.athleteUserId.userId, tipoPlan);
             }
             AudioMessageService.initialize(plan.id);
-            
-             //email
+
+            //email
             self.getAvailableMails(plan.id, $scope.userSession.userId, tipoPlan);
             if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta || $scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
                 self.getReceivedMails(plan.id, plan.coachUserId.userId, tipoPlan);
@@ -378,7 +387,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        
+
         //EMAIL COUNT
         self.getAvailableMails = function (planId, userId, tipoPlan) {
             MailService.getAvailableMails(planId, userId, tipoPlan).then(
@@ -401,7 +410,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        
+
         $scope.goMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
@@ -423,22 +432,22 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
              $scope.showMessage("No tiene Audio Mensajes disponibles.");
              }  */else {
                 //$window.location.href = "#audio-messages";
-                   $scope.pageSelected = $scope.views.audioMessage.page;
+                $scope.pageSelected = $scope.views.audioMessage.page;
             }
         };
 
-        
-        $scope.goScript = function() {
+
+        $scope.goScript = function () {
             $window.location.href = "#script";
         };
-        
-        $scope.goInforme = function() {
+
+        $scope.goInforme = function () {
             $window.location.href = "#informe";
         };
-        
+
 
         $scope.goVideos = function () {
-            
+
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
                 $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
@@ -450,6 +459,18 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.pageSelected = $scope.views.video.page;
             }
         };
+
+        $scope.goEmail = function () {
+            var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+            //$window.location.href = "#mail";
+            if ($scope.userSession != null && planSelected == null) {
+                $scope.showMessage("Debe seleccionar un usuario \u00f3 tener un plan activo");
+            } else {
+                $scope.pageSelected = $scope.views.email.page;
+            }
+
+        };
+
         $scope.selectUser = function (user) {
             $window.sessionStorage.setItem("sendingUser", JSON.stringify(user));
             //$window.location.href = "#mail";
@@ -460,7 +481,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
         };
-       //Obtener atletas de Coach Interno  
+        //Obtener atletas de Coach Interno  
         self.getAssignedAthletes = function () {
             DashboardService.getAssignedAthletes($scope.userSession.userId).then(
                     function (data) {
@@ -474,7 +495,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        
+
         self.getAssignedStar = function () {
             DashboardService.getAssignedStarByCoach($scope.userSession.userId).then(
                     function (data) {
@@ -503,106 +524,69 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
 
-        self.getAssignedStarCoachBySupervisor = function () {
-            DashboardService.getAssignedStarCoachBySupervisor($scope.userSession.userId).then(
-                    function (data) {
-                        var res = data.output;
+        /*self.getAssignedStarCoachBySupervisor = function () {
+         DashboardService.getAssignedStarCoachBySupervisor($scope.userSession.userId).then(
+         function (data) {
+         var res = data.output;
+         
+         if (data.status == 'success') {
+         $scope.supervisorUserAssignedList = angular.copy(res);
+         }
+         
+         },
+         function (error) {
+         $scope.showMessage(error);
+         console.error(error);
+         });
+         };
+         
+         self.getAssignedAtleteCoachBySupervisor = function () {
+         DashboardService.getAssignedAtleteCoachBySupervisor($scope.userSession.userId).then(
+         function (data) {
+         var res = data.output;
+         
+         if (data.status == 'success') {
+         $scope.supervisorUserAssignedList = angular.copy(res);
+         }
+         
+         },
+         function (error) {
+         $scope.showMessage(error);
+         console.error(error);
+         });
+         };
+         
+         
+         
+         $scope.selectUserBySupervisor = function (supervisorSelected, user, userType) {
+         $window.sessionStorage.setItem("supervisorSelectedSelected", JSON.stringify(supervisorSelected));
+         $scope.showControl = true;
+         $scope.coachAssignedPlan = {athleteUserId: null};
+         $scope.coachAssignedPlan.athleteUserId = user;
+         self.getAvailableMessages(supervisorSelected.id, $scope.userSession.userId);
+         self.getReceivedMessages(supervisorSelected.id, user.userId);
+         messageService.initialize(supervisorSelected.id);
+         DashboardService.getDashboard(user).then(
+         function (d) {
+         $scope.user = d;
+         
+         if ($scope.user.birthDate != null) {
+         var date = $scope.user.birthDate.split("/");
+         var birthdate = new Date(date[2], date[1] - 1, date[0]);
+         $scope.user.age = $scope.calculateAge(birthdate);
+         }
+         $scope.getVisibleFieldsUserByUser(user);
+         $scope.getImageProfile(user.userId);
+         },
+         function (errResponse) {
+         console.error('Error while fetching the dashboard');
+         console.error(errResponse);
+         }
+         );
+         };*/
 
-                        if (data.status == 'success') {
-                            $scope.supervisorUserAssignedList = angular.copy(res);
-                        }
-
-                    },
-                    function (error) {
-                        $scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-        self.getAssignedAtleteCoachBySupervisor = function () {
-            DashboardService.getAssignedAtleteCoachBySupervisor($scope.userSession.userId).then(
-                    function (data) {
-                        var res = data.output;
-
-                        if (data.status == 'success') {
-                            $scope.supervisorUserAssignedList = angular.copy(res);
-                        }
-
-                    },
-                    function (error) {
-                        $scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-
-
-        $scope.selectUserBySupervisor = function (supervisorSelected, user, userType) {
-            $window.sessionStorage.setItem("supervisorSelectedSelected", JSON.stringify(supervisorSelected));
-            $scope.showControl = true;
-            $scope.coachAssignedPlan = {athleteUserId: null};
-            $scope.coachAssignedPlan.athleteUserId = user;
-            self.getAvailableMessages(supervisorSelected.id, $scope.userSession.userId);
-            self.getReceivedMessages(supervisorSelected.id, user.userId);
-            messageService.initialize(supervisorSelected.id);
-            DashboardService.getDashboard(user).then(
-                    function (d) {
-                        $scope.user = d;
-
-                        if ($scope.user.birthDate != null) {
-                            var date = $scope.user.birthDate.split("/");
-                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
-                            $scope.user.age = $scope.calculateAge(birthdate);
-                        }
-                        $scope.getVisibleFieldsUserByUser(user);
-                        $scope.getImageProfile(user.userId);
-                    },
-                    function (errResponse) {
-                        console.error('Error while fetching the dashboard');
-                        console.error(errResponse);
-                    }
-            );
-        };
-
-        $scope.getUserSession(function (res) {
-            $window.sessionStorage.setItem("planSelected", null);
-            $window.sessionStorage.setItem("planSelectedStar", null);
-            $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            
-            if ($scope.userSession != null) {
-                $scope.getVisibleFieldsUserByUser($scope.userSession);
-            }
-            
-            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
-                self.getAssignedAthletes();
-                $scope.getUserById();
-                $scope.getSupervisorByCoachId($scope.userSession.userId);
-                self.getAssignedStar();
-            } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
-                $scope.getUserById();
-                self.getAthletesCoachExternal();
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
-                $scope.getUserSessionByResponse(res);
-                $scope.getUserById();
-                $scope.getAssignedCoach($scope.userSession.userId);
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserSupervisor) {
-                $scope.getUserById();
-                self.getAssignedStarCoachBySupervisor();
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
-                $scope.isStar = true;
-                $scope.getUserById();
-                $scope.getAssignedAthletesByStar();
-            } else if($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAdmin){
-                $scope.getUserById();
-                self.getCoaches();
-                self.getStars();
-                self.getSupervisors();
-            }
-
-        });
-        
-        self.getCoaches = function(){
-              UserService.getCoaches()
+        self.getCoaches = function () {
+            UserService.getCoaches()
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
@@ -616,9 +600,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             }
                     );
         };
-        
-        self.getStars = function(){
-             UserService.getStars()
+
+        self.getStars = function () {
+            UserService.getStars()
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
@@ -630,72 +614,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             function (errResponse) {
                                 console.error('Error while getting stars');
                             }
-                    ); 
-        };
-        
-        self.getSupervisors = function(){
-              UserService.getSupervisors()
-                    .then(
-                            function (d) {
-                                if (d.status == 'success') {
-                                    $scope.supervisors = d.output;
-                                } else {
-                                    $scope.showMessage(d.output);
-                                }
-                            },
-                            function (errResponse) {
-                                console.error('Error while getting supervisors');
-                            }
                     );
-        };
-
-        $scope.init = function () {
-            var coach = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            if (coach != null) {
-                $scope.selectAthlete(coach);
-            }
-        };
-        //$scope.init();
-
-        $scope.getSupervisorByCoachId = function (coachId) {
-            SupervStarCoachService.getByCoachId(coachId)
-                    .then(
-                            function (d) {
-                                if (d.status == 'success') {
-                                    $scope.supervisors = d.output;
-                                } else {
-                                    $scope.showMessage(d.output);
-                                }
-                            },
-                            function (errResponse) {
-                                console.error('Error while creating mail communication.');
-                            }
-                    );
-        };
-
-        $scope.getAllRecipients = function () {
-            MailService.getAllRecipients($scope.userSession.userId).then(
-                    function (data) {
-                        $scope.recipients = data.entity.output;
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-        $scope.onTabChanges = function (currentTabIndex) {
-            if (currentTabIndex == 0) {
-                self.getAssignedStarCoachBySupervisor();
-            } else if (currentTabIndex == 1) {
-                self.getAssignedAtleteCoachBySupervisor();
-            }
-
-            $window.sessionStorage.setItem("tabIndex", currentTabIndex);
-        };
-
-        $scope.onTabChanges2 = function (currentTabIndex) {
-            $window.sessionStorage.setItem("tabIndex2", currentTabIndex);
         };
 
         $scope.getAssignedAthletesByStar = function () {
@@ -711,6 +630,115 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
+
+        $scope.getUserSession(function (res) {
+            $window.sessionStorage.setItem("planSelected", null);
+            $window.sessionStorage.setItem("planSelectedStar", null);
+            $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+
+            if ($scope.userSession != null) {
+                $scope.getVisibleFieldsUserByUser($scope.userSession);
+
+                switch ($scope.userSession.typeUser) {
+                    case $scope.userSessionTypeUserCoach:
+                        $scope.showCountEmail = true;
+                        $scope.getUserById();
+                        self.getAthletesCoachExternal();
+                        break;
+                    case $scope.userSessionTypeUserCoachInterno:
+                        $scope.showCountEmail = true;
+                        self.getAssignedAthletes();
+                        $scope.getUserById();
+                        break;
+                    case $scope.userSessionTypeUserAtleta:
+                        $scope.showCountEmail = true;
+                        $scope.getUserSessionByResponse(res);
+                        $scope.getUserById();
+                        $scope.getAssignedCoach($scope.userSession.userId);
+                        break;
+                    case $scope.userSessionTypeUserCoachEstrella:
+                        $scope.isStar = true;
+                        $scope.showCountEmail = true;
+                        $scope.getUserById();
+                        $scope.getAssignedAthletesByStar();
+                        break;
+                    case $scope.userSessionTypeUserAdmin:
+                        $scope.getUserById();
+                        self.getCoaches();
+                        self.getStars();
+                        break;
+
+                }
+            }
+
+        });
         
+
+        /*self.getSupervisors = function(){
+         UserService.getSupervisors()
+         .then(
+         function (d) {
+         if (d.status == 'success') {
+         $scope.supervisors = d.output;
+         } else {
+         $scope.showMessage(d.output);
+         }
+         },
+         function (errResponse) {
+         console.error('Error while getting supervisors');
+         }
+         );
+         };*/
+
+        /* $scope.init = function () {
+         var coach = JSON.parse($window.sessionStorage.getItem("planSelected"));
+         if (coach != null) {
+         $scope.selectAthlete(coach);
+         }
+         };*/
+        //$scope.init();
+
+        /*$scope.getSupervisorByCoachId = function (coachId) {
+         SupervStarCoachService.getByCoachId(coachId)
+         .then(
+         function (d) {
+         if (d.status == 'success') {
+         $scope.supervisors = d.output;
+         } else {
+         $scope.showMessage(d.output);
+         }
+         },
+         function (errResponse) {
+         console.error('Error while creating mail communication.');
+         }
+         );
+         };
+         
+         $scope.getAllRecipients = function () {
+         MailService.getAllRecipients($scope.userSession.userId).then(
+         function (data) {
+         $scope.recipients = data.entity.output;
+         },
+         function (error) {
+         //$scope.showMessage(error);
+         console.error(error);
+         });
+         };*/
+
+        /* $scope.onTabChanges = function (currentTabIndex) {
+         if (currentTabIndex == 0) {
+         self.getAssignedStarCoachBySupervisor();
+         } else if (currentTabIndex == 1) {
+         self.getAssignedAtleteCoachBySupervisor();
+         }
+         
+         $window.sessionStorage.setItem("tabIndex", currentTabIndex);
+         };
+         
+         $scope.onTabChanges2 = function (currentTabIndex) {
+         $window.sessionStorage.setItem("tabIndex2", currentTabIndex);
+         };*/
+
+
     }]);
 

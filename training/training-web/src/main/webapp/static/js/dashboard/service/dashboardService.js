@@ -64,7 +64,7 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getAssignedStarCoachBySupervisor: function (userId) {
+           /* getAssignedStarCoachBySupervisor: function (userId) {
                 return $http.get($contextPath + 'get/coach/by/supervisor/' + userId)
                         .then(
                                 function (response) {
@@ -75,9 +75,9 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
-            },
+            },*/
             
-            getAssignedAtleteCoachBySupervisor: function (userId) {
+           /* getAssignedAtleteCoachBySupervisor: function (userId) {
                 return $http.get($contextPath + 'get/atlete/coach/by/supervisor/' + userId)
                         .then(
                                 function (response) {
@@ -88,9 +88,9 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
-            },
+            },*/
             
-            getAssignedUserBySupervisor: function (userId) {
+            /*getAssignedUserBySupervisor: function (userId) {
                 return $http.get($contextPath + 'get/users/by/supervisor/' + userId)
                         .then(
                                 function (response) {
@@ -101,6 +101,6 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
-            }
+            }*/
         };
     }]);

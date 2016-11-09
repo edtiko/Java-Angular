@@ -22,14 +22,14 @@ public class MailCommunicationDTO implements Serializable {
     @JsonSerialize(using = JsonDateTimeSerializer.class)
     private Date creationDate;
     private Boolean read;
-    private User receivingUser;
-    private User sendingUser;
+    private UserDTO receivingUser;
+    private UserDTO sendingUser;
     private String colour;
     private long hoursSpent; 
     private Double hours;
     private String readableTime;
 
-    public MailCommunicationDTO(Integer mailCommunicationId, String subject, String message, Integer stateId, Date creationDate, 
+    public MailCommunicationDTO(Integer mailCommunicationId, String subject, String message, Integer stateId, Date creationDate,
             Boolean read, User receivingUser, User sendingUser) {
         this.mailCommunicationId = mailCommunicationId;
         this.subject = subject;
@@ -37,9 +37,9 @@ public class MailCommunicationDTO implements Serializable {
         this.stateId = stateId;
         this.creationDate = creationDate;
         this.read = read;
-        this.receivingUser = receivingUser;
-        this.sendingUser = sendingUser;
-    } 
+        this.receivingUser = UserDTO.mapFromUserEntity(receivingUser);
+        this.sendingUser = UserDTO.mapFromUserEntity(sendingUser);
+    }
     
     public MailCommunicationDTO() {
     }
@@ -96,19 +96,19 @@ public class MailCommunicationDTO implements Serializable {
         this.read = read;
     }
 
-    public User getReceivingUser() {
+    public UserDTO getReceivingUser() {
         return receivingUser;
     }
 
-    public void setReceivingUser(User receivingUser) {
+    public void setReceivingUser(UserDTO receivingUser) {
         this.receivingUser = receivingUser;
     }
 
-    public User getSendingUser() {
+    public UserDTO getSendingUser() {
         return sendingUser;
     }
 
-    public void setSendingUser(User sendingUser) {
+    public void setSendingUser(UserDTO sendingUser) {
         this.sendingUser = sendingUser;
     }
 

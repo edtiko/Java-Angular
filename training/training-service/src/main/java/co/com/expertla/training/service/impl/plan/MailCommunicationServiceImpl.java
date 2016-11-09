@@ -4,6 +4,7 @@ import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.dao.plan.MailCommunicationDao;
 import co.com.expertla.training.dao.plan.SupervStarCoachDao;
+import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
@@ -17,6 +18,7 @@ import co.com.expertla.training.service.plan.PlanMessageService;
 import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.service.plan.SupervStarCoachService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,9 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
 
     @Override
     public MailCommunication create(MailCommunication mailCommunication) throws Exception {
+        mailCommunication.setRead(Boolean.FALSE);
+        mailCommunication.setStateId(StateEnum.ACTIVE.getId());
+        mailCommunication.setCreationDate(new Date());
         return mailCommunicationDao.create(mailCommunication);
     }
 
@@ -61,8 +66,8 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
     
     @Override
-    public MailCommunication findById(MailCommunication mailCommunication) throws Exception {
-        return mailCommunicationDao.findById(mailCommunication);
+    public MailCommunication findById(Integer mailCommunicationId) throws Exception {
+        return mailCommunicationDao.findById(mailCommunicationId);
     }
 
     @Override
@@ -299,5 +304,20 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     @Override
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId) throws Exception {
         return mailCommunicationDao.getCountMailsReceivedExt(planId, userId);
+    }
+
+    @Override
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId) throws Exception {
+        return mailCommunicationDao.getMailsByPlan(tipoPlan, userId, planId);
+    }
+
+    @Override
+    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws Exception {
+        return mailCommunicationDao.getMailsEmergencyByPlan(planId, fromUserId);
+    }
+    
+    @Override
+    public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws Exception {
+        return mailCommunicationDao.getMailsEmergencyByPlanExt(planId, fromUserId);
     }
 }

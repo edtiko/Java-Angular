@@ -26,7 +26,7 @@ public interface MailCommunicationDao extends BaseDAO<MailCommunication>{
      * @return 
      * @throws Exception 
      */
-    public MailCommunication findById(MailCommunication mailCommunication) throws Exception; 
+    public MailCommunication findById(Integer mailCommunication) throws Exception; 
     
     /**
      * Trae todos los mails por userId <br>
@@ -120,4 +120,10 @@ public interface MailCommunicationDao extends BaseDAO<MailCommunication>{
     public Integer getCountMailsReceived(Integer planId, Integer userId)throws DAOException;
 
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws DAOException;
+
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId)throws DAOException;
+    
+    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws DAOException;
+
+    public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws DAOException;
 }

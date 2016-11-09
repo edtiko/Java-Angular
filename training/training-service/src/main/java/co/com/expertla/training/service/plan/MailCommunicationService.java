@@ -55,7 +55,7 @@ public interface MailCommunicationService {
      * @return 
      * @throws Exception 
      */
-    public MailCommunication findById(MailCommunication mailCommunication) throws Exception; 
+    public MailCommunication findById(Integer mailCommunication) throws Exception; 
 
     /**
      * Trae todos los mails por userId <br>
@@ -193,4 +193,10 @@ public interface MailCommunicationService {
     public Integer getCountMailsReceived(Integer planId, Integer userId)throws  Exception;
 
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws  Exception;
+
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId)throws  Exception;
+    
+    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws Exception;
+
+    public int getMailsEmergencyByPlanExt(Integer sessionId, Integer userId)throws Exception;
 }
