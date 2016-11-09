@@ -627,7 +627,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                         }
                                         if ($scope.userSession.planActiveId == '0') {
                                             $scope.showMessage(
-                                                    "Para generar tu plan debes adquirir un plan de entrenamiento. <br> <a href='"+urlCompraPlanEntrenamiento+"'>Click Aqui</a> si deseas adquirirlo. Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios."
+                                                    "Para generar tu plan debes adquirir un plan de entrenamiento. <br> <a target='_blank_' href='"+urlCompraPlanEntrenamiento+"'>Click Aqui</a> si deseas adquirirlo. Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios."
                                                     , 'Informaci\u00f3n', true);
                                             return;
                                         }
