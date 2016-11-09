@@ -1,0 +1,35 @@
+<md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Mensaje Nuevo</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content> 
+        <div class="md-dialog-content">
+            <form ng-submit="addMail()" name="mailForm">
+                        <!-- Destinatario atletas cuando user == Coach Ext - Int-->
+                        <md-input-container  md-no-float class="md-block" >
+                            <label>{{ 'RECEIVER_USER' | translate }}</label>
+
+                            <input type="text" ng-model="mailCommunication.mailto" readonly="true"/>
+
+                        </md-input-container>
+
+                        <md-input-container class="md-block" >
+                            <input type="text" placeholder="{{ 'SUBJECT' | translate }}" ng-model="mailCommunication.subject" />
+                        </md-input-container>
+                        <md-input-container class="md-block" >
+                            <textarea placeholder="{{ 'WRITE_HERE' | translate }}" style="width: 100%;max-height: 150px;overflow-y: scroll"  rows="3" md-maxlength="1500" ng-model="mailCommunication.message" md-select-on-focus></textarea>
+                        </md-input-container>
+                    
+            </form>
+             <md-dialog-actions layout="row" >
+                 <md-button ng-disabled="mailCommunication.message.length === 0" ng-click="addMail()" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
+            </md-dialog-actions>
+        </div>
+    </md-dialog-content>
+</md-dialog>
