@@ -16,6 +16,15 @@ import org.apache.commons.codec.binary.Base64;
  * @author Andres Lopez
  */
 public class CurlService {
+
+    private String tokenType;
+    
+    public CurlService() {
+    }
+
+    public CurlService(String tokenType) {
+        this.tokenType = tokenType;
+    }
     
     /**
      * 
@@ -31,11 +40,12 @@ public class CurlService {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         
         if(isAuth) {
-            String basicAuth = "Bearer " + codeAuth;
+            String basicAuth = getTokenType() + " " + codeAuth;
             con.setRequestProperty ("Authorization", basicAuth);
         }
         
         con.setRequestMethod("POST");
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
         con.setInstanceFollowRedirects(true);
         return sendRequest(con, params);
     }
@@ -54,11 +64,12 @@ public class CurlService {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         
         if(isAuth) {
-            String basicAuth = "Basic " + new String(new Base64().encode(codeAuth.getBytes()));
+            String basicAuth = getTokenType() + " " + codeAuth;
             con.setRequestProperty ("Authorization", basicAuth);
         }
         
-        con.setRequestMethod("POST");
+        con.setRequestMethod("GET");
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
         con.setInstanceFollowRedirects(true);
         return sendRequest(con, params);
     }
@@ -78,11 +89,12 @@ public class CurlService {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         
         if(isAuth) {
-            String basicAuth = "Basic " + new String(new Base64().encode(codeAuth.getBytes()));
+            String basicAuth = getTokenType() + " " + new String(new Base64().encode(codeAuth.getBytes()));
             con.setRequestProperty ("Authorization", basicAuth);
         }
         
-        con.setRequestMethod("POST");
+        con.setRequestMethod(method);
+        con.setRequestProperty("User-Agent", "Mozilla/5.0");
         con.setInstanceFollowRedirects(true);
         return sendRequest(con, params);
     }
@@ -103,8 +115,8 @@ public class CurlService {
         
         con.setDoOutput(true);
         con.setDoInput(true);
-        try (DataOutputStream output = new DataOutputStream(con.getOutputStream())) {
-            if(postData != null) {
+        if (postData != null) {
+            try (DataOutputStream output = new DataOutputStream(con.getOutputStream())) {
                 output.writeBytes(postData);
             }
         }
@@ -120,4 +132,19 @@ public class CurlService {
 
         return resultBuf.toString();
     }
+
+    public String getTokenType() {
+        
+        if(tokenType == null || tokenType.isEmpty()) {
+            tokenType = "Basic";
+        }
+        
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
+    
+    
 }
