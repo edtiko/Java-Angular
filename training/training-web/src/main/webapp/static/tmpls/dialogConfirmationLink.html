@@ -1,0 +1,22 @@
+<md-dialog aria-label="Alerta" style="width: 400px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <span ng-bind-html="message"></span>
+            <md-dialog-actions layout="row" >
+                
+                <md-button class="md-raised" href="{{link}}">Si</md-button>
+                
+                <md-button class="md-raised" ng-click="cancel()">No</md-button>
+            </md-dialog-actions>
+        </div>
+    </md-dialog-content>
+</md-dialog>

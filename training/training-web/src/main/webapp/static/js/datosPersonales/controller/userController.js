@@ -626,9 +626,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                             msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias, pulse Aceptar si desea que el sistema los genere aleatoriamente o Cancelar si desea hacerlo manualmente";
                                         }
                                         if ($scope.userSession.planActiveId == '0') {
-                                            $scope.showMessage(
-                                                    "Para generar tu plan debes adquirir un plan de entrenamiento. <br> <a target='_blank_' href='"+urlCompraPlanEntrenamiento+"'>Click Aqui</a> si deseas adquirirlo. Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios."
-                                                    , 'Informaci\u00f3n', true);
+                                            $scope.showMessageConfirmation(
+                                                    "Para generar tu plan debes adquirir un plan de entrenamiento. <br> Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios.<br> Deseas adquirirlo? "
+                                                    , 'Informaci\u00f3n', urlCompraPlanEntrenamiento);
                                             return;
                                         }
                                         $scope.confirmDialogGeneratePlan(ev, generatePlan, msg);

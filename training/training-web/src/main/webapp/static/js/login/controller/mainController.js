@@ -93,8 +93,34 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                         //.targetEvent(ev)
                         );
             }
-        }
-        ;
+        };
+
+        $scope.showMessageConfirmation = function (msg, title, link) {
+            // Appending dialog to document.body to cover sidenav in docs app
+            // Modal dialogs should fully cover application
+            // to prevent interaction outside of dialog
+
+            var titleDefault = 'Confirmaci\u00f3n';
+            if (title != "") {
+                titleDefault = title;
+            }
+
+            $scope.message = msg;
+            $scope.title = title;
+            $scope.link = link;
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/tmpls/dialogConfirmationLink.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    }
+                }
+            });
+        };
 
         $scope.goCalendar = function () {
             $window.sessionStorage.setItem("coachAssignedPlanSelected", null);

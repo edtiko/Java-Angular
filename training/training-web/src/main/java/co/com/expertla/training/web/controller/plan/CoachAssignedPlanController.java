@@ -7,13 +7,21 @@ package co.com.expertla.training.web.controller.plan;
 
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.ColourIndicator;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
+import co.com.expertla.training.service.configuration.ColourIndicatorService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import co.com.expertla.training.service.plan.CoachExtAthleteService;
+import co.com.expertla.training.service.plan.MailCommunicationService;
+import co.com.expertla.training.service.plan.PlanMessageService;
+import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
@@ -30,16 +38,27 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class CoachAssignedPlanController {
-    
+
     private static final Logger LOGGER = Logger.getLogger(CoachAssignedPlanController.class);
-    
+
     @Autowired
     CoachAssignedPlanService coachService;
-    
+
     @Autowired
     CoachExtAthleteService coachExtService;
+
+    @Autowired
+    MailCommunicationService mailCommunicationService;
+
+    @Autowired
+    ColourIndicatorService colourIndicatorService;
+
+    @Autowired
+    PlanVideoService planVideoService;
     
-    
+    @Autowired
+    PlanMessageService planMessageService;
+
     @RequestMapping(value = "get/athtletes/{coachUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedAthletes(@PathVariable("coachUserId") Integer coachUserId) {
@@ -47,6 +66,66 @@ public class CoachAssignedPlanController {
         StringBuilder strResponse = new StringBuilder();
         try {
             List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId);
+            List<ColourIndicator> colours = colourIndicatorService.findAll();
+
+            int firstOrder = 0, countFirstColour=0;
+            int secondOrder = 0, countSecondColour=0;
+            int thirdOrder = 0, countThirdColour=0;   
+            String firstColour = "{'background-color':'white'}";
+            String secondColour = "{'background-color':'white'}";
+            String thirdColour = "{'background-color':'white'}";
+            for (ColourIndicator colour : colours) {
+                if (colour.getColourOrder().equals(1)) {
+                    firstOrder = colour.getHoursSpent();
+                    firstColour = colour.getColour();
+                }
+                if (colour.getColourOrder().equals(2)) {
+                    secondOrder = colour.getHoursSpent();
+                    secondColour = colour.getColour();
+                }
+                if (colour.getColourOrder().equals(3)) {
+                    thirdOrder = colour.getHoursSpent();
+                    thirdColour = colour.getColour();
+                }
+            }
+
+            for (CoachAssignedPlanDTO athlete : athletes) {
+
+                List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
+
+                List<PlanMessageDTO> messages = planMessageService.getMessagesByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
+//                planVideoService.getVideosByUser(coachUserId, coachUserId, fromto, tipoPlan);
+
+                for (MailCommunicationDTO mail : mails) {
+                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+                        countFirstColour ++;
+                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+                        countSecondColour ++;
+                    } else {
+                        countThirdColour ++;
+                    }
+                }
+                
+                for (PlanMessageDTO mail : messages) {
+                    long hours = (calculateHourDifference(mail.getCreationDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                       countFirstColour ++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour ++;
+                    } else {
+                        countThirdColour ++;
+                    }
+                }
+                if(countThirdColour > 0) {
+                    athlete.setColor(thirdColour);
+                } else if(countThirdColour > 0) {
+                    athlete.setColor(secondColour);
+                } else if(countThirdColour > 0) {
+                    athlete.setColor(firstColour);
+                }
+            }
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -59,7 +138,7 @@ public class CoachAssignedPlanController {
         }
 
     }
-    
+
     @RequestMapping(value = "get/star/{coachUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedStar(@PathVariable("coachUserId") Integer coachUserId) {
@@ -77,7 +156,7 @@ public class CoachAssignedPlanController {
             }).forEach((assignedPlanDTO) -> {
                 coachAssignedPlanDTOList.add(assignedPlanDTO);
             });
-            
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(coachAssignedPlanDTOList);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -90,7 +169,7 @@ public class CoachAssignedPlanController {
         }
 
     }
-    
+
     @RequestMapping(value = "get/coach/{athleteUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedCoach(@PathVariable("athleteUserId") Integer athleteUserId) {
@@ -121,7 +200,7 @@ public class CoachAssignedPlanController {
         }
 
     }
-    
+
     @RequestMapping(value = "get/athtletes/by/star/{starUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedAthletesByStarUserId(@PathVariable("starUserId") Integer starUserId) {
@@ -151,5 +230,12 @@ public class CoachAssignedPlanController {
         }
 
     }
-    
+
+    private long calculateHourDifference(Date creationDate) {
+        Date now = new Date();
+        long diff = now.getTime() - creationDate.getTime();
+        long hoursSpent = diff / (60 * 60 * 1000);
+        return hoursSpent;
+    }
+
 }
