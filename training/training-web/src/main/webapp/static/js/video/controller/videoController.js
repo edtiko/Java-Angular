@@ -298,7 +298,6 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             }
                             $scope.colorTime = '';
                             $scope.counterRecord = $scope.counterRecordInitial;
-                            $scope.initCounterRecord();
                         } else {
                             $scope.showMessage(response.data.entity.output, "error");
                         }
