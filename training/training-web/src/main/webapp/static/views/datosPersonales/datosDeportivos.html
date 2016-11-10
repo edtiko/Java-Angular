@@ -127,10 +127,12 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
-                        <input type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }} {{weightmetric}}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
+                        <input ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }} {{weightmetric}}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
                          <div class="has-error" role="alert" ng-messages="formProfile.weight.$error">
                             <div ng-message="required">Este es un campo requerido</div>
+                              <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
                         </div>
+                        
                     </md-input-container>
                 </div>
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileweight, 'user_profile', 'weight')"
@@ -140,9 +142,10 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
-                        <input type="text" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }} {{heightmetric}}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
+                        <input type="text" ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }} {{heightmetric}}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
                         <div class="has-error" role="alert" ng-messages="formProfile.height.$error">
                             <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
                         </div>
                     </md-input-container>
                 </div>

@@ -1194,8 +1194,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.errorMessages.push("El peso debe ser mayor a cero ");
                 valid = false;
             }
+            if (!isNumeric($scope.userProfile.weight)) {
+                $scope.errorMessages.push("El peso debe ser un n\u00famero, verifique que no tenga comas ");
+                valid = false;
+            }
             if (!isNumeric($scope.userProfile.height)) {
-                $scope.errorMessages.push("La altura debe ser un n\u00famero ");
+                $scope.errorMessages.push("La altura debe ser un n\u00famero, verifique que no tenga comas ");
                 valid = false;
             }
             return valid;
