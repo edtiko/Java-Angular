@@ -1214,11 +1214,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.showTooltipPpm = function () {
-            $scope.showMessage("Corresponde a las pulsaciones por minuto. El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda del puls\u00f3metro guarde las pulsaciones promedio del tiempo de la prueba.", "Ppm");
+            $scope.showMessage("Corresponde a las pulsaciones por minuto. El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda del puls\u00f3metro guarde las pulsaciones promedio del tiempo de la prueba, Seg\u00fan teoría de cogan", "Ppm");
         };
 
         $scope.showTooltipPower = function () {
-            $scope.showMessage("El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba.", "Potencia");
+            $scope.showMessage("El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba, Seg\u00fan teoría de cogan", "Potencia");
         };
         
         $scope.showTooltipImc = function(){

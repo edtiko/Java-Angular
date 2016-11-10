@@ -13,7 +13,7 @@
                     <md-list-item ng-repeat="a in athletes" ng-click="selectAthlete(a, $index)" ng-class="{selectedIndex: selectedIndex===$index}">
                         <img data-ng-src="{{a.athleteUserId.profilePhotoBase64}}"  alt="{{a.athleteUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                         <div class="md-list-item-text">
-                            <p>{{a.athleteUserId.fullName}}</p>
+                            <p style="{{a.color}}">{{a.athleteUserId.fullName}}</p>
                         </div>
                         <md-divider md-inset></md-divider>
                     </md-list-item>

@@ -73,5 +73,17 @@ public interface PlanMessageDao extends BaseDAO<PlanMessage> {
      * @throws Exception 
      */
     public List<PlanMessageDTO> getResponseCountMessages(Integer userId,List<UserDTO> users) throws Exception;
+    
+    /**
+     * Consulta los mensajes para el chat por receiving user id and sending user id <br>
+     * Info. Creación: <br>
+     * fecha Sep 28, 2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param receivingUserId
+     * @param sendingUserId
+     * @return 
+     * @throws Exception 
+     */
+    public List<PlanMessageDTO> getMessagesNotReadedByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception;
 
 }

@@ -55,7 +55,7 @@ public class CoachAssignedPlanController {
 
     @Autowired
     PlanVideoService planVideoService;
-    
+
     @Autowired
     PlanMessageService planMessageService;
 
@@ -68,9 +68,9 @@ public class CoachAssignedPlanController {
             List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId);
             List<ColourIndicator> colours = colourIndicatorService.findAll();
 
-            int firstOrder = 0, countFirstColour=0;
-            int secondOrder = 0, countSecondColour=0;
-            int thirdOrder = 0, countThirdColour=0;   
+            int firstOrder = 0, countFirstColour = 0;
+            int secondOrder = 0, countSecondColour = 0;
+            int thirdOrder = 0, countThirdColour = 0;
             String firstColour = "{'background-color':'white'}";
             String secondColour = "{'background-color':'white'}";
             String thirdColour = "{'background-color':'white'}";
@@ -93,36 +93,40 @@ public class CoachAssignedPlanController {
 
                 List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
 
-                List<PlanMessageDTO> messages = planMessageService.getMessagesByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
+                List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
 //                planVideoService.getVideosByUser(coachUserId, coachUserId, fromto, tipoPlan);
 
                 for (MailCommunicationDTO mail : mails) {
-                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
-                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
-                        countFirstColour ++;
-                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
-                        countSecondColour ++;
-                    } else {
-                        countThirdColour ++;
+                    if (!mail.getRead()) {
+                        mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+                        if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+                            countFirstColour++;
+                        } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+                            countSecondColour++;
+                        } else {
+                            countThirdColour++;
+                        }
                     }
+
                 }
-                
+
                 for (PlanMessageDTO mail : messages) {
+//                    if(mail.())
                     long hours = (calculateHourDifference(mail.getCreationDate()));
                     if (hours >= 0 && hours <= firstOrder) {
-                       countFirstColour ++;
+                        countFirstColour++;
                     } else if (hours > firstOrder && hours <= secondOrder) {
-                        countSecondColour ++;
+                        countSecondColour++;
                     } else {
-                        countThirdColour ++;
+                        countThirdColour++;
                     }
                 }
-                if(countThirdColour > 0) {
-                    athlete.setColor(thirdColour);
-                } else if(countThirdColour > 0) {
-                    athlete.setColor(secondColour);
-                } else if(countThirdColour > 0) {
-                    athlete.setColor(firstColour);
+                if (countThirdColour > 0) {
+                    athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+                } else if (countThirdColour > 0) {
+                    athlete.setColor(secondColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+                } else if (countThirdColour > 0) {
+                    athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
                 }
             }
 
