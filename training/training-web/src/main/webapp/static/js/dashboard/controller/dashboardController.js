@@ -424,7 +424,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.goMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
-                $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
+                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
+                    $scope.showMessage("Debe tener un plan activo");
+                } else {
+                    $scope.showMessage("Debe seleccionar un atleta");
+                }
             }
             /*else if($scope.availableMessage == 0){
              $scope.showMessage("No tiene mensajes disponibles.");
@@ -437,7 +442,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.goAudioMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
-                $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
+                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
+                    $scope.showMessage("Debe tener un plan activo");
+                } else {
+                    $scope.showMessage("Debe seleccionar un atleta");
+                }
             }/*else if($scope.availableMessage == 0){
              $scope.showMessage("No tiene Audio Mensajes disponibles.");
              }  */else {
@@ -462,7 +472,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             if ($scope.userSession != null && planSelected == null) {
-                $scope.showMessage("Debe seleccionar un atleta \u00f3 tener un plan activo");
+                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
+                    $scope.showMessage("Debe tener un plan activo");
+                } else {
+                    $scope.showMessage("Debe seleccionar un atleta");
+                }
             }/*else if($scope.availableVideo == 0){
              $scope.showMessage("No tiene videos disponibles.");
              } */
@@ -476,7 +491,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             //$window.location.href = "#mail";
             if ($scope.userSession != null && planSelected == null) {
-                $scope.showMessage("Debe seleccionar un usuario \u00f3 tener un plan activo");
+                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
+                    $scope.showMessage("Debe tener un plan activo");
+                } else {
+                    $scope.showMessage("Debe seleccionar un atleta");
+                }
             } else {
                 $scope.pageSelected = $scope.views.email.page;
             }
@@ -494,7 +514,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $window.sessionStorage.setItem("sendingUser", JSON.stringify(user));
             //$window.location.href = "#mail";
             if ($scope.userSession != null && user == null) {
-                $scope.showMessage("Debe seleccionar un usuario \u00f3 tener un plan activo");
+                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
+                    $scope.showMessage("Debe tener un plan activo");
+                } else {
+                    $scope.showMessage("Debe seleccionar un atleta");
+                }
             } else {
                 $scope.pageSelected = $scope.views.email.page;
             }
