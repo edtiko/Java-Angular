@@ -130,7 +130,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         
         //notificación emails recibidos
         MailService.receive().then(null, null, function (email) {
-            if (email.sendingUser.userId == $scope.user.userId) {
+            if (email.receivingUser.userId == $scope.user.userId) {
                 $scope.emailReceivedCount++;
             }
 
