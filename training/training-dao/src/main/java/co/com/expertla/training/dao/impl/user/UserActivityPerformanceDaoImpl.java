@@ -244,6 +244,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append(" GROUP  BY 1");
             builder.append(" ) t USING (executed_date)");
             builder.append(" UNION ");
+            builder.append("SELECT * FROM  (");
             if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
