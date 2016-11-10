@@ -2,7 +2,7 @@
 
     <section layout="row" layout-sm="column" layout-wrap>
         <div flex="90"  ng-hide="received == false" ng-show="received">
-          <img class="circular"  data-ng-src="{{mailSelected.receivingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
+          <img  data-ng-src="{{mailSelected.sendingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
             <md-input-container class="md-block" >
                 {{ 'DATE' | translate }}: {{mailSelected.creationDate}} <br>
                 {{ 'FROM' | translate }}: {{mailSelected.sendingUser.fullName}} <br>
@@ -17,7 +17,7 @@
 
     <section layout="row" layout-sm="column" layout-wrap>
         <div flex="90"  ng-hide="received" ng-show="!received">
-             <img class="circular"  data-ng-src="{{mailSelected.sendingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
+             <img  data-ng-src="{{mailSelected.sendingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
             <md-input-container class="md-block" >
                 {{ 'DATE' | translate }}: {{mailSelected.creationDate}} <br>
                 {{ 'TO' | translate }}: {{mailSelected.receivingUser.fullName}}<br>
