@@ -55,6 +55,8 @@ public class PlanMessage implements Serializable {
     @JoinColumn(name = "receiving_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User receivingUserId;
+    @Column(name = "readed")
+    private Boolean readed;
 
     public PlanMessage() {
     }
@@ -150,6 +152,14 @@ public class PlanMessage implements Serializable {
 
     public void setReceivingUserId(User receivingUserId) {
         this.receivingUserId = receivingUserId;
+    }
+
+    public Boolean getReaded() {
+        return readed;
+    }
+
+    public void setReaded(Boolean readed) {
+        this.readed = readed;
     }
     
 }

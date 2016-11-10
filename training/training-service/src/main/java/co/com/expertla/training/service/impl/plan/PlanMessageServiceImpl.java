@@ -178,5 +178,10 @@ public class PlanMessageServiceImpl implements PlanMessageService{
             return "yellow";
         }
     }
+
+    @Override
+    public List<PlanMessageDTO> getMessagesNotReadedByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId) throws Exception {
+        return planMessageDao.getMessagesNotReadedByReceivingUserAndSendingUser(receivingUserId, sendingUserId);
+    }
     
 }

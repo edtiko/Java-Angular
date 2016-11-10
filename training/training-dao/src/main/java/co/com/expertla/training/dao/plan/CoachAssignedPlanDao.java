@@ -8,6 +8,7 @@ package co.com.expertla.training.dao.plan;
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
+import co.com.expertla.training.model.dto.SemaforoDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.User;
 import java.util.List;
@@ -38,4 +39,6 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     public List<User> findCoachByStarUserId(Integer userId) throws Exception;
     
     public List<User> findStarByCoachUserId(Integer userId) throws Exception;
+    
+    public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
 }

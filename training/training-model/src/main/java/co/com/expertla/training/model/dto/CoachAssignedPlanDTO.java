@@ -24,6 +24,7 @@ public class CoachAssignedPlanDTO{
     private TrainingPlanDTO trainingPlanId; 
     private Date creationDate;
     private boolean external;
+    private String color;
     
      public CoachAssignedPlanDTO(){
          
@@ -112,6 +113,14 @@ public class CoachAssignedPlanDTO{
 
     public void setTrainingPlanId(TrainingPlanDTO trainingPlanId) {
         this.trainingPlanId = trainingPlanId;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
     
     

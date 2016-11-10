@@ -256,4 +256,22 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
             diff = diff / 3600;
             return diff.doubleValue();
     }
+
+    @Override
+    public List<PlanMessageDTO> getMessagesNotReadedByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId) throws Exception {
+        List<Integer> ids = new ArrayList<>();
+        ids.add(sendingUserId);
+        ids.add(receivingUserId);
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate, m.receivingUserId) ");        
+        sql.append("FROM PlanMessage m ");
+        sql.append("Where m.messageUserId.userId = :ids ");
+        sql.append("AND m.receivingUserId.userId = :receivingUserId ");
+        sql.append("AND (m.readed = :read OR m.readed = null) ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("ids", sendingUserId);
+        query.setParameter("receivingUserId", receivingUserId);
+        query.setParameter("read", false);
+        return query.getResultList();
+    }
 }
