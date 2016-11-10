@@ -892,6 +892,16 @@ add constraint fk_coach_ext_athlete_reference_user_training foreign key (user_tr
 references user_training(user_id)
 on delete restrict on update restrict;
 
+alter table mail_communication
+add CONSTRAINT fk_email_ref_coach_assigned_plan FOREIGN KEY (coach_assigned_plan_id)
+      REFERENCES coach_assigned_plan (coach_assigned_plan_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+	  
+alter table mail_communication	  
+ add CONSTRAINT fk_email_ref_coach_ext_athlete FOREIGN KEY (coach_ext_athlete_id)
+      REFERENCES coach_ext_athlete (coach_ext_athlete_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT;
+
 alter table coach_ext_athlete
 add constraint fk_coach_ext_athlete_reference_state foreign key (state_id)
 references state(state_id)

@@ -217,15 +217,16 @@ public class MailController {
         Integer sessionId = null;
         int availableMails = 0;
         int emergencyMails = 0;
+        boolean isPlan = false;
         try {
-         
-            mailCommunicationService.create(mailCommunication);
-            
-            if(mailCommunication.getCoachAssignedPlanId() != null){
+           
+            if(mailCommunication.getCoachAssignedPlanId() != null && mailCommunication.getCoachAssignedPlanId().getCoachAssignedPlanId() != null){
+                isPlan = true;
                 sessionId = mailCommunication.getCoachAssignedPlanId().getCoachAssignedPlanId();
                   availableMails =  mailCommunicationService.getCountMailsByPlan(sessionId, mailCommunication.getSendingUser().getUserId());
                     emergencyMails = mailCommunicationService.getMailsEmergencyByPlan(sessionId, mailCommunication.getSendingUser().getUserId());
-            }else if(mailCommunication.getCoachExtAthleteId() != null){
+            }else if(mailCommunication.getCoachExtAthleteId() != null && mailCommunication.getCoachExtAthleteId().getCoachExtAthleteId() != null){
+                   isPlan = true;
                 sessionId = mailCommunication.getCoachExtAthleteId().getCoachExtAthleteId();
                    availableMails = mailCommunicationService.getCountMailsByPlanExt(sessionId, mailCommunication.getReceivingUser().getUserId());
                    emergencyMails = mailCommunicationService.getMailsEmergencyByPlanExt(sessionId, mailCommunication.getSendingUser().getUserId());
@@ -233,16 +234,18 @@ public class MailController {
                 sessionId = mailCommunication.getReceivingUser().getUserId()+mailCommunication.getSendingUser().getUserId();
             }
             
-                if(availableMails == 0 && emergencyMails > 0){
+                if(isPlan && availableMails == 0 && emergencyMails > 0){
                      responseService.setOutput("Mensaje enviado correctamente, se estan consumiendo los correos de emergencia ("+emergencyMails+")");
                 }
-                else if (availableMails == 0 && emergencyMails == 0) {
+                else if (isPlan && availableMails == 0 && emergencyMails == 0) {
                     responseService.setOutput("Ya consumió el limite de correos permitidos para su plan.");
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }else{
                      responseService.setOutput("Mensaje enviado correctamente."); 
                 }
+            
+            mailCommunicationService.create(mailCommunication);    
             simpMessagingTemplate.convertAndSend("/queue/mail/" + sessionId, mailCommunication);
             //responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());

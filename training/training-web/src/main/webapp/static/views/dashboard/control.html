@@ -36,7 +36,7 @@
 
                 <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showVideo">{{availableVideo}} disponibles de {{planSelected.trainingPlanId.videoCount!=null?planSelected.trainingPlanId.videoCount:0}}</md-subheader>
 
-                <div flex ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">
+                <div flex ng-if="showChat">
 
                     <notification-icon animation="grow" count="messagesReceivedCount">
                         <md-button  aria-label="Mensajes" class="md-fab md-raised  md-primary " ng-click="goMessages()">
@@ -46,11 +46,11 @@
                     </notification-icon>
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showChat">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
+                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
 
                     <!--  Email -->
 
-                <div flex >
+                <div flex ng-if="showEmail">
                     <notification-icon animation="grow" count="emailReceivedCount">
                         <md-button aria-label="Email" class="md-fab md-raised md-primary " ng-click="goEmail()">
                             <md-tooltip md-direction="left" md-visible="tooltipVisible">Email</md-tooltip>
@@ -62,7 +62,7 @@
                 <md-subheader ng-if="showCountEmail">{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
                 
                 <!--Audio Messages-->
-                <div flex ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserAtleta">
+                <div flex ng-if="showAudioMessage">
 
                     <notification-icon animation="grow" count="audioReceivedCount">
                         <md-button aria-label="Audio Mensajes" class="md-fab md-raised md-primary " ng-click="goAudioMessages()">
