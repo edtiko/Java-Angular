@@ -1,7 +1,9 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService', 'SupervStarCoachService', 'MailService', 'videoService', 'ExternalCoachService', 'AudioMessageService',
-    function ($scope, UserService, DashboardService, $window, messageService, SupervStarCoachService, MailService, videoService, ExternalCoachService, AudioMessageService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService', 'MailService', 
+                                               'videoService', 'ExternalCoachService', 'AudioMessageService',
+    function ($scope, UserService, DashboardService, $window, messageService, MailService, 
+              videoService, ExternalCoachService, AudioMessageService) {
 
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',

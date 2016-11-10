@@ -1,4 +1,4 @@
-trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout','$mdSidenav',
+trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout', '$mdSidenav',
     function ($scope, videoService, UserService, $timeout, $mdSidenav) {
         $scope.guion = '';
         $scope.isToStar = false;
@@ -296,6 +296,9 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
                                 videoService.send(video);
                             }
+                            $scope.colorTime = '';
+                            $scope.counterRecord = $scope.counterRecordInitial;
+                            $scope.initCounterRecord();
                         } else {
                             $scope.showMessage(response.data.entity.output, "error");
                         }
