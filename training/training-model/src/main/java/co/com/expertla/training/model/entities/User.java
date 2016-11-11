@@ -149,6 +149,13 @@ public class User implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "ind_strava")
+    private String indStrava;
+    @Column(name = "code_strava")
+    private String codeStrava;
+    @Column(name = "last_execute_strava")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastExecuteStrava;
 
     public User() {
     }
@@ -178,6 +185,30 @@ public class User implements Serializable {
         this.postalCode = postalCode;
         this.creationDate = creationDate;
 
+    }
+
+    public String getIndStrava() {
+        return indStrava;
+    }
+
+    public void setIndStrava(String indStrava) {
+        this.indStrava = indStrava;
+    }
+
+    public String getCodeStrava() {
+        return codeStrava;
+    }
+
+    public void setCodeStrava(String codeStrava) {
+        this.codeStrava = codeStrava;
+    }
+
+    public Date getLastExecuteStrava() {
+        return lastExecuteStrava;
+    }
+
+    public void setLastExecuteStrava(Date lastExecuteStrava) {
+        this.lastExecuteStrava = lastExecuteStrava;
     }
 
     public Country getCountryId() {

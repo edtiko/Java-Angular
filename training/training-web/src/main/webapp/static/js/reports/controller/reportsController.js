@@ -44,6 +44,12 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                     } else if (metafield == 6) {
                                         data.addColumn('number', 'Ritmo Medio');
                                         title = 'Ritmo Medio';
+                                    } else if (metafield == 7) {
+                                        data.addColumn('number', 'Potencia Maxima');
+                                        title = 'Potencia Maxima';
+                                    } else if (metafield == 8) {
+                                        data.addColumn('number', 'Potencia Media');
+                                        title = 'Potencia Media';
                                     }
                                     var rows = new Array();
                                     for (var i = 0; i < $scope.days; i++) {
@@ -62,7 +68,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                     // Instantiate and draw our chart, passing in some options.
 
                                     if (metafield == 1) {
-                                        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                                     } else if (metafield == 2) {
                                         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                                     } else if (metafield == 3) {
@@ -72,6 +78,10 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                     } else if (metafield == 5) {
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     } else if (metafield == 6) {
+                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                    } else if (metafield == 7) {
+                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                    } else if (metafield == 8) {
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
@@ -84,7 +94,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
         };
 //    $scope.getReportByMetafieldOneWeek($scope.metafield);
 
-        $scope.getReportByMetafieldMonthlyOrWeekly = function (metafield, weekly) {
+        $scope.getReportByMetafieldMonthlyOrWeekly = function (metafield, weekly, currentNavItem) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
             UserActivityPerformanceService.getByRangeDateAndUserAndVariableAndDaysWeekly(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield, $scope.days, weekly)
@@ -116,14 +126,37 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                     } else if (metafield == 6) {
                                         data.addColumn('number', 'Ritmo Medio');
                                         title = 'Ritmo Medio';
+                                    } else if (metafield == 7) {
+                                        data.addColumn('number', 'Potencia Maxima');
+                                        title = 'Potencia Maxima';
+                                    } else if (metafield == 8) {
+                                        data.addColumn('number', 'Potencia Media');
+                                        title = 'Potencia Media';
                                     }
 
                                     var rows = new Array();
+                                    var index = 0;
                                     if (weekly) {
-                                        for (var i = 0; i < $scope.userActivityPerformanceList.length; i++) {
-                                            rows[i] = [];
+                                        for (var i = 0; i < $scope.userActivityPerformanceList.length-1; i++) {
+
                                             if ($scope.userActivityPerformanceList[i].executedDate != undefined) {
-                                                rows[i].push($scope.parseDateToStringMonthDay($scope.userActivityPerformanceList[i].executedDate), Number($scope.userActivityPerformanceList[i].value));
+                                                rows[index] = [];
+
+                                                if (currentNavItem == 'week') {
+                                                    var fechaFinal = $scope.sumaFecha(7, $scope.userActivityPerformanceList[i].executedDate);
+                                                    rows[index].push(
+                                                            $scope.parseDateToStringMonthDay($scope.userActivityPerformanceList[i].executedDate) + '-' + $scope.parseDateToStringMonthDay(fechaFinal),
+                                                            Number($scope.userActivityPerformanceList[i].value)
+                                                            );
+                                                    index++;
+                                                } else {
+                                                    rows[index].push(
+                                                            $scope.parseDateToStringMonthDay($scope.userActivityPerformanceList[i].executedDate),
+                                                            Number($scope.userActivityPerformanceList[i].value)
+                                                            );
+                                                    index++;
+                                                }
+
                                             }
                                         }
                                     } else {
@@ -143,7 +176,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
 
                                     // Instantiate and draw our chart, passing in some options.
                                     if (metafield == 1) {
-                                        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                                     } else if (metafield == 2) {
                                         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                                     } else if (metafield == 3) {
@@ -153,6 +186,10 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                     } else if (metafield == 5) {
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     } else if (metafield == 6) {
+                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                    } else if (metafield == 7) {
+                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                    } else if (metafield == 8) {
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
@@ -196,7 +233,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                 if (metafield != null) {
                     $scope.metafield = metafield;
                 }
-                $scope.getReportByMetafieldMonthlyOrWeekly($scope.metafield, weekly);
+                $scope.getReportByMetafieldMonthlyOrWeekly($scope.metafield, weekly, $scope.currentNavItem);
             }
         };
         $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
@@ -213,6 +250,24 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
             ];
             return monthNames[(dateParts[1] - 1)] + ' ' + dateParts[2];
         };
+
+        $scope.sumaFecha = function (d, fecha)
+        {
+            var Fecha = new Date();
+            var sFecha = fecha || (Fecha.getDate() + "/" + (Fecha.getMonth() + 1) + "/" + Fecha.getFullYear());
+            var sep = sFecha.indexOf('/') != -1 ? '/' : '-';
+            var aFecha = sFecha.split(sep);
+            var fecha = aFecha[2] + '-' + aFecha[1] + '-' + aFecha[0];
+            fecha = new Date(aFecha[0], aFecha[1], aFecha[2]);
+            fecha.setDate(fecha.getDate() + parseInt(d));
+            var anno = fecha.getFullYear();
+            var mes = fecha.getMonth();
+            var dia = fecha.getDate();
+            mes = (mes < 10) ? ("0" + mes) : mes;
+            dia = (dia < 10) ? ("0" + dia) : dia;
+            var fechaFinal = anno + sep + mes + sep + dia;
+            return (fechaFinal);
+        }
 
         function substractDays(date, days) {
             var result = new Date(date);

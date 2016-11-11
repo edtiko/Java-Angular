@@ -289,6 +289,7 @@ public class UserController {
             userSession.setDisciplineId(userDto.getDisciplineId());
             userSession.setDisciplineName(userDto.getDisciplineName());
             userSession.setRoleName(userDto.getRoleName());
+            userSession.setIndStrava(userDto.getIndStrava());
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);

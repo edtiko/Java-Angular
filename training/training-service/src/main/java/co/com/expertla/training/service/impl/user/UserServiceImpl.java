@@ -167,6 +167,10 @@ public class UserServiceImpl implements UserService {
         user.setWebPage(userDTO.getWebPage());
         user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
         user.setCreationDate(new Date());
+        user.setName(userDTO.getFirstName());
+        user.setIndStrava(userDTO.getIndStrava());
+        user.setCodeStrava(userDTO.getCodeStrava());
+        user.setLastExecuteStrava(userDTO.getLastExecuteStrava());
 
         return userDao.updateUser(user);
     }
