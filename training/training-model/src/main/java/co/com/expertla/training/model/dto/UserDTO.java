@@ -67,6 +67,9 @@ public class UserDTO {
     private Integer indLoginFirstTime;
     private Integer planActiveId;
     private Integer trainingPlanUserId;
+    private String indStrava;
+    private String codeStrava;
+    private Date lastExecuteStrava;
     
     public UserDTO() {
     }
@@ -179,7 +182,9 @@ public class UserDTO {
             String sex, Float weight, String phone, String cellphone, Integer cityId,
             Short stateId, String login, String facebookPage, String instagramPage, String twitterPage, 
             String webPage, String postalCode, Integer federalStateId, Integer countryId, byte[] profilePhoto,
-            Integer indLoginFirstTime, Integer userWordpressId) {
+            Integer indLoginFirstTime, 
+            Integer userWordpressId, String indStrava, String codeStrava, Date lastExecuteStrava) {
+        
         this.userId = userId;
         this.login = login;
         this.firstName = firstName;
@@ -204,6 +209,9 @@ public class UserDTO {
         this.profilePhoto = profilePhoto;
         this.indLoginFirstTime = indLoginFirstTime;
         this.userWordpressId = userWordpressId;
+        this.indStrava = indStrava;
+        this.codeStrava = codeStrava;
+        this.lastExecuteStrava = lastExecuteStrava;
     }
     
     public UserDTO(Integer userId, String firstName, String secondName, String lastName, String email, String login, byte[] profilePhoto){
@@ -223,7 +231,8 @@ public class UserDTO {
                     user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
                     user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
                     user.getCountryId() != null ? user.getCountryId().getCountryId() : null,
-                    user.getProfilePhoto(), user.getIndLoginFirstTime(), user.getUserWordpressId());
+                    user.getProfilePhoto(), user.getIndLoginFirstTime(), user.getUserWordpressId(), 
+            user.getIndStrava(), user.getCodeStrava(), user.getLastExecuteStrava());
         }
         return null;
     }
@@ -626,7 +635,28 @@ public class UserDTO {
     public void setRoleCreateId(Integer roleCreateId) {
         this.roleCreateId = roleCreateId;
     }
-    
-    
-    
+
+    public String getIndStrava() {
+        return indStrava;
+    }
+
+    public void setIndStrava(String indStrava) {
+        this.indStrava = indStrava;
+    }
+
+    public String getCodeStrava() {
+        return codeStrava;
+    }
+
+    public void setCodeStrava(String codeStrava) {
+        this.codeStrava = codeStrava;
+    }
+
+    public Date getLastExecuteStrava() {
+        return lastExecuteStrava;
+    }
+
+    public void setLastExecuteStrava(Date lastExecuteStrava) {
+        this.lastExecuteStrava = lastExecuteStrava;
+    }
 }
