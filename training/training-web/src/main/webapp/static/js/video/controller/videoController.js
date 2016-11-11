@@ -3,7 +3,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.guion = '';
         $scope.isToStar = false;
         $scope.showGuion = false;
-        $scope.isRecord = true;
+        $scope.isRecord = false;
         $scope.isVisibleSendVideo = true;
         $scope.isVisibleDeleteVideo = true;
         $scope.isSendToStar = false;
@@ -115,6 +115,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
             $scope.colorGrabacion = 'color:red';
             $scope.isRecord = true;
+           //$scope.eliminarVideoGrabado();
             $scope.startRecordingVideo();
         };
 
@@ -124,7 +125,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     $scope.stop();
                 }
             }
-
+            $scope.isRecord = false;
             $scope.colorGrabacion = '';
             $scope.stopRecordingVideo();
         };
@@ -141,7 +142,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.eliminarVideoGrabado = function () {
-            $scope.isRecord = true;
+            $scope.isRecord = false;
+            $scope.counterRecord = $scope.counterRecordInitial;
             $scope.cleanVideo();
             $scope.colorGrabacion = '';
         };

@@ -59,9 +59,11 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
 
     @Override
     public void create(CoachExtAthleteDTO dto) throws Exception {
-        
+
         dto.getAthleteUserId().setRoleId(RoleEnum.ATLETA.getId());
         User user = userService.createInternalUser(dto.getAthleteUserId());
+
+        UserDTO coach = userService.findById(dto.getCoachUserId().getUserId());
         
         CoachExtAthlete entity = new CoachExtAthlete();
         entity.setTrainingPlanUserId(new TrainingPlanUser(dto.getTrainingPlanUserId()));
@@ -69,6 +71,11 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
         entity.setStateId(new State(StateEnum.ACTIVE.getId()));
         entity.setCreationDate(Calendar.getInstance().getTime());
         coachExtAthleteDao.create(entity);
+
+        String message
+                = "Sr(a) " + dto.getAthleteUserId().getFullName()
+                + ", El Coach: " + coach.getFullName() + " te invito a ser parte de su equipo en Pro-Custom-Training. ";
+        sendEmail(message, user.getEmail());
     }
 
     @Override
@@ -134,17 +141,19 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
     }
 
     @Override
-    public void acceptInvitation(Integer coachExtAthleteId) throws Exception {
+    public Integer acceptInvitation(Integer coachExtAthleteId) throws Exception {
         CoachExtAthlete e = coachExtAthleteDao.findById(coachExtAthleteId);
         e.setStateId(new State(StateEnum.ACTIVE.getId()));
         coachExtAthleteDao.merge(e);
+        return e.getTrainingPlanUserId().getTrainingPlanUserId();
     }
 
     @Override
-    public void rejectInvitation(Integer coachExtAthleteId) throws Exception {
+    public Integer rejectInvitation(Integer coachExtAthleteId) throws Exception {
         CoachExtAthlete e = coachExtAthleteDao.findById(coachExtAthleteId);
         e.setStateId(new State(StateEnum.REJECTED.getId()));
         coachExtAthleteDao.merge(e);
+         return e.getTrainingPlanUserId().getTrainingPlanUserId();
     }
     
     

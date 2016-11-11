@@ -29,9 +29,9 @@ public interface CoachExtAthleteService {
 
     public CoachExtAthleteDTO getInvitation(Integer userId)throws Exception;
 
-    public void acceptInvitation(Integer coachExtAthleteId)throws Exception;
+    public Integer acceptInvitation(Integer coachExtAthleteId)throws Exception;
 
-    public void rejectInvitation(Integer coachExtAthleteId)throws Exception;
+    public Integer rejectInvitation(Integer coachExtAthleteId)throws Exception;
     
     public boolean sendEmail(String message, String email);
     

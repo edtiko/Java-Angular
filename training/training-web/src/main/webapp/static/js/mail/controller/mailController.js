@@ -449,7 +449,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             if ($scope.planSelected != null) {
                 $scope.getSentMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.id);
                 $scope.getReceivedMailsByPlan(tipoPlan, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
-                $scope.mailCommunication.mailto = $scope.planSelected.athleteUserId.email;
+                $scope.mailCommunication.mailto = $scope.planSelected.athleteUserId.fullName;
                 $scope.mailCommunication.receivingUser.userId = $scope.planSelected.athleteUserId.userId;
             }
         };
@@ -464,14 +464,14 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                     $scope.getSentMailsByPlan("IN", $scope.userSession.userId, $scope.planSelected.id);
                     $scope.getReceivedMailsByPlan("IN", $scope.planSelected.coachUserId.userId, $scope.planSelected.id);
                 }
-              $scope.mailCommunication.mailto = $scope.planSelected.coachUserId.email;
+              $scope.mailCommunication.mailto = $scope.planSelected.coachUserId.fullName;
               $scope.mailCommunication.receivingUser.userId = $scope.planSelected.coachUserId.userId;
             }
         };
         self.getEmailUser = function () {
             $scope.getSentMails();
             $scope.getReceivedMails();
-             $scope.mailCommunication.mailto = $scope.sendingUser.email;
+             $scope.mailCommunication.mailto = $scope.sendingUser.fullName;
         };
 
         $scope.init = function () {

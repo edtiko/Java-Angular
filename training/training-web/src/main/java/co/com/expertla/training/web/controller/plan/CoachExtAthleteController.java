@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,9 @@ public class CoachExtAthleteController {
     @Autowired
     CoachExtAthleteService coachExtAthleteService;
     
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+    
     @RequestMapping(value = "/create/athlete", method = RequestMethod.POST)
     public @ResponseBody
     Response create(@RequestBody CoachExtAthleteDTO dto) {
@@ -39,6 +43,7 @@ public class CoachExtAthleteController {
         StringBuilder strResponse = new StringBuilder();
         try {
             coachExtAthleteService.create(dto);
+            simpMessagingTemplate.convertAndSend("/queue/invitation/" + dto.getAthleteUserId().getUserId(), dto);
             strResponse.append("Atleta creado éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -60,6 +65,7 @@ public class CoachExtAthleteController {
         StringBuilder strResponse = new StringBuilder();
         try {
             coachExtAthleteService.sendInvitation(dto);
+            simpMessagingTemplate.convertAndSend("/queue/invitation/" + dto.getAthleteUserId().getUserId(), dto);
             strResponse.append("Se ha enviado la invitación éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -144,7 +150,8 @@ public class CoachExtAthleteController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            coachExtAthleteService.acceptInvitation(coachExtAthleteId);
+            Integer trainingPlanUserId = coachExtAthleteService.acceptInvitation(coachExtAthleteId);
+            simpMessagingTemplate.convertAndSend("/queue/invitation/" + trainingPlanUserId, "");
             strResponse.append("Invitación aceptada éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -165,7 +172,8 @@ public class CoachExtAthleteController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            coachExtAthleteService.rejectInvitation(coachExtAthleteId);
+             Integer trainingPlanUserId =  coachExtAthleteService.rejectInvitation(coachExtAthleteId);
+             simpMessagingTemplate.convertAndSend("/queue/invitation/" + trainingPlanUserId, "");
             strResponse.append("Invitación rechazada éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);

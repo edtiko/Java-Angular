@@ -102,6 +102,16 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
 
         self.fetchAllCountries();
         self.fetchAthletes();
+        
+        //Inicializa las notificaciones en tiempo real
+        if ($scope.userSession.trainingPlanUserId != null) {
+            ExternalCoachService.initialize($scope.userSession.trainingPlanUserId);
+        }
+        
+         //notificación invitaciones recibidas
+        ExternalCoachService.receive().then(null, null, function (data) {
+           self.fetchAthletes();
+        });
 
         self.simulateQuery = false;
         self.isDisabled = false;

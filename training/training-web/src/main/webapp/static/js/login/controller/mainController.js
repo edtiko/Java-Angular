@@ -20,7 +20,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.invitation = null;
 
 
-        self.viewInvitations = function (userId) {
+        $scope.viewInvitations = function (userId) {
             ExternalCoachService.getInvitation(userId).then(
                     function (response) {
                         if (response != null && response != "") {
@@ -172,7 +172,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                                 });
 
 
-                        self.viewInvitations($scope.userId);
+                        $scope.viewInvitations($scope.userId);
                     }, function (errResponse) {
                         console.error('Error while getting ' + errResponse);
                     }
@@ -245,7 +245,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                 ExternalCoachService.acceptInvitation($scope.invitation.id).then(
                         function (data) {
                             $scope.hide();
-                            self.viewInvitations($scope.userId);
+                            $scope.invitation = null;
+                            $scope.viewInvitations($scope.userId);
                         },
                         function (error) {
 
@@ -258,7 +259,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                 ExternalCoachService.rejectInvitation($scope.invitation.id).then(
                         function (data) {
                             $scope.hide();
-                            self.viewInvitations($scope.userId);
+                            $scope.invitation = null;
+                            $scope.viewInvitations($scope.userId);
                         },
                         function (error) {
 
@@ -316,6 +318,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         var mediaRecorder;
         var recordedBlobs;
         var sourceBuffer;
+        $scope.mediaModel = null;
 
         var constraints = {
             audio: true,
@@ -347,6 +350,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         function handleDataAvailable(event) {
             if (event.data && event.data.size > 0) {
                 recordedBlobs.push(event.data);
+                 $scope.mediaModel = event.data;
             }
         }
 
@@ -422,9 +426,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.cleanVideo = function () {
             $scope.gumVideo = document.querySelector('video#gumVideo');
             document.getElementById('gumVideo').currentTime = 0;
-            $scope.gumVideo.controls = false;
+            //$scope.gumVideo.controls = false;
             $scope.gumVideo.src = '';
             window.stream = null;
+            $scope.mediaModel = null;
             navigator.mediaDevices.getUserMedia(constraints).
                     then(handleSuccess).catch(handleError);
 

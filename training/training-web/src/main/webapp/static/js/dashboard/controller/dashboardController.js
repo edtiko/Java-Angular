@@ -116,7 +116,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         //notificación videos recibidos
         videoService.receive().then(null, null, function (video) {
-            if (video.toUserId == $scope.user.userId) {
+            if (video.toUser.userId == $scope.user.userId) {
                 $scope.videoReceivedCount++;
             }
 
@@ -124,7 +124,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         //notificación audios recibidos
         AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUserId.userId == $scope.user.userId) {
+            if (audio.toUser.userId == $scope.user.userId) {
                 $scope.audioReceivedCount++;
             }
 
@@ -137,8 +137,13 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
         });
-
-
+        
+        
+          //notificación invitaciones recibidas
+        ExternalCoachService.receive().then(null, null, function (data) {
+           $scope.viewInvitations($scope.user.userId);  
+        });
+        
 
         //Selecciona un Atleta
         $scope.selectAthlete = function (planSelected, index) {
@@ -299,6 +304,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 self.getReceivedMails(plan.id, plan.athleteUserId.userId, tipoPlan);
             }
             MailService.initialize(plan.id);
+
+            //Inicializa las notificaciones de invitaciones
+            ExternalCoachService.initialize(plan.athleteUserId.userId);
+
 
             //Carga imagenes de perfil de coach y estrella, si el plan es con Coach Interno
             if (tipoPlan == "IN") {
@@ -698,6 +707,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.showChat = true;
                         $scope.showEmail = true;
                         self.getAssignedAthletes();
+                        self.getAssignedStar();
                         $scope.getUserById();
                         break;
                     case $scope.userSessionTypeUserAtleta:
