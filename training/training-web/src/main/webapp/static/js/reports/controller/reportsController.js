@@ -261,7 +261,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
             fecha = new Date(aFecha[0], (aFecha[1]-1), aFecha[2]);
             fecha.setDate(fecha.getDate() + parseInt(d-1));
             var anno = fecha.getFullYear();
-            var mes = fecha.getMonth();
+            var mes = fecha.getMonth()+1;
             var dia = fecha.getDate();
             mes = (mes < 10) ? ("0" + mes) : mes;
             dia = (dia < 10) ? ("0" + dia) : dia;

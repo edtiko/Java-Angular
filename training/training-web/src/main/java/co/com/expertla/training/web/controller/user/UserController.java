@@ -646,6 +646,7 @@ public class UserController {
                 userStar.setBirthDate(starUserDTO.getBirthDate());
                 userSession.setStarUser(userStar);
                 userSession.setCoachUser(userCoach);
+                userSession.setCoachAssignedPlanId(coachAssignedPlanDTO.getId());
             }
 
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));

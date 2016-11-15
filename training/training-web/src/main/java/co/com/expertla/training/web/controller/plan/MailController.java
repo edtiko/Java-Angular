@@ -1,9 +1,9 @@
 package co.com.expertla.training.web.controller.plan;
 
 import co.com.expertla.base.util.MessageUtil;
-import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
+import co.com.expertla.training.model.dto.MailCommunicationMovilDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.ColourIndicator;
@@ -12,6 +12,7 @@ import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ColourIndicatorService;
 import co.com.expertla.training.service.plan.MailCommunicationService;
 import co.com.expertla.training.web.enums.StatusResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -72,7 +73,7 @@ public class MailController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
     }
-
+    
     /**
      * Consulta los mail por destinatario y remitente <br>
      * Info. Creacion: <br>
@@ -247,7 +248,7 @@ public class MailController {
             
             mailCommunicationService.create(mailCommunication);    
             simpMessagingTemplate.convertAndSend("/queue/mail/" + sessionId, mailCommunication);
-            //responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
@@ -292,7 +293,114 @@ public class MailController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    /**
+     * Consulta los mail por destinatario <br>
+     * Info. Creacion: <br>
+     * fecha 12/09/2016 <br>
+     *
+     * @author Angela Ramirez
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/get/mails/by/user/movil/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getMailsMovil(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByUserId(userId);
+            
+            List<MailCommunicationMovilDTO> mailMovil = new ArrayList();
+            mails.stream().forEach((mail) -> {
+                UserDTO r = new UserDTO();
+                r.setUserId(mail.getReceivingUser().getUserId());
+                UserDTO s = new UserDTO();
+                s.setUserId(mail.getSendingUser().getUserId());
+                mail.setReceivingUser(r);
+                mail.setSendingUser(s);
+                MailCommunicationMovilDTO mailCommunicationMovilDTO = new MailCommunicationMovilDTO(mail.getMailCommunicationId());
+                mailCommunicationMovilDTO.setCreationDate(mail.getCreationDate());
+                mailCommunicationMovilDTO.setMessage(mail.getMessage());
+                mailCommunicationMovilDTO.setRead(mail.getRead());
+                if(mail.getReceivingUser() != null) {
+                    mailCommunicationMovilDTO.setReceivingUser(mail.getReceivingUser().getUserId());
+                }
+                
+                if(mail.getSendingUser()!= null) {
+                    mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
+                }
+                mailCommunicationMovilDTO.setStateId(mail.getStateId());
+                mailCommunicationMovilDTO.setSubject(mail.getSubject());
+                mailMovil.add(mailCommunicationMovilDTO);
+                
+            });
+            
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(mailMovil);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 
+    /**
+     * Consulta los mail por remitente <br>
+     * Info. Creacion: <br>
+     * fecha 12/09/2016 <br>
+     *
+     * @author Angela Ramirez
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/get/sent/mails/by/user/movil/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getSentMails(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<MailCommunicationDTO> mails = mailCommunicationService.getSentMailsByUserId(userId);
+            List<MailCommunicationMovilDTO> mailMovil = new ArrayList();
+            mails.stream().forEach((mail) -> {
+                UserDTO r = new UserDTO();
+                r.setUserId(mail.getReceivingUser().getUserId());
+                UserDTO s = new UserDTO();
+                s.setUserId(mail.getSendingUser().getUserId());
+                mail.setReceivingUser(r);
+                mail.setSendingUser(s);
+                MailCommunicationMovilDTO mailCommunicationMovilDTO = new MailCommunicationMovilDTO(mail.getMailCommunicationId());
+                mailCommunicationMovilDTO.setCreationDate(mail.getCreationDate());
+                mailCommunicationMovilDTO.setMessage(mail.getMessage());
+                mailCommunicationMovilDTO.setRead(mail.getRead());
+                if(mail.getReceivingUser() != null) {
+                    mailCommunicationMovilDTO.setReceivingUser(mail.getReceivingUser().getUserId());
+                }
+                
+                if(mail.getSendingUser()!= null) {
+                    mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
+                }
+                mailCommunicationMovilDTO.setStateId(mail.getStateId());
+                mailCommunicationMovilDTO.setSubject(mail.getSubject());
+                mailMovil.add(mailCommunicationMovilDTO);
+                
+            });
+            
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(mailMovil);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
     /**
      * Consulta los mail por remitente <br>
      * Info. Creacion: <br>
@@ -304,7 +412,7 @@ public class MailController {
      */
     @RequestMapping(value = "/get/sent/mails/by/user/{userId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getSentMails(@PathVariable("userId") Integer userId) {
+    Response getSentMailsMovil(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {

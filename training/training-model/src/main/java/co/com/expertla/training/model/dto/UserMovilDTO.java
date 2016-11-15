@@ -62,6 +62,7 @@ public class UserMovilDTO {
     private Integer trainingPlanUserId;
     private UserBasicMovilDTO starUser;
     private UserBasicMovilDTO coachUser;
+    private Integer coachAssignedPlanId;
 
     public UserMovilDTO() {
     }
@@ -412,6 +413,14 @@ public class UserMovilDTO {
 
     public void setDisciplineName(String disciplineName) {
         this.disciplineName = disciplineName;
+    }
+
+    public Integer getCoachAssignedPlanId() {
+        return coachAssignedPlanId;
+    }
+
+    public void setCoachAssignedPlanId(Integer coachAssignedPlanId) {
+        this.coachAssignedPlanId = coachAssignedPlanId;
     }
 
 }
