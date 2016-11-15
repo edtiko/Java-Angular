@@ -173,7 +173,8 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     public List<ActivityMovilDTO> findActivityDefaultByUserDiscipline(Integer usuarioId) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO( ");
-        builder.append("a.activityId, a.name, a.description, a.modalityId.modalityId, a.modalityId.name, a.objectiveId.objectiveId, a.sportId.sportId, a.physiologicalCapacityId.name  ) ");
+        builder.append("a.activityId, a.name, a.description, a.modalityId.modalityId, a.modalityId.name, a.objectiveId.objectiveId, a.sportId.sportId, ");
+        builder.append("a.sportId.icon, a.physiologicalCapacityId.name  ) ");
         
         builder.append("FROM Activity a, DisciplineUser du ");
         builder.append("WHERE a.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");
@@ -204,7 +205,7 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     @Override
     public List<ActivityMovilDTO> findManualActivitiesMovilByUserId(Integer userId) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO(ma.manualActivityId, ma.name, ma.description, ma.sportId.sportId  )");
+        sql.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO(ma.manualActivityId, ma.name, ma.description, ma.sportId.sportId, ma.sportId.icon  )");
         sql.append("FROM ManualActivity ma ");
         sql.append("WHERE ma.userId.userId = :userId ");
         sql.append("ORDER BY ma.name ASC ");

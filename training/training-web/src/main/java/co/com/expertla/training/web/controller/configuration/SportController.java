@@ -50,6 +50,24 @@ public class SportController {
         }
     }
     
+    @RequestMapping(value = "sport/get/all/movil", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getAllMovil() {
+        StringBuilder strResponse = new StringBuilder();
+        ResponseService responseService = new ResponseService();
+        try {
+            List<SportDTO> sports = sportService.findAll();
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(sports);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }   catch (Exception e) {
+            Logger.getLogger(SportController.class.getName()).log(Priority.FATAL, null, e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
     @RequestMapping(value = "sport/get/entornos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getEntornos() {
         StringBuilder strResponse = new StringBuilder();

@@ -165,7 +165,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
     public List<ChartDTO> findByDateRangeAndUserIdAndMetaField(Date fromDate, Date toDate, Integer userId, Integer metafieldId) throws Exception {
         if (metafieldId.equals(1)) {
             StringBuilder builder = new StringBuilder();
-            builder.append("SELECT * FROM  (");
+            builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
             builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date from generate_series(0,6,1) as offs ) d ");
             builder.append(" LEFT   JOIN (");
             builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,cast(count(distinct(activity_id)) as numeric) AS value  ");
@@ -180,6 +180,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append("FROM   user_activity_performance where user_id = ").append(userId).append(" AND executed_date >= date '").append(fromDate).append("' ");
             builder.append("AND executed_date <= date '").append(toDate).append("' GROUP  BY 1");
             builder.append(") t USING (executed_date) ORDER  BY executed_date");
+            builder.append(" ) v group by executed_date ");
             Query query = this.getEntityManager().createNativeQuery(builder.toString());
             List<Object[]> list = query.getResultList();
             List<ChartDTO> chartList = new ArrayList<>();
@@ -194,7 +195,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             return chartList;
         } else {
             StringBuilder builder = new StringBuilder();
-            builder.append("SELECT * FROM  (");
+            builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
             builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date from generate_series(0,6,1) as offs ) d ");
             builder.append(" LEFT   JOIN (");
             builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,cast(sum(CAST(coalesce(value, '0') AS numeric)) as numeric) AS value  ");
@@ -203,6 +204,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append(" AND activity_performance_metafield_id = ").append(metafieldId);
             builder.append(" GROUP  BY 1");
             builder.append(") t USING (executed_date) ORDER  BY executed_date");
+            builder.append(" ) v group by executed_date ");
             Query query = this.getEntityManager().createNativeQuery(builder.toString());
             List<Object[]> list = query.getResultList();
             List<ChartDTO> chartList = new ArrayList<>();
@@ -222,7 +224,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
     public List<ChartDTO> findByDateRangeAndUserIdAndMetaField( Date fromDate, Date toDate, Integer userId, Integer metafieldId, Integer days, boolean weekly) throws Exception {
         if (metafieldId.equals(1)) {
             StringBuilder builder = new StringBuilder();
-            builder.append("SELECT * FROM  (");
+            builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT executed_date, value FROM  (");
             if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
@@ -244,7 +246,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append(" GROUP  BY 1");
             builder.append(" ) t USING (executed_date)");
             builder.append(" UNION ");
-            builder.append("SELECT * FROM  (");
+            builder.append("SELECT executed_date, value FROM  (");
             if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
@@ -266,6 +268,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append(" GROUP  BY 1");
             builder.append(" ) t USING (executed_date)");
             builder.append(" ORDER  BY executed_date ");
+            builder.append(" ) v group by executed_date ");
             Query query = this.getEntityManager().createNativeQuery(builder.toString());
             List<Object[]> list = query.getResultList();
             List<ChartDTO> chartList = new ArrayList<>();
@@ -280,7 +283,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             return chartList;
         } else if(metafieldId.equals(4) || metafieldId.equals(5) || metafieldId.equals(6))  {
             StringBuilder builder = new StringBuilder();
-            builder.append("SELECT * FROM  (");
+            builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
             if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
@@ -303,6 +306,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append(" GROUP  BY 1");
             builder.append(" ) t USING (executed_date)");
             builder.append(" ORDER  BY executed_date ");
+            builder.append(" ) v group by executed_date ");
             Query query = this.getEntityManager().createNativeQuery(builder.toString());
             List<Object[]> list = query.getResultList();
             List<ChartDTO> chartList = new ArrayList<>();
@@ -317,7 +321,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             return chartList;
         } else  {
             StringBuilder builder = new StringBuilder();
-            builder.append("SELECT * FROM  (");
+            builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
             if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
@@ -340,6 +344,7 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append(" GROUP  BY 1");
             builder.append(" ) t USING (executed_date)");
             builder.append(" ORDER  BY executed_date ");
+            builder.append(" ) v group by executed_date ");
             Query query = this.getEntityManager().createNativeQuery(builder.toString());
             List<Object[]> list = query.getResultList();
             List<ChartDTO> chartList = new ArrayList<>();

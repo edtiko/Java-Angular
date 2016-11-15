@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import co.com.expertla.training.service.user.UserProfileService;
 import co.com.expertla.training.service.user.UserZoneService;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Activity Controller <br>
@@ -490,10 +491,17 @@ public class ActivityController {
     }
     
     @RequestMapping(value = "/activity/default/movil/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseService> listByDisciplineUserMovil(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<ResponseService> listByDisciplineUserMovil(@PathVariable("userId") Integer userId, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
             List<ActivityMovilDTO> activityList = activityService.findActivityDefaultByUserDiscipline(userId);
+            
+            activityList.stream().forEach((activityMovilDTO) -> {
+                String url = request.getRequestURL().substring(0, request.getRequestURL().indexOf("activity"));
+                url+= "static/img/";
+                activityMovilDTO.setSportIcon(url+activityMovilDTO.getSportIcon());
+            });
+            
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -527,10 +535,17 @@ public class ActivityController {
     }
     
     @RequestMapping(value = "/get/manual/activity/movil/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseService> manualActivityListMovil(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<ResponseService> manualActivityListMovil(@PathVariable("userId") Integer userId, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
             List<ActivityMovilDTO> activityList = activityService.findManualActivitiesMovilByUserId(userId);
+            
+            activityList.stream().forEach((activityMovilDTO) -> {
+                String url = request.getRequestURL().substring(0, request.getRequestURL().indexOf("get/manual"));
+                url+= "static/img/";
+                activityMovilDTO.setSportIcon(url+activityMovilDTO.getSportIcon());
+            });
+            
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -542,5 +557,4 @@ public class ActivityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
 }

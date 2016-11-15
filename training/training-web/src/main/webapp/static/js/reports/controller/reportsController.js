@@ -257,9 +257,9 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
             var sFecha = fecha || (Fecha.getDate() + "/" + (Fecha.getMonth() + 1) + "/" + Fecha.getFullYear());
             var sep = sFecha.indexOf('/') != -1 ? '/' : '-';
             var aFecha = sFecha.split(sep);
-            var fecha = aFecha[2] + '-' + aFecha[1] + '-' + aFecha[0];
-            fecha = new Date(aFecha[0], aFecha[1], aFecha[2]);
-            fecha.setDate(fecha.getDate() + parseInt(d));
+            var fecha = aFecha[2] + '-' + (aFecha[1]-1) + '-' + aFecha[0];
+            fecha = new Date(aFecha[0], (aFecha[1]-1), aFecha[2]);
+            fecha.setDate(fecha.getDate() + parseInt(d-1));
             var anno = fecha.getFullYear();
             var mes = fecha.getMonth();
             var dia = fecha.getDate();

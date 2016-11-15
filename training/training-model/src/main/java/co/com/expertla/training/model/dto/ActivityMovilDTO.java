@@ -21,6 +21,7 @@ public class ActivityMovilDTO {
     private Integer userId;
     private Integer objectiveId;
     private Integer sportId;
+    private String sportIcon;
     private String capacity;
     
     public ActivityMovilDTO(){
@@ -37,7 +38,8 @@ public class ActivityMovilDTO {
     }
 
     public ActivityMovilDTO(Integer activityId, String name, String description,
-            Integer modalityId, String modalityName, Integer objectiveId, Integer sportId, String capacity) {
+            Integer modalityId, String modalityName, Integer objectiveId, Integer sportId, 
+            String sportIcon, String capacity) {
         this.activityId = activityId;
         this.name = name;
         this.description = description;
@@ -45,15 +47,17 @@ public class ActivityMovilDTO {
         this.modality = modalityName;
         this.objectiveId = objectiveId;
         this.sportId = sportId;
+        this.sportIcon = sportIcon;
         this.capacity = capacity;
     }
     
     public ActivityMovilDTO(Integer activityId, String name, String description,
-            Integer sportId) {
+            Integer sportId, String sportIcon) {
         this.activityId = activityId;
         this.name = name;
         this.description = description;
         this.sportId = sportId;
+        this.sportIcon = sportIcon;
     }
     
     public ActivityMovilDTO(Integer activityId, String name, String description, 
@@ -139,4 +143,14 @@ public class ActivityMovilDTO {
     public void setModality(String modality) {
         this.modality = modality;
     }
+
+    public String getSportIcon() {
+        return sportIcon;
+    }
+
+    public void setSportIcon(String sportIcon) {
+        this.sportIcon = sportIcon;
+    }
+    
+    
 }

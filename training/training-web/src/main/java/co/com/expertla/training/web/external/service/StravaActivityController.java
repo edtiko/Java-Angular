@@ -185,7 +185,7 @@ public class StravaActivityController {
                 activityPerformance.setUserId(new User(userId));
                 activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(POTENCIA_MEDIA_META));
                 activityPerformance.setCreationDate(new Date());
-                activityPerformance.setValue(averageWatts);
+                activityPerformance.setValue(averageWatts.replaceAll("'", ""));
                 activityPerformance.setActivityExternalId(activityId);
                 activityPerformance.setExecutedDate(executionDate);
                 listActivityPerformance.add(activityPerformance);
@@ -194,7 +194,7 @@ public class StravaActivityController {
                 activityPerformance.setUserId(new User(userId));
                 activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(POTENCIA_MAXIMA_META));
                 activityPerformance.setCreationDate(new Date());
-                activityPerformance.setValue(maxWatts);
+                activityPerformance.setValue(maxWatts.replaceAll("'", ""));
                 activityPerformance.setActivityExternalId(activityId);
                 activityPerformance.setExecutedDate(executionDate);
                 listActivityPerformance.add(activityPerformance);
@@ -204,7 +204,7 @@ public class StravaActivityController {
             activityPerformance.setUserId(new User(userId));
             activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(ACTIVIDAD_META));
             activityPerformance.setCreationDate(new Date());
-            activityPerformance.setValue(activityId);
+            activityPerformance.setValue(activityId.replaceAll("'", ""));
             activityPerformance.setActivityExternalId(activityId);
             activityPerformance.setExecutedDate(executionDate);
             listActivityPerformance.add(activityPerformance);
@@ -213,7 +213,7 @@ public class StravaActivityController {
             activityPerformance.setUserId(new User(userId));
             activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(DISTANCIA_TOTAL_META));
             activityPerformance.setCreationDate(new Date());
-            activityPerformance.setValue(distance);
+            activityPerformance.setValue(distance.replaceAll("'", ""));
             activityPerformance.setExecutedDate(executionDate);
             activityPerformance.setActivityExternalId(activityId);
             listActivityPerformance.add(activityPerformance);
@@ -222,7 +222,7 @@ public class StravaActivityController {
             activityPerformance.setUserId(new User(userId));
             activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(FRECUENCIA_CARDIACA_MAXIMA_META));
             activityPerformance.setCreationDate(new Date());
-            activityPerformance.setValue(maxHeartrate);
+            activityPerformance.setValue(maxHeartrate.replaceAll("'", ""));
             activityPerformance.setExecutedDate(executionDate);
             activityPerformance.setActivityExternalId(activityId);
             listActivityPerformance.add(activityPerformance);
@@ -231,7 +231,7 @@ public class StravaActivityController {
             activityPerformance.setUserId(new User(userId));
             activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(FRECUENCIA_CARDIACA_MEDIA_META));
             activityPerformance.setCreationDate(new Date());
-            activityPerformance.setValue(averageHeartrate);
+            activityPerformance.setValue(averageHeartrate.replaceAll("'", ""));
             activityPerformance.setExecutedDate(executionDate);
             activityPerformance.setActivityExternalId(activityId);
             listActivityPerformance.add(activityPerformance);
@@ -271,7 +271,7 @@ public class StravaActivityController {
         activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(CALORIAS_META));
         activityPerformance.setCreationDate(new Date());
         activityPerformance.setActivityExternalId(activityId);
-        activityPerformance.setValue(calories);
+        activityPerformance.setValue(calories.replaceAll("'", ""));
 
         return activityPerformance;
     }

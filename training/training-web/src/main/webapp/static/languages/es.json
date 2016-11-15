@@ -79,5 +79,6 @@
     "CHAT": "Chat",
     "SCRIPT": "Script",
     "EMAIL": "Email",
-    "RENDIMIENTO": "Rendimiento"
+    "RENDIMIENTO": "Rendimiento",
+    "POTENCIA_MAXIMA": "Potencia M\u00e1xima"
 }
