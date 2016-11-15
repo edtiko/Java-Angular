@@ -794,6 +794,7 @@ create table plan_message (
    readed                    boolean  default false,
    state_id                  integer  null,
    creation_date             timestamp without time zone,
+   to_star                   boolean default false,
    constraint pk_plan_message primary key (plan_message_id)
 );
 
@@ -824,8 +825,9 @@ create table plan_video (
    to_user_id                integer not null,    
    coach_assigned_plan_id    integer null,   
    coach_ext_athlete_id      integer, 
-   readed boolean DEFAULT false,
+   readed                    boolean DEFAULT false,
    creation_date             timestamp without time zone,
+   to_star                   boolean default false,
    constraint pk_plan_video primary key (plan_video_id)
 );
 
@@ -840,8 +842,9 @@ create table plan_audio (
    to_user_id                integer not null,    
    coach_assigned_plan_id    integer null,   
    coach_ext_athlete_id      integer null, 
-   readed boolean not null DEFAULT false,
+   readed                    boolean not null DEFAULT false,
    creation_date             timestamp without time zone,
+   to_star                   boolean default false,
    constraint pk_plan_audio primary key (plan_audio_id)
 );
 
@@ -858,6 +861,7 @@ CREATE TABLE mail_communication
   mail_communication_parent_id integer,
   coach_assigned_plan_id    integer null,   
   coach_ext_athlete_id      integer null, 
+  to_star                   boolean default false,
   CONSTRAINT pk_email PRIMARY KEY (mail_communication_id),
   CONSTRAINT fk_email_ref_user_sending FOREIGN KEY (sending_user)
       REFERENCES user_training (user_id) MATCH SIMPLE

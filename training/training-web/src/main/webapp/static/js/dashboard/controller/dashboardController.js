@@ -1,9 +1,9 @@
 'use strict';
 
-trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService', 'MailService', 
-                                               'videoService', 'ExternalCoachService', 'AudioMessageService',
-    function ($scope, UserService, DashboardService, $window, messageService, MailService, 
-              videoService, ExternalCoachService, AudioMessageService) {
+trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService', 'MailService',
+    'videoService', 'ExternalCoachService', 'AudioMessageService',
+    function ($scope, UserService, DashboardService, $window, messageService, MailService,
+            videoService, ExternalCoachService, AudioMessageService) {
 
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -129,7 +129,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
         });
-        
+
         //notificación emails recibidos
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.user.userId) {
@@ -137,25 +137,23 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
         });
-        
-        
-          //notificación invitaciones recibidas
+
+
+        //notificación invitaciones recibidas
         ExternalCoachService.receive().then(null, null, function (data) {
-           $scope.viewInvitations($scope.user.userId);  
+            $scope.viewInvitations($scope.user.userId);
         });
-        
+
 
         //Selecciona un Atleta
         $scope.selectAthlete = function (planSelected, index) {
             if ($scope.selectedIndex === null) {
                 $scope.selectedIndex = index;
-            } else if ($scope.selectedIndex === index) {
-                $scope.selectedIndex = null;
             } else {
                 $scope.selectedIndex = index;
             }
             $scope.pageSelected = $scope.views.profile.page;
-            $scope.isStar = false;
+            $scope.showProfileImage = false;
             if (planSelected != "" && planSelected != null) {
                 $scope.showCountEmail = true;
                 if (planSelected.external) {
@@ -190,15 +188,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
             if ($scope.selectedIndex === null) {
                 $scope.selectedIndex = index;
-            } else if ($scope.selectedIndex === index) {
-                $scope.selectedIndex = null;
             } else {
                 $scope.selectedIndex = index;
             }
-             $scope.pageSelected = $scope.views.profile.page;
+            $scope.pageSelected = $scope.views.profile.page;
+            $scope.selectStar = false;
+            $scope.selectCoach = true;
             var user = planSelected.coachUserId;
             $window.sessionStorage.setItem("planSelected", JSON.stringify(planSelected));
-            $scope.coachAssignedPlan = angular.copy(planSelected);
+            //$scope.coachAssignedPlan = angular.copy(planSelected);
             //$scope.showControl = true;
             //$scope.showChat = true;
 
@@ -208,58 +206,56 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
             if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachEstrella) {
-                $scope.isStar = false;
+                $scope.showProfileImage = false;
             }
 
             messageService.initialize(planSelected.id);
             MailService.initialize(planSelected.id);
             self.getDashBoardByUser(user);
-            /*DashboardService.getDashboard(user).then(
-                    function (d) {
-                        $scope.user = d;
-
-                        if ($scope.user.birthDate != null) {
-                            var date = $scope.user.birthDate.split("/");
-                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
-                            $scope.user.age = $scope.calculateAge(birthdate);
-                        }
-                        $scope.getVisibleFieldsUserByUser(user);
-                        $scope.getImageProfile(user.userId);
-                    },
-                    function (errResponse) {
-                        console.error('Error while fetching the dashboard');
-                        console.error(errResponse);
-                    }
-            );*/
         };
 
-        $scope.selectStar = function (coachAssignedPlanSelected) {
-            var user = coachAssignedPlanSelected.starUserId;
-            $window.sessionStorage.setItem("planSelected", JSON.stringify(coachAssignedPlanSelected));
-            $window.sessionStorage.setItem("planSelectedStar", JSON.stringify(coachAssignedPlanSelected));
-            $scope.coachAssignedPlan = angular.copy(coachAssignedPlanSelected);
+        $scope.selectStar = function (planSelected, index) {
+
+            if ($scope.selectedIndex === null) {
+                $scope.selectedIndex = index;
+            } else {
+                $scope.selectedIndex = index;
+            }
+            $scope.pageSelected = $scope.views.profile.page;
+            $scope.selectStar = true;
+            $scope.selectCoach = false;
+            var user = planSelected.starUserId;
+            $window.sessionStorage.setItem("planSelected", JSON.stringify(planSelected));
+            $window.sessionStorage.setItem("planSelectedStar", JSON.stringify(planSelected));
+            //$scope.coachAssignedPlan = angular.copy(planSelected);
             $scope.showControl = true;
             $scope.showChat = true;
             $scope.showVideo = true;
-            $scope.isStar = true;
-            messageService.initialize(coachAssignedPlanSelected.id);
-            DashboardService.getDashboard(user).then(
-                    function (d) {
-                        $scope.user = d;
+            $scope.showProfileImage = true;
+            messageService.initialize(planSelected.id);
+            self.getDashBoardByUser(user);
+        };
 
-                        if ($scope.user.birthDate != null) {
-                            var date = $scope.user.birthDate.split("/");
-                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
-                            $scope.user.age = $scope.calculateAge(birthdate);
-                        }
-                        $scope.getVisibleFieldsUserByUser(user);
-                        $scope.getImageProfile(user.userId);
-                    },
-                    function (errResponse) {
-                        console.error('Error while fetching the dashboard');
-                        console.error(errResponse);
-                    }
-            );
+        $scope.selectAthleteOption = function (planSelected, index) {
+            var user = null;
+            if ($scope.selectedIndex === null) {
+                $scope.selectedIndex = index;
+            } else {
+                $scope.selectedIndex = index;
+            }
+            if (index === 0) {
+                $scope.selectStar = true;
+                $scope.selectCoach = false;
+                user = planSelected.starUserId;
+            } else {
+                $scope.selectStar = false;
+                $scope.selectCoach = true;
+                user = planSelected.coachUserId;
+            }
+            $scope.showProfileImage = true;
+            $scope.pageSelected = $scope.views.profile.page;
+
+            self.getDashBoardByUser(user);
         };
 
         //Inicia controles de Atleta con Coach
@@ -306,7 +302,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             MailService.initialize(plan.id);
 
             //Inicializa las notificaciones de invitaciones
-            ExternalCoachService.initialize(plan.athleteUserId.userId);
+            if (tipoPlan == "EXT") {
+                ExternalCoachService.initialize(plan.athleteUserId.userId);
+            }
 
 
             //Carga imagenes de perfil de coach y estrella, si el plan es con Coach Interno
@@ -515,8 +513,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.selectUser = function (user, index) {
             if ($scope.selectedIndex === null) {
                 $scope.selectedIndex = index;
-            } else if ($scope.selectedIndex === index) {
-                $scope.selectedIndex = null;
             } else {
                 $scope.selectedIndex = index;
             }
@@ -720,7 +716,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.getAssignedCoach($scope.userSession.userId);
                         break;
                     case $scope.userSessionTypeUserCoachEstrella:
-                        $scope.isStar = true;
+                        $scope.showProfileImage = true;
                         //$scope.showAudioMessage = true;
                         //$scope.showChat = true;
                         //$scope.showEmail = true;
@@ -738,7 +734,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
         });
-        
+
 
         /*self.getSupervisors = function(){
          UserService.getSupervisors()

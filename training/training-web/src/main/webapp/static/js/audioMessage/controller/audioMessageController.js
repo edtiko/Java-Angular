@@ -60,7 +60,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
             if ($scope.planSelected != null && $scope.planSelected.external) {
                 tipoPlan = "EXT";
             }
-            var url = $contextPath + "audio/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" + $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan;
+            var url = $contextPath + "audio/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" + $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan+"/"+$scope.selectStar;
             return url;
         };
 

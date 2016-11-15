@@ -15,18 +15,6 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.counterRecordInitial = 0;
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
         $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
-        $scope.toggleLeft = buildToggler('left');
-        $scope.toggleRight = buildToggler('right');
-
-        function buildToggler(componentId) {
-            return function () {
-                $mdSidenav(componentId).toggle();
-            };
-        }
-
-        $scope.isOpenRight = function () {
-            return $mdSidenav('right').isOpen();
-        };
 
 
         if ($scope.planSelected != null && $scope.planSelectedStar != null) {
@@ -282,8 +270,9 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     return;
                 }
             } else {
-                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + '?filename=1';
+                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan+"/"+$scope.selectStar;
             }
+            
             $scope.savePlanVideo(url,
                     function (response) {
                         if (response.data.entity.status == 'success') {
@@ -328,7 +317,15 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             //$scope.showMessage(error);
                             console.error(error);
                         });
-            } else {
+            }else if($scope.user.typeUser === $scope.userSessionTypeUserAtleta && !$scope.planSelected.external){
+                  videoService.getVideosAthlete($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.selectStar).then(
+                        function (data) {
+                            $scope.sendedvideos = data.entity.output;
+                        },
+                        function (error) {
+                            console.error(error);
+                        });
+            }else {
                 videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;

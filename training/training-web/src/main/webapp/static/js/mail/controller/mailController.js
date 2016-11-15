@@ -21,7 +21,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             coachExtAthleteId: {coachExtAthleteId:''},
             coachAssignedPlanId: {coachAssignedPlanId:''},
             message: '',
-            subject: ''
+            subject: '',
+            toStar: $scope.selectStar
         };
         //$scope.create = false;
         $scope.receivingUserSelected = {};

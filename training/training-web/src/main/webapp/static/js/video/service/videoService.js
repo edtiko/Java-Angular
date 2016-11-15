@@ -60,6 +60,19 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
+        
+         service.getVideosAthlete = function (planId, userId, fromto, tipoPlan, toStar) {
+            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan+"/"+toStar)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching athlete videos ');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
 
         service.getVideoByPath = function (videoPath) {
             return $http.get($contextPath + 'video/files/' + videoPath)

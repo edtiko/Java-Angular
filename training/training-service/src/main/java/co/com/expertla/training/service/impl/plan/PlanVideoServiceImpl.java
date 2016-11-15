@@ -9,6 +9,7 @@ import co.com.expertla.training.service.plan.MailCommunicationService;
 import co.com.expertla.training.service.plan.PlanVideoService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +39,8 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan) throws Exception {
-        return planVideoDao.getVideosByUser(coachAssignedPlanId, userId, fromto, tipoPlan);
+    public List<PlanVideoDTO> getVideosByUser(Map parameters) throws Exception {
+        return planVideoDao.getVideosByUser(parameters);
     }
 
     @Override

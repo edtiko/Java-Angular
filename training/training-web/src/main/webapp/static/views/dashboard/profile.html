@@ -1,13 +1,14 @@
         <div layout="row" >
             <div layout="column" layout-align="space-around center" flex>
-                <span class="md-headline" ng-if="userSession.typeUser == userSessionTypeUserAtleta">Atleta</span>
-                <a  ng-show="visibleField('user_training', 'profile_photo')" href="{{userSession.typeUser == userSessionTypeUserAtleta|| !showControl? '#data-person':'javascript:void(0)'}}" >
-                    <img class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                <span class="md-headline" ng-if="userSession.typeUser == userSessionTypeUserAtleta && !showProfileImage">Atleta</span>
+                <a ng-show="!showProfileImage" href="{{userSession.typeUser == userSessionTypeUserAtleta|| !showControl? '#data-person':'javascript:void(0)'}}" >
+                    <img ng-if="visibleField('user_training', 'profile_photo')" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                    <img ng-if="!visibleField('user_training', 'profile_photo')" class="circular" data-ng-src="static/img/profile-default.png" style="height: 250px; width: 250px;">
                     <md-tooltip md-direction="right">
                         Ver Perfil
                     </md-tooltip>
                 </a>
-                <img ng-show="isStar" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                <img ng-show="showProfileImage" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
                 <h3> {{user.name}} {{user.secondName}} {{user.lastName}}</h3>
             </div>
             <div flex layout="column" layout-align="space-around center" ng-show="userSession.typeUser != userSessionTypeUserAdmin">

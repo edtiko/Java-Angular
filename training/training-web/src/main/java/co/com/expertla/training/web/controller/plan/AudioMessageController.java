@@ -71,9 +71,10 @@ public class AudioMessageController {
         //return new OutputMessage(message, new Date());
     }
 
-    @RequestMapping(value = "upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}", method = RequestMethod.POST)
+    @RequestMapping(value = "upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}/{toStar}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan) {
+    Response uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, 
+                         @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan,@PathVariable Boolean toStar) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         int availableAudios = 0;
@@ -117,6 +118,7 @@ public class AudioMessageController {
                     audio.setToUserId(new User(toUserId));
                     audio.setCreationDate(Calendar.getInstance().getTime());
                     audio.setReaded(Boolean.FALSE);
+                    audio.setToStar(toStar);
                     if (tipoPlan.equals(COACH_INTERNO)) {
                         audio.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
                     } else if (tipoPlan.equals(COACH_EXTERNO)) {

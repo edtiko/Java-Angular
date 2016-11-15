@@ -11,6 +11,7 @@ import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,7 +21,7 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
 
     public PlanVideo getByVideoPath(String fileName) throws DAOException;
 
-    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan) throws DAOException;
+    public List<PlanVideoDTO> getVideosByUser(Map parameters) throws DAOException;
 
     public PlanVideo getVideoById(Integer id) throws DAOException;
 

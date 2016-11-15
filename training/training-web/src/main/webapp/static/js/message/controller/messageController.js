@@ -7,7 +7,8 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
             coachExtAthleteId: {id: '', athleteUserId: {userId: ''}, coachUserId: {userId: ''}},
             message: '',
             messageUserId: {userId: ''},
-            receivingUserId: {userId: ''}
+            receivingUserId: {userId: ''},
+            toStar: $scope.selectStar
         };
         $scope.athletes = [];
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));

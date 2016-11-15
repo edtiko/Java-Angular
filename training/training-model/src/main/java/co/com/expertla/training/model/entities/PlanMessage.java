@@ -57,6 +57,8 @@ public class PlanMessage implements Serializable {
     private User receivingUserId;
     @Column(name = "readed")
     private Boolean readed;
+    @Column(name = "to_star")
+    private Boolean toStar;
 
     public PlanMessage() {
     }
@@ -119,6 +121,14 @@ public class PlanMessage implements Serializable {
 
     public void setCoachExtAthleteId(CoachExtAthlete coachExtAthleteId) {
         this.coachExtAthleteId = coachExtAthleteId;
+    }
+    
+    public Boolean getToStar() {
+        return toStar;
+    }
+
+    public void setToStar(Boolean toStar) {
+        this.toStar = toStar;
     }
     
     @Override

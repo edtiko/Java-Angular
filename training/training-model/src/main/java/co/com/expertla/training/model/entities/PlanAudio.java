@@ -62,6 +62,8 @@ public class PlanAudio implements Serializable {
     @JoinColumn(name = "to_user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User toUserId;
+    @Column(name = "to_star")
+    private Boolean toStar;
 
     public PlanAudio() {
     }
@@ -138,6 +140,15 @@ public class PlanAudio implements Serializable {
     public void setToUserId(User toUserId) {
         this.toUserId = toUserId;
     }
+
+    public Boolean getToStar() {
+        return toStar;
+    }
+
+    public void setToStar(Boolean toStar) {
+        this.toStar = toStar;
+    }
+    
 
     @Override
     public int hashCode() {

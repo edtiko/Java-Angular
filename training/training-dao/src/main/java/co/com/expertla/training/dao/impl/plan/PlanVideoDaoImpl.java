@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -43,19 +44,19 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public List<PlanVideoDTO> getVideosByUser(Integer planId, Integer userId, String fromto, String tipoPlan) throws DAOException {
+    public List<PlanVideoDTO> getVideosByUser(Map param) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, ");
-        sql.append("m.fromUserId, m.toUserId, m.creationDate, m.indRejected) ");
+        sql.append("m.fromUserId, m.toUserId, m.creationDate, m.indRejected, m.toStar) ");
         sql.append("FROM PlanVideo m ");
-        if (fromto.equals("from")) {
+        if (param.get("fromto").equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");
         } else {
             sql.append("Where m.toUserId.userId = :userId ");
         }
 
-        if (planId != -1) {
-            if (tipoPlan.equals("IN")) {
+        if ((int) param.get("planId") != -1) {
+            if (param.get("tipoPlan").equals("IN")) {
                 sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
             } else {
                 sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
@@ -64,11 +65,18 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
             sql.append("And m.coachAssignedPlanId = null ");
         }
 
+        if (param.get("toStar") != null) {
+            sql.append(" And m.toStar = :toStar ");
+        }
+
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("userId", userId);
-        if (planId != -1) {
-            query.setParameter("planId", planId);
-        }        
+        query.setParameter("userId", (int) param.get("userId"));
+        if ((int) param.get("planId") != -1) {
+            query.setParameter("planId", (int) param.get("planId"));
+        }
+        if (param.get("toStar") != null) {
+            query.setParameter("toStar", param.get("toStar"));
+        }
         return query.getResultList();
     }
 

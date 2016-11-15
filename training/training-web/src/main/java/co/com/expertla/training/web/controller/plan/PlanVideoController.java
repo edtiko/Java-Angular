@@ -20,7 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -90,11 +90,11 @@ public class PlanVideoController {
         //return new OutputMessage(message, new Date());
     }
 
-    @RequestMapping(value = "/upload/{toUserId}/{fromUserId}/{coachAssignedPlanId}/{dateString}/{tipoPlan}", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{toUserId}/{fromUserId}/{coachAssignedPlanId}/{dateString}/{tipoPlan}/{toStar}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename, @PathVariable Integer toUserId,
+    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId,
             @PathVariable Integer fromUserId, @PathVariable Integer coachAssignedPlanId,
-            @PathVariable String dateString, @PathVariable String tipoPlan) {
+            @PathVariable String dateString, @PathVariable String tipoPlan, @PathVariable Boolean toStar) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         int availableVideos = 0;
@@ -132,6 +132,7 @@ public class PlanVideoController {
                     video.setToUserId(new User(toUserId));
                     video.setCreationDate(Calendar.getInstance().getTime());
                     video.setVideoPath(fileName);
+                    video.setToStar(toStar);
                     if (tipoPlan.equals(COACH_INTERNO)) {
                         video.setCoachAssignedPlanId(new CoachAssignedPlan(coachAssignedPlanId));
                     } else if (tipoPlan.equals(COACH_EXTERNO)) {
@@ -327,11 +328,46 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                             @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(coachAssignedPlanId, userId, fromto, tipoPlan);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("planId", coachAssignedPlanId);
+            parameters.put("userId", userId);
+            parameters.put("fromto", fromto);
+            parameters.put("tipoPlan", tipoPlan);
+            
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(videos);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+    
+        @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{toStar}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getVideosAthlete(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                             @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("toStar") String toStar) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("planId", coachAssignedPlanId);
+            parameters.put("userId", userId);
+            parameters.put("fromto", fromto);
+            parameters.put("tipoPlan", tipoPlan);
+            parameters.put("toStar", toStar);
+            
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(videos);
             return Response.status(Response.Status.OK).entity(responseService).build();

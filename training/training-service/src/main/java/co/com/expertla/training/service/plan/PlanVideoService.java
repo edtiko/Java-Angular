@@ -9,6 +9,7 @@ import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.PlanVideo;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,7 +21,7 @@ public interface PlanVideoService {
 
     public PlanVideoDTO getByVideoPath(String fileName) throws Exception;
 
-    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan) throws Exception;
+    public List<PlanVideoDTO> getVideosByUser(Map parameters) throws Exception;
 
     public PlanVideoDTO getVideoById(Integer id) throws Exception;
 

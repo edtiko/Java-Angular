@@ -27,19 +27,22 @@ public class PlanVideoDTO {
     private String readableTime;
     private Double hours;
     private Integer indRejected;
+    private Boolean toStar;
     
     public PlanVideoDTO(){
         
     }
     
+    // getVideosByUser
     public PlanVideoDTO(Integer planVideoId, String name, User fromUserId,
-            User toUserId, Date createDate, Integer indRejected){
+            User toUserId, Date createDate, Integer indRejected, Boolean toStar){
         this.id = planVideoId;
         this.name = name;
         this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
         this.toUser =   UserDTO.mapFromUserEntity(toUserId);
         this.createDate = createDate;
         this.indRejected = indRejected;
+        this.toStar = toStar;
     }
     
     public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate){
@@ -184,6 +187,14 @@ public class PlanVideoDTO {
 
     public void setHours(Double hours) {
         this.hours = hours;
+    }
+
+    public Boolean getToStar() {
+        return toStar;
+    }
+
+    public void setToStar(Boolean toStar) {
+        this.toStar = toStar;
     }
 
       
