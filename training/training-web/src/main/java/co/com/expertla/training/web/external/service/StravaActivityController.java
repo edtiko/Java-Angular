@@ -52,7 +52,7 @@ public class StravaActivityController {
     public static final Integer CALORIAS_META = 2;
     public static final Integer DISTANCIA_TOTAL_META = 3;
     public static final Integer FRECUENCIA_CARDIACA_MAXIMA_META = 4;
-    public static final Integer FRECUENCIA_CARDIACA_MEDIA_META = 5;    
+    public static final Integer FRECUENCIA_CARDIACA_MEDIA_META = 5;
     public static final Integer RITMO_MEDIO_META = 6;
     public static final Integer POTENCIA_MAXIMA_META = 7;
     public static final Integer POTENCIA_MEDIA_META = 8;
@@ -60,7 +60,7 @@ public class StravaActivityController {
 
     @Autowired
     UserService userService;
-    
+
     @Autowired
     UserActivityPerformanceService activityPerformanceService;
 
@@ -89,21 +89,21 @@ public class StravaActivityController {
     @RequestMapping(value = "activities", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> getActivityList(
-            @RequestParam(value="state", required=false) String state , 
-            @RequestParam(value="code", required=false) String codeAuth , 
-            @RequestParam(value="error", required=false) String error,
+            @RequestParam(value = "state", required = false) String state,
+            @RequestParam(value = "code", required = false) String codeAuth,
+            @RequestParam(value = "error", required = false) String error,
             HttpSession session, HttpServletRequest request, HttpServletResponse httpResponse) throws IOException {
         ResponseService responseService = new ResponseService();
         try {
-            
-            if(error != null && !error.isEmpty()) {
+
+            if (error != null && !error.isEmpty()) {
                 httpResponse.sendRedirect(request.getRequestURL() + "/../../#/data-person");
             }
-            
+
             UserDTO userId = (UserDTO) session.getAttribute("user");
             UserDTO objUser = userService.findById(userId.getUserId());
-            objUser.setIndStrava("1");  
-            objUser.setCodeStrava(codeAuth);            
+            objUser.setIndStrava("1");
+            objUser.setCodeStrava(codeAuth);
             String tokenResponse = getToken(CLIENT_ID, CLIENT_SECRET, codeAuth);
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse(tokenResponse);
@@ -111,21 +111,21 @@ public class StravaActivityController {
             String tokenType = jo.get("token_type").getAsString();
             CurlService curlService = new CurlService(tokenType);
             String params = "";
-            
-            if(objUser.getLastExecuteStrava() != null) {
+
+            if (objUser.getLastExecuteStrava() != null) {
                 Calendar c = Calendar.getInstance();
                 c.setTime(objUser.getLastExecuteStrava());
-                long time = c.getTimeInMillis()/ 1000L;
-                params = "?after="+time;
+                long time = c.getTimeInMillis() / 1000L;
+                params = "?after=" + time;
             }
-            String response = curlService.sendGet(STRAVA_URL + "api/v3/athlete/activities"+params, null, true, token);
+            String response = curlService.sendGet(STRAVA_URL + "api/v3/athlete/activities" + params, null, true, token);
             List<UserActivityPerformance> list = getMetaField(curlService, token,
                     response, objUser);
 
             for (UserActivityPerformance userActivityPerformance : list) {
                 activityPerformanceService.create(userActivityPerformance);
             }
-            
+
             httpResponse.sendRedirect(request.getRequestURL() + "/../../#/data-person");
             return null;
 //            responseService.setOutput(response);
@@ -140,7 +140,7 @@ public class StravaActivityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
     /**
      *
      * @param curlService
@@ -158,7 +158,7 @@ public class StravaActivityController {
         JsonArray jarray = (JsonArray) jsonParser.parse(response);
         Integer userId = objUser.getUserId();
         Date lastExecutionDate = null;
-        
+
         for (JsonElement jsonElement : jarray) {
             JsonObject jo = jsonElement.getAsJsonObject();
             String activityId = jo.get("id").getAsString();
@@ -176,11 +176,11 @@ public class StravaActivityController {
                 averageHeartrate = jo.get("average_heartrate").getAsString();
                 maxHeartrate = jo.get("max_heartrate").getAsString();
             }
-            
+
             if (hasDeviceWatts) {
                 String averageWatts = jo.get("average_watts").getAsString();
                 String maxWatts = jo.get("max_watts").getAsString();
-                
+
                 UserActivityPerformance activityPerformance = new UserActivityPerformance();
                 activityPerformance.setUserId(new User(userId));
                 activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(POTENCIA_MEDIA_META));
@@ -189,7 +189,7 @@ public class StravaActivityController {
                 activityPerformance.setActivityExternalId(activityId);
                 activityPerformance.setExecutedDate(executionDate);
                 listActivityPerformance.add(activityPerformance);
-                
+
                 activityPerformance = new UserActivityPerformance();
                 activityPerformance.setUserId(new User(userId));
                 activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(POTENCIA_MAXIMA_META));
@@ -218,33 +218,38 @@ public class StravaActivityController {
             activityPerformance.setActivityExternalId(activityId);
             listActivityPerformance.add(activityPerformance);
 
-            activityPerformance = new UserActivityPerformance();
-            activityPerformance.setUserId(new User(userId));
-            activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(FRECUENCIA_CARDIACA_MAXIMA_META));
-            activityPerformance.setCreationDate(new Date());
-            activityPerformance.setValue(maxHeartrate.replaceAll("'", ""));
-            activityPerformance.setExecutedDate(executionDate);
-            activityPerformance.setActivityExternalId(activityId);
-            listActivityPerformance.add(activityPerformance);
-
-            activityPerformance = new UserActivityPerformance();
-            activityPerformance.setUserId(new User(userId));
-            activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(FRECUENCIA_CARDIACA_MEDIA_META));
-            activityPerformance.setCreationDate(new Date());
-            activityPerformance.setValue(averageHeartrate.replaceAll("'", ""));
-            activityPerformance.setExecutedDate(executionDate);
-            activityPerformance.setActivityExternalId(activityId);
-            listActivityPerformance.add(activityPerformance);
-            listActivityPerformance.add(getCaloriesMetaField(curlService, token, activityId, userId));
+            if (maxHeartrate != null && !maxHeartrate.isEmpty()) {
+                activityPerformance = new UserActivityPerformance();
+                activityPerformance.setUserId(new User(userId));
+                activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(FRECUENCIA_CARDIACA_MAXIMA_META));
+                activityPerformance.setCreationDate(new Date());
+                activityPerformance.setValue(maxHeartrate.replaceAll("'", ""));
+                activityPerformance.setExecutedDate(executionDate);
+                activityPerformance.setActivityExternalId(activityId);
+                listActivityPerformance.add(activityPerformance);
+            }
             
-            if(lastExecutionDate == null || DateUtil.compareDateEqual(executionDate, lastExecutionDate)) {
+            if (averageHeartrate != null && !averageHeartrate.isEmpty()) {
+                activityPerformance = new UserActivityPerformance();
+                activityPerformance.setUserId(new User(userId));
+                activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(FRECUENCIA_CARDIACA_MEDIA_META));
+                activityPerformance.setCreationDate(new Date());
+                activityPerformance.setValue(averageHeartrate.replaceAll("'", ""));
+                activityPerformance.setExecutedDate(executionDate);
+                activityPerformance.setActivityExternalId(activityId);
+                listActivityPerformance.add(activityPerformance);
+            }
+            
+            listActivityPerformance.add(getCaloriesMetaField(curlService, token, activityId, userId));
+
+            if (lastExecutionDate == null || DateUtil.compareDateEqual(executionDate, lastExecutionDate)) {
                 lastExecutionDate = sp.parse(startDate);
             }
         }
-        if(lastExecutionDate != null) {
+        if (lastExecutionDate != null) {
             objUser.setLastExecuteStrava(lastExecutionDate);
         }
-        
+
         userService.updateUser(objUser);
 
         return listActivityPerformance;

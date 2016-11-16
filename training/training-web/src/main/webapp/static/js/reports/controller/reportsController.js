@@ -63,7 +63,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                         'width': 1100,
                                         'pointSize': 7,
                                         'hAxis': {showTextEvery: 1},
-                                        'height': 600};
+                                        'height': 500};
 
                                     // Instantiate and draw our chart, passing in some options.
 
@@ -172,7 +172,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                         "hAxis": {showTextEvery: 1},
                                         'width': 1100,
                                         'pointSize': 7,
-                                        'height': 600};
+                                        'height': 500};
 
                                     // Instantiate and draw our chart, passing in some options.
                                     if (metafield == 1) {

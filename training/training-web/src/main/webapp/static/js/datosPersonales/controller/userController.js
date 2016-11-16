@@ -134,7 +134,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
                             var disc = $scope.userProfile.discipline;
                             if (disc != undefined && disc != "") {
-                                $scope.getObjectivesByDiscipline(disc);
+                                $scope.getObjectivesByDiscipline(disc, true);
                             }
                             if ($scope.userProfile.objective != undefined && $scope.userProfile.objective != "") {
                                 $scope.getModalitiesByObjectiveId($scope.userProfile.objective);

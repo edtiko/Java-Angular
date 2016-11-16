@@ -24,7 +24,7 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
-                        <label>Objetivo</label>
+                        <label>Objetivo *</label>
                         <md-select id="objective"  name="objective" ng-model="userProfile.objective"  ng-change="getModalitiesByObjectiveId(userProfile.objective, true)">
                             <!--<md-select-label>{{d || 'Seleccione un objetivo'}}</md-select-label>-->
                             <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
@@ -43,7 +43,7 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
-                        <label>Modalidad </label>
+                        <label>Modalidad *</label>
                          <md-select  ng-model="userProfile.modality" id="modality" name="modality" >
                             <!-- <md-select-label>{{d || 'Seleccione una modalidad'}}</md-select-label>-->
                             <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
@@ -62,7 +62,7 @@
             <div layout="row"> 
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
-                        <label>Entorno Geogr&aacute;fico
+                        <label>Entorno Geogr&aacute;fico *
                         </label>
                         <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" >
                             <!--<md-select-label>{{m || 'Seleccione un entorno geogr&aacute;fico'}}</md-select-label>-->
@@ -88,7 +88,7 @@
                 <div flex="33">
                     <md-input-container class="md-block md-input-has-placeholder" >
 
-                        <label>Clima predominante en sus entrenamientos
+                        <label>Clima predominante en sus entrenamientos *
                         </label>
                         <md-select  ng-model="userProfile.weatherId" id="weather" name="weather">
                             <!--<md-select-label>{{m || 'Seleccione el clima'}}</md-select-label>-->
