@@ -3,6 +3,7 @@ package co.com.expertla.training.dao.impl.plan;
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.PlanAudioDao;
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.model.dto.PlanAudioDTO;
 import co.com.expertla.training.model.entities.PlanAudio;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Repository;
 public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudioDao {
 
     @Override
-    public PlanAudio getByAudioPath(String fileName)throws DAOException {
+    public PlanAudio getByAudioPath(String fileName) throws DAOException {
         try {
             String qlString = "SELECT v FROM PlanAudio v WHERE v.name = :name ";
             setParameter("name", fileName);
@@ -29,7 +30,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     }
 
     @Override
-    public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, String fromto, String tipoPlan) throws DAOException {
+    public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, String fromto, String tipoPlan, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.fromUserId, m.toUserId, m.creationDate) ");
         sql.append("FROM PlanAudio m ");
@@ -63,18 +64,28 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     }
 
     @Override
-    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer fromUserId) throws DAOException {
+    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer fromUserId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
         sql.append(" WHEN (t.audio_count  - count(m.plan_audio_id)) > 0 THEN (t.audio_count - count(m.plan_audio_id)) ");
         sql.append(" ELSE 0 END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        if (roleSelected != -1) {
+            sql.append(" And cp.role_communication_id = ").append(roleSelected);
+        }
+        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+            sql.append(" And m.to_star = false ");
+        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+
+            sql.append(" And m.to_star = true ");
+        }
         sql.append(" Group by t.audio_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
@@ -87,16 +98,18 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     public Integer getCountAudioByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.audio_count - count(m.plan_audio_id)) > 0 THEN (t.audio_count  - count(m.plan_audio_id)) ");
+        sql.append(" WHEN (cp.audio_count - count(m.plan_audio_id)) > 0 THEN (cp.audio_count  - count(m.plan_audio_id)) ");
         sql.append(" ELSE 0 END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.audio_count ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        sql.append(" And cp.role_communication_id = ").append(RoleEnum.ATLETA.getId());
+        sql.append(" Group by cp.audio_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -105,7 +118,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     }
 
     @Override
-    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId) throws DAOException {
+    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.plan_audio_id) ");
@@ -113,6 +126,13 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         sql.append(" Where m.from_user_id = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And m.readed = false");
+        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+            sql.append(" And m.to_star = false ");
+        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+
+            sql.append(" And m.to_star = true ");
+        }
+
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -137,12 +157,18 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     }
 
     @Override
-    public void readAudios(Integer coachAssignedPlanId, Integer userId) throws DAOException {
+    public void readAudios(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append(" update plan_audio ");
         builder.append(" set readed = true ");
         builder.append(" where  to_user_id = ").append(userId);
         builder.append(" and  coach_assigned_plan_id = ").append(coachAssignedPlanId);
+        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+            builder.append(" And to_star = false ");
+        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+
+            builder.append(" And to_star = true ");
+        }
         executeNativeUpdate(builder.toString());
     }
 
@@ -166,19 +192,30 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     }
 
     @Override
-    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId) throws DAOException {  
+    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN ((t.audio_count + t.audio_emergency)  - count(m.plan_audio_id)) > 0 THEN ((t.audio_count + t.audio_emergency) - count(m.plan_audio_id)) ");
+        sql.append(" WHEN ((cp.audio_count + cp.audio_emergency)  - count(m.plan_audio_id)) > 0 THEN ((cp.audio_count + cp.audio_emergency) - count(m.plan_audio_id)) ");
         sql.append(" ELSE 0 END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.audio_count, t.audio_emergency ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        if (roleSelected != -1) {
+            sql.append(" And cp.communication_role_id = ").append(roleSelected);
+        }
+        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+            sql.append(" And m.to_star = false ");
+        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+
+            sql.append(" And m.to_star = true ");
+        }
+
+        sql.append(" Group by cp.audio_count, cp.audio_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -190,15 +227,17 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN ((t.audio_count + t.audio_emergency)  - count(m.plan_audio_id)) > 0 THEN ((t.audio_count + t.audio_emergency) - count(m.plan_audio_id)) ");
+        sql.append(" WHEN ((cp.audio_count + cp.audio_emergency)  - count(m.plan_audio_id)) > 0 THEN ((cp.audio_count + cp.audio_emergency) - count(m.plan_audio_id)) ");
         sql.append(" ELSE 0 END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA.getId());
         sql.append(" Group by t.audio_count, t.audio_emergency  ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 

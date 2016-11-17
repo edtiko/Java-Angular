@@ -20,13 +20,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlanMessageDao extends BaseDAO<PlanMessage> {
 
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan) throws DAOException;
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected) throws DAOException;
 
-    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId) throws DAOException;
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException;
 
-    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId) throws DAOException;
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException;
 
-    public void readMessages(Integer coachAssignedPlanId, Integer userId) throws DAOException;
+    public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException;
     
     /**
      * Consulta los mensajes para el chat por receiving user id and sending user id <br>
@@ -85,5 +85,9 @@ public interface PlanMessageDao extends BaseDAO<PlanMessage> {
      * @throws Exception 
      */
     public List<PlanMessageDTO> getMessagesNotReadedByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception;
+    
+    public int getCountMessageEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException;
+
+    public int getCountMessageEmergencyExt(Integer planId, Integer fromUserId) throws DAOException;
 
 }

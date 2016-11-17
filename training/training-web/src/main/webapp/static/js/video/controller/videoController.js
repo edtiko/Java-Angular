@@ -49,6 +49,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         }
         $scope.selectedIndex = 0;
 
+       //Obtiene los videos recibidos 
         $scope.receivedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
                 videoService.getVideosByUser(-1, $scope.user.userId, "to", tipoPlan).then(
@@ -64,6 +65,38 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             $scope.receivedvideos = data.entity.output;
                         },
                         function (error) {
+                            console.error(error);
+                        });
+            }
+
+        };
+  
+        //Obtiene los videos envíados
+        $scope.sendedVideos = function (tipoPlan) {
+            if ($scope.isToStar) {
+                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.user.userId, "from", tipoPlan).then(
+                        function (data) {
+                            $scope.sendedvideos = data.entity.output;
+                        },
+                        function (error) {
+                            //$scope.showMessage(error);
+                            console.error(error);
+                        });
+            }else if($scope.user.typeUser === $scope.userSessionTypeUserAtleta && !$scope.planSelected.external){
+                  videoService.getVideosAthlete($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.roleSelected).then(
+                        function (data) {
+                            $scope.sendedvideos = data.entity.output;
+                        },
+                        function (error) {
+                            console.error(error);
+                        });
+            }else {
+                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan).then(
+                        function (data) {
+                            $scope.sendedvideos = data.entity.output;
+                        },
+                        function (error) {
+                            //$scope.showMessage(error);
                             console.error(error);
                         });
             }
@@ -270,7 +303,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     return;
                 }
             } else {
-                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan+"/"+$scope.selectStar;
+                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan+"/"+$scope.roleSelected;
             }
             
             $scope.savePlanVideo(url,
@@ -307,36 +340,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             }
         };
 
-        $scope.sendedVideos = function (tipoPlan) {
-            if ($scope.isToStar) {
-                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.user.userId, "from", tipoPlan).then(
-                        function (data) {
-                            $scope.sendedvideos = data.entity.output;
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
-            }else if($scope.user.typeUser === $scope.userSessionTypeUserAtleta && !$scope.planSelected.external){
-                  videoService.getVideosAthlete($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.selectStar).then(
-                        function (data) {
-                            $scope.sendedvideos = data.entity.output;
-                        },
-                        function (error) {
-                            console.error(error);
-                        });
-            }else {
-                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan).then(
-                        function (data) {
-                            $scope.sendedvideos = data.entity.output;
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
-            }
 
-        };
 
         //lee los videos recibidos en tiempo real
         videoService.receive().then(null, null, function (video) {

@@ -1,13 +1,13 @@
         <div layout="column" layout-align="center center" style="margin: 34px;">
             <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta && planSelected != null && !planSelected.external">
-                <div flex ng-show="selectStar">
+                <div flex ng-show="roleSelected === userSessionTypeUserCoachEstrella">
 
                     <img class="circular" data-ng-src="{{planSelected.starUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;">
                     <md-tooltip md-direction="left" md-visible="tooltipVisible">{{planSelected.starUserId.fullName}}</md-tooltip>
                     </img>
                     <md-subheader>Estrella</md-subheader>
                 </div>
-                <div flex ng-show="selectCoach">
+                <div flex ng-show="roleSelected === userSessionTypeUserCoachInterno">
 
                     <img class="circular" data-ng-src="{{planSelected.coachUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;">
                     <md-tooltip md-direction="right" md-visible="tooltipVisible">{{planSelected.coachUserId.fullName}}</md-tooltip>

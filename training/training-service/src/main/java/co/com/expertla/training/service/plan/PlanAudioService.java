@@ -19,15 +19,15 @@ public interface PlanAudioService {
 
     public PlanAudioDTO getByAudioPath(String fileName) throws Exception;
 
-    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan) throws Exception;
+    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan, Integer roleSelected) throws Exception;
 
     public PlanAudioDTO getAudioById(Integer id) throws Exception;
 
-    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId) throws Exception;
+    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 
-    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId) throws Exception;
+    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 
-    public void readAudios(Integer coachAssignedPlanId, Integer userId) throws Exception;
+    public void readAudios(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 
     public void readAudio(Integer planMessageId) throws Exception;
 
@@ -37,7 +37,7 @@ public interface PlanAudioService {
 
     public void readAudiosExt(Integer planId, Integer userId) throws Exception;
 
-    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId)throws Exception;
+    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected)throws Exception;
 
     public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId)throws Exception;
 

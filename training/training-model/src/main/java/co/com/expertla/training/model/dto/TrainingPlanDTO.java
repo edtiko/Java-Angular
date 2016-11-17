@@ -49,9 +49,7 @@ public class TrainingPlanDTO {
 
     //Short
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
-            Integer videoCount, Integer videoDuration, Integer videoEmergency, Integer messageCount,
-            Integer messageEmergency, Integer emailCount, Integer emailEmergency, Integer audioCount, Integer audioDuration,
-            Integer audioEmergency, Date endDate, Short stateId, Double price, Date creationDate,
+           Date endDate, Short stateId, Double price, Date creationDate,
             Date lastUpdate, Integer userCreate, Integer userUpdate) {
         this.trainingPlanId = trainingPlanId;
         this.name = name;
@@ -60,7 +58,7 @@ public class TrainingPlanDTO {
         this.lastUpdate = lastUpdate;
         this.userCreate = userCreate;
         this.userUpdate = userUpdate;
-        this.videoCount = videoCount;
+       /* this.videoCount = videoCount;
         this.videoDuration = videoDuration;
         this.videoEmergency = videoEmergency;
         this.messageCount = messageCount;
@@ -69,14 +67,14 @@ public class TrainingPlanDTO {
         this.emailEmergency = emailEmergency;
         this.audioCount = audioCount;
         this.audioDuration = audioDuration;
-        this.audioEmergency = audioEmergency;
+        this.audioEmergency = audioEmergency;*/
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
     }
 
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
-            Integer videoCount, Integer messageCount, Integer emailCount, Integer audioCount,
+            //Integer videoCount, Integer messageCount, Integer emailCount, Integer audioCount,
             Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate,
             String userCreateName, String userUpdateName,
             Integer userCreate, Integer userUpdate) {
@@ -89,10 +87,10 @@ public class TrainingPlanDTO {
         this.userUpdate = userUpdate;
         this.userCreateName = userCreateName;
         this.userUpdateName = userUpdateName;
-        this.videoCount = videoCount;
+        /*this.videoCount = videoCount;
         this.messageCount = messageCount;
         this.emailCount = emailCount;
-        this.audioCount = audioCount;
+        this.audioCount = audioCount;*/
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
@@ -101,9 +99,6 @@ public class TrainingPlanDTO {
     public static TrainingPlanDTO mapFromTrainingPlanEntity(TrainingPlan plan) {
         if (plan != null) {
             return new TrainingPlanDTO(plan.getTrainingPlanId(), plan.getName(), plan.getDescription(),
-                    plan.getVideoCount(), plan.getVideoDuration(), plan.getVideoEmergency(),
-                    plan.getMessageCount(), plan.getMessageEmergency(), plan.getEmailCount(), plan.getEmailEmergency(),
-                    plan.getAudioCount(), plan.getAudioDuration(), plan.getAudioEmergency(),
                     plan.getEndDate(), plan.getStateId(), plan.getPrice(), plan.getCreationDate(),
                     plan.getLastUpdate(), plan.getUserCreate(), plan.getUserUpdate());
         }

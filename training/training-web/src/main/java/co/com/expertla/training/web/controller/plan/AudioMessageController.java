@@ -71,10 +71,10 @@ public class AudioMessageController {
         //return new OutputMessage(message, new Date());
     }
 
-    @RequestMapping(value = "upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}/{toStar}", method = RequestMethod.POST)
+    @RequestMapping(value = "upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}/{roleSelected}", method = RequestMethod.POST)
     public @ResponseBody
     Response uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, 
-                         @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan,@PathVariable Boolean toStar) {
+                         @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan,@PathVariable Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         int availableAudios = 0;
@@ -82,8 +82,8 @@ public class AudioMessageController {
         if (!file.isEmpty()) {
             try {
                 if (tipoPlan.equals(COACH_INTERNO)) {
-                    availableAudios = planAudioService.getCountAudioByPlan(planId, fromUserId);
-                    emergencyAudios = planAudioService.getCountAudioEmergencyByPlan(planId, fromUserId);
+                    availableAudios = planAudioService.getCountAudioByPlan(planId, fromUserId, roleSelected);
+                    emergencyAudios = planAudioService.getCountAudioEmergencyByPlan(planId, fromUserId, roleSelected);
                 } else if (tipoPlan.equals(COACH_EXTERNO)) {
                     availableAudios = planAudioService.getCountAudioByPlanExt(planId, fromUserId);
                     emergencyAudios = planAudioService.getCountAudioByEmergencyPlanExt(planId, fromUserId);

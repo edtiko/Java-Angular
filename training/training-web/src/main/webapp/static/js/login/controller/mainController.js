@@ -18,8 +18,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.userSessionTypeUserCoachEstrella = "5";//CoachEstrella
         $scope.userSessionTypeUserSupervisor = "6";//Supervisor
         $scope.invitation = null;
-        $scope.selectStar = false;
-        $scope.selectCoach = false;
+        $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
 
 
         $scope.viewInvitations = function (userId) {

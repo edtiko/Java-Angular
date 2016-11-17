@@ -48,8 +48,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
-        service.getMessages = function (planId, tipoPlan) {
-            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan)
+        service.getMessages = function (planId, tipoPlan, roleSelected ) {
+            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -74,8 +74,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
 
-        service.getAvailableMessages = function (planId, userId, tipoPlan) {
-            return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+'/'+tipoPlan)
+        service.getAvailableMessages = function (planId, userId, tipoPlan,roleSelected) {
+            return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+'/'+tipoPlan+'/'+roleSelected)
 
                     .then(
                             function (response) {
@@ -88,8 +88,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
         
-         service.getMessagesReceived = function (planId, userId, tipoPlan) {
-            return $http.get($contextPath + 'get/count/received/messages/' + planId + '/' + userId+'/'+tipoPlan)
+         service.getMessagesReceived = function (planId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'get/count/received/messages/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -101,8 +101,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
         
-         service.readMessages = function (planId, userId, tipoPlan) {
-            return $http.get($contextPath + 'read/messages/' + planId + '/' + userId+'/'+tipoPlan)
+         service.readMessages = function (planId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'read/messages/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

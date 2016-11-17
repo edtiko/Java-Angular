@@ -49,13 +49,13 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId) throws Exception {
-        return planVideoDao.getCountVideoByPlan(coachAssignedPlanId, userId);
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideoByPlan(coachAssignedPlanId, userId, roleSelected);
     }
 
     @Override
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId) throws Exception {
-        return planVideoDao.getCountVideosReceived(coachAssignedPlanId, userId);
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideosReceived(coachAssignedPlanId, userId,roleSelected);
     }
 
     @Override
@@ -172,5 +172,15 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     @Override
     public PlanVideo store(PlanVideo video) throws Exception {
         return planVideoDao.merge(video);
+    }
+
+    @Override
+    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideoEmergencyIn(planId, fromUserId, roleSelected);
+    }
+
+    @Override
+    public int getCountVideoEmergencyExt(Integer planId, Integer fromUserId) throws Exception {
+        return planVideoDao.getCountVideoEmergencyExt(planId, fromUserId);
     }
 }

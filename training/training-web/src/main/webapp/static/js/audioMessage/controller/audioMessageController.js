@@ -13,7 +13,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                 // $scope.toUserId = 94;
 
             }
-            AudioMessageService.initialize($scope.planSelected.id);
+            //AudioMessageService.initialize($scope.planSelected.id);
             //establece la duración del audio según la configuración del plan
             if ($scope.planSelected.trainingPlanId.audioDuration != undefined && $scope.planSelected.trainingPlanId.audioDuration != "") {
                 $scope.timeLimit = $scope.planSelected.trainingPlanId.audioDuration;
@@ -25,7 +25,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
 
         self.receivedAudios = function (tipoPlan) {
 
-            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan).then(
+            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.roleSelected).then(
                     function (data) {
                         $scope.receivedaudios = data.entity.output;
                     },
@@ -37,7 +37,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
 
         self.sendedAudios = function (tipoPlan) {
 
-            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan).then(
+            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan, $scope.roleSelected).then(
                     function (data) {
                         $scope.sendedaudios = data.entity.output;
                     },
@@ -60,7 +60,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
             if ($scope.planSelected != null && $scope.planSelected.external) {
                 tipoPlan = "EXT";
             }
-            var url = $contextPath + "audio/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" + $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan+"/"+$scope.selectStar;
+            var url = $contextPath + "audio/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/" + $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan+"/"+$scope.roleSelected;
             return url;
         };
 

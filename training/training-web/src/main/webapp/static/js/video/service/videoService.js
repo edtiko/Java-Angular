@@ -87,8 +87,8 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                     );
         };
         
-        service.getAvailableVideos = function (coachAssignedPlanId, userId, tipoPlan) {
-            return $http.get($contextPath + 'video/get/count/available/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan)
+        service.getAvailableVideos = function (coachAssignedPlanId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'video/get/count/available/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -100,8 +100,8 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                     );
         };
         
-         service.getVideosReceived = function (coachAssignedPlanId, userId, tipoPlan) {
-            return $http.get($contextPath + 'video/get/count/received/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan)
+         service.getVideosReceived = function (coachAssignedPlanId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'video/get/count/received/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

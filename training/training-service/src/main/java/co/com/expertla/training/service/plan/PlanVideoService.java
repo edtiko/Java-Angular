@@ -25,9 +25,9 @@ public interface PlanVideoService {
 
     public PlanVideoDTO getVideoById(Integer id) throws Exception;
 
-    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId) throws Exception;
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId) throws Exception;
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 
     public void readVideos(Integer coachAssignedPlanId, Integer userId) throws Exception;
 
@@ -72,4 +72,8 @@ public interface PlanVideoService {
     public PlanVideo getPlanVideoById(Integer id) throws Exception;
     
     public PlanVideo store(PlanVideo video) throws Exception;
+
+    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception;
+
+    public int getCountVideoEmergencyExt(Integer planId, Integer fromUserId)throws Exception;
 }
