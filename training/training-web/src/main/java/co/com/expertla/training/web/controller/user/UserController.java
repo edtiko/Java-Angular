@@ -1,5 +1,6 @@
 package co.com.expertla.training.web.controller.user;
 
+import co.com.expertla.base.util.DateUtil;
 import co.com.expertla.training.constant.UrlProperties;
 import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.service.configuration.CountryService;
@@ -30,6 +31,7 @@ import co.com.expertla.training.service.plan.TrainingPlanUserService;
 import co.com.expertla.training.service.plan.UserTrainingOrderService;
 import co.com.expertla.training.service.security.RoleUserService;
 import co.com.expertla.training.service.user.DisciplineUserService;
+import co.com.expertla.training.service.user.StravaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,6 +100,9 @@ public class UserController {
 
     @Autowired
     StartTeamService startTeamService;
+
+    @Autowired
+    StravaService stravaService;
 
     /**
      * Upload single file using Spring Controller
@@ -305,6 +310,21 @@ public class UserController {
             Locale locale = new Locale("es", "CO");
             Locale.setDefault(locale);
 
+            //Importa los datos de strava si el usuario los tiene autorizados
+            if (userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
+                    && DateUtil.compareMoreDate(new Date(), userDto.getLastExecuteStrava())) {
+                Runnable task2 = () -> {
+                    try {
+                        stravaService.importStravaByUser(userDto.getUserId());
+                    } catch (Exception ex) {
+                        java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                };
+                new Thread(task2).start();
+            }
+
+            
+
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;
@@ -340,18 +360,18 @@ public class UserController {
     public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Integer userId, @RequestBody UserDTO user) {
         try {
             System.out.println("Updating User " + userId);
-            
+
             UserDTO currentUser = userService.findById(userId);
-            
+
             if (currentUser == null) {
                 System.out.println("User with id " + userId + " not found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            
+
             userService.updateUser(user);
-            
-            String postData = "id=" + user.getUserWordpressId() + "&discipline_id=" + user.getDisciplineId()+
-                    "&country_id=" + user.getCountryId();
+
+            String postData = "id=" + user.getUserWordpressId() + "&discipline_id=" + user.getDisciplineId()
+                    + "&country_id=" + user.getCountryId();
             String url = UrlProperties.URL_PORTAL + "update_user.php";
             String jsonResponse = userService.sendPostWordpress(url, postData);
             if (jsonResponse != null && !jsonResponse.isEmpty()) {
@@ -364,7 +384,7 @@ public class UserController {
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
-            
+
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -377,13 +397,13 @@ public class UserController {
     public ResponseEntity<UserDTO> deleteUser(@PathVariable("userId") Integer userId) {
         try {
             System.out.println("Fetching & Deleting User with id " + userId);
-            
+
             UserDTO user = userService.findById(userId);
             if (user == null) {
                 System.out.println("Unable to delete. User with id " + userId + " not found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            
+
             userService.deleteUserById(userId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception ex) {
@@ -610,8 +630,8 @@ public class UserController {
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
             }
-            
-            if(userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+            if (userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
                 CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId());
                 UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
                 UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
@@ -628,7 +648,7 @@ public class UserController {
                 userCoach.setEmail(coachUserDTO.getEmail());
                 userCoach.setSex(coachUserDTO.getSex());
                 userCoach.setBirthDate(coachUserDTO.getBirthDate());
-                
+
                 UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
                 UserBasicMovilDTO userStar = new UserBasicMovilDTO();
                 userStar.setUserId(starUserDTO.getUserId());
@@ -654,6 +674,18 @@ public class UserController {
                 userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
                 userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
             }
+            //Importa los datos de strava si el usuario los tiene autorizados
+            if (userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
+                    && DateUtil.compareMoreDate(new Date(), userDto.getLastExecuteStrava())) {
+                Runnable task2 = () -> {
+                    try {
+                        stravaService.importStravaByUser(userDto.getUserId());
+                    } catch (Exception ex) {
+                        java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                };
+                new Thread(task2).start();
+            }
 
             responseService.setOutput(userSession);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -676,7 +708,7 @@ public class UserController {
             HttpHeaders responseHeaders = new HttpHeaders();
 
             if (userDto != null) {
-                responseHeaders.add("content-disposition", "inline; filename=user.jpg");
+                responseHeaders.add("content-disposition", "inline; filename=user"+userId+".jpg");
 
                 if (userDto.getProfilePhoto() != null) {
                     return new ResponseEntity(userDto.getProfilePhoto(), responseHeaders, HttpStatus.OK);
@@ -752,15 +784,15 @@ public class UserController {
     @RequestMapping(value = "/user/update/personal/data", method = RequestMethod.POST)
     public ResponseEntity<ResponseService> updateUserPersonal(@RequestBody UserDTO user) {
         ResponseService responseService = new ResponseService();
-        try {            
+        try {
             UserDTO currentUser = userService.findById(user.getUserId());
-            
+
             if (currentUser == null) {
                 responseService.setOutput("El usuario no existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
-            
+
             userService.updateUser(user);
             responseService.setOutput("Usuario editado exitosamente");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -852,7 +884,7 @@ public class UserController {
             }
         }
     }
-    
+
     @RequestMapping(value = "user/get/coaches", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getCoaches() {
         ResponseService responseService = new ResponseService();
@@ -877,7 +909,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/get/stars", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getStars() {
         ResponseService responseService = new ResponseService();
@@ -902,7 +934,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "user/get/supervisors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getSupervisors() {
         ResponseService responseService = new ResponseService();
