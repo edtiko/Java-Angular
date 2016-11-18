@@ -379,6 +379,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
         // The nested try blocks will be simplified when Chrome 47 moves to Stable
         $scope.startRecordingVideo = function () {
+            $scope.mediaRecorder = '';
             if ($scope.mediaRecorder.state == undefined) {
                 $scope.gumVideo.controls = false;
                 recordedBlobs = [];
