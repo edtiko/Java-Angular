@@ -4,6 +4,7 @@ import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.MailCommunicationDao;
 import co.com.expertla.training.dao.user.UserDao;
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.model.dto.MailCommunicationDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -200,19 +202,29 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     }
 
     @Override
-    public Integer getCountMailsByPlan(Integer planId, Integer userId) throws DAOException {
+    public Integer getCountMailsByPlan(Integer planId, Integer userId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.email_count  - count(m.mail_communication_id)) > 0 THEN (t.email_count   - count(m.mail_communication_id)) ");
-        sql.append(" ELSE (t.email_emergency) END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
+        sql.append(" WHEN (cp.email_count  - count(m.mail_communication_id)) > 0 THEN (cp.email_count   - count(m.mail_communication_id)) ");
+        sql.append(" ELSE (cp.email_emergency) END ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN mail_communication m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.sending_user = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
+        if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" And m.to_star = false");
+        } else if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" And m.to_star = true");
+        }
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.email_count, t.email_emergency ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        if(roleSelected != -1){
+           sql.append(" And cp.communication_role_id = ").append(roleSelected); 
+        }
+
+        sql.append(" Group by cp.email_count, cp.email_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -221,7 +233,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     }
 
     @Override
-    public Integer getCountMailsReceived(Integer planId, Integer userId) throws DAOException {
+    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer roleSelected) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.mail_communication_id) ");
@@ -229,6 +241,11 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" Where m.sending_user = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
         sql.append(" And m.read = false");
+        if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" And m.to_star = false");
+        } else if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" And m.to_star = true");
+        }
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -240,16 +257,18 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     public Integer getCountMailsByPlanExt(Integer planId, Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN (t.email_count - count(m.mail_communication_id)) > 0 THEN (t.email_count  - count(m.mail_communication_id)) ");
-        sql.append(" ELSE (t.email_emergency) END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
+        sql.append(" WHEN (cp.email_count - count(m.mail_communication_id)) > 0 THEN (cp.email_count  - count(m.mail_communication_id)) ");
+        sql.append(" ELSE (cp.email_emergency) END ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp,  coach_ext_athlete c ");
         sql.append(" LEFT JOIN mail_communication m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.sending_user = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.email_count, t.email_emergency ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA); 
+        sql.append(" Group by cp.email_count, cp.email_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -273,19 +292,29 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     }
 
     @Override
-    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws DAOException {
+    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN ((t.email_count + t.email_emergency)  - count(m.mail_communication_id)) > 0 THEN ((t.email_count + t.email_emergency) - count(m.mail_communication_id)) ");
+        sql.append(" WHEN ((cp.email_count + cp.email_emergency)  - count(m.mail_communication_id)) > 0 THEN ((cp.email_count + cp.email_emergency) - count(m.mail_communication_id)) ");
         sql.append(" ELSE 0 END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_assigned_plan c ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN mail_communication m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.sending_user = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
+        if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" And m.to_star = false");
+        } else if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" And m.to_star = true");
+        }
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.email_count, t.email_emergency ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        if (roleSelected != -1) {
+            sql.append(" And cp.communication_role_id = ").append(roleSelected);
+        }
+
+        sql.append(" Group by cp.email_count, cp.email_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -297,16 +326,18 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN ((t.email_count + t.email_emergency)  - count(m.mail_communication_id)) > 0 THEN ((t.email_count + t.email_emergency) - count(m.mail_communication_id)) ");
+        sql.append(" WHEN ((cp.email_count + cp.email_emergency)  - count(m.mail_communication_id)) > 0 THEN ((cp.email_count + cp.email_emergency) - count(m.mail_communication_id)) ");
         sql.append(" ELSE 0 END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_ext_athlete c ");
         sql.append(" LEFT JOIN mail_communication m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.sending_user = ").append(fromUserId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.email_count, t.email_emergency ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA.getId());
+        sql.append(" Group by cp.email_count, cp.email_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -315,7 +346,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     }
 
     @Override
-    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId) throws DAOException {
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.MailCommunicationDTO(m.mailCommunicationId, m.subject,m.message, m.stateId, ");
         sql.append("m.creationDate, m.read,m.receivingUser,m.sendingUser ) ");
@@ -325,6 +356,12 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
             sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
         } else {
             sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
+        }
+       if(roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())){
+           sql.append(" And m.toStar = ").append(Boolean.FALSE); 
+        }
+        else if(roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())){
+            sql.append(" And m.toStar = ").append(Boolean.TRUE);  
         }
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("sendingUser", userId);

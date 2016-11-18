@@ -1,5 +1,6 @@
 package co.com.expertla.training.web.controller.plan;
 
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.model.dto.PlanAudioDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.CoachExtAthlete;
@@ -118,7 +119,11 @@ public class AudioMessageController {
                     audio.setToUserId(new User(toUserId));
                     audio.setCreationDate(Calendar.getInstance().getTime());
                     audio.setReaded(Boolean.FALSE);
-                    audio.setToStar(toStar);
+                    if(roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()){
+                    audio.setToStar(Boolean.FALSE);
+                    }if(roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()){
+                    audio.setToStar(Boolean.TRUE);   
+                    }
                     if (tipoPlan.equals(COACH_INTERNO)) {
                         audio.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
                     } else if (tipoPlan.equals(COACH_EXTERNO)) {
@@ -148,13 +153,14 @@ public class AudioMessageController {
         }
     }
 
-    @RequestMapping(value = "/get/audios/{planId}/{userId}/{fromto}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/audios/{planId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAudiosByUser(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAudiosByUser(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
+                            @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected ) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(planId, userId, fromto, tipoPlan);
+            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(planId, userId, fromto, tipoPlan, roleSelected);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(audios);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -179,17 +185,18 @@ public class AudioMessageController {
                 .body(file);
     }
 
-    @RequestMapping(value = "/get/count/available/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/available/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAvailableAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
+                               @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         Integer emergency = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planAudioService.getCountAudioByPlan(planId, userId);
-                emergency = planAudioService.getCountAudioEmergencyByPlan(planId, userId);
+                count = planAudioService.getCountAudioByPlan(planId, userId,roleSelected);
+                emergency = planAudioService.getCountAudioEmergencyByPlan(planId, userId,roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planAudioService.getCountAudioByPlanExt(planId, userId);
                 emergency = planAudioService.getCountAudioByEmergencyPlanExt(planId, userId);
@@ -214,15 +221,16 @@ public class AudioMessageController {
 
     }
 
-    @RequestMapping(value = "/get/count/received/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/received/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAudiosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAudiosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
+                               @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planAudioService.getCountAudiosReceived(planId, userId);
+                count = planAudioService.getCountAudiosReceived(planId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planAudioService.getCountAudiosReceivedExt(planId, userId);
             }
@@ -241,12 +249,13 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/read/all/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response readAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
+                        @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                planAudioService.readAudios(planId, userId);
+                planAudioService.readAudios(planId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 planAudioService.readAudiosExt(planId, userId);
             }

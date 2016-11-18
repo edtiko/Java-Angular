@@ -18,11 +18,11 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             mailto: '',
             receivingUser: {userId: ''},
             sendingUser: {userId: ''},
-            coachExtAthleteId: {coachExtAthleteId:''},
-            coachAssignedPlanId: {coachAssignedPlanId:''},
+            coachExtAthleteId: '',
+            coachAssignedPlanId: '',
             message: '',
             subject: '',
-            toStar: $scope.selectStar
+            roleSelected: $scope.roleSelected
         };
         //$scope.create = false;
         $scope.receivingUserSelected = {};
@@ -55,7 +55,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         function sendEmailController($scope, $mdDialog) {
 
             $scope.sendMail = function () {
-                 $scope.addMail();             
+                $scope.addMail();
             };
 
             $scope.hide = function () {
@@ -71,18 +71,17 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         $scope.addMail = function () {
             if ($scope.userSession != null && $scope.mailCommunication.message != ""
                     && $scope.mailCommunication.subject != "") {
-                
-                        $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
-                if($scope.planSelected != null){
-                    if($scope.planSelected.external){
+
+                $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
+                if ($scope.planSelected != null) {
+                    if ($scope.planSelected.external) {
                         $scope.mailCommunication.coachExtAthleteId.coachExtAthleteId = $scope.planSelected.id;
-                    }else{
+                    } else {
                         $scope.mailCommunication.coachAssignedPlanId.coachAssignedPlanId = $scope.planSelected.id;
                     }
-                }
-                else if($scope.sendingUser != null){
-                $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
-                $scope.mailCommunication.receivingUser.userId = $scope.sendingUser.userId;  
+                } else if ($scope.sendingUser != null) {
+                    $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
+                    $scope.mailCommunication.receivingUser.userId = $scope.sendingUser.userId;
                 }
 
 
@@ -102,8 +101,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
             $scope.viewMailSelected = $scope.views.sent;
         };
 
-        $scope.getReceivedMailsByPlan = function (tipoPlan, userId, planId) {
-            MailService.getMailsByPlan(tipoPlan, userId, planId).then(
+        $scope.getReceivedMailsByPlan = function (tipoPlan, userId, planId, roleSelected) {
+            MailService.getMailsByPlan(tipoPlan, userId, planId, roleSelected).then(
                     function (data) {
                         $scope.mailsReceived = data.entity.output;
                     },
@@ -113,8 +112,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                     });
         };
 
-        $scope.getSentMailsByPlan = function (tipoPlan, userId, planId) {
-            MailService.getMailsByPlan(tipoPlan, userId, planId).then(
+        $scope.getSentMailsByPlan = function (tipoPlan, userId, planId, roleSelected) {
+            MailService.getMailsByPlan(tipoPlan, userId, planId, roleSelected).then(
                     function (data) {
                         $scope.mailsSent = data.entity.output;
                     },
@@ -302,27 +301,27 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
                                 } else {
                                     $scope.showMessage(d.output);
                                 }
-                                
-                                    $scope.init();
+
+                                $scope.init();
                             },
                             function (errResponse) {
                                 console.error('Error while creating mail communication.');
                             }
                     );
         };
-        
+
         $scope.reset = function () {
             $scope.mailCommunication.subject = '';
             $scope.mailCommunication.message = '';
         };
 
         $scope.readEmail = function (id) {
- 
+
             MailService.readEmail(id)
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                   //$scope.init();
+                                    //$scope.init();
                                 } else {
                                     console.log(d.output);
                                 }
@@ -449,7 +448,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         self.getEmailCoach = function (tipoPlan) {
             if ($scope.planSelected != null) {
                 $scope.getSentMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.id);
-                $scope.getReceivedMailsByPlan(tipoPlan, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
+                $scope.getReceivedMailsByPlan(tipoPlan, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
                 $scope.mailCommunication.mailto = $scope.planSelected.athleteUserId.fullName;
                 $scope.mailCommunication.receivingUser.userId = $scope.planSelected.athleteUserId.userId;
             }
@@ -458,21 +457,27 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', 'D
         self.getEmailAthlete = function () {
             if ($scope.planSelected != null) {
                 if ($scope.planSelected.external) {
-                    $scope.getSentMailsByPlan("EXT", $scope.userSession.userId, $scope.planSelected.id);
-                    $scope.getReceivedMailsByPlan("EXT", $scope.planSelected.coachUserId.userId, $scope.planSelected.id);
-                     
+                    $scope.getSentMailsByPlan("EXT", $scope.userSession.userId, $scope.planSelected.id, -1);
+                    $scope.getReceivedMailsByPlan("EXT", $scope.planSelected.coachUserId.userId, $scope.planSelected.id, -1);
+
                 } else {
-                    $scope.getSentMailsByPlan("IN", $scope.userSession.userId, $scope.planSelected.id);
-                    $scope.getReceivedMailsByPlan("IN", $scope.planSelected.coachUserId.userId, $scope.planSelected.id);
+                    $scope.getSentMailsByPlan("IN", $scope.userSession.userId, $scope.planSelected.id, $scope.roleSelected);
+                    $scope.getReceivedMailsByPlan("IN", $scope.planSelected.coachUserId.userId, $scope.planSelected.id, $scope.roleSelected);
                 }
-              $scope.mailCommunication.mailto = $scope.planSelected.coachUserId.fullName;
-              $scope.mailCommunication.receivingUser.userId = $scope.planSelected.coachUserId.userId;
+                if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
+                    $scope.mailCommunication.mailto = $scope.planSelected.coachUserId.fullName;
+                } else if ($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                    $scope.mailCommunication.mailto = $scope.planSelected.starUserId.fullName;
+                } else {
+                    $scope.mailCommunication.mailto = $scope.planSelected.coachUserId.fullName;
+                }
+                $scope.mailCommunication.receivingUser.userId = $scope.planSelected.coachUserId.userId;
             }
         };
         self.getEmailUser = function () {
             $scope.getSentMails();
             $scope.getReceivedMails();
-             $scope.mailCommunication.mailto = $scope.sendingUser.fullName;
+            $scope.mailCommunication.mailto = $scope.sendingUser.fullName;
         };
 
         $scope.init = function () {

@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -66,8 +67,10 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
             sql.append("And m.coachAssignedPlanId = null ");
         }
 
-        if ((int) param.get("toStar") != -1) {
-            sql.append(" And m.toStar = :toStar ");
+          if ((int) param.get("toStar") != -1 && (int) param.get("toStar") == RoleEnum.COACH_INTERNO.getId()) {
+            sql.append(" and  m.toStar = ").append(Boolean.FALSE);
+        } else if ((int) param.get("toStar") != -1 && (int) param.get("toStar") == RoleEnum.ESTRELLA.getId()) {
+            sql.append(" and  m.toStar =  ").append(Boolean.TRUE);
         }
 
         Query query = getEntityManager().createQuery(sql.toString());
@@ -75,9 +78,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         if ((int) param.get("planId") != -1) {
             query.setParameter("planId", (int) param.get("planId"));
         }
-        if (param.get("toStar") != null) {
-            query.setParameter("toStar", param.get("toStar"));
-        }
+
         return query.getResultList();
     }
 
@@ -156,9 +157,9 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" Where m.from_user_id = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And m.readed = false");
-        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+        if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             sql.append(" And m.to_star = ").append(Boolean.FALSE);
-        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
             sql.append(" And m.to_star = ").append(Boolean.TRUE);
         }
         Query query = getEntityManager().createNativeQuery(sql.toString());
@@ -176,6 +177,11 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_video m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
+        if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" And m.to_star = ").append(Boolean.FALSE);
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" And m.to_star = ").append(Boolean.TRUE);
+        }
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");

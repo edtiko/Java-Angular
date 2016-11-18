@@ -1,0 +1,60 @@
+    <md-tabs md-dynamic-height md-selected="selectedIndex">
+                <md-tab label="Grabar Audio">
+                    <md-content class="md-padding">
+                            <ng-audio-recorder id='audioInput'  audio-model='recordedInput' ng-show="timeLimit > 0" show-player="false" time-limit="timeLimit">
+                                <!-- Start controls, exposed via recorder-->
+                                <div ng-if="recorder.isAvailable">
+                                    <div layout="column" layout-align="center center">
+                                        <div layout="row" layout-align="space-around center" flex>
+                                            <img id="record" data-ng-src="static/img/mic128.png"   ng-class="recorder.status.isRecording ? 'recording' : ''">
+                                            <md-button class="md-fab md-mini" aria-label="elapsed time">
+                                                {{recorder.elapsedTime}}
+                                            </md-button>  
+                                        </div>
+                                        <div flex>
+                                    <md-button aria-label="play"  class="md-fab md-mini md-primary" ng-click="recorder.startRecord()" ng-disabled="recorder.status.isRecording">
+                                        <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Empezar Grabaci&oacute;n</md-tooltip>
+                                        <i class="fa fa-microphone fa-lg" aria-hidden="true"></i>
+                                    </md-button>
+                                    <md-button aria-label="stop" class="md-fab md-mini md-primary" ng-click="recorder.stopRecord()" ng-disabled="recorder.status.isRecording === false">
+                                        <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Detener</md-tooltip>
+                                        <i class="fa fa-stop fa-lg" aria-hidden="true"></i>
+                                    </md-button>
+                                    <md-button aria-label="playBack" class="md-fab md-mini md-primary" ng-click="recorder.playbackRecording()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                                        <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Reproducir</md-tooltip>
+                                        <i class="fa fa fa-play fa-lg" aria-hidden="true"></i>
+                                    </md-button>
+                                       <md-button aria-label="upload"  class="md-fab md-mini md-primary" onclick="onUpload()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Cargar Audio</md-tooltip>
+                                <i class="fa fa-upload fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                                        </div>
+                                            
+                                    </div>
+                                </div>
+
+                                <div ng-if="!recorder.isAvailable">
+                                    Message for users when recording is not possible.
+                                </div>
+                                <!-- End controls-->
+                            </ng-audio-recorder>
+                         <div layout="row" ng-if="timeLimit == 0" layout-align="center">
+                           No tiene tiempo configurado para enviar mensajes de audio.  
+                         </div>
+                         
+                    </md-content>
+                </md-tab>
+                <md-tab label="Reproducir Audio">
+                    <md-content class="md-padding">
+                        <div layout="column" layout-align="center center">
+                                        <div flex>
+                                            <i class="fa fa-volume-up fa-5x" aria-hidden="true"></i>
+                                    
+                                        </div>
+                        <div id="recorded" flex>
+                            
+                        </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>

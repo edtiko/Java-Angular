@@ -113,17 +113,17 @@ public interface MailCommunicationDao extends BaseDAO<MailCommunication>{
      */
     public List<PlanMessageDTO> getResponseCountMails(Integer userId,List<UserDTO> users) throws Exception;
 
-    public Integer getCountMailsByPlan(Integer planId, Integer userId)throws DAOException;
+    public Integer getCountMailsByPlan(Integer planId, Integer userId, Integer roleSelected)throws DAOException;
 
     public Integer getCountMailsByPlanExt(Integer planId, Integer userId)throws DAOException;
 
-    public Integer getCountMailsReceived(Integer planId, Integer userId)throws DAOException;
+    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer roleSelected)throws DAOException;
 
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws DAOException;
 
-    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId)throws DAOException;
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected)throws DAOException;
     
-    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws DAOException;
+    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException;
 
     public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws DAOException;
 }

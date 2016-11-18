@@ -441,8 +441,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         $scope.goMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.userSession != null && planSelected == null) {
-                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
                 if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
                     $scope.showMessage("Debe tener un plan activo");
                 } else {
@@ -457,8 +457,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         $scope.goAudioMessages = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.userSession != null && planSelected == null) {
-                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
                 if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
                     $scope.showMessage("Debe tener un plan activo");
                 } else {
@@ -486,8 +486,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.goVideos = function () {
 
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            if ($scope.userSession != null && planSelected == null) {
                 var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+            if ($scope.userSession != null && planSelected == null) {
                 if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
                     $scope.showMessage("Debe tener un plan activo");
                 } else {
@@ -505,9 +505,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         $scope.goEmail = function () {
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
  
             if ($scope.userSession != null && planSelected == null) {
-                var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
                 if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
                     $scope.showMessage("Debe tener un plan activo");
                 } else {

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,10 +42,10 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         }else{
         sql.append("Where m.coachExtAthleteId.coachExtAthleteId = :planId ");  
         }
-        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
-            sql.append(" and  m.to_star = false ");
-        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
-            sql.append(" and  m.to_star = true ");
+        if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" and  m.toStar = ").append(Boolean.FALSE);
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" and  m.toStar =  ").append(Boolean.TRUE);
         }
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("planId", planId);
@@ -55,21 +56,21 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");     
-        sql.append(" WHEN (cp.message_count  - count(m.plan_video_id)) > 0 THEN (cp.message_count   - count(m.plan_video_id)) ");
+        sql.append(" WHEN (cp.message_count  - count(m.plan_message_id)) > 0 THEN (cp.message_count   - count(m.plan_message_id)) ");
         sql.append(" ELSE (cp.message_emergency) END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
-        sql.append(" LEFT JOIN plan_video m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
+        sql.append(" LEFT JOIN plan_message m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.message_user_id = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
+        if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" and  m.to_star = false ");
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" and  m.to_star = true ");
+        }
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
-            sql.append(" and  m.to_star = false ");
-        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
-            sql.append(" and  m.to_star = true ");
-        }
         sql.append(" Group by cp.message_count, cp.message_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
        
@@ -82,14 +83,14 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException{
       
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(m.plan_video_id) ");     
-        sql.append(" FROM plan_video m ");
+        sql.append("SELECT COUNT(m.plan_message_id) ");     
+        sql.append(" FROM plan_message m ");
         sql.append(" Where m.message_user_id = ").append(userId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And m.readed = false");
-            if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+            if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             sql.append(" and m.to_star = false ");
-        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
             sql.append(" and m.to_star = true ");
         }
         Query query = getEntityManager().createNativeQuery(sql.toString());
@@ -102,13 +103,13 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     @Override
     public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(" update plan_video ");
+        builder.append(" update plan_message ");
         builder.append(" set readed = true ");
         builder.append(" where  message_user_id = ").append(userId);
         builder.append(" and  coach_assigned_plan_id = ").append(coachAssignedPlanId);
-        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+        if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             builder.append(" and  to_star = false ");
-        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
             builder.append(" and  to_star = true ");
         }
         executeNativeUpdate(builder.toString());
@@ -117,9 +118,9 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     @Override
      public void readMessage(Integer planMessageId) throws DAOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(" update plan_video ");
+        builder.append(" update plan_message ");
         builder.append(" set readed = true ");
-        builder.append(" where  plan_video_id = ").append(planMessageId);
+        builder.append(" where  plan_message_id = ").append(planMessageId);
         executeNativeUpdate(builder.toString());
     }
 
@@ -127,16 +128,18 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     public Integer getCountMessagesByPlanExt(Integer planId, Integer userId) throws DAOException {
                 StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");     
-        sql.append(" WHEN (t.message_count - count(m.plan_video_id)) > 0 THEN (t.message_count  - count(m.plan_video_id)) ");
+        sql.append(" WHEN (cp.message_count - count(m.plan_message_id)) > 0 THEN (cp.message_count  - count(m.plan_message_id)) ");
         sql.append(" ELSE (t.message_emergency) END ");
-        sql.append(" FROM training_plan_user tu, training_plan t, coach_ext_athlete c ");
-        sql.append(" LEFT JOIN plan_video m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
+        sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_ext_athlete c ");
+        sql.append(" LEFT JOIN plan_message m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.message_user_id = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
-        sql.append(" Group by t.message_count, t.message_emergency ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        sql.append(" And cp.communicaton_role_id =  ").append(RoleEnum.ATLETA.getId());
+        sql.append(" Group by cp.message_count, cp.message_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
        
         List<Number> count = (List<Number>) query.getResultList();
@@ -147,8 +150,8 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     @Override
     public Integer getCountMessagesReceivedExt(Integer planId, Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT COUNT(m.plan_video_id) ");     
-        sql.append(" FROM plan_video m ");
+        sql.append("SELECT COUNT(m.plan_message_id) ");     
+        sql.append(" FROM plan_message m ");
         sql.append(" Where m.message_user_id = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" And m.readed = false");
@@ -162,7 +165,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     @Override
     public void readMessagesExt(Integer planId, Integer userId) throws DAOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(" update plan_video ");
+        builder.append(" update plan_message ");
         builder.append(" set readed = true ");
         builder.append(" where  message_user_id = ").append(userId);
         builder.append(" and  coach_ext_athlete_id = ").append(planId);
@@ -196,9 +199,9 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         mapUsers.put(userId, user);
         StringBuilder builder = new StringBuilder();
         builder.append("select *, abs(extract(epoch from creation_date - lead(creation_date) over (order by creation_date))  )as seconds ");
-        builder.append("from plan_video  p where (p.message_user_id = ").append(userId).append(" or p.receiving_user_id = ").append(userId).append(") ");
+        builder.append("from plan_message  p where (p.message_user_id = ").append(userId).append(" or p.receiving_user_id = ").append(userId).append(") ");
         builder.append("and exists (");
-        builder.append("select 'x' from plan_video pp where pp.receiving_user_id = p.message_user_id and pp.message_user_id = p.receiving_user_id ");
+        builder.append("select 'x' from plan_message pp where pp.receiving_user_id = p.message_user_id and pp.message_user_id = p.receiving_user_id ");
         builder.append(")");
         Query query = this.getEntityManager().createNativeQuery(builder.toString());
         List<Object[]> list = query.getResultList();
@@ -251,9 +254,9 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         mapUsers.put(userId, user);
         StringBuilder builder = new StringBuilder();
         builder.append("select *, abs(extract(epoch from creation_date - lead(creation_date) over (order by creation_date)) / 3600 )as hours ");
-        builder.append("from plan_video  p where (p.message_user_id = ").append(userId).append(" or p.receiving_user_id = ").append(userId).append(") ");
+        builder.append("from plan_message  p where (p.message_user_id = ").append(userId).append(" or p.receiving_user_id = ").append(userId).append(") ");
         builder.append("and exists (");
-        builder.append("select 'x' from plan_video pp where pp.receiving_user_id = p.message_user_id and pp.message_user_id = p.receiving_user_id ");
+        builder.append("select 'x' from plan_message pp where pp.receiving_user_id = p.message_user_id and pp.message_user_id = p.receiving_user_id ");
         builder.append(")");
         Query query = this.getEntityManager().createNativeQuery(builder.toString());
         List<Object[]> list = query.getResultList();
@@ -298,15 +301,20 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     }
     
         @Override
-    public int getCountMessageEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException {  
+    public int getCountMessageEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN ((cp.message_count + cp.message_emergency)  - count(m.plan_video_id)) > 0 THEN ((cp.message_count + cp.message_emergency) - count(m.plan_video_id)) ");
+        sql.append(" WHEN ((cp.message_count + cp.message_emergency)  - count(m.plan_message_id)) > 0 THEN ((cp.message_count + cp.message_emergency) - count(m.plan_message_id)) ");
         sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
-        sql.append(" LEFT JOIN plan_video m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
+        sql.append(" LEFT JOIN plan_message m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
+        if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" and  m.to_star = false ");
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" and  m.to_star = true ");
+        }
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
@@ -324,10 +332,10 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     public int getCountMessageEmergencyExt(Integer planId, Integer fromUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
-        sql.append(" WHEN ((cp.message_count + cp.message_emergency)  - count(m.plan_video_id)) > 0 THEN ((cp.message_count + cp.message_emergency) - count(m.plan_video_id)) ");
+        sql.append(" WHEN ((cp.message_count + cp.message_emergency)  - count(m.plan_message_id)) > 0 THEN ((cp.message_count + cp.message_emergency) - count(m.plan_message_id)) ");
         sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_ext_athlete c ");
-        sql.append(" LEFT JOIN plan_video m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
+        sql.append(" LEFT JOIN plan_message m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");

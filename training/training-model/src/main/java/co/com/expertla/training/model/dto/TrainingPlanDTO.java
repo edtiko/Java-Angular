@@ -30,7 +30,7 @@ public class TrainingPlanDTO {
     private String userCreateName;
     private String userUpdateName;
     private Short stateId;
-    private Integer videoCount;
+   /* private Integer videoCount;
     private Integer videoDuration;
     private Integer videoEmergency;
     private Integer messageCount;
@@ -39,7 +39,7 @@ public class TrainingPlanDTO {
     private Integer emailEmergency;
     private Integer audioCount;
     private Integer audioEmergency;
-    private Integer audioDuration;
+    private Integer audioDuration;*/
     private Double price;
 
     private int count;
@@ -121,61 +121,7 @@ public class TrainingPlanDTO {
         this.endDate = endDate;
     }
 
-    public Integer getVideoCount() {
-        if(videoCount == 0){
-            return videoEmergency;
-        }
-        return videoCount;
-    }
-
-    public void setVideoCount(Integer videoCount) {
-        this.videoCount = videoCount;
-    }
-
-    public Integer getMessageCount() {
-        if(messageCount==0){
-            return messageEmergency;
-        }
-        return messageCount;
-    }
-
-    public void setMessageCount(Integer messageCount) {
-        this.messageCount = messageCount;
-    }
-
-    public Integer getEmailCount() {
-        if (emailCount == 0) {
-            return emailEmergency;
-        }
-        return emailCount;
-    }
-
-    public void setEmailCount(Integer emailCount) {
-        this.emailCount = emailCount;
-    }
-
-    public Integer getAudioCount() {
-        if(audioCount == 0){
-            return audioEmergency;
-        }
-        return audioCount;
-    }
-
-    public void setAudioCount(Integer audioCount) {
-        this.audioCount = audioCount;
-    }
-
-    public Integer getTotalAudioCount() {
-        return audioCount + audioEmergency;
-    }
-
-    public Integer getTotalMessageCount() {
-        return messageCount + messageEmergency;
-    }
-
-    public Integer getTotalVideoCount() {
-        return videoCount + videoEmergency;
-    }
+   
 
     public String getName() {
         return name;
@@ -265,44 +211,6 @@ public class TrainingPlanDTO {
         this.price = price;
     }
 
-    public Integer getVideoDuration() {
-        return videoDuration;
-    }
 
-    public void setVideoDuration(Integer videoDuration) {
-        this.videoDuration = videoDuration;
-    }
-
-    public Integer getVideoEmergency() {
-        return videoEmergency;
-    }
-
-    public void setVideoEmergency(Integer videoEmergency) {
-        this.videoEmergency = videoEmergency;
-    }
-
-    public Integer getMessageEmergency() {
-        return messageEmergency;
-    }
-
-    public void setMessageEmergency(Integer messageEmergency) {
-        this.messageEmergency = messageEmergency;
-    }
-
-    public Integer getAudioEmergency() {
-        return audioEmergency;
-    }
-
-    public void setAudioEmergency(Integer audioEmergency) {
-        this.audioEmergency = audioEmergency;
-    }
-
-    public Integer getAudioDuration() {
-        return audioDuration;
-    }
-
-    public void setAudioDuration(Integer audioDuration) {
-        this.audioDuration = audioDuration;
-    }
 
 }
