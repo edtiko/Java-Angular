@@ -55,7 +55,7 @@ public class SportController {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
-            List<SportDTO> sports = sportService.findAll();
+            List<SportDTO> sports = sportService.findSportDisciplines();
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(sports);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
