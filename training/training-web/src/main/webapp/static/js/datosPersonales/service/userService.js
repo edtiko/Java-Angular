@@ -270,6 +270,19 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 image.src = src;
 
                 return deferred.promise;
-            }
+            },
+            updateStravaAutorizeUser: function (user, stravaAutorize) {
+                
+                return $http.put($contextPath + '/user/update/strava/autorize/' + user + '/' + stravaAutorize)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while updating user');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
         };
     }]);

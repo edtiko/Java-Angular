@@ -675,7 +675,7 @@ public class UserController {
                 userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
             }
             //Importa los datos de strava si el usuario los tiene autorizados
-            if (userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
+            if (userDto.getIndStrava() != null && userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
                     && DateUtil.compareMoreDate(new Date(), userDto.getLastExecuteStrava())) {
                 Runnable task2 = () -> {
                     try {
@@ -957,6 +957,31 @@ public class UserController {
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "/user/update/strava/autorize/{userId}/{stravaAutorize}", method = RequestMethod.PUT)
+    public ResponseEntity<ResponseService> updateUserStrava(@PathVariable("userId") Integer userId, @PathVariable("stravaAutorize") String stravaAutorize) {
+        ResponseService responseService = new ResponseService();
+        try {
+            UserDTO currentUser = userService.findById(userId);
+
+            if (currentUser == null) {
+                responseService.setOutput("El usuario no existe");
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return new ResponseEntity(responseService, HttpStatus.OK);
+            }
+            currentUser.setIndStrava(stravaAutorize);
+            responseService.setOutput("El usuario modificado exitosamente");
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            userService.updateUser(currentUser);          
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al modificar usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity(responseService, HttpStatus.OK);
         }
     }
 }

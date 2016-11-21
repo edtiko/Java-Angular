@@ -4,6 +4,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
             VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService) {
         var self = this;
+        $scope.userStravaAutorize = true;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
         $scope.countries = [];
@@ -89,10 +90,42 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
         $scope.showAge = function (d) {
             $scope.birthdateDt = d;
- 
+
             var date = d.split("/");
             var obj = new Date(date[2], date[1], date[0]);
             $scope.user.age = $scope.calculateAge(obj);
+        };
+
+        $scope.redirectAutorizeStrava = function (ev) {
+            if ($scope.userStravaAutorize) {
+                window.location = 'https://www.strava.com/oauth/authorize?client_id=14512&response_type=code&redirect_uri=https://181.143.227.220:8088/training/strava/activities&scope=write&state=mystate&approval_prompt=force';
+            } else {
+                var confirm = $mdDialog.confirm()
+                        .title('Confirmaci\u00f3n')
+                        .textContent('\u00BFDesea desconectarse de strava?')
+                        .ariaLabel('Lucky day')
+                        .targetEvent(ev)
+                        .ok('Aceptar')
+                        .cancel('Cancelar');
+
+                $mdDialog.show(confirm).then(function () {
+                    var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                    UserService.updateStravaAutorizeUser(user.userId, '0')
+                    .then(
+                            function (msg) {
+                                if(msg.status == 'success') {
+                                    $scope.showMessage('La desconexi\u00f3n con strava fue exitosa');                                    
+                                    $scope.userStravaAutorize = true;
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating User.');
+                            }
+                    );
+                    
+                }, function () {
+                });
+            }
         };
 
         self.getUserById = function () {
@@ -104,6 +137,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 function (d) {
 
                                     $scope.user = d;
+
+                                    if (d.indStrava == '1') {
+                                        $scope.userStravaAutorize = false;
+                                    }
+
                                     $scope.getStatesByCountry($scope.user.countryId);
                                     $scope.getCitiesByState($scope.user.federalStateId);
                                     $scope.getImageProfile($scope.user.userId);
@@ -112,7 +150,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
                                     if ($scope.user.birthDate != null) {
                                         var date = $scope.user.birthDate.split("/");
-                                        var obj =  new Date(date[2], date[1], date[0]);
+                                        var obj = new Date(date[2], date[1], date[0]);
                                         $scope.birthdateDt = $scope.user.birthDate;
                                         $scope.user.age = $scope.calculateAge(obj);
                                     }
@@ -125,8 +163,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
                 UserProfileService.getProfile(user).then(
                         function (data) {
-                            if(data != ""){
-                            $scope.userProfile = angular.copy(data);
+                            if (data != "") {
+                                $scope.userProfile = angular.copy(data);
                             }
                             if ($scope.userProfile.bikes != null && $scope.userProfile.bikes != -1) {
                                 $scope.indBike = 1;
@@ -139,7 +177,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if ($scope.userProfile.objective != undefined && $scope.userProfile.objective != "") {
                                 $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
                             }
-                         
+
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
                                 $scope.getModelsPotentiometer($scope.userProfile.potentiometer);
                             }
@@ -160,7 +198,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             }
                             $scope.userProfile.height = parseFloat(Math.round($scope.userProfile.height * 100) / 100).toFixed(2);
                             $scope.userProfile.weight = parseFloat(Math.round($scope.userProfile.weight * 100) / 100).toFixed(2);
-                            if($scope.userProfile.weight != null && $scope.userProfile.height != null) {
+                            if ($scope.userProfile.weight != null && $scope.userProfile.height != null) {
                                 $scope.calculateIMC();
                             }
 
@@ -175,10 +213,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.showMessage("El usuario no se encuentra logueado.", "error");
             }
         };
-        
-            $scope.validateFieldsUser = function (form) {
+
+        $scope.validateFieldsUser = function (form) {
             var valid = true;
-            if ($scope.user.firstName == '' || $scope.user.firstName  == null) {
+            if ($scope.user.firstName == '' || $scope.user.firstName == null) {
                 form.uname.$setTouched();
                 valid = false;
             }
@@ -199,43 +237,43 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-             if (form.address.$error.maxlength) {
+            if (form.address.$error.maxlength) {
                 $scope.errorMessages.push("Direcci\u00f3n: Ha excedido el l\u00edmite de caracteres");
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-             if (form.phone.$error.maxlength) {
+            if (form.phone.$error.maxlength) {
                 $scope.errorMessages.push("Tel\u00e9fono: Ha excedido el l\u00edmite de caracteres");
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-             if (form.cellphone.$error.maxlength) {
+            if (form.cellphone.$error.maxlength) {
                 $scope.errorMessages.push("Celular: Ha excedido el l\u00edmite de caracteres");
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-             if (form.facebookPage.$error.maxlength) {
+            if (form.facebookPage.$error.maxlength) {
                 $scope.errorMessages.push("Pagina de Facebook: Ha excedido el l\u00edmite de caracteres");
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-             if (form.twitterPage.$error.maxlength) {
+            if (form.twitterPage.$error.maxlength) {
                 $scope.errorMessages.push("Pagina de Twitter: Ha excedido el l\u00edmite de caracteres");
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-             if (form.instagramPage.$error.maxlength) {
+            if (form.instagramPage.$error.maxlength) {
                 $scope.errorMessages.push("Pagina de Instagram: Ha excedido el l\u00edmite de caracteres");
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-             if (form.webPage.$error.maxlength) {
+            if (form.webPage.$error.maxlength) {
                 $scope.errorMessages.push("Pagina Web: Ha excedido el l\u00edmite de caracteres");
                 //form.postalCode.$setTouched();
                 valid = false;
             }
-            
-            
+
+
             return valid;
         };
 
@@ -267,7 +305,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         self.updateUser = function (user, id, file) {
-            user.birthDate = $scope.birthdateDt; 
+            user.birthDate = $scope.birthdateDt;
             var userUpdate = user;
             userUpdate.profilePhoto = '';
             userUpdate.profilePhotoBase64 = '';
@@ -317,10 +355,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.getUserSession(function (res) {
-            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));          
+            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             $scope.userSession = user;
-            if(user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' &&
+            if (user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' &&
                     user.planActiveId != null && user.planActiveId != 0) {
                 $scope.showMessage("Para poder generar tu plan, debes ingresar los datos deportivos y darle click en el bot\u00f3n generar plan");
             }
@@ -338,12 +376,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     self.updateUser($scope.user, $scope.user.userId, file);
                 }
             } else {
-                if($scope.errorMessages.length > 0){
-                    $scope.showMessage($scope.errorMessages, "Alerta",true);
+                if ($scope.errorMessages.length > 0) {
+                    $scope.showMessage($scope.errorMessages, "Alerta", true);
                 }
                 $scope.user = user;
-               $scope.errorMessages = [];
-               window.scrollTo(0, 200);
+                $scope.errorMessages = [];
+                window.scrollTo(0, 200);
             }
         };
 
@@ -502,18 +540,18 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
         $scope.bikeTypes = [];
         $scope.weightmetric = '(Kg)';
-        $scope.heightmetric = '(Mts)'; 
+        $scope.heightmetric = '(Mts)';
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
-            
+
             if ($scope.validateFields(form)) {
                 $scope.getSessions(ev, generatePlan);
             } else {
                 if ($scope.errorMessages.length != 0) {
                     $scope.showMessage($scope.errorMessages, "Alerta", true);
                 }
-                 $scope.errorMessages = [];
-                 window.scrollTo(0, 2400);
+                $scope.errorMessages = [];
+                window.scrollTo(0, 2400);
             }
         };
 
@@ -523,7 +561,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.userProfile.height = convertToDecimal($scope.userProfile.height);
             }
             if ($scope.userProfile.weight != null && $scope.userProfile.height != null
-            && $scope.userProfile.weight != "" && $scope.userProfile.height != ""
+                    && $scope.userProfile.weight != "" && $scope.userProfile.height != ""
                     && isNumeric($scope.userProfile.weight) && isNumeric($scope.userProfile.height)) {
                 if ($scope.userProfile.indMetricSys == '0') { //Si es anglosajon pasamos a metros y kilogramos para calcular IMC
                     var weight = ($scope.userProfile.weight * 0.45);
@@ -532,61 +570,62 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 } else {
                     $scope.userProfile.imc = Math.round($scope.userProfile.weight / ($scope.userProfile.height * $scope.userProfile.height) * 10) / 10;
                 }
-            } else if ($scope.userProfile.weight == undefined || $scope.userProfile.weight == "" ||$scope.userProfile.height == undefined || $scope.userProfile.height == "" ) {
-                $scope.userProfile.imc= null;
+            } else if ($scope.userProfile.weight == undefined || $scope.userProfile.weight == "" || $scope.userProfile.height == undefined || $scope.userProfile.height == "") {
+                $scope.userProfile.imc = null;
             }
         };
-        
+
         function isNumeric(num) {
             return !isNaN(num);
         }
-        
+
         function oneDigitAndDecimals() {
-            if($scope.previousValue == "") { 
-            $scope.previousValue = $scope.userProfile.height;
-        }
+            if ($scope.previousValue == "") {
+                $scope.previousValue = $scope.userProfile.height;
+            }
             var pattern = /^\d{1}((\.|,)\d*)?$/;
 
 //            function validateInput(event) {
 //                event = event || window.event;
-                var newValue = $scope.userProfile.height;
+            var newValue = $scope.userProfile.height;
 
-                if (newValue.match(pattern)) {
-                    // Valid input; update previousValue:
-                    $scope.previousValue = newValue;
-                } else {
-                    // Invalid input; reset field value:
-                    $scope.userProfile.height = $scope.previousValue;
-                }
+            if (newValue.match(pattern)) {
+                // Valid input; update previousValue:
+                $scope.previousValue = newValue;
+            } else {
+                // Invalid input; reset field value:
+                $scope.userProfile.height = $scope.previousValue;
+            }
 //            }
 
 //            document.getElementById('height').onkeyup = validateInput;
         }
-        
+
         function convertToDecimal(num) {
-            var sd ="";num = num + '';
-            if(num.indexOf(".") == -1) {
-            sd = num.splice(1,0,",");
-            return sd;
+            var sd = "";
+            num = num + '';
+            if (num.indexOf(".") == -1) {
+                sd = num.splice(1, 0, ",");
+                return sd;
+            }
+            return num;
         }
-        return num;
-        }
-        
-        $scope.setUnit = function(metricSystem){
-            if(metricSystem == '0'){
+
+        $scope.setUnit = function (metricSystem) {
+            if (metricSystem == '0') {
                 $scope.weightmetric = '(Lb)';
                 $scope.userProfile.weight = ($scope.userProfile.weight * 2.2);
                 $scope.heightmetric = '(Ft)';
                 $scope.userProfile.height = ($scope.userProfile.height * 3.3);
-            }else{
+            } else {
                 $scope.weightmetric = '(Kg)';
                 $scope.userProfile.weight = Math.round($scope.userProfile.weight * 0.45);
                 $scope.heightmetric = '(Mts)';
-                $scope.userProfile.height = convertToDecimal($scope.userProfile.height /100);
+                $scope.userProfile.height = convertToDecimal($scope.userProfile.height / 100);
                 $scope.userProfile.height = ($scope.userProfile.height * 30.0);
             }
         };
-        
+
 
         $scope.confirmDialogGuardarUserProfile = function (ev, generatePlan, msg) {
             var confirm = $mdDialog.confirm()
@@ -856,7 +895,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         console.error(errResponse);
                     }
             );
-        };    
+        };
         this.getObjectives = function () {
             ObjectiveService.getObjectives().then(
                     function (d) {
@@ -883,7 +922,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.getModalitiesByObjectiveId = function (id, change) {
-            if(change){
+            if (change) {
                 $scope.userProfile.modality = '';
             }
             ModalityService.getModalitiesByObjectiveId(id).then(
@@ -934,8 +973,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
         this.getClimas();
-        
-          this.getLesiones = function () {
+
+        this.getLesiones = function () {
             SportService.getLesiones().then(
                     function (d) {
                         $scope.lesiones = d;
@@ -1138,7 +1177,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.validateFields = function (form) {
             var valid = true;
             if ($scope.userProfile.objective == '' || $scope.userProfile.objective == null) {
-               $scope.errorMessages.push("Debe seleccionar un objetivo");
+                $scope.errorMessages.push("Debe seleccionar un objetivo");
                 form.objective.$setTouched();
                 valid = false;
             }
@@ -1148,21 +1187,21 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 valid = false;
             }
             if ($scope.userProfile.modality == '' || $scope.userProfile.modality == null) {
-                  $scope.errorMessages.push("Debe seleccionar una modalidad");
+                $scope.errorMessages.push("Debe seleccionar una modalidad");
                 form.modality.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.environmentId == '' || $scope.userProfile.environmentId == null) {
-               $scope.errorMessages.push("Debe seleccionar un entorno");
+                $scope.errorMessages.push("Debe seleccionar un entorno");
                 form.environment.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
-                 $scope.errorMessages.push("Debe seleccionar un clima predominante");
+                $scope.errorMessages.push("Debe seleccionar un clima predominante");
                 form.weather.$setTouched();
                 valid = false;
             }
-             if ($scope.userProfile.weight == '' || $scope.userProfile.weight == null) {
+            if ($scope.userProfile.weight == '' || $scope.userProfile.weight == null) {
                 form.weight.$setTouched();
                 valid = false;
             }
@@ -1224,17 +1263,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.showTooltipPower = function () {
             $scope.showMessage("El valor registrado en este campo corresponder\u00e1 al resultante de una prueba de esfuerzo vigente,  para esto,  usted debe realizar una prueba en carretera por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible,  con la ayuda de un potenciometro guarde las pulsaciones promedio del tiempo de la prueba, Seg\u00fan teor\u00eda de Cogan", "Potencia");
         };
-        
-        $scope.showTooltipImc = function(){
-           $scope.showMessage("El \u00edndice de masa corporal (IMC) es un n\u00famero calculado con base al peso y la altura de nuestro cuerpo. Este \u00edndice es un indicador de la cantidad de grasa corporal. ","IMC"); 
+
+        $scope.showTooltipImc = function () {
+            $scope.showMessage("El \u00edndice de masa corporal (IMC) es un n\u00famero calculado con base al peso y la altura de nuestro cuerpo. Este \u00edndice es un indicador de la cantidad de grasa corporal. ", "IMC");
         };
-        
-        $scope.showTooltipVo2Running = function(){
-           $scope.showMessage("Volumen m\u00e1ximo de oxigeno que el organismo es capaz de metabolizar por unidad de tiempo determinado.","VO2 Max Running"); 
+
+        $scope.showTooltipVo2Running = function () {
+            $scope.showMessage("Volumen m\u00e1ximo de oxigeno que el organismo es capaz de metabolizar por unidad de tiempo determinado.", "VO2 Max Running");
         };
-        
-         $scope.showTooltipVo2Ciclismo = function(){
-           $scope.showMessage("Volumen m\u00e1ximo de oxigeno que el organismo es capaz de metabolizar por unidad de tiempo determinado.","VO2 Max Ciclismo"); 
+
+        $scope.showTooltipVo2Ciclismo = function () {
+            $scope.showMessage("Volumen m\u00e1ximo de oxigeno que el organismo es capaz de metabolizar por unidad de tiempo determinado.", "VO2 Max Ciclismo");
         };
 
         this.getBikeTypes = function () {
