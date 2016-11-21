@@ -23,8 +23,9 @@
     <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl || userSession.typeUser == userSessionTypeUserAtleta || userSession.typeUser == userSessionTypeUserCoachEstrella || userSession.typeUser == userSessionTypeUserCoachInterno">
 
         <!------------------------------------------  CONTROL VIEW  ------------------------------------------------------->
-        <div  id="control-view"  ng-include src="'static/views/dashboard/control.html'"></div>  
-
+        <div ng-show="userSession.typeUser != userSessionTypeUserCoachInterno"  ng-include src="'static/views/dashboard/control.html'"></div> 
+        
+        <div ng-show="userSession.typeUser == userSessionTypeUserCoachInterno"   ng-include src="'static/views/dashboard/supervisorControl.html'"></div>  
 
     </div>
 

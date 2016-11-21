@@ -5,8 +5,8 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.ConfigurationPlan;
 import co.com.expertla.training.model.entities.State;
-import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -33,7 +33,7 @@ public class CoachExtAthleteDTO {
 
     }
 
-    public CoachExtAthleteDTO(Integer id, User athleteUserId, User coachUserId, TrainingPlan trainingPlan, Date creationDate, State stateId) {
+    public CoachExtAthleteDTO(Integer id, User athleteUserId, User coachUserId, ConfigurationPlan cplan, Date creationDate, State stateId) {
         this.id = id;
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
@@ -42,7 +42,19 @@ public class CoachExtAthleteDTO {
         this.stateId = stateId.getStateId();
         this.state = stateId.getName();
         this.external = true;
-        this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(trainingPlan);
+        this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(cplan);
+    }
+    
+    
+     public CoachExtAthleteDTO(Integer id, User athleteUserId, User coachUserId, Date creationDate, State stateId) {
+        this.id = id;
+        this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
+        this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
+        this.creationDate = creationDate;
+        //this.trainingPlanUserId = trainingPlanUserId;
+        this.stateId = stateId.getStateId();
+        this.state = stateId.getName();
+        this.external = true;
     }
 
     public Integer getId() {

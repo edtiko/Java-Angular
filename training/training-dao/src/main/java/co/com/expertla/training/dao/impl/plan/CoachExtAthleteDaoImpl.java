@@ -27,7 +27,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.creationDate, m.stateId ) ");
         sql.append("FROM CoachExtAthlete m ");
         sql.append("Where m.trainingPlanUserId.trainingPlanUserId = :trainingPlanUserId ");
         if (!state.equals("ALL")) {
@@ -57,9 +57,11 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
-        sql.append(" FROM CoachExtAthlete m ");
+        sql.append(" SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, cp, m.creationDate, m.stateId ) ");
+        sql.append(" FROM CoachExtAthlete m, ConfigurationPlan cp ");
         sql.append(" WHERE m.userTrainingId.userId = :userId ");
+        sql.append(" AND m.trainingPlanUserId.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
+        sql.append(" AND cp.communicationRoleId.roleId = ").append(RoleEnum.ATLETA.getId());
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
         sql.append(" AND m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
@@ -88,21 +90,6 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
               query.setParameter("search", "%"+search+"%");
           }
         List<UserDTO> list = query.getResultList();
-        
-       /* sql.append(" select user_id, ");
-        sql.append(" name||' '||second_name||' '||last_name fullname, ");
-        sql.append(" profile_photo ");
-        sql.append(" from  user_training");
-        sql.append(" where user_training.user_id not in (select user_training_id ");
-        sql.append(" from   coach_ext_athlete");
-        sql.append(" where  user_training_id = user_training.user_id");
-        sql.append(" and    state_id = 1) ");
-        sql.append(" and   user_training.user_id not in (select training_plan_user.user_id  ");
-        sql.append(" from   coach_assigned_plan, ");
-        sql.append(" where  coach_assigned_plan.training_plan_user_id = training_plan_user.training_plan_user_id  ");
-        sql.append(" and    training_plan_user.user_id = user_training.user_id) ");
-        sql.append(" and state_id = 1 ");
-        sql.append(" order by 2 ");*/
 
         return list;
     }
@@ -110,7 +97,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public CoachExtAthleteDTO getInvitation(Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.trainingPlanUserId.trainingPlanId, m.creationDate, m.stateId ) ");
+        sql.append(" SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId,  m.creationDate, m.stateId ) ");
         sql.append(" FROM CoachExtAthlete m ");
         sql.append(" WHERE m.userTrainingId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());

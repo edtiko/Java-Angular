@@ -612,7 +612,7 @@ public class UserController {
             }
             
             if(userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
-                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId());
+                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId(),-1);
                 UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
                 UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
                 userCoach.setUserId(coachUserDTO.getUserId());

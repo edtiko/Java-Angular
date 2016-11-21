@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.ConfigurationPlan;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -30,7 +31,7 @@ public class TrainingPlanDTO {
     private String userCreateName;
     private String userUpdateName;
     private Short stateId;
-   /* private Integer videoCount;
+    private Integer videoCount;
     private Integer videoDuration;
     private Integer videoEmergency;
     private Integer messageCount;
@@ -39,7 +40,7 @@ public class TrainingPlanDTO {
     private Integer emailEmergency;
     private Integer audioCount;
     private Integer audioEmergency;
-    private Integer audioDuration;*/
+    private Integer audioDuration;
     private Double price;
 
     private int count;
@@ -50,7 +51,7 @@ public class TrainingPlanDTO {
     //Short
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
            Date endDate, Short stateId, Double price, Date creationDate,
-            Date lastUpdate, Integer userCreate, Integer userUpdate) {
+            Date lastUpdate, Integer userCreate, Integer userUpdate, ConfigurationPlan cplan) {
         this.trainingPlanId = trainingPlanId;
         this.name = name;
         this.description = description;
@@ -58,16 +59,16 @@ public class TrainingPlanDTO {
         this.lastUpdate = lastUpdate;
         this.userCreate = userCreate;
         this.userUpdate = userUpdate;
-       /* this.videoCount = videoCount;
-        this.videoDuration = videoDuration;
-        this.videoEmergency = videoEmergency;
-        this.messageCount = messageCount;
-        this.messageEmergency = messageEmergency;
-        this.emailCount = emailCount;
-        this.emailEmergency = emailEmergency;
-        this.audioCount = audioCount;
-        this.audioDuration = audioDuration;
-        this.audioEmergency = audioEmergency;*/
+        this.videoCount = cplan.getVideoCount();
+        this.videoDuration = cplan.getVideoDuration();
+        this.videoEmergency = cplan.getVideoEmergency();
+        this.messageCount = cplan.getMessageCount();
+        this.messageEmergency = cplan.getMessageEmergency();
+        this.emailCount = cplan.getEmailCount();
+        this.emailEmergency = cplan.getEmailEmergency();
+        this.audioCount = cplan.getAudioCount();
+        this.audioDuration = cplan.getAudioDuration();
+        this.audioEmergency = cplan.getAudioEmergency();
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
@@ -87,7 +88,7 @@ public class TrainingPlanDTO {
         this.userUpdate = userUpdate;
         this.userCreateName = userCreateName;
         this.userUpdateName = userUpdateName;
-        /*this.videoCount = videoCount;
+       /* this.videoCount = videoCount;
         this.messageCount = messageCount;
         this.emailCount = emailCount;
         this.audioCount = audioCount;*/
@@ -96,11 +97,12 @@ public class TrainingPlanDTO {
         this.price = price;
     }
 
-    public static TrainingPlanDTO mapFromTrainingPlanEntity(TrainingPlan plan) {
-        if (plan != null) {
+    public static TrainingPlanDTO mapFromTrainingPlanEntity(ConfigurationPlan cplan) {
+        if (cplan != null) {
+            TrainingPlan plan = cplan.getTrainingPlanId();
             return new TrainingPlanDTO(plan.getTrainingPlanId(), plan.getName(), plan.getDescription(),
                     plan.getEndDate(), plan.getStateId(), plan.getPrice(), plan.getCreationDate(),
-                    plan.getLastUpdate(), plan.getUserCreate(), plan.getUserUpdate());
+                    plan.getLastUpdate(), plan.getUserCreate(), plan.getUserUpdate(), cplan);
         }
         return null;
     }
@@ -121,7 +123,61 @@ public class TrainingPlanDTO {
         this.endDate = endDate;
     }
 
+    public Integer getVideoCount() {
+        if(videoCount == 0){
+            return videoEmergency;
+        }
+        return videoCount;
+    }
    
+    public void setVideoCount(Integer videoCount) {
+        this.videoCount = videoCount;
+    }
+
+    public Integer getMessageCount() {
+        if(messageCount==0){
+            return messageEmergency;
+        }
+        return messageCount;
+    }
+
+    public void setMessageCount(Integer messageCount) {
+        this.messageCount = messageCount;
+    }
+
+    public Integer getEmailCount() {
+        if (emailCount == 0) {
+            return emailEmergency;
+        }
+        return emailCount;
+    }
+
+    public void setEmailCount(Integer emailCount) {
+        this.emailCount = emailCount;
+    }
+
+    public Integer getAudioCount() {
+        if(audioCount == 0){
+            return audioEmergency;
+        }
+        return audioCount;
+    }
+
+    public void setAudioCount(Integer audioCount) {
+        this.audioCount = audioCount;
+    }
+
+    public Integer getTotalAudioCount() {
+        return audioCount + audioEmergency;
+    }
+
+    public Integer getTotalMessageCount() {
+        return messageCount + messageEmergency;
+    }
+
+    public Integer getTotalVideoCount() {
+        return videoCount + videoEmergency;
+    }
 
     public String getName() {
         return name;
@@ -211,6 +267,44 @@ public class TrainingPlanDTO {
         this.price = price;
     }
 
+    public Integer getVideoDuration() {
+        return videoDuration;
+    }
 
+    public void setVideoDuration(Integer videoDuration) {
+        this.videoDuration = videoDuration;
+    }
+
+    public Integer getVideoEmergency() {
+        return videoEmergency;
+}
+
+    public void setVideoEmergency(Integer videoEmergency) {
+        this.videoEmergency = videoEmergency;
+    }
+
+    public Integer getMessageEmergency() {
+        return messageEmergency;
+    }
+
+    public void setMessageEmergency(Integer messageEmergency) {
+        this.messageEmergency = messageEmergency;
+    }
+
+    public Integer getAudioEmergency() {
+        return audioEmergency;
+    }
+
+    public void setAudioEmergency(Integer audioEmergency) {
+        this.audioEmergency = audioEmergency;
+    }
+
+    public Integer getAudioDuration() {
+        return audioDuration;
+    }
+
+    public void setAudioDuration(Integer audioDuration) {
+        this.audioDuration = audioDuration;
+    }
 
 }

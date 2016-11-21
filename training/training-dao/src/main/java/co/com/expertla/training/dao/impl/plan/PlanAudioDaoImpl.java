@@ -33,7 +33,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     @Override
     public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, String fromto, String tipoPlan, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.fromUserId, m.toUserId, m.creationDate, m.to_star) ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.fromUserId, m.toUserId, m.creationDate, m.toStar) ");
         sql.append("FROM PlanAudio m ");
         if (fromto.equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");
