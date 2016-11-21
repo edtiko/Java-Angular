@@ -1210,7 +1210,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.showTooltipWeather = function () {
-            $scope.showMessage("Indique cual es la condici\u00f3n atmosf\u00e9rica del lugar en el que usted desarrollar\u00e1 las actividades deportivas.", "Clima Predominante");
+            $scope.showMessage("Indique cual es la condici\u00f3n atmosf\u00e9rica del lugar en el que usted desarrollar\u00e1 las actividades deportivas.", "Clima Predominante en sus entrenamientos");
         };
 
         $scope.showTooltipSportAge = function () {
