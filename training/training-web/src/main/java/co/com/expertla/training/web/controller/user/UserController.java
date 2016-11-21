@@ -311,7 +311,8 @@ public class UserController {
             Locale.setDefault(locale);
 
             //Importa los datos de strava si el usuario los tiene autorizados
-            if (userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
+            if (userDto.getIndStrava() != null &&
+                    userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
                     && DateUtil.compareMoreDate(new Date(), userDto.getLastExecuteStrava())) {
                 Runnable task2 = () -> {
                     try {
