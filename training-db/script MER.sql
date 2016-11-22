@@ -769,7 +769,7 @@ create table plan_message (
    message                   varchar(5000),
    message_user_id           integer not null,
    receiving_user_id         integer null, 
-   readed                    boolean  default false,
+   readed                    boolean  not null default false,
    state_id                  integer  null,
    creation_date             timestamp without time zone,
    to_star                   boolean default false,

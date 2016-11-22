@@ -48,8 +48,8 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                 socket.stomp.onclose = reconnect;
             }
         };
-        service.getVideosByUser = function (planId, userId, fromto, tipoPlan) {
-            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan)
+        service.getVideosByUser = function (planId, userId, fromto, tipoPlan,roleSelected) {
+            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -61,7 +61,7 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                     );
         };
         
-         service.getVideosAthlete = function (planId, userId, fromto, tipoPlan, toStar) {
+         /*service.getVideosAthlete = function (planId, userId, fromto, tipoPlan, toStar) {
             return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan+"/"+toStar)
                     .then(
                             function (response) {
@@ -72,7 +72,7 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                                 return $q.reject(errResponse);
                             }
                     );
-        };
+        };*/
 
         service.getVideoByPath = function (videoPath) {
             return $http.get($contextPath + 'video/files/' + videoPath)

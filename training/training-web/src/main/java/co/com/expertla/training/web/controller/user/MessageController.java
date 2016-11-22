@@ -2,7 +2,6 @@ package co.com.expertla.training.web.controller.user;
 
 import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
-import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.PlanMessageService;
 import co.com.expertla.training.web.enums.StatusResponse;
@@ -50,7 +49,7 @@ public class MessageController {
         //return new OutputMessage(message, new Date());
     }
 
-    @RequestMapping(value = "/get/messages/{planId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/messages/{planId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getMessages(@PathVariable("planId") Integer planId, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
@@ -70,21 +69,26 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/get/count/available/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/count/available/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
                                   @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
+        Integer count = 0;
+        Integer emergency = 0;
         try {
-            Integer count = 0;
             if (tipoPlan.equals(COACH_INTERNO)) {
                 count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId, roleSelected);
+                emergency = planMessageService.getCountMessagesEmergency(coachAssignedPlanId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planMessageService.getCountMessagesByPlanExt(coachAssignedPlanId, userId);
+                emergency = planMessageService.getCountMessagesEmergencyExt(coachAssignedPlanId, userId);
             }
 
-            responseService.setStatus(StatusResponse.SUCCESS.getName());
+              responseService.setStatus(StatusResponse.SUCCESS.getName());
+              responseService.setOutput(count == 0?emergency:count);
+            
             responseService.setOutput(count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
@@ -97,7 +101,7 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/get/count/received/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/count/received/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
                                  @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
@@ -123,7 +127,7 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/read/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "read/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
                           @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
@@ -148,7 +152,7 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "/read/message/{planMessageId}", method = RequestMethod.GET)
+    @RequestMapping(value = "read/message/{planMessageId}", method = RequestMethod.GET)
     public @ResponseBody
     Response readMessage(@PathVariable("planMessageId") Integer planMessageId) {
         ResponseService responseService = new ResponseService();
@@ -168,7 +172,7 @@ public class MessageController {
 
     }
     
-    @RequestMapping(value = "/get/messages/by/receivingUser/sendingUser/{recevingUserId}/{sendingUserId}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/messages/by/receivingUser/sendingUser/{recevingUserId}/{sendingUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getMessagesByReceivingUserAndSendingUser(@PathVariable("recevingUserId") Integer recevingUserId,@PathVariable("sendingUserId") Integer sendingUserId ) {
         ResponseService responseService = new ResponseService();

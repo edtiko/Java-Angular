@@ -71,7 +71,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
 
         //Envia mensaje para planes Coach Externo
         self.sendMessageExt = function () {
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, -1, "EXT", function () {
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, "EXT",-1, function () {
                 if ($scope.userSession != null && $scope.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachExtAthleteId.id = $scope.planSelected.id;
                     $scope.planMessage.coachExtAthleteId.athleteUserId.userId = $scope.planSelected.athleteUserId.userId;
@@ -79,6 +79,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     messageService.send($scope.planMessage);
                     $scope.planMessage.message = "";
+                    $scope.getMessageCount();
                 } else if ($scope.availableMessage == 0) {
                     $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
                 }
@@ -87,7 +88,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
 
         //Envia mensaje para planes Coach Interno
         self.sendMessageIn = function () {
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.roleSelected, "IN", function () {
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, "IN", $scope.roleSelected, function () {
                 if ($scope.userSession != null && $scope.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachAssignedPlanId.id = $scope.planSelected.id;
                     $scope.planMessage.coachAssignedPlanId.athleteUserId.userId = $scope.planSelected.athleteUserId.userId;
@@ -98,10 +99,13 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                         $scope.planMessage.receivingUserId.userId = $scope.coachAssignedPlan.coachUserId.userId;
                     } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
                         $scope.planMessage.receivingUserId.userId = $scope.planSelected.starUserId.userId;
+                    } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
+                        $scope.planMessage.receivingUserId.userId = $scope.planSelected.coachUserId.userId;
                     }
 
                     messageService.send($scope.planMessage);
                     $scope.planMessage.message = "";
+                    $scope.getMessageCount();
                 } else if ($scope.availableMessage == 0) {
                     $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
                 }
@@ -148,6 +152,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
             }
             messageService.readMessages(planSelected.id, userId, tipoPlan, roleSelected).then(
                     function (data) {
+                        $scope.getMessageCount();
                         console.log(data.entity.output);
                     },
                     function (error) {

@@ -68,9 +68,9 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
             mailCommunication.setToStar(Boolean.TRUE);
         }
 
-        if (mailCommunication.getCoachAssignedPlanId() != null) {
+        if (dto.getCoachAssignedPlanId() != null) {
             mailCommunication.setCoachAssignedPlanId(new CoachAssignedPlan(dto.getCoachAssignedPlanId()));
-        } else if (mailCommunication.getCoachExtAthleteId() != null) {
+        } else if (dto.getCoachExtAthleteId() != null) {
             mailCommunication.setCoachExtAthleteId(new CoachExtAthlete(dto.getCoachExtAthleteId()));
         }
         return mailCommunicationDao.create(mailCommunication);
@@ -333,12 +333,12 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
 
     @Override
-    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
+    public Integer getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
         return mailCommunicationDao.getMailsEmergencyByPlan(planId, fromUserId,roleSelected);
     }
     
     @Override
-    public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws Exception {
+    public Integer getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws Exception {
         return mailCommunicationDao.getMailsEmergencyByPlanExt(planId, fromUserId);
     }
 }

@@ -468,16 +468,19 @@ public class MailController {
                                @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
-        try {
             Integer count = 0;
+            Integer emergency = 0;
+        try {
             if (tipoPlan.equals(COACH_INTERNO)) {
                 count = mailCommunicationService.getCountMailsByPlan(planId, userId,roleSelected);
+                emergency = mailCommunicationService.getMailsEmergencyByPlan(planId, userId,roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = mailCommunicationService.getCountMailsByPlanExt(planId, userId);
+                emergency = mailCommunicationService.getMailsEmergencyByPlanExt(planId, userId);
             }
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(count);
+            responseService.setOutput(count==0?emergency:count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

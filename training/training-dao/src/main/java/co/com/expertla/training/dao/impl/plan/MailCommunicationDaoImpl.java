@@ -206,7 +206,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
         sql.append(" WHEN (cp.email_count  - count(m.mail_communication_id)) > 0 THEN (cp.email_count   - count(m.mail_communication_id)) ");
-        sql.append(" ELSE (cp.email_emergency) END ");
+        sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN mail_communication m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.sending_user = ").append(userId);
@@ -224,7 +224,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
            sql.append(" And cp.communication_role_id = ").append(roleSelected); 
         }
 
-        sql.append(" Group by cp.email_count, cp.email_emergency ");
+        sql.append(" Group by cp.email_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -258,7 +258,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
         sql.append(" WHEN (cp.email_count - count(m.mail_communication_id)) > 0 THEN (cp.email_count  - count(m.mail_communication_id)) ");
-        sql.append(" ELSE (cp.email_emergency) END ");
+        sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp,  coach_ext_athlete c ");
         sql.append(" LEFT JOIN mail_communication m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.sending_user = ").append(userId);
@@ -268,7 +268,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
         sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA); 
-        sql.append(" Group by cp.email_count, cp.email_emergency ");
+        sql.append(" Group by cp.email_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();

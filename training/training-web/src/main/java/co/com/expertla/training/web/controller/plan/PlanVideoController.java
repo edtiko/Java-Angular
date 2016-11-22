@@ -151,6 +151,7 @@ public class PlanVideoController {
                         video.setCoachExtAthleteId(new CoachExtAthlete(planId));
                     }
                     dto = planVideoService.create(video);
+                    simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
                 }
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -209,6 +210,7 @@ public class PlanVideoController {
                     script.setCreationDate(new Date());
                     script.setPlanVideoId(new PlanVideo(dto.getId()));
                     scriptVideoService.create(script);
+                   simpMessagingTemplate.convertAndSend("/queue/video/" + coachAssignedPlanId, dto);
                 }
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -338,10 +340,10 @@ public class PlanVideoController {
         }
     }
 
-    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
-                             @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan) {
+                             @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -350,6 +352,7 @@ public class PlanVideoController {
             parameters.put("userId", userId);
             parameters.put("fromto", fromto);
             parameters.put("tipoPlan", tipoPlan);
+            parameters.put("roleSelected", roleSelected);
             
             List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -365,7 +368,7 @@ public class PlanVideoController {
 
     }
     
-        @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    /*    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getVideosAthlete(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
                              @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
@@ -396,7 +399,7 @@ public class PlanVideoController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
 
-    }
+    }*/
 
     @RequestMapping(value = "/files/{videoPath}", method = RequestMethod.GET)
     @ResponseBody
@@ -416,14 +419,17 @@ public class PlanVideoController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
+        Integer emergency = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
                 count = planVideoService.getCountVideoByPlan(coachAssignedPlanId, userId, roleSelected);
+                emergency = planVideoService.getCountVideoEmergencyIn(userId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planVideoService.getCountVideoByPlanExt(coachAssignedPlanId, userId);
+                emergency = planVideoService.getCountVideoEmergencyExt(coachAssignedPlanId, userId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(count);
+            responseService.setOutput(count==0?emergency:count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

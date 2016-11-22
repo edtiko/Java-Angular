@@ -57,7 +57,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");     
         sql.append(" WHEN (cp.message_count  - count(m.plan_message_id)) > 0 THEN (cp.message_count   - count(m.plan_message_id)) ");
-        sql.append(" ELSE (cp.message_emergency) END ");
+        sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_message m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.message_user_id = ").append(userId);
@@ -71,7 +71,8 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" And c.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        sql.append(" Group by cp.message_count, cp.message_emergency ");
+        sql.append(" And cp.communication_role_id =  ").append(roleSelected);
+        sql.append(" Group by cp.message_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
        
         List<Number> count = (List<Number>) query.getResultList();
@@ -129,7 +130,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
                 StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");     
         sql.append(" WHEN (cp.message_count - count(m.plan_message_id)) > 0 THEN (cp.message_count  - count(m.plan_message_id)) ");
-        sql.append(" ELSE (t.message_emergency) END ");
+        sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_message m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
         sql.append(" And m.message_user_id = ").append(userId);
@@ -138,8 +139,8 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        sql.append(" And cp.communicaton_role_id =  ").append(RoleEnum.ATLETA.getId());
-        sql.append(" Group by cp.message_count, cp.message_emergency ");
+        sql.append(" And cp.communication_role_id =  ").append(RoleEnum.ATLETA.getId());
+        sql.append(" Group by cp.message_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
        
         List<Number> count = (List<Number>) query.getResultList();
@@ -308,7 +309,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_message m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
-        sql.append(" And m.from_user_id = ").append(fromUserId);
+        sql.append(" And m.message_user_id = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
         if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             sql.append(" and  m.to_star = false ");
@@ -320,7 +321,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
         sql.append(" And cp.communication_role_id = ").append(roleSelected);
-        sql.append(" Group by cp.message_count, t.message_emergency ");
+        sql.append(" Group by cp.message_count, cp.message_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -336,7 +337,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_ext_athlete c ");
         sql.append(" LEFT JOIN plan_message m ON m.coach_ext_athlete_id = c.coach_ext_athlete_id");
-        sql.append(" And m.from_user_id = ").append(fromUserId);
+        sql.append(" And m.message_user_id = ").append(fromUserId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);

@@ -204,12 +204,7 @@ public class AudioMessageController {
             
             
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            
-            if (count == 0) {
-                responseService.setOutput(emergency);
-            } else {
-                responseService.setOutput(count);
-            }
+            responseService.setOutput(count == 0?emergency:count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

@@ -196,7 +196,7 @@ public interface MailCommunicationService {
 
     public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected)throws  Exception;
     
-    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception;
+    public Integer getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception;
 
-    public int getMailsEmergencyByPlanExt(Integer sessionId, Integer userId)throws Exception;
+    public Integer getMailsEmergencyByPlanExt(Integer sessionId, Integer userId)throws Exception;
 }

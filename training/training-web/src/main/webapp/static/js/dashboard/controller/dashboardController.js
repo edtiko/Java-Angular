@@ -112,7 +112,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             if ($scope.userSession.userId != message.messageUserId.userId) {
                 $scope.messagesReceivedCount++;
             }else{
-               getMessageCount(); 
+               $scope.getMessageCount(); 
             }
 
         });
@@ -122,7 +122,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             if (video.toUser.userId == $scope.userSession.userId) {
                 $scope.videoReceivedCount++;
             }else{
-                getVideoCount();
+                $scope.getVideoCount();
             }
 
         });
@@ -133,7 +133,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.audioReceivedCount++;
             } else {
                 
-               self.getAudioCount();
+               $scope.getAudioCount();
             }
 
         });
@@ -144,12 +144,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             if (email.receivingUser.userId == $scope.userSession.userId) {
                 $scope.emailReceivedCount++;
             }else{
-              self.getMailCount();  
+              $scope.getMailCount();  
             }
 
         });
         
-        self.getAudioCount = function () {
+        $scope.getAudioCount = function () {
             var tipoPlan = "IN";
             var receivedUser = null;
             if ($scope.planSelected != null && $scope.planSelected != "") {
@@ -163,10 +163,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 }
                 self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected);
 
-                self.getReceivedAudios($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, $scope.roleSelected);
+                self.getReceivedAudios($scope.planSelected.id, receivedUser, tipoPlan, $scope.roleSelected);
             }
         };
-        self.getMailCount = function () {
+        $scope.getMailCount = function () {
             var tipoPlan = "IN";
             var receivedUser = null;
             if ($scope.planSelected != null && $scope.planSelected != "") {
@@ -180,11 +180,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 }
                 self.getAvailableMails($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected);
 
-                self.getReceivedMails($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, $scope.roleSelected);
+                self.getReceivedMails($scope.planSelected.id, receivedUser, tipoPlan, $scope.roleSelected);
             }
         };
 
-        self.getVideoCount = function () {
+        $scope.getVideoCount = function () {
             var tipoPlan = "IN";
             var receivedUser = null;
             if ($scope.planSelected != null && $scope.planSelected != "") {
@@ -198,11 +198,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 }
                 self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected);
 
-                self.getReceivedVideos($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, $scope.roleSelected);
+                self.getReceivedVideos($scope.planSelected.id, receivedUser, tipoPlan, $scope.roleSelected);
             }
         };
 
-        self.getMessageCount = function () {
+        $scope.getMessageCount = function () {
             var tipoPlan = "IN";
             var receivedUser = null;
             if ($scope.planSelected != null && $scope.planSelected != "") {
@@ -216,7 +216,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 }
                 self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected);
 
-                self.getReceivedMessages($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, $scope.roleSelected);
+                self.getReceivedMessages($scope.planSelected.id, receivedUser, tipoPlan, $scope.roleSelected);
             }
         };
 
@@ -243,7 +243,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 self.initControls(planSelected, "EXT");
 
             } else if (planSelected != "" && planSelected != null && $scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
-                $scope.initControlAthlete(index);
+                $scope.initControlAthlete($scope.userSessionTypeUserCoachInterno, $scope.planSelected.athleteUserId.userId);
+                self.getDashBoardByUser(planSelected.athleteUserId);
             }
         };
 
@@ -331,41 +332,44 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
             //self.getDashBoardByUser(user);
-            $scope.initControlAthlete(roleSelected);
+            $scope.initControlAthlete(roleSelected, $scope.planSelected.coachUserId.userId );
 
             //$scope.showProfileImage = true;
             $scope.pageSelected = $scope.views.profile.page;
         };
         
         
-        $scope.initControlAthlete = function (roleSelected) {
+        $scope.initControlAthlete = function (roleSelected, fromUser) {
 
           var tipoPlan = "IN";
           $scope.roleSelected = roleSelected;
+          if($scope.planSelected != null){
+              $scope.pageSelected = $scope.views.profile.page;
             //mensajes 
             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
-            self.getReceivedMessages($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, roleSelected);
+            self.getReceivedMessages($scope.planSelected.id, fromUser, tipoPlan, roleSelected);
 
             messageService.initialize($scope.planSelected.id);
 
             //videos
             self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
-            self.getReceivedVideos($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, roleSelected);
+            self.getReceivedVideos($scope.planSelected.id, fromUser, tipoPlan, roleSelected);
 
             videoService.initialize($scope.planSelected.id);
 
             //audios
             self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
 
-            self.getReceivedAudios($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, roleSelected);
+            self.getReceivedAudios($scope.planSelected.id, fromUser, tipoPlan, roleSelected);
 
             AudioMessageService.initialize($scope.planSelected.id);
 
             //email
             self.getAvailableMails($scope.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
-            self.getReceivedMails($scope.planSelected.id, $scope.planSelected.coachUserId.userId, tipoPlan, roleSelected);
+            self.getReceivedMails($scope.planSelected.id, fromUser, tipoPlan, roleSelected);
 
             MailService.initialize($scope.planSelected.id);
+        }
         };
 
      

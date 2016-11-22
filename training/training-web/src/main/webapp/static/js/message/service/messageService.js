@@ -75,8 +75,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
         };
 
         service.getAvailableMessages = function (planId, userId, tipoPlan,roleSelected) {
-            return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+'/'+tipoPlan+'/'+roleSelected)
-
+            return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

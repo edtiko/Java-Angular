@@ -52,7 +52,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
        //Obtiene los videos recibidos 
         $scope.receivedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
-                videoService.getVideosByUser(-1, $scope.user.userId, "to", tipoPlan).then(
+                videoService.getVideosByUser(-1, $scope.user.userId, "to", tipoPlan, -1).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
                         },
@@ -60,7 +60,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             console.error(error);
                         });
             } else {
-                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan).then(
+                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
                         },
@@ -74,7 +74,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         //Obtiene los videos envíados
         $scope.sendedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
-                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.user.userId, "from", tipoPlan).then(
+                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.user.userId, "from", tipoPlan, -1).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
                         },
@@ -82,7 +82,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             //$scope.showMessage(error);
                             console.error(error);
                         });
-            }else if($scope.user.typeUser === $scope.userSessionTypeUserAtleta && !$scope.planSelected.external){
+            }/*else if($scope.user.typeUser === $scope.userSessionTypeUserAtleta && !$scope.planSelected.external){
                   videoService.getVideosAthlete($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
@@ -90,8 +90,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                         function (error) {
                             console.error(error);
                         });
-            }else {
-                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan).then(
+            }*/else {
+                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
                         },
@@ -196,6 +196,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                     if (fromto == 'to') {
                                         videoService.readVideo(planVideoId.id).then(
                                                 function (data) {
+                                                    $scope.getVideoCount();
                                                     console.log(data.entity.output);
                                                 },
                                                 function (error) {
@@ -317,8 +318,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                 } else {
                                     video.sesionId = $scope.planSelected.id;
                                 }
-
-                                videoService.send(video);
+                                  $scope.getVideoCount();
+                                //videoService.send(video);
                             }
                             $scope.colorTime = '';
                             $scope.counterRecord = $scope.counterRecordInitial;

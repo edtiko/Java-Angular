@@ -85,6 +85,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     } else {
                         self.sendedAudios("IN");
                     }
+                    $scope.getAudioCount();
                 } else {
                     $scope.showMessage(data.entity.output);
                 }
@@ -114,6 +115,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
             if (fromto == 'to') {
                 AudioMessageService.readAudio(planAudioId).then(
                         function (data) {
+                             $scope.getAudioCount();
                             console.log(data.entity.output);
                         },
                         function (error) {

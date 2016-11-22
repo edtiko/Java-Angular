@@ -81,4 +81,8 @@ public interface PlanMessageService {
      * @throws Exception 
      */
     public List<PlanMessageDTO> getMessagesNotReadedByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception;
+
+    public Integer getCountMessagesEmergency(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception;
+
+    public Integer getCountMessagesEmergencyExt(Integer coachAssignedPlanId, Integer userId)throws  Exception;
 }
