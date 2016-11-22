@@ -736,6 +736,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
                 switch ($scope.userSession.typeUser) {
                     case $scope.userSessionTypeUserCoach:
+                        $scope.showControl = true;
                         $scope.showCountEmail = true;
                         $scope.showAudioMessage = true;
                         $scope.showChat = true;
@@ -775,6 +776,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.getUserById();
                         self.getCoaches();
                         self.getStars();
+                        showControl = false;
                         break;
 
                 }
