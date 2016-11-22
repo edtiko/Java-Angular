@@ -311,8 +311,8 @@ public class UserController {
             Locale.setDefault(locale);
 
             //Importa los datos de strava si el usuario los tiene autorizados
-            if (userDto.getIndStrava() != null &&
-                    userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
+            if (userDto.getIndStrava() != null
+                    && userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
                     && DateUtil.compareMoreDate(new Date(), userDto.getLastExecuteStrava())) {
                 Runnable task2 = () -> {
                     try {
@@ -323,8 +323,6 @@ public class UserController {
                 };
                 new Thread(task2).start();
             }
-
-            
 
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
@@ -631,45 +629,46 @@ public class UserController {
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
             }
-           
-            if(userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
-                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId(),-1);
-                
 
-                UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
-                UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
-                userCoach.setUserId(coachUserDTO.getUserId());
-                userCoach.setLogin(coachUserDTO.getLogin());
-                userCoach.setFirstName(coachUserDTO.getFirstName());
-                userCoach.setLastName(coachUserDTO.getLastName());
-                userCoach.setSecondName(coachUserDTO.getSecondName());
-                userCoach.setTypeUser(coachUserDTO.getTypeUser());
-                userCoach.setFullName(coachUserDTO.getFullName());
-                userCoach.setDisciplineId(coachUserDTO.getDisciplineId());
-                userCoach.setDisciplineName(coachUserDTO.getDisciplineName());
-                userCoach.setRoleId(coachUserDTO.getRoleId());
-                userCoach.setEmail(coachUserDTO.getEmail());
-                userCoach.setSex(coachUserDTO.getSex());
-                userCoach.setBirthDate(coachUserDTO.getBirthDate());
+            if (userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
+                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId(), -1);
 
-                UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
-                UserBasicMovilDTO userStar = new UserBasicMovilDTO();
-                userStar.setUserId(starUserDTO.getUserId());
-                userStar.setLogin(starUserDTO.getLogin());
-                userStar.setFirstName(starUserDTO.getFirstName());
-                userStar.setLastName(starUserDTO.getLastName());
-                userStar.setSecondName(starUserDTO.getSecondName());
-                userStar.setTypeUser(starUserDTO.getTypeUser());
-                userStar.setFullName(starUserDTO.getFullName());
-                userStar.setDisciplineId(starUserDTO.getDisciplineId());
-                userStar.setDisciplineName(starUserDTO.getDisciplineName());
-                userStar.setRoleId(starUserDTO.getRoleId());
-                userStar.setEmail(starUserDTO.getEmail());
-                userStar.setSex(starUserDTO.getSex());
-                userStar.setBirthDate(starUserDTO.getBirthDate());
-                userSession.setStarUser(userStar);
-                userSession.setCoachUser(userCoach);
-                userSession.setCoachAssignedPlanId(coachAssignedPlanDTO.getId());
+                if (coachAssignedPlanDTO != null) {
+                    UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
+                    UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
+                    userCoach.setUserId(coachUserDTO.getUserId());
+                    userCoach.setLogin(coachUserDTO.getLogin());
+                    userCoach.setFirstName(coachUserDTO.getFirstName());
+                    userCoach.setLastName(coachUserDTO.getLastName());
+                    userCoach.setSecondName(coachUserDTO.getSecondName());
+                    userCoach.setTypeUser(coachUserDTO.getTypeUser());
+                    userCoach.setFullName(coachUserDTO.getFullName());
+                    userCoach.setDisciplineId(coachUserDTO.getDisciplineId());
+                    userCoach.setDisciplineName(coachUserDTO.getDisciplineName());
+                    userCoach.setRoleId(coachUserDTO.getRoleId());
+                    userCoach.setEmail(coachUserDTO.getEmail());
+                    userCoach.setSex(coachUserDTO.getSex());
+                    userCoach.setBirthDate(coachUserDTO.getBirthDate());
+
+                    UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
+                    UserBasicMovilDTO userStar = new UserBasicMovilDTO();
+                    userStar.setUserId(starUserDTO.getUserId());
+                    userStar.setLogin(starUserDTO.getLogin());
+                    userStar.setFirstName(starUserDTO.getFirstName());
+                    userStar.setLastName(starUserDTO.getLastName());
+                    userStar.setSecondName(starUserDTO.getSecondName());
+                    userStar.setTypeUser(starUserDTO.getTypeUser());
+                    userStar.setFullName(starUserDTO.getFullName());
+                    userStar.setDisciplineId(starUserDTO.getDisciplineId());
+                    userStar.setDisciplineName(starUserDTO.getDisciplineName());
+                    userStar.setRoleId(starUserDTO.getRoleId());
+                    userStar.setEmail(starUserDTO.getEmail());
+                    userStar.setSex(starUserDTO.getSex());
+                    userStar.setBirthDate(starUserDTO.getBirthDate());
+                    userSession.setStarUser(userStar);
+                    userSession.setCoachUser(userCoach);
+                    userSession.setCoachAssignedPlanId(coachAssignedPlanDTO.getId());
+                }
             }
 
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
@@ -711,7 +710,7 @@ public class UserController {
             HttpHeaders responseHeaders = new HttpHeaders();
 
             if (userDto != null) {
-                responseHeaders.add("content-disposition", "inline; filename=user"+userId+".jpg");
+                responseHeaders.add("content-disposition", "inline; filename=user" + userId + ".jpg");
 
                 if (userDto.getProfilePhoto() != null) {
                     return new ResponseEntity(userDto.getProfilePhoto(), responseHeaders, HttpStatus.OK);
@@ -962,7 +961,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-    
+
     @RequestMapping(value = "/user/update/strava/autorize/{userId}/{stravaAutorize}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseService> updateUserStrava(@PathVariable("userId") Integer userId, @PathVariable("stravaAutorize") String stravaAutorize) {
         ResponseService responseService = new ResponseService();
@@ -977,7 +976,7 @@ public class UserController {
             currentUser.setIndStrava(stravaAutorize);
             responseService.setOutput("El usuario modificado exitosamente");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            userService.updateUser(currentUser);          
+            userService.updateUser(currentUser);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
