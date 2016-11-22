@@ -31,6 +31,8 @@ public class UserActivityPerformanceDTO {
     private String userCreateName;
     private String userUpdateName;
     private String photoUrl;
+    private String measure;
+    private String textLastExecution;
     private int count;
 
     public UserActivityPerformanceDTO() {
@@ -185,5 +187,21 @@ ActivityPerformanceMetafield activityPerformanceMetafieldId, Date executedDate, 
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
+
+    public String getTextLastExecution() {
+        return textLastExecution;
+    }
+
+    public void setTextLastExecution(String textLastExecution) {
+        this.textLastExecution = textLastExecution;
     }
 }
