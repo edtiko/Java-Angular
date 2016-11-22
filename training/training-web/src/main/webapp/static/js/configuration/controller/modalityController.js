@@ -209,6 +209,15 @@ trainingApp.controller('ModalityController', ['$scope', 'ModalityService', '$win
 
             $scope.getModalityPaginate();
         });
+        
+        $scope.openModality = function(ev) {
+            $scope.modality = {modalityId: null,
+            name: '',
+            disciplineId: {disciplineId: null, name: ''},
+            stateId: '',
+            userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
+            $scope.showCreateModality(ev);
+        };
 
         $scope.showCreateModality = function (ev) {
 

@@ -11,11 +11,13 @@ import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ColourIndicatorService;
 import co.com.expertla.training.service.plan.MailCommunicationService;
+import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,9 @@ public class MailController {
     
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-
+    
+    @Autowired
+    UserService userService;
     /**
      * Consulta los mail por destinatario <br>
      * Info. Creacion: <br>
@@ -299,16 +303,17 @@ public class MailController {
      * Info. Creacion: <br>
      * fecha 12/09/2016 <br>
      *
-     * @author Angela Ramirez
+     * @author Andres Felipe Lopez
      * @param userId
      * @return
      */
     @RequestMapping(value = "/get/mails/by/user/movil/{userId}", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<ResponseService> getMailsMovil(@PathVariable("userId") Integer userId) {
+    ResponseEntity<ResponseService> getMailsMovil(@PathVariable("userId") Integer userId,HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
+            String uri = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/get/mails/by/user/movil"));
             List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByUserId(userId);
             
             List<MailCommunicationMovilDTO> mailMovil = new ArrayList();
@@ -324,11 +329,25 @@ public class MailController {
                 mailCommunicationMovilDTO.setMessage(mail.getMessage());
                 mailCommunicationMovilDTO.setRead(mail.getRead());
                 if(mail.getReceivingUser() != null) {
-                    mailCommunicationMovilDTO.setReceivingUser(mail.getReceivingUser().getUserId());
+                    try {
+                        UserDTO userDto = userService.findById(mail.getReceivingUser().getUserId());
+                        mailCommunicationMovilDTO.setReceivingUser(mail.getReceivingUser().getUserId());
+                        mailCommunicationMovilDTO.setReceivingUserFullName(userDto.getFullName());
+                        mailCommunicationMovilDTO.setReceivingUserPhoto(uri+"/user/download/photo/"+mail.getReceivingUser().getUserId());
+                    } catch (Exception ex) {
+                        java.util.logging.Logger.getLogger(MailController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 
                 if(mail.getSendingUser()!= null) {
-                    mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
+                    try {
+                        UserDTO userDto = userService.findById(mail.getReceivingUser().getUserId());
+                        mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
+                        mailCommunicationMovilDTO.setSendingUserFullName(userDto.getFullName());
+                        mailCommunicationMovilDTO.setSendingUserPhoto(uri+"/user/download/photo/"+mail.getSendingUser().getUserId());
+                    } catch (Exception ex) {
+                        java.util.logging.Logger.getLogger(MailController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 mailCommunicationMovilDTO.setStateId(mail.getStateId());
                 mailCommunicationMovilDTO.setSubject(mail.getSubject());
@@ -353,16 +372,17 @@ public class MailController {
      * Info. Creacion: <br>
      * fecha 12/09/2016 <br>
      *
-     * @author Angela Ramirez
+     * @author Andres Felipe Lopez
      * @param userId
      * @return
      */
     @RequestMapping(value = "/get/sent/mails/by/user/movil/{userId}", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<ResponseService> getSentMails(@PathVariable("userId") Integer userId) {
+    ResponseEntity<ResponseService> getSentMails(@PathVariable("userId") Integer userId,HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
+            String uri = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/get/sent/mails"));
             List<MailCommunicationDTO> mails = mailCommunicationService.getSentMailsByUserId(userId);
             List<MailCommunicationMovilDTO> mailMovil = new ArrayList();
             mails.stream().forEach((mail) -> {
@@ -377,11 +397,25 @@ public class MailController {
                 mailCommunicationMovilDTO.setMessage(mail.getMessage());
                 mailCommunicationMovilDTO.setRead(mail.getRead());
                 if(mail.getReceivingUser() != null) {
-                    mailCommunicationMovilDTO.setReceivingUser(mail.getReceivingUser().getUserId());
+                    try {
+                        UserDTO userDto = userService.findById(mail.getReceivingUser().getUserId());
+                        mailCommunicationMovilDTO.setReceivingUser(mail.getReceivingUser().getUserId());
+                        mailCommunicationMovilDTO.setReceivingUserFullName(userDto.getFullName());
+                        mailCommunicationMovilDTO.setReceivingUserPhoto(uri+"/user/download/photo/"+mail.getReceivingUser().getUserId());
+                    } catch (Exception ex) {
+                        java.util.logging.Logger.getLogger(MailController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 
                 if(mail.getSendingUser()!= null) {
-                    mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
+                    try {
+                        UserDTO userDto = userService.findById(mail.getReceivingUser().getUserId());
+                        mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
+                        mailCommunicationMovilDTO.setSendingUserFullName(userDto.getFullName());
+                        mailCommunicationMovilDTO.setSendingUserPhoto(uri+"/user/download/photo/"+mail.getSendingUser().getUserId());
+                    } catch (Exception ex) {
+                        java.util.logging.Logger.getLogger(MailController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 mailCommunicationMovilDTO.setStateId(mail.getStateId());
                 mailCommunicationMovilDTO.setSubject(mail.getSubject());
@@ -616,6 +650,32 @@ public class MailController {
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
-
+    }
+    
+    /**
+     * Elimina mail del usuario <br>
+     * Info. Creacion: <br>
+     * fecha 12/09/2016 <br>
+     *
+     * @author Andres Felipe Lopez
+     * @param mailCommunication
+     * @return
+     */
+    @RequestMapping(value = "/delete/mail/by/id", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<ResponseService> deleteMailById(@RequestBody MailCommunication mailCommunication) {
+        ResponseService responseService = new ResponseService();
+        try {
+            mailCommunicationService.remove(mailCommunication);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Correo eliminado correctamente");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput("Error al eliminar mensaje");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
     }
 }

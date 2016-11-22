@@ -128,4 +128,5 @@ public interface UserActivityPerformanceDao extends BaseDAO<UserActivityPerforma
      */
     public List<ChartDTO> findActivitiesByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
     
+    public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
 }
