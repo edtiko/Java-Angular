@@ -334,29 +334,34 @@ public class UserActivityPerformanceController {
                 if (userActivityPerformanceDTO.getActivityPerformanceMetafieldId() != null
                         && userActivityPerformanceDTO.getActivityPerformanceMetafieldId().getActivityPerformanceMetafieldId() != null) {
                     Integer graphicId = userActivityPerformanceDTO.getActivityPerformanceMetafieldId().getActivityPerformanceMetafieldId();
-
+                    userActivityPerformanceDTO.setTextLastExecution("Últimos 7 días");
                     if (graphicId.equals(1)) {
-                        userActivityPerformanceDTO.setPhotoUrl(uri + "checked-list.png");
+                        userActivityPerformanceDTO.setPhotoUrl(uri + "checked-list.png");                        
                     }
 
                     if (graphicId.equals(2)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "fire.png");
+                        userActivityPerformanceDTO.setMeasure("cal");
                     }
 
                     if (graphicId.equals(3)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "distance.png");
+                        userActivityPerformanceDTO.setMeasure("mts");
                     }
 
                     if (graphicId.equals(4)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "heart-beats_read.png");
+                        userActivityPerformanceDTO.setMeasure("ppm");
                     }
 
                     if (graphicId.equals(5)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "heart-beats_blue.png");
+                        userActivityPerformanceDTO.setMeasure("ppm");
                     }
 
                     if (graphicId.equals(6)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "line-chart.png");
+                        userActivityPerformanceDTO.setMeasure("seg/mts");
                     }
                 }
             }
