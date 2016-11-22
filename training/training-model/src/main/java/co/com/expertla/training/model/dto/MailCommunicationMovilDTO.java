@@ -10,7 +10,7 @@ import java.util.Date;
 * MailCommunication DTO <br>
 * Creation Date : <br>
 * date 12/09/2016 <br>
-* @author Angela Ramírez
+* @author Andres Felipe Lopez
 **/
 public class MailCommunicationMovilDTO implements Serializable {
 
@@ -24,6 +24,10 @@ public class MailCommunicationMovilDTO implements Serializable {
     private Boolean read;
     private Integer receivingUser;
     private Integer sendingUser;
+    private String receivingUserFullName;
+    private String receivingUserPhoto;
+    private String sendingUserFullName;
+    private String sendingUserPhoto;
 
     public MailCommunicationMovilDTO() {
     }
@@ -94,6 +98,38 @@ public class MailCommunicationMovilDTO implements Serializable {
 
     public void setSendingUser(Integer sendingUser) {
         this.sendingUser = sendingUser;
+    }
+
+    public String getReceivingUserFullName() {
+        return receivingUserFullName;
+    }
+
+    public void setReceivingUserFullName(String receivingUserFullName) {
+        this.receivingUserFullName = receivingUserFullName;
+    }
+
+    public String getReceivingUserPhoto() {
+        return receivingUserPhoto;
+    }
+
+    public void setReceivingUserPhoto(String receivingUserPhoto) {
+        this.receivingUserPhoto = receivingUserPhoto;
+    }
+
+    public String getSendingUserFullName() {
+        return sendingUserFullName;
+    }
+
+    public void setSendingUserFullName(String sendingUserFullName) {
+        this.sendingUserFullName = sendingUserFullName;
+    }
+
+    public String getSendingUserPhoto() {
+        return sendingUserPhoto;
+    }
+
+    public void setSendingUserPhoto(String sendingUserPhoto) {
+        this.sendingUserPhoto = sendingUserPhoto;
     }
 
 

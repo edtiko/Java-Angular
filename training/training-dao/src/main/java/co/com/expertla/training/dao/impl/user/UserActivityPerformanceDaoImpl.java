@@ -5,6 +5,7 @@ import co.com.expertla.training.dao.user.UserActivityPerformanceDao;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ChartDTO;
 import co.com.expertla.training.model.dto.UserActivityPerformanceDTO;
+import co.com.expertla.training.model.entities.ActivityPerformanceMetafield;
 import co.com.expertla.training.model.entities.UserActivityPerformance;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -382,6 +383,60 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
                 chartList.add(obj);
             }
             return chartList;
+    }
+    
+    @Override
+    public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId(Date fromDate, Date toDate, Integer userId) throws Exception {
+         StringBuilder builder = new StringBuilder();
+//        builder.append("select new co.com.expertla.training.model.dto.UserActivityPerformanceDTO(a.userActivityPerformanceId,");
+//        builder.append("a.userId,a.activityId,a.value,a.activityPerformanceMetafieldId,a.executedDate, a.creationDate");
+//        builder.append(") from UserActivityPerformance a ");
+//        builder.append(" where a.userId.userId = :id ");
+//        builder.append(" and a.executedDate BETWEEN :fromDate AND :toDate ");
+        builder.append(" select count(1), activity_performance_metafield_id from user_activity_performance ");
+        builder.append(" where activity_performance_metafield_id = 1 ");
+        builder.append(" AND user_id =  ").append(userId);
+        builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
+        builder.append(" AND executed_date <= date ").append("'").append(toDate).append("'");
+        builder.append(" group by activity_performance_metafield_id UNION ");
+        builder.append(" select sum(CAST(value AS float8)), activity_performance_metafield_id from user_activity_performance ");
+        builder.append(" where activity_performance_metafield_id = 2 ");
+        builder.append(" AND user_id =  ").append(userId);
+        builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
+        builder.append(" AND executed_date <= date ").append("'").append(toDate).append("'");
+        builder.append(" group by activity_performance_metafield_id UNION ");
+        builder.append(" select sum(CAST(value AS float8)), activity_performance_metafield_id from user_activity_performance ");
+        builder.append(" where activity_performance_metafield_id = 3 ");
+        builder.append(" AND user_id =  ").append(userId);
+        builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
+        builder.append(" AND executed_date <= date ").append("'").append(toDate).append("'");
+        builder.append(" group by activity_performance_metafield_id UNION ");
+        builder.append(" select max(CAST(value AS float8)), activity_performance_metafield_id from user_activity_performance ");
+        builder.append(" where activity_performance_metafield_id = 4 ");
+        builder.append(" AND user_id =  ").append(userId);
+        builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
+        builder.append(" AND executed_date <= date ").append("'").append(toDate).append("'");
+        builder.append(" group by activity_performance_metafield_id UNION ");
+        builder.append(" select avg(CAST(value AS float8)), activity_performance_metafield_id from user_activity_performance ");
+        builder.append(" where activity_performance_metafield_id = 5 ");
+        builder.append(" AND user_id =  ").append(userId);
+        builder.append(" AND executed_date >= date ").append("'").append(fromDate).append("'");
+        builder.append(" AND executed_date <= date ").append("'").append(toDate).append("'");
+        builder.append(" group by activity_performance_metafield_id ");
+        Query query = this.getEntityManager().createNativeQuery(builder.toString());
+            List<Object[]> list = query.getResultList();
+            List<UserActivityPerformanceDTO> chartList = new ArrayList<>();
+            UserActivityPerformanceDTO obj = new UserActivityPerformanceDTO();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            for (Object[] result : list) {
+                obj = new UserActivityPerformanceDTO();
+                obj.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(Integer.parseInt(result[1].toString())));
+                obj.setValue(result[0].toString());
+                chartList.add(obj);
+            }
+        
+//        List<UserActivityPerformanceDTO> list = query.getResultList();
+        return chartList;
     }
 
 }

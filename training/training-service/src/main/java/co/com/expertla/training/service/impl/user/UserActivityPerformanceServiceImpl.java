@@ -83,4 +83,9 @@ public class UserActivityPerformanceServiceImpl implements UserActivityPerforman
     public List<ChartDTO> findActivitiesByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception {
         return userActivityPerformanceDao.findActivitiesByDateRangeAndUserId(fromDate, toDate, userId);
     }
+    
+    @Override
+    public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId(Date fromDate, Date toDate, Integer userId) throws Exception {
+        return userActivityPerformanceDao.findConsolidationByDateRangeAndUserId(fromDate, toDate, userId);
+    }
 }

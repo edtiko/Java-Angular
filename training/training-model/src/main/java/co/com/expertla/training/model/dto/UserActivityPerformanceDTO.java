@@ -30,7 +30,11 @@ public class UserActivityPerformanceDTO {
     private Integer userUpdate;
     private String userCreateName;
     private String userUpdateName;
+    private String photoUrl;
     private int count;
+
+    public UserActivityPerformanceDTO() {
+    }
     
     public UserActivityPerformanceDTO(Integer userActivityPerformanceId,User userId,Activity activityId, String value,
 ActivityPerformanceMetafield activityPerformanceMetafieldId, Date executedDate, Date creationDate,Date lastUpdate,
@@ -93,6 +97,14 @@ ActivityPerformanceMetafield activityPerformanceMetafieldId, Date executedDate, 
     public void setActivityId(Activity activityId) {
         this.activityId = activityId;
     }    
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 
     public String getValue() {
         return value;
