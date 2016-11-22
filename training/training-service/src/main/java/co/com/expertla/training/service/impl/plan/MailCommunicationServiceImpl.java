@@ -4,6 +4,7 @@ import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.dao.plan.MailCommunicationDao;
 import co.com.expertla.training.dao.plan.SupervStarCoachDao;
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
@@ -11,8 +12,11 @@ import co.com.expertla.training.model.dto.MailCommunicationDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.CoachAssignedPlan;
+import co.com.expertla.training.model.entities.CoachExtAthlete;
 import co.com.expertla.training.model.entities.MailCommunication;
 import co.com.expertla.training.model.entities.SupervStarCoach;
+import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.plan.MailCommunicationService;
 import co.com.expertla.training.service.plan.PlanMessageService;
 import co.com.expertla.training.service.plan.PlanVideoService;
@@ -20,6 +24,7 @@ import co.com.expertla.training.service.plan.SupervStarCoachService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,10 +53,26 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     private PlanVideoService planVideoService;
 
     @Override
-    public MailCommunication create(MailCommunication mailCommunication) throws Exception {
+    public MailCommunication create(MailCommunicationDTO dto) throws Exception {
+        MailCommunication mailCommunication = new MailCommunication();
+        mailCommunication.setMessage(dto.getMessage());
+        mailCommunication.setSubject(dto.getSubject());
+        mailCommunication.setReceivingUser(new User(dto.getReceivingUser().getUserId()));
+        mailCommunication.setSendingUser(new User(dto.getSendingUser().getUserId()));
         mailCommunication.setRead(Boolean.FALSE);
         mailCommunication.setStateId(StateEnum.ACTIVE.getId());
         mailCommunication.setCreationDate(new Date());
+        if (dto.getRoleSelected() != null && dto.getRoleSelected() != -1 && Objects.equals(dto.getRoleSelected(), RoleEnum.COACH_INTERNO.getId())) {
+            mailCommunication.setToStar(Boolean.FALSE);
+        } else if (dto.getRoleSelected() != null && dto.getRoleSelected() != -1 && Objects.equals(dto.getRoleSelected(), RoleEnum.ESTRELLA.getId())) {
+            mailCommunication.setToStar(Boolean.TRUE);
+        }
+
+        if (dto.getCoachAssignedPlanId() != null) {
+            mailCommunication.setCoachAssignedPlanId(new CoachAssignedPlan(dto.getCoachAssignedPlanId()));
+        } else if (dto.getCoachExtAthleteId() != null) {
+            mailCommunication.setCoachExtAthleteId(new CoachExtAthlete(dto.getCoachExtAthleteId()));
+        }
         return mailCommunicationDao.create(mailCommunication);
     }
 
@@ -287,8 +308,8 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
 
     @Override
-    public Integer getCountMailsByPlan(Integer planId, Integer userId) throws Exception {
-       return mailCommunicationDao.getCountMailsByPlan(planId, userId);
+    public Integer getCountMailsByPlan(Integer planId, Integer userId, Integer roleSelected) throws Exception {
+       return mailCommunicationDao.getCountMailsByPlan(planId, userId,roleSelected);
     }
 
     @Override
@@ -297,8 +318,8 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
 
     @Override
-    public Integer getCountMailsReceived(Integer planId, Integer userId) throws Exception {
-        return mailCommunicationDao.getCountMailsReceived(planId, userId);
+    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer roleSelected) throws Exception {
+        return mailCommunicationDao.getCountMailsReceived(planId, userId,roleSelected);
     }
 
     @Override
@@ -307,17 +328,17 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
 
     @Override
-    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId) throws Exception {
-        return mailCommunicationDao.getMailsByPlan(tipoPlan, userId, planId);
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected) throws Exception {
+        return mailCommunicationDao.getMailsByPlan(tipoPlan, userId, planId,roleSelected);
     }
 
     @Override
-    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws Exception {
-        return mailCommunicationDao.getMailsEmergencyByPlan(planId, fromUserId);
+    public Integer getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
+        return mailCommunicationDao.getMailsEmergencyByPlan(planId, fromUserId,roleSelected);
     }
     
     @Override
-    public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws Exception {
+    public Integer getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws Exception {
         return mailCommunicationDao.getMailsEmergencyByPlanExt(planId, fromUserId);
     }
 }

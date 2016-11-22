@@ -8,7 +8,6 @@ package co.com.expertla.training.service.plan;
 import co.com.expertla.training.exception.TrainingException;
 import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
-import co.com.expertla.training.model.dto.UserDTO;
 import java.util.List;
 
 /**
@@ -17,15 +16,15 @@ import java.util.List;
  */
 public interface PlanMessageService {
 
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan)throws  Exception, TrainingException;
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected)throws  Exception, TrainingException;
 
     public PlanMessageDTO saveMessage(PlanMessageDTO message)throws  Exception, TrainingException;
 
-    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId)throws  Exception, TrainingException;
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception, TrainingException;
     
-    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId)throws  Exception;
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception;
 
-    public void readMessages(Integer coachAssignedPlanId, Integer userId) throws  Exception;
+    public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws  Exception;
     
     public void readMessage(Integer planMessageId) throws  Exception;
 
@@ -82,4 +81,8 @@ public interface PlanMessageService {
      * @throws Exception 
      */
     public List<PlanMessageDTO> getMessagesNotReadedByReceivingUserAndSendingUser(Integer receivingUserId, Integer sendingUserId)throws  Exception;
+
+    public Integer getCountMessagesEmergency(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception;
+
+    public Integer getCountMessagesEmergencyExt(Integer coachAssignedPlanId, Integer userId)throws  Exception;
 }

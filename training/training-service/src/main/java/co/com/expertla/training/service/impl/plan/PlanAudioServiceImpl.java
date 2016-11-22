@@ -31,8 +31,8 @@ public class PlanAudioServiceImpl implements PlanAudioService {
     }
 
     @Override
-    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan) throws Exception {
-        return planAudioDao.getAudiosByUser(coachAssignedPlanId, userId, fromto, tipoPlan);
+    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan, Integer roleSelected) throws Exception {
+        return planAudioDao.getAudiosByUser(coachAssignedPlanId, userId, fromto, tipoPlan,roleSelected);
     }
 
     @Override
@@ -41,18 +41,18 @@ public class PlanAudioServiceImpl implements PlanAudioService {
     }
 
     @Override
-    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId) throws Exception {
-        return planAudioDao.getCountAudioByPlan(coachAssignedPlanId, userId);
+    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
+        return planAudioDao.getCountAudioByPlan(coachAssignedPlanId, userId,roleSelected);
     }
 
     @Override
-    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId) throws Exception {
-        return planAudioDao.getCountAudiosReceived(coachAssignedPlanId, userId);
+    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
+        return planAudioDao.getCountAudiosReceived(coachAssignedPlanId, userId,roleSelected);
     }
 
     @Override
-    public void readAudios(Integer coachAssignedPlanId, Integer userId) throws Exception {
-        planAudioDao.readAudios(coachAssignedPlanId, userId);
+    public void readAudios(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
+        planAudioDao.readAudios(coachAssignedPlanId, userId,roleSelected);
     }
 
     @Override
@@ -76,8 +76,8 @@ public class PlanAudioServiceImpl implements PlanAudioService {
     }
 
     @Override
-    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId) throws Exception {
-        return planAudioDao.getCountAudioEmergencyByPlan(planId, fromUserId);
+    public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
+        return planAudioDao.getCountAudioEmergencyByPlan(planId, fromUserId,roleSelected);
     }
 
     @Override

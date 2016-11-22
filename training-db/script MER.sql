@@ -557,28 +557,6 @@ create table state (
    constraint pk_state primary key (state_id)
 );
 
-/*==============================================================*/
-/* Table: training_plan                                         */
-/*==============================================================*/
-create table training_plan (
-   training_plan_id     serial               not null,
-   name                 varchar(500)         not null,
-   description          varchar(5000)        null,
-   duration             decimal(10,2)        null,
-   video_count          integer              not null default 0,
-   video_emergency      integer              not null default 0,      
-   video_duration       integer              not null default 0,
-   message_count        integer              not null default 0,
-   message_emergency    integer              not null default 0,
-   email_count          integer              not null default 0,
-   email_emergency      integer              not null default 0,
-   audio_count          integer              not null default 0,
-   audio_emergency      integer              not null default 0,
-   audio_duration       integer              not null default 0,    
-   creation_date        date                 not null,
-   end_date             date                 not null,
-   constraint pk_training_plan primary key (training_plan_id)
-);
 
 /*==============================================================*/
 /* Table: training_plan_user                                    */
@@ -791,9 +769,10 @@ create table plan_message (
    message                   varchar(5000),
    message_user_id           integer not null,
    receiving_user_id         integer null, 
-   readed                    boolean  default false,
+   readed                    boolean  not null default false,
    state_id                  integer  null,
    creation_date             timestamp without time zone,
+   to_star                   boolean default false,
    constraint pk_plan_message primary key (plan_message_id)
 );
 
@@ -824,8 +803,9 @@ create table plan_video (
    to_user_id                integer not null,    
    coach_assigned_plan_id    integer null,   
    coach_ext_athlete_id      integer, 
-   readed boolean DEFAULT false,
+   readed                    boolean DEFAULT false,
    creation_date             timestamp without time zone,
+   to_star                   boolean default false,
    constraint pk_plan_video primary key (plan_video_id)
 );
 
@@ -840,11 +820,16 @@ create table plan_audio (
    to_user_id                integer not null,    
    coach_assigned_plan_id    integer null,   
    coach_ext_athlete_id      integer null, 
-   readed boolean not null DEFAULT false,
+   readed                    boolean not null DEFAULT false,
    creation_date             timestamp without time zone,
+   to_star                   boolean default false,
    constraint pk_plan_audio primary key (plan_audio_id)
 );
 
+
+/*==============================================================*/
+/* Table: mail_communication                                         */
+/*==============================================================*/
 CREATE TABLE mail_communication
 (
   mail_communication_id serial NOT NULL,
@@ -858,6 +843,7 @@ CREATE TABLE mail_communication
   mail_communication_parent_id integer,
   coach_assigned_plan_id    integer null,   
   coach_ext_athlete_id      integer null, 
+  to_star                   boolean default false,
   CONSTRAINT pk_email PRIMARY KEY (mail_communication_id),
   CONSTRAINT fk_email_ref_user_sending FOREIGN KEY (sending_user)
       REFERENCES user_training (user_id) MATCH SIMPLE
@@ -873,6 +859,9 @@ CONSTRAINT fk_email_ref_coach_assigned_plan FOREIGN KEY (coach_assigned_plan_id)
       ON UPDATE RESTRICT ON DELETE RESTRICT
 );
 
+/*==============================================================*/
+/* Table: coach_ext_athlete                                         */
+/*==============================================================*/
 create table coach_ext_athlete(
 coach_ext_athlete_id  serial not null,
 training_plan_user_id integer not null, --id plan coach externo
@@ -881,6 +870,54 @@ state_id integer not null, -- id estado ej: retirado, pendiente..
 creation_date timestamp without time zone, 
 constraint pk_coach_ext_athlete primary key (coach_ext_athlete_id)
 );
+
+/*==============================================================*/
+/* Table: training_plan                                         */
+/*==============================================================*/
+create table training_plan (
+   training_plan_id     serial               not null,
+   name                 varchar(500)         not null,
+   description          varchar(5000)        null,
+   duration             decimal(10,2)        null,
+   creation_date        date                 not null,
+   end_date             date                 not null,
+   constraint pk_training_plan primary key (training_plan_id)
+);
+
+/*==============================================================*/
+/* Table: configuration_plan                                         */
+/*==============================================================*/
+create table configuration_plan (
+   configuration_plan_id     serial               not null,
+   training_plan_id                 integer                    not null,
+   communication_role_id              integer                   not null,
+   video_count          integer              not null default 0,
+   video_emergency      integer              not null default 0,      
+   video_duration       integer              not null default 0,
+   message_count        integer              not null default 0,
+   message_emergency    integer              not null default 0,
+   email_count          integer              not null default 0,
+   email_emergency      integer              not null default 0,
+   audio_count          integer              not null default 0,
+   audio_emergency      integer              not null default 0,
+   audio_duration       integer              not null default 0,    
+   creation_date        date                 null,
+   user_create        integer              null,
+   last_update          date                 null, 
+   user_update     integer              null,
+   constraint pk_configuration_plan primary key (configuration_plan_id)
+);
+
+
+alter table configuration_plan
+add constraint fk_configuration_plan_training_plan foreign key (training_plan_id)
+references training_plan(training_plan_id)
+on delete restrict on update restrict;
+
+alter table configuration_plan
+add constraint fk_configuration_plan_ref_role foreign key (communication_role_id)
+references role(role_id)
+on delete restrict on update restrict;
 
 alter table coach_ext_athlete
 add constraint fk_coach_ext_athlete_reference_training_plan_user foreign key (training_plan_user_id)

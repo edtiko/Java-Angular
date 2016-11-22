@@ -6,6 +6,7 @@
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
+import co.com.expertla.training.model.entities.ConfigurationPlan;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.User;
 import java.util.Date;
@@ -30,25 +31,25 @@ public class CoachAssignedPlanDTO{
          
      }
     
-    public CoachAssignedPlanDTO(Integer id, User athleteUserId, User coachUserId, User starUserId, Integer startTeamId,  TrainingPlan trainingPlan){
+    public CoachAssignedPlanDTO(Integer id, User athleteUserId, User coachUserId, User starUserId, Integer startTeamId,  ConfigurationPlan plan){
         this.id = id;
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
         this.starUserId = UserDTO.mapFromUserEntity(starUserId);
         this.starTeamId = startTeamId;
         this.external = false;
-        if(trainingPlan != null){
-           trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(trainingPlan);
+        if(plan != null){
+           trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
         }
     }
 
-     public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {
+    /* public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {
         if (e != null) {
             return new CoachAssignedPlanDTO(e.getCoachAssignedPlanId(), e.getTrainingPlanUserId().getUserId(), 
                     e.getStarTeamId().getCoachUserId(), e.getStarTeamId().getStarUserId(), e.getStarTeamId().getStarTeamId(), e.getTrainingPlanUserId().getTrainingPlanId());
         }
         return null;
-    }
+    }*/
     
 
     public Integer getId() {

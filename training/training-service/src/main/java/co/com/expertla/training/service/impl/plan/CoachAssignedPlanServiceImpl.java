@@ -33,8 +33,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     }
 
     @Override
-    public CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception {
-        return dao.findByAthleteUserId(userId);
+    public CoachAssignedPlanDTO findByAthleteUserId(Integer userId, Integer roleSelected) throws Exception {
+        return dao.findByAthleteUserId(userId, roleSelected);
     }
 
     @Override

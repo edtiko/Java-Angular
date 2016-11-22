@@ -631,9 +631,11 @@ public class UserController {
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
             }
+           
+            if(userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
+                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId(),-1);
+                
 
-            if (userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
-                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId());
                 UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
                 UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
                 userCoach.setUserId(coachUserDTO.getUserId());

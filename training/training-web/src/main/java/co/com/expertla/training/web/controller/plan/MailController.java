@@ -151,15 +151,17 @@ public class MailController {
      * @param tipoPlan
      * @param userId
      * @param planId
+     * @param roleSelected
      * @return
      */
-    @RequestMapping(value = "/get/mails/by/plan/{tipoPlan}/{userId}/{planId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/mails/by/plan/{tipoPlan}/{userId}/{planId}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMailsByPlan(@PathVariable("tipoPlan") String tipoPlan, @PathVariable("userId") Integer userId, @PathVariable("planId") Integer planId ) {
+    Response getMailsByPlan(@PathVariable("tipoPlan") String tipoPlan, @PathVariable("userId") Integer userId, 
+                            @PathVariable("planId") Integer planId, @PathVariable("roleSelected") Integer roleSelected ) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByPlan(tipoPlan, userId, planId);
+            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByPlan(tipoPlan, userId, planId,roleSelected);
             List<ColourIndicator> colours = colourIndicatorService.findAll();
             
             int firstOrder = 0;
@@ -217,7 +219,7 @@ public class MailController {
      * @return
      */
     @RequestMapping(value = "mailCommunication/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> createMailCommunication(@RequestBody MailCommunication mailCommunication) {
+    public ResponseEntity<ResponseService> createMailCommunication(@RequestBody MailCommunicationDTO mailCommunication) {
         ResponseService responseService = new ResponseService();
         Integer sessionId = null;
         int availableMails = 0;
@@ -225,14 +227,14 @@ public class MailController {
         boolean isPlan = false;
         try {
            
-            if(mailCommunication.getCoachAssignedPlanId() != null && mailCommunication.getCoachAssignedPlanId().getCoachAssignedPlanId() != null){
+            if(mailCommunication.getCoachAssignedPlanId() != null){
                 isPlan = true;
-                sessionId = mailCommunication.getCoachAssignedPlanId().getCoachAssignedPlanId();
-                  availableMails =  mailCommunicationService.getCountMailsByPlan(sessionId, mailCommunication.getSendingUser().getUserId());
-                    emergencyMails = mailCommunicationService.getMailsEmergencyByPlan(sessionId, mailCommunication.getSendingUser().getUserId());
-            }else if(mailCommunication.getCoachExtAthleteId() != null && mailCommunication.getCoachExtAthleteId().getCoachExtAthleteId() != null){
+                sessionId = mailCommunication.getCoachAssignedPlanId();
+                  availableMails =  mailCommunicationService.getCountMailsByPlan(sessionId, mailCommunication.getSendingUser().getUserId(), mailCommunication.getRoleSelected());
+                    emergencyMails = mailCommunicationService.getMailsEmergencyByPlan(sessionId, mailCommunication.getSendingUser().getUserId(), mailCommunication.getRoleSelected());
+            }else if(mailCommunication.getCoachExtAthleteId() != null){
                    isPlan = true;
-                sessionId = mailCommunication.getCoachExtAthleteId().getCoachExtAthleteId();
+                sessionId = mailCommunication.getCoachExtAthleteId();
                    availableMails = mailCommunicationService.getCountMailsByPlanExt(sessionId, mailCommunication.getReceivingUser().getUserId());
                    emergencyMails = mailCommunicationService.getMailsEmergencyByPlanExt(sessionId, mailCommunication.getSendingUser().getUserId());
             }else{
@@ -602,21 +604,25 @@ public class MailController {
         }
     }
     
-    @RequestMapping(value = "mail/get/count/available/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "mail/get/count/available/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableMails(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAvailableMails(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
+                               @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
-        try {
             Integer count = 0;
+            Integer emergency = 0;
+        try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = mailCommunicationService.getCountMailsByPlan(planId, userId);
+                count = mailCommunicationService.getCountMailsByPlan(planId, userId,roleSelected);
+                emergency = mailCommunicationService.getMailsEmergencyByPlan(planId, userId,roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = mailCommunicationService.getCountMailsByPlanExt(planId, userId);
+                emergency = mailCommunicationService.getMailsEmergencyByPlanExt(planId, userId);
             }
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(count);
+            responseService.setOutput(count==0?emergency:count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -628,15 +634,16 @@ public class MailController {
 
     }
 
-    @RequestMapping(value = "mail/get/count/received/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "mail/get/count/received/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getReceivedMails(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getReceivedMails(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
+                              @PathVariable("tipoPlan") String tipoPlan,  @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer count = 0;
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = mailCommunicationService.getCountMailsReceived(planId, userId);
+                count = mailCommunicationService.getCountMailsReceived(planId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = mailCommunicationService.getCountMailsReceivedExt(planId, userId);
             }

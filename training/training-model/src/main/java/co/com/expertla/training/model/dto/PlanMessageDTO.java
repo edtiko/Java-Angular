@@ -24,6 +24,8 @@ public class PlanMessageDTO {
     private UserDTO receivingUserId;
     private String readableTime;
     private Double hours;
+    private Boolean toStar;
+    private Integer roleSelected;
 
     public PlanMessageDTO() {
 
@@ -138,5 +140,23 @@ public class PlanMessageDTO {
         this.hours = hours;
 
     }
+
+    public Boolean getToStar() {
+        return toStar;
+    }
+
+    public void setToStar(Boolean toStar) {
+        this.toStar = toStar;
+    }
+
+    public Integer getRoleSelected() {
+        return roleSelected;
+    }
+
+    public void setRoleSelected(Integer roleSelected) {
+        this.roleSelected = roleSelected;
+    }
+    
+    
     
 }

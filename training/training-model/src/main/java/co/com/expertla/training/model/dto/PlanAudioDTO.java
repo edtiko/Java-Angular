@@ -26,6 +26,7 @@ public class PlanAudioDTO {
     private Integer sesionId;
     private Integer coachAssignedPlanId;
     private Integer coachExtAthleteId;
+    private Boolean toStar;
     
     public PlanAudioDTO(){
         
@@ -40,13 +41,13 @@ public class PlanAudioDTO {
         
     }
     
-      public PlanAudioDTO(Integer planAudioId, String name, User fromUserId, User toUserId, Date createDate){
+      public PlanAudioDTO(Integer planAudioId, String name, User fromUserId, User toUserId, Date createDate, Boolean toStar){
         this.id = planAudioId;
         this.name = name;
         this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
         this.toUser =   UserDTO.mapFromUserEntity(toUserId);
         this.createDate = createDate;
-        
+        this.toStar = toStar;
     }
     
     public static PlanAudioDTO mapFromPlanAudioEntityShort(PlanAudio audio) {
@@ -58,7 +59,7 @@ public class PlanAudioDTO {
     
       public static PlanAudioDTO mapFromPlanAudioEntity(PlanAudio audio) {
         if (audio != null) {
-            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getFromUserId(), audio.getToUserId(), audio.getCreationDate());
+            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getFromUserId(), audio.getToUserId(), audio.getCreationDate(), audio.getToStar());
         }
         return null;
     }
@@ -149,6 +150,22 @@ public class PlanAudioDTO {
 
     public void setCoachExtAthleteId(Integer coachExtAthleteId) {
         this.coachExtAthleteId = coachExtAthleteId;
+    }
+
+    public String getAudioPath() {
+        return audioPath;
+    }
+
+    public void setAudioPath(String audioPath) {
+        this.audioPath = audioPath;
+    }
+
+    public Boolean getToStar() {
+        return toStar;
+    }
+
+    public void setToStar(Boolean toStar) {
+        this.toStar = toStar;
     }
     
       

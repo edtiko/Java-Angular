@@ -1,8 +1,4 @@
-<md-content layout-padding id="audioContent" ng-controller="AudioMessageController">
-    <div layout="row" layout-align="center">
-
-        <div flex="50"  layout-align="center center">
-                <md-tabs md-dynamic-height md-selected="selectedIndex">
+    <md-tabs md-dynamic-height md-selected="selectedIndex">
                 <md-tab label="Grabar Audio">
                     <md-content class="md-padding">
                             <ng-audio-recorder id='audioInput'  audio-model='recordedInput' ng-show="timeLimit > 0" show-player="false" time-limit="timeLimit">
@@ -62,22 +58,3 @@
                     </md-content>
                 </md-tab>
             </md-tabs>
-
-        </div>
-        <div flex="60" >
-            <div  ng-include src="'static/views/audioMessage/sent.html'"></div>
-            
-            <div  ng-include src="'static/views/audioMessage/received.html'"></div>
-        </div>
-
-    </div>
-</md-content>
-<script>
-
-    function onUpload() {
-        var scope = angular.element($("#audioContent")).scope();
-        scope.$apply(function () {
-            scope.uploadRecord();
-        });
-    }
-</script>

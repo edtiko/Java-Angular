@@ -81,6 +81,8 @@ public class PlanVideo implements Serializable {
     private PlanVideo fromPlanVideoId;
     @OneToMany(mappedBy = "fromPlanVideoId")
     private Collection<PlanVideo> planVideoCollection2;
+    @Column(name = "to_star")
+    private Boolean toStar;
 
     public PlanVideo() {
     }
@@ -209,6 +211,15 @@ public class PlanVideo implements Serializable {
     public void setIndRejected(Integer indRejected) {
         this.indRejected = indRejected;
     }
+
+    public Boolean getToStar() {
+        return toStar;
+    }
+
+    public void setToStar(Boolean toStar) {
+        this.toStar = toStar;
+    }
+    
     
     @Override
     public int hashCode() {

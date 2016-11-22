@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.ConfigurationPlan;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -49,10 +50,8 @@ public class TrainingPlanDTO {
 
     //Short
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
-            Integer videoCount, Integer videoDuration, Integer videoEmergency, Integer messageCount,
-            Integer messageEmergency, Integer emailCount, Integer emailEmergency, Integer audioCount, Integer audioDuration,
-            Integer audioEmergency, Date endDate, Short stateId, Double price, Date creationDate,
-            Date lastUpdate, Integer userCreate, Integer userUpdate) {
+           Date endDate, Short stateId, Double price, Date creationDate,
+            Date lastUpdate, Integer userCreate, Integer userUpdate, ConfigurationPlan cplan) {
         this.trainingPlanId = trainingPlanId;
         this.name = name;
         this.description = description;
@@ -60,23 +59,23 @@ public class TrainingPlanDTO {
         this.lastUpdate = lastUpdate;
         this.userCreate = userCreate;
         this.userUpdate = userUpdate;
-        this.videoCount = videoCount;
-        this.videoDuration = videoDuration;
-        this.videoEmergency = videoEmergency;
-        this.messageCount = messageCount;
-        this.messageEmergency = messageEmergency;
-        this.emailCount = emailCount;
-        this.emailEmergency = emailEmergency;
-        this.audioCount = audioCount;
-        this.audioDuration = audioDuration;
-        this.audioEmergency = audioEmergency;
+        this.videoCount = cplan.getVideoCount();
+        this.videoDuration = cplan.getVideoDuration();
+        this.videoEmergency = cplan.getVideoEmergency();
+        this.messageCount = cplan.getMessageCount();
+        this.messageEmergency = cplan.getMessageEmergency();
+        this.emailCount = cplan.getEmailCount();
+        this.emailEmergency = cplan.getEmailEmergency();
+        this.audioCount = cplan.getAudioCount();
+        this.audioDuration = cplan.getAudioDuration();
+        this.audioEmergency = cplan.getAudioEmergency();
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
     }
 
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
-            Integer videoCount, Integer messageCount, Integer emailCount, Integer audioCount,
+            //Integer videoCount, Integer messageCount, Integer emailCount, Integer audioCount,
             Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate,
             String userCreateName, String userUpdateName,
             Integer userCreate, Integer userUpdate) {
@@ -89,23 +88,21 @@ public class TrainingPlanDTO {
         this.userUpdate = userUpdate;
         this.userCreateName = userCreateName;
         this.userUpdateName = userUpdateName;
-        this.videoCount = videoCount;
+       /* this.videoCount = videoCount;
         this.messageCount = messageCount;
         this.emailCount = emailCount;
-        this.audioCount = audioCount;
+        this.audioCount = audioCount;*/
         this.endDate = endDate;
         this.stateId = stateId;
         this.price = price;
     }
 
-    public static TrainingPlanDTO mapFromTrainingPlanEntity(TrainingPlan plan) {
-        if (plan != null) {
+    public static TrainingPlanDTO mapFromTrainingPlanEntity(ConfigurationPlan cplan) {
+        if (cplan != null) {
+            TrainingPlan plan = cplan.getTrainingPlanId();
             return new TrainingPlanDTO(plan.getTrainingPlanId(), plan.getName(), plan.getDescription(),
-                    plan.getVideoCount(), plan.getVideoDuration(), plan.getVideoEmergency(),
-                    plan.getMessageCount(), plan.getMessageEmergency(), plan.getEmailCount(), plan.getEmailEmergency(),
-                    plan.getAudioCount(), plan.getAudioDuration(), plan.getAudioEmergency(),
                     plan.getEndDate(), plan.getStateId(), plan.getPrice(), plan.getCreationDate(),
-                    plan.getLastUpdate(), plan.getUserCreate(), plan.getUserUpdate());
+                    plan.getLastUpdate(), plan.getUserCreate(), plan.getUserUpdate(), cplan);
         }
         return null;
     }
@@ -132,7 +129,7 @@ public class TrainingPlanDTO {
         }
         return videoCount;
     }
-
+   
     public void setVideoCount(Integer videoCount) {
         this.videoCount = videoCount;
     }
@@ -280,7 +277,7 @@ public class TrainingPlanDTO {
 
     public Integer getVideoEmergency() {
         return videoEmergency;
-    }
+}
 
     public void setVideoEmergency(Integer videoEmergency) {
         this.videoEmergency = videoEmergency;

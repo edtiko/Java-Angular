@@ -1,0 +1,7 @@
+<md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
+    <md-tab label="Supervisor" md-on-select="initControlAthlete(userSessionTypeUserCoachInterno, planSelected.athleteUserId.userId)" > 
+    </md-tab>
+    <md-tab label="Estrella"   md-on-select="initControlAthlete(userSessionTypeUserCoachEstrella, planSelected.athleteUserId.userId)" >
+    </md-tab>
+</md-tabs>
+  <div  ng-include src="'static/views/dashboard/control.html'"></div>

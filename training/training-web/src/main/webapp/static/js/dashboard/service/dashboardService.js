@@ -52,8 +52,8 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                         );
 
             },
-            getAssignedCoach: function (athleteUserId) {
-                return $http.get($contextPath + 'get/coach/' + athleteUserId)
+            getAssignedCoach: function (athleteUserId, roleSelected) {
+                return $http.get($contextPath + 'get/coach/' + athleteUserId+'/'+roleSelected)
                         .then(
                                 function (response) {
                                     return response.data;

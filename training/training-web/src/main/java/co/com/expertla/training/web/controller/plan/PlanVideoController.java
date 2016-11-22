@@ -1,6 +1,7 @@
 package co.com.expertla.training.web.controller.plan;
 
 import co.com.expertla.base.util.DateUtil;
+import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.model.dto.ChartReportDTO;
 import co.com.expertla.training.model.dto.PlanVideoDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
@@ -20,7 +21,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +31,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -90,26 +91,33 @@ public class PlanVideoController {
         //return new OutputMessage(message, new Date());
     }
 
-    @RequestMapping(value = "/upload/{toUserId}/{fromUserId}/{coachAssignedPlanId}/{dateString}/{tipoPlan}", method = RequestMethod.POST)
+    @RequestMapping(value = "/upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}/{roleSelected}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @RequestParam String filename, @PathVariable Integer toUserId,
-            @PathVariable Integer fromUserId, @PathVariable Integer coachAssignedPlanId,
-            @PathVariable String dateString, @PathVariable String tipoPlan) {
+    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId,
+            @PathVariable Integer fromUserId, @PathVariable Integer planId,
+            @PathVariable String dateString, @PathVariable String tipoPlan, @PathVariable Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         int availableVideos = 0;
+        int emergencyVideos = 0;
         if (!file.isEmpty()) {
             try {
                 if (tipoPlan.equals(COACH_INTERNO)) {
-                    availableVideos = planVideoService.getCountVideoByPlan(coachAssignedPlanId, fromUserId);
+                    availableVideos = planVideoService.getCountVideoByPlan(planId, fromUserId, roleSelected);
+                    emergencyVideos = planVideoService.getCountVideoEmergencyIn(planId, fromUserId, roleSelected);
                 } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                    availableVideos = planVideoService.getCountVideoByPlanExt(coachAssignedPlanId, fromUserId);
+                    availableVideos = planVideoService.getCountVideoByPlanExt(planId, fromUserId);
+                    emergencyVideos = planVideoService.getCountVideoEmergencyExt(planId, fromUserId);
                 }
-                if (availableVideos == 0) {
+                if (availableVideos == 0 && emergencyVideos > 0) {
+                    responseService.setOutput("Video cargado correctamente, se estan consumiendo los videos de emergencia (" + emergencyVideos + ")");
+                } else if (availableVideos == 0 && emergencyVideos == 0) {
                     strResponse.append("Ya consumió el limite de videos permitidos para su plan.");
                     responseService.setOutput(strResponse);
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return Response.status(Response.Status.OK).entity(responseService).build();
+                } else {
+                    responseService.setOutput("Video mensaje cargado correctamente.");
                 }
                 String fileName = dateString + "_" + fromUserId + "_" + toUserId;
                 File directory = new File(ROOT);
@@ -132,12 +140,18 @@ public class PlanVideoController {
                     video.setToUserId(new User(toUserId));
                     video.setCreationDate(Calendar.getInstance().getTime());
                     video.setVideoPath(fileName);
+                    if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {  // Coach Interno
+                        video.setToStar(Boolean.FALSE);
+                    } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) { // Coach Estrella
+                        video.setToStar(Boolean.TRUE);
+                    }
                     if (tipoPlan.equals(COACH_INTERNO)) {
-                        video.setCoachAssignedPlanId(new CoachAssignedPlan(coachAssignedPlanId));
+                        video.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
                     } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                        video.setCoachExtAthleteId(new CoachExtAthlete(coachAssignedPlanId));
+                        video.setCoachExtAthleteId(new CoachExtAthlete(planId));
                     }
                     dto = planVideoService.create(video);
+                    simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
                 }
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -196,6 +210,7 @@ public class PlanVideoController {
                     script.setCreationDate(new Date());
                     script.setPlanVideoId(new PlanVideo(dto.getId()));
                     scriptVideoService.create(script);
+                   simpMessagingTemplate.convertAndSend("/queue/video/" + coachAssignedPlanId, dto);
                 }
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -325,13 +340,21 @@ public class PlanVideoController {
         }
     }
 
-    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                             @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(coachAssignedPlanId, userId, fromto, tipoPlan);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("planId", coachAssignedPlanId);
+            parameters.put("userId", userId);
+            parameters.put("fromto", fromto);
+            parameters.put("tipoPlan", tipoPlan);
+            parameters.put("roleSelected", roleSelected);
+            
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(videos);
             return Response.status(Response.Status.OK).entity(responseService).build();
@@ -344,6 +367,39 @@ public class PlanVideoController {
         }
 
     }
+    
+    /*    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getVideosAthlete(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                             @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("planId", coachAssignedPlanId);
+            parameters.put("userId", userId);
+            parameters.put("fromto", fromto);
+            parameters.put("tipoPlan", tipoPlan);
+            
+            if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {  // Coach Interno
+                parameters.put("roleSelected", Boolean.FALSE);
+            } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) { // Coach Estrella
+                parameters.put("roleSelected", Boolean.TRUE);
+            }
+
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(videos);
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }*/
 
     @RequestMapping(value = "/files/{videoPath}", method = RequestMethod.GET)
     @ResponseBody
@@ -356,20 +412,24 @@ public class PlanVideoController {
                 .body(file);
     }
 
-    @RequestMapping(value = "/get/count/available/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/available/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                                  @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
+        Integer emergency = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planVideoService.getCountVideoByPlan(coachAssignedPlanId, userId);
+                count = planVideoService.getCountVideoByPlan(coachAssignedPlanId, userId, roleSelected);
+                emergency = planVideoService.getCountVideoEmergencyIn(userId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planVideoService.getCountVideoByPlanExt(coachAssignedPlanId, userId);
+                emergency = planVideoService.getCountVideoEmergencyExt(coachAssignedPlanId, userId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(count);
+            responseService.setOutput(count==0?emergency:count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -380,15 +440,16 @@ public class PlanVideoController {
         }
     }
 
-    @RequestMapping(value = "/get/count/received/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/received/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                                 @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planVideoService.getCountVideosReceived(coachAssignedPlanId, userId);
+                count = planVideoService.getCountVideosReceived(coachAssignedPlanId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planVideoService.getCountVideosReceivedExt(coachAssignedPlanId, userId);
             }
@@ -407,7 +468,7 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/read/all/{coachAssignedPlanId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
+    Response readVideos(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -431,7 +492,7 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/read/{planVideoId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readMessage(@PathVariable("planVideoId") Integer planVideoId) {
+    Response readVideo(@PathVariable("planVideoId") Integer planVideoId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {

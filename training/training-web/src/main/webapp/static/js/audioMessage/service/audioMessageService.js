@@ -49,8 +49,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                 socket.stomp.onclose = reconnect;
             }
         };
-        service.getAudiosByUser = function (planId, userId, fromto, tipoPlan) {
-            return $http.get($contextPath + 'audio/get/audios/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan)
+        service.getAudiosByUser = function (planId, userId, fromto, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'audio/get/audios/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -88,8 +88,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                     );
         };
         
-        service.getAvailableAudios = function (planId, userId, tipoPlan) {
-            return $http.get($contextPath + 'audio/get/count/available/' + planId + '/' + userId+'/'+tipoPlan)
+        service.getAvailableAudios = function (planId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'audio/get/count/available/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -101,8 +101,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                     );
         };
         
-         service.getAudiosReceived = function (planId, userId, tipoPlan) {
-            return $http.get($contextPath + 'audio/get/count/received/' + planId + '/' + userId+'/'+tipoPlan)
+         service.getAudiosReceived = function (planId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'audio/get/count/received/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

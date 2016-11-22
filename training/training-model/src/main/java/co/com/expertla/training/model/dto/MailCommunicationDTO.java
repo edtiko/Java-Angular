@@ -28,6 +28,9 @@ public class MailCommunicationDTO implements Serializable {
     private long hoursSpent; 
     private Double hours;
     private String readableTime;
+    private Integer coachAssignedPlanId;
+    private Integer coachExtAthleteId;
+    private Integer roleSelected;
 
     public MailCommunicationDTO(Integer mailCommunicationId, String subject, String message, Integer stateId, Date creationDate,
             Boolean read, User receivingUser, User sendingUser) {
@@ -143,5 +146,30 @@ public class MailCommunicationDTO implements Serializable {
     public void setReadableTime(String readableTime) {
         this.readableTime = readableTime;
     }
+
+    public Integer getCoachAssignedPlanId() {
+        return coachAssignedPlanId;
+    }
+
+    public void setCoachAssignedPlanId(Integer coachAssignedPlanId) {
+        this.coachAssignedPlanId = coachAssignedPlanId;
+    }
+
+    public Integer getCoachExtAthleteId() {
+        return coachExtAthleteId;
+    }
+
+    public void setCoachExtAthleteId(Integer coachExtAthleteId) {
+        this.coachExtAthleteId = coachExtAthleteId;
+    }
+
+    public Integer getRoleSelected() {
+        return roleSelected;
+    }
+
+    public void setRoleSelected(Integer roleSelected) {
+        this.roleSelected = roleSelected;
+    }
+
 
 }

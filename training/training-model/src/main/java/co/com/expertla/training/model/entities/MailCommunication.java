@@ -73,6 +73,8 @@ public class MailCommunication implements Serializable {
     @JoinColumn(name = "coach_ext_athlete_id", referencedColumnName = "coach_ext_athlete_id")
     @ManyToOne(optional = false)
     private CoachExtAthlete coachExtAthleteId;
+    @Column(name = "to_star")
+    private Boolean toStar;
 
     public MailCommunication() {
     }
@@ -159,6 +161,14 @@ public class MailCommunication implements Serializable {
 
     public void setCoachExtAthleteId(CoachExtAthlete coachExtAthleteId) {
         this.coachExtAthleteId = coachExtAthleteId;
+    }
+
+    public Boolean getToStar() {
+        return toStar;
+    }
+
+    public void setToStar(Boolean toStar) {
+        this.toStar = toStar;
     }
     
 

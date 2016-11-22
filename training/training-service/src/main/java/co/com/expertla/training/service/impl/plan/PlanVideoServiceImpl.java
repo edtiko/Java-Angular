@@ -9,6 +9,7 @@ import co.com.expertla.training.service.plan.MailCommunicationService;
 import co.com.expertla.training.service.plan.PlanVideoService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +39,8 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public List<PlanVideoDTO> getVideosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan) throws Exception {
-        return planVideoDao.getVideosByUser(coachAssignedPlanId, userId, fromto, tipoPlan);
+    public List<PlanVideoDTO> getVideosByUser(Map parameters) throws Exception {
+        return planVideoDao.getVideosByUser(parameters);
     }
 
     @Override
@@ -48,13 +49,13 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId) throws Exception {
-        return planVideoDao.getCountVideoByPlan(coachAssignedPlanId, userId);
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideoByPlan(coachAssignedPlanId, userId, roleSelected);
     }
 
     @Override
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId) throws Exception {
-        return planVideoDao.getCountVideosReceived(coachAssignedPlanId, userId);
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideosReceived(coachAssignedPlanId, userId,roleSelected);
     }
 
     @Override
@@ -171,5 +172,15 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     @Override
     public PlanVideo store(PlanVideo video) throws Exception {
         return planVideoDao.merge(video);
+    }
+
+    @Override
+    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideoEmergencyIn(planId, fromUserId, roleSelected);
+    }
+
+    @Override
+    public int getCountVideoEmergencyExt(Integer planId, Integer fromUserId) throws Exception {
+        return planVideoDao.getCountVideoEmergencyExt(planId, fromUserId);
     }
 }

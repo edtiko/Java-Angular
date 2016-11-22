@@ -48,8 +48,8 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                 socket.stomp.onclose = reconnect;
             }
         };
-        service.getVideosByUser = function (planId, userId, fromto, tipoPlan) {
-            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan)
+        service.getVideosByUser = function (planId, userId, fromto, tipoPlan,roleSelected) {
+            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -60,6 +60,19 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
+        
+         /*service.getVideosAthlete = function (planId, userId, fromto, tipoPlan, toStar) {
+            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan+"/"+toStar)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching athlete videos ');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };*/
 
         service.getVideoByPath = function (videoPath) {
             return $http.get($contextPath + 'video/files/' + videoPath)
@@ -74,8 +87,8 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                     );
         };
         
-        service.getAvailableVideos = function (coachAssignedPlanId, userId, tipoPlan) {
-            return $http.get($contextPath + 'video/get/count/available/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan)
+        service.getAvailableVideos = function (coachAssignedPlanId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'video/get/count/available/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -87,8 +100,8 @@ trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
                     );
         };
         
-         service.getVideosReceived = function (coachAssignedPlanId, userId, tipoPlan) {
-            return $http.get($contextPath + 'video/get/count/received/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan)
+         service.getVideosReceived = function (coachAssignedPlanId, userId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'video/get/count/received/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

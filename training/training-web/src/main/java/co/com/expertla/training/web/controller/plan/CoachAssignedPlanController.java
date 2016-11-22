@@ -174,13 +174,13 @@ public class CoachAssignedPlanController {
 
     }
 
-    @RequestMapping(value = "get/coach/{athleteUserId}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/coach/{athleteUserId}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAssignedCoach(@PathVariable("athleteUserId") Integer athleteUserId) {
+    Response getAssignedCoach(@PathVariable("athleteUserId") Integer athleteUserId, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId);
+            CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId,roleSelected);
             CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(athleteUserId);
             if (assignedCoachInternal != null) {
                 assignedCoachInternal.setExternal(false);

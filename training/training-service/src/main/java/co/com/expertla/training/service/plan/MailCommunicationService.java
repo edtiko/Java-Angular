@@ -25,7 +25,7 @@ public interface MailCommunicationService {
      * @return 
      * @throws Exception 
      */
-    public MailCommunication create(MailCommunication mailCommunication) throws Exception;
+    public MailCommunication create(MailCommunicationDTO mailCommunication) throws Exception;
     /**
      * Modifica mailCommunication <br>
      * Info. Creación: <br>
@@ -186,17 +186,17 @@ public interface MailCommunicationService {
      */
     public PlanMessageDTO getResponseTime(Integer userId, Integer roleId)throws  Exception;
 
-    public Integer getCountMailsByPlan(Integer planId, Integer userId)throws  Exception;
+    public Integer getCountMailsByPlan(Integer planId, Integer userId, Integer roleSelected)throws  Exception;
 
     public Integer getCountMailsByPlanExt(Integer planId, Integer userId)throws  Exception;
 
-    public Integer getCountMailsReceived(Integer planId, Integer userId)throws  Exception;
+    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer roleSelected)throws  Exception;
 
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws  Exception;
 
-    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId)throws  Exception;
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected)throws  Exception;
     
-    public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId) throws Exception;
+    public Integer getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception;
 
-    public int getMailsEmergencyByPlanExt(Integer sessionId, Integer userId)throws Exception;
+    public Integer getMailsEmergencyByPlanExt(Integer sessionId, Integer userId)throws Exception;
 }
