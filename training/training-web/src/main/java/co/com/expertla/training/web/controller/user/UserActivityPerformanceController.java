@@ -336,32 +336,38 @@ public class UserActivityPerformanceController {
                     Integer graphicId = userActivityPerformanceDTO.getActivityPerformanceMetafieldId().getActivityPerformanceMetafieldId();
                     userActivityPerformanceDTO.setTextLastExecution("Últimos 7 días");
                     if (graphicId.equals(1)) {
-                        userActivityPerformanceDTO.setPhotoUrl(uri + "checked-list.png");                        
+                        userActivityPerformanceDTO.setPhotoUrl(uri + "checked-list.png");    
+                        userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Actividades");
                     }
 
                     if (graphicId.equals(2)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "fire.png");
                         userActivityPerformanceDTO.setMeasure("cal");
+                        userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Calorias");
                     }
 
                     if (graphicId.equals(3)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "distance.png");
                         userActivityPerformanceDTO.setMeasure("mts");
+                        userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Distancia");
                     }
 
                     if (graphicId.equals(4)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "heart-beats_read.png");
                         userActivityPerformanceDTO.setMeasure("ppm");
+                        userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Frecuencia Max");
                     }
 
                     if (graphicId.equals(5)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "heart-beats_blue.png");
                         userActivityPerformanceDTO.setMeasure("ppm");
+                        userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Frecuencia Med");
                     }
 
                     if (graphicId.equals(6)) {
                         userActivityPerformanceDTO.setPhotoUrl(uri + "line-chart.png");
                         userActivityPerformanceDTO.setMeasure("seg/mts");
+                        userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Ritmo Medio");
                     }
                 }
             }
@@ -398,7 +404,12 @@ public class UserActivityPerformanceController {
         try {
             Date d1 = DateUtil.sumDaysToDate(new Date(), -countDays);
             Date d2 = new Date();
-            List<ChartDTO> userActivityPerformanceList = userActivityPerformanceService.findByDateRangeAndUserIdAndMetaField(d1, d2, user, metafield, countDays, true);
+            boolean week = true;
+            
+            if(countDays > 100) {
+                week = false;
+            }
+            List<ChartDTO> userActivityPerformanceList = userActivityPerformanceService.findByDateRangeAndUserIdAndMetaField(d1, d2, user, metafield, countDays, week);
             responseService.setOutput(userActivityPerformanceList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

@@ -226,7 +226,11 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
         if (metafieldId.equals(1)) {
             StringBuilder builder = new StringBuilder();
             builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT executed_date, value FROM  (");
-            if(weekly) {
+            if(days <= 7) {
+                builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date ");
+                builder.append("from generate_series(0,7) as offs ) d"); 
+            }
+            else if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
             } else {
@@ -234,7 +238,10 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
                 builder.append("from generate_series(0,").append(days).append(",28) as offs ) d"); 
             }
             builder.append(" LEFT   JOIN (");
-            if(weekly) {    
+            if(days <= 7) {
+                builder.append("SELECT date_trunc('day', executed_date)::date AS executed_date ");
+            }
+            else if(weekly) {    
                 builder.append("SELECT date_trunc('week', executed_date)::date AS executed_date ");
             } else {
                 builder.append("SELECT date_trunc('month', executed_date)::date AS executed_date ");   
@@ -248,7 +255,11 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
             builder.append(" ) t USING (executed_date)");
             builder.append(" UNION ");
             builder.append("SELECT executed_date, value FROM  (");
-            if(weekly) {
+            if(days <= 7) {
+                builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date ");
+                builder.append("from generate_series(0,7) as offs ) d"); 
+            }
+            else if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
             } else {
@@ -256,7 +267,10 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
                 builder.append("from generate_series(0,").append(days).append(",28) as offs ) d"); 
             }
             builder.append(" LEFT   JOIN (");
-            if(weekly) {    
+            if(days <= 7) {
+                builder.append("SELECT date_trunc('day', executed_date)::date AS executed_date ");
+            }
+            else if(weekly) {    
                 builder.append("SELECT date_trunc('week', executed_date)::date AS executed_date ");
             } else {
                 builder.append("SELECT date_trunc('month', executed_date)::date AS executed_date ");   
@@ -285,7 +299,12 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
         } else if(metafieldId.equals(4) || metafieldId.equals(5) || metafieldId.equals(6))  {
             StringBuilder builder = new StringBuilder();
             builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
-            if(weekly) {
+            
+            if(days <= 7) {
+                builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date ");
+                builder.append("from generate_series(0,7) as offs ) d"); 
+            }
+            else if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
             } else {
@@ -293,7 +312,10 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
                 builder.append("from generate_series(0,").append(days).append(",28) as offs ) d"); 
             }
             builder.append(" LEFT   JOIN (");
-            if(weekly) {    
+            if(days <= 7) {
+                builder.append("SELECT date_trunc('day', executed_date)::date AS executed_date ");
+            }
+            else if(weekly) {    
                 builder.append("SELECT date_trunc('week', executed_date)::date AS executed_date ");
             } else {
                 builder.append("SELECT date_trunc('month', executed_date)::date AS executed_date ");   
@@ -323,7 +345,11 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
         } else  {
             StringBuilder builder = new StringBuilder();
             builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
-            if(weekly) {
+            if(days <= 7) {
+                builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date ");
+                builder.append("from generate_series(0,7) as offs ) d"); 
+            }
+            else if(weekly) {
                 builder.append("select distinct date_trunc('week', (current_date - offs)) as executed_date ");
                 builder.append("from generate_series(0,28,7) as offs ) d"); 
             } else {
@@ -331,7 +357,10 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
                 builder.append("from generate_series(0,").append(days).append(",28) as offs ) d"); 
             }
             builder.append(" LEFT   JOIN (");
-            if(weekly) {    
+            if(days <= 7) {
+                builder.append("SELECT date_trunc('day', executed_date)::date AS executed_date ");
+            }
+            else if(weekly) {    
                 builder.append("SELECT date_trunc('week', executed_date)::date AS executed_date ");
             } else {
                 builder.append("SELECT date_trunc('month', executed_date)::date AS executed_date ");   
