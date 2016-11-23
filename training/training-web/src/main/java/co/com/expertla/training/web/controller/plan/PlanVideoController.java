@@ -151,6 +151,7 @@ public class PlanVideoController {
                         video.setCoachExtAthleteId(new CoachExtAthlete(planId));
                     }
                     dto = planVideoService.create(video);
+                    dto.setFromUser(userService.findById(fromUserId));
                     simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
                 }
                 //strResponse.append("video cargado correctamente.");

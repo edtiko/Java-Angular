@@ -195,12 +195,12 @@ public class PlanMessageServiceImpl implements PlanMessageService{
 
     @Override
     public Integer getCountMessagesEmergency(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
-        return planMessageDao.getCountMessageEmergencyIn(userId, userId, roleSelected);
+        return planMessageDao.getCountMessageEmergencyIn(coachAssignedPlanId, userId, roleSelected);
     }
 
     @Override
     public Integer getCountMessagesEmergencyExt(Integer coachAssignedPlanId, Integer userId) throws Exception {
-           return planMessageDao.getCountMessageEmergencyExt(userId, userId);
+           return planMessageDao.getCountMessageEmergencyExt(coachAssignedPlanId, userId);
     }
     
 }

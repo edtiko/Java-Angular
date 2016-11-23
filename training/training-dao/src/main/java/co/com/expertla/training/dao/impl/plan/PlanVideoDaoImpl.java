@@ -61,10 +61,10 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
             if (param.get("tipoPlan").equals("IN")) {
                 sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
             } else {
-                sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
+                sql.append(" And m.coachExtAthleteId.coachExtAthleteId = :planId ");
             }
         } else {
-            sql.append("And m.coachAssignedPlanId = null ");
+            sql.append(" And m.coachAssignedPlanId = null ");
         }
 
           if ((int) param.get("roleSelected") != -1 && (int) param.get("roleSelected") == RoleEnum.COACH_INTERNO.getId()) {
@@ -106,9 +106,9 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" And m.from_user_id = ").append(fromUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         
-        if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()){
+        if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())){
             sql.append(" And m.to_star = ").append(Boolean.FALSE);
-        } else if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()){
+        } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())){
             sql.append(" And m.to_star = ").append(Boolean.TRUE);
         }
         
@@ -139,7 +139,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA.getId());
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId());
         sql.append(" Group by cp.video_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
@@ -211,7 +211,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA.getId());
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId());
         sql.append(" Group by cp.video_count, cp.video_emergency  ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 

@@ -235,7 +235,7 @@ public class MailController {
             }else if(mailCommunication.getCoachExtAthleteId() != null){
                    isPlan = true;
                 sessionId = mailCommunication.getCoachExtAthleteId();
-                   availableMails = mailCommunicationService.getCountMailsByPlanExt(sessionId, mailCommunication.getReceivingUser().getUserId());
+                   availableMails = mailCommunicationService.getCountMailsByPlanExt(sessionId, mailCommunication.getSendingUser().getUserId());
                    emergencyMails = mailCommunicationService.getMailsEmergencyByPlanExt(sessionId, mailCommunication.getSendingUser().getUserId());
             }else{
                 sessionId = mailCommunication.getReceivingUser().getUserId()+mailCommunication.getSendingUser().getUserId();
@@ -254,7 +254,7 @@ public class MailController {
             
             mailCommunicationService.create(mailCommunication);    
             simpMessagingTemplate.convertAndSend("/queue/mail/" + sessionId, mailCommunication);
-            responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
+            //responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

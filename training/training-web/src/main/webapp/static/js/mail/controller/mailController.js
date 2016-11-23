@@ -165,27 +165,13 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                     });
         };
 
-        /*$scope.getAllRecipientsByCoach = function () {
-         MailService.getAllRecipientsByCoach($scope.userSession.userId).then(
-         function (data) {
-         $scope.recipients = data.entity.output;
-         },
-         function (error) {
-         //$scope.showMessage(error);
-         console.error(error);
-         });
-         };
-         
-         $scope.getAllRecipientsByStar = function () {
-         MailService.getAllRecipientsByStar($scope.userSession.userId).then(
-         function (data) {
-         $scope.recipients = data.entity.output;
-         },
-         function (error) {
-         //$scope.showMessage(error);
-         console.error(error);
-         });
-         };*/
+             //notificación emails recibidos
+        MailService.receive().then(null, null, function (email) {
+            if (email.receivingUser.userId == $scope.userSession.userId) {
+                $scope.init();
+            }
+
+        });
 
         $scope.selectedItemChange = function (item) {
             if (item != undefined) {

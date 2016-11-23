@@ -128,7 +128,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
 
         //lee los audios recibidos en tiempo real
         AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUserId == $scope.user.userId) {
+            if (audio.toUser.userId == $scope.user.userId) {
                 $scope.receivedaudios.push(audio);
             }
 

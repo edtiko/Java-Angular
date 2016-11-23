@@ -88,8 +88,6 @@ public class MessageController {
 
               responseService.setStatus(StatusResponse.SUCCESS.getName());
               responseService.setOutput(count == 0?emergency:count);
-            
-            responseService.setOutput(count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

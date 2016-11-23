@@ -1,5 +1,5 @@
-trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout', '$mdSidenav',
-    function ($scope, videoService, UserService, $timeout, $mdSidenav) {
+trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout', 
+    function ($scope, videoService, UserService, $timeout) {
         $scope.guion = '';
         $scope.isToStar = false;
         $scope.showGuion = false;
@@ -22,27 +22,33 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             $scope.planSelected = null;
         }
 
-        if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
+        if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
             $scope.colorTime = '';
             $scope.counterRecord = $scope.counterRecordInitial;
-            $scope.initCounterRecord();
+            //$scope.initCounterRecord();
         }
 
         if ($scope.appReady && $scope.planSelected != null) {
-            $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
-            if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoach || $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
+            //$scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
+            if ($scope.userSession != null &&  $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
                 $scope.toUserId = $scope.planSelected.athleteUserId.userId;
-            } else if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
+            } 
+            else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 $scope.toUserId = $scope.planSelected.coachUserId.userId;
                 $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
+                $scope.counterRecord = $scope.counterRecordInitial;
+            }
+            else if($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach ){
+                $scope.toUserId = $scope.planSelected.athleteUserId.userId;
+                  $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
                 $scope.counterRecord = $scope.counterRecordInitial;
             }
             videoService.initialize($scope.planSelected.id);
         } else if ($scope.appReady && $scope.coachAssignedPlanSelected != null) {
             $scope.isToStar = true;
             $scope.showGuion = true;
-            $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
-            if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
+            //$scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
+            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
                 $scope.toUserId = $scope.coachAssignedPlanSelected.starUserId.userId;
             }
             videoService.initialize($scope.coachAssignedPlanSelected.starUserId.userId);
@@ -52,7 +58,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
        //Obtiene los videos recibidos 
         $scope.receivedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
-                videoService.getVideosByUser(-1, $scope.user.userId, "to", tipoPlan, -1).then(
+                videoService.getVideosByUser(-1, $scope.userSession.userId, "to", tipoPlan, -1).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
                         },
@@ -60,7 +66,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             console.error(error);
                         });
             } else {
-                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.roleSelected).then(
+                videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
                         },
@@ -74,7 +80,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         //Obtiene los videos envíados
         $scope.sendedVideos = function (tipoPlan) {
             if ($scope.isToStar) {
-                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.user.userId, "from", tipoPlan, -1).then(
+                videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.userSession.userId, "from", tipoPlan, -1).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
                         },
@@ -82,8 +88,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             //$scope.showMessage(error);
                             console.error(error);
                         });
-            }/*else if($scope.user.typeUser === $scope.userSessionTypeUserAtleta && !$scope.planSelected.external){
-                  videoService.getVideosAthlete($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.roleSelected).then(
+            }/*else if($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta && !$scope.planSelected.external){
+                  videoService.getVideosAthlete($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
                         },
@@ -91,7 +97,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             console.error(error);
                         });
             }*/else {
-                videoService.getVideosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan, $scope.roleSelected).then(
+                videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "from", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
                         },
@@ -122,7 +128,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.inicioGrabarVideo = function () {
-            if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
+            if ($scope.userSession != null && ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta || $scope.userSession.typeUser === $scope.userSessionTypeUserCoach)) {
                 $scope.colorTime = '';
                 $scope.counterRecord = $scope.counterRecordInitial;
                 $scope.initCounterRecord();
@@ -141,7 +147,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.stopVideo = function () {
-            if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserAtleta) {
+            if ($scope.userSession != null && ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta || $scope.userSession.typeUser === $scope.userSessionTypeUserCoach)) {
                 if (typeof $scope.stop === "function") {
                     $scope.stop();
                 }
@@ -253,7 +259,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 return;
             }
 
-            videoService.sendVideoAtletheToStar($scope.user.userId, planVideoId.id, $scope.guion)
+            videoService.sendVideoAtletheToStar($scope.userSession.userId, planVideoId.id, $scope.guion)
                     .then(
                             function (d) {
                                 $scope.showMessage(d.output);
@@ -268,7 +274,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             var planVideoId = $scope.planVideoSelected;
             $scope.isRecord = false;
 
-            videoService.sendVideoToAtlethe($scope.user.userId, planVideoId.id)
+            videoService.sendVideoToAtlethe($scope.userSession.userId, planVideoId.id)
                     .then(
                             function (d) {
                                 $scope.showMessage(d.output);
@@ -293,10 +299,10 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             if ($scope.planSelected != null && $scope.planSelected.external) {
                 tipoPlan = "EXT";
             }
-            var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.user.userId + "/";
+            var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.userSession.userId + "/";
             if ($scope.isToStar) {
                 url = $contextPath + "video/uploadScript/" + $scope.toUserId + "/" +
-                        $scope.user.userId + "/" + $scope.coachAssignedPlanSelected.id + "/" +
+                        $scope.userSession.userId + "/" + $scope.coachAssignedPlanSelected.id + "/" +
                         $scope.dateString + "/IN/" + $scope.guion;
 
                 if ($scope.guion == '') {
@@ -345,7 +351,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
         //lee los videos recibidos en tiempo real
         videoService.receive().then(null, null, function (video) {
-            if (video.toUserId == $scope.user.userId) {
+            if (video.toUser.userId  == $scope.userSession.userId) {
                 $scope.receivedvideos.push(video);
             }
 

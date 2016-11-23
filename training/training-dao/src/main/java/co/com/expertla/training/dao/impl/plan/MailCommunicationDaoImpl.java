@@ -267,7 +267,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA.getId()); 
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId()); 
         sql.append(" Group by cp.email_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
@@ -336,7 +336,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        sql.append(" And cp.communication_role_id = ").append(RoleEnum.ATLETA.getId());
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId());
         sql.append(" Group by cp.email_count, cp.email_emergency ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 

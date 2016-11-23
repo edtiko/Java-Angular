@@ -239,7 +239,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.planSelected = angular.copy(planSelected);
 
             if (planSelected != "" && planSelected != null && planSelected.external) {
-
+                $scope.roleSelected = -1;
                 self.initControls(planSelected, "EXT");
 
             } else if (planSelected != "" && planSelected != null && $scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
@@ -427,7 +427,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $window.sessionStorage.setItem("planSelected", JSON.stringify(res));
                         $scope.planSelected = angular.copy(res);
                         if (data.entity.status == 'success') {
-                            if($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta){
+                            if($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && !res.external){
                               $scope.selectAthleteOption(roleSelected);  
                             }else{
                             $scope.selectAthlete(res, roleSelected);
@@ -745,6 +745,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         self.getAthletesCoachExternal();
                         break;
                     case $scope.userSessionTypeUserCoachInterno:
+                        $scope.showControl = true;
                         $scope.showCountEmail = true;
                         $scope.showAudioMessage = true;
                         $scope.showChat = true;
@@ -754,6 +755,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.getUserById();
                         break;
                     case $scope.userSessionTypeUserAtleta:
+                        $scope.showControl = true;
                         $scope.showCountEmail = true;
                         $scope.showAudioMessage = true;
                         $scope.showChat = true;
@@ -764,6 +766,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.getAssignedCoach($scope.userSessionTypeUserCoachInterno);
                         break;
                     case $scope.userSessionTypeUserCoachEstrella:
+                        $scope.showControl = true;
                         $scope.showProfileImage = true;
                         //$scope.showAudioMessage = true;
                         //$scope.showChat = true;

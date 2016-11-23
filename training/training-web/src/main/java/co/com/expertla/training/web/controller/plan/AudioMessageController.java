@@ -9,6 +9,7 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.StorageService;
 import co.com.expertla.training.service.plan.PlanAudioService;
+import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.io.File;
 import java.nio.file.Files;
@@ -49,6 +50,9 @@ public class AudioMessageController {
 
     @Autowired
     private PlanAudioService planAudioService;
+    
+     @Autowired
+    private UserService userService;
 
     @Autowired
     public AudioMessageController(StorageService storageService) {
@@ -130,6 +134,7 @@ public class AudioMessageController {
                         audio.setCoachExtAthleteId(new CoachExtAthlete(planId));
                     }
                     dto = planAudioService.create(audio);
+                    dto.setFromUser(userService.findById(fromUserId));
                  simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
                 }
                 

@@ -27,13 +27,15 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, m.creationDate, m.stateId ) ");
-        sql.append("FROM CoachExtAthlete m ");
+        sql.append("SELECT new co.com.expertla.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, cp, m.creationDate, m.stateId )  ");
+        sql.append("FROM CoachExtAthlete m, ConfigurationPlan cp  ");
         sql.append("Where m.trainingPlanUserId.trainingPlanUserId = :trainingPlanUserId ");
+        sql.append(" AND m.trainingPlanUserId.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
+        sql.append(" AND cp.communicationRoleId.roleId = ").append(RoleEnum.COACH.getId());
         if (!state.equals("ALL")) {
-            sql.append("And m.stateId.stateId = :stateId ");
+            sql.append(" And m.stateId.stateId = :stateId ");
         }
-        sql.append("Order by m.creationDate desc");
+        sql.append(" Order by m.creationDate desc");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("trainingPlanUserId", trainingPlanUserId);
         if (!state.equals("ALL")) {
@@ -61,7 +63,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" FROM CoachExtAthlete m, ConfigurationPlan cp ");
         sql.append(" WHERE m.userTrainingId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
-        sql.append(" AND cp.communicationRoleId.roleId = ").append(RoleEnum.ATLETA.getId());
+        sql.append(" AND cp.communicationRoleId.roleId = ").append(RoleEnum.COACH.getId());
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
         sql.append(" AND m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
