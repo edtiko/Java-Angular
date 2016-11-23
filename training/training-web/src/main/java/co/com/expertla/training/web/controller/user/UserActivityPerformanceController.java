@@ -325,7 +325,7 @@ public class UserActivityPerformanceController {
         ResponseService responseService = new ResponseService();
         try {
             String uri = request.getRequestURL().substring(0, request.getRequestURL().indexOf("/userActivityPerformance/get"));
-            uri += "static/img/";
+            uri += "/static/img/";
             Date d1 = DateUtil.sumDaysToDate(new Date(), -7);
             Date d2 = new Date();
             List<UserActivityPerformanceDTO> userActivityPerformanceList = userActivityPerformanceService.findConsolidationByDateRangeAndUserId(d1, d2, user);
@@ -341,12 +341,23 @@ public class UserActivityPerformanceController {
                     }
 
                     if (graphicId.equals(2)) {
+                        try {
+                            userActivityPerformanceDTO.setValue(String.format("%.2f", Double.valueOf(userActivityPerformanceDTO.getValue())));
+                        } catch (NumberFormatException n) {
+                            userActivityPerformanceDTO.setValue("0");
+                        }
+                        
                         userActivityPerformanceDTO.setPhotoUrl(uri + "fire.png");
                         userActivityPerformanceDTO.setMeasure("cal");
                         userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Calorias");
                     }
 
                     if (graphicId.equals(3)) {
+                        try {
+                            userActivityPerformanceDTO.setValue(String.format("%.2f", Double.valueOf(userActivityPerformanceDTO.getValue())));
+                        } catch (NumberFormatException n) {
+                            userActivityPerformanceDTO.setValue("0");
+                        }
                         userActivityPerformanceDTO.setPhotoUrl(uri + "distance.png");
                         userActivityPerformanceDTO.setMeasure("mts");
                         userActivityPerformanceDTO.getActivityPerformanceMetafieldId().setName("Distancia");
@@ -410,6 +421,11 @@ public class UserActivityPerformanceController {
                 week = false;
             }
             List<ChartDTO> userActivityPerformanceList = userActivityPerformanceService.findByDateRangeAndUserIdAndMetaField(d1, d2, user, metafield, countDays, week);
+            
+            if(week && userActivityPerformanceList != null && userActivityPerformanceList.size() > 4) {
+                userActivityPerformanceList.remove(0);
+            }
+            
             responseService.setOutput(userActivityPerformanceList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

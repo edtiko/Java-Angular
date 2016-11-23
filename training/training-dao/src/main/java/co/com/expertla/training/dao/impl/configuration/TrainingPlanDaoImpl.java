@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 /**
 * TrainingPlan Dao Impl <br>
 * Info. Creación: <br>
-* fecha 30/08/2016 <br>
+* fecha 23/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Repository
@@ -42,8 +42,8 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
     }
 
     @Override
-    public List<TrainingPlanDTO> findPaginate(int first, int max, String order) throws Exception {
-        
+    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        filter = filter.toUpperCase();
         if(order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }
@@ -54,9 +54,33 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from TrainingPlan a ");
+
+        if(filter != null && !filter.trim().isEmpty()) {
+            builder.append("WHERE ( 1=1 ");
+            builder.append("OR UPPER(a.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.description) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.duration) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.price) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userCreate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userUpdate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append(")");
+        }
+
         builder.append("order by a.");
         builder.append(order);
-        int count = findAll().size();
+        int count = this.getEntityManager().createQuery(builder.toString()).getResultList().size();
         
         Query query = this.getEntityManager().createQuery(builder.toString());
         query.setFirstResult(first);
@@ -91,13 +115,20 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
             setParameter("name", "%" + trainingPlan.getName() + "%");
         }
 
-
         if(trainingPlan.getDescription() != null && !trainingPlan.getDescription().trim().isEmpty()) {
             builder.append("AND lower(a.description) like lower(:description) ");
             setParameter("description", "%" + trainingPlan.getDescription() + "%");
         }
-
+        builder.append("order by a.name asc ");
         return createQuery(builder.toString());
     }
 
+    @Override
+    public List<TrainingPlan> findByName(TrainingPlan trainingPlan) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from TrainingPlan a ");
+        builder.append("WHERE lower(trim(a.name)) = lower(trim(:name)) ");
+        setParameter("name", trainingPlan.getName().trim());
+        return createQuery(builder.toString());
+    }
 }

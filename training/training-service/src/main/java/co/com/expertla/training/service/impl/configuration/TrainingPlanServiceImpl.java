@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
 * TrainingPlan Service Impl <br>
 * Info. Creación: <br>
-* fecha 30/08/2016 <br>
+* fecha 23/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Service("trainingPlanService")
@@ -48,8 +48,8 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     }
 
     @Override
-    public List<TrainingPlanDTO> findPaginate(int first, int max, String order) throws Exception {
-        return trainingPlanDao.findPaginate(first, max, order);
+    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        return trainingPlanDao.findPaginate(first, max, order, filter);
     }
 
     @Override
@@ -62,4 +62,8 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
         return trainingPlanDao.findByFiltro(trainingPlan);
     }
 
+    @Override
+    public List<TrainingPlan> findByName(TrainingPlan trainingPlan) throws Exception {
+        return trainingPlanDao.findByName(trainingPlan);
+    }
 }

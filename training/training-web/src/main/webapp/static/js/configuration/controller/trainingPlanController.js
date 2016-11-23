@@ -1,29 +1,35 @@
-trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanService,
-        $window) {
-    $scope.trainingPlan = {trainingPlanId: null,
-        name: '',
-        description: '',
-        duration: '',
-        videoCount: '',
-        messageCount: '',
-        emailCount: '',
-        audioCount: '',
-        endDate: '',
-        stateId:'',
-        userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: '', price:''};
+trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService', '$window', '$mdDialog', 
+    function ($scope, TrainingPlanService, $window, $mdDialog) {
+    $scope.trainingPlan ={trainingPlanId:null,
+    name: '',
+        
+    description: '',
+        
+    duration: '',
+        
+    price: '',
+        userCreate : '', userUpdate:'',userCreateName: '', userUpdateName: ''};
     $scope.trainingPlanList = [];
     $scope.count = 0;
-
+        
+    var bookmark;
     $scope.selected = [];
 
+    $scope.filter = {
+        options: {
+            debounce: 500
+        }
+    };
+
     $scope.query = {
+        filter: '',
         order: 'name',
-        limit: 5,
+        limit: 10,
         page: 1
     };
 
     function success(response) {
-        if (response.data.status == 'fail') {
+        if(response.data.status == 'fail') {
             $scope.showMessage(response.data.output);
         } else {
             return response.data.output;
@@ -33,10 +39,10 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
     }
 
     $scope.getTrainingPlanPaginate = function () {
-        $scope.promise = TrainingPlanService.getPaginate($scope.query, function (response) {
+          $scope.promise = TrainingPlanService.getPaginate($scope.query, function(response) {
             $scope.trainingPlanList = success(response);
-
-            if ($scope.trainingPlanList.length > 0) {
+            
+            if($scope.trainingPlanList.length > 0) {
                 $scope.count = $scope.trainingPlanList[0].count;
             }
         }).$promise;
@@ -52,7 +58,7 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
         TrainingPlanService.createTrainingPlan(trainingPlan)
                 .then(
                         function (d) {
-                            if (d.status == 'success') {
+                            if(d.status == 'success') {
                                 $scope.showMessage(d.output);
                                 $scope.resetTrainingPlan();
                                 $scope.getTrainingPlanPaginate();
@@ -75,7 +81,7 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
         TrainingPlanService.mergeTrainingPlan(trainingPlan)
                 .then(
                         function (d) {
-                            if (d.status == 'success') {
+                            if(d.status == 'success') {
                                 $scope.resetTrainingPlan();
                                 $scope.showMessage(d.output);
                                 $scope.getTrainingPlanPaginate();
@@ -90,9 +96,18 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
     };
 
     $scope.deleteTrainingPlan = function (trainingPlan) {
-        TrainingPlanService.deleteTrainingPlan(trainingPlan)
-                .then(
-                        function (d) {
+        
+            var confirm = $mdDialog.confirm()
+                        .title('Confirmaci\u00f3n')
+                        .textContent('\u00BFDesea eliminar el registro?')
+                        .ariaLabel('Lucky day')
+                        .ok('Aceptar')
+                        .cancel('Cancelar');
+
+                $mdDialog.show(confirm).then(function () {
+                    TrainingPlanService.deleteTrainingPlan(trainingPlan)
+                    .then(
+                            function (d) {
                             if (d.status == 'success') {
                                 $scope.resetTrainingPlan();
                                 $scope.showMessage(d.output);
@@ -101,11 +116,16 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
                                 $scope.showMessage(d.output);
                             }
                         },
-                        function (errResponse) {
-                            console.error('Error while deleting TrainingPlan.');
-                        }
-                );
-    };
+                            function (errResponse) {
+                                console.error('Error while deleting TrainingPlan.');
+                            }
+                    );
+                    
+                }, function () {
+                });
+        
+            
+        };
 
     $scope.submitTrainingPlan = function (form) {
         if (form.$valid) {
@@ -117,62 +137,140 @@ trainingApp.controller('TrainingPlanController', function ($scope, TrainingPlanS
         } else {
             form.$setSubmitted();
         }
-
+        
     };
 
-    $scope.editTrainingPlan = function (id) {
-        for (var i = 0; i < $scope.trainingPlanList.length; i++) {
-            if ($scope.trainingPlanList[i].trainingPlanId === id) {
-                $scope.trainingPlan = angular.copy($scope.trainingPlanList[i]);
-                break;
+    $scope.editTrainingPlan = function (id, ev) {
+            for (var i = 0; i < $scope.trainingPlanList.length; i++) {
+                if ($scope.trainingPlanList[i].trainingPlanId === id) {
+                    $scope.trainingPlan = angular.copy($scope.trainingPlanList[i]);
+                    break;
+                }
             }
-        }
+            $scope.showCreateTrainingPlan(ev);
     };
-
+        
     $scope.inactivateTrainingPlan = function (id) {
-        for (var i = 0; i < $scope.trainingPlanList.length; i++) {
-            if ($scope.trainingPlanList[i].trainingPlanId === id) {
-                $scope.trainingPlan = angular.copy($scope.trainingPlanList[i]);
-                break;
+            for (var i = 0; i < $scope.trainingPlanList.length; i++) {
+                if ($scope.trainingPlanList[i].trainingPlanId === id) {
+                    $scope.trainingPlan = angular.copy($scope.trainingPlanList[i]);
+                    break;
+                }
             }
-        }
-        $scope.trainingPlan.stateId = 0;
-        $scope.updateTrainingPlan($scope.trainingPlan);
-        $scope.resetTrainingPlan();
+            $scope.trainingPlan.stateId = 0;
+            $scope.updateTrainingPlan($scope.trainingPlan);
+            $scope.resetTrainingPlan();
     };
-
+        
     $scope.activateTrainingPlan = function (id) {
-        for (var i = 0; i < $scope.trainingPlanList.length; i++) {
-            if ($scope.trainingPlanList[i].trainingPlanId === id) {
-                $scope.trainingPlan = angular.copy($scope.trainingPlanList[i]);
-                break;
+            for (var i = 0; i < $scope.trainingPlanList.length; i++) {
+                if ($scope.trainingPlanList[i].trainingPlanId === id) {
+                    $scope.trainingPlan = angular.copy($scope.trainingPlanList[i]);
+                    break;
+                }
             }
-        }
-        $scope.trainingPlan.stateId = 1;
-        $scope.updateTrainingPlan($scope.trainingPlan);
+            $scope.trainingPlan.stateId = 1;
+            $scope.updateTrainingPlan($scope.trainingPlan);
     };
 
     $scope.removeTrainingPlan = function (id) {
-        if ($scope.trainingPlan.trainingPlanId === id) {
-            $scope.resetTrainingPlan();
-        }
-        $scope.deleteTrainingPlan(id);
+            if ($scope.trainingPlan.trainingPlanId === id) {
+                $scope.resetTrainingPlan();
+            }
+            $scope.deleteTrainingPlan(id);
     };
 
     $scope.resetTrainingPlan = function () {
-        $scope.trainingPlan = {trainingPlanId: null, name: '',
+            $scope.trainingPlan ={trainingPlanId:null,name: '',
             description: '',
             duration: '',
-            videoCount: '',
-            messageCount: '',
-            emailCount: '',
-            audioCount: '',
-            endDate: '',
-            stateId:'',
-            userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: '', price:''};
+            price: '',
+            userCreate : '', userUpdate:'',userCreateName: '', userUpdateName: ''};
     };
+
+    $scope.removeFilter = function () {
+        $scope.filter.show = false;
+        $scope.query.filter = '';
+
+        if ($scope.filter.form.$dirty) {
+            $scope.filter.form.$setPristine();
+        }
+    };
+
+    $scope.$watch('query.filter', function (newValue, oldValue) {
+        if (!oldValue) {
+            bookmark = $scope.query.page;
+        }
+
+        if (newValue !== oldValue) {
+            $scope.query.page = 1;
+        }
+
+        if (!newValue) {
+            $scope.query.page = bookmark;
+        }
+
+        $scope.getTrainingPlanPaginate();
+    });
+    
+    $scope.openTrainingPlan = function (ev) {
+    
+        $scope.trainingPlan ={trainingPlanId:null,
+    name: '',
+        
+    description: '',
+        
+    duration: '',
+        
+    price: '',
+        userCreate : '', userUpdate:'',userCreateName: '', userUpdateName: ''};
+        $scope.showCreateTrainingPlan(ev);
+
+    };
+
+    $scope.showCreateTrainingPlan = function (ev) {
+
+        $mdDialog.show({
+            controller: TrainingPlanController,
+            scope: $scope.$new(),
+            templateUrl: 'static/views/configuration/create-trainingPlan.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+            resolve: {
+                trainingPlan: function () {
+                    return $scope.trainingPlan;
+                }
+                
+            }
+        })
+                .then(function (answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function () {
+                    $scope.status = 'You cancelled the dialog.';
+                });
+    };
+
+    function TrainingPlanController($scope, $mdDialog, 
+                    
+                    
+                    
+                    trainingPlan) {
+
+        $scope.trainingPlan = trainingPlan;
+        
+
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+        $scope.cancel = function () {
+            $mdDialog.cancel();
+        };
+
+    }
 
     $scope.getTrainingPlanPaginate();
 
 
-});
+}]);

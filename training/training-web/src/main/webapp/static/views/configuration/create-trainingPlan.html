@@ -1,0 +1,65 @@
+<md-dialog aria-label="TrainingPlan" style="width: 600px;height: 400px;">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>TrainingPlan</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+        <span class="md-headline">TrainingPlan</span>
+
+    <form  name="formTrainingPlan" novalidate>
+        <input type="hidden" ng-model="trainingPlan.trainingPlanId" />
+   
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="trainingPlan.name" id="name" name="name"  placeholder="Name" required/>
+                            <div class="has-error" ng-messages="formTrainingPlan.name.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            
+
+                    <div layout="row">
+                        <div flex="66">
+                            <md-input-container class="md-block">
+                                <input type="text" ng-model="trainingPlan.description" id="description" name="description"  placeholder="Description"/>
+                            </md-input-container>
+                        </div>
+                    </div>
+            
+
+                    <div layout="row">
+                        <div flex="66">
+                            <md-input-container class="md-block">
+                                <input type="number" class="form-control input-sm" placeholder="Duration" style=" display: inline" ng-model="trainingPlan.duration">
+                            </md-input-container>
+                        </div>
+                    </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Price" style=" display: inline" ng-model="trainingPlan.price" required>
+                            <div class="has-error" ng-messages="formTrainingPlan.price.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button ng-click="submitTrainingPlan(formTrainingPlan)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+            </section>
+
+</form>
+</md-content></div>
+</md-dialog>

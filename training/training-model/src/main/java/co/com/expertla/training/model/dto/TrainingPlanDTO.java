@@ -31,16 +31,16 @@ public class TrainingPlanDTO {
     private String userCreateName;
     private String userUpdateName;
     private Short stateId;
-    private Integer videoCount;
-    private Integer videoDuration;
-    private Integer videoEmergency;
-    private Integer messageCount;
-    private Integer messageEmergency;
-    private Integer emailCount;
-    private Integer emailEmergency;
-    private Integer audioCount;
-    private Integer audioEmergency;
-    private Integer audioDuration;
+    private int videoCount;
+    private int videoDuration;
+    private int videoEmergency;
+    private int messageCount;
+    private int messageEmergency;
+    private int emailCount;
+    private int emailEmergency;
+    private int audioCount;
+    private int audioEmergency;
+    private int audioDuration;
     private Double price;
 
     private int count;
@@ -75,7 +75,6 @@ public class TrainingPlanDTO {
     }
 
     public TrainingPlanDTO(Integer trainingPlanId, String name, String description,
-            //Integer videoCount, Integer messageCount, Integer emailCount, Integer audioCount,
             Date endDate, Short stateId, Double price, Date creationDate, Date lastUpdate,
             String userCreateName, String userUpdateName,
             Integer userCreate, Integer userUpdate) {
@@ -168,15 +167,15 @@ public class TrainingPlanDTO {
     }
 
     public Integer getTotalAudioCount() {
-        return audioCount + audioEmergency;
+        return getAudioCount() + getAudioEmergency();
     }
 
     public Integer getTotalMessageCount() {
-        return messageCount + messageEmergency;
+        return getMessageCount() + getMessageEmergency();
     }
 
     public Integer getTotalVideoCount() {
-        return videoCount + videoEmergency;
+        return getVideoCount() + getVideoEmergency();
     }
 
     public String getName() {

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
 * TrainingPlan Controller <br>
 * Info. Creación: <br>
-* fecha 30/08/2016 <br>
+* fecha 23/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 
@@ -37,7 +37,7 @@ public class TrainingPlanController {
     /**
      * Crea trainingPlan <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 23/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param trainingPlan
      * @return
@@ -48,7 +48,7 @@ public class TrainingPlanController {
         try {  
             TrainingPlan trainingPlanName = new TrainingPlan();
             trainingPlanName.setName(trainingPlan.getName());
-            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByFiltro(trainingPlanName);
+            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByName(trainingPlanName);
             
             if(listTrainingPlanName != null && !listTrainingPlanName.isEmpty()) {
                 responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingplan", "msgNombreExiste"));
@@ -74,7 +74,7 @@ public class TrainingPlanController {
     /**
      * Modifica trainingPlan <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 23/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param trainingPlan
      * @return
@@ -85,7 +85,7 @@ public class TrainingPlanController {
         try {    
             TrainingPlan trainingPlanName = new TrainingPlan();
             trainingPlanName.setName(trainingPlan.getName());
-            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByFiltro(trainingPlanName);
+            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByName(trainingPlanName);
             
             if(listTrainingPlanName != null && !listTrainingPlanName.isEmpty()) {
                 boolean existName = false;
@@ -119,7 +119,7 @@ public class TrainingPlanController {
     /**
      * Elimina trainingPlan <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 23/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param trainingPlan
      * @return
@@ -144,7 +144,7 @@ public class TrainingPlanController {
     /**
      * Consulta trainingPlan <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 23/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
@@ -168,7 +168,7 @@ public class TrainingPlanController {
     /**
      * Consulta trainingPlan paginado <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 23/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param paginateDto
      * @return
@@ -178,8 +178,8 @@ public class TrainingPlanController {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            paginateDto.setLimit(paginateDto.getLimit());
-            List<TrainingPlanDTO> trainingPlanList = trainingPlanService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            List<TrainingPlanDTO> trainingPlanList = trainingPlanService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(),
+                paginateDto.getOrder(), paginateDto.getFilter());
             responseService.setOutput(trainingPlanList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
