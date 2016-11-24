@@ -3,7 +3,7 @@
     <md-list>
         <md-list-item class="md-3-line" ng-repeat="mail in mailsReceived| orderBy:'creationDate':true"
                       ng-click="selectReceivedMail(mail.mailCommunicationId)">
-            <div ng-style="{{mail.colour}}" class="colour" ></div>
+            <div ng-if="userSession.typeUser == userSessionTypeUserCoachInterno " ng-style="{{mail.colour}}" class="colour" ></div>
 
             <div class="md-list-item-text" style="margin-left: 1%" ng-if="mail.read">
 

@@ -198,7 +198,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 }
                 self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected);
 
-                self.getReceivedVideos($scope.planSelected.id, receivedUser, tipoPlan, $scope.roleSelected);
+                self.getReceivedVideos($scope.planSelected.id, receivedUser, $scope.userSession.userId, tipoPlan, $scope.roleSelected);
             }
         };
 
@@ -478,8 +478,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        self.getReceivedVideos = function (planId, userId, tipoPlan, roleSelected) {
-            videoService.getVideosReceived(planId, userId, tipoPlan, roleSelected).then(
+        self.getReceivedVideos = function (planId, fromUserId, toUserId, tipoPlan, roleSelected) {
+            videoService.getVideosReceived(planId, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
                         $scope.videoReceivedCount = data.entity.output;
                     },
@@ -737,30 +737,41 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 switch ($scope.userSession.typeUser) {
                     case $scope.userSessionTypeUserCoach:
                         $scope.showControl = true;
+                        $scope.showVideo = true;
+                        $scope.showCountVideo = true;
+                        $scope.showEmail = true;
                         $scope.showCountEmail = true;
                         $scope.showAudioMessage = true;
+                        $scope.showCountAudio = true;
                         $scope.showChat = true;
-                        $scope.showEmail = true;
+                        $scope.showCountChat = true;
                         $scope.getUserById();
                         self.getAthletesCoachExternal();
                         break;
                     case $scope.userSessionTypeUserCoachInterno:
                         $scope.showControl = true;
+                        $scope.showVideo = true;
+                        $scope.showCountVideo = true;
+                        $scope.showEmail = true;
                         $scope.showCountEmail = true;
                         $scope.showAudioMessage = true;
+                        $scope.showCountAudio = true;
                         $scope.showChat = true;
-                        $scope.showEmail = true;
+                        $scope.showCountChat = true;
                         self.getAssignedAthletes();
                         self.getAssignedStar();
                         $scope.getUserById();
                         break;
                     case $scope.userSessionTypeUserAtleta:
                         $scope.showControl = true;
-                        $scope.showCountEmail = true;
-                        $scope.showAudioMessage = true;
-                        $scope.showChat = true;
+                        $scope.showVideo = true;
+                        $scope.showCountVideo = true;
                         $scope.showEmail = true;
                         $scope.showCountEmail = true;
+                        $scope.showAudioMessage = true;
+                        $scope.showCountAudio = true;
+                        $scope.showChat = true;
+                        $scope.showCountChat = true;
                         $scope.getUserSessionByResponse(res);
                         $scope.getUserById();
                         $scope.getAssignedCoach($scope.userSessionTypeUserCoachInterno);

@@ -1,5 +1,7 @@
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.CoachAssignedPlan;
+import co.com.expertla.training.model.entities.CoachExtAthlete;
 import co.com.expertla.training.model.entities.PlanVideo;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.JsonDateTimeSerializer;
@@ -53,12 +55,18 @@ public class PlanVideoDTO {
         this.createDate = createDate;
     }
     
-    public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate){
+    public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate, CoachAssignedPlan coachAssignedPlanId, CoachExtAthlete coachExtAthleteId){
         this.id = planVideoId;
         this.name = name;
         this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
         this.toUser =   UserDTO.mapFromUserEntity(toUserId);
         this.createDate = createDate;
+        if(coachAssignedPlanId != null){
+            this.coachAssignedPlanId = coachAssignedPlanId.getCoachAssignedPlanId();
+        }
+        else if(coachExtAthleteId != null){
+            this.coachExtAthleteId = coachExtAthleteId.getCoachExtAthleteId();
+        }
         
     }
     
@@ -71,7 +79,8 @@ public class PlanVideoDTO {
     
     public static PlanVideoDTO mapFromPlanVideoEntity(PlanVideo video) {
         if (video != null) {
-            return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId(), video.getToUserId(), video.getCreationDate());
+            return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId(), 
+                    video.getToUserId(), video.getCreationDate(), video.getCoachAssignedPlanId(), video.getCoachExtAthleteId());
         }
         return null;
     }

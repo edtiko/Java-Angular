@@ -27,7 +27,7 @@ public interface PlanVideoService {
 
     public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer fromUserId,  Integer toUserId, Integer roleSelected) throws Exception;
 
     public void readVideos(Integer coachAssignedPlanId, Integer userId) throws Exception;
 

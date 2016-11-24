@@ -149,12 +149,13 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException {
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer fromUserId, Integer toUserId, Integer roleSelected) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.plan_video_id) ");
         sql.append(" FROM plan_video m ");
-        sql.append(" Where m.from_user_id = ").append(userId);
+        sql.append(" Where m.from_user_id = ").append(fromUserId);
+        sql.append(" And m.to_user_id = ").append(toUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         sql.append(" And m.readed = false");
         if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {

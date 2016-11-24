@@ -1,10 +1,10 @@
 <div layout="row" ng-show="showGuion"> 
     <md-input-container class="md-block" >
         <label>Gui&oacute;n</label>
-        <textarea style="width: 155%;max-height: 150px;overflow-y: scroll"  rows="3" md-maxlength="500" ng-model="guion" md-select-on-focus></textarea>
+        <textarea style="width: 155%;max-height: 150px;overflow-y: scroll"  rows="3" md-maxlength="500" id="guion" name="guion" ng-model="guion" md-select-on-focus></textarea>
     </md-input-container>
 </div>
-<label style="margin-left: 20px;{{colorTime}}" ng-if="userSession.typeUser == userSessionTypeUserAtleta || userSession.typeUser == userSessionTypeUserCoach">Tiempo disponible {{counterRecord}}s</label>
+<label style="margin-left: 20px;{{colorTime}}" ng-if="showCounter">Tiempo disponible {{counterRecord}}s</label>
 <md-content layout="column" layout-align="center center">
     <video id="gumVideo" ng-show="isRecord" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;" autoplay  muted></video>
     <video id="recordedVideo" ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;" autoplay   controls></video>
@@ -36,7 +36,7 @@
         </md-button>
 
         <md-button ng-show="isSendToStar" class="md-fab md-mini md-primary fa fa-upload fa-lg" 
-                   ng-click="sendVideoToStar()" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''">
+                   ng-click="sendVideoToStar(guion)" ng-class="videoisavailabletoplay ? 'canuploadvideo' : ''">
             <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Enviar Video a Estrella</md-tooltip>
         </md-button>
 

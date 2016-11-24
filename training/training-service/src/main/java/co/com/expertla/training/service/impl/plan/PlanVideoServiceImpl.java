@@ -54,8 +54,8 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
-        return planVideoDao.getCountVideosReceived(coachAssignedPlanId, userId,roleSelected);
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer fromUserId,  Integer toUserId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideosReceived(coachAssignedPlanId, fromUserId, toUserId, roleSelected);
     }
 
     @Override

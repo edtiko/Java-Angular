@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div flex layout="column" layout-align="center center" >
-                <div flex ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showVideo">
+                <div flex ng-if="showVideo">
                     <notification-icon animation="grow" count="videoReceivedCount">
                         <md-button aria-label="Video" class="md-fab md-raised md-primary" ng-click="goVideos()">
                             <md-tooltip md-direction="left" md-visible="tooltipVisible">Video</md-tooltip>
@@ -34,7 +34,7 @@
                     </notification-icon>
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella || showVideo">{{availableVideo}} disponibles de {{planSelected.trainingPlanId.videoCount!=null?planSelected.trainingPlanId.videoCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountVideo">{{availableVideo}} disponibles de {{planSelected.trainingPlanId.videoCount!=null?planSelected.trainingPlanId.videoCount:0}}</md-subheader>
 
                 <div flex ng-if="showChat">
 
@@ -46,7 +46,7 @@
                     </notification-icon>
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser != userSessionTypeUserCoachEstrella">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountChat">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
 
                     <!--  Email -->
 
@@ -72,10 +72,10 @@
                     </notification-icon>
                 </div>
 
-                <md-subheader ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserAtleta">{{availableAudio}} disponibles de {{planSelected.trainingPlanId.audioCount!=null?planSelected.trainingPlanId.audioCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountAudio">{{availableAudio}} disponibles de {{planSelected.trainingPlanId.audioCount!=null?planSelected.trainingPlanId.audioCount:0}}</md-subheader>
 
                  <!--Informes-->
-                <div flex="40" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserSupervisor">
+                <div flex="40" ng-if="showInforme">
                     <md-button aria-label="Informes" class="md-fab md-raised md-primary" ng-click="goInforme()"> 
                         <md-tooltip md-direction="left" md-visible="tooltipVisible">Informes</md-tooltip>
                         <i class="fa fa-file-text fa-lg" aria-hidden="true"></i>

@@ -40,14 +40,14 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
                     minutes + ':' + seconds;
         };
         
-        $scope.showStatusVideo = function (indRejected) {
-            if (indRejected == 0) {
-                return 'Aceptado';
-            } else if (indRejected == 1) {
-                return 'Rechazado';
-            } else {
-                return 'Pendiente';
-            }
+        $scope.showStatusVideo = function (indRejected) {          
+                if (indRejected == 0) {
+                    return 'Aceptado';
+                } else if (indRejected == 1) {
+                    return 'Rechazado';
+                } else {
+                    return 'Pendiente';
+                }
         };
 
         $scope.getScriptVideoStarByCoach = function () {

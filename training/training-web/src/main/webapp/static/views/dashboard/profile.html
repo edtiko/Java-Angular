@@ -8,7 +8,7 @@
                         Ver Perfil
                     </md-tooltip>
                 </a>
-                <img ng-show="showProfileImage && userSession.typeUser == userSessionTypeUserAtleta" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
+                <img ng-show="showProfileImage" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
                 <h3> {{user.name}} {{user.secondName}} {{user.lastName}}</h3>
             </div>
             <div flex layout="column" layout-align="space-around center" ng-show="userSession.typeUser != userSessionTypeUserAdmin">

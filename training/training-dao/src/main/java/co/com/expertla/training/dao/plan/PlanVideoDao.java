@@ -29,7 +29,7 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
     
     public Integer getCountVideoByPlanExt(Integer planId, Integer userId) throws DAOException;
     
-    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException;
+    public Integer getCountVideosReceived(Integer coachAssignedPlanId, Integer fromUserId,  Integer toUserId, Integer roleSelected) throws DAOException;
     
     public Integer getCountVideosReceivedExt(Integer planId, Integer userId) throws DAOException;
 
