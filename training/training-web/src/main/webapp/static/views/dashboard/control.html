@@ -25,7 +25,7 @@
                     </notification-icon>
                 </div>
 
-                <div flex  ng-if="userSession.typeUser == userSessionTypeUserCoachEstrella">
+                <div flex  ng-if="showScript">
                     <notification-icon animation="grow" count="videoReceivedCount">
                         <md-button  aria-label="Video" class="md-fab md-raised  md-primary " ng-click="goScript()">
                             <md-tooltip md-direction="left" md-visible="tooltipVisible">Video</md-tooltip>

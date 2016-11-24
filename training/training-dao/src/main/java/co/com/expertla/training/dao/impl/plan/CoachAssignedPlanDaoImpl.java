@@ -81,10 +81,9 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     @Override
     public List<User> findCoachByStarUserId(Integer userId) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT DISTINCT m.starTeamId.coachUserId ");        
-        sql.append("FROM CoachAssignedPlan m ");
-        sql.append("WHERE m.starTeamId.starUserId.userId = :userId ");
-        sql.append("AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append("SELECT DISTINCT m.coachUserId ");        
+        sql.append("FROM StarTeam m ");
+        sql.append("WHERE m.starUserId.userId = :userId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         return query.getResultList();
@@ -93,10 +92,9 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     @Override
     public List<User> findStarByCoachUserId(Integer userId) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT DISTINCT m.starTeamId.starUserId ");        
-        sql.append("FROM CoachAssignedPlan m ");
-        sql.append("WHERE m.starTeamId.coachUserId.userId = :userId ");
-        sql.append("AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append("SELECT DISTINCT m.starUserId ");        
+        sql.append("FROM StarTeam m ");
+        sql.append("WHERE m.coachUserId.userId = :userId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         return query.getResultList();

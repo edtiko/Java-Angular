@@ -1,0 +1,14 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>{{ 'COMMUNICATION' | translate }}</span>
+        </h2>
+    </div>
+</md-toolbar>
+<md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
+    <md-tab label="Planes"   md-on-select="initStarControl(false)" >
+    </md-tab>
+    <md-tab label="Interna" md-on-select="initStarControl(true)" > 
+    </md-tab>
+</md-tabs>
+<div  ng-include src="'static/views/dashboard/control.html'"></div>

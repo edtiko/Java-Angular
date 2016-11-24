@@ -8,6 +8,7 @@ package co.com.expertla.training.service.impl.plan;
 import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.SemaforoDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
@@ -48,13 +49,13 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     }
     
     @Override
-    public List<User> findCoachByStarUserId(Integer userId) throws Exception {
-        return dao.findCoachByStarUserId(userId);
+    public List<UserDTO> findCoachByStarUserId(Integer userId) throws Exception {
+        return UserDTO.mapFromUsersEntities(dao.findCoachByStarUserId(userId));
     }
     
     @Override
-    public List<User> findStarByCoachUserId(Integer userId) throws Exception {
-        return dao.findStarByCoachUserId(userId);
+    public List<UserDTO> findStarByCoachUserId(Integer userId) throws Exception {
+        return UserDTO.mapFromUsersEntities(dao.findStarByCoachUserId(userId));
     }
 
     @Override

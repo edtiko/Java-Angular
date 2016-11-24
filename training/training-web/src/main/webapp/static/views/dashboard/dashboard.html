@@ -20,12 +20,15 @@
         <div  id="dash-view"  ng-include src="pageSelected" ></div> 
 
     </div>
-    <div flex="20" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px;" ng-show="showControl">
+
+    <div flex="15" style="height: 800px; border: 1px solid #e1e1e1; margin: 5px; border-radius: 25px" ng-show="showControl">
 
         <!------------------------------------------  CONTROL VIEW  ------------------------------------------------------->
-        <div ng-show="userSession.typeUser != userSessionTypeUserCoachInterno"  ng-include src="'static/views/dashboard/control.html'"></div> 
+        <div ng-if="showControlAthlete"  ng-include src="'static/views/dashboard/control.html'"></div> 
         
-        <div ng-show="userSession.typeUser == userSessionTypeUserCoachInterno"   ng-include src="'static/views/dashboard/supervisorControl.html'"></div>  
+        <div ng-if="showSupervisorControl"   ng-include src="'static/views/dashboard/supervisorControl.html'"></div>  
+        
+        <div ng-if="showStarControl"   ng-include src="'static/views/dashboard/starControl.html'"></div>  
 
     </div>
 

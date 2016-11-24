@@ -11,7 +11,6 @@ import co.com.expertla.training.model.dto.MailCommunicationDTO;
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.ColourIndicator;
-import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ColourIndicatorService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
@@ -20,7 +19,6 @@ import co.com.expertla.training.service.plan.MailCommunicationService;
 import co.com.expertla.training.service.plan.PlanMessageService;
 import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.web.enums.StatusResponse;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
@@ -149,20 +147,10 @@ public class CoachAssignedPlanController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<User> athletes = coachService.findStarByCoachUserId(coachUserId);
-            List<CoachAssignedPlanDTO> coachAssignedPlanDTOList = new ArrayList<>();
-            athletes.stream().map((athlete) -> {
-                CoachAssignedPlanDTO assignedPlanDTO = new CoachAssignedPlanDTO();
-                assignedPlanDTO.setStarUserId(UserDTO.mapFromUserEntity(athlete));
-                assignedPlanDTO.setAthleteUserId(UserDTO.mapFromUserEntity(athlete));
-                assignedPlanDTO.setId(athlete.getUserId());
-                return assignedPlanDTO;
-            }).forEach((assignedPlanDTO) -> {
-                coachAssignedPlanDTOList.add(assignedPlanDTO);
-            });
+            List<UserDTO> stars = coachService.findStarByCoachUserId(coachUserId);
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(coachAssignedPlanDTOList);
+            responseService.setOutput(stars);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -205,25 +193,16 @@ public class CoachAssignedPlanController {
 
     }
 
-    @RequestMapping(value = "get/athtletes/by/star/{starUserId}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/supervisors/by/star/{starUserId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAssignedAthletesByStarUserId(@PathVariable("starUserId") Integer starUserId) {
+    Response getSupervisorsByStarUserId(@PathVariable("starUserId") Integer starUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<User> athletes = coachService.findCoachByStarUserId(starUserId);
-            List<CoachAssignedPlanDTO> coachAssignedPlanDTOList = new ArrayList<>();
-            athletes.stream().map((athlete) -> {
-                CoachAssignedPlanDTO assignedPlanDTO = new CoachAssignedPlanDTO();
-                assignedPlanDTO.setCoachUserId(UserDTO.mapFromUserEntity(athlete));
-                assignedPlanDTO.setAthleteUserId(UserDTO.mapFromUserEntity(athlete));
-                assignedPlanDTO.setId(athlete.getUserId());
-                return assignedPlanDTO;
-            }).forEach((assignedPlanDTO) -> {
-                coachAssignedPlanDTOList.add(assignedPlanDTO);
-            });
+            List<UserDTO> supervisors = coachService.findCoachByStarUserId(starUserId);
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(coachAssignedPlanDTOList);
+            responseService.setOutput(supervisors);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

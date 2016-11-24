@@ -39,8 +39,8 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                         );
 
             },
-             getAssignedAthletesByStar: function (starUserId) {
-                 return $http.get($contextPath + 'get/athtletes/by/star/' + starUserId)
+             getSupervisorsByStar: function (starUserId) {
+                 return $http.get($contextPath + 'get/supervisors/by/star/' + starUserId)
                         .then(
                                 function (response) {
                                     return response.data;
