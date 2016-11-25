@@ -295,11 +295,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         $scope.selectCoach = function (user, index) {
 
-           $scope.selectedIndex = index;
+           $scope.selectedIndex2 = index;
             $scope.tabIndexStar = 1;
             $scope.pageSelected = $scope.views.profile.page;
             $scope.showProfileImage = true;
             $window.sessionStorage.setItem("selectedUser", JSON.stringify(user));
+            $window.sessionStorage.setItem("planSelected", null);
 
             if ($scope.userSession != null) {
                 messageService.initialize(user.userId + $scope.userSession.userId);
@@ -320,6 +321,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.pageSelected = $scope.views.profile.page;
             $scope.showProfileImage = true;
             $window.sessionStorage.setItem("selectedUser", JSON.stringify(user));
+            $window.sessionStorage.setItem("planSelected", null);
             
             if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
                 $scope.showControlAthlete = true;
@@ -574,7 +576,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
                     $scope.showMessage("Debe tener un plan activo");
                 } else {
-                    $scope.showMessage("Debe seleccionar un atleta");
+                    $scope.showMessage("Debe seleccionar un usuario");
                 }
             } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !planSelected.external && $scope.roleSelected == -1) {
                 $scope.showMessage("Debe seleccionar un usuario");
@@ -642,7 +644,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
                     $scope.showMessage("Debe tener un plan activo");
                 } else {
-                    $scope.showMessage("Debe seleccionar un atleta");
+                    $scope.showMessage("Debe seleccionar un usuario");
                 }
             } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !planSelected.external && $scope.roleSelected == -1) {
                 $scope.showMessage("Debe seleccionar un usuario");
@@ -658,6 +660,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
             $scope.pageSelected = $scope.views.profile.page;
             $window.sessionStorage.setItem("selectedUser", JSON.stringify(user));
+            $window.sessionStorage.setItem("planSelected", null);
 
             if ($scope.userSession != null) {
                 messageService.initialize(user.userId + $scope.userSession.userId);
@@ -841,10 +844,21 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.getSupervisorsByStar();
                         break;
                     case $scope.userSessionTypeUserAdmin:
+                        $scope.showControl = true;
+                        $scope.showControlAthlete = true;
+                        $scope.showProfileImage = true;
+                        $scope.showVideo = false;
+                        $scope.showCountVideo = false;
+                        $scope.showEmail = true;
+                        $scope.showCountEmail = false;
+                        $scope.showAudioMessage = false;
+                        $scope.showCountAudio = false;
+                        $scope.showChat = true;
+                        $scope.showCountChat = false;
+                        $scope.showScript = false;
                         $scope.getUserById();
                         self.getSupervisors();
                         self.getStars();
-                        showControl = false;
                         break;
 
                 }

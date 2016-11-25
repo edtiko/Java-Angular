@@ -38,6 +38,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                     messageService.getMessagesByReceivingUserSendingUser($scope.selectedUser.userId, $scope.userSession.userId).then(
                             function (data) {
                                 $scope.messages = data.entity.output;
+                                $scope.loading = true;
                             self.readMessages(-1, tipoPlan, -1, $scope.selectedUser.userId, $scope.userSession.userId);
                             },
                             function (error) {
