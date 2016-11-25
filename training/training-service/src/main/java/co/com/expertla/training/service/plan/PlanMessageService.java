@@ -22,9 +22,9 @@ public interface PlanMessageService {
 
     public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception, TrainingException;
     
-    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception;
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected)throws  Exception;
 
-    public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws  Exception;
+    public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws  Exception;
     
     public void readMessage(Integer planMessageId) throws  Exception;
 

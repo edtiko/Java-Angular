@@ -24,6 +24,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 videoService.getVideosByUser(-1, $scope.userSession.userId, "to", tipoPlan, -1).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
+                            $scope.loadingReceived = true;
                         },
                         function (error) {
                             console.error(error);
@@ -32,6 +33,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
+                             $scope.loadingReceived = true;
                         },
                         function (error) {
                             console.error(error);
@@ -46,6 +48,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.userSession.userId, "from", tipoPlan, -1).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
+                            $scope.loadingSent = true;
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -55,6 +58,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "from", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
+                             $scope.loadingSent = true;
                         },
                         function (error) {
                             //$scope.showMessage(error);

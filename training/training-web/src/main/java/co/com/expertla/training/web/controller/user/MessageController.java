@@ -99,16 +99,17 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "get/count/received/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/count/received/messages/{coachAssignedPlanId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                                 @PathVariable("toUserId") Integer toUserId,
                                  @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer count = 0;
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId, roleSelected);
+                count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId, toUserId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planMessageService.getCountMessagesReceivedExt(coachAssignedPlanId, userId);
             }
@@ -125,15 +126,16 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "read/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "read/messages/{coachAssignedPlanId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+    Response readMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId,
+                          @PathVariable("toUserId") Integer toUserId,
                           @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                planMessageService.readMessages(coachAssignedPlanId, userId, roleSelected);
+                planMessageService.readMessages(coachAssignedPlanId, userId,toUserId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 planMessageService.readMessagesExt(coachAssignedPlanId, userId);
             }

@@ -1,17 +1,5 @@
 <md-content ng-controller="MessageController">
     <div layout="row" layout-align="center" style="margin: 2%">
-        <!--<div flex="20" layout="column"  style="margin-top:  0px">
-            <md-card layout-align="center">
-                <md-card-content layout="row" layout-align="center" style="height: 500px;">
-                    <div layout="column" layout-align="center">
-                        <img data-ng-src="{{dataImage}}" class="circular" data-err-src="static/img/profile-default.png" style="height: 100px; width: 100px;"/> 
-                        <h3>{{userChat}}</h3>
-                    </div>
-                </md-card-content>
-
-
-            </md-card>
-        </div>-->
         <div flex="80" layout="column"  layout-align="space-between none" class="demo-content">
             <div layout="column" style="height:550px" id="message-content">
                 <md-toolbar >
@@ -22,6 +10,10 @@
                     </div>
                 </md-toolbar>
                 <md-content style="overflow-x: hidden;" scroll-glue="glued">
+                    <div layout="column" layout-align="center center" ng-if="!loading">
+                    <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                    <span>Cargando mensajes..</span>
+                </div>
                     <md-list>
                         <md-list-item class="md-3-line" ng-repeat="message in messages| orderBy:'creationDate':false" ng-click="null">
                             <img data-ng-src="{{message.messageUserId.profilePhotoBase64}}"  alt="{{message.messageUserId.login}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">

@@ -87,13 +87,13 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     }
 
     @Override
-    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
-        return planMessageDao.getCountMessagesReceived(coachAssignedPlanId, userId, roleSelected);
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId,Integer toUserId, Integer roleSelected) throws Exception {
+        return planMessageDao.getCountMessagesReceived(coachAssignedPlanId, userId, toUserId, roleSelected);
     }
 
     @Override
-    public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
-       planMessageDao.readMessages(coachAssignedPlanId, userId, roleSelected);
+    public void readMessages(Integer coachAssignedPlanId, Integer userId,Integer toUserId, Integer roleSelected) throws Exception {
+       planMessageDao.readMessages(coachAssignedPlanId, userId, toUserId, roleSelected);
     }
 
     @Override

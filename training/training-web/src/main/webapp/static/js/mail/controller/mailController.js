@@ -4,10 +4,9 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
         $scope.mailsReceived = [];
         $scope.mailsSent = [];
         $scope.athletes = [];
-        $scope.sendingUser = '';
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-        $scope.sendingUser = JSON.parse($window.sessionStorage.getItem("sendingUser"));
+        $scope.sendingUser = JSON.parse($window.sessionStorage.getItem("selectedUser"));
 
 
         $scope.mailSelected = '';
@@ -266,6 +265,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                 $scope.getReceivedMailsByPlan(tipoPlan, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
                 $scope.mailCommunication.mailto = $scope.planSelected.athleteUserId.fullName;
                 $scope.mailCommunication.receivingUser.userId = $scope.planSelected.athleteUserId.userId;
+            }else if($scope.sendingUser != null){
+                self.getEmailUser();
             }
         };
 

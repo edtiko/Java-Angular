@@ -87,8 +87,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
         
-         service.getMessagesReceived = function (planId, userId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'get/count/received/messages/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
+         service.getMessagesReceived = function (planId, userId,toUserId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'get/count/received/messages/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -100,8 +100,8 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
         
-         service.readMessages = function (planId, userId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'read/messages/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
+         service.readMessages = function (planId, userId, toUserId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'read/messages/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -146,13 +146,13 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
             }
         };
         service.initialize = function (sessionId) {
-            //if (service.SESSION_ID == "") {
+            if (service.SESSION_ID == "") {
                 service.SESSION_ID = sessionId;
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
-           // }
+            }
         };
 
         //initialize();

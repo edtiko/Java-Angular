@@ -190,7 +190,7 @@ public interface MailCommunicationService {
 
     public Integer getCountMailsByPlanExt(Integer planId, Integer userId)throws  Exception;
 
-    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer roleSelected)throws  Exception;
+    public Integer getCountMailsReceived(Integer planId, Integer userId,Integer receiveUserId, Integer roleSelected)throws  Exception;
 
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws  Exception;
 

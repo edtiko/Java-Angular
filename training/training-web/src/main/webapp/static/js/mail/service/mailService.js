@@ -64,8 +64,8 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                     );
         };
         
-         service.getReceivedMails = function (planId, userId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'mail/get/count/received/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
+         service.getReceivedMails = function (planId, userId,toUserId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'mail/get/count/received/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

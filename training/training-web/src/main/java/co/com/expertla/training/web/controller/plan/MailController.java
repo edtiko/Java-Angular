@@ -634,18 +634,18 @@ public class MailController {
 
     }
 
-    @RequestMapping(value = "mail/get/count/received/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "mail/get/count/received/{planId}/{sendingUserId}/{receiveUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getReceivedMails(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
+    Response getReceivedMails(@PathVariable("planId") Integer planId, @PathVariable("sendingUserId") Integer sendingUserId, @PathVariable("receiveUserId") Integer receiveUserId,
                               @PathVariable("tipoPlan") String tipoPlan,  @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer count = 0;
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = mailCommunicationService.getCountMailsReceived(planId, userId, roleSelected);
+                count = mailCommunicationService.getCountMailsReceived(planId, sendingUserId, receiveUserId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
-                count = mailCommunicationService.getCountMailsReceivedExt(planId, userId);
+                count = mailCommunicationService.getCountMailsReceivedExt(planId, sendingUserId);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);

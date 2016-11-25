@@ -28,6 +28,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
             AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "to", tipoPlan, $scope.roleSelected).then(
                     function (data) {
                         $scope.receivedaudios = data.entity.output;
+                        $scope.loadingReceived = true;
                     },
                     function (error) {
                         //$scope.showMessage(error);
@@ -40,6 +41,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
             AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.user.userId, "from", tipoPlan, $scope.roleSelected).then(
                     function (data) {
                         $scope.sendedaudios = data.entity.output;
+                        $scope.loadingSent = true;
                     },
                     function (error) {
                         //$scope.showMessage(error);

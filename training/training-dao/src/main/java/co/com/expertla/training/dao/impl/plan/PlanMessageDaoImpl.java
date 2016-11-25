@@ -81,13 +81,16 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     }
     
     @Override
-    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException{
+    public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId,Integer toUserId, Integer roleSelected) throws DAOException{
       
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.plan_message_id) ");     
         sql.append(" FROM plan_message m ");
         sql.append(" Where m.message_user_id = ").append(userId);
+        sql.append(" And m.receiving_user_id = ").append(toUserId);
+        if(coachAssignedPlanId != -1){
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
+        }
         sql.append(" And m.readed = false");
             if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             sql.append(" and m.to_star = false ");
@@ -102,12 +105,15 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     } 
 
     @Override
-    public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException {
+    public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws DAOException {
         StringBuilder builder = new StringBuilder();
         builder.append(" update plan_message ");
         builder.append(" set readed = true ");
         builder.append(" where  message_user_id = ").append(userId);
+        builder.append(" and receiving_user_id = ").append(toUserId);
+        if(coachAssignedPlanId != -1){
         builder.append(" and  coach_assigned_plan_id = ").append(coachAssignedPlanId);
+        }
         if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             builder.append(" and  to_star = false ");
         } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {

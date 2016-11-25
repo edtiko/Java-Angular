@@ -233,13 +233,16 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     }
 
     @Override
-    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer roleSelected) throws DAOException {
+    public Integer getCountMailsReceived(Integer planId, Integer sendingUserId, Integer receiveUserId, Integer roleSelected) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.mail_communication_id) ");
         sql.append(" FROM mail_communication m ");
-        sql.append(" Where m.sending_user = ").append(userId);
+        sql.append(" Where m.sending_user = ").append(sendingUserId);
+        sql.append(" And m.receiving_user = ").append(receiveUserId);
+        if(planId != -1){
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
+        }
         sql.append(" And m.read = false");
         if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             sql.append(" And m.to_star = false");

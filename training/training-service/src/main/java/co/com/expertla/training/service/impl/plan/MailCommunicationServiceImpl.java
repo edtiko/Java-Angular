@@ -318,8 +318,8 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
 
     @Override
-    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer roleSelected) throws Exception {
-        return mailCommunicationDao.getCountMailsReceived(planId, userId,roleSelected);
+    public Integer getCountMailsReceived(Integer planId, Integer userId, Integer receiveUserId, Integer roleSelected) throws Exception {
+        return mailCommunicationDao.getCountMailsReceived(planId, userId,receiveUserId,roleSelected);
     }
 
     @Override
