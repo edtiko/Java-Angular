@@ -27,5 +27,7 @@ public interface CoachExtAthleteDao extends BaseDAO<CoachExtAthlete>{
     public List<UserDTO> getUserAthletes(String query) throws DAOException;
 
     public CoachExtAthleteDTO getInvitation(Integer userId)throws DAOException;
+
+    public Integer getCountAthletesAvailable(Integer trainingPlanUserId)throws DAOException;
     
 }

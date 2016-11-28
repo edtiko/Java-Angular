@@ -34,5 +34,7 @@ public interface CoachExtAthleteService {
     public Integer rejectInvitation(Integer coachExtAthleteId)throws Exception;
     
     public boolean sendEmail(String message, String email);
+
+    public Integer getCountAthletesAvailable(Integer trainingPlanUserId)throws Exception;
     
 }

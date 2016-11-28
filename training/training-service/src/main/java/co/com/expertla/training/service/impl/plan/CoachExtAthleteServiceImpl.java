@@ -155,6 +155,11 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService{
         coachExtAthleteDao.merge(e);
          return e.getTrainingPlanUserId().getTrainingPlanUserId();
     }
+
+    @Override
+    public Integer getCountAthletesAvailable(Integer trainingPlanUserId) throws Exception {
+        return coachExtAthleteDao.getCountAthletesAvailable(trainingPlanUserId);
+    }
     
     
 }

@@ -41,7 +41,16 @@ public class CoachExtAthleteController {
     Response create(@RequestBody CoachExtAthleteDTO dto) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
+        Integer count = 0;
         try {
+            count = coachExtAthleteService.getCountAthletesAvailable(dto.getTrainingPlanUserId());
+
+            if (count == 0) {
+                strResponse.append("Ya consumió el limite de atletas permitidos.");
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                return Response.status(Response.Status.OK).entity(responseService).build();
+            }
             coachExtAthleteService.create(dto);
             simpMessagingTemplate.convertAndSend("/queue/invitation/" + dto.getAthleteUserId().getUserId(), dto);
             strResponse.append("Atleta creado éxitosamente.");

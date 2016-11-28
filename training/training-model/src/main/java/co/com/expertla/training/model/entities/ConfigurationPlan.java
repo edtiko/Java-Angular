@@ -5,8 +5,6 @@
  */
 package co.com.expertla.training.model.entities;
 
-import co.com.expertla.training.model.entities.Role;
-import co.com.expertla.training.model.entities.TrainingPlan;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -84,6 +82,9 @@ public class ConfigurationPlan implements Serializable {
     @Basic(optional = false)
     @Column(name = "audio_duration")
     private int audioDuration;
+    @Basic(optional = false)
+    @Column(name = "athletes_count")
+    private int athletesCount;
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -258,6 +259,14 @@ public class ConfigurationPlan implements Serializable {
         this.trainingPlanId = trainingPlanId;
     }
 
+    public int getAthletesCount() {
+        return athletesCount;
+    }
+
+    public void setAthletesCount(int athletesCount) {
+        this.athletesCount = athletesCount;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -282,5 +291,5 @@ public class ConfigurationPlan implements Serializable {
     public String toString() {
         return "co.com.expertla.training.constant.ConfigurationPlan[ configurationPlanId=" + configurationPlanId + " ]";
     }
-    
+
 }

@@ -881,6 +881,7 @@ create table training_plan (
    duration             decimal(10,2)        null,
    creation_date        date                 not null,
    end_date             date                 not null,
+   membership_id        integer              null,
    constraint pk_training_plan primary key (training_plan_id)
 );
 
@@ -900,11 +901,12 @@ create table configuration_plan (
    email_emergency      integer              not null default 0,
    audio_count          integer              not null default 0,
    audio_emergency      integer              not null default 0,
-   audio_duration       integer              not null default 0,    
+   audio_duration       integer              not null default 0, 
+   athletes_count       integer              not null default 0,   
    creation_date        date                 null,
-   user_create        integer              null,
+   user_create          integer              null,
    last_update          date                 null, 
-   user_update     integer              null,
+   user_update          integer              null,
    constraint pk_configuration_plan primary key (configuration_plan_id)
 );
 

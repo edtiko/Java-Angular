@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -71,6 +73,9 @@ public class TrainingPlan implements Serializable {
     private Integer userUpdate;
     @Column(name = "price")
     private Double price;
+    @JoinColumn(name = "membership_id", referencedColumnName = "membership_id")
+    @ManyToOne
+    private Membership membershipId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanId")
     private Collection<TrainingPlanCharact> trainingPlanCharactCollection;
     
@@ -192,6 +197,14 @@ public class TrainingPlan implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Membership getMembershipId() {
+        return membershipId;
+    }
+
+    public void setMembershipId(Membership membershipId) {
+        this.membershipId = membershipId;
     }
     
 
