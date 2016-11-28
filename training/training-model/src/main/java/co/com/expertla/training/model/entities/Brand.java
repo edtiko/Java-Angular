@@ -1,5 +1,6 @@
 package co.com.expertla.training.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -16,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 /**
  *
@@ -81,7 +83,7 @@ public class Brand implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    @JsonIgnore
     public Collection<SportEquipment> getSportEquipmentCollection() {
         return sportEquipmentCollection;
     }

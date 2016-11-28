@@ -64,7 +64,7 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
             builder.append(")");
         }
         
-        builder.append("order by a.");
+        builder.append(" order by a.");
         builder.append(order);
         
         int count = this.getEntityManager().createQuery(builder.toString()).getResultList().size();
@@ -135,7 +135,7 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.ModalityDTO(m.modalityId,m.name) ");
         sql.append("FROM Modality m ");
-        sql.append("WHERE m.disciplineId.disciplineId = :id");
+        sql.append("WHERE m.disciplineId.disciplineId = :id ");
         sql.append("order by m.name ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", id);

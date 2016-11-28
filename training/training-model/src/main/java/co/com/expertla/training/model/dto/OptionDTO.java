@@ -6,6 +6,7 @@
 package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.Module;
+import co.com.expertla.training.model.entities.Option;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class OptionDTO {
     private Integer userUpdate;
     private Module moduleId;
     private String module;
-    private Integer masterOptionId;
+    private Option masterOptionId;
     private String masterOption;
     private String userCreateName;
     private String userUpdateName;
@@ -37,7 +38,29 @@ public class OptionDTO {
 
     public OptionDTO() {
     }
-
+    
+    public OptionDTO(Integer optionId, String name, String description, String url,
+            Module moduleId,
+            Option masterOptionId, 
+            Short stateId,
+            Date creationDate, Date lastUpdate, 
+            String userCreateName, String userUpdateName,
+            Integer userCreate, Integer userUpdate) {
+        this.optionId = optionId;
+        this.name = name;
+        this.description = description;
+        this.url = url;
+        this.creationDate = creationDate;
+        this.lastUpdate = lastUpdate;
+        this.userCreate = userCreate;
+        this.userUpdate = userUpdate;
+        this.moduleId = moduleId;
+        this.userCreateName = userCreateName;
+        this.userUpdateName = userUpdateName;
+        this.masterOptionId = masterOptionId;
+        this.stateId = stateId;
+    }
+    
     public OptionDTO(Integer optionId, String name, String description, String url, Short stateId,
             Module moduleId, String module, 
             Date creationDate, Date lastUpdate, 
@@ -56,7 +79,7 @@ public class OptionDTO {
         this.module = module;
         this.userCreateName = userCreateName;
         this.userUpdateName = userUpdateName;
-        this.masterOptionId = masterOptionId;
+        this.masterOptionId = new Option(masterOptionId);
         this.masterOption = masterOption;
         this.stateId = stateId;
     }
@@ -129,11 +152,11 @@ public class OptionDTO {
         this.module = module;
     }
 
-    public Integer getMasterOptionId() {
+    public Option getMasterOptionId() {
         return masterOptionId;
     }
 
-    public void setMasterOptionId(Integer masterOptionId) {
+    public void setMasterOptionId(Option masterOptionId) {
         this.masterOptionId = masterOptionId;
     }
 

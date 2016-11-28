@@ -1,0 +1,87 @@
+<div class="demo-md-panel md-padding">
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
+        <div class="md-toolbar-tools">
+            <span>Lista de Configuraci&oacute;n del Plan</span>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list"
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            </md-button>
+            <md-button class=" md-raised  md-primary" title="{{ 'CREATE' | translate }}" ng-click="openConfigurationPlan($event)" 
+                       ng-style="{'color':'white', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </md-button>
+            <md-button class=" md-raised  md-primary" title="Volver" ng-click="volverPlan()" 
+                       ng-style="{'color':'white', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}">Volver al Plan
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default ng-hide" ng-show="filter.show" aria-hidden="true">
+        <div class="md-toolbar-tools">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <form flex="" name="filter.form" class="ng-valid flex ng-valid-parse ng-pristine">
+                <input type="text" ng-model="query.filter" ng-model-options="filter.options" placeholder="{{ 'SEARCH' | translate }}" 
+                       class="ng-valid ng-valid-parse ng-touched ng-pristine" aria-invalid="false">
+            </form>
+            <md-button class=" md-button md-ink-ripple" type="button"  ng-click="removeFilter()" aria-label="close" 
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+                
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-table-container>
+        <table md-table ng-model="selected" md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="getConfigurationPlanPaginate">
+                <tr md-row>
+                    <th md-column class="md-column">Opciones</th>
+                    <th md-column md-order-by="trainingPlanId.name" class="md-column">Plan</th>
+                    <th md-column md-order-by="communicationRoleId.name" class="md-column">Rol</th>
+                    <th md-column md-order-by="audioDuration" class="md-column">Dur. Audio</th>
+                    <th md-column md-order-by="audioEmergency" class="md-column">Emerg. Audio</th>
+                    <th md-column md-order-by="audioCount" class="md-column">Cant. Audio</th>
+                    <th md-column md-order-by="emailEmergency" class="md-column">Emerg. Email</th>
+                    <th md-column md-order-by="emailCount" class="md-column">Cant. Email</th>
+                    <th md-column md-order-by="messageEmergency" class="md-column">Emerg. Mensaje</th>
+                    <th md-column md-order-by="messageCount" class="md-column">Cant. Mensaje</th>
+                    <th md-column md-order-by="videoDuration" class="md-column">Dur. Video</th>
+                    <th md-column md-order-by="videoEmergency" class="md-column">Emerg. Video</th>
+                    <th md-column md-order-by="videoCount" class="md-column">Csnt. Video</th>
+                    <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
+                    <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
+                    <th md-column md-order-by="userUpdate">{{ 'USER_UPDATE' | translate }}</th>
+                    <th md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="configurationPlan" md-select-id="trainingPlanId.name" md-auto-select ng-repeat="configurationPlan in configurationPlanList| filter: filter.search">
+                <td>
+                    <md-button type="button" ng-click="editConfigurationPlan(configurationPlan.configurationPlanId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
+<!--                    <md-button ng-show="configurationPlan.stateId == 0" type="button" ng-click="activateConfigurationPlan(configurationPlan.configurationPlanId)"  ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                    <md-button ng-show="configurationPlan.stateId == 1" type="button" ng-click="inactivateConfigurationPlan(configurationPlan.configurationPlanId)"  ng-style="{color: 'yellow', 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>-->
+                    <md-button type="button" ng-click="deleteConfigurationPlan(configurationPlan.configurationPlanId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+                </td>
+                    <td md-cell>{{configurationPlan.trainingPlanId.name}}</td>
+                    <td md-cell>{{configurationPlan.communicationRoleId.name}}</td>
+                    <td md-cell>{{configurationPlan.audioDuration}}</td>
+                    <td md-cell>{{configurationPlan.audioEmergency}}</td>
+                    <td md-cell>{{configurationPlan.audioCount}}</td>
+                    <td md-cell>{{configurationPlan.emailEmergency}}</td>
+                    <td md-cell>{{configurationPlan.emailCount}}</td>
+                    <td md-cell>{{configurationPlan.messageEmergency}}</td>
+                    <td md-cell>{{configurationPlan.messageCount}}</td>
+                    <td md-cell>{{configurationPlan.videoDuration}}</td>
+                    <td md-cell>{{configurationPlan.videoEmergency}}</td>
+                    <td md-cell>{{configurationPlan.videoCount}}</td>
+                    <td md-cell>{{configurationPlan.userCreateName}}</td>
+                    <td md-cell>{{configurationPlan.creationDate}}</td>
+                    <td md-cell>{{configurationPlan.userUpdateName}}</td>
+                    <td md-cell>{{configurationPlan.lastUpdate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getConfigurationPlanPaginate" md-page-select></md-table-pagination>
+</div>

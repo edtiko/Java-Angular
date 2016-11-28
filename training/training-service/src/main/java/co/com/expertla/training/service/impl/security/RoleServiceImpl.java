@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * Role Service Impl <br>
-* Info. Creacion: <br>
-* fecha 30/08/2016 <br>
+* Info. Creación: <br>
+* fecha 28/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Service("roleService")
@@ -48,8 +48,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleDTO> findPaginate(int first, int max, String order) throws Exception {
-        return roleDao.findPaginate(first, max, order);
+    public List<RoleDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        return roleDao.findPaginate(first, max, order, filter);
     }
 
     @Override
@@ -62,4 +62,8 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.findByFiltro(role);
     }
 
+    @Override
+    public List<Role> findByName(Role role) throws Exception {
+        return roleDao.findByName(role);
+    }
 }

@@ -94,7 +94,7 @@ public interface UserService {
      * @return
      * @throws Exception 
      */
-    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception;
+    public List<UserDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
 
 	/**
      * Trae todos los registros de user training con su disciplina por id <br>

@@ -75,7 +75,7 @@ public interface ActivityService {
      * @return
      * @throws Exception 
      */
-    public List<ActivityDTO> findPaginate(int first, int max, String order) throws Exception;
+    public List<ActivityDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
     
     /**
      * Obtiene todos los registros de activity paginados <br>

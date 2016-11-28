@@ -66,8 +66,8 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityDTO> findPaginate(int first, int max, String order) throws Exception {
-        return activityDao.findPaginate(first, max, order);
+    public List<ActivityDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        return activityDao.findPaginate(first, max, order, filter);
     }
 
     @Override

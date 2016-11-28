@@ -1,5 +1,5 @@
 package co.com.expertla.training.dao.impl.security;
- 
+
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.dao.security.RoleDao;
 import co.com.expertla.training.enums.Status;
@@ -8,16 +8,16 @@ import co.com.expertla.training.model.entities.Role;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
- 
+
 /**
 * Role Dao Impl <br>
 * Info. Creación: <br>
-* fecha 30/08/2016 <br>
+* fecha 28/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Repository
 public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
- 
+
     public RoleDaoImpl() {
     }
     
@@ -29,21 +29,21 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         Query query = this.getEntityManager().createQuery(builder.toString());
         return query.getResultList();
     }
- 
- 
+
+
     @Override
     public List<Role> findAllActive() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Role a ");
         builder.append("WHERE a.stateId = :active ");
- 
+
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
- 
+
     @Override
-    public List<RoleDTO> findPaginate(int first, int max, String order) throws Exception {
-        
+    public List<RoleDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        filter = filter.toUpperCase();
         if(order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }
@@ -54,9 +54,27 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from Role a ");
+
+        if(filter != null && !filter.trim().isEmpty()) {
+            builder.append("WHERE ( 1!=1 ");
+            builder.append("OR UPPER(a.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.name FROM State u WHERE u.stateId = a.stateId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userCreate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userUpdate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append(")");
+        }
+
         builder.append("order by a.");
         builder.append(order);
-        int count = findAll().size();
+        int count = this.getEntityManager().createQuery(builder.toString()).getResultList().size();
         
         Query query = this.getEntityManager().createQuery(builder.toString());
         query.setFirstResult(first);
@@ -69,7 +87,7 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         
         return list;
     }
- 
+
     
     @Override
     public List<Role> findByRole(Role role) throws Exception {
@@ -79,7 +97,7 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
         setParameter("id", role.getRoleId());
         return createQuery(builder.toString());
     }
- 
+
     @Override
     public List<Role> findByFiltro(Role role) throws Exception {
         StringBuilder builder = new StringBuilder();
@@ -90,16 +108,25 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
             builder.append("AND lower(a.name) like lower(:name) ");
             setParameter("name", "%" + role.getName() + "%");
         }
- 
- 
- 
- 
+
+
+
+
         if(role.getStateId() != null) {
             builder.append("AND a.stateId = :state ");
             setParameter("state", role.getStateId());
         }
- 
+
+        builder.append("order by a.name asc ");
         return createQuery(builder.toString());
     }
- 
+
+    @Override
+    public List<Role> findByName(Role role) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from Role a ");
+        builder.append("WHERE lower(trim(a.name)) = lower(trim(:name)) ");
+        setParameter("name", role.getName().trim());
+        return createQuery(builder.toString());
+    }
 }

@@ -130,6 +130,11 @@ trainingApp.controller('BrandController', ['$scope', 'BrandService', '$window', 
             }
             $scope.showCreateBrand(ev);
         };
+        
+        $scope.openBrand = function (ev) {
+            $scope.resetBrand();
+            $scope.showCreateBrand(ev);
+        };
 
         $scope.inactivateBrand = function (id) {
             for (var i = 0; i < $scope.brandList.length; i++) {

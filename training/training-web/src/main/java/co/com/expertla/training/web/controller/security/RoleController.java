@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
 * Role Controller <br>
 * Info. Creación: <br>
-* fecha 30/08/2016 <br>
+* fecha 28/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 
@@ -43,7 +43,7 @@ public class RoleController {
     /**
      * Crea role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
      * @return
@@ -54,7 +54,7 @@ public class RoleController {
         try {  
             Role roleName = new Role();
             roleName.setName(role.getName());
-            List<Role> listRoleName = roleService.findByFiltro(roleName);
+            List<Role> listRoleName = roleService.findByName(roleName);
             
             if(listRoleName != null && !listRoleName.isEmpty()) {
                 responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.role", "msgNombreExiste"));
@@ -80,7 +80,7 @@ public class RoleController {
     /**
      * Modifica role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
      * @return
@@ -91,7 +91,7 @@ public class RoleController {
         try {    
             Role roleName = new Role();
             roleName.setName(role.getName());
-            List<Role> listRoleName = roleService.findByFiltro(roleName);
+            List<Role> listRoleName = roleService.findByName(roleName);
             
             if(listRoleName != null && !listRoleName.isEmpty()) {
                 boolean existName = false;
@@ -125,7 +125,7 @@ public class RoleController {
     /**
      * Elimina role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
      * @return
@@ -150,7 +150,7 @@ public class RoleController {
     /**
      * Consulta role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
@@ -174,7 +174,7 @@ public class RoleController {
     /**
      * Consulta role paginado <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param paginateDto
      * @return
@@ -182,9 +182,10 @@ public class RoleController {
     @RequestMapping(value = "/role/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
-        try {     
+        try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            List<RoleDTO> roleList = roleService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            List<RoleDTO> roleList = roleService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(),
+                paginateDto.getOrder(), paginateDto.getFilter());
             responseService.setOutput(roleList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -196,6 +197,7 @@ public class RoleController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
     
     /**
      * Consulta role <br>

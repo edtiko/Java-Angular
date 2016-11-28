@@ -47,8 +47,11 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
             }
         }).$promise;
     };
-
-
+    $window.sessionStorage.setItem("trainingIdConfiguration", '');
+    $scope.showDetail = function(id) {
+        $window.sessionStorage.setItem("trainingIdConfiguration", id);
+        $window.location.href = "#create-configuration-plan";
+    };
 
     $scope.createTrainingPlan = function (trainingPlan) {
         if ($scope.appReady) {

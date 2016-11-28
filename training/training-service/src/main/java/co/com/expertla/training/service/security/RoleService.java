@@ -7,7 +7,7 @@ import java.util.List;
 /**
 * Role Service <br>
 * Info. Creación: <br>
-* fecha 30/08/2016 <br>
+* fecha 28/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 public interface RoleService {
@@ -16,7 +16,7 @@ public interface RoleService {
     /**
      * Crea role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
      * @return 
@@ -26,26 +26,26 @@ public interface RoleService {
     /**
      * Modifica role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
+     * @return 
      * @throws Exception 
      */
     public Role store(Role role) throws Exception;
     /**
      * Elimina role<br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
-     * @return 
      * @throws Exception 
      */
     public void remove(Role role) throws Exception;
     /**
      * Obtiene todos los registros de role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
@@ -55,7 +55,7 @@ public interface RoleService {
     /**
      * Obtiene todos los registros activos de role <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      * @throws Exception 
@@ -65,20 +65,21 @@ public interface RoleService {
     /**
      * Obtiene todos los registros de role paginados <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param first
      * @param max
      * @param order
+     * @param filter
      * @return
      * @throws Exception 
      */
-    public List<RoleDTO> findPaginate(int first, int max, String order) throws Exception;
+    public List<RoleDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
     
     /**
      * Obtiene todos los registros de role paginados <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
      * @return
@@ -89,7 +90,7 @@ public interface RoleService {
     /**
      * Obtiene todos los registros de role por el filtro del usuario <br>
      * Info. Creación: <br>
-     * fecha 30/08/2016 <br>
+     * fecha 28/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param role
      * @return
@@ -98,6 +99,16 @@ public interface RoleService {
     public List<Role> findByFiltro(Role role) throws Exception; 
 
 
+    /**
+    * Obtiene todos los registros de role por nombre <br>
+    * Info. Creación: <br>
+    * fecha 28/11/2016 <br>
+    * @author Andres Felipe Lopez Rodriguez
+    * @param role
+    * @return
+    * @throws Exception 
+    */
+    public List<Role> findByName(Role role) throws Exception;  
 
     
 }

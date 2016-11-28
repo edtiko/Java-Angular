@@ -72,7 +72,7 @@ public interface UserDao extends BaseDAO<User> {
      * @return
      * @throws Exception 
      */
-    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception;
+    public List<UserDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
     
     /**
      * Consulta la estrella de un atleta <br>

@@ -45,7 +45,7 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     }
 
     @Override
-    public List<ActivityDTO> findPaginate(int first, int max, String order) throws Exception {
+    public List<ActivityDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
         
         if(order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
@@ -57,6 +57,37 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("a.stateId) from Activity a ");
+        
+        if(filter != null && !filter.trim().isEmpty()) {
+            builder.append("WHERE ( 1!=1 ");
+            builder.append("OR UPPER(a.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.description) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.physiologicalCapacityId.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.modalityId.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.objectiveId.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.sportId.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userCreate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userUpdate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append(")");
+        }
+
+        
         builder.append("order by a.");
         builder.append(order);
         int count = findAll().size();
