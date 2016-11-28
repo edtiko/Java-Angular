@@ -1,40 +1,31 @@
 <div class="demo-md-panel md-padding">
-    <md-content layout-padding>
-        <span class="md-headline">Rol</span>
-
-    <form  name="formRole" novalidate>
-        <input type="hidden" ng-model="role.roleId" />
-   
-                <div layout="row">
-                    <div flex="33">
-                        <md-input-container class="md-block">
-                            <input type="text" ng-model="role.name" id="name" name="name"  placeholder="Nombre" required/>
-                            <div class="has-error" ng-messages="formRole.name.$error">
-                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                </div>
-            
-
-            
-            
-            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button ng-click="submitRole(formRole)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
-            </section>
-
-        </form>
-
-    </md-content>
-</div>
-
-
-<div id="myPieChart">
-    </div>
-<div class="demo-md-panel md-padding">
-    <md-toolbar class="md-table-toolbar md-default">
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
         <div class="md-toolbar-tools">
             <span>Lista de Roles</span>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list"
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            </md-button>
+            <md-button class=" md-raised  md-primary" title="{{ 'CREATE' | translate }}" ng-click="openRole($event)" 
+                       ng-style="{'color':'white', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default ng-hide" ng-show="filter.show" aria-hidden="true">
+        <div class="md-toolbar-tools">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <form flex="" name="filter.form" class="ng-valid flex ng-valid-parse ng-pristine">
+                <input type="text" ng-model="query.filter" ng-model-options="filter.options" placeholder="{{ 'SEARCH' | translate }}" 
+                       class="ng-valid ng-valid-parse ng-touched ng-pristine" aria-invalid="false">
+            </form>
+            <md-button class=" md-button md-ink-ripple" type="button"  ng-click="removeFilter()" aria-label="close" 
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+                
+            </md-button>
         </div>
     </md-toolbar>
 
@@ -42,22 +33,23 @@
         <table md-table ng-model="selected" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="getRolePaginate">
                 <tr md-row>
+                    <th md-column class="md-column">Opciones</th>
                     <th md-column md-order-by="name" class="md-column">Nombre</th>
-                    <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
-                    <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
-                    <th md-column md-order-by="userUpdate">Usuario de Modificaci&oacute;n</th>
-                    <th  md-column md-order-by="lastUpdate">Fecha de Modificaci&oacute;n</th>
+                    <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
+                    <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
+                    <th md-column md-order-by="userUpdate">{{ 'USER_UPDATE' | translate }}</th>
+                    <th md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>
                 </tr>
             </thead>
             <tbody md-body>
-                <tr md-row md-select="role" md-select-id="name" md-auto-select ng-repeat="role in roleList">
-                    <td>
-                        <md-button type="button" ng-click="showCreateRoleOption(event)" class="md-raised md-primary">Role Option</md-button>
-                        <md-button type="button" ng-click="editRole(role.roleId)" class="md-raised md-primary">Editar</md-button>  
-                        <md-button ng-show="role.stateId == 1" type="button" ng-click="inactivateRole(role.roleId)" class="md-raised md-warn md-button md-ink-ripple">Inactivar</md-button>
-                        <md-button ng-show="role.stateId == 0" type="button" ng-click="activateRole(role.roleId)" class="md-raised md-primary">Activar</md-button>
-                        <md-button type="button" ng-click="deleteRole(role.roleId)" class="md-raised md-primary">Eliminar</md-button>
-                    </td>
+                <tr md-row md-select="role" md-select-id="name" md-auto-select ng-repeat="role in roleList| filter: filter.search">
+                <td>
+                    <md-button type="button" ng-click="editRole(role.roleId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
+                    <md-button ng-show="role.stateId == 0" type="button" ng-click="activateRole(role.roleId)"  ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                    <md-button ng-show="role.stateId == 1" type="button" ng-click="inactivateRole(role.roleId)"  ng-style="{color: 'yellow', 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                    <md-button type="button" ng-click="deleteRole(role.roleId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+                    <!--<md-button type="button" ng-click="showCreateRoleOption(role.roleId, event)" class="md-raised md-primary">Role Option</md-button>-->
+                </td>
                     <td md-cell>{{role.name}}</td>
                     <td md-cell>{{role.userCreateName}}</td>
                     <td md-cell>{{role.creationDate}}</td>

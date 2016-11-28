@@ -13,9 +13,12 @@ import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ActivityService;
 import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
+import co.com.expertla.training.service.user.UserProfileService;
+import co.com.expertla.training.service.user.UserZoneService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,24 +28,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import co.com.expertla.training.service.user.UserProfileService;
-import co.com.expertla.training.service.user.UserZoneService;
-import javax.servlet.http.HttpServletRequest;
+
 
 /**
- * Activity Controller <br>
- * Info. Creaci贸n: <br>
- * fecha 5/08/2016 <br>
- *
- * @author Andres Felipe Lopez Rodriguez
- *
- */
+* Activity Controller <br>
+* Info. Creaci贸n: <br>
+* fecha 25/11/2016 <br>
+* @author Andres Felipe Lopez Rodriguez
+**/
+
 @RestController
 public class ActivityController {
 
     @Autowired
-    ActivityService activityService;
-
+    ActivityService activityService; 
+    
     @Autowired
     UserProfileService userProfileService;
 
@@ -54,26 +54,16 @@ public class ActivityController {
 
     /**
      * Crea activity <br>
-     * Info. Creaci髇: <br>
-     * fecha 5/08/2016 <br>
-     *
+     * Info. Creaci贸n: <br>
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
      * @return
      */
     @RequestMapping(value = "activity/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> createActivity(@RequestBody Activity activity) {
-        ResponseService responseService = new ResponseService();
-        try {
-//            Activity activityName = new Activity();
-//            activityName.setName(activity.getName());
-//            List<Activity> listActivityName = activityService.findByFiltro(activityName);
-
-//            if(listActivityName != null && !listActivityName.isEmpty()) {
-//                responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.activity", "msgNombreExiste"));
-//                responseService.setStatus(StatusResponse.FAIL.getName());
-//                return new ResponseEntity<>(responseService, HttpStatus.OK);
-//            }
+            ResponseService responseService = new ResponseService();
+        try {              
             activity.setStateId(Short.valueOf(Status.ACTIVE.getId()));
             activity.setCreationDate(new Date());
             activityService.create(activity);
@@ -92,35 +82,15 @@ public class ActivityController {
     /**
      * Modifica activity <br>
      * Info. Creaci贸n: <br>
-     * fecha Sep 2, 2016 <br>
-     *
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
      * @return
      */
     @RequestMapping(value = "activity/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> updateActivity(@RequestBody Activity activity) {
-        ResponseService responseService = new ResponseService();
-        try {
-//            Activity activityName = new Activity();
-//            activityName.setName(activity.getName());
-//            List<Activity> listActivityName = activityService.findByFiltro(activityName);
-//            
-//            if(listActivityName != null && !listActivityName.isEmpty()) {
-//                boolean existName = false;
-//                for (Activity activity1 : listActivityName) {
-//                    if (!activity1.getActivityId().equals(activity.getActivityId())) {
-//                        existName = true;
-//                    }
-//                }
-//
-//                if (existName) {
-//                    responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.activity", "msgNombreExiste"));
-//                    responseService.setStatus(StatusResponse.FAIL.getName());
-//                    return new ResponseEntity<>(responseService, HttpStatus.OK);
-//                }                
-//            }
-
+            ResponseService responseService = new ResponseService();
+        try {                
             activity.setLastUpdate(new Date());
             activityService.store(activity);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.activity", "msgRegistroEditado"));
@@ -138,16 +108,15 @@ public class ActivityController {
     /**
      * Elimina activity <br>
      * Info. Creaci贸n: <br>
-     * fecha Sep 2, 2016 <br>
-     *
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param activity
      * @return
      */
     @RequestMapping(value = "activity/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> deleteActivity(@RequestBody Activity activity) {
-        ResponseService responseService = new ResponseService();
-        try {
+            ResponseService responseService = new ResponseService();
+        try {           
             activityService.remove(activity);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.activity", "msgRegistroEliminado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -160,19 +129,18 @@ public class ActivityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+    
     /**
      * Consulta activity <br>
-     * Info. Creaci髇: <br>
-     * fecha 5/08/2016 <br>
-     *
+     * Info. Creaci贸n: <br>
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
     @RequestMapping(value = "/activity/get/all", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> list() {
         ResponseService responseService = new ResponseService();
-        try {
+        try {     
             List<Activity> activityList = activityService.findAllActive();
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -189,8 +157,7 @@ public class ActivityController {
     /**
      * Consulta activity paginado <br>
      * Info. Creaci贸n: <br>
-     * fecha Sep 2, 2016 <br>
-     *
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param paginateDto
      * @return
@@ -198,9 +165,10 @@ public class ActivityController {
     @RequestMapping(value = "/activity/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
-        try {
-            paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
-            List<ActivityDTO> activityList = activityService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+        try {   
+            paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
+            List<ActivityDTO> activityList = activityService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(),
+                paginateDto.getOrder(), paginateDto.getFilter());
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -212,8 +180,9 @@ public class ActivityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
-    /**
+    
+    
+/**
      * Consulta activity por disciplina del usuario <br>
      * Info. Creaci髇: <br>
      * fecha 08/08/2016 <br>

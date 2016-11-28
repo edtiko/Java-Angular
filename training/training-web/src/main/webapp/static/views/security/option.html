@@ -1,85 +1,31 @@
 <div class="demo-md-panel md-padding">
-    <md-content layout-padding>
-        <span class="md-headline">Option</span>
-
-    <form  name="formOption" novalidate>
-        <input type="hidden" ng-model="option.optionId" />
-   
-                <div layout="row">
-                    <div flex="33">
-                        <md-input-container class="md-block">
-                            <input type="text" ng-model="option.name" id="name" name="name"  placeholder="Nombre" required/>
-                            <div class="has-error" ng-messages="formOption.name.$error">
-                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                </div>
-            
-
-                <div layout="row">
-                    <div flex="33">
-                        <md-input-container class="md-block">
-                            <input type="text" ng-model="option.url" id="url" name="url"  placeholder="Url" required/>
-                            <div class="has-error" ng-messages="formOption.url.$error">
-                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                </div>
-            
-
-                    <div layout="row">
-                        <div flex="33">
-                            <md-input-container class="md-block">
-                                <input type="text" ng-model="option.description" id="description" name="description"  placeholder="Descripci&oacute;n"/>
-                            </md-input-container>
-                        </div>
-                    </div>
-            
-
-                    <div layout="row"> 
-                        <div flex="33">
-                            <md-input-container class="md-block" >
-                                <label>Opci&oacute;n Padre</label>
-                                <md-select id="masterOption" ng-model="option.masterOptionId.optionId">
-                                    <md-option ng-repeat="d in masterOptionList" value="{{d.optionId}}" >
-                                        {{d.name}}
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </div>
-                    </div>
-                    <div layout="row"> 
-                        <div flex="33">
-                            <md-input-container class="md-block" >
-                                <label>M&oacute;dulo</label>
-                                <md-select id="module" ng-model="option.moduleId.moduleId" required>
-                                    <md-option ng-repeat="d in moduleList" value="{{d.moduleId}}" >
-                                        {{d.name}}
-                                    </md-option>
-                                </md-select>
-                                <div class="has-error" ng-messages="formOption.module.$error">
-                                    <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                                </div>
-                            </md-input-container>
-                        </div>
-                    </div>
-            
-            
-            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button ng-click="submitOption(formOption)" class="md-raised md-primary">Guardar</md-button>
-            </section>
-
-        </form>
-
-    </md-content>
-</div>
-
-<div class="demo-md-panel md-padding">
-    <md-toolbar class="md-table-toolbar md-default">
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
         <div class="md-toolbar-tools">
             <span>Lista de Opciones</span>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list"
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            </md-button>
+            <md-button class=" md-raised  md-primary" title="{{ 'CREATE' | translate }}" ng-click="openOption($event)" 
+                       ng-style="{'color':'white', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default ng-hide" ng-show="filter.show" aria-hidden="true">
+        <div class="md-toolbar-tools">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <form flex="" name="filter.form" class="ng-valid flex ng-valid-parse ng-pristine">
+                <input type="text" ng-model="query.filter" ng-model-options="filter.options" placeholder="{{ 'SEARCH' | translate }}" 
+                       class="ng-valid ng-valid-parse ng-touched ng-pristine" aria-invalid="false">
+            </form>
+            <md-button class=" md-button md-ink-ripple" type="button"  ng-click="removeFilter()" aria-label="close" 
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+                
+            </md-button>
         </div>
     </md-toolbar>
 
@@ -87,34 +33,35 @@
         <table md-table ng-model="selected" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="getOptionPaginate">
                 <tr md-row>
+                    <th md-column class="md-column">Opciones</th>
                     <th md-column md-order-by="name" class="md-column">Nombre</th>
                     <th md-column md-order-by="url" class="md-column">Url</th>
-                    <th md-column md-order-by="description" class="md-column">Descripti&oacute;n</th>
-                    <th md-column md-order-by="masterOption" class="md-column">Opci&oacute;n Padre</th>
-                    <th md-column md-order-by="module" class="md-column">M&oacute;dulo</th>
-                    <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
-                    <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
-                    <th md-column md-order-by="userUpdate">Usuario de Modificaci&oacute;n</th>
-                    <th  md-column md-order-by="lastUpdate">Fecha de Modificaci&oacute;n</th>
+                    <th md-column md-order-by="description" class="md-column">Descripci&oacute;n</th>
+                    <th md-column md-order-by="moduleId.name" class="md-column">M&oacute;dulo</th>
+                    <th md-column md-order-by="masterOptionId.name" class="md-column">Opci&oacute;n Padre</th>
+                    <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
+                    <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
+                    <th md-column md-order-by="userUpdate">{{ 'USER_UPDATE' | translate }}</th>
+                    <th md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>
                 </tr>
             </thead>
             <tbody md-body>
-                <tr md-row md-select="option" md-select-id="name" md-auto-select ng-repeat="option in optionList">
+                <tr md-row md-select="option" md-select-id="name" md-auto-select ng-repeat="option in optionList| filter: filter.search">
+                <td>
+                    <md-button type="button" ng-click="editOption(option.optionId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
+                    <md-button ng-show="option.stateId == 0" type="button" ng-click="activateOption(option.optionId)"  ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                    <md-button ng-show="option.stateId == 1" type="button" ng-click="inactivateOption(option.optionId)"  ng-style="{color: 'yellow', 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                    <md-button type="button" ng-click="deleteOption(option.optionId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+                </td>
                     <td md-cell>{{option.name}}</td>
                     <td md-cell>{{option.url}}</td>
                     <td md-cell>{{option.description}}</td>
-                    <td md-cell>{{option.masterOption}}</td>
-                    <td md-cell>{{option.module}}</td>
+                    <td md-cell>{{option.moduleId.name}}</td>
+                    <td md-cell>{{option.masterOptionId.name}}</td>
                     <td md-cell>{{option.userCreateName}}</td>
                     <td md-cell>{{option.creationDate}}</td>
                     <td md-cell>{{option.userUpdateName}}</td>
                     <td md-cell>{{option.lastUpdate}}</td>
-                    <td>
-                        <md-button type="button" ng-click="editOption(option.optionId)" class="md-raised md-primary">Editar</md-button>  
-                        <md-button ng-show="option.stateId == 1" type="button" ng-click="inactivateOption(option.optionId)" class="md-raised md-warn md-button md-ink-ripple">Inactivar</md-button>
-                        <md-button ng-show="option.stateId == 0" type="button" ng-click="activateOption(option.optionId)" class="md-raised md-primary">Activar</md-button>
-                        <md-button type="button" ng-click="deleteOption(option.optionId)" class="md-raised md-primary">Eliminar</md-button>
-                    </td>
                 </tr>
             </tbody>
         </table>

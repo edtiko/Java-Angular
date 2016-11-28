@@ -1,10 +1,11 @@
-
-trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$window', 'DisciplineService', 'RoleService', function ($scope, UserService,
-            $window, DisciplineService, RoleService) {
+trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$window', '$mdDialog',
+    'DisciplineService', 'RoleService',
+    function ($scope, UserService, $window, $mdDialog, DisciplineService, RoleService) {
+        
         var self = this;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', phone: '', countryId: '',
             disciplineId: '', stateId: '', roleId: '', profilePhoto: '', urlVideo: '', aboutMe: '', userCreate: '', updateUser: ''};
-        $scope.users = [];
+        $scope.userList = [];
         $scope.countries = [];
         $scope.sexOptions = [
             {code: "m", sex: "Masculino"},
@@ -15,18 +16,27 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         $scope.profileImage = "static/img/profile-default.png";
         $scope.selected = [];
         $scope.count = 0;
+        var bookmark;
+
+        $scope.filter = {
+            options: {
+                debounce: 500
+            }
+        };
+
         $scope.query = {
+            filter: '',
             order: 'name',
-            limit: 5,
+            limit: 10,
             page: 1
         };
 
         $scope.getUserPaginate = function () {
             $scope.promise = UserService.getPaginate($scope.query, function (response) {
-                $scope.users = success(response);
+                $scope.userList = success(response);
 
-                if ($scope.users.length > 0) {
-                    $scope.count = $scope.users[0].count;
+                if ($scope.userList.length > 0) {
+                    $scope.count = $scope.userList[0].count;
                 }
             }).$promise;
         };
@@ -45,10 +55,10 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             UserService.fetchAllUsers()
                     .then(
                             function (d) {
-                                $scope.users = d;
+                                $scope.userList = d;
                             },
                             function (errResponse) {
-                                console.error('Error while fetching users');
+                                console.error('Error while fetching userList');
                             }
                     );
         };
@@ -116,30 +126,38 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                     );
         };
 
-        $scope.submitUser = function (file) {
-            if ($scope.user.userId === null) {
+        $scope.submitUser = function (form, file) {
+            $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            if (form.$valid) {
+                if ($scope.user.userId === null) {
                 $scope.user.userCreate = $scope.userSession.userId;
                 self.createUser($scope.user,file);
             } else {
                 $scope.user.userUpdate = $scope.userSession.userId;
                 self.updateUser($scope.user,file);
             }
-        };
+            } else {
+                form.$setSubmitted();
+            }
+        };       
 
-        $scope.editUser = function (id) {
-            for (var i = 0; i < $scope.users.length; i++) {
-                if ($scope.users[i].userId === id) {
-                    $scope.user = angular.copy($scope.users[i]);
-                    $scope.getImageProfile($scope.users[i].userId);
+        $scope.editUser = function (id, ev) {
+            $scope.showCreateUser(ev);
+            
+            for (var i = 0; i < $scope.userList.length; i++) {
+                if ($scope.userList[i].userId === id) {
+                    $scope.user = angular.copy($scope.userList[i]);
+                    $scope.getImageProfile($scope.userList[i].userId);
                     break;
                 }
             }
+            
         };
 
         $scope.inactivateUser = function (id) {
-            for (var i = 0; i < $scope.users.length; i++) {
-                if ($scope.users[i].userId === id) {
-                    $scope.user = angular.copy($scope.users[i]);
+            for (var i = 0; i < $scope.userList.length; i++) {
+                if ($scope.userList[i].userId === id) {
+                    $scope.user = angular.copy($scope.userList[i]);
                     break;
                 }
             }
@@ -149,9 +167,9 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         };
 
         $scope.activateUser = function (id) {
-            for (var i = 0; i < $scope.users.length; i++) {
-                if ($scope.users[i].userId === id) {
-                    $scope.user = angular.copy($scope.users[i]);
+            for (var i = 0; i < $scope.userList.length; i++) {
+                if ($scope.userList[i].userId === id) {
+                    $scope.user = angular.copy($scope.userList[i]);
                     break;
                 }
             }
@@ -166,11 +184,108 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
             self.deleteUser(id);
         };
 
+        $scope.removeFilter = function () {
+            $scope.filter.show = false;
+            $scope.query.filter = '';
 
+            if ($scope.filter.form.$dirty) {
+                $scope.filter.form.$setPristine();
+            }
+        };
+
+        $scope.$watch('query.filter', function (newValue, oldValue) {
+            if (!oldValue) {
+                bookmark = $scope.query.page;
+            }
+
+            if (newValue !== oldValue) {
+                $scope.query.page = 1;
+            }
+
+            if (!newValue) {
+                $scope.query.page = bookmark;
+            }
+
+            $scope.getUserPaginate();
+        });
+
+        $scope.openUser = function (ev) {
+
+            $scope.user = {userId: null,
+                login: '',
+                firstName: '',
+                secondName: '',
+                email: '',
+                disciplineId: '',
+                sex: '',
+                phone: '',
+                countryId: '',
+                roleId: '',
+                description: '',
+                urlVideo: '',
+                stateId: '',
+                userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
+            $scope.showCreateUser(ev);
+
+        };
+
+        $scope.showCreateUser = function (ev) {
+
+            $mdDialog.show({
+                controller: UserController,
+                scope: $scope.$new(),
+                templateUrl: 'static/views/security/create-user.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen, // Only for -xs, -sm breakpoints.
+                resolve: {
+                    disciplineList: function () {
+                        return $scope.disciplines;
+                    },
+                    countries: function () {
+                        return $scope.countries;
+                    },
+                    roleList: function () {
+                        return $scope.roles;
+                    },
+                    user: function () {
+                        return $scope.user;
+                    }
+
+                }
+            })
+                    .then(function (answer) {
+                        $scope.status = 'You said the information was "' + answer + '".';
+                    }, function () {
+                        $scope.status = 'You cancelled the dialog.';
+                   });
+        };
+
+        function UserController($scope, $mdDialog,
+                disciplineList,
+                countries,
+                roleList,
+                user) {
+            
+            $scope.disciplines = disciplineList;
+            $scope.countries = countries;
+            $scope.roles = roleList;
+            $scope.user = user;
+
+            $scope.hide = function () {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+        }
+        
         $scope.resetUser = function () {
             $scope.user = {userId: null, firstName: '', secondName: '', login: '', lastName: '', email: '', sex: '', phone: '', countryId: '',
                 disciplineId: '', stateId: '', roleId: ''};
-            $scope.formUser.$setPristine(); //reset Form
+//            $scope.formUser.$setPristine(); //reset Form
         };
 
         this.getSportDisciplines = function () {
@@ -204,9 +319,6 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
                 $scope.showMessage("Debe seleccionar una imagen valida.", "error");
                 //$window.alert("Debe seleccionar una imagen valida.");
             } else if ($scope.user.userId != "" && file != null) {
-
-                console.log('file is ');
-                console.dir(file);
                 UserService.uploadFileToUrl(file, $scope.user.userId)
                         .then(
                                 function (msg) {
@@ -253,5 +365,43 @@ trainingApp.controller('RegisterUserController', ['$scope', 'UserService', '$win
         $scope.fetchAllRoles();
         this.getSportDisciplines();
         self.fetchAllCountries();
+        
+
+        $scope.deleteUser = function (user) {
+            var confirm = $mdDialog.confirm()
+                    .title('Confirmaci\u00f3n')
+                    .textContent('\u00BFDesea eliminar el registro?')
+                    .ariaLabel('Lucky day')
+                    .ok('Aceptar')
+                    .cancel('Cancelar');
+
+            $mdDialog.show(confirm).then(function () {
+
+                UserService.deleteUser(user)
+                        .then(
+                                function (d) {
+                                    if (d.status == 'success') {
+                                        $scope.resetUser();
+                                        $scope.showMessage(d.output);
+                                        $scope.getUserPaginate();
+                                    } else {
+                                        $scope.showMessage(d.output);
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting User.');
+                                }
+                        );
+            }, function () {
+            });
+        };
+            
+        $scope.getUserPaginate();
+        this.getSportDisciplines();
+        self.fetchAllCountries();
+        $scope.fetchAllRoles();
 
     }]);
+
+
+

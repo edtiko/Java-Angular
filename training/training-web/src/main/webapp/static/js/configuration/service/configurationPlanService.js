@@ -1,8 +1,8 @@
 'use strict';
-trainingApp.service('RoleService', ['$http', '$q', function ($http, $q) {
+trainingApp.service('ConfigurationPlanService', ['$http', '$q', function ($http, $q) {
         return {
-            getPaginate: function (query, res) {
-                return $http.post($contextPath + 'role/paginated', query)
+            getPaginate: function (query, planId, res) {
+                return $http.post($contextPath + 'configurationPlan/paginated/'+planId, query)
                         .then(
                                 res,
                                 function (errResponse) {
@@ -11,74 +11,70 @@ trainingApp.service('RoleService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getRoleById: function (id) {
-                return $http.get($contextPath + '/get/role/by/' + id)
+            getTrainingPlan: function (res) {
+                return $http.get($contextPath + 'trainingPlan/get/all')
                         .then(
-                                function (response) {
-                                    return response.data;
-                                },
+                                res,
                                 function (errResponse) {
-                                    console.error('Error while fetching roles');
+                                    console.error('Error while getting service ' + errResponse);
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            createRole: function (role) {
-                return $http.post($contextPath + '/role/create', role)
-                        .then(
-                                function (response) {
-                                    return response.data;
-                                },
-                                function (errResponse) {
-                                    console.error('Error while creating role');
-                                    return $q.reject(errResponse);
-                                }
-                        );
-            },
-            mergeRole: function (role) {
-                return $http.post($contextPath + '/role/update', role)
-                        .then(
-                                function (response) {
-                                    return response.data;
-                                },
-                                function (errResponse) {
-                                    console.error('Error while updating role');
-                                    return $q.reject(errResponse);
-                                }
-                        );
-            },
-            deleteRole: function (role) {
-                return $http.post($contextPath + '/role/delete', role)
-                        .then(
-                                function (response) {
-                                    return response.data;
-                                },
-                                function (errResponse) {
-                                    console.error('Error while deleting role');
-                                    return $q.reject(errResponse);
-                                }
-                        );
-            },
-            getRoles: function () {
+            getCommunicationRole: function (res) {
                 return $http.get($contextPath + 'role/get/all')
                         .then(
-                                function (response) {
-                                    return response.data;
-                                },
+                                res,
                                 function (errResponse) {
-                                    console.error('Error while getting roles');
+                                    console.error('Error while getting service ' + errResponse);
                                     return $q.reject(errResponse);
                                 }
                         );
-           },
-            getRoleOption: function (roleId) {
-                return $http.get($contextPath + 'roleOption/get/by/' + roleId)
+            },
+            getConfigurationPlanById: function (id) {
+                return $http.get($contextPath + '/get/configurationPlan/by/' + id)
                         .then(
                                 function (response) {
                                     return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error('Error while getting roleoption');
+                                    console.error('Error while fetching configurationPlans');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            createConfigurationPlan: function (configurationPlan) {
+                return $http.post($contextPath + '/configurationPlan/create', configurationPlan)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating configurationPlan');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            mergeConfigurationPlan: function (configurationPlan) {
+                return $http.post($contextPath + '/configurationPlan/update', configurationPlan)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while updating configurationPlan');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            deleteConfigurationPlan: function (configurationPlan) {
+                return $http.post($contextPath + '/configurationPlan/delete', configurationPlan)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting configurationPlan');
                                     return $q.reject(errResponse);
                                 }
                         );

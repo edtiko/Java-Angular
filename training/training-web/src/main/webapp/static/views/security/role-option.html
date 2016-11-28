@@ -17,16 +17,8 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">{{ 'OPTIONS' | translate }}</label>
                             <div class="col-md-4">
-                                <picklist  name="pktest" size="20"  data-picklist="" data-pick-model="tselected" data-pick-options="v.name for v in toptions"/>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <p>ng-options:v.optionId.name for v in toptions</p>
-                                    <ul>
-                                        <li data-ng-repeat="s in tselected">{{s.optionId}}</li>
-                                    </ul>
-                                </div>
-                            </div>
+                                <picklist  name="pktest" size="20"  data-picklist="" data-pick-model="tselected" data-pick-options="v.optionId.name for v in toptions"></picklist>
+                            </div>                            
                         </div>
                     </div>
                 </div>

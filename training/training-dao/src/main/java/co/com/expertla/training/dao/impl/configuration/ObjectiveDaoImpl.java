@@ -36,7 +36,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
     public List<Objective> findAllActive() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Objective a ");
-        builder.append("WHERE a.stateId = :active");
+        builder.append("WHERE a.stateId = :active ");
         builder.append("order by a.name ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());

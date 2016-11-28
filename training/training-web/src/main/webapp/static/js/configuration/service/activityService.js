@@ -12,7 +12,46 @@ trainingApp.service('ActivityService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-          
+            getPhysiologicalCapacity: function(res){
+                    return $http.get($contextPath+'physiologicalCapacity/get/all')
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            getModality: function(res){
+                    return $http.get($contextPath+'modality/get/all')
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            getObjective: function(res){
+                    return $http.get($contextPath+'objective/get/all')
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            getSport: function(res){
+                    return $http.get($contextPath+'sport/get/all')
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
             getActivityById: function (id) {
                 return $http.get($contextPath + '/get/activity/by/' + id)
                         .then(

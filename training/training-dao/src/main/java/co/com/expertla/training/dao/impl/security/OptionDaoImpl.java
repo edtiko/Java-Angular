@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 /**
 * Option Dao Impl <br>
 * Info. Creación: <br>
-* fecha 29/08/2016 <br>
+* fecha 25/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Repository
@@ -36,28 +36,57 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Option a ");
         builder.append("WHERE a.stateId = :active ");
-
+        builder.append("order by a.name asc ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
 
     @Override
-    public List<OptionDTO> findPaginate(int first, int max, String order) throws Exception {
-        
+    public List<OptionDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        filter = filter.toUpperCase();
         if(order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.OptionDTO(a.optionId,");
-        builder.append("a.name,a.description,a.url,a.stateId,a.moduleId,a.moduleId.name, a.creationDate, a.lastUpdate,");
-        builder.append("(select u.optionId FROM Option u WHERE a.masterOptionId.optionId = u.optionId), (select u.name FROM Option u WHERE a.masterOptionId.optionId = u.optionId),");
+        builder.append("a.name,a.description,a.url,a.moduleId,a.masterOptionId,a.stateId, a.creationDate, a.lastUpdate,");
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from Option a ");
+
+        if(filter != null && !filter.trim().isEmpty()) {
+            builder.append("WHERE ( 1!=1 ");
+            builder.append("OR UPPER(a.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.url) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.description) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.moduleId.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(a.masterOptionId.name) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.name FROM State u WHERE u.stateId = a.stateId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userCreate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append("OR UPPER(select u.login FROM User u WHERE a.userUpdate = u.userId) like '%");
+            builder.append(filter);
+            builder.append("%'");
+            builder.append(")");
+        }
+
         builder.append("order by a.");
         builder.append(order);
-        int count = findAll().size();
+        int count = this.getEntityManager().createQuery(builder.toString()).getResultList().size();
         
         Query query = this.getEntityManager().createQuery(builder.toString());
         query.setFirstResult(first);
@@ -106,6 +135,12 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
 
 
 
+        if(option.getModuleId() != null && option.getModuleId().getModuleId() != null) {
+            builder.append("AND a.moduleId.moduleId = :module ");
+            setParameter("module", option.getModuleId().getModuleId());
+        }
+
+
         if(option.getMasterOptionId() != null && option.getMasterOptionId().getMasterOptionId() != null) {
             builder.append("AND a.masterOptionId.masterOptionId = :masterOption ");
             setParameter("masterOption", option.getMasterOptionId().getMasterOptionId());
@@ -118,12 +153,16 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
             setParameter("state", option.getStateId());
         }
 
-        if(option.getModuleId() != null && option.getModuleId().getModuleId() != null) {
-            builder.append("AND a.moduleId.moduleId = :module ");
-            setParameter("module", option.getModuleId().getModuleId());
-        }
+        builder.append("order by a.name asc ");
+        return createQuery(builder.toString());
+    }
 
-
+    @Override
+    public List<Option> findByName(Option option) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from Option a ");
+        builder.append("WHERE lower(trim(a.name)) = lower(trim(:name)) ");
+        setParameter("name", option.getName().trim());
         return createQuery(builder.toString());
     }
     
@@ -143,5 +182,4 @@ public class OptionDaoImpl extends BaseDAOImpl<Option> implements OptionDao {
         setParameter("moduleId", moduleId);
         return createQuery(builder.toString());
     }
-
 }

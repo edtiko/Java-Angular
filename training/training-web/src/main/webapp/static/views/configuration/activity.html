@@ -1,123 +1,31 @@
 <div class="demo-md-panel md-padding">
-    <md-content layout-padding>
-        <span class="md-headline">Activity</span>
-
-        <form  name="formActivity" novalidate>
-            <input type="hidden" ng-model="activity.activityId" />
-            <div layout="row">
-                <div flex="33">
-                    <md-input-container class="md-block">
-                        <input type="text" ng-model="activity.name" id="name" name="name"  placeholder="{{ 'NAME' | translate }}" required/>
-                        <div class="has-error" ng-messages="formActivity.name.$error">
-                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                        </div>
-                    </md-input-container>
-                </div>
-            </div>
-
-
-            <div layout="row">
-                <div flex="33">
-                    <md-input-container class="md-block">
-                        <input type="text" ng-model="activity.description" id="description" name="description"  placeholder="{{'DESCRIPTION'| translate }}" required/>
-                        <div class="has-error" ng-messages="formActivity.description.$error">
-                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                        </div>
-                    </md-input-container>
-                </div>
-            </div>
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <label>{{ 'PHYSIOLOGICAL_CAPACITY' | translate }}</label>
-                        <md-select id="physiologicalCapacity" ng-model="activity.physiologicalCapacityId.physiologicalCapacityId" required>
-                            <md-option ng-repeat="d in physiologicalCapacityList" value="{{d.physiologicalCapacityId}}" >
-                                {{d.name}}
-                            </md-option>
-                        </md-select>
-                        <div class="has-error" ng-messages="formActivity.physiologicalCapacity.$error">
-                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                        </div>
-                    </md-input-container>
-                </div>
-            </div>
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <label>{{ 'DISCIPLINE' | translate }}</label>
-                        <md-select id="discipline" ng-model="activity.discipline" required ng-change="getModalitiesByDisciplineId(activity.discipline,null)">
-                            <md-option ng-repeat="d in disciplineList" value="{{d.disciplineId}}" >
-                                {{d.name}}
-                            </md-option>
-                        </md-select>
-                        <div class="has-error" ng-messages="formActivity.discipline.$error">
-                            <div ng-message="required">Este es un campo requerido</div>
-                        </div>
-                    </md-input-container>
-                </div>
-            </div>
-            
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <label>{{ 'MODALITY' | translate }}</label>
-                        <md-select id="modality" ng-model="activity.modalityId.modalityId" required>
-                            <md-option ng-repeat="d in modalityList" value="{{d.modalityId}}" >
-                                {{d.name}}
-                            </md-option>
-                        </md-select>
-                        <div class="has-error" ng-messages="formActivity.modality.$error">
-                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                        </div>
-                    </md-input-container>
-                </div>
-            </div>
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <label>{{ 'OBJECTIVE' | translate }}</label>
-                        <md-select id="objective" ng-model="activity.objectiveId.objectiveId" required>
-                            <md-option ng-repeat="d in objectiveList" value="{{d.objectiveId}}" >
-                                {{d.name}}
-                            </md-option>
-                        </md-select>
-                        <div class="has-error" ng-messages="formActivity.objective.$error">
-                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                        </div>
-                    </md-input-container>
-                </div>
-            </div>
-
-            <div layout="row"> 
-                <div flex="33">
-                    <md-input-container class="md-block" >
-                        <label>{{ 'SPORT' | translate }}</label>
-                        <md-select id="sport" ng-model="activity.sportId.sportId" required>
-                            <md-option ng-repeat="d in sportList" value="{{d.sportId}}" >
-                                {{d.name}}
-                            </md-option>
-                        </md-select>
-                        <div class="has-error" ng-messages="formActivity.sport.$error">
-                            <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
-                        </div>
-                    </md-input-container>
-                </div>
-            </div>
-
-
-            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button ng-click="submitActivity(formActivity)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
-            </section>
-
-        </form>
-
-    </md-content>
-</div>
-
-<div class="demo-md-panel md-padding">
-    <md-toolbar class="md-table-toolbar md-default">
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
         <div class="md-toolbar-tools">
-            <span>Lista de Activity</span>
+            <span>Lista de Actividades</span>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list"
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            </md-button>
+            <md-button class=" md-raised  md-primary" title="{{ 'CREATE' | translate }}" ng-click="openActivity($event)" 
+                       ng-style="{'color':'white', 'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default ng-hide" ng-show="filter.show" aria-hidden="true">
+        <div class="md-toolbar-tools">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <form flex="" name="filter.form" class="ng-valid flex ng-valid-parse ng-pristine">
+                <input type="text" ng-model="query.filter" ng-model-options="filter.options" placeholder="{{ 'SEARCH' | translate }}" 
+                       class="ng-valid ng-valid-parse ng-touched ng-pristine" aria-invalid="false">
+            </form>
+            <md-button class=" md-button md-ink-ripple" type="button"  ng-click="removeFilter()" aria-label="close" 
+                       ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+                
+            </md-button>
         </div>
     </md-toolbar>
 
@@ -125,20 +33,27 @@
         <table md-table ng-model="selected" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="getActivityPaginate">
                 <tr md-row>
-                    <th md-column md-order-by="name" class="md-column">{{ 'NAME' | translate }}</th>
-                    <th md-column md-order-by="description" class="md-column">{{ 'DESCRIPTION' | translate }}</th>
-                    <th md-column md-order-by="physiologicalCapacityId.name" class="md-column">{{ 'PHYSIOLOGICAL_CAPACITY' | translate }}</th>
-                    <th md-column md-order-by="modalityId.name" class="md-column">{{ 'MODALITY' | translate }}</th>
-                    <th md-column md-order-by="objectiveId.name" class="md-column">{{ 'OBJECTIVE' | translate }}</th>
-                    <th md-column md-order-by="sportId.name" class="md-column">{{ 'SPORT' | translate }}</th>
+                    <th md-column class="md-column">Opciones</th>
+                    <th md-column md-order-by="name" class="md-column">Nombre</th>
+                    <th md-column md-order-by="description" class="md-column">Descripci&oacute;n</th>
+                    <th md-column md-order-by="physiologicalCapacityId.name" class="md-column">Capacidad Fisiologica</th>
+                    <th md-column md-order-by="modalityId.name" class="md-column">Modalidad</th>
+                    <th md-column md-order-by="objectiveId.name" class="md-column">Objetivo</th>
+                    <th md-column md-order-by="sportId.name" class="md-column">Deporte</th>
                     <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
                     <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
                     <th md-column md-order-by="userUpdate">{{ 'USER_UPDATE' | translate }}</th>
-                    <th  md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>
+                    <th md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>
                 </tr>
             </thead>
             <tbody md-body>
-                <tr md-row md-select="activity" md-select-id="name" md-auto-select ng-repeat="activity in activityList">
+                <tr md-row md-select="activity" md-select-id="name" md-auto-select ng-repeat="activity in activityList| filter: filter.search">
+                <td>
+                    <md-button type="button" ng-click="editActivity(activity.activityId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
+                    <md-button ng-show="activity.stateId == 0" type="button" ng-click="activateActivity(activity.activityId)"  ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                    <md-button ng-show="activity.stateId == 1" type="button" ng-click="inactivateActivity(activity.activityId)"  ng-style="{color: 'yellow', 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
+                    <md-button type="button" ng-click="deleteActivity(activity.activityId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+                </td>
                     <td md-cell>{{activity.name}}</td>
                     <td md-cell>{{activity.description}}</td>
                     <td md-cell>{{activity.physiologicalCapacityId.name}}</td>
@@ -149,13 +64,7 @@
                     <td md-cell>{{activity.creationDate}}</td>
                     <td md-cell>{{activity.userUpdateName}}</td>
                     <td md-cell>{{activity.lastUpdate}}</td>
-                    <td>
-            <md-button type="button" ng-click="editActivity(activity.activityId)" class="md-raised md-primary">{{ 'EDIT ' | translate }}</md-button>  
-            <md-button ng-show="activity.stateId == 1" type="button" ng-click="inactivateActivity(activity.activityId)" class="md-raised md-warn md-button md-ink-ripple">{{ 'INACTIVATE' | translate }}</md-button>
-            <md-button ng-show="activity.stateId == 0" type="button" ng-click="activateActivity(activity.activityId)" class="md-raised md-primary">{{ 'ACTIVATE' | translate }}</md-button>
-            <md-button type="button" ng-click="deleteActivity(activity.activityId)" class="md-raised md-primary">{{ 'DELETE' | translate }}</md-button>
-            </td>
-            </tr>
+                </tr>
             </tbody>
         </table>
     </md-table-container>

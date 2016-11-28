@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
 * Option Service Impl <br>
 * Info. Creación: <br>
-* fecha 29/08/2016 <br>
+* fecha 25/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 @Service("optionService")
@@ -48,8 +48,8 @@ public class OptionServiceImpl implements OptionService {
     }
 
     @Override
-    public List<OptionDTO> findPaginate(int first, int max, String order) throws Exception {
-        return optionDao.findPaginate(first, max, order);
+    public List<OptionDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+        return optionDao.findPaginate(first, max, order, filter);
     }
 
     @Override
@@ -61,10 +61,14 @@ public class OptionServiceImpl implements OptionService {
     public List<Option> findByFiltro(Option option) throws Exception {
         return optionDao.findByFiltro(option);
     }
-    
+
+    @Override
+    public List<Option> findByName(Option option) throws Exception {
+        return optionDao.findByName(option);
+    }
+
     @Override
     public List<Option> findByUserId(Integer userId, Integer moduleId) throws Exception {
         return optionDao.findByUserId(userId, moduleId);
     }
-
 }

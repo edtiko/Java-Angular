@@ -1,0 +1,183 @@
+<md-dialog aria-label="Usuario" style="width: 600px;height: 400px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Usuario</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="demo-md-panel md-padding">
+        <md-content layout-padding>
+            <form  name="formUser" novalidate>
+                <input type="hidden" ng-model="user.userId" />
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="user.login" id="login" name="login"  
+                                   placeholder="Nombre de Usuario" required/>
+                            <div class="has-error" ng-messages="formUser.login.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="user.secondName" id="secondName" name="secondName"  placeholder="Segundo Nombre" />
+                            <div class="has-error" ng-messages="formUser.secondName.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="user.lastName" id="lname" name="lname"  placeholder="Apellidos" required ng-minlength="3"/>
+                            <div class="has-error" ng-messages="formUser.lname.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                                <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <input type="email" ng-model="user.email" id="email" name="email"  placeholder="Correo Electr&oacute;nico" required/>
+
+                            <div class="has-error" ng-messages="formUser.email.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                                <div ng-message="email">Su correo es inv&aacute;lido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="33">
+                        <md-input-container class="md-block" >
+                            <label>Disciplina Deportiva</label>
+                            <md-select id="discipline" name="discipline" 
+                                       ng-model="user.disciplineId" required 
+                                       ng-model-options="{trackBy: '$value'}">
+                                <md-option ng-value="d.disciplineId" ng-repeat="d in disciplines" value="{{d.disciplineId}}" 
+                                           ng-selected="{{ user.disciplineId === d.disciplineId ? 'true' : 'false' }}">
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formUser.discipline.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>          
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block" >
+                            <label  for="sex">Sexo</label>
+
+                            <md-select id="sex" ng-model="user.sex" name="sex" required>
+                                <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                                    {{s.sex}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formUser.sex.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="user.phone" id="phone" name="phone" placeholder="Tel&eacute;fono fijo" required/>
+                            <div class="has-error" ng-messages="formUser.phone.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <label>Pa&iacute;s</label>
+                            <md-select class="md-block" id="country" name="country" 
+                                       ng-model="user.countryId" required
+                                       ng-model-options="{trackBy: '$value'}"
+                                       >
+                                <md-option ng-value="country.countryId" ng-repeat="country in countries" value="{{country.countryId}}" 
+                                            ng-selected="{{ user.countryId === country.countryId ? 'true' : 'false' }}"
+                                            >
+                                    {{country.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formUser.country.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <label>Rol</label>
+                            <md-select class="md-block"
+                                       ng-model-options="{trackBy: '$value'}"
+                                       id="role" name="role" ng-model="user.roleId" required>
+                                <md-option ng-value="r.roleId" ng-repeat="r in roles" value="{{r.roleId}}" 
+                                           ng-selected="{{ user.roleId === r.roleId ? 'true' : 'false' }}">
+                                    {{r.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formUser.role.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <label  for="picture">Foto de Perfil</label>
+                            <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil"/>
+                            <!--<md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>-->
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="33">
+                        <md-input-container class="md-block" >
+                            <label>Descripci&oacute;n</label>
+                            <textarea id="aboutMe" name="aboutMe" md-maxlength="500" ng-model="user.aboutMe" md-select-on-focus></textarea>
+                            <div class="has-error" ng-messages="formUser.aboutMe.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="user.urlVideo" id="urlVideo" name="urlVideo"  placeholder="Url Video Presentaci&oacute;n" />
+                            <!--<div class="has-error" ng-messages="formUser.urlVideo.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>-->
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                    <md-button ng-click="submitUser(formUser, myFile)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                    <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+                </section>
+
+            </form>
+        </md-content></div>
+</md-dialog>

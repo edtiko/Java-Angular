@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
 * Option Controller <br>
 * Info. Creación: <br>
-* fecha 29/08/2016 <br>
+* fecha 25/11/2016 <br>
 * @author Andres Felipe Lopez Rodriguez
 **/
 
@@ -37,7 +37,7 @@ public class OptionController {
     /**
      * Crea option <br>
      * Info. Creación: <br>
-     * fecha 29/08/2016 <br>
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @return
@@ -48,7 +48,7 @@ public class OptionController {
         try {  
             Option optionName = new Option();
             optionName.setName(option.getName());
-            List<Option> listOptionName = optionService.findByFiltro(optionName);
+            List<Option> listOptionName = optionService.findByName(optionName);
             
             if(listOptionName != null && !listOptionName.isEmpty()) {
                 responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.option", "msgNombreExiste"));
@@ -74,7 +74,7 @@ public class OptionController {
     /**
      * Modifica option <br>
      * Info. Creación: <br>
-     * fecha 29/08/2016 <br>
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @return
@@ -85,7 +85,7 @@ public class OptionController {
         try {    
             Option optionName = new Option();
             optionName.setName(option.getName());
-            List<Option> listOptionName = optionService.findByFiltro(optionName);
+            List<Option> listOptionName = optionService.findByName(optionName);
             
             if(listOptionName != null && !listOptionName.isEmpty()) {
                 boolean existName = false;
@@ -119,7 +119,7 @@ public class OptionController {
     /**
      * Elimina option <br>
      * Info. Creación: <br>
-     * fecha 29/08/2016 <br>
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param option
      * @return
@@ -144,7 +144,7 @@ public class OptionController {
     /**
      * Consulta option <br>
      * Info. Creación: <br>
-     * fecha 29/08/2016 <br>
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
@@ -168,7 +168,7 @@ public class OptionController {
     /**
      * Consulta option paginado <br>
      * Info. Creación: <br>
-     * fecha 29/08/2016 <br>
+     * fecha 25/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param paginateDto
      * @return
@@ -176,9 +176,10 @@ public class OptionController {
     @RequestMapping(value = "/option/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
-        try {
+        try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            List<OptionDTO> optionList = optionService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(), paginateDto.getOrder());
+            List<OptionDTO> optionList = optionService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(),
+                paginateDto.getOrder(), paginateDto.getFilter());
             responseService.setOutput(optionList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

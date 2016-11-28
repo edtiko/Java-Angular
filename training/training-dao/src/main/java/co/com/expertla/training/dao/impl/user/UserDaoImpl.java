@@ -158,7 +158,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     }
 
 	@Override
-    public List<UserDTO> findPaginate(int first, int max, String order) throws Exception {
+    public List<UserDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
         if (order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }

@@ -80,7 +80,8 @@ require.config({
         audioMessageService: "audioMessage/service/audioMessageService",
         adapter: "lib/adapter",
         scriptService:"script/service/scriptService",
-        informeService:"informe/service/informeService"
+        informeService:"informe/service/informeService",
+        configurationPlanService:"configuration/service/configurationPlanService"
     },
     shim: {
         angular: {
@@ -254,7 +255,7 @@ require.config({
         characteristicService: {
             deps: ['angular','trainingApp']
         },
-		brandService: {
+        brandService: {
             deps: ['angular','trainingApp']
         },
         mailService: {
@@ -278,6 +279,9 @@ require.config({
         informeService : {
             deps: ['angular', 'trainingApp']
         },
+        configurationPlanService : {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -290,7 +294,7 @@ require.config({
                 ,'videoService','dcfService', 'characteristicService','brandService',
 		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService',
                 'audioMessageService', 'scriptService', 'informeService', 'messageController', 'videoController', 
-                'audioMessageController', 'mailController'
+                'audioMessageController', 'mailController', 'configurationPlanService'
 
             ] }
     }

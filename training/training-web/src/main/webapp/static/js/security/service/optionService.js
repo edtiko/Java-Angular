@@ -12,8 +12,8 @@ trainingApp.service('OptionService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-            getMasterOption: function(res){
-                    return $http.get($contextPath+'option/get/all')
+            getModule: function(res){
+                    return $http.get($contextPath+'module/get/all')
                             .then(
                                     res, 
                                     function(errResponse){
@@ -22,8 +22,8 @@ trainingApp.service('OptionService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
             },
-            getModule: function(res){
-                    return $http.get($contextPath+'module/get/all')
+            getMasterOption: function(res){
+                    return $http.get($contextPath+'option/get/all')
                             .then(
                                     res, 
                                     function(errResponse){
