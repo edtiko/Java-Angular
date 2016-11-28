@@ -1,5 +1,6 @@
 <div layout="row" ng-show="appReady" id="dashboard-container" layout-align="center">
-
+    
+      <md-button ng-click="testWs()" class="md-raised md-primary">Probar ws</md-button>
     <!------------------------------------------  TABS VIEW  ------------------------------------------------------->
     <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
 
