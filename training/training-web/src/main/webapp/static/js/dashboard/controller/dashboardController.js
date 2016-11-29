@@ -777,20 +777,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             
         };
         
-        $scope.testWs = function () {
-
-            var ws;
-
-            ws = new WebSocket('ws://localhost:8080/messages');
-            ws.onmessage = function (data) {
-                console.log(data.data);
-            };
-
-            var data = JSON.stringify({'name': "Edwin Gómez"});
-            ws.send(data);
-
-        };  
-        
+         
      $scope.init = function(){
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("planSelected", null);
