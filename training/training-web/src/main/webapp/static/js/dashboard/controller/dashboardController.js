@@ -776,6 +776,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
             
         };
+        
+         
      $scope.init = function(){
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("planSelected", null);
