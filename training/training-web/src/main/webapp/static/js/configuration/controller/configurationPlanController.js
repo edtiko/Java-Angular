@@ -1,5 +1,5 @@
-trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationPlanService', '$window', '$mdDialog',
-    function ($scope, ConfigurationPlanService, $window, $mdDialog) {
+trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationPlanService','MembershipService', '$window', '$mdDialog',
+    function ($scope, ConfigurationPlanService, MembershipService, $window, $mdDialog) {
         $scope.configurationPlan = {configurationPlanId: null,
             trainingPlanId: {trainingPlanId: null, name: ''},
             communicationRoleId: {communicationRoleId: null, name: ''},
@@ -17,6 +17,10 @@ trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationP
         $scope.configurationPlanList = [];
         $scope.trainingPlanList = [];
         $scope.communicationRoleList = [];
+        $scope.tipoPlanes = [
+            {id: '1', name: 'Plan'},
+            {id: '2', name: 'Plataforma'}
+        ];
         $scope.count = 0;
         var bookmark;
         $scope.selected = [];
@@ -70,6 +74,14 @@ trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationP
                 $scope.communicationRoleList = success(response);
             });
         };
+        
+        $scope.membershipList = [];
+        $scope.getMemberShipList = function(){
+            MembershipService.getMemberShipList(function (response) {
+                $scope.trainingPlanList = success(response);
+            });
+        };
+        
         $scope.createConfigurationPlan = function (configurationPlan) {
             if ($scope.appReady) {
                 var user = JSON.parse($window.sessionStorage.getItem("userInfo"));

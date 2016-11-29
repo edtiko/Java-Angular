@@ -72,7 +72,10 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/informe', route.resolve('informe', 'informe/'))
             
-                    .when('/create-configuration-plan', route.resolve('configurationPlan', 'configuration/'));
+                    .when('/create-configuration-plan', route.resolve('configurationPlan', 'configuration/'))
+            
+                    .when('/create-platform', route.resolve('membership', 'configuration/'));
+            
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',
                 suffix: '.json'

@@ -234,8 +234,11 @@ create table membership (
    membership_promo_id  integer              null,
    name                 varchar(200)         not null,
    description          varchar(5000)        null,
-   initial_date         date                 not null,
+   initial_date         date                 null,
    creation_date        date                 not null,
+   user_create          integer              null,
+   last_update          date                 null,
+   user_update          integer              null,
    constraint pk_membership primary key (membership_id)
 );
 

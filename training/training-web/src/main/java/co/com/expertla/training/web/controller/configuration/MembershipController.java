@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 **/
 
 @RestController
+@RequestMapping("/membership")
 public class MembershipController {
 
     @Autowired
@@ -42,7 +43,7 @@ public class MembershipController {
      * @param membership
      * @return
      */
-    @RequestMapping(value = "membership/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> createMembership(@RequestBody Membership membership) {
             ResponseService responseService = new ResponseService();
         try {  
@@ -79,7 +80,7 @@ public class MembershipController {
      * @param membership
      * @return
      */
-    @RequestMapping(value = "membership/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> updateMembership(@RequestBody Membership membership) {
             ResponseService responseService = new ResponseService();
         try {    
@@ -123,7 +124,7 @@ public class MembershipController {
      * @param membership
      * @return
      */
-    @RequestMapping(value = "membership/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> deleteMembership(@RequestBody Membership membership) {
             ResponseService responseService = new ResponseService();
         try {           
@@ -147,7 +148,7 @@ public class MembershipController {
      * @author Andres Felipe Lopez Rodriguez
      * @return
      */
-    @RequestMapping(value = "/membership/get/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> list() {
         ResponseService responseService = new ResponseService();
         try {     
@@ -172,7 +173,7 @@ public class MembershipController {
      * @param paginateDto
      * @return
      */
-    @RequestMapping(value = "/membership/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         try {   

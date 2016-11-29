@@ -15,6 +15,37 @@
 
             <form  name="formConfigurationPlan" novalidate>
                 <input type="hidden" ng-model="configurationPlan.configurationPlanId" />
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Tipo Plan *</label>
+                            <md-select id="tipoPlan" ng-model="tipoPlan" ng-change="selectTipoPlan(tipoPlan)">
+                                <md-option value="">Seleccione</md-option>
+                                <md-option ng-repeat="d in tipoPlanes" value="{{d.id}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formConfigurationPlan.tipoPlan.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row" ng-if="tipoPlan == '2'"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Membres&iacute; *</label>
+                            <md-select id="membership" ng-model="configurationPlan.trainingPlanId.membershipId">
+                                <md-option ng-repeat="d in membershipList" value="{{d.membershipId}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formConfigurationPlan.membership.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
 
                 <div layout="row" ng-if="planId == '0'"> 
                     <div flex="66">
