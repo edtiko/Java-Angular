@@ -109,7 +109,6 @@ public class CoachAssignedPlanController {
                 }
 
                 for (PlanMessageDTO mail : messages) {
-//                    if(mail.())
                     long hours = (calculateHourDifference(mail.getCreationDate()));
                     if (hours >= 0 && hours <= firstOrder) {
                         countFirstColour++;
@@ -121,9 +120,9 @@ public class CoachAssignedPlanController {
                 }
                 if (countThirdColour > 0) {
                     athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countThirdColour > 0) {
+                } else if (countSecondColour > 0) {
                     athlete.setColor(secondColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countThirdColour > 0) {
+                } else if (countFirstColour > 0) {
                     athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
                 }
             }
