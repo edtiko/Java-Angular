@@ -417,7 +417,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
 
         $scope.stopRecordingVideo = function () {
-            console.debug($scope.mediaRecorder.state)
             if ($scope.mediaRecorder.state != 'inactive' && $scope.mediaRecorder.state != undefined) {
                 $scope.gumVideo.controls = false;
                 $scope.mediaRecorder.stop();
