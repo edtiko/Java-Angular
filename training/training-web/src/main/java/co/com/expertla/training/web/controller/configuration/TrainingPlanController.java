@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -173,13 +174,39 @@ public class TrainingPlanController {
      * @param paginateDto
      * @return
      */
-    @RequestMapping(value = "/trainingPlan/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
+    @RequestMapping(value = "/trainingPlan/paginated/{typePlan}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto, @PathVariable String typePlan) {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            List<TrainingPlanDTO> trainingPlanList = trainingPlanService.findPaginate(paginateDto.getPage(), paginateDto.getLimit(),
-                paginateDto.getOrder(), paginateDto.getFilter());
+            List<TrainingPlanDTO> trainingPlanList = trainingPlanService.findPaginate(paginateDto.getPage(), 
+                    paginateDto.getLimit(),
+                paginateDto.getOrder(), paginateDto.getFilter(), typePlan);
+            responseService.setOutput(trainingPlanList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    /**
+     * Consulta trainingPlan <br>
+     * Info. Creación: <br>
+     * fecha 23/11/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @param typeUser
+     * @return
+     */
+    @RequestMapping(value = "/trainingPlan/get/all/plataform/{typeUser}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listPlataform(@PathVariable String typeUser) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<TrainingPlan> trainingPlanList = trainingPlanService.findPlaformAllActive(typeUser);
             responseService.setOutput(trainingPlanList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

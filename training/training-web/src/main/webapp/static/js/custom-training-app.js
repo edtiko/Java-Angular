@@ -40,7 +40,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/create-role', route.resolve('role', 'security/'))
 
-                    .when('/create-plan', route.resolve('trainingPlan', 'configuration/'))
+                    .when('/create-plan/:typePlan', route.resolve('trainingPlan', 'configuration/'))
 
                     .when('/create-discipline', route.resolve('discipline', 'configuration/'))
 
@@ -72,7 +72,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/informe', route.resolve('informe', 'informe/'))
             
-                    .when('/create-configuration-plan', route.resolve('configurationPlan', 'configuration/'));
+                    .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'));
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',
                 suffix: '.json'

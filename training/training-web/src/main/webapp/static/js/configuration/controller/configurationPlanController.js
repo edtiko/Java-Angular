@@ -1,5 +1,6 @@
-trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationPlanService', '$window', '$mdDialog',
-    function ($scope, ConfigurationPlanService, $window, $mdDialog) {
+trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationPlanService',
+    '$window', '$mdDialog', '$routeParams',
+    function ($scope, ConfigurationPlanService, $window, $mdDialog, $routeParams) {
         $scope.configurationPlan = {configurationPlanId: null,
             trainingPlanId: {trainingPlanId: null, name: ''},
             communicationRoleId: {communicationRoleId: null, name: ''},
@@ -38,7 +39,7 @@ trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationP
         
         $scope.volverPlan = function() {
             $window.sessionStorage.setItem("trainingIdConfiguration", '');
-            $window.location.href = "#create-plan";
+            $window.location.href = "#create-plan/"+$routeParams.typePlan;
         };
         function success(response) {
             if (response.data.status == 'fail') {

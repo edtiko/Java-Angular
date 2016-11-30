@@ -326,17 +326,17 @@ public class CharacteristicController {
      * fecha 8/09/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param characteristicId
-     * @param membershipId
+     * @param planId
      * @return
      */
-    @RequestMapping(value = "/characteristic/trainingMembershipCharact/get/all/{characteristicId}/{membershipId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/characteristic/trainingMembershipCharact/get/all/{characteristicId}/{planId}", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> listPlanCharacteristicByMembership(@PathVariable("characteristicId") Integer characteristicId,
-            @PathVariable("membershipId") Integer membershipId) {
+            @PathVariable("planId") Integer planId) {
         ResponseService responseService = new ResponseService();
         try {     
             TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
             trainingPlanCharact.setCharacteristicId(new Characteristic(characteristicId));
-            trainingPlanCharact.setMembershipId(new Membership(membershipId));         
+            trainingPlanCharact.setTrainingPlanId(new TrainingPlan(planId));         
             List<TrainingPlanCharact> trainingPlanCharacteristicList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
             responseService.setOutput(trainingPlanCharacteristicList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

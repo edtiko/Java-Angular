@@ -48,8 +48,8 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     }
 
     @Override
-    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
-        return trainingPlanDao.findPaginate(first, max, order, filter);
+    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter, String typePlan) throws Exception {
+        return trainingPlanDao.findPaginate(first, max, order, filter, typePlan);
     }
 
     @Override
@@ -65,5 +65,10 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     @Override
     public List<TrainingPlan> findByName(TrainingPlan trainingPlan) throws Exception {
         return trainingPlanDao.findByName(trainingPlan);
+    }
+    
+    @Override
+    public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception {
+        return trainingPlanDao.findPlaformAllActive(typePlan);
     }
 }

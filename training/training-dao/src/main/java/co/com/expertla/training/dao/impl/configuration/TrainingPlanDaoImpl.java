@@ -25,6 +25,7 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
     public List<TrainingPlan> findAll() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from TrainingPlan a ");
+        builder.append("WHERE a.typePlan = '1' ");//Obtiene solo los planes de entrenamiento
         builder.append("order by a.trainingPlanId desc ");
         Query query = this.getEntityManager().createQuery(builder.toString());
         return query.getResultList();
@@ -36,13 +37,14 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
         StringBuilder builder = new StringBuilder();
         builder.append("select a from TrainingPlan a ");
         builder.append("WHERE a.stateId = :active AND a.price > 0 ");
+        builder.append("AND a.typePlan = '1' ");//Obtiene solo los planes de entrenamiento
         builder.append("order by a.price asc ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
 
     @Override
-    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
+    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter, String typePlan) throws Exception {
         filter = filter.toUpperCase();
         if(order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
@@ -54,9 +56,9 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from TrainingPlan a ");
-
+        builder.append("WHERE a.typePlan = '");builder.append(typePlan);builder.append("'");
         if(filter != null && !filter.trim().isEmpty()) {
-            builder.append("WHERE ( 1=1 ");
+            builder.append("AND ( 1=1 ");
             builder.append("OR UPPER(a.name) like '%");
             builder.append(filter);
             builder.append("%'");
@@ -119,6 +121,7 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
             builder.append("AND lower(a.description) like lower(:description) ");
             setParameter("description", "%" + trainingPlan.getDescription() + "%");
         }
+        builder.append("AND a.typePlan = '1' ");//Obtiene solo los planes de entrenamiento
         builder.append("order by a.name asc ");
         return createQuery(builder.toString());
     }
@@ -128,7 +131,32 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
         StringBuilder builder = new StringBuilder();
         builder.append("select a from TrainingPlan a ");
         builder.append("WHERE lower(trim(a.name)) = lower(trim(:name)) ");
+        builder.append("AND a.typePlan = '1' ");//Obtiene solo los planes de entrenamiento
         setParameter("name", trainingPlan.getName().trim());
+        return createQuery(builder.toString());
+    }
+    
+    @Override
+    public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from TrainingPlan a ");
+        builder.append("WHERE a.stateId = :active AND a.price > 0 ");
+        
+        if(typePlan != null && !typePlan.isEmpty()) {
+            builder.append("AND a.typePlan = :typePlan ");
+        } else {
+            builder.append("AND a.typePlan != :typePlan ");
+        }
+        
+        
+        builder.append("order by a.price asc ");
+        
+        if(typePlan != null && !typePlan.isEmpty()) {
+            setParameter("typePlan", typePlan);
+        } else {
+            setParameter("typePlan", "1");
+        }
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
 }

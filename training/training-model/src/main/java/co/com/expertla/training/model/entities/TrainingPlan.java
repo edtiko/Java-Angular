@@ -73,6 +73,8 @@ public class TrainingPlan implements Serializable {
     private Double price;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanId")
     private Collection<TrainingPlanCharact> trainingPlanCharactCollection;
+    @Column(name = "type_plan")
+    private String typePlan;//1= plan de entrenamiento, 2= plataforma
     
 
     public TrainingPlan() {
@@ -192,6 +194,14 @@ public class TrainingPlan implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getTypePlan() {
+        return typePlan;
+    }
+
+    public void setTypePlan(String typePlan) {
+        this.typePlan = typePlan;
     }
     
 

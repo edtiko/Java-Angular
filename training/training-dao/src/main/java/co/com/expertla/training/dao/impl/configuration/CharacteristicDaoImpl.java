@@ -147,11 +147,12 @@ public class CharacteristicDaoImpl extends BaseDAOImpl<Characteristic> implement
         builder.append("AND a.stateId = :active ");
         
         if(isMembership) {
-            builder.append("AND p.membershipId != null ");
+            builder.append("AND p.trainingPlanId != null ");
             builder.append("AND p.userType = :userType ");
             setParameter("userType", userType);
         } else {
             builder.append("AND p.trainingPlanId != null ");
+            builder.append("AND p.userType = null ");
         }
 
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));

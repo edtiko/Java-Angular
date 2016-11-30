@@ -2,8 +2,8 @@
 trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) {
         return {
             
-            getPaginate: function(query, res){
-                    return $http.post($contextPath+'trainingPlan/paginated', query)
+            getPaginate: function(query, typePlan, res){
+                    return $http.post($contextPath+'trainingPlan/paginated/'+typePlan, query)
                             .then(
                                     res, 
                                     function(errResponse){

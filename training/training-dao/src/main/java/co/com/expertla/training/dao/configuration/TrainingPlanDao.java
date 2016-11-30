@@ -46,7 +46,7 @@ public interface TrainingPlanDao extends BaseDAO<TrainingPlan> {
      * @return
      * @throws Exception 
      */
-    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter) throws Exception;
+    public List<TrainingPlanDTO> findPaginate(int first, int max, String order, String filter, String typePlan) throws Exception;
 
     /**
      * Obtiene todos los registros de trainingPlan por su id <br>
@@ -80,4 +80,14 @@ public interface TrainingPlanDao extends BaseDAO<TrainingPlan> {
     * @throws Exception 
     */
     public List<TrainingPlan> findByName(TrainingPlan trainingPlan) throws Exception;  
+    
+    /**
+     * Obtiene todos los registros activos de trainingPlan <br>
+     * Info. Creación: <br>
+     * fecha 23/11/2016 <br>
+     * @author Andres Felipe Lopez Rodriguez
+     * @return
+     * @throws Exception 
+     */
+    public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception;
 }
