@@ -66,9 +66,9 @@ public class CoachAssignedPlanController {
             List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId);
             List<ColourIndicator> colours = colourIndicatorService.findAll();
 
-            int firstOrder = 0, countFirstColour = 0;
-            int secondOrder = 0, countSecondColour = 0;
-            int thirdOrder = 0, countThirdColour = 0;
+            int firstOrder = 0;
+            int secondOrder = 0;
+            int thirdOrder = 0;
             String firstColour = "{'background-color':'white'}";
             String secondColour = "{'background-color':'white'}";
             String thirdColour = "{'background-color':'white'}";
@@ -88,7 +88,9 @@ public class CoachAssignedPlanController {
             }
 
             for (CoachAssignedPlanDTO athlete : athletes) {
-
+                int countFirstColour = 0;
+                int countSecondColour = 0;
+                int countThirdColour = 0;
                 List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
 
                 List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());

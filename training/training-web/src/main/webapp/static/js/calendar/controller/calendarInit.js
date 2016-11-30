@@ -77,7 +77,7 @@ var calendar;
 
 function initCalendar(isNew) {
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
-    var planAthleteSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
+    var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
     if (planAthleteSelected != null) {
         user.userId = planAthleteSelected.athleteUserId.userId;
     }

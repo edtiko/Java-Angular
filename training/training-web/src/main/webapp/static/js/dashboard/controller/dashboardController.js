@@ -245,8 +245,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.showControlAthlete = true;
                 $scope.showStarControl = false;
             } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
-                $scope.showSupervisorControl = true;
                 $scope.showControlAthlete = false;
+                $scope.showSupervisorControl = true;
                 $scope.showStarControl = false;
             }
 

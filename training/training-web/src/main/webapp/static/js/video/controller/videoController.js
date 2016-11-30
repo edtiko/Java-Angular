@@ -299,7 +299,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.showStatusVideo = function (indRejected) {
-            if ($scope.roleSelected !== $scope.userSessionTypeUserCoachInterno) {
+            if ($scope.roleSelected !== $scope.userSessionTypeUserCoachInterno
+                    && $scope.roleSelected !== $scope.userSessionTypeUserCoachEstrella) {
                 if (indRejected == 0) {
                     return 'Aceptado';
                 } else if (indRejected == 1) {

@@ -11,7 +11,7 @@
                 <img ng-show="showProfileImage" class="circular" data-ng-src="{{profileImage}}" style="height: 250px; width: 250px;">
                 <h3> {{user.name}} {{user.secondName}} {{user.lastName}}</h3>
             </div>
-            <div flex layout="column" layout-align="space-around center" ng-show="userSession.typeUser != userSessionTypeUserAdmin">
+            <div flex layout="column" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta || planSelected">
 
                 <a href="#calendar" >
                     <img class="circular" data-ng-src="static/img/calendar_icon.jpg" style="height: 130px; width: 130px;">
