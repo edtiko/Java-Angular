@@ -122,7 +122,6 @@
     <class>co.com.expertla.training.model.entities.PlanAudio</class>
     <class>co.com.expertla.training.model.entities.Model</class>
     <class>co.com.expertla.training.model.entities.ConfigurationPlan</class>
-    <class>co.com.expertla.training.model.entities.PlanType</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

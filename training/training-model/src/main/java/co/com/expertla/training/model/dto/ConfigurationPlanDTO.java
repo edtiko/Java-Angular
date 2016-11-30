@@ -27,6 +27,7 @@ public class ConfigurationPlanDTO {
     private int audioCount;
     private int audioEmergency;
     private int audioDuration;
+    private int athletesCount;
     private Role communicationRoleId;
     private TrainingPlan trainingPlanId;
     @JsonSerialize(using = JsonDateSerializer.class)
@@ -47,7 +48,7 @@ public class ConfigurationPlanDTO {
             int audioDuration, int audioEmergency,             
             int audioCount,int emailEmergency,int emailCount,
             int messageEmergency,int messageCount,
-            int videoDuration,int videoEmergency,int videoCount, 
+            int videoDuration,int videoEmergency,int videoCount, int athletesCount,
             Date creationDate, 
             Date lastUpdate, String userCreateName, String userUpdateName,
             Integer userCreate, Integer userUpdate
@@ -63,6 +64,7 @@ public class ConfigurationPlanDTO {
         this.audioCount = audioCount;
         this.audioEmergency = audioEmergency;
         this.audioDuration = audioDuration;
+        this.athletesCount = athletesCount;
         this.communicationRoleId = communicationRoleId;
         this.trainingPlanId = trainingPlanId;
         this.creationDate = creationDate;
@@ -233,6 +235,14 @@ public class ConfigurationPlanDTO {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public int getAthletesCount() {
+        return athletesCount;
+    }
+
+    public void setAthletesCount(int athletesCount) {
+        this.athletesCount = athletesCount;
     }
     
     

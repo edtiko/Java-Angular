@@ -121,7 +121,13 @@
                         </md-input-container>
                     </div>
                 </div>
-
+                 <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de atletas" style=" display: inline" ng-model="configurationPlan.athletesCount">
+                        </md-input-container>
+                    </div>
+                </div>
 
                 <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                     <md-button ng-click="submitConfigurationPlan(formConfigurationPlan)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>

@@ -55,7 +55,7 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         sql.append("u.userId.email,u.userId.birthDate,u.userId.sex,u.userId.weight,u.userId.height, u.userId.phone,u.userId.cellphone,u.userId.address, ");
         sql.append("u.userId.postalCode,u.userId.profilePhoto,u.userId.facebookPage, u.userId.indMetricSys,u.userId.cityId, ");
         sql.append("u.userId.countryId.name,u.ageSport, u.ppm, u.power, u.sportsAchievements, u.aboutMe, o.name, u.modalityId.name, ");
-        sql.append("u.userId.twitterPage, u.userId.instagramPage, u.userId.webPage, u.vo2Running, u.vo2Ciclismo, u.injuryId, u.disease )");
+        sql.append("u.userId.twitterPage, u.userId.instagramPage, u.userId.webPage, u.vo2Running, u.vo2Ciclismo, u.injuryId, u.disease, u.environmentId, u.weatherId )");
         sql.append("FROM UserProfile u ");
         sql.append("LEFT JOIN u.objectiveId o ");
         sql.append("WHERE u.userId.userId = :id ");

@@ -67,6 +67,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Locale;
+import java.util.Objects;
 
 @RestController
 public class UserController {
@@ -324,7 +325,7 @@ public class UserController {
                 new Thread(task2).start();
             }
 
-            if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1) {
+            if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1 && Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;
             }

@@ -14,6 +14,7 @@ trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationP
             videoDuration: '',
             videoEmergency: '',
             videoCount: '',
+            athletesCount: '',
             userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
         $scope.configurationPlanList = [];
         $scope.trainingPlanList = [];

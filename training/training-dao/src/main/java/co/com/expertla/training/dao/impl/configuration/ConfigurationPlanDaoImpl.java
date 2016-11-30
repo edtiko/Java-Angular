@@ -2,7 +2,6 @@ package co.com.expertla.training.dao.impl.configuration;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import co.com.expertla.training.dao.configuration.ConfigurationPlanDao;
-import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.ConfigurationPlanDTO;
 import co.com.expertla.training.model.entities.ConfigurationPlan;
 import java.util.List;
@@ -48,7 +47,7 @@ public class ConfigurationPlanDaoImpl extends BaseDAOImpl<ConfigurationPlan> imp
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.ConfigurationPlanDTO(a.configurationPlanId,");
-        builder.append("a.trainingPlanId,a.communicationRoleId,a.audioDuration,a.audioEmergency,a.audioCount,a.emailEmergency,a.emailCount,a.messageEmergency,a.messageCount,a.videoDuration,a.videoEmergency,a.videoCount, a.creationDate, a.lastUpdate,");
+        builder.append("a.trainingPlanId,a.communicationRoleId,a.audioDuration,a.audioEmergency,a.audioCount,a.emailEmergency,a.emailCount,a.messageEmergency,a.messageCount,a.videoDuration,a.videoEmergency,a.videoCount,a.athletesCount, a.creationDate, a.lastUpdate,");
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from ConfigurationPlan a ");
@@ -126,7 +125,7 @@ public class ConfigurationPlanDaoImpl extends BaseDAOImpl<ConfigurationPlan> imp
         
         StringBuilder builder = new StringBuilder();
         builder.append("select new co.com.expertla.training.model.dto.ConfigurationPlanDTO(a.configurationPlanId,");
-        builder.append("a.trainingPlanId,a.communicationRoleId,a.audioDuration,a.audioEmergency,a.audioCount,a.emailEmergency,a.emailCount,a.messageEmergency,a.messageCount,a.videoDuration,a.videoEmergency,a.videoCount, a.creationDate, a.lastUpdate,");
+        builder.append("a.trainingPlanId,a.communicationRoleId,a.audioDuration,a.audioEmergency,a.audioCount,a.emailEmergency,a.emailCount,a.messageEmergency,a.messageCount,a.videoDuration,a.videoEmergency,a.videoCount, a.athletesCount, a.creationDate, a.lastUpdate,");
         builder.append("(select u.login FROM User u WHERE a.userCreate = u.userId), (select u.login FROM User u WHERE a.userUpdate = u.userId),");
         builder.append("(select u.userId FROM User u WHERE a.userCreate = u.userId), (select u.userId FROM User u WHERE a.userUpdate = u.userId)");
         builder.append(") from ConfigurationPlan a ");

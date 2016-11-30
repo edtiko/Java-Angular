@@ -31,8 +31,24 @@
             <md-subheader>{{user.modality}}</md-subheader>
 
         </div>
+        
+          <div class="row" ng-show="visibleField('user_profile', 'environmentId')">
 
-        <div class="row" ng-show="visibleField('user_profile', 'ageSport')">
+            <label>Entorno Geogr&aacute;fico</label>
+
+            <md-subheader>{{user.environment}}</md-subheader>
+
+        </div>
+        
+          <div class="row" ng-show="visibleField('user_profile', 'weatherId')">
+
+            <label>Clima</label>
+
+            <md-subheader>{{user.weather}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'age_sport')">
 
             <label>Edad Deportiva</label>
 
@@ -56,7 +72,7 @@
 
         </div>
 
-        <div class="row" ng-show="visibleField('user_profile', 'aboutMe')">
+        <div class="row" ng-show="visibleField('user_profile', 'about_me')">
 
             <label>Acerca de m&iacute;</label>
 

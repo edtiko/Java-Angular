@@ -47,6 +47,14 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                             });
                 
             }
+            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                $scope.messages.forEach(function (value, index) {
+                    if(value.messageUserId.userId != $scope.userSession.userId){
+                        value.messageUserId = $scope.planSelected.starUserId;
+                    }
+                });
+            }
+            
         };
         
 

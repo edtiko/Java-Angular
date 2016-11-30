@@ -2,7 +2,9 @@ package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.City;
 import co.com.expertla.training.model.entities.Country;
+import co.com.expertla.training.model.entities.Environment;
 import co.com.expertla.training.model.entities.Injury;
+import co.com.expertla.training.model.entities.Weather;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigInteger;
 import java.util.Date;
@@ -45,6 +47,7 @@ public class DashboardDTO {
     private String objective;
     private String availability;
     private String modality;
+    private String environment;
     private String twitterPage;
     private String instagramPage;
     private String webPage;
@@ -52,6 +55,7 @@ public class DashboardDTO {
     private Integer vo2Ciclismo;
     private String injury;
     private String disease;
+    private String weather;
 
 
     public DashboardDTO() {
@@ -62,7 +66,7 @@ public class DashboardDTO {
             String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
             String indMetricSys, City city, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
             String sportsAchievements, String aboutMe, String objective, String modality, String twitterPage, String instagramPage, 
-            String webPage, Integer vo2Running, Integer vo2Ciclismo, Injury injury, String disease) {
+            String webPage, Integer vo2Running, Integer vo2Ciclismo, Injury injury, String disease, Environment environment, Weather weather) {
         this.userId = userId;
         this.name = name;
         this.secondName = secondName;
@@ -100,6 +104,12 @@ public class DashboardDTO {
         }
         if(injury != null){
             this.injury = injury.getName();
+        }
+        if(environment != null){
+            this.environment = environment.getName();
+        }
+         if(weather != null){
+            this.weather = weather.getName();
         }
         this.disease = disease;
         
@@ -470,6 +480,22 @@ public class DashboardDTO {
 
     public void setHeight(Float height) {
         this.height = height;
+    }
+
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
+    }
+
+    public String getWeather() {
+        return weather;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
     
     

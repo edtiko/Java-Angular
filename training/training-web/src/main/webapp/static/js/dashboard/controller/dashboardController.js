@@ -11,9 +11,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
             ageSport: '', ppm: '', imc: '', power: '', sportsAchievements: '',
             aboutMe: '', indMetricSys: '', discipline: '', sport: '', shoes: '', bikes: '', potentiometer: '',
-            modelPotentiometer: '', pulsometer: '', modelPulsometer: '', objective: '', modality: '',
+            modelPotentiometer: '', pulsometer: '', modelPulsometer: '', objective: '', modality: '', environment:'',
             availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '',
-            injury: '', disease: ''
+            injury: '', disease: '', weather:''
         };
         $scope.profileImage = "static/img/profile-default.png";
         $scope.profileImageStar = "static/img/profile-default.png";
