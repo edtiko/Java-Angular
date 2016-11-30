@@ -59,6 +59,18 @@ trainingApp.service('MembershipService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getMemberShipList: function () {
+                return $http.get($contextPath + 'membership/get/all')
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching memberships');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
     }]);

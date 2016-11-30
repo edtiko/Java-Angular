@@ -14,6 +14,7 @@ import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.CoachExtAthlete;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
@@ -110,5 +111,28 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         List<CoachExtAthleteDTO> list = query.getResultList();
         return (list == null || list.isEmpty()) ? null : list.get(0);
     }
-    
+
+    @Override
+    public Integer getCountAthletesAvailable(Integer trainingPlanUserId) throws DAOException {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT CASE  ");
+        sql.append(" WHEN (cp.athletes_count - count(m.coach_ext_athlete_id)) > 0 THEN (cp.athletes_count  - count(m.coach_ext_athlete_id)) ");
+        sql.append(" ELSE 0 END ");
+        sql.append(" FROM training_plan t, configuration_plan cp, training_plan_user tu ");
+        sql.append(" LEFT JOIN coach_ext_athlete m ON m.training_plan_user_id = tu.training_plan_user_id ");
+        sql.append(" And m.training_plan_user_id = ").append(trainingPlanUserId);
+        sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
+        sql.append(" And tu.training_plan_user_id = ").append(trainingPlanUserId);
+        sql.append(" And tu.training_plan_id = t.training_plan_id ");
+        sql.append(" And t.training_plan_id = cp.training_plan_id ");
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId());
+        sql.append(" Group by cp.athletes_count ");
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.size() > 0 ? count.get(0).intValue() : 0;
+    }
+
 }

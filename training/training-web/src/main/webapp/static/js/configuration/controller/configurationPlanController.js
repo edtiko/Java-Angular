@@ -71,6 +71,14 @@ trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationP
                 $scope.communicationRoleList = success(response);
             });
         };
+        
+        $scope.membershipList = [];
+        $scope.getMemberShipList = function(){
+            MembershipService.getMemberShipList(function (response) {
+                $scope.trainingPlanList = success(response);
+            });
+        };
+        
         $scope.createConfigurationPlan = function (configurationPlan) {
             if ($scope.appReady) {
                 var user = JSON.parse($window.sessionStorage.getItem("userInfo"));

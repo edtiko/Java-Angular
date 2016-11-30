@@ -81,7 +81,8 @@ require.config({
         adapter: "lib/adapter",
         scriptService:"script/service/scriptService",
         informeService:"informe/service/informeService",
-        configurationPlanService:"configuration/service/configurationPlanService"
+        configurationPlanService:"configuration/service/configurationPlanService",
+        membershipService: "configuration/service/membershipService"
     },
     shim: {
         angular: {
@@ -282,6 +283,9 @@ require.config({
         configurationPlanService : {
             deps: ['angular', 'trainingApp']
         },
+        membershipService : {
+            deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -294,7 +298,7 @@ require.config({
                 ,'videoService','dcfService', 'characteristicService','brandService',
 		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService',
                 'audioMessageService', 'scriptService', 'informeService', 'messageController', 'videoController', 
-                'audioMessageController', 'mailController', 'configurationPlanService'
+                'audioMessageController', 'mailController', 'configurationPlanService','membershipService'
 
             ] }
     }
