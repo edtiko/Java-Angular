@@ -40,7 +40,8 @@ public class TrainingPlan implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)@SequenceGenerator(name = "training_plan_seq", sequenceName = "training_plan_seq", allocationSize = 1)
+    @Basic(optional = false)
+    @SequenceGenerator(name = "training_plan_seq", sequenceName = "training_plan_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_plan_seq")
     @Column(name = "training_plan_id")
     private Integer trainingPlanId;
@@ -73,12 +74,11 @@ public class TrainingPlan implements Serializable {
     private Integer userUpdate;
     @Column(name = "price")
     private Double price;
-    @JoinColumn(name = "membership_id", referencedColumnName = "membership_id")
+    @JoinColumn(name = "plan_type_id", referencedColumnName = "plan_type_id")
     @ManyToOne
-    private Membership membershipId;
+    private PlanType planTypeId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanId")
     private Collection<TrainingPlanCharact> trainingPlanCharactCollection;
-    
 
     public TrainingPlan() {
     }
@@ -174,6 +174,7 @@ public class TrainingPlan implements Serializable {
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
     }
+
     @JsonIgnore
     public Collection<TrainingPlanUser> getTrainingPlanUserCollection() {
         return trainingPlanUserCollection;
@@ -182,6 +183,7 @@ public class TrainingPlan implements Serializable {
     public void setTrainingPlanUserCollection(Collection<TrainingPlanUser> trainingPlanUserCollection) {
         this.trainingPlanUserCollection = trainingPlanUserCollection;
     }
+
     @JsonIgnore
     public Collection<TrainingPlanCharact> getTrainingPlanCharactCollection() {
         return trainingPlanCharactCollection;
@@ -190,23 +192,6 @@ public class TrainingPlan implements Serializable {
     public void setTrainingPlanCharactCollection(Collection<TrainingPlanCharact> trainingPlanCharactCollection) {
         this.trainingPlanCharactCollection = trainingPlanCharactCollection;
     }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Membership getMembershipId() {
-        return membershipId;
-    }
-
-    public void setMembershipId(Membership membershipId) {
-        this.membershipId = membershipId;
-    }
-    
 
     @Override
     public int hashCode() {
@@ -233,5 +218,20 @@ public class TrainingPlan implements Serializable {
         return "co.com.expertla.training.model.entities.TrainingPlan[ trainingPlanId=" + trainingPlanId + " ]";
     }
 
-  
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public PlanType getPlanTypeId() {
+        return planTypeId;
+    }
+
+    public void setPlanTypeId(PlanType planTypeId) {
+        this.planTypeId = planTypeId;
+    }
+
 }

@@ -31,6 +31,16 @@ trainingApp.service('ConfigurationPlanService', ['$http', '$q', function ($http,
                                 }
                         );
             },
+            getTypePlanList: function(res){
+                return $http.get($contextPath + 'role/get/all')
+                        .then(
+                                res,
+                                function (errResponse) {
+                                    console.error('Error while getting service ' + errResponse);
+                                    return $q.reject(errResponse);
+                                }
+                        ); 
+            },
             getConfigurationPlanById: function (id) {
                 return $http.get($contextPath + '/get/configurationPlan/by/' + id)
                         .then(

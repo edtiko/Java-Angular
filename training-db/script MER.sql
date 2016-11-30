@@ -875,18 +875,35 @@ constraint pk_coach_ext_athlete primary key (coach_ext_athlete_id)
 );
 
 /*==============================================================*/
+/* Table: plan_type                                         */
+/*==============================================================*/
+create table plan_type (
+   plan_type_id     serial                   not null,
+   name                 varchar(500)         not null,
+   description          varchar(5000)        null,
+   creation_date        date                 not null,
+   user_create          integer              null,
+   constraint pk_plan_type primary key (plan_type_id)
+);
+
+/*==============================================================*/
 /* Table: training_plan                                         */
 /*==============================================================*/
 create table training_plan (
    training_plan_id     serial               not null,
+   plan_type_id         integer              not null,
    name                 varchar(500)         not null,
    description          varchar(5000)        null,
    duration             decimal(10,2)        null,
    creation_date        date                 not null,
    end_date             date                 not null,
-   membership_id        integer              null,
    constraint pk_training_plan primary key (training_plan_id)
 );
+
+alter table training_plan
+add constraint fk_training_plan_ref_plan_type foreign key (plan_type_id)
+references plan_type(plan_type_id)
+on delete restrict on update restrict;
 
 /*==============================================================*/
 /* Table: configuration_plan                                         */
