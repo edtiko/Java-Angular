@@ -1,4 +1,4 @@
-<md-dialog aria-label="Usuario" style="width: 600px;height: 400px;">
+<md-dialog aria-label="Usuario" style="width: 800px;height: 450px;">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>Usuario</h2>
@@ -25,10 +25,20 @@
                         </md-input-container>
                     </div>
                 </div>
-
+                
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="user.firstName" id="firstName" name="firstName"  placeholder="Primer Nombre" />
+                            <div class="has-error" ng-messages="formUser.firstName.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
 
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <input type="text" ng-model="user.secondName" id="secondName" name="secondName"  placeholder="Segundo Nombre" />
                             <div class="has-error" ng-messages="formUser.secondName.$error">
@@ -38,7 +48,7 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <input type="text" ng-model="user.lastName" id="lname" name="lname"  placeholder="Apellidos" required ng-minlength="3"/>
                             <div class="has-error" ng-messages="formUser.lname.$error">
@@ -49,7 +59,7 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <input type="email" ng-model="user.email" id="email" name="email"  placeholder="Correo Electr&oacute;nico" required/>
 
@@ -61,7 +71,7 @@
                     </div>
                 </div>
                 <div layout="row"> 
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block" >
                             <label>Disciplina Deportiva</label>
                             <md-select id="discipline" name="discipline" 
@@ -79,7 +89,7 @@
                     </div>
                 </div>          
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block" >
                             <label  for="sex">Sexo</label>
 
@@ -95,7 +105,7 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <input type="text" ng-model="user.phone" id="phone" name="phone" placeholder="Tel&eacute;fono fijo" required/>
                             <div class="has-error" ng-messages="formUser.phone.$error">
@@ -105,7 +115,7 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <label>Pa&iacute;s</label>
                             <md-select class="md-block" id="country" name="country" 
@@ -125,7 +135,7 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <label>Rol</label>
                             <md-select class="md-block"
@@ -143,7 +153,7 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <label  for="picture">Foto de Perfil</label>
                             <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil"/>
@@ -152,7 +162,7 @@
                     </div>
                 </div>
                 <div layout="row"> 
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block" >
                             <label>Descripci&oacute;n</label>
                             <textarea id="aboutMe" name="aboutMe" md-maxlength="500" ng-model="user.aboutMe" md-select-on-focus></textarea>
@@ -163,7 +173,7 @@
                     </div>
                 </div>
                 <div layout="row">
-                    <div flex="33">
+                    <div flex="66">
                         <md-input-container class="md-block">
                             <input type="text" ng-model="user.urlVideo" id="urlVideo" name="urlVideo"  placeholder="Url Video Presentaci&oacute;n" />
                             <!--<div class="has-error" ng-messages="formUser.urlVideo.$error">
