@@ -424,9 +424,6 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                         userProfile.getObjectiveId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
             } else {
                 for(Activity act: list) {
-                    System.out.println("act " + act.getActivityId() + 
-                            " date " + date + 
-                            " plan " + planUser.getTrainingPlanUserId());
                     workout = buildWorkout(planUser, act, date);
                     workouts.add(workout);
                 }
