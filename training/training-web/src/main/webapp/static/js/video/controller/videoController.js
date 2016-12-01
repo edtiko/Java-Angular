@@ -94,7 +94,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 $scope.counterRecord = $scope.counterRecordInitial;
                 $scope.initCounterRecord();
             }
-
+            $scope.stopVideo();
             $scope.isVisibleSendVideo = true;
             $scope.isVisibleDeleteVideo = true;
             $scope.isSendToStar = false;
@@ -164,7 +164,6 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                         videoService.readVideo(planVideoId.id).then(
                                                 function (data) {
                                                     $scope.getVideoCount();
-                                                    console.log(data.entity.output);
                                                 },
                                                 function (error) {
                                                     //$scope.showMessage(error);
@@ -300,7 +299,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
         $scope.showStatusVideo = function (indRejected) {
-            if ($scope.roleSelected !== $scope.userSessionTypeUserCoachInterno) {
+            if ($scope.roleSelected !== $scope.userSessionTypeUserCoachInterno
+                    && $scope.roleSelected !== $scope.userSessionTypeUserCoachEstrella) {
                 if (indRejected == 0) {
                     return 'Aceptado';
                 } else if (indRejected == 1) {

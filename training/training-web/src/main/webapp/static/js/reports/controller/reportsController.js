@@ -14,6 +14,10 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
 
         $scope.getReportByMetafieldOneWeek = function (metafield) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
+            if (planAthleteSelected != null) {
+                user.userId = planAthleteSelected.athleteUserId.userId;
+            }
 
             UserActivityPerformanceService.getByRangeDateAndUserAndVariable(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield)
                     .then(
@@ -96,7 +100,10 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
 
         $scope.getReportByMetafieldMonthlyOrWeekly = function (metafield, weekly, currentNavItem) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-
+            var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
+            if (planAthleteSelected != null) {
+                user.userId = planAthleteSelected.athleteUserId.userId;
+            }
             UserActivityPerformanceService.getByRangeDateAndUserAndVariableAndDaysWeekly(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield, $scope.days, weekly)
                     .then(
                             function (response) {

@@ -374,7 +374,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
 
             $scope.recordedVideo.addEventListener('error', function (ev) {
                 console.error('MediaRecording.recordedMedia.error()');
-                alert('Your browser can not play\n\n' + $scope.recordedVideo.src
+                alert('Error al reproducir video');
+                console.error('Your browser can not play\n\n' + $scope.recordedVideo.src
                         + '\n\n media clip. event: ' + JSON.stringify(ev));
             }, true);
         };
@@ -416,7 +417,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
 
         $scope.stopRecordingVideo = function () {
-            console.debug($scope.mediaRecorder.state)
             if ($scope.mediaRecorder.state != 'inactive' && $scope.mediaRecorder.state != undefined) {
                 $scope.gumVideo.controls = false;
                 $scope.mediaRecorder.stop();

@@ -66,9 +66,9 @@ public class CoachAssignedPlanController {
             List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId);
             List<ColourIndicator> colours = colourIndicatorService.findAll();
 
-            int firstOrder = 0, countFirstColour = 0;
-            int secondOrder = 0, countSecondColour = 0;
-            int thirdOrder = 0, countThirdColour = 0;
+            int firstOrder = 0;
+            int secondOrder = 0;
+            int thirdOrder = 0;
             String firstColour = "{'background-color':'white'}";
             String secondColour = "{'background-color':'white'}";
             String thirdColour = "{'background-color':'white'}";
@@ -88,7 +88,9 @@ public class CoachAssignedPlanController {
             }
 
             for (CoachAssignedPlanDTO athlete : athletes) {
-
+                int countFirstColour = 0;
+                int countSecondColour = 0;
+                int countThirdColour = 0;
                 List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
 
                 List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
@@ -109,7 +111,6 @@ public class CoachAssignedPlanController {
                 }
 
                 for (PlanMessageDTO mail : messages) {
-//                    if(mail.())
                     long hours = (calculateHourDifference(mail.getCreationDate()));
                     if (hours >= 0 && hours <= firstOrder) {
                         countFirstColour++;
@@ -121,9 +122,9 @@ public class CoachAssignedPlanController {
                 }
                 if (countThirdColour > 0) {
                     athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countThirdColour > 0) {
+                } else if (countSecondColour > 0) {
                     athlete.setColor(secondColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countThirdColour > 0) {
+                } else if (countFirstColour > 0) {
                     athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
                 }
             }
