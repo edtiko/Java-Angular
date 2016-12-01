@@ -81,6 +81,7 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
         };
 
         $scope.stopVideo = function () {
+            $scope.isRecord = false;
             $scope.colorGrabacion = '';
             $scope.stopRecordingVideo();
         };
