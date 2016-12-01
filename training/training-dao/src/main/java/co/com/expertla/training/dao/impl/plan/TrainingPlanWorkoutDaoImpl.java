@@ -7,6 +7,7 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
+import co.com.expertla.training.enums.Status;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Query;
@@ -36,10 +37,12 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
         sql.append("AND u.userId.userId = :userId ");
         sql.append("AND t.workoutDate BETWEEN :fromDate AND :toDate ");
+        sql.append("AND u.stateId = :active ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", user.getUserId());
         query.setParameter("fromDate", fromDate, TemporalType.DATE);
         query.setParameter("toDate", toDate, TemporalType.DATE);
+        query.setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         List<TrainingPlanWorkoutDto> list = query.getResultList();
         return list;
     }
