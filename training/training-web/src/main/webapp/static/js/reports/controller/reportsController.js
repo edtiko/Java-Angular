@@ -16,7 +16,9 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
             if (planAthleteSelected != null) {
-                user.userId = planAthleteSelected.athleteUserId.userId;
+                if(planAthleteSelected.athleteUserId != undefined) {
+                    user.userId = planAthleteSelected.athleteUserId.userId;
+                }
             }
 
             UserActivityPerformanceService.getByRangeDateAndUserAndVariable(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield)
