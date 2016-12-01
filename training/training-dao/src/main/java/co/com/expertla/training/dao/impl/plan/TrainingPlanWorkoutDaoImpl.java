@@ -7,6 +7,7 @@ import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
+import co.com.expertla.training.enums.Status;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Query;
@@ -107,6 +108,25 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         sql.append("WHERE t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("trainingPlanWorkoutId", trainingPlanWorkoutId);
+        List<TrainingPlanWorkoutDto> list = query.getResultList();
+        
+        if(list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        
+        return null;
+    }
+
+    @Override
+    public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId) throws Exception {
+           StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId, t.trainingPlanUserId.userId.userId, ");
+        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = t.trainingPlanUserId.userId.userId) )");
+        sql.append("FROM TrainingPlanWorkout t ");
+        sql.append("WHERE t.trainingPlanUserId.userId.userId = :userId ");
+        sql.append(" And t.trainingPlanUserId.stateId = ").append(Status.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
         List<TrainingPlanWorkoutDto> list = query.getResultList();
         
         if(list != null && !list.isEmpty()) {

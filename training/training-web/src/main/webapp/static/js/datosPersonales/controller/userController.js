@@ -543,6 +543,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.heightmetric = '(Mts)';
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
+            $scope.testValidatePlan();
 
             if ($scope.validateFields(form)) {
                 $scope.getSessions(ev, generatePlan);
@@ -692,8 +693,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             $scope.userProfile = d;
                             self.getEquipments();
                             $scope.calculateIMC();
+                            $scope.validatePlan($scope.userProfile);
                             if (generatePlan) {
-                                $scope.generatePlan($scope.userProfile);
+                                $scope.validatePlan($scope.userProfile);
                             } else {
                                 $scope.showMessage("Datos Deportivos creados exitosamente.");
                             }
@@ -710,8 +712,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             $scope.userProfile = d;
                             self.getEquipments();
                             $scope.calculateIMC();
+                             $scope.validatePlan($scope.userProfile);
                             if (generatePlan) {
-                                $scope.generatePlan($scope.userProfile);
+                                 $scope.validatePlan($scope.userProfile);
                             } else {
                                 $scope.showMessage("Datos Deportivos editados exitosamente.");
                             }
@@ -766,6 +769,44 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     },
                     function (errResponse) {
                         console.error('Error while generating the training plan');
+                        console.error(errResponse);
+                    }
+            );       
+        };
+        
+        $scope.testValidatePlan = function(){
+              UserProfileService.validatePlan($scope.user.userId).then(
+                    function (d) {
+                        if (d != "") {
+                           console.log(d);
+                        } 
+                    },
+                    function (errResponse) {
+                        console.error(errResponse);
+                    }  
+                    );
+        }
+        
+        $scope.validatePlan = function (userProfile) {
+            UserProfileService.validatePlan(userProfile.userId).then(
+                    function (d) {
+                        if (d != "") {
+                            var confirm = $mdDialog.confirm()
+                                    .title('Confirmaci\u00f3n')
+                                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?' + d)
+                                    .ariaLabel('Lucky day')
+                                    .ok('Aceptar')
+                                    .cancel('Cancelar');
+
+                            $mdDialog.show(confirm).then(function () {
+                                $scope.generatePlan(userProfile);
+                            }, function () {
+                            });
+                        } else {
+                            $scope.generatePlan(userProfile);
+                        }
+                    },
+                    function (errResponse) {
                         console.error(errResponse);
                     }
             );

@@ -71,5 +71,7 @@ public interface TrainingPlanWorkoutService {
     
       public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception; 
 
+    public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId)throws Exception; 
+
  
 }

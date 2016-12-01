@@ -432,5 +432,10 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         
         trainingPlanWorkoutDao.createList(workouts);
     }
+
+    @Override
+    public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId) throws Exception {
+        return trainingPlanWorkoutDao.getPlanWorkoutByUser(userId);
+    }
       
 }

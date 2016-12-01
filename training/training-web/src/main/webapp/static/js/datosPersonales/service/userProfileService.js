@@ -56,6 +56,20 @@ trainingApp.factory('UserProfileService', ['$http', '$q', function($http, $q){
                                         return $q.reject(errResponse);
                                     }
                             );
+            },
+            
+            validatePlan: function(userId){
+                    return $http.get($contextPath+'trainingPlanWorkout/validate/planWorkout/'+userId)
+                            .then(
+                                    function(response){
+                                        return response.data.output;
+                                    }, 
+                                    function(errResponse){
+                                        console.error(userId);
+                                        console.error('Error while validate plan');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
             }
         };
  

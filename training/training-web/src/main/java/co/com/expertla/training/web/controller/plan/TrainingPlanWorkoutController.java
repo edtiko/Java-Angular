@@ -118,13 +118,35 @@ public class TrainingPlanWorkoutController {
 
         return list;
     }
+    
+     @RequestMapping(value = "trainingPlanWorkout/validate/planWorkout/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> validatePlan(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            TrainingPlanWorkoutDto plan = trainingPlanWorkoutService.getPlanWorkoutByUser(userId);
+            if (plan != null) {
+                responseService.setOutput("Ya tiene un plan generado y  se perderá al generar el nuevo.");
+            } else {
+                responseService.setOutput("");
+            }
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, e);
+            responseService.setOutput(e.getMessage());
+            responseService.setDetail(e.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 
     @RequestMapping(value = "trainingPlanWorkout/generate/planWorkout/for/user", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile,
             HttpSession session) {
         ResponseService responseService = new ResponseService();
         try {
-
+            
             Calendar startCal = Calendar.getInstance();
             startCal.setTime(new Date());
             startCal.add(Calendar.DAY_OF_MONTH, 1);

@@ -64,4 +64,6 @@ public interface TrainingPlanWorkoutDao extends BaseDAO<TrainingPlanWorkout> {
     public void deleteByManualActivityId(Integer manualActivityId)throws Exception;
     
     public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception;
+
+    public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId)throws Exception;
 }
