@@ -79,9 +79,11 @@ function initCalendar(isNew) {
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
     var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
     if (planAthleteSelected != null) {
-        user.userId = planAthleteSelected.athleteUserId.userId;
+        if(planAthleteSelected.athleteUserId != undefined) {
+            user.userId = planAthleteSelected.athleteUserId.userId;
+        }
     }
-            
+     
     "use strict";
     var options = {
         language: 'es-CO',
