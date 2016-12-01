@@ -49,7 +49,7 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
                                     self.fetchAthletes();
                                     $scope.showMessage(response.entity.output);
                                 } else {
-                                    $scope.showMessage(response.entity.detail, "Error");
+                                    $scope.showMessage(response.entity.output, "Alerta");
                                 }
                             },
                             function (errResponse) {

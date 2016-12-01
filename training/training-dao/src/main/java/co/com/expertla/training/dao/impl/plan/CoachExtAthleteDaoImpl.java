@@ -122,8 +122,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" FROM training_plan t, configuration_plan cp, training_plan_user tu ");
         sql.append(" LEFT JOIN coach_ext_athlete m ON m.training_plan_user_id = tu.training_plan_user_id ");
         sql.append(" And m.training_plan_user_id = ").append(trainingPlanUserId);
-        sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
-        sql.append(" And tu.training_plan_user_id = ").append(trainingPlanUserId);
+        sql.append(" Where tu.training_plan_user_id = ").append(trainingPlanUserId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
         sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId());
