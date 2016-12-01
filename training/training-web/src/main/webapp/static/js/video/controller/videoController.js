@@ -33,7 +33,14 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
-                             $scope.loadingReceived = true;
+                            $scope.loadingReceived = true;
+                            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                                $scope.receivedvideos.forEach(function (value, index) {
+                                    if (value.fromUser.userId != $scope.userSession.userId) {
+                                        value.fromUser = $scope.planSelected.starUserId;
+                                    }
+                                });
+                            }
                         },
                         function (error) {
                             console.error(error);

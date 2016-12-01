@@ -29,6 +29,13 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     function (data) {
                         $scope.receivedaudios = data.entity.output;
                         $scope.loadingReceived = true;
+                        if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                            $scope.receivedaudios.forEach(function (value, index) {
+                                if (value.fromUser.userId != $scope.userSession.userId) {
+                                    value.fromUser = $scope.planSelected.starUserId;
+                                }
+                            });
+                        }
                     },
                     function (error) {
                         //$scope.showMessage(error);

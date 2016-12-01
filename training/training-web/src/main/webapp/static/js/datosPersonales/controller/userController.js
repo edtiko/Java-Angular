@@ -543,8 +543,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.heightmetric = '(Mts)';
 
         $scope.submitUserProfile = function (form, generatePlan, ev) {
-            $scope.testValidatePlan();
-
             if ($scope.validateFields(form)) {
                 $scope.getSessions(ev, generatePlan);
             } else {
@@ -693,7 +691,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             $scope.userProfile = d;
                             self.getEquipments();
                             $scope.calculateIMC();
-                            $scope.validatePlan($scope.userProfile);
                             if (generatePlan) {
                                 $scope.validatePlan($scope.userProfile);
                             } else {
@@ -712,7 +709,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             $scope.userProfile = d;
                             self.getEquipments();
                             $scope.calculateIMC();
-                             $scope.validatePlan($scope.userProfile);
                             if (generatePlan) {
                                  $scope.validatePlan($scope.userProfile);
                             } else {
@@ -778,7 +774,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
               UserProfileService.validatePlan($scope.user.userId).then(
                     function (d) {
                         if (d != "") {
-                           console.log(d);
+                              var confirm = $mdDialog.confirm()
+                                    .title('Confirmaci\u00f3n')
+                                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?' + d)
+                                    .ariaLabel('Lucky day')
+                                    .ok('Aceptar')
+                                    .cancel('Cancelar');
+
+                            $mdDialog.show(confirm).then(function () {
+                                console.log("confirmado");
+                            }, function () {
+                            });
                         } 
                     },
                     function (errResponse) {
@@ -793,7 +799,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         if (d != "") {
                             var confirm = $mdDialog.confirm()
                                     .title('Confirmaci\u00f3n')
-                                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?' + d)
+                                    .textContent('\u00BFDesea generar su Plan de Entrenamiento? ' + d)
                                     .ariaLabel('Lucky day')
                                     .ok('Aceptar')
                                     .cancel('Cancelar');

@@ -42,7 +42,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer im
   
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new SocketHandler(), "/messages").setAllowedOrigins("*");
+        registry.addHandler(new SocketHandler(), "/messages");
     }
   
 }
