@@ -13,10 +13,10 @@
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                     <span>Cargando Supervisores..</span>
                 </div>
-                    <md-list-item ng-repeat="c in coaches" ng-click="selectUser(c, $index)" ng-class="{selectedIndex: selectedIndex===$index}">
+                    <md-list-item class="md-2-line" ng-repeat="c in coaches" ng-click="selectUser(c, $index)" ng-class="{selectedIndex: selectedIndex===$index}">
                         <img data-ng-src="{{c.profilePhotoBase64}}"  alt="{{c.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                         <div class="md-list-item-text">
-                            <p>{{c.fullName}}</p>
+                            <h4>{{c.fullName}}</h4>
                         </div>
                         <md-divider md-inset></md-divider>
                     </md-list-item>
@@ -26,10 +26,10 @@
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                     <span>Cargando Estrellas..</span>
                 </div>
-                    <md-list-item ng-repeat="s in stars" ng-click="selectUser(s, $index)" ng-class="{selectedIndex: selectedIndex===$index}">
+                    <md-list-item class="md-2-line" ng-repeat="s in stars" ng-click="selectUser(s, $index)" ng-class="{selectedIndex: selectedIndex===$index}">
                         <img data-ng-src="{{s.profilePhotoBase64}}"  alt="{{s.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                         <div class="md-list-item-text">
-                            <p>{{s.fullName}}</p>
+                            <h4>{{s.fullName}}</h4>
                         </div>
                         <md-divider md-inset></md-divider>
                     </md-list-item>

@@ -10,8 +10,8 @@
         <md-list-item class="md-2-line"  ng-click="getAssignedCoach(userSessionTypeUserCoachEstrella)" ng-class="{selectedIndex: selectedIndex === userSessionTypeUserCoachEstrella}">
             <img data-ng-src="{{planSelected.starUserId.profilePhotoBase64}}"  class="md-avatar" style=" border: 1px solid #e1e1e1;">
             <div class="md-list-item-text">
-                <h3>{{planSelected.starUserId.fullName}}</h3>
-                <p>Estrella</p>
+                <h4>{{planSelected.starUserId.fullName}}</h4>
+                <h3>Estrella</h3>
             </div>
             <md-divider md-inset></md-divider>
         </md-list-item>
@@ -19,8 +19,8 @@
         <md-list-item class="md-2-line" ng-click="getAssignedCoach(userSessionTypeUserCoachInterno)" ng-class="{selectedIndex: selectedIndex === userSessionTypeUserCoachInterno}">
             <img data-ng-src="{{planSelected.coachUserId.profilePhotoBase64}}"  class="md-avatar" style=" border: 1px solid #e1e1e1;">
             <div class="md-list-item-text">
-                <h3>{{planSelected.coachUserId.fullName}}</h3>
-                <p>Supervisor</p>
+                <h4>{{planSelected.coachUserId.fullName}}</h4>
+                <h3>Supervisor</h3>
             </div>
             <md-divider md-inset></md-divider>
         </md-list-item>

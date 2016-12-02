@@ -17,7 +17,7 @@
                     <md-list-item class="md-2-line"  ng-repeat="a in athletes" ng-click="selectAthlete(a, $index)" ng-class="{selectedIndex: selectedIndex===$index}">
                         <img data-ng-src="{{a.athleteUserId.profilePhotoBase64}}"  alt="{{a.athleteUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                         <div class="md-list-item-text">
-                            <p>{{a.athleteUserId.fullName}}</p>
+                            <h4>{{a.athleteUserId.fullName}}</h4>
                         </div>
                             <div style="{{a.color}}; height: 30px; width: 30px;" class="circulo"></div>
                         <md-divider md-inset></md-divider>
@@ -29,10 +29,10 @@
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                     <span>Cargando Supervisores..</span>
                 </div>
-                    <md-list-item ng-repeat="supervisor in supervisors" ng-click="selectCoach(supervisor, $index)" ng-class="{selectedIndex: selectedIndex2===$index}">
+                    <md-list-item class="md-2-line" ng-repeat="supervisor in supervisors" ng-click="selectCoach(supervisor, $index)" ng-class="{selectedIndex: selectedIndex2===$index}">
                           <img data-ng-src="{{supervisor.profilePhotoBase64}}"  alt="{{supervisor.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                         <div class="md-list-item-text">
-                            <p>{{supervisor.fullName}}</p>
+                            <h4>{{supervisor.fullName}}</h4>
                         </div>
                         <md-divider md-inset></md-divider>
                     </md-list-item>
@@ -43,10 +43,10 @@
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                     <span>Cargando Estrellas..</span>
                 </div>
-                <md-list-item ng-repeat="a in starsByCoach" ng-click="selectStar(a, $index)" ng-class="{selectedIndex: selectedIndex2===$index}">
+                <md-list-item class="md-2-line" ng-repeat="a in starsByCoach" ng-click="selectStar(a, $index)" ng-class="{selectedIndex: selectedIndex2===$index}">
                     <img data-ng-src="{{a.profilePhotoBase64}}"  alt="{{a.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                     <div class="md-list-item-text">
-                        <p>{{a.fullName}}</p>
+                        <h4>{{a.fullName}}</h4>
                     </div>
                     <md-divider md-inset></md-divider>
                 </md-list-item>
