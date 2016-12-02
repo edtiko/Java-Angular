@@ -36,6 +36,12 @@ body{
     border-radius: 50%;
     border: 1px solid #e1e1e1; 
 }
+
+.circulo {
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+}
 .circular-icon {
     border-radius: 50%;
     border-width: 1px 0;

@@ -150,21 +150,34 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 UserService.getUserById(planVideoId.fromUser.userId)
                         .then(
                                 function (d) {
-                                    if (d.typeUser === $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                                        $scope.showGuion = true;
-                                        $scope.isVisibleSendVideo = false;
+                                    if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
+                                        $scope.showGuion = false;
+                                        $scope.isVisibleSendVideo = true;
                                         $scope.isVisibleDeleteVideo = false;
-                                        $scope.isSendToStar = true;
-                                        $scope.isVisibleToRefuseAtlethe = true;
-                                    }
-
-                                    if (d.typeUser === $scope.userSessionTypeUserCoachEstrella) {
-                                        $scope.showGuion = true;
+                                        $scope.isSendToStar = false;
+                                        $scope.isSendToAtlethe= false;
+                                        $scope.isVisibleToRefuseAtlethe = false;
+                                    }else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno && d.typeUser === $scope.userSessionTypeUserCoachEstrella) {
+                                        $scope.showGuion = false;
                                         $scope.isVisibleSendVideo = false;
                                         $scope.isVisibleDeleteVideo = false;
                                         $scope.isVisibleToRefuseAtlethe = true;
                                         $scope.isSendToStar = false;
                                         $scope.isSendToAtlethe = true;
+                                    }else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno && d.typeUser === $scope.userSessionTypeUserAtleta) {
+                                        $scope.showGuion = true;
+                                        $scope.isVisibleSendVideo = false;
+                                        $scope.isVisibleDeleteVideo = false;
+                                        $scope.isVisibleToRefuseAtlethe = true;
+                                        $scope.isSendToStar = true;
+                                        $scope.isSendToAtlethe = false;
+                                    }else if($scope.userSession.typeUser == $scope.userSessionTypeUserCoach){
+                                        $scope.showGuion = false;
+                                        $scope.isVisibleSendVideo = true;
+                                        $scope.isVisibleDeleteVideo = false;
+                                        $scope.isSendToStar = false;
+                                        $scope.isSendToAtlethe= false;
+                                        $scope.isVisibleToRefuseAtlethe = false;
                                     }
                                     $scope.playVideo(path);
                                     if (fromto == 'to') {
