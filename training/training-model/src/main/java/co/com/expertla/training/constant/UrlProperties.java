@@ -10,5 +10,5 @@ package co.com.expertla.training.constant;
  * @author Andres Lopez
  */
 public class UrlProperties {
-    public static final String URL_PORTAL = "http://181.143.227.220:8081/cpt/";
+    public static final String URL_PORTAL = "http://181.143.227.220:4321/cpt/";
 }

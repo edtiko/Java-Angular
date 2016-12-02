@@ -7,7 +7,7 @@
 var $contextPath = window.location.origin+"/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
-$wordPressContextPath = 'http://181.143.227.220:8081/cpt/';
+$wordPressContextPath = 'http://181.143.227.220:4321/cpt/';
 require.config({
     waitSeconds: 200,
     paths: {

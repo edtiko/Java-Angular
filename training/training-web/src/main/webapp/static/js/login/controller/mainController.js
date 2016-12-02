@@ -225,7 +225,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             }
         };
         $scope.logout = function () {
-            window.location = 'http://181.143.227.220:8081/cpt/mi-cuenta/customer-logout/';
+            window.location = $wordPressContextPath+'mi-cuenta/customer-logout/';
         };
 
         $scope.viewInvitationDialog = function () {

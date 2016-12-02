@@ -1,5 +1,5 @@
 'use strict';
-var urlCompraPlanEntrenamiento = 'http://181.143.227.220:8081/cpt/plan-de-entrenamiento-deporte/';
+var urlCompraPlanEntrenamiento = $wordPressContextPath+'plan-de-entrenamiento-deporte/';
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp

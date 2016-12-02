@@ -1,5 +1,6 @@
 package co.com.expertla.training.service.impl.plan;
 
+import co.com.expertla.training.constant.UrlProperties;
 import co.com.expertla.training.dao.plan.UserTrainingOrderDao;
 import co.com.expertla.training.model.entities.UserTrainingOrder;
 import co.com.expertla.training.service.plan.UserTrainingOrderService;
@@ -64,7 +65,7 @@ public class UserTrainingOrderServiceImpl implements UserTrainingOrderService {
     
     @Override
     public String getPlanIdByOrder(UserTrainingOrder userTrainingOrder) throws Exception {
-        URL url = new URL("http://181.143.227.220:8081/cpt/get_plan_order.php");
+        URL url = new URL(UrlProperties.URL_PORTAL+"get_plan_order.php");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setInstanceFollowRedirects(true);

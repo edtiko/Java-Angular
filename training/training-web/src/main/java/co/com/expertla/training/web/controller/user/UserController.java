@@ -281,7 +281,7 @@ public class UserController {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
-                response.sendRedirect("http://181.143.227.220:8081/cpt/mi-cuenta/");
+                response.sendRedirect(UrlProperties.URL_PORTAL+"mi-cuenta/");
                 return null;
             }
             UserDTO userSession = new UserDTO();
