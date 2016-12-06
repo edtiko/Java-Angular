@@ -141,6 +141,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                 $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
             }
             $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+            $scope.userSession = res.data.entity.output;
             return JSON.parse(sessionStorage.getItem("userInfo"));
         };
         $scope.setUserSession = function () {

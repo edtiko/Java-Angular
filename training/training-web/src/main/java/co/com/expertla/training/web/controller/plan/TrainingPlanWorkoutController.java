@@ -11,7 +11,6 @@ import co.com.expertla.training.model.entities.ManualActivity;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.model.entities.User;
-import co.com.expertla.training.model.entities.UserZone;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.plan.TrainingPlanUserService;
 
@@ -32,7 +31,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -197,6 +195,7 @@ public class TrainingPlanWorkoutController {
                 TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
                 if (planWorkoutDTO.getActivityId() != null) {
                     planWorkout.setActivityId(new Activity(planWorkoutDTO.getActivityId()));
+                    planWorkout.isDrag(Boolean.TRUE);
                 } else if (planWorkoutDTO.getManualActivityId() != null) {
                     planWorkout.setManualActivityId(new ManualActivity(planWorkoutDTO.getManualActivityId()));
                 }

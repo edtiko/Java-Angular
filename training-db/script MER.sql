@@ -581,6 +581,7 @@ create table training_plan_workout (
    activity_id          integer              null,
    manual_activity_id   integer              null,
    workout_date         date                 not null,
+   is_drag              boolean              not null default false,
    constraint pk_training_plan_workout primary key (training_plan_workout_id)
 );
 

@@ -49,6 +49,8 @@ public class TrainingPlanWorkout implements Serializable {
     @JoinColumn(name = "training_plan_user_id", referencedColumnName = "training_plan_user_id")
     @ManyToOne(optional = false)
     private TrainingPlanUser trainingPlanUserId;
+    @Column(name = "is_drag")
+    private Boolean isDrag;
 
     public TrainingPlanWorkout() {
     }
@@ -101,6 +103,15 @@ public class TrainingPlanWorkout implements Serializable {
     public void setManualActivityId(ManualActivity manualActivityId) {
         this.manualActivityId = manualActivityId;
     }
+
+    public Boolean isDrag() {
+        return isDrag;
+    }
+
+    public void isDrag(Boolean isDrag) {
+        this.isDrag = isDrag;
+    }
+    
 
     @Override
     public int hashCode() {

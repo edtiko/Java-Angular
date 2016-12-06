@@ -43,14 +43,14 @@ public class CoachExtAthleteController {
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         try {
-            count = coachExtAthleteService.getCountAthletesAvailable(dto.getTrainingPlanUserId());
+            /*count = coachExtAthleteService.getCountAthletesAvailable(dto.getTrainingPlanUserId());
 
             if (count == 0) {
                 strResponse.append("Ya consumió el limite de atletas permitidos.");
                 responseService.setOutput(strResponse);
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
-            }
+            }*/
             coachExtAthleteService.create(dto);
             simpMessagingTemplate.convertAndSend("/queue/invitation/" + dto.getAthleteUserId().getUserId(), dto);
             strResponse.append("Atleta creado éxitosamente.");
@@ -59,7 +59,7 @@ public class CoachExtAthleteController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            responseService.setOutput(strResponse);
+            responseService.setOutput(e.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();

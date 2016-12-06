@@ -83,6 +83,6 @@ public class PlanWorkoutDTO {
         this.weekMonth = weekMonth;
     }
 
-    
-    
+
+   
 }

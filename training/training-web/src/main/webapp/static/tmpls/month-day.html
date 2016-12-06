@@ -10,7 +10,11 @@
         <% var style = ''; %>
         <% if(event.manualActivity){ 
         style = 'background-color: rgba(180, 182, 181, 0.42) !important;'
-        }%>
+        }
+        else if(event.drag){
+         style = 'background-color: #f5c0d1 !important;'
+        }
+        %>
 
         
 <!--<div>

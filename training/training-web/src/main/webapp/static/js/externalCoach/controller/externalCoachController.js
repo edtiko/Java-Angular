@@ -44,11 +44,14 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
             ExternalCoachService.createAthlete(coachExtAthlete)
                     .then(
                             function (response) {
+                                var json_error = JSON.parse(response.entity.output);
                                 if (response.entity.status == 'success') {
                                     $scope.resetAthlete();
                                     self.fetchAthletes();
                                     $scope.showMessage(response.entity.output);
-                                } else {
+                                }else if(json_error.email_exists){
+                                    $scope.showMessage("Esa dirección de correo electrónico ya está registrada. Por favor, elige otra.", "Alerta");
+                                }else {
                                     $scope.showMessage(response.entity.output, "Alerta");
                                 }
                             },

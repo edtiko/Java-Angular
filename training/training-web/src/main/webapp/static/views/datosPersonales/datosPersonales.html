@@ -122,7 +122,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="number" ng-model="user.phone" string-to-number id="phone" name="phone" placeholder="Tel&eacute;fono fijo"  ng-maxlength="50"/>
+                        <input type="number" ng-model="user.phone" min="0" string-to-number id="phone" name="phone" placeholder="Tel&eacute;fono fijo"  ng-maxlength="50"/>
                         <div class="has-error" ng-messages="myFormUser.phone.$error">
                             <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
                         </div>
@@ -135,7 +135,7 @@
             <div layout="row">
                 <div flex="33">
                     <md-input-container class="md-block">
-                        <input type="number" ng-model="user.cellphone" string-to-number id="cellphone" name="cellphone"  placeholder="Celular" ng-maxlength="50"/>
+                        <input type="number" ng-model="user.cellphone" min="0" string-to-number id="cellphone" name="cellphone"  placeholder="Celular" ng-maxlength="50"/>
                          <div class="has-error" ng-messages="myFormUser.cellphone.$error">
                             <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
                         </div>

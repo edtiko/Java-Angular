@@ -11,7 +11,7 @@ import java.util.Date;
  * fecha 15/07/2016 <br>
  *
  * @author Andres Felipe Lopez Rodriguez
-*
+ *
  */
 public class TrainingPlanWorkoutDto {
 
@@ -36,7 +36,8 @@ public class TrainingPlanWorkoutDto {
     private String sportIcon;
     private Integer sportId;
     private boolean manualActivity = false;
-	private Integer percentageWeather;
+    private Integer percentageWeather;
+    private Boolean isDrag;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -56,29 +57,29 @@ public class TrainingPlanWorkoutDto {
             this.discipline = activityId.getModalityId().getDisciplineId().getName();
             this.objectiveId = activityId.getObjectiveId().getObjectiveId();
             this.objective = activityId.getObjectiveId().getName();
-            this.level = activityId.getObjectiveId().getLevel();            
+            this.level = activityId.getObjectiveId().getLevel();
             if (activityId.getSportId() != null) {
                 this.sportIcon = activityId.getSportId().getIcon();
             }
+        } else if (manualActivityId != null) {
+            this.manualActivity = true;
+            this.activityId = manualActivityId.getManualActivityId();
+            this.title = manualActivityId.getName();
+            this.activityDescription = manualActivityId.getDescription();
+            this.sportIcon = manualActivityId.getSportId().getIcon();
+            this.sportId = manualActivityId.getSportId().getSportId();
         }
-        else if(manualActivityId != null){
-           this.manualActivity = true;
-           this.activityId =  manualActivityId.getManualActivityId();
-           this.title = manualActivityId.getName();
-           this.activityDescription = manualActivityId.getDescription();
-           this.sportIcon = manualActivityId.getSportId().getIcon();
-           this.sportId = manualActivityId.getSportId().getSportId();
-        }
-        
+
         this.userId = userId;
     }
-    
+
     public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
             Activity activityId, ManualActivity manualActivityId,
-            Integer userId, Integer percentageWeather) {
+            Integer userId, Integer percentageWeather, Boolean isDrag) {
         this.id = trainingPlanWorkoutId;
         this.workoutDate = workoutDate;
         this.percentageWeather = percentageWeather;
+        this.isDrag = isDrag;
         if (activityId != null) {
             this.activityId = activityId.getActivityId();
             this.title = activityId.getName();
@@ -89,20 +90,19 @@ public class TrainingPlanWorkoutDto {
             this.discipline = activityId.getModalityId().getDisciplineId().getName();
             this.objectiveId = activityId.getObjectiveId().getObjectiveId();
             this.objective = activityId.getObjectiveId().getName();
-            this.level = activityId.getObjectiveId().getLevel();            
+            this.level = activityId.getObjectiveId().getLevel();
             if (activityId.getSportId() != null) {
                 this.sportIcon = activityId.getSportId().getIcon();
             }
+        } else if (manualActivityId != null) {
+            this.manualActivity = true;
+            this.activityId = manualActivityId.getManualActivityId();
+            this.title = manualActivityId.getName();
+            this.activityDescription = manualActivityId.getDescription();
+            this.sportIcon = manualActivityId.getSportId().getIcon();
+            this.sportId = manualActivityId.getSportId().getSportId();
         }
-        else if(manualActivityId != null){
-           this.manualActivity = true;
-           this.activityId =  manualActivityId.getManualActivityId();
-           this.title = manualActivityId.getName();
-           this.activityDescription = manualActivityId.getDescription();
-           this.sportIcon = manualActivityId.getSportId().getIcon();
-           this.sportId = manualActivityId.getSportId().getSportId();
-        }
-        
+
         this.userId = userId;
     }
 
@@ -273,7 +273,13 @@ public class TrainingPlanWorkoutDto {
     public void setSportId(Integer sportId) {
         this.sportId = sportId;
     }
-    
-    
-    
+
+    public Boolean isDrag() {
+        return isDrag;
+    }
+
+    public void isDrag(Boolean isDrag) {
+        this.isDrag = isDrag;
+    }
+
 }
