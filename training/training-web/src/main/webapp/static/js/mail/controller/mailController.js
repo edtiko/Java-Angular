@@ -37,6 +37,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
         };
 
         $scope.dialogEmail = function () {
+            $scope.reset();
             $mdDialog.show({
                 controller: sendEmailController,
                 scope: $scope.$new(),
