@@ -173,6 +173,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         workout.setTrainingPlanUserId(plan);
         workout.setActivityId(activity);
         workout.setWorkoutDate(date);
+        workout.isDrag(Boolean.FALSE);
         return workout;
     }
 
