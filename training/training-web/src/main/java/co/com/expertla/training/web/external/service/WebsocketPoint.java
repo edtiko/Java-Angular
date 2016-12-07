@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.web.external.service;
 
+import co.com.expertla.training.model.dto.PlanMessageDTO;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -14,24 +15,31 @@ import javax.inject.Inject;
 import javax.websocket.CloseReason;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
-@ServerEndpoint("/hello")
+import javax.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+@ServerEndpoint(value = "/chat/{sessionId}", encoders={JSONEncoder.class})
 public class WebsocketPoint {
     
     @Inject
    private SessionRegistry sessionRegistry;
+    
+        @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @OnOpen
     public void open(Session session, EndpointConfig conf) throws IOException {
-        session.getBasicRemote().sendText("Hi Amigo David Lopera!");
+        //session.getBasicRemote().sendText("Hi Amigo David Lopera!");
         System.out.println("WebSocket opened: " + session.getId());
         sessionRegistry.add(session);
     }
 
     @OnMessage
-    public String hello(String message) {
+    public void hello(@PathParam("sessionId") Integer sessionId, PlanMessageDTO message) {
         System.out.println("Received : " + message);
-        sessionRegistry.getAll().forEach(session -> session.getAsyncRemote().sendText(message));
-        return message;
+        sessionRegistry.getAll().forEach(session -> session.getAsyncRemote().sendObject(message));
+        simpMessagingTemplate.convertAndSend("/queue/message/" + sessionId, message);
+
     }
 
     @OnClose
@@ -39,4 +47,8 @@ public class WebsocketPoint {
           sessionRegistry.remove(session);
         System.out.println("Closing a WebSocket due to " + reason.getReasonPhrase());
     }
+    
+   /*    public void send(@Observes PlanMessageDTO msg) {
+       sessionRegistry.getAll().forEach(session -> session.getAsyncRemote().sendObject(msg)); 
+   }*/
 }

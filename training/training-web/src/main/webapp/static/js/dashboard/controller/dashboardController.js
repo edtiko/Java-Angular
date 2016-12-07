@@ -118,6 +118,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
         });
+        
+        messageService.WS_MOVIL.onmessage = function (message) {
+            var receivedData = message.data;
+            var msg = JSON.parse(receivedData);
+            if ($scope.userSession.userId != msg.messageUserId.userId) {
+                $scope.messagesReceivedCount++;
+            } else {
+                $scope.getMessageCount();
+            }
+        };
 
         //notificación videos recibidos
         videoService.receive().then(null, null, function (video) {
