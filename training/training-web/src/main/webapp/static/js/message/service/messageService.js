@@ -11,12 +11,14 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
         service.CHAT_TOPIC = "/topic/message";
         service.CHAT_BROKER = "/app/chat/";
         service.SESSION_ID = "";
+        service.WS_MOVIL;
 
         service.receive = function () {
             return listener.promise;
         };
-
+        
         service.send = function (message) {
+            //service.sendMovil(JSON.stringify(message));
             var id = Math.floor(Math.random() * 1000000);
             var url = service.CHAT_BROKER + service.SESSION_ID;
             socket.stomp.send(url, {
@@ -24,6 +26,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
             }, JSON.stringify(message));
             messageIds.push(id);
         };
+                
         service.getAssignedAthletes = function (coachUserId) {
             return $http.get($contextPath + 'get/athtletes/' + coachUserId)
                     .then(
@@ -152,6 +155,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
+
             }
         };
 

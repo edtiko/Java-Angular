@@ -34,6 +34,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.planSelected = null;
         $scope.selectedIndex = null;
         $scope.selectedIndex2 = null;
+        $scope.wsocket;
 
         $scope.views = {
             profile: {page: 'static/views/dashboard/profile.html', controller: ""},
@@ -118,6 +119,29 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
 
         });
+        
+        $scope.onMessageReceived = function(data){
+          console.log(data);  
+        };
+        
+        $scope.connectToChatserver = function (sessionId) {
+            $scope.wsocket = new WebSocket('ws://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
+            $scope.wsocket.onmessage = function (data) {
+                var msg = JSON.parse(data.data); 
+                if ($scope.userSession.userId != msg.messageUserId.userId && msg.mobile) {
+                    $scope.messagesReceivedCount++;
+                }
+            };
+
+            $scope.wsocket.onopen = function (event) {
+                console.log('Push connection from server is working');
+
+            };
+            $scope.wsocket.onclose = function (event) {
+                console.log('Error on push connection from server ');
+
+            };
+        };
 
         //notificación videos recibidos
         videoService.receive().then(null, null, function (video) {
@@ -380,7 +404,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             self.getReceivedMessages($scope.planSelected.id, fromUser,$scope.userSession.userId, tipoPlan, roleSelected);
 
             messageService.initialize($scope.planSelected.id);
-
+            $scope.connectToChatserver($scope.planSelected.id);
+            
             //videos
             self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
             self.getReceivedVideos($scope.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
@@ -871,6 +896,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
      
      
      $scope.init();
-     
+          
     }]);
 
