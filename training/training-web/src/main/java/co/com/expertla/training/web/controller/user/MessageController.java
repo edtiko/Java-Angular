@@ -48,6 +48,18 @@ public class MessageController {
         simpMessagingTemplate.convertAndSend("/queue/message/" + sessionId, msg);
         //return new OutputMessage(message, new Date());
     }
+    
+     @RequestMapping(value="chat/mobile/{sessionId}",method = RequestMethod.POST)
+    public void sendMessageMobile(PlanMessageDTO message, @PathVariable("sessionId") Integer sessionId) {
+        PlanMessageDTO msg = null;
+        try {
+            msg = planMessageService.saveMessage(message);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+
+        }
+        simpMessagingTemplate.convertAndSend("/queue/message/" + sessionId, msg);
+    }
 
     @RequestMapping(value = "get/messages/{planId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody

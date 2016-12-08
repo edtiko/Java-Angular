@@ -26,6 +26,7 @@ public class PlanMessageDTO {
     private Double hours;
     private Boolean toStar;
     private Integer roleSelected;
+    private boolean mobile;
 
     public PlanMessageDTO() {
 
@@ -156,7 +157,15 @@ public class PlanMessageDTO {
     public void setRoleSelected(Integer roleSelected) {
         this.roleSelected = roleSelected;
     }
-    
-    
-    
+
+    public boolean isMobile() {
+        return mobile;
+    }
+
+    public void setMobile(boolean mobile) {
+        this.mobile = mobile;
+    }
+
+
+        
 }

@@ -5,6 +5,7 @@
  */
 package co.com.expertla.training.web.external.service;
 
+import co.com.expertla.training.model.dto.PlanMessageDTO;
 import com.google.gson.Gson;
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
@@ -14,7 +15,7 @@ import javax.websocket.EndpointConfig;
  *
  * @author Edwin G
  */
-public class JSONEncoder implements Encoder.Text<Object> {
+public class MessageEncoder implements Encoder.Text<PlanMessageDTO> {
    private Gson gson;
    @Override
    public void init(EndpointConfig config) {
@@ -25,7 +26,7 @@ public class JSONEncoder implements Encoder.Text<Object> {
        // do nothing
    }
    @Override
-   public String encode(Object object) throws EncodeException {
-       return gson.toJson(object); 
+   public String encode(final PlanMessageDTO message) throws EncodeException {
+       return gson.toJson(message); 
    }
 }

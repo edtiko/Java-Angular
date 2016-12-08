@@ -8,7 +8,8 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
             message: '',
             messageUserId: {userId: ''},
             receivingUserId: {userId: ''},
-            roleSelected: $scope.roleSelected
+            roleSelected: $scope.roleSelected,
+            mobile: false
         };
         $scope.athletes = [];
         var self = this;
@@ -125,6 +126,8 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                     }
 
                     messageService.send($scope.planMessage);
+                    $scope.wsocket.send(JSON.stringify($scope.planMessage));
+                    
                     $scope.planMessage.message = "";
                     $scope.getMessageCount();
                 } else if ($scope.availableMessage == 0) {

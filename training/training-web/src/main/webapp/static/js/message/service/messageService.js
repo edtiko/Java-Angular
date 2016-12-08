@@ -11,22 +11,14 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
         service.CHAT_TOPIC = "/topic/message";
         service.CHAT_BROKER = "/app/chat/";
         service.SESSION_ID = "";
-        service.WS_MOVIL = null;
+        service.WS_MOVIL;
 
         service.receive = function () {
             return listener.promise;
         };
         
-        service.receiveWs = function () {
-            var res = "";
-            service.WS_MOVIL.onmessage = function (message) {
-                var receivedData = message.data;
-                res = JSON.parse(receivedData);
-            };
-            return res;
-        };
-
         service.send = function (message) {
+            //service.sendMovil(JSON.stringify(message));
             var id = Math.floor(Math.random() * 1000000);
             var url = service.CHAT_BROKER + service.SESSION_ID;
             socket.stomp.send(url, {
@@ -34,11 +26,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
             }, JSON.stringify(message));
             messageIds.push(id);
         };
-        
-        service.sendMovil = function(message){
-           service.WS_MOVIL.send(message); 
-        };
-        
+                
         service.getAssignedAthletes = function (coachUserId) {
             return $http.get($contextPath + 'get/athtletes/' + coachUserId)
                     .then(
@@ -167,18 +155,6 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
-
-                //ws movil
-                var ws = new WebSocket('ws://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
-                service.WS_MOVIL = ws;
-                ws.onopen = function (event) {
-                 console.log('Push connection from server is working');
-                   
-                };
-                ws.onclose = function (event) {
-                    console.log('Error on push connection from server ');
-       
-                };
 
             }
         };
