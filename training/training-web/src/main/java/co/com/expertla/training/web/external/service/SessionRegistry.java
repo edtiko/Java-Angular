@@ -10,14 +10,14 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.ejb.Lock;
 import javax.ejb.LockType;
-import javax.ejb.Singleton;
 import javax.websocket.Session;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Edwin G
  */
-@Singleton
+@Service
 public class SessionRegistry {
    private final Set<Session> sessions = new HashSet<>();
    @Lock(LockType.READ)
