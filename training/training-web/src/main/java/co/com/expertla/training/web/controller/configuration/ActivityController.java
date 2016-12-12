@@ -489,11 +489,17 @@ public class ActivityController {
         ResponseService responseService = new ResponseService();
         try {
             TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            if(trainingPlanWorkoutDto != null && trainingPlanWorkoutDto.getActivityId() != null){
             Integer activityId = trainingPlanWorkoutDto.getActivityId();
             List<ActivityMovilDTO> activityList = activityService.findActivityReplaceByActivityMovil(activityId);
             responseService.setOutput(activityList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }else{
+            responseService.setDetail("No se encontraron datos");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);  
+            }
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(ActivityController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al traer manual activity");

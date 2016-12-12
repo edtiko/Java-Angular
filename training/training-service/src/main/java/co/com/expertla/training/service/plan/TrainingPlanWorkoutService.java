@@ -1,5 +1,6 @@
 package co.com.expertla.training.service.plan;
 
+import co.com.expertla.training.model.dto.PlanWorkoutDTO;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.model.entities.User;
@@ -72,6 +73,8 @@ public interface TrainingPlanWorkoutService {
       public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception; 
 
     public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId)throws Exception; 
+
+    public void update(PlanWorkoutDTO planWorkoutDTO)throws Exception; 
 
  
 }

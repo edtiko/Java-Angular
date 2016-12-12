@@ -21,9 +21,8 @@ import co.com.expertla.training.model.entities.UserAvailability;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.dao.plan.TrainingPlanUserDao;
 import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
-import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.DayDto;
-import co.com.expertla.training.model.entities.TrainingPlan;
+import co.com.expertla.training.model.dto.PlanWorkoutDTO;
 import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -437,6 +436,19 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     @Override
     public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId) throws Exception {
         return trainingPlanWorkoutDao.getPlanWorkoutByUser(userId);
+    }
+
+    @Override
+    public void update(PlanWorkoutDTO planWorkoutDTO) throws Exception {
+
+        TrainingPlanWorkout workout = trainingPlanWorkoutDao.getById(new TrainingPlanWorkout(planWorkoutDTO.getTrainingPlanWorkoutId())).get(0);
+        if (workout != null && planWorkoutDTO != null) {
+            if(null != planWorkoutDTO.getActivityId()){
+            workout.setActivityId(new Activity(planWorkoutDTO.getActivityId()));
+            }
+                
+        }
+        trainingPlanWorkoutDao.merge(workout);
     }
       
 }

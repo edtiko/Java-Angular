@@ -343,7 +343,7 @@ public class MailController {
                 
                 if(mail.getSendingUser()!= null) {
                     try {
-                        UserDTO userDto = userService.findById(mail.getReceivingUser().getUserId());
+                        UserDTO userDto = userService.findById(mail.getSendingUser().getUserId());
                         mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
                         mailCommunicationMovilDTO.setSendingUserFullName(userDto.getFullName());
                         mailCommunicationMovilDTO.setSendingUserPhoto(uri+"/user/download/photo/"+mail.getSendingUser().getUserId());
@@ -411,7 +411,7 @@ public class MailController {
                 
                 if(mail.getSendingUser()!= null) {
                     try {
-                        UserDTO userDto = userService.findById(mail.getReceivingUser().getUserId());
+                        UserDTO userDto = userService.findById(mail.getSendingUser().getUserId());
                         mailCommunicationMovilDTO.setSendingUser(mail.getSendingUser().getUserId());
                         mailCommunicationMovilDTO.setSendingUserFullName(userDto.getFullName());
                         mailCommunicationMovilDTO.setSendingUserPhoto(uri+"/user/download/photo/"+mail.getSendingUser().getUserId());

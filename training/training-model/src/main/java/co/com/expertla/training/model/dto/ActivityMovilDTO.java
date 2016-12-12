@@ -5,7 +5,9 @@
  */
 package co.com.expertla.training.model.dto;
 
+import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.entities.Modality;
+import co.com.expertla.training.model.entities.ReplaceActivity;
 
 /**
  *
@@ -35,6 +37,14 @@ public class ActivityMovilDTO {
         this.description = description;
         this.sportId = sportId;
         this.userId = userId;
+    }
+    
+    public ActivityMovilDTO(ReplaceActivity a) {
+
+        if (a != null && a.getReplaceId() != null) {
+            this.activityId = a.getReplaceId().getActivityId();
+            this.name = a.getReplaceId().getName();
+        }
     }
 
     public ActivityMovilDTO(Integer activityId, String name, String description,

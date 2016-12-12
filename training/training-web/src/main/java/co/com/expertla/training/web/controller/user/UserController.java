@@ -7,6 +7,8 @@ import co.com.expertla.training.service.configuration.CountryService;
 import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
+import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import co.com.expertla.training.model.dto.CommunicationDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
@@ -27,6 +29,11 @@ import co.com.expertla.training.model.entities.UserTrainingOrder;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.StartTeamService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
+import co.com.expertla.training.service.plan.CoachExtAthleteService;
+import co.com.expertla.training.service.plan.MailCommunicationService;
+import co.com.expertla.training.service.plan.PlanAudioService;
+import co.com.expertla.training.service.plan.PlanMessageService;
+import co.com.expertla.training.service.plan.PlanVideoService;
 import co.com.expertla.training.service.plan.TrainingPlanUserService;
 import co.com.expertla.training.service.plan.UserTrainingOrderService;
 import co.com.expertla.training.service.security.RoleUserService;
@@ -78,6 +85,9 @@ public class UserController {
     private static final String apiSecret = "547b77a30287725ef942607913540d1eef48a161";
     private static OpenTok opentok;
 
+    private static final String PLAN_TYPE_IN = "IN";
+    private static final String PLAN_TYPE_EXT = "EXT";
+
     @Autowired
     UserService userService;  //Service which will do all data retrieval/manipulation work
 
@@ -100,10 +110,31 @@ public class UserController {
     CoachAssignedPlanService coachAssignedPlanService;
 
     @Autowired
+    CoachExtAthleteService coachExtAthleteService;
+
+    @Autowired
     StartTeamService startTeamService;
 
     @Autowired
     StravaService stravaService;
+
+    @Autowired
+    PlanMessageService planMessageService;
+
+    @Autowired
+    PlanAudioService planAudioService;
+
+    @Autowired
+    PlanVideoService PlanVideoService;
+
+    @Autowired
+    MailCommunicationService mailCommunicationService;
+
+    @Autowired
+    CoachAssignedPlanService coachService;
+
+    @Autowired
+    CoachExtAthleteService coachExtService;
 
     /**
      * Upload single file using Spring Controller
@@ -281,7 +312,7 @@ public class UserController {
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
-                response.sendRedirect(UrlProperties.URL_PORTAL+"mi-cuenta/");
+                response.sendRedirect(UrlProperties.URL_PORTAL + "mi-cuenta/");
                 return null;
             }
             UserDTO userSession = new UserDTO();
@@ -633,8 +664,11 @@ public class UserController {
 
             if (userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
                 CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId(), RoleEnum.COACH_INTERNO.getId());
+                CoachExtAthleteDTO coachExtAthleteDTO = coachExtAthleteService.findByAthleteUserId(userDto.getUserId());
 
                 if (coachAssignedPlanDTO != null) {
+                    userSession.setPlanType(PLAN_TYPE_IN);
+                    userSession.setCommunicationPlanId(coachAssignedPlanDTO.getId());
                     UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
                     UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
                     userCoach.setUserId(coachUserDTO.getUserId());
@@ -668,7 +702,11 @@ public class UserController {
                     userStar.setBirthDate(starUserDTO.getBirthDate());
                     userSession.setStarUser(userStar);
                     userSession.setCoachUser(userCoach);
-                    userSession.setCoachAssignedPlanId(coachAssignedPlanDTO.getId());
+                    //userSession.setCoachAssignedPlanId(coachAssignedPlanDTO.getId());
+                } else if (coachExtAthleteDTO != null) {
+                    userSession.setPlanType(PLAN_TYPE_EXT);
+                    userSession.setCommunicationPlanId(coachExtAthleteDTO.getId());
+
                 }
             }
 
@@ -986,5 +1024,56 @@ public class UserController {
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity(responseService, HttpStatus.OK);
         }
+    }
+
+    @RequestMapping(value = "get/count/communication/{communicatePlanId}/{userId}/{toUserId}/{planType}/{roleSelected}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getCountCommunication(@PathVariable("communicatePlanId") Integer communicatePlanId, @PathVariable("userId") Integer userId,
+            @PathVariable("toUserId") Integer toUserId, @PathVariable("planType") String planType, @PathVariable("roleSelected") Integer roleSelected) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        CommunicationDTO communication = new CommunicationDTO();
+      
+        try {
+            if (planType.equals(PLAN_TYPE_IN)) {
+                  CoachAssignedPlanDTO assigned = coachService.findByAthleteUserId(userId, roleSelected);
+                communication.setAvailableMsg(planMessageService.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
+                communication.setReceivedMsg(planMessageService.getCountMessagesReceived(communicatePlanId, userId, toUserId, roleSelected));
+                communication.setEmergencyMsg(planMessageService.getCountMessagesEmergency(communicatePlanId, userId, roleSelected));
+                communication.setPlanMsg(assigned.getTrainingPlanId().getMessageCount());
+
+                communication.setAvailableAudio(planAudioService.getCountAudioByPlan(communicatePlanId, userId, roleSelected));
+                communication.setReceivedAudio(planAudioService.getCountAudiosReceived(communicatePlanId, toUserId, roleSelected));
+                communication.setEmergencyAudio(planAudioService.getCountAudioEmergencyByPlan(communicatePlanId, userId, roleSelected));
+                communication.setPlanAudio(assigned.getTrainingPlanId().getAudioCount());
+
+                communication.setAvailableMail(mailCommunicationService.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
+                communication.setReceivedMail(mailCommunicationService.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
+                communication.setEmergencyMail(mailCommunicationService.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
+                communication.setPlanMail(assigned.getTrainingPlanId().getEmailCount());
+
+                communication.setAvailableVideo(PlanVideoService.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
+                communication.setReceivedVideo(PlanVideoService.getCountVideosReceived(communicatePlanId, userId, toUserId, roleSelected));
+                communication.setEmergencyVideo(PlanVideoService.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
+                communication.setPlanVideo(assigned.getTrainingPlanId().getVideoCount());
+
+            } else if (planType.equals(PLAN_TYPE_EXT)) {
+                
+                 CoachExtAthleteDTO assigned = coachExtService.findByAthleteUserId(userId);
+                //communication.setAvailableMail(PlanVideoService.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
+
+            }
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(communication);
+             return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+             return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
     }
 }

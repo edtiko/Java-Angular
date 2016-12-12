@@ -24,6 +24,9 @@ import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.service.user.UserZoneService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -262,14 +265,14 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+    
     @RequestMapping(value = "/trainingPlanWorkout/get/by/user/intervalDate/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> getTrainingPlanWorkoutByUserInterval(@RequestBody PlanWorkoutDTO trainingPlanWorkout, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
             Calendar calendar = Calendar.getInstance();
             Calendar calendarTo = Calendar.getInstance();
-            int month = trainingPlanWorkout.getMonth()-1;
+           // int month = trainingPlanWorkout.getMonth()-1;
             calendar.set(Calendar.DAY_OF_MONTH, 1);
             calendarTo.set(Calendar.DAY_OF_MONTH, 1);
             if (trainingPlanWorkout.getYear() > 0) {
@@ -277,10 +280,10 @@ public class TrainingPlanWorkoutController {
                 calendarTo.set(Calendar.YEAR, trainingPlanWorkout.getYear());
             }
 
-            if (trainingPlanWorkout.getMonth() > 0) {
+         /*   if (trainingPlanWorkout.getMonth() > 0) {
                 calendar.set(Calendar.MONTH, month);
                 calendarTo.set(Calendar.MONTH, month + 1);
-            }
+            }*/
 
             if (trainingPlanWorkout.getWeekMonth() > 0) {
 //                calendarTo.set(Calendar.MONTH, month);
@@ -317,4 +320,42 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    @RequestMapping(value = "trainingPlanWorkout/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> updatePlanWorkout(@RequestBody PlanWorkoutDTO planWorkoutDTO) {
+        ResponseService responseService = new ResponseService();
+        try {
+            trainingPlanWorkoutService.update(planWorkoutDTO);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Actualizado correctamente");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear plan");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "trainingPlanWorkout/get/current/week", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getCurrentWeek() {
+        ResponseService responseService = new ResponseService();
+        try {
+            ZoneId zoneId = ZoneId.of("America/Bogota");
+            ZonedDateTime now = ZonedDateTime.now(zoneId);
+            int weekOfYear = now.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(weekOfYear);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al obtener el número de la semana");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+
 }

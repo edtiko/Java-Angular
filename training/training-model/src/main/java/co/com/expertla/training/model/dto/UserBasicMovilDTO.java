@@ -26,6 +26,8 @@ public class UserBasicMovilDTO {
     private Integer roleId;
     private String urlVideo;
     private String fullName;
+    private String tipoPlan;
+    private Integer communicatePlanId;
 
     public UserBasicMovilDTO() {
     }

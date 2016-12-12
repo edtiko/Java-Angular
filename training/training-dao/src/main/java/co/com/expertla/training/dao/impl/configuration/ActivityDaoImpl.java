@@ -220,8 +220,7 @@ public class ActivityDaoImpl extends BaseDAOImpl<Activity> implements ActivityDa
     @Override
     public List<ActivityMovilDTO> findActivityReplaceByActivityMovil(Integer activityId) throws Exception {
         StringBuilder builder = new StringBuilder();
-        builder.append("SELECT new co.com.expertla.training.model.dto.ActivityMovilDTO( ");
-        builder.append("a.replaceId.activityId, a.replaceId.name, a.replaceId.description, a.replaceId.modalityId.modalityId, a.replaceId.modalityId.name, a.replaceId.objectiveId.objectiveId, a.replaceId.sportId.sportId, a.replaceId.physiologicalCapacityId.name  ) ");
+        builder.append("SELECT DISTINCT new co.com.expertla.training.model.dto.ActivityMovilDTO( a ) ");
         
         builder.append("FROM ReplaceActivity a, DisciplineUser du ");
         builder.append("WHERE a.replaceId.modalityId.disciplineId.disciplineId = du.discipline.disciplineId ");

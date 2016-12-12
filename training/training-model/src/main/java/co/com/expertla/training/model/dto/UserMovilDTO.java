@@ -3,10 +3,7 @@ package co.com.expertla.training.model.dto;
 import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 /**
@@ -62,7 +59,9 @@ public class UserMovilDTO {
     private Integer trainingPlanUserId;
     private UserBasicMovilDTO starUser;
     private UserBasicMovilDTO coachUser;
-    private Integer coachAssignedPlanId;
+    //private Integer coachAssignedPlanId;
+    private String planType;
+    private Integer communicationPlanId;
 
     public UserMovilDTO() {
     }
@@ -415,12 +414,22 @@ public class UserMovilDTO {
         this.disciplineName = disciplineName;
     }
 
-    public Integer getCoachAssignedPlanId() {
-        return coachAssignedPlanId;
+    public String getPlanType() {
+        return planType;
     }
 
-    public void setCoachAssignedPlanId(Integer coachAssignedPlanId) {
-        this.coachAssignedPlanId = coachAssignedPlanId;
+    public void setPlanType(String planType) {
+        this.planType = planType;
     }
+
+    public Integer getCommunicationPlanId() {
+        return communicationPlanId;
+    }
+
+    public void setCommunicationPlanId(Integer communicationPlanId) {
+        this.communicationPlanId = communicationPlanId;
+    }
+    
+
 
 }
