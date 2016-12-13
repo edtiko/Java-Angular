@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -270,25 +271,31 @@ public class TrainingPlanWorkoutController {
     public ResponseEntity<ResponseService> getTrainingPlanWorkoutByUserInterval(@RequestBody PlanWorkoutDTO trainingPlanWorkout, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
-            Calendar calendar = Calendar.getInstance();
-            Calendar calendarTo = Calendar.getInstance();
-           // int month = trainingPlanWorkout.getMonth()-1;
-            calendar.set(Calendar.DAY_OF_MONTH, 1);
-            calendarTo.set(Calendar.DAY_OF_MONTH, 1);
+            Calendar calendar = Calendar.getInstance(Locale.getDefault());    
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            Calendar calendarTo = Calendar.getInstance(Locale.getDefault()); 
+            calendarTo.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            calendarTo.set(Calendar.MINUTE, 0);
+            calendarTo.set(Calendar.SECOND, 0);
+            calendarTo.set(Calendar.HOUR_OF_DAY, 0);
+        
             if (trainingPlanWorkout.getYear() > 0) {
                 calendar.set(Calendar.YEAR, trainingPlanWorkout.getYear());
                 calendarTo.set(Calendar.YEAR, trainingPlanWorkout.getYear());
             }
 
-         /*   if (trainingPlanWorkout.getMonth() > 0) {
+            /*if (trainingPlanWorkout.getMonth() > 0) {
                 calendar.set(Calendar.MONTH, month);
                 calendarTo.set(Calendar.MONTH, month + 1);
             }*/
 
             if (trainingPlanWorkout.getWeekMonth() > 0) {
-//                calendarTo.set(Calendar.MONTH, month);
-                calendar.set(Calendar.WEEK_OF_YEAR, trainingPlanWorkout.getWeekMonth());
-                calendarTo.set(Calendar.WEEK_OF_YEAR, trainingPlanWorkout.getWeekMonth() + 1);
+                //calendarTo.set(Calendar.MONTH, month);
+                calendar.set(Calendar.WEEK_OF_YEAR, trainingPlanWorkout.getWeekMonth()+1);
+                calendarTo.set(Calendar.WEEK_OF_YEAR, trainingPlanWorkout.getWeekMonth()+1);
             }
 
             Date fromDate = calendar.getTime();
