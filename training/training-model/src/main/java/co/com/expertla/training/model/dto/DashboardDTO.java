@@ -56,6 +56,8 @@ public class DashboardDTO {
     private String injury;
     private String disease;
     private String weather;
+    private Integer countSupervisor;
+    private Integer countStar;
 
 
     public DashboardDTO() {
@@ -496,6 +498,22 @@ public class DashboardDTO {
 
     public void setWeather(String weather) {
         this.weather = weather;
+    }
+
+    public Integer getCountSupervisor() {
+        return countSupervisor;
+    }
+
+    public void setCountSupervisor(Integer countSupervisor) {
+        this.countSupervisor = countSupervisor;
+    }
+
+    public Integer getCountStar() {
+        return countStar;
+    }
+
+    public void setCountStar(Integer countStar) {
+        this.countStar = countStar;
     }
     
     

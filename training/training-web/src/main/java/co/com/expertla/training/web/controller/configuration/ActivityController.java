@@ -18,6 +18,8 @@ import co.com.expertla.training.service.user.UserZoneService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -307,15 +309,24 @@ public class ActivityController {
 
             if (percentage != null && percentage > 0) {
                 while (activity.contains("#")) {
+                    Pattern p = Pattern.compile("[^#]*#\\s*([0-9]+)");
+                    Matcher m = p.matcher(activity);
+                    String found = "";
+                    while (m.find()) {
+                        found = m.group(1);
+                    }
                     int indexIni = activity.indexOf("#") + 1;
-                    int indexFin = activity.indexOf(" ", indexIni);
-                    try {
-                        int time = Integer.parseInt(activity.substring(indexIni, indexFin));
-                        double timePercentage = (time * ((double) percentage / 100));
-                        int timeActivity = time - ((int) timePercentage);
-                        activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(indexFin);
-                    } catch (NumberFormatException n) {
-                        activity = activity.replaceAll("#", "");
+                    //int indexFin = activity.indexOf(" ", indexIni);
+                    if (!"".equals(found)) {
+                        try {
+                            int time = Integer.parseInt(found);
+                            double timePercentage = (time * ((double) percentage / 100));
+                            int timeActivity = time - ((int) timePercentage);
+                            activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(activity.lastIndexOf(found) + found.length());
+                            //activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(indexFin);
+                        } catch (NumberFormatException n) {
+                            activity = activity.replaceAll("#", "");
+                        }
                     }
 
                 }

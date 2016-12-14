@@ -26,6 +26,7 @@ import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.entities.UserTrainingOrder;
+import co.com.expertla.training.model.entities.VisibleFieldsUser;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.StartTeamService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
@@ -45,6 +46,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.com.expertla.training.service.user.UserService;
+import co.com.expertla.training.service.user.VisibleFieldsUserService;
 import co.com.expertla.training.web.controller.security.OptionController;
 import co.com.expertla.training.web.enums.StatusResponse;
 import com.google.gson.JsonObject;
@@ -135,6 +137,9 @@ public class UserController {
 
     @Autowired
     CoachExtAthleteService coachExtService;
+    
+    @Autowired
+    VisibleFieldsUserService visibleFieldsUserService;
 
     /**
      * Upload single file using Spring Controller
@@ -292,6 +297,14 @@ public class UserController {
             roleUser.setRoleId(role);
             roleUser.setUserId(user);
             roleUserService.create(roleUser);
+        }
+         //mostrar por defecto la foto de perfil
+        if (user != null) {
+            VisibleFieldsUser visibleDefault = new VisibleFieldsUser();
+            visibleDefault.setColumnName("profile_photo");
+            visibleDefault.setTableName("user_training");
+            visibleDefault.setUserId(userId);
+            visibleFieldsUserService.create(visibleDefault);
         }
 
         TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
@@ -1033,46 +1046,43 @@ public class UserController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         CommunicationDTO communication = new CommunicationDTO();
-      
+
         try {
-            if (planType.equals(PLAN_TYPE_IN)) {
-                  CoachAssignedPlanDTO assigned = coachService.findByAthleteUserId(userId, roleSelected);
-                communication.setAvailableMsg(planMessageService.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
-                communication.setReceivedMsg(planMessageService.getCountMessagesReceived(communicatePlanId, userId, toUserId, roleSelected));
-                communication.setEmergencyMsg(planMessageService.getCountMessagesEmergency(communicatePlanId, userId, roleSelected));
-                communication.setPlanMsg(assigned.getTrainingPlanId().getMessageCount());
-
-                communication.setAvailableAudio(planAudioService.getCountAudioByPlan(communicatePlanId, userId, roleSelected));
-                communication.setReceivedAudio(planAudioService.getCountAudiosReceived(communicatePlanId, toUserId, roleSelected));
-                communication.setEmergencyAudio(planAudioService.getCountAudioEmergencyByPlan(communicatePlanId, userId, roleSelected));
-                communication.setPlanAudio(assigned.getTrainingPlanId().getAudioCount());
-
-                communication.setAvailableMail(mailCommunicationService.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
-                communication.setReceivedMail(mailCommunicationService.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
-                communication.setEmergencyMail(mailCommunicationService.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
-                communication.setPlanMail(assigned.getTrainingPlanId().getEmailCount());
-
-                communication.setAvailableVideo(PlanVideoService.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
-                communication.setReceivedVideo(PlanVideoService.getCountVideosReceived(communicatePlanId, userId, toUserId, roleSelected));
-                communication.setEmergencyVideo(PlanVideoService.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
-                communication.setPlanVideo(assigned.getTrainingPlanId().getVideoCount());
-
-            } else if (planType.equals(PLAN_TYPE_EXT)) {
-                
-                 CoachExtAthleteDTO assigned = coachExtService.findByAthleteUserId(userId);
-                //communication.setAvailableMail(PlanVideoService.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
-
-            }
+            communication = userService.getCommunicationUser(planType, communicatePlanId, userId, toUserId, roleSelected);
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(communication);
-             return new ResponseEntity<>(responseService, HttpStatus.OK);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-             return new ResponseEntity<>(responseService, HttpStatus.OK);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+    
+    @RequestMapping(value = "get/notification/{communicatePlanId}/{athleteUserId}/{userId}/{planType}/{roleSelected}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> notificationRoleCommunication(@PathVariable("communicatePlanId") Integer communicatePlanId, @PathVariable("athleteUserId") Integer athleteUserId,
+            @PathVariable("userId") Integer userId, @PathVariable("planType") String planType, @PathVariable("roleSelected") Integer roleSelected) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        Boolean res = false;
+
+        try {
+            res = userService.notificationRoleCommunication(planType, communicatePlanId, userId, athleteUserId, roleSelected);
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(res);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }

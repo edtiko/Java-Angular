@@ -15,6 +15,12 @@ import co.com.expertla.training.model.entities.City;
 import java.util.Date;
 import java.util.stream.Collectors;
 import co.com.expertla.training.dao.configuration.FederalStateDao;
+import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
+import co.com.expertla.training.dao.plan.CoachExtAthleteDao;
+import co.com.expertla.training.dao.plan.MailCommunicationDao;
+import co.com.expertla.training.dao.plan.PlanAudioDao;
+import co.com.expertla.training.dao.plan.PlanMessageDao;
+import co.com.expertla.training.dao.plan.PlanVideoDao;
 import co.com.expertla.training.dao.security.RoleUserDao;
 import co.com.expertla.training.dao.user.DisciplineUserDao;
 import co.com.expertla.training.dao.user.UserDao;
@@ -33,6 +39,9 @@ import co.com.expertla.training.model.entities.VideoUser;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.dao.user.VideoUserDao;
 import co.com.expertla.training.dao.user.VisibleFieldsUserDao;
+import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
+import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
+import co.com.expertla.training.model.dto.CommunicationDTO;
 import co.com.expertla.training.model.dto.DisciplineDTO;
 import co.com.expertla.training.model.entities.VisibleFieldsUser;
 import java.io.DataInputStream;
@@ -48,6 +57,9 @@ import com.google.gson.JsonParser;
 public class UserServiceImpl implements UserService {
 
     public static final Short STATE_ACTIVE = 1;
+    private static final String PLAN_TYPE_IN = "IN";
+    private static final String PLAN_TYPE_EXT = "EXT";
+
 
     @Autowired
     private UserDao userDao;
@@ -75,6 +87,24 @@ public class UserServiceImpl implements UserService {
     
     @Autowired
     private VisibleFieldsUserDao visibleFieldsDao;
+
+    @Autowired
+    PlanMessageDao planMessageDao;
+
+    @Autowired
+    PlanAudioDao planAudioDao;
+
+    @Autowired
+    PlanVideoDao PlanVideoDao;
+
+    @Autowired
+    MailCommunicationDao mailCommunicationDao;
+
+    @Autowired
+    CoachAssignedPlanDao coachDao;
+
+    @Autowired
+    CoachExtAthleteDao coachExtDao;
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -418,5 +448,67 @@ public class UserServiceImpl implements UserService {
         }
         
         return null;
+    }
+
+    @Override
+    public CommunicationDTO getCommunicationUser(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception {
+        
+        CommunicationDTO communication = new CommunicationDTO();
+        if (planType.equals(PLAN_TYPE_IN)) {
+            CoachAssignedPlanDTO assigned = coachDao.findByAthleteUserId(userId, roleSelected);
+            communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
+            communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, userId, toUserId, roleSelected));
+            communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, userId, roleSelected));
+            communication.setPlanMsg(assigned.getTrainingPlanId().getMessageCount());
+
+            communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, userId, roleSelected));
+            communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, toUserId, roleSelected));
+            communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, userId, roleSelected));
+            communication.setPlanAudio(assigned.getTrainingPlanId().getAudioCount());
+
+            communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
+            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
+            communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
+            communication.setPlanMail(assigned.getTrainingPlanId().getEmailCount());
+
+            communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
+            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, userId, toUserId, roleSelected));
+            communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
+            communication.setPlanVideo(assigned.getTrainingPlanId().getVideoCount());
+
+        } else if (planType.equals(PLAN_TYPE_EXT)) {
+
+            CoachExtAthleteDTO assigned = coachExtDao.findByAthleteUserId(userId);
+            //communication.setAvailableMail(PlanVideoService.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
+
+        }
+
+        return communication;
+    }
+
+    @Override
+    public Boolean notificationRoleCommunication(String planType, Integer communicatePlanId, Integer userId, Integer athleteUserId, Integer roleSelected) throws Exception {
+        Boolean communication = false;
+        if (planType.equals(PLAN_TYPE_IN)) {
+
+            if (planMessageDao.getCountMessagesReceived(communicatePlanId, athleteUserId, userId, roleSelected) > 0) {
+                return true;
+            }
+
+            if (planAudioDao.getCountAudiosReceived(communicatePlanId, athleteUserId, roleSelected) > 0) {
+                return true;
+            }
+
+            if (mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, athleteUserId, roleSelected) > 0) {
+                return true;
+            }
+
+            if (PlanVideoDao.getCountVideosReceived(communicatePlanId, athleteUserId, userId, roleSelected) > 0) {
+                return true;
+            }
+
+        }
+
+        return communication;
     }
 }

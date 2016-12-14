@@ -1,6 +1,7 @@
 package co.com.expertla.training.service.user;
 
 import co.com.expertla.training.model.dto.CityDTO;
+import co.com.expertla.training.model.dto.CommunicationDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
@@ -129,5 +130,9 @@ public interface UserService {
      * @throws Exception 
      */
     public User getStarFromAtlethe(Integer userId)throws  Exception;
+
+    public CommunicationDTO getCommunicationUser(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected)throws  Exception;
+
+    public Boolean notificationRoleCommunication(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected)throws  Exception;
    
 }

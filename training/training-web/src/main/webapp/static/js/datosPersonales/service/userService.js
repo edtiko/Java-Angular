@@ -284,5 +284,17 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
+            notificationRole: function (communicationPlanId, athleteUserId, userId, planType, roleSelected) {
+                return $http.get($contextPath + 'get/notification/'+communicationPlanId+'/'+athleteUserId+'/'+userId+'/'+planType+'/'+roleSelected)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching notification');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            }
         };
     }]);

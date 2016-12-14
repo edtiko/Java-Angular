@@ -56,7 +56,7 @@ public class CoachAssignedPlanController {
 
     @Autowired
     PlanMessageService planMessageService;
-
+   
     @RequestMapping(value = "get/athtletes/{coachUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedAthletes(@PathVariable("coachUserId") Integer coachUserId) {
@@ -87,7 +87,7 @@ public class CoachAssignedPlanController {
                 }
             }
 
-            for (CoachAssignedPlanDTO athlete : athletes) {
+            for (CoachAssignedPlanDTO athlete : athletes) {                
                 int countFirstColour = 0;
                 int countSecondColour = 0;
                 int countThirdColour = 0;

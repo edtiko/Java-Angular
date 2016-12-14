@@ -5,9 +5,7 @@
  */
 package co.com.expertla.training.model.dto;
 
-import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.ConfigurationPlan;
-import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.model.entities.User;
 import java.util.Date;
 
