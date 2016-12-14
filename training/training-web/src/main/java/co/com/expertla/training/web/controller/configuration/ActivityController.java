@@ -372,15 +372,23 @@ public class ActivityController {
 
             if (percentage != null && percentage > 0) {
                 while (activity.contains("#")) {
+                    Pattern p = Pattern.compile("[^#]*#\\s*([0-9]+)");
+                    Matcher m = p.matcher(activity);
+                    String found = "";
+                    while (m.find()) {
+                        found = m.group(1);
+                    }
                     int indexIni = activity.indexOf("#") + 1;
-                    int indexFin = activity.indexOf(" ", indexIni);
-                    try {
-                        int time = Integer.parseInt(activity.substring(indexIni, indexFin));
-                        double timePercentage = (time * ((double) percentage / 100));
-                        int timeActivity = time - ((int) timePercentage);
-                        activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(indexFin);
-                    } catch (NumberFormatException n) {
-                        activity = activity.replaceAll("#", "");
+                    if (!"".equals(found)) {
+                        try {
+                            int time = Integer.parseInt(found);
+                            double timePercentage = (time * ((double) percentage / 100));
+                            int timeActivity = time - ((int) timePercentage);
+                            activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(activity.lastIndexOf(found) + found.length());
+                            //activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(indexFin);
+                        } catch (NumberFormatException n) {
+                            activity = activity.replaceAll("#", "");
+                        }
                     }
 
                 }
