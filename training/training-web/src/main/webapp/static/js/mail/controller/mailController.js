@@ -120,6 +120,13 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
             MailService.getMailsByPlan(tipoPlan, userId, planId, roleSelected).then(
                     function (data) {
                         $scope.mailsSent = data.entity.output;
+                        if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                            $scope.mailsSent.forEach(function (value, index) {
+                                if (value.receivingUser.userId != $scope.userSession.userId) {
+                                    value.receivingUser = $scope.planSelected.starUserId;
+                                }
+                            });
+                        }
                     },
                     function (error) {
                         //$scope.showMessage(error);

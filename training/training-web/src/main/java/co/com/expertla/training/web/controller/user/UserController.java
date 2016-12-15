@@ -926,6 +926,32 @@ public class UserController {
                                 }
 
                             }
+                        }else if(jo.get("membershipId") != null && !jo.get("membershipId").getAsString().trim().isEmpty()){
+                               userDto.setIndLoginFirstTime(1);
+                            userService.updateUser(userDto);
+                            Integer starTeamId = 21; //Supervisor por defecto //TODO
+                            CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
+                            coachAssignedPlan.setCreationDate(new Date());
+                            coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
+                            coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
+                            coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                            coachAssignedPlanService.create(coachAssignedPlan);
+                            List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
+
+                            if (starTeamList != null && !starTeamList.isEmpty()) {
+                                StarTeam starTeam = starTeamList.get(0);
+                                Integer coachUserId = starTeam.getCoachUserId().getUserId();
+                                DisciplineUser disciplineUserCoach = disciplineUserService.findByUserId(coachUserId);
+                                DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
+
+                                if (disciplineUser != null && disciplineUserCoach != null) {
+                                    if (!disciplineUser.getDisciplineUserId().equals(disciplineUserCoach.getDisciplineUserId())) {
+                                        disciplineUser.setDiscipline(disciplineUserCoach.getDiscipline());
+                                        disciplineUserService.store(disciplineUser);
+                                    }
+                                }
+
+                            }
                         }
 
                         userTrainingOrder.setStatus("integrated");

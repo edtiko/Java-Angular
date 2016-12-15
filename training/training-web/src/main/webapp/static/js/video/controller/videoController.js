@@ -158,7 +158,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                         $scope.isSendToAtlethe= false;
                                         $scope.isVisibleToRefuseAtlethe = false;
                                     }else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno && d.typeUser === $scope.userSessionTypeUserCoachEstrella) {
-                                        $scope.showGuion = false;
+                                        $scope.showGuion = true;
                                         $scope.isVisibleSendVideo = false;
                                         $scope.isVisibleDeleteVideo = false;
                                         $scope.isVisibleToRefuseAtlethe = true;
@@ -171,7 +171,15 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                         $scope.isVisibleToRefuseAtlethe = true;
                                         $scope.isSendToStar = true;
                                         $scope.isSendToAtlethe = false;
-                                    }else if($scope.userSession.typeUser == $scope.userSessionTypeUserCoach){
+                                    }else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
+                                        $scope.showGuion = true;
+                                        $scope.isVisibleSendVideo = true;
+                                        $scope.isVisibleDeleteVideo = true;
+                                        $scope.isVisibleToRefuseAtlethe = false;
+                                        $scope.isSendToStar = false;
+                                        $scope.isSendToAtlethe = false;
+                                    }
+                                    else if($scope.userSession.typeUser == $scope.userSessionTypeUserCoach){
                                         $scope.showGuion = false;
                                         $scope.isVisibleSendVideo = true;
                                         $scope.isVisibleDeleteVideo = false;

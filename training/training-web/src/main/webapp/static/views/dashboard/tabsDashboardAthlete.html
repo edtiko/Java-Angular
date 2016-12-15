@@ -7,7 +7,7 @@
         </div>
     </md-toolbar>
     <md-content>
-        <md-list-item class="md-2-line"  ng-click="getAssignedCoach(userSessionTypeUserCoachEstrella)" ng-class="{selectedIndex: selectedIndex === userSessionTypeUserCoachEstrella}">
+        <md-list-item ng-if="planSelected.starUserId != null" class="md-2-line"  ng-click="getAssignedCoach(userSessionTypeUserCoachEstrella)" ng-class="{selectedIndex: selectedIndex === userSessionTypeUserCoachEstrella}">
             <img data-ng-src="{{planSelected.starUserId.profilePhotoBase64}}"  class="md-avatar" style=" border: 1px solid #e1e1e1;">
             <div class="md-list-item-text">
                 <h4>{{planSelected.starUserId.fullName}}</h4>
