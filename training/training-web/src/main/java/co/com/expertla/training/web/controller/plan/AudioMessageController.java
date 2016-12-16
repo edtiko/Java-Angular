@@ -135,6 +135,7 @@ public class AudioMessageController {
                     }
                     dto = planAudioService.create(audio);
                     dto.setFromUser(userService.findById(fromUserId));
+                    dto.setRoleSelected(roleSelected);
                  simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
                 }
                 

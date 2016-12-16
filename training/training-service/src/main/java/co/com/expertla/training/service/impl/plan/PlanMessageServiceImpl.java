@@ -77,7 +77,7 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         planMessage.setCreationDate(new Date());
         planMessage.setReaded(Boolean.FALSE);
         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
-
+        dto.setRoleSelected(message.getRoleSelected());
         return dto;
     }
 

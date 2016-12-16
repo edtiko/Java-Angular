@@ -152,6 +152,7 @@ public class PlanVideoController {
                     }
                     dto = planVideoService.create(video);
                     dto.setFromUser(userService.findById(fromUserId));
+                    dto.setRoleSelected(roleSelected);
                     simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
                 }
                 //strResponse.append("video cargado correctamente.");

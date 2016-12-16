@@ -30,6 +30,7 @@ public class PlanVideoDTO {
     private Double hours;
     private Integer indRejected;
     private Boolean toStar;
+    private Integer roleSelected;
     
     public PlanVideoDTO(){
         
@@ -204,6 +205,14 @@ public class PlanVideoDTO {
 
     public void setToStar(Boolean toStar) {
         this.toStar = toStar;
+    }
+
+    public Integer getRoleSelected() {
+        return roleSelected;
+    }
+
+    public void setRoleSelected(Integer roleSelected) {
+        this.roleSelected = roleSelected;
     }
 
       

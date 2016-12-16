@@ -499,7 +499,7 @@ public class UserServiceImpl implements UserService {
                 return true;
             }
 
-            if (mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, athleteUserId, roleSelected) > 0) {
+            if (mailCommunicationDao.getCountMailsReceived(communicatePlanId, athleteUserId, userId, roleSelected) > 0) {
                 return true;
             }
 
