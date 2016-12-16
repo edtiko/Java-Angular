@@ -97,6 +97,8 @@ public interface StartTeamService {
      */
     public List<StarTeam> findByFiltro(StarTeam startTeam) throws Exception; 
 
+    public StarTeam findBySupervisor(Integer supervisorUserId) throws Exception; 
+
 
 
     

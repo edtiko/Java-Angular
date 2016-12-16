@@ -893,6 +893,7 @@ create table plan_type (
 create table training_plan (
    training_plan_id     serial               not null,
    plan_type_id         integer              not null,
+   coach_user_id        integer              null,
    name                 varchar(500)         not null,
    description          varchar(5000)        null,
    duration             decimal(10,2)        null,

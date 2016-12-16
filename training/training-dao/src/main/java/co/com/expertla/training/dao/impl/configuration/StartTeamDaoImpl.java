@@ -104,4 +104,14 @@ public class StartTeamDaoImpl extends BaseDAOImpl<StarTeam> implements StartTeam
         return createQuery(builder.toString());
     }
 
+    @Override
+    public StarTeam findBySupervisor(Integer supervisorUserId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append(" SELECT a from StarTeam a ");
+        builder.append(" WHERE coachUserId.userId =  ").append(supervisorUserId);
+        builder.append(" AND a.starUserId is null ");
+
+        return createQuery(builder.toString()) != null ? createQuery(builder.toString()).get(0) : null;
+    }
+
 }

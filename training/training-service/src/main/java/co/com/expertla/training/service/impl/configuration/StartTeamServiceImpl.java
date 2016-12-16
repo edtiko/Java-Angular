@@ -62,4 +62,9 @@ public class StartTeamServiceImpl implements StartTeamService {
         return startTeamDao.findByFiltro(startTeam);
     }
 
+    @Override
+    public StarTeam findBySupervisor(Integer supervisorUserId) throws Exception {
+          return startTeamDao.findBySupervisor(supervisorUserId);
+    }
+
 }

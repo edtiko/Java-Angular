@@ -29,6 +29,7 @@ import co.com.expertla.training.model.entities.UserTrainingOrder;
 import co.com.expertla.training.model.entities.VisibleFieldsUser;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.StartTeamService;
+import co.com.expertla.training.service.configuration.TrainingPlanService;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import co.com.expertla.training.service.plan.CoachExtAthleteService;
 import co.com.expertla.training.service.plan.MailCommunicationService;
@@ -101,6 +102,9 @@ public class UserController {
 
     @Autowired
     TrainingPlanUserService trainingPlanUserService;
+    
+    @Autowired
+    TrainingPlanService trainingPlanService;
 
     @Autowired
     CountryService countryService;
@@ -883,6 +887,7 @@ public class UserController {
                     if (jo.get("planId") != null && !jo.get("planId").isJsonNull()
                             && !jo.get("planId").getAsString().trim().isEmpty()) {
                         Integer trainingPlanId = jo.get("planId").getAsInt();
+                        List<TrainingPlan> trainingPlan =  trainingPlanService.findByTrainingPlan(new TrainingPlan(trainingPlanId));
 
                         List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
 
@@ -926,20 +931,26 @@ public class UserController {
                                 }
 
                             }
-                        }else if(jo.get("membershipId") != null && !jo.get("membershipId").getAsString().trim().isEmpty()){
-                               userDto.setIndLoginFirstTime(1);
+                        } else if (jo.get("membershipId") != null && !jo.get("membershipId").getAsString().trim().isEmpty()) {
+                            userDto.setIndLoginFirstTime(1);
                             userService.updateUser(userDto);
-                            Integer starTeamId = 21; //Supervisor por defecto //TODO
-                            CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
-                            coachAssignedPlan.setCreationDate(new Date());
-                            coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
-                            coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
-                            coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
-                            coachAssignedPlanService.create(coachAssignedPlan);
-                            List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
+                            StarTeam starTeam = startTeamService.findBySupervisor(trainingPlan.get(0).getSupervisorUserId()); //21
 
-                            if (starTeamList != null && !starTeamList.isEmpty()) {
-                                StarTeam starTeam = starTeamList.get(0);
+                            if (starTeam != null) {
+                                CoachAssignedPlan coachAssignedPlan = new CoachAssignedPlan();
+                                coachAssignedPlan.setCreationDate(new Date());
+                                coachAssignedPlan.setStarTeamId(starTeam);
+                                coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
+                                coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                                coachAssignedPlanService.create(coachAssignedPlan);
+                            } else {
+                                userTrainingOrder.setStatus("error membership");
+                                userTrainingOrderService.store(userTrainingOrder);
+                            }
+                            //List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
+
+                            /*if (starTeam != null) {
+                                //StarTeam starTeam = starTeamList.get(0);
                                 Integer coachUserId = starTeam.getCoachUserId().getUserId();
                                 DisciplineUser disciplineUserCoach = disciplineUserService.findByUserId(coachUserId);
                                 DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
@@ -951,7 +962,7 @@ public class UserController {
                                     }
                                 }
 
-                            }
+                            }*/
                         }
 
                         userTrainingOrder.setStatus("integrated");

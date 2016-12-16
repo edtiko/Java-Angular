@@ -74,6 +74,8 @@ public class TrainingPlan implements Serializable {
     private Integer userUpdate;
     @Column(name = "price")
     private Double price;
+    @Column(name = "supervisor_user_id")
+    private Integer supervisorUserId;
 /*    @JoinColumn(name = "plan_type_id", referencedColumnName = "plan_type_id")
     @ManyToOne
     private PlanType planTypeId;*/
@@ -203,8 +205,15 @@ public class TrainingPlan implements Serializable {
     public void setTypePlan(String typePlan) {
         this.typePlan = typePlan;
     }
-    
 
+    public Integer getSupervisorUserId() {
+        return supervisorUserId;
+    }
+
+    public void setSupervisorUserId(Integer supervisorUserId) {
+        this.supervisorUserId = supervisorUserId;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

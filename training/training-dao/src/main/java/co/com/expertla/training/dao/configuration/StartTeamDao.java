@@ -69,4 +69,6 @@ public interface StartTeamDao extends BaseDAO<StarTeam> {
      */
     public List<StarTeam> findByFiltro(StarTeam startTeam) throws Exception; 
 
+    public StarTeam findBySupervisor(Integer supervisorUserId)throws Exception; 
+
 }
