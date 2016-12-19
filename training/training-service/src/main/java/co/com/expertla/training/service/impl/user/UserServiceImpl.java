@@ -511,4 +511,9 @@ public class UserServiceImpl implements UserService {
 
         return communication;
     }
+
+    @Override
+    public Boolean notificationInternal(Integer userSessionId) throws Exception {
+        return (userDao.getCountNotification(userSessionId) > 0);
+    }
 }

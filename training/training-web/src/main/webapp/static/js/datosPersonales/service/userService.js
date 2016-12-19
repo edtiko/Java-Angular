@@ -295,6 +295,19 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            notificationInternal: function (userSessionId) {
+                return $http.get($contextPath + 'get/notification/internal/'+userSessionId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching notification');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
+            
         };
     }]);

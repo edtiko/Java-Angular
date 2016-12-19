@@ -8,9 +8,11 @@ import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.ColourIndicator;
 import co.com.expertla.training.model.entities.MailCommunication;
+import co.com.expertla.training.model.entities.RoleUser;
 import co.com.expertla.training.model.util.ResponseService;
 import co.com.expertla.training.service.configuration.ColourIndicatorService;
 import co.com.expertla.training.service.plan.MailCommunicationService;
+import co.com.expertla.training.service.security.RoleUserService;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.web.enums.StatusResponse;
 import java.util.ArrayList;
@@ -50,6 +52,9 @@ public class MailController {
     
     @Autowired
     UserService userService;
+    
+    @Autowired
+    RoleUserService roleUserService;
     /**
      * Consulta los mail por destinatario <br>
      * Info. Creacion: <br>
@@ -252,7 +257,11 @@ public class MailController {
                      responseService.setOutput("Mensaje enviado correctamente."); 
                 }
             
-            mailCommunicationService.create(mailCommunication);    
+            mailCommunicationService.create(mailCommunication);  
+            if (mailCommunication.getSendingUser() != null) {
+                RoleUser roleUserMsg = roleUserService.findByUserId(mailCommunication.getSendingUser().getUserId());
+                mailCommunication.getSendingUser().setRoleId(roleUserMsg.getRoleId().getRoleId());
+            }
             simpMessagingTemplate.convertAndSend("/queue/mail/" + sessionId, mailCommunication);
             //responseService.setOutput(MessageUtil.getMessageFromBundle("co.com.expertla.training.i18n.trainingPlan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());

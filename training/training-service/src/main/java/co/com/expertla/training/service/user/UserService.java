@@ -134,5 +134,7 @@ public interface UserService {
     public CommunicationDTO getCommunicationUser(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected)throws  Exception;
 
     public Boolean notificationRoleCommunication(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected)throws  Exception;
+
+    public Boolean notificationInternal(Integer userSessionId) throws  Exception;
    
 }

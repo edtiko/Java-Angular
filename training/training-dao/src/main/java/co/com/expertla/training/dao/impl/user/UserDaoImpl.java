@@ -211,4 +211,49 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         List<User> query = createQuery(string.toString());
         return query;
     }
+    
+    @Override
+    public Integer getCountNotification(Integer userId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" select sum(count) as notification from( ");
+        sql.append(" select count(plan_message_id) count");
+        sql.append(" from   plan_message ");
+        sql.append(" where receiving_user_id = ").append(userId);
+        sql.append(" and readed = false ");
+        sql.append(" and coach_assigned_plan_id is null ");
+        sql.append(" and coach_ext_athlete_id is null ");
+
+        sql.append(" union ");
+
+        sql.append(" select count(mail_communication_id) count");
+        sql.append(" from   mail_communication");
+        sql.append(" where receiving_user = ").append(userId);
+        sql.append(" and read = false");
+         sql.append(" and coach_assigned_plan_id is null ");
+        sql.append(" and coach_ext_athlete_id is null ");
+
+        sql.append(" union ");
+
+        sql.append(" select count(plan_audio_id) count");
+        sql.append(" from plan_audio ");
+        sql.append(" where to_user_id = ").append(userId);
+        sql.append(" and readed = false");
+         sql.append(" and coach_assigned_plan_id is null ");
+        sql.append(" and coach_ext_athlete_id is null ");
+
+        sql.append(" union");
+
+        sql.append(" select count(plan_video_id) count");
+        sql.append(" from plan_video ");
+        sql.append(" where to_user_id = ").append(userId);
+        sql.append(" and readed = false ");
+        sql.append(" and coach_assigned_plan_id is null ");
+        sql.append(" and coach_ext_athlete_id is null ) n");
+        
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.get(0).intValue();
+    }
 }

@@ -2,6 +2,7 @@ package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.plan.CoachAssignedPlanDao;
 import co.com.expertla.training.dao.plan.PlanMessageDao;
+import co.com.expertla.training.dao.security.RoleUserDao;
 import co.com.expertla.training.dao.user.UserDao;
 import co.com.expertla.training.enums.RoleEnum;
 import co.com.expertla.training.enums.Status;
@@ -12,6 +13,7 @@ import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.CoachExtAthlete;
 import co.com.expertla.training.model.entities.PlanMessage;
+import co.com.expertla.training.model.entities.RoleUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.plan.MailCommunicationService;
 import co.com.expertla.training.service.plan.PlanMessageService;
@@ -36,6 +38,9 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     
     @Autowired
     UserDao userDao;
+    
+    @Autowired
+    RoleUserDao roleUserDao;
     
     @Autowired
     CoachAssignedPlanDao coachAssignedPlanDao;
@@ -78,6 +83,10 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         planMessage.setReaded(Boolean.FALSE);
         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.create(planMessage));
         dto.setRoleSelected(message.getRoleSelected());
+        if (dto.getMessageUserId() != null) {
+            RoleUser roleUserMsg = roleUserDao.findByUserId(dto.getMessageUserId().getUserId());
+            dto.getMessageUserId().setRoleId(roleUserMsg.getRoleId().getRoleId());
+        }
         return dto;
     }
 

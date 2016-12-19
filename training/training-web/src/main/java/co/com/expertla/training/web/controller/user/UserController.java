@@ -1123,4 +1123,27 @@ public class UserController {
         }
 
     }
+    
+    @RequestMapping(value = "get/notification/internal/{userSessionId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> notificationInternal(@PathVariable("userSessionId") Integer userSessionId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        Boolean res = false;
+
+        try {
+            res = userService.notificationInternal(userSessionId);
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(res);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
 }

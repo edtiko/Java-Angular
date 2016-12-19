@@ -44,10 +44,9 @@ public class MessageWsPoint {
 
     @OnMessage
     public void onMessage(final Session session, final PlanMessageDTO message) {
-
+        PlanMessageDTO msg = null;
         System.out.println("Received : " + message);
-        if (message != null && message.isMobile()) {
-            PlanMessageDTO msg = null;
+        if (message != null && message.isMobile()) {      
             try {
                 msg = messageService.saveMessage(message);
             } catch (Exception e) {
@@ -56,8 +55,9 @@ public class MessageWsPoint {
             }
             simpMessagingTemplate.convertAndSend("/queue/message/" + session.getUserProperties().get("sessionId"), msg);
         }
+        final PlanMessageDTO object = msg;
 
-        sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(message));
+        sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(object));
 
     }
 
