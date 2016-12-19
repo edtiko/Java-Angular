@@ -41,6 +41,7 @@ import co.com.expertla.training.service.plan.UserTrainingOrderService;
 import co.com.expertla.training.service.security.RoleUserService;
 import co.com.expertla.training.service.user.DisciplineUserService;
 import co.com.expertla.training.service.user.StravaService;
+import co.com.expertla.training.service.user.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -92,7 +93,7 @@ public class UserController {
     private static final String PLAN_TYPE_EXT = "EXT";
 
     @Autowired
-    UserService userService;  //Service which will do all data retrieval/manipulation work
+    UserService userService; 
 
     @Autowired
     DisciplineUserService disciplineUserService;
@@ -144,6 +145,9 @@ public class UserController {
     
     @Autowired
     VisibleFieldsUserService visibleFieldsUserService;
+    
+    @Autowired
+    UserProfileService userProfileService;
 
     /**
      * Upload single file using Spring Controller
@@ -725,6 +729,8 @@ public class UserController {
                     userSession.setCommunicationPlanId(coachExtAthleteDTO.getId());
 
                 }
+                //obtiene los datos de perfil ó datos deportivos del usuario
+                userSession.setUserProfile(userProfileService.findDTOByUserId(userDto.getUserId()));
             }
 
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));

@@ -28,7 +28,7 @@
                         <div class="fusion-alignright">
                             <div class="fusion-secondary-menu">
                                 <ul id="menu-top-menu" class="menu">
-                                    <li id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-18">
+                                    <li ng-if="planSelected.external && userSession.typeUser == userSessionTypeUserAtleta" id="menu-item-18" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-18">
                                         <a href="javascript:void(0)" style="text-decoration: none !important" ng-click="viewInvitationDialog()">
                                             <i ng-show="invitation==null" class="fa fa-bell fa-lg" aria-hidden="true"></i>
                                             <span class="menu-text" style="color: red" ng-show="invitation!=null">

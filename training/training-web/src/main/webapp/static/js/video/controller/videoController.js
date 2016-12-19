@@ -15,7 +15,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.counterRecordInitial = 0;
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
         $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
-
+        $scope.isRecordable = true;
         $scope.selectedIndex = 0;
 
         //Obtiene los videos recibidos 
@@ -366,6 +366,9 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
                     $scope.showCounter = true;
                     $scope.counterRecord = $scope.counterRecordInitial;
+                }
+                else if($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella){
+                    $scope.isRecordable = false;
                 }
             } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
                 $scope.toUserId = $scope.planSelected.coachUserId.userId;

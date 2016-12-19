@@ -464,6 +464,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
             var tipoPlan = "IN";
             $scope.roleSelected = roleSelected;
+            if(roleSelected == $scope.userSessionTypeUserCoachEstrella){
+                $scope.showCountVideo = false;
+            }else{
+                 $scope.showCountVideo = true; 
+            }
             if ($scope.planSelected != null) {
                 $scope.pageSelected = $scope.views.profile.page;
                 //mensajes 

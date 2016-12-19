@@ -59,7 +59,7 @@ public class UserMovilDTO {
     private Integer trainingPlanUserId;
     private UserBasicMovilDTO starUser;
     private UserBasicMovilDTO coachUser;
-    //private Integer coachAssignedPlanId;
+    private UserProfileDTO userProfile;
     private String planType;
     private Integer communicationPlanId;
 
@@ -428,6 +428,14 @@ public class UserMovilDTO {
 
     public void setCommunicationPlanId(Integer communicationPlanId) {
         this.communicationPlanId = communicationPlanId;
+    }
+
+    public UserProfileDTO getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfileDTO userProfile) {
+        this.userProfile = userProfile;
     }
     
 
