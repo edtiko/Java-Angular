@@ -230,9 +230,9 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         sql.append(" where receiving_user = ").append(userId);
         sql.append(" and read = false");
          sql.append(" and coach_assigned_plan_id is null ");
-        sql.append(" and coach_ext_athlete_id is null ");
+        sql.append(" and coach_ext_athlete_id is null ) n ");
 
-        sql.append(" union ");
+       /* sql.append(" union ");
 
         sql.append(" select count(plan_audio_id) count");
         sql.append(" from plan_audio ");
@@ -248,7 +248,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         sql.append(" where to_user_id = ").append(userId);
         sql.append(" and readed = false ");
         sql.append(" and coach_assigned_plan_id is null ");
-        sql.append(" and coach_ext_athlete_id is null ) n");
+        sql.append(" and coach_ext_athlete_id is null ) n");*/
         
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
