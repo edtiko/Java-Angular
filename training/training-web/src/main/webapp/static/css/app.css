@@ -190,3 +190,11 @@ md-tooltip.tt-multiline ._md-content {
     min-height: 20px;
     height: 35px;
 }
+
+.md-dialog-container {
+  position: absolute;
+}
+
+md-dialog {
+ top: 450px;
+}
