@@ -190,4 +190,21 @@ public class PhysiologicalCapacityController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    @RequestMapping(value = "/physiologicalCapacity/get/available", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listAvailable() {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<PhysiologicalCapacity> physiologicalCapacityList = physiologicalCapacityService.findAllAvailable();
+            responseService.setOutput(physiologicalCapacityList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(PhysiologicalCapacityController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 }

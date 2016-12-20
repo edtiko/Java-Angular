@@ -1034,6 +1034,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 }
 
             });
+            $("#trainingApp").removeClass("preloader");
         };
 
 

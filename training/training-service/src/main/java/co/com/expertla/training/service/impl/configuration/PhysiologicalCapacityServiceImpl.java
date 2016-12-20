@@ -62,4 +62,9 @@ public class PhysiologicalCapacityServiceImpl implements PhysiologicalCapacitySe
         return physiologicalCapacityDao.findByFiltro(physiologicalCapacity);
     }
 
+    @Override
+    public List<PhysiologicalCapacity> findAllAvailable() throws Exception {
+        return physiologicalCapacityDao.findAllAvailable();
+    }
+
 }

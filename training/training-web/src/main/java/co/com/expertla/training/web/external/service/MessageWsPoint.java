@@ -2,6 +2,7 @@ package co.com.expertla.training.web.external.service;
 
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.service.plan.PlanMessageService;
+import com.google.gson.JsonObject;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -55,8 +56,14 @@ public class MessageWsPoint {
             }
             simpMessagingTemplate.convertAndSend("/queue/message/" + session.getUserProperties().get("sessionId"), msg);
         }
-        final PlanMessageDTO object = msg;
-
+        //final PlanMessageDTO object = msg;
+        JsonObject object = new JsonObject();
+        object.addProperty("id", msg.getId());
+        object.addProperty("message", msg.getMessage());
+        object.addProperty("creationDate", msg.getCreationDate().toString());
+        object.addProperty("messageUserId", msg.getMessageUserId().getUserId());
+        object.addProperty("messageUserName", msg.getMessageUserId().getFullName());
+                
         sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(object));
 
     }

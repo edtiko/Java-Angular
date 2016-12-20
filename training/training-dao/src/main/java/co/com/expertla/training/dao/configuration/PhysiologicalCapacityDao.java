@@ -69,4 +69,6 @@ public interface PhysiologicalCapacityDao extends BaseDAO<PhysiologicalCapacity>
      */
     public List<PhysiologicalCapacity> findByFiltro(PhysiologicalCapacity physiologicalCapacity) throws Exception; 
 
+    public List<PhysiologicalCapacity> findAllAvailable() throws Exception; 
+
 }

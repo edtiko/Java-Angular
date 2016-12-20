@@ -5,6 +5,9 @@ import co.com.expertla.training.model.dto.CommunicationDTO;
 import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
+import co.com.expertla.training.model.entities.City;
+import co.com.expertla.training.model.entities.Country;
+import co.com.expertla.training.model.entities.FederalState;
 import co.com.expertla.training.model.entities.User;
 import java.io.IOException;
 import java.util.List;
@@ -136,5 +139,11 @@ public interface UserService {
     public Boolean notificationRoleCommunication(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected)throws  Exception;
 
     public Boolean notificationInternal(Integer userSessionId) throws  Exception;
+    
+    public City getCityById(Integer cityId) throws Exception;
+    
+    public Country getCountryById(Integer countryId) throws Exception; 
+    
+    public FederalState getFederalStateById(Integer federalStateId) throws Exception; 
    
 }

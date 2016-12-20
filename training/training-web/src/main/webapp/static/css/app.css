@@ -198,3 +198,9 @@ md-tooltip.tt-multiline ._md-content {
 md-dialog {
  top: 100px;
 }
+
+
+.preloader {
+    padding: 50px;
+    background: url('../../static/img/preloader.gif') no-repeat 50% 50% transparent;
+}

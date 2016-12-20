@@ -101,4 +101,16 @@ public class PhysiologicalCapacityDaoImpl extends BaseDAOImpl<PhysiologicalCapac
         return createQuery(builder.toString());
     }
 
+    @Override
+    public List<PhysiologicalCapacity> findAllAvailable() throws Exception {
+           StringBuilder builder = new StringBuilder();
+        builder.append(" SELECT c FROM PhysiologicalCapacity c, Activity a ");
+        builder.append(" WHERE a.physiologicalCapacityId.physiologicalCapacityId  = c.physiologicalCapacityId ");
+        builder.append(" AND a.stateId = :active ");
+        builder.append(" AND c.stateId = :active ");
+        setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
+        
+        return createQuery(builder.toString());
+    }
+
 }

@@ -23,7 +23,6 @@ public class UserMovilDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String sex;
-    private Float weight;
     private String phone;
     private String cellphone;
     private String address;
@@ -36,30 +35,22 @@ public class UserMovilDTO {
     @JsonSerialize(using = JsonDateSerializer.class)
     private Date creationDate;
     private Integer cityId;
+    private String cityName;
     private Short stateId;
     private Integer federalStateId;
+    private String federalStateName;
     private Integer countryId;
+    private String countryName;
     private Integer disciplineId;
     private String disciplineName;
     private String typeUser;
     private Integer roleId;
-    private String aboutMe;
-    private String urlVideo;
     private String fullName;
-    @JsonSerialize(using = JsonDateSerializer.class)
-    private Date lastUpdate;
-    private Integer userCreate;
-    private Integer userUpdate;
-    private String userCreateName;
-    private String userUpdateName;
-    private Integer disciplineIdExt;
-    private Integer userWordpressId;
-    private Integer indLoginFirstTime;
     private Integer planActiveId;
     private Integer trainingPlanUserId;
     private UserBasicMovilDTO starUser;
     private UserBasicMovilDTO coachUser;
-    private UserProfileDTO userProfile;
+    private UserProfileMovilDTO userProfile;
     private String planType;
     private Integer communicationPlanId;
 
@@ -176,14 +167,6 @@ public class UserMovilDTO {
 
     public void setSex(String sex) {
         this.sex = sex;
-    }
-
-    public Float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Float weight) {
-        this.weight = weight;
     }
 
     public String getPhone() {
@@ -306,21 +289,6 @@ public class UserMovilDTO {
         this.roleId = roleId;
     }
 
-    public String getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
-
-    public String getUrlVideo() {
-        return urlVideo;
-    }
-
-    public void setUrlVideo(String urlVideo) {
-        this.urlVideo = urlVideo;
-    }
 
     public String getFullName() {
         if(this.secondName != null) {
@@ -334,69 +302,6 @@ public class UserMovilDTO {
 
     }
 
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public Integer getUserCreate() {
-        return userCreate;
-    }
-
-    public void setUserCreate(Integer userCreate) {
-        this.userCreate = userCreate;
-    }
-
-    public Integer getUserUpdate() {
-        return userUpdate;
-    }
-
-    public void setUserUpdate(Integer userUpdate) {
-        this.userUpdate = userUpdate;
-    }
-
-    public String getUserCreateName() {
-        return userCreateName;
-    }
-
-    public void setUserCreateName(String userCreateName) {
-        this.userCreateName = userCreateName;
-    }
-
-    public String getUserUpdateName() {
-        return userUpdateName;
-    }
-
-    public void setUserUpdateName(String userUpdateName) {
-        this.userUpdateName = userUpdateName;
-    }
-
-    public Integer getDisciplineIdExt() {
-        return disciplineIdExt;
-    }
-
-    public void setDisciplineIdExt(Integer disciplineIdExt) {
-        this.disciplineIdExt = disciplineIdExt;
-    }
-
-    public Integer getUserWordpressId() {
-        return userWordpressId;
-    }
-
-    public void setUserWordpressId(Integer userWordpressId) {
-        this.userWordpressId = userWordpressId;
-    }
-
-    public Integer getIndLoginFirstTime() {
-        return indLoginFirstTime;
-    }
-
-    public void setIndLoginFirstTime(Integer indLoginFirstTime) {
-        this.indLoginFirstTime = indLoginFirstTime;
-    }
 
     public Integer getTrainingPlanUserId() {
         return trainingPlanUserId;
@@ -430,12 +335,36 @@ public class UserMovilDTO {
         this.communicationPlanId = communicationPlanId;
     }
 
-    public UserProfileDTO getUserProfile() {
+    public UserProfileMovilDTO getUserProfile() {
         return userProfile;
     }
 
-    public void setUserProfile(UserProfileDTO userProfile) {
+    public void setUserProfile(UserProfileMovilDTO userProfile) {
         this.userProfile = userProfile;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getFederalStateName() {
+        return federalStateName;
+    }
+
+    public void setFederalStateName(String federalStateName) {
+        this.federalStateName = federalStateName;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
     
 

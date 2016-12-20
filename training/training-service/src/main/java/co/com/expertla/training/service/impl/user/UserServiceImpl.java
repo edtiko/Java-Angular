@@ -2,6 +2,7 @@ package co.com.expertla.training.service.impl.user;
 
 import co.com.expertla.training.constant.UrlProperties;
 import co.com.expertla.training.dao.configuration.CityDao;
+import co.com.expertla.training.dao.configuration.CountryDao;
 import co.com.expertla.training.dao.configuration.DisciplineDao;
 import java.util.List;
 
@@ -43,6 +44,7 @@ import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
 import co.com.expertla.training.model.dto.CommunicationDTO;
 import co.com.expertla.training.model.dto.DisciplineDTO;
+import co.com.expertla.training.model.entities.FederalState;
 import co.com.expertla.training.model.entities.VisibleFieldsUser;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -66,6 +68,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private CityDao cityDao;
+    
+    @Autowired
+    private CountryDao countryDao;
 
     @Autowired
     private FederalStateDao federalStateDao;
@@ -515,5 +520,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean notificationInternal(Integer userSessionId) throws Exception {
         return (userDao.getCountNotification(userSessionId) > 0);
+    }
+
+    @Override
+    public City getCityById(Integer cityId) throws Exception {
+        return cityDao.findById(cityId);
+    }
+
+    @Override
+    public Country getCountryById(Integer countryId) throws Exception {
+        return countryDao.findByCountry(new Country(countryId)).get(0);
+    }
+
+    @Override
+    public FederalState getFederalStateById(Integer federalStateId) throws Exception {
+        return federalStateDao.findById(federalStateId);
     }
 }

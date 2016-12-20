@@ -15,6 +15,7 @@ import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.UserBasicMovilDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.dto.UserMovilDTO;
+import co.com.expertla.training.model.dto.UserProfileMovilDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
 import co.com.expertla.training.model.entities.Country;
 import co.com.expertla.training.model.entities.Discipline;
@@ -109,7 +110,7 @@ public class UserController {
 
     @Autowired
     CountryService countryService;
-
+    
     @Autowired
     UserTrainingOrderService userTrainingOrderService;
 
@@ -673,11 +674,19 @@ public class UserController {
             userSession.setSecondName(userDto.getSecondName());
             userSession.setTypeUser(userDto.getTypeUser());
             userSession.setFullName(userDto.getFullName());
-            userSession.setIndLoginFirstTime(userDto.getIndLoginFirstTime());
             userSession.setDisciplineId(userDto.getDisciplineId());
             userSession.setDisciplineName(userDto.getDisciplineName());
             userSession.setEmail(userDto.getEmail());
             userSession.setRoleId(userDto.getRoleId());
+            userSession.setCityId(userDto.getCityId());
+            userSession.setCityName(userService.getCityById(userDto.getCityId()).getName());
+            userSession.setCountryId(userDto.getCountryId());
+             userSession.setCountryName(userService.getCountryById(userDto.getCountryId()).getName());
+            userSession.setFederalStateId(userDto.getFederalStateId());
+            userSession.setFederalStateName(userService.getFederalStateById(userDto.getFederalStateId()).getName());
+            userSession.setBirthDate(userDto.getBirthDate());
+            userSession.setSex(userDto.getSex());
+            
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
@@ -730,7 +739,7 @@ public class UserController {
 
                 }
                 //obtiene los datos de perfil ó datos deportivos del usuario
-                userSession.setUserProfile(userProfileService.findDTOByUserId(userDto.getUserId()));
+                userSession.setUserProfile(UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId())));
             }
 
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
