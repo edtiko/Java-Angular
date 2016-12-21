@@ -104,7 +104,7 @@ public class PhysiologicalCapacityDaoImpl extends BaseDAOImpl<PhysiologicalCapac
     @Override
     public List<PhysiologicalCapacity> findAllAvailable() throws Exception {
            StringBuilder builder = new StringBuilder();
-        builder.append(" SELECT c FROM PhysiologicalCapacity c, Activity a ");
+        builder.append(" SELECT DISTINCT c FROM PhysiologicalCapacity c, Activity a ");
         builder.append(" WHERE a.physiologicalCapacityId.physiologicalCapacityId  = c.physiologicalCapacityId ");
         builder.append(" AND a.stateId = :active ");
         builder.append(" AND c.stateId = :active ");

@@ -2,7 +2,10 @@ package co.com.expertla.training.web.external.service;
 
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.service.plan.PlanMessageService;
-import com.google.gson.JsonObject;
+import javax.json.Json; 
+import javax.json.JsonObject; 
+import javax.json.JsonObjectBuilder; 
+import javax.json.JsonValue;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -56,15 +59,16 @@ public class MessageWsPoint {
             }
             simpMessagingTemplate.convertAndSend("/queue/message/" + session.getUserProperties().get("sessionId"), msg);
         }
-        //final PlanMessageDTO object = msg;
-        JsonObject object = new JsonObject();
-        object.addProperty("id", msg.getId());
-        object.addProperty("message", msg.getMessage());
-        object.addProperty("creationDate", msg.getCreationDate().toString());
-        object.addProperty("messageUserId", msg.getMessageUserId().getUserId());
-        object.addProperty("messageUserName", msg.getMessageUserId().getFullName());
-                
-        sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(object));
+        if (msg != null) {
+            JsonObject object = Json.createObjectBuilder()
+                    .add("id", msg.getId())
+                    .add("message", msg.getMessage())
+                    .add("creationDate", msg.getCreationDate().toString())
+                    .add("messageUserId", msg.getMessageUserId().getUserId())
+                    .add("messageUserName", msg.getMessageUserId().getFullName()).build();
+
+            sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(object));
+        }
 
     }
 

@@ -7,6 +7,7 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
                             if (res.data.entity.output == null) {
                                 $scope.showMessage("El usuario no se encuentra logueado");
                                 $scope.logout();
+                                 $("#trainingApp").removeClass("preloader");
                                 return res;
                             }
 

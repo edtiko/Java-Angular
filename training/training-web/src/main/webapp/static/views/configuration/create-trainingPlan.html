@@ -54,6 +54,21 @@
                         </md-input-container>
                     </div>
                 </div>
+        <div layout="row" ng-if="typePlan == typePlanPlatform">
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder">
+
+                    <label  for="supervisor">Supervisor</label>
+
+                    <md-select  id="supervisor"  ng-model="trainingPlan.supervisorUserId" >
+                        <md-option ng-repeat="s in supervisorUsers" value="{{s.userId}}" >
+                            {{s.name}}
+                        </md-option>
+                    </md-select>
+
+                </md-input-container>
+            </div>
+        </div>
             
             <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
                 <md-button ng-click="submitTrainingPlan(formTrainingPlan)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>

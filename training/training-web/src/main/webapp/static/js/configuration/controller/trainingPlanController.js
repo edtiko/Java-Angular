@@ -6,9 +6,11 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
             description: '',
             duration: '',
             price: '',
+            supervisorUserId: '',
             userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
         $scope.trainingPlanList = [];
         $scope.count = 0;
+        $scope.supervisorUsersId = [];
 
         var bookmark;
         $scope.selected = [];
@@ -189,6 +191,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                 description: '',
                 duration: '',
                 price: '',
+                supervisorUserId: '',
                 userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
         };
 
@@ -224,6 +227,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                 description: '',
                 duration: '',
                 price: '',
+                supervisorUserId: '',
                 userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
             $scope.showCreateTrainingPlan(ev);
 
