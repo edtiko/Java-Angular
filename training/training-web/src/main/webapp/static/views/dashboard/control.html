@@ -33,7 +33,7 @@
                         </md-button>
                     </notification-icon>
                 </div>
-
+                <md-subheader ng-if="lblVideoStar">Gestionar Videos </md-subheader>
                 <md-subheader ng-if="showCountVideo">{{availableVideo}} disponibles de {{planSelected.trainingPlanId.videoCount!=null?planSelected.trainingPlanId.videoCount:0}}</md-subheader>
 
                 <div flex ng-if="showChat">
@@ -45,7 +45,7 @@
                         </md-button>
                     </notification-icon>
                 </div>
-
+                <md-subheader ng-if="lblMessageStar">Mensajes</md-subheader>
                 <md-subheader ng-if="showCountChat">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
 
                     <!--  Email -->
@@ -59,6 +59,7 @@
                     </notification-icon>
 
                 </div>
+                <md-subheader ng-if="lblMailStar">Correo</md-subheader>
                 <md-subheader ng-if="showCountEmail">{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
                 
                 <!--Audio Messages-->

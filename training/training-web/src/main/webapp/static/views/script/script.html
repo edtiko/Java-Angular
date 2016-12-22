@@ -17,7 +17,7 @@
                     <video ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 50%;height: 50%;" id="recorded" autoplay controls ></video>
 
                     <div>
-                        <md-button style="{{colorGrabacion}}" ng-click="inicioGrabarVideo()" class="fa fa-video-camera fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" aria-label="play" style="">
+                        <md-button ng-disabled="!isRecordable" style="{{colorGrabacion}}" ng-click="inicioGrabarVideo()" class="fa fa-video-camera fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" type="button" ng-transclude="" aria-label="play" style="">
                             <div class="md-ripple-container"></div>
                         </md-button>
                         <md-button ng-disabled="!isRecord" class="fa fa-stop fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple" 

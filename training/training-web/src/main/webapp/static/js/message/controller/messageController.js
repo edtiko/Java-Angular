@@ -26,7 +26,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
             if($scope.planSelected != null) {
                 messageService.getMessages($scope.planSelected.id, tipoPlan, $scope.roleSelected).then(
                         function (data) {
-                            $scope.messages = data.entity.output;
+                            $scope.messages = data.output;
                             $scope.loading = true;
                             if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                                 $scope.messages.forEach(function (value, index) {

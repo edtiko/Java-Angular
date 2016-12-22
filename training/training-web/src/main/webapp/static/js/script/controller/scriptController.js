@@ -7,6 +7,7 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
         $scope.planVideo = {};
         $scope.isRecord = false;
         $scope.colorGrabacion = '';
+        $scope.isRecordable = false;
 
         $scope.getPlanVideoStarByCoach = function () {
             ScriptService.getPlanVideoStarByCoach($scope.userSession.userId)
@@ -71,6 +72,7 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
             $scope.planVideo = o;
             $scope.colorGrabacion = '';
             $scope.isRecord = false;
+            $scope.isRecordable = true;
             $scope.playVideo($scope.planVideo.videoPath);
         };
 
@@ -94,6 +96,7 @@ trainingApp.controller("ScriptController", ['$scope', 'ScriptService', '$window'
 
         $scope.verVideo = function () {
             $scope.colorGrabacion = '';
+            $scope.isRecordable = true;
             if ($scope.planVideo != null && $scope.planVideo.planVideoId.fromUserId != null) {
                 $scope.isRecord = false;
                 $scope.playVideo($scope.planVideo.planVideoId.videoPath);

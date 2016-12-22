@@ -37,6 +37,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Objective a ");
         builder.append("WHERE a.stateId = :active ");
+        builder.append("AND a.objectiveParentId is null ");
         builder.append("order by a.name ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
@@ -84,8 +85,9 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
     @Override
     public List<Objective> findByFiltro(Objective objective) throws Exception {
         StringBuilder builder = new StringBuilder();
-        builder.append("select a from Objective a ");
-        builder.append("WHERE 1=1 ");
+        builder.append(" select a from Objective a ");
+        builder.append(" WHERE 1=1 ");
+        builder.append(" AND a.objectiveParentId is null ");
         
         if(objective.getName() != null && !objective.getName().trim().isEmpty()) {
             builder.append("AND lower(a.name) like lower(:name) ");
@@ -108,6 +110,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         sql.append("SELECT new co.com.expertla.training.model.dto.ObjectiveDTO(o.objectiveId,o.name, o.level) ");
         sql.append("FROM Objective o ");
         sql.append("WHERE o.disciplineId.disciplineId = :disciplineId ");
+        sql.append("AND o.objectiveParentId is null ");
         sql.append(" ORDER BY o.name ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("disciplineId", disciplineId);

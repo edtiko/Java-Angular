@@ -9,6 +9,8 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -63,20 +65,20 @@ public class MessageController {
 
     @RequestMapping(value = "get/messages/{planId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessages(@PathVariable("planId") Integer planId, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+    ResponseEntity<ResponseService> getMessages(@PathVariable("planId") Integer planId, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(planId, tipoPlan, roleSelected);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

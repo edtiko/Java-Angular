@@ -38,7 +38,7 @@
                     </md-list-item>
           
             </md-tab>
-            <md-tab label="Estrella" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno"  md-on-select="" >
+            <md-tab label="Estrella" ng-if="userSession.typeUser == userSessionTypeUserCoachInterno && starsByCoach.length > 0 "  md-on-select="" >
                 <md-tab-label>
                     Estrella
                     <md-icon  ng-if="internalNotification"><i style="color: red" class="fa fa-bell-o" aria-hidden="true"></i></md-icon>

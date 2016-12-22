@@ -38,6 +38,8 @@ public class TrainingPlanWorkoutDto {
     private boolean manualActivity = false;
     private Integer percentageWeather;
     private Boolean isDrag;
+    private Double executedTime;
+    private Double executedDistance;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -280,6 +282,22 @@ public class TrainingPlanWorkoutDto {
 
     public void isDrag(Boolean isDrag) {
         this.isDrag = isDrag;
+    }
+
+    public Double getExecutedTime() {
+        return executedTime;
+    }
+
+    public void setExecutedTime(Double executedTime) {
+        this.executedTime = executedTime;
+    }
+
+    public Double getExecutedDistance() {
+        return executedDistance;
+    }
+
+    public void setExecutedDistance(Double executedDistance) {
+        this.executedDistance = executedDistance;
     }
 
 }

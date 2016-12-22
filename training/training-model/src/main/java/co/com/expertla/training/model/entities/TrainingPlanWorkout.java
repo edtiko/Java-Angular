@@ -51,6 +51,10 @@ public class TrainingPlanWorkout implements Serializable {
     private TrainingPlanUser trainingPlanUserId;
     @Column(name = "is_drag")
     private Boolean isDrag;
+    @Column(name = "executed_time")
+    private Double executedTime;
+    @Column(name = "executed_distance")
+    private Double executedDistance;
 
     public TrainingPlanWorkout() {
     }
@@ -136,6 +140,30 @@ public class TrainingPlanWorkout implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.TrainingPlanWorkout[ trainingPlanWorkoutId=" + trainingPlanWorkoutId + " ]";
+    }
+
+    public Boolean getIsDrag() {
+        return isDrag;
+    }
+
+    public void setIsDrag(Boolean isDrag) {
+        this.isDrag = isDrag;
+    }
+
+    public Double getExecutedTime() {
+        return executedTime;
+    }
+
+    public void setExecutedTime(Double executedTime) {
+        this.executedTime = executedTime;
+    }
+
+    public Double getExecutedDistance() {
+        return executedDistance;
+    }
+
+    public void setExecutedDistance(Double executedDistance) {
+        this.executedDistance = executedDistance;
     }
 
     

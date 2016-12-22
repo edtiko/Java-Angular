@@ -61,6 +61,8 @@ public class UserActivityPerformance implements Serializable {
     private User userId;
     @Column(name = "activity_external_id")
     private String activityExternalId;
+    @Column(name = "type")
+    private String type;
 
     public UserActivityPerformance() {
     }
@@ -132,6 +134,15 @@ public class UserActivityPerformance implements Serializable {
     public void setUserId(User userId) {
         this.userId = userId;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
 
     @Override
     public int hashCode() {

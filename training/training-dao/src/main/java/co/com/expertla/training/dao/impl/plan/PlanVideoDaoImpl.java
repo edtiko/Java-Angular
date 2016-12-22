@@ -72,6 +72,8 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         } else if ((int) param.get("roleSelected") != -1 && (int) param.get("roleSelected") == RoleEnum.ESTRELLA.getId()) {
             sql.append(" and  m.toStar =  ").append(Boolean.TRUE);
         }
+          
+          sql.append(" Order by m.creationDate desc ");
 
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", (int) param.get("userId"));

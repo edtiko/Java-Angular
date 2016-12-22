@@ -7,6 +7,10 @@
 </md-toolbar>
 <md-tabs md-dynamic-height md-border-bottom md-selected="tabIndexStar">
     <md-tab label="Planes"   md-on-select="initStarControl(false)" >
+          <md-tab-label>
+            Planes
+            <md-icon  ng-if="planNotification"><i style="color: red" class="fa fa-bell-o" aria-hidden="true"></i></md-icon>
+        </md-tab-label>
     </md-tab>
     <md-tab label="Interno" md-on-select="initStarControl(true)" >
         <md-tab-label>

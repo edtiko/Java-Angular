@@ -102,12 +102,21 @@ drop table video_user;
 /* Table: activity                                              */
 /*==============================================================*/
 create table activity (
-   activity_id          serial              not null,
-   physiological_capacity_id integer              null,
-   modality_id          integer              null,
-   objective_id         integer              null,
-   name                 varchar(800)         not null,
-   description          varchar(1000)        null,
+  activity_id integer NOT NULL,
+  physiological_capacity_id integer,
+  modality_id integer,
+  objective_id integer,
+  planned_time integer,
+  planned_distance integer,
+  name character varying(800) NOT NULL,
+  description character varying(1000),
+  sport_id integer,
+  state_id integer,
+  creation_date timestamp without time zone,
+  last_update timestamp without time zone,
+  user_create integer,
+  user_update integer,
+  environment_id integer,
    constraint pk_activity primary key (activity_id)
 );
 
@@ -315,11 +324,19 @@ create table modality (
 /*==============================================================*/
 /* Table: objective                                             */
 /*==============================================================*/
-create table objective (
-   objective_id         serial              not null,
-   name                 varchar(200)         not null,
-   level                short                not null,
-   constraint pk_objective primary key (objective_id)
+CREATE TABLE objective
+(
+  objective_id integer NOT NULL,
+  name character varying(200) NOT NULL,
+  level integer NOT NULL,
+  discipline_id integer,
+  objective_parent_id integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_objetive PRIMARY KEY (objective_id)
 );
 
 /*==============================================================*/
@@ -581,6 +598,8 @@ create table training_plan_workout (
    activity_id          integer              null,
    manual_activity_id   integer              null,
    workout_date         date                 not null,
+   executed_time        decimal(10,2)        null,
+   executed_distance    decimal(10,2)        null,  
    is_drag              boolean              not null default false,
    constraint pk_training_plan_workout primary key (training_plan_workout_id)
 );
@@ -932,6 +951,26 @@ create table configuration_plan (
    constraint pk_configuration_plan primary key (configuration_plan_id)
 );
 
+CREATE TABLE user_activity_performance
+(
+  user_activity_performance_id serial NOT NULL,
+  user_id integer,
+  value character varying(200),
+  activity_performance_metafield_id integer,
+  activity_id integer,
+  executed_date date,
+  creation_date timestamp without time zone,
+  activity_external_id character varying(200),
+  type character varying(200),
+  CONSTRAINT pk_user_activity_performance PRIMARY KEY (user_activity_performance_id),
+  CONSTRAINT fk_user_activity_perf_reference_metafields FOREIGN KEY (activity_performance_metafield_id)
+      REFERENCES activity_performance_metafield (activity_performance_metafield_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT,
+  CONSTRAINT fk_user_activity_perf_reference_user FOREIGN KEY (user_id)
+      REFERENCES user_training (user_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+saben que es lo mejor de tocar fondo, solo te queda una opción y es subirrrrr!!
 
 alter table configuration_plan
 add constraint fk_configuration_plan_training_plan foreign key (training_plan_id)

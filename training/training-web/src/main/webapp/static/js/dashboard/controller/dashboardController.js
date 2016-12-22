@@ -935,11 +935,17 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.showEmail = true;
                 $scope.showScript = false;
                 $scope.showAudioMessage = false;
+                $scope.lblVideoStar = false;
+                $scope.lblMessageStar = true;
+                $scope.lblMailStar = true;
             } else {
                 $scope.showScript = true;
-                $scope.showAudioMessage = true;
+                $scope.showAudioMessage = false;
                 $scope.showChat = false;
                 $scope.showEmail = false;
+                $scope.lblVideoStar = true;
+                $scope.lblMessageStar = false;
+                $scope.lblMailStar = false;
             }
 
         };
@@ -950,7 +956,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $window.sessionStorage.setItem("planSelected", null);
                 $window.sessionStorage.setItem("planSelectedStar", null);
                 $window.sessionStorage.setItem("selectedUser", null);
-                $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                $scope.planSelected = null;
+                //$scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
                 if ($scope.userSession != null) {
                     $scope.getVisibleFieldsUserByUser($scope.userSession);
@@ -1005,10 +1012,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             $scope.showControl = true;
                             $scope.showStarControl = true;
                             $scope.showProfileImage = true;
-                            //$scope.showAudioMessage = true;
-                            //$scope.showChat = true;
-                            //$scope.showEmail = true;
-                            //$scope.showCountEmail = false;
                             $scope.getUserById();
                             $scope.getSupervisorsByStar();
                             break;

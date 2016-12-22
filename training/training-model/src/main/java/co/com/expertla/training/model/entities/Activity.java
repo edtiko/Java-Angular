@@ -33,7 +33,6 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "Activity.findByName", query = "SELECT a FROM Activity a WHERE a.name = :name")})
 public class Activity implements Serializable {
 
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -79,6 +78,10 @@ public class Activity implements Serializable {
     private Environment environmentId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "replaceId")
     private Collection<ReplaceActivity> replaceCollection;
+    @Column(name = "planned_time")
+    private Integer plannedTime;
+    @Column(name = "planned_distance")
+    private Integer plannedDistance;
 
     public Activity() {
     }
@@ -99,6 +102,7 @@ public class Activity implements Serializable {
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
     }
+
     @JsonIgnore
     public Collection<ReplaceActivity> getReplaceActivityCollection() {
         return replaceActivityCollection;
@@ -147,6 +151,7 @@ public class Activity implements Serializable {
     public void setPhysiologicalCapacityId(PhysiologicalCapacity physiologicalCapacityId) {
         this.physiologicalCapacityId = physiologicalCapacityId;
     }
+
     @JsonIgnore
     public Collection<TrainingPlanWorkout> getTrainingPlanWorkoutCollection() {
         return trainingPlanWorkoutCollection;
@@ -155,6 +160,7 @@ public class Activity implements Serializable {
     public void setTrainingPlanWorkoutCollection(Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection) {
         this.trainingPlanWorkoutCollection = trainingPlanWorkoutCollection;
     }
+
     @JsonIgnore
     public Collection<ReplaceActivity> getReplaceCollection() {
         return replaceCollection;
@@ -244,5 +250,21 @@ public class Activity implements Serializable {
     public void setEnvironmentId(Environment environmentId) {
         this.environmentId = environmentId;
     }
-    
+
+    public Integer getPlannedTime() {
+        return plannedTime;
+    }
+
+    public void setPlannedTime(Integer plannedTime) {
+        this.plannedTime = plannedTime;
+    }
+
+    public Integer getPlannedDistance() {
+        return plannedDistance;
+    }
+
+    public void setPlannedDistance(Integer plannedDistance) {
+        this.plannedDistance = plannedDistance;
+    }
+
 }

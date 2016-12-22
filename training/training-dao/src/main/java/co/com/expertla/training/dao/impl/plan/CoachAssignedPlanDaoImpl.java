@@ -95,6 +95,8 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
         sql.append("SELECT DISTINCT m.starUserId ");        
         sql.append("FROM StarTeam m ");
         sql.append("WHERE m.coachUserId.userId = :userId ");
+        sql.append("AND m.starUserId is not null ");
+        sql.append("AND m.stateId = ").append(StateEnum.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         return query.getResultList();

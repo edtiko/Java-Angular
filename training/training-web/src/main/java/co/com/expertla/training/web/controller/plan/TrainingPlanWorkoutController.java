@@ -202,6 +202,7 @@ public class TrainingPlanWorkoutController {
                     planWorkout.isDrag(Boolean.TRUE);
                 } else if (planWorkoutDTO.getManualActivityId() != null) {
                     planWorkout.setManualActivityId(new ManualActivity(planWorkoutDTO.getManualActivityId()));
+                    planWorkout.isDrag(Boolean.FALSE);
                 }
                 planWorkout.setTrainingPlanUserId(listTrainingPlanUser.get(0));
                 planWorkout.setWorkoutDate(activityDate);

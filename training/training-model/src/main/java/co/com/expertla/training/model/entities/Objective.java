@@ -61,6 +61,8 @@ public class Objective implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "objective_parent_id")
+    private Integer objectiveParentId;
 
     public Objective() {
     }
@@ -145,6 +147,14 @@ public class Objective implements Serializable {
 
     public void setDisciplineId(Discipline disciplineId) {
         this.disciplineId = disciplineId;
+    }
+
+    public Integer getObjectiveParentId() {
+        return objectiveParentId;
+    }
+
+    public void setObjectiveParentId(Integer objectiveParentId) {
+        this.objectiveParentId = objectiveParentId;
     }
     
     @JsonIgnore

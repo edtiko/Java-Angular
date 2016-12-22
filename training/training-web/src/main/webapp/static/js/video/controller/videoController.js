@@ -346,21 +346,15 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             }
 
         });
-        
-                if ($scope.planSelected != null && $scope.planSelectedStar != null) {
+
+        if ($scope.planSelected != null && $scope.planSelectedStar != null) {
             $scope.coachAssignedPlanSelected = $scope.planSelected;
             $scope.planSelected = null;
         }
 
-        if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
-            $scope.colorTime = '';
-            $scope.counterRecord = $scope.counterRecordInitial;
-            //$scope.initCounterRecord();
-        }
-
-        if ($scope.appReady && $scope.planSelected != null) {
-            //$scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
-            if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
+        if ($scope.appReady && $scope.planSelected != null && $scope.userSession != null ) {
+               //videoService.initialize($scope.planSelected.id);
+             if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
                 $scope.toUserId = $scope.planSelected.athleteUserId.userId;
                 if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
                     $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
@@ -370,18 +364,19 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 else if($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella){
                     $scope.isRecordable = false;
                 }
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+            } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+                $scope.colorTime = '';
                 $scope.toUserId = $scope.planSelected.coachUserId.userId;
                 $scope.showCounter = true;
                 $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
                 $scope.counterRecord = $scope.counterRecordInitial;
-            } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
+            } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
                 $scope.toUserId = $scope.planSelected.athleteUserId.userId;
                 $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
                 $scope.showCounter = true;
                 $scope.counterRecord = $scope.counterRecordInitial;
             }
-            videoService.initialize($scope.planSelected.id);
+        
         } else if ($scope.appReady && $scope.coachAssignedPlanSelected != null) {
             $scope.isToStar = true;
             $scope.showGuion = true;

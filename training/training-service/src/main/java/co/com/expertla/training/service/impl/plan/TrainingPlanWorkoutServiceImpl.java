@@ -450,5 +450,15 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         }
         trainingPlanWorkoutDao.merge(workout);
     }
+
+    @Override
+    public void update(TrainingPlanWorkoutDto dto) throws Exception {
+        TrainingPlanWorkout workout = trainingPlanWorkoutDao.getById(new TrainingPlanWorkout(dto.getId())).get(0);
+
+        workout.setExecutedDistance(dto.getExecutedDistance());
+        workout.setExecutedTime(dto.getExecutedTime());
+        trainingPlanWorkoutDao.merge(workout);
+
+    }
       
 }
