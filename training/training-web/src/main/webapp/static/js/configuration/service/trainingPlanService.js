@@ -59,6 +59,18 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getDefaultSupervisors: function (id) {
+                return $http.get($contextPath + 'trainingPlan/get/default/supervisors/')
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching supervisors');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
     }]);

@@ -4,6 +4,7 @@ import co.com.expertla.base.util.MessageUtil;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.PaginateDto;
 import co.com.expertla.training.model.dto.TrainingPlanDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import java.util.List;
 import co.com.expertla.training.model.util.ResponseService;
@@ -208,6 +209,23 @@ public class TrainingPlanController {
         try {     
             List<TrainingPlan> trainingPlanList = trainingPlanService.findPlaformAllActive(typeUser);
             responseService.setOutput(trainingPlanList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+        @RequestMapping(value = "trainingPlan/get/default/supervisors", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listSupervisors() {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<UserDTO> list = trainingPlanService.findDefaultSupervisors();
+            responseService.setOutput(list);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

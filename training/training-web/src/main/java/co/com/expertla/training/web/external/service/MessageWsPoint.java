@@ -2,10 +2,6 @@ package co.com.expertla.training.web.external.service;
 
 import co.com.expertla.training.model.dto.PlanMessageDTO;
 import co.com.expertla.training.service.plan.PlanMessageService;
-import javax.json.Json; 
-import javax.json.JsonObject; 
-import javax.json.JsonObjectBuilder; 
-import javax.json.JsonValue;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -48,9 +44,10 @@ public class MessageWsPoint {
 
     @OnMessage
     public void onMessage(final Session session, final PlanMessageDTO message) {
-        PlanMessageDTO msg = null;
+    PlanMessageDTO msg = null;
         System.out.println("Received : " + message);
         if (message != null && message.isMobile()) {      
+        
             try {
                 msg = messageService.saveMessage(message);
             } catch (Exception e) {
@@ -59,14 +56,9 @@ public class MessageWsPoint {
             }
             simpMessagingTemplate.convertAndSend("/queue/message/" + session.getUserProperties().get("sessionId"), msg);
         }
-        if (msg != null) {
-            JsonObject object = Json.createObjectBuilder()
-                    .add("id", msg.getId())
-                    .add("message", msg.getMessage())
-                    .add("creationDate", msg.getCreationDate().toString())
-                    .add("messageUserId", msg.getMessageUserId().getUserId())
-                    .add("messageUserName", msg.getMessageUserId().getFullName()).build();
-
+        final PlanMessageDTO object = msg;
+        if (object != null) {
+            object.getMessageUserId().setProfilePhoto(null);
             sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(object));
         }
 

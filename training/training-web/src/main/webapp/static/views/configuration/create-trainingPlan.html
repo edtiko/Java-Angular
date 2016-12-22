@@ -58,11 +58,11 @@
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder">
 
-                    <label  for="supervisor">Supervisor</label>
+                    <label>Supervisor</label>
 
                     <md-select  id="supervisor"  ng-model="trainingPlan.supervisorUserId" >
                         <md-option ng-repeat="s in supervisorUsers" value="{{s.userId}}" >
-                            {{s.name}}
+                            {{s.fullName}}
                         </md-option>
                     </md-select>
 

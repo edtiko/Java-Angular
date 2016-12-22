@@ -1,6 +1,7 @@
 package co.com.expertla.training.service.configuration;
 
 import co.com.expertla.training.model.dto.TrainingPlanDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import java.util.List;
 
@@ -119,6 +120,8 @@ public interface TrainingPlanService {
      * @throws Exception 
      */
     public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception;
+
+    public List<UserDTO> findDefaultSupervisors()throws Exception;
 
     
 }

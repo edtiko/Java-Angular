@@ -256,4 +256,16 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
 
         return count.get(0).intValue();
     }
+
+    @Override
+    public List<UserDTO> findDefaultSupervisors() throws Exception {
+        try {
+            String qlString = " SELECT new co.com.expertla.training.model.dto.UserDTO(u.userId, u.name, u.secondName, u.lastName) FROM User u, StarTeam st WHERE u.userId = st.coachUserId.userId AND st.starUserId is null ";
+            Query query = this.getEntityManager().createQuery(qlString);
+            List<UserDTO> list = query.getResultList();
+            return list;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

@@ -10,7 +10,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
             userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
         $scope.trainingPlanList = [];
         $scope.count = 0;
-        $scope.supervisorUsersId = [];
+        $scope.supervisorUsers = [];
 
         var bookmark;
         $scope.selected = [];
@@ -271,7 +271,24 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
             };
 
         }
-
+        
+        $scope.getSupervisors = function(){
+               TrainingPlanService.getDefaultSupervisors()
+                        .then(
+                                function (d) {
+                                    if (d.status == 'success') {
+                                     $scope.supervisorUsers = d.output;
+                                    } else {
+                                        $scope.showMessage(d.output);
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while get supervisors.');
+                                }
+                        );
+        };
+        
+        $scope.getSupervisors();
         $scope.getTrainingPlanPaginate();
 
 

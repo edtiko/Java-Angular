@@ -12,6 +12,7 @@ import co.com.expertla.training.model.dto.CommunicationDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.OpenTokDTO;
 import co.com.expertla.training.model.dto.PaginateDto;
+import co.com.expertla.training.model.dto.UserAvailabilityDTO;
 import co.com.expertla.training.model.dto.UserBasicMovilDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.dto.UserMovilDTO;
@@ -42,6 +43,7 @@ import co.com.expertla.training.service.plan.UserTrainingOrderService;
 import co.com.expertla.training.service.security.RoleUserService;
 import co.com.expertla.training.service.user.DisciplineUserService;
 import co.com.expertla.training.service.user.StravaService;
+import co.com.expertla.training.service.user.UserAvailabilityService;
 import co.com.expertla.training.service.user.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -94,7 +96,7 @@ public class UserController {
     private static final String PLAN_TYPE_EXT = "EXT";
 
     @Autowired
-    UserService userService; 
+    UserService userService;
 
     @Autowired
     DisciplineUserService disciplineUserService;
@@ -104,13 +106,13 @@ public class UserController {
 
     @Autowired
     TrainingPlanUserService trainingPlanUserService;
-    
+
     @Autowired
     TrainingPlanService trainingPlanService;
 
     @Autowired
     CountryService countryService;
-    
+
     @Autowired
     UserTrainingOrderService userTrainingOrderService;
 
@@ -143,12 +145,15 @@ public class UserController {
 
     @Autowired
     CoachExtAthleteService coachExtService;
-    
+
     @Autowired
     VisibleFieldsUserService visibleFieldsUserService;
-    
+
     @Autowired
     UserProfileService userProfileService;
+    
+   @Autowired
+    private UserAvailabilityService userAvailabilityService;
 
     /**
      * Upload single file using Spring Controller
@@ -307,7 +312,7 @@ public class UserController {
             roleUser.setUserId(user);
             roleUserService.create(roleUser);
         }
-         //mostrar por defecto la foto de perfil
+        //mostrar por defecto la foto de perfil
         if (user != null) {
             VisibleFieldsUser visibleDefault = new VisibleFieldsUser();
             visibleDefault.setColumnName("profile_photo");
@@ -679,14 +684,19 @@ public class UserController {
             userSession.setEmail(userDto.getEmail());
             userSession.setRoleId(userDto.getRoleId());
             userSession.setCityId(userDto.getCityId());
-            userSession.setCityName(userService.getCityById(userDto.getCityId()).getName());
+            if (userDto.getCityId() != null) {
+                userSession.setCityName(userService.getCityById(userDto.getCityId()).getName());
+            }
             userSession.setCountryId(userDto.getCountryId());
-             userSession.setCountryName(userService.getCountryById(userDto.getCountryId()).getName());
+            if (userDto.getCountryId() != null) {
+                userSession.setCountryName(userService.getCountryById(userDto.getCountryId()).getName());
+            }
             userSession.setFederalStateId(userDto.getFederalStateId());
-            userSession.setFederalStateName(userService.getFederalStateById(userDto.getFederalStateId()).getName());
+            if (userDto.getFederalStateId() != null) {
+                userSession.setFederalStateName(userService.getFederalStateById(userDto.getFederalStateId()).getName());
+            }
             userSession.setBirthDate(userDto.getBirthDate());
             userSession.setSex(userDto.getSex());
-            
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
@@ -699,39 +709,44 @@ public class UserController {
                 if (coachAssignedPlanDTO != null) {
                     userSession.setPlanType(PLAN_TYPE_IN);
                     userSession.setCommunicationPlanId(coachAssignedPlanDTO.getId());
-                    UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
-                    UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
-                    userCoach.setUserId(coachUserDTO.getUserId());
-                    userCoach.setLogin(coachUserDTO.getLogin());
-                    userCoach.setFirstName(coachUserDTO.getFirstName());
-                    userCoach.setLastName(coachUserDTO.getLastName());
-                    userCoach.setSecondName(coachUserDTO.getSecondName());
-                    userCoach.setTypeUser(coachUserDTO.getTypeUser());
-                    userCoach.setFullName(coachUserDTO.getFullName());
-                    userCoach.setDisciplineId(coachUserDTO.getDisciplineId());
-                    userCoach.setDisciplineName(coachUserDTO.getDisciplineName());
-                    userCoach.setRoleId(coachUserDTO.getRoleId());
-                    userCoach.setEmail(coachUserDTO.getEmail());
-                    userCoach.setSex(coachUserDTO.getSex());
-                    userCoach.setBirthDate(coachUserDTO.getBirthDate());
+                    if (coachAssignedPlanDTO.getCoachUserId() != null) {
+                        UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
+                        UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
+                        userCoach.setUserId(coachUserDTO.getUserId());
+                        userCoach.setLogin(coachUserDTO.getLogin());
+                        userCoach.setFirstName(coachUserDTO.getFirstName());
+                        userCoach.setLastName(coachUserDTO.getLastName());
+                        userCoach.setSecondName(coachUserDTO.getSecondName());
+                        userCoach.setTypeUser(coachUserDTO.getTypeUser());
+                        userCoach.setFullName(coachUserDTO.getFullName());
+                        userCoach.setDisciplineId(coachUserDTO.getDisciplineId());
+                        userCoach.setDisciplineName(coachUserDTO.getDisciplineName());
+                        userCoach.setRoleId(coachUserDTO.getRoleId());
+                        userCoach.setEmail(coachUserDTO.getEmail());
+                        userCoach.setSex(coachUserDTO.getSex());
+                        userCoach.setBirthDate(coachUserDTO.getBirthDate());
 
-                    UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
-                    UserBasicMovilDTO userStar = new UserBasicMovilDTO();
-                    userStar.setUserId(starUserDTO.getUserId());
-                    userStar.setLogin(starUserDTO.getLogin());
-                    userStar.setFirstName(starUserDTO.getFirstName());
-                    userStar.setLastName(starUserDTO.getLastName());
-                    userStar.setSecondName(starUserDTO.getSecondName());
-                    userStar.setTypeUser(starUserDTO.getTypeUser());
-                    userStar.setFullName(starUserDTO.getFullName());
-                    userStar.setDisciplineId(starUserDTO.getDisciplineId());
-                    userStar.setDisciplineName(starUserDTO.getDisciplineName());
-                    userStar.setRoleId(starUserDTO.getRoleId());
-                    userStar.setEmail(starUserDTO.getEmail());
-                    userStar.setSex(starUserDTO.getSex());
-                    userStar.setBirthDate(starUserDTO.getBirthDate());
-                    userSession.setStarUser(userStar);
-                    userSession.setCoachUser(userCoach);
+                        userSession.setCoachUser(userCoach);
+                    }
+
+                    if (coachAssignedPlanDTO.getStarUserId() != null) {
+                        UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
+                        UserBasicMovilDTO userStar = new UserBasicMovilDTO();
+                        userStar.setUserId(starUserDTO.getUserId());
+                        userStar.setLogin(starUserDTO.getLogin());
+                        userStar.setFirstName(starUserDTO.getFirstName());
+                        userStar.setLastName(starUserDTO.getLastName());
+                        userStar.setSecondName(starUserDTO.getSecondName());
+                        userStar.setTypeUser(starUserDTO.getTypeUser());
+                        userStar.setFullName(starUserDTO.getFullName());
+                        userStar.setDisciplineId(starUserDTO.getDisciplineId());
+                        userStar.setDisciplineName(starUserDTO.getDisciplineName());
+                        userStar.setRoleId(starUserDTO.getRoleId());
+                        userStar.setEmail(starUserDTO.getEmail());
+                        userStar.setSex(starUserDTO.getSex());
+                        userStar.setBirthDate(starUserDTO.getBirthDate());
+                        userSession.setStarUser(userStar);
+                    }
                     //userSession.setCoachAssignedPlanId(coachAssignedPlanDTO.getId());
                 } else if (coachExtAthleteDTO != null) {
                     userSession.setPlanType(PLAN_TYPE_EXT);
@@ -739,7 +754,13 @@ public class UserController {
 
                 }
                 //obtiene los datos de perfil ó datos deportivos del usuario
-                userSession.setUserProfile(UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId())));
+                UserProfileMovilDTO up = UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId()));
+
+                List<UserAvailabilityDTO> availability = userAvailabilityService.findDtoByUserId(userDto.getUserId());
+                if (!availability.isEmpty()) {
+                    up.setAvailability(availability);
+                }
+                userSession.setUserProfile(up);
             }
 
             List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
@@ -902,7 +923,7 @@ public class UserController {
                     if (jo.get("planId") != null && !jo.get("planId").isJsonNull()
                             && !jo.get("planId").getAsString().trim().isEmpty()) {
                         Integer trainingPlanId = jo.get("planId").getAsInt();
-                        List<TrainingPlan> trainingPlan =  trainingPlanService.findByTrainingPlan(new TrainingPlan(trainingPlanId));
+                        List<TrainingPlan> trainingPlan = trainingPlanService.findByTrainingPlan(new TrainingPlan(trainingPlanId));
 
                         List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
 
@@ -1114,7 +1135,7 @@ public class UserController {
         }
 
     }
-    
+
     @RequestMapping(value = "get/notification/{communicatePlanId}/{athleteUserId}/{userId}/{planType}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> notificationRoleCommunication(@PathVariable("communicatePlanId") Integer communicatePlanId, @PathVariable("athleteUserId") Integer athleteUserId,
@@ -1138,7 +1159,7 @@ public class UserController {
         }
 
     }
-    
+
     @RequestMapping(value = "get/notification/internal/{userSessionId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> notificationInternal(@PathVariable("userSessionId") Integer userSessionId) {

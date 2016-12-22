@@ -85,5 +85,7 @@ public interface UserDao extends BaseDAO<User> {
      */
     public List<User> getStarFromAtlethe(Integer userId)throws  Exception;
     
-    public Integer getCountNotification(Integer userId)throws  Exception;;
+    public Integer getCountNotification(Integer userId)throws  Exception;
+    
+    public List<UserDTO> findDefaultSupervisors() throws Exception;
 }

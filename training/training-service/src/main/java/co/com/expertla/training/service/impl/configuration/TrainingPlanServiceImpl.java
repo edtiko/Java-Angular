@@ -1,7 +1,9 @@
 package co.com.expertla.training.service.impl.configuration;
 
 import co.com.expertla.training.dao.configuration.TrainingPlanDao;
+import co.com.expertla.training.dao.user.UserDao;
 import co.com.expertla.training.model.dto.TrainingPlanDTO;
+import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.TrainingPlan;
 import co.com.expertla.training.service.configuration.TrainingPlanService;
 import java.util.List;
@@ -21,6 +23,9 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
 
     @Autowired
     private TrainingPlanDao trainingPlanDao;
+    
+      @Autowired
+    private UserDao userDao;
 
     @Override
     public TrainingPlan create(TrainingPlan trainingPlan) throws Exception {
@@ -70,5 +75,10 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     @Override
     public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception {
         return trainingPlanDao.findPlaformAllActive(typePlan);
+    }
+
+    @Override
+    public List<UserDTO> findDefaultSupervisors() throws Exception {
+       return userDao.findDefaultSupervisors();
     }
 }

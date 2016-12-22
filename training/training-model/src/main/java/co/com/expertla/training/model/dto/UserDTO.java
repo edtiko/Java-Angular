@@ -73,6 +73,13 @@ public class UserDTO {
     
     public UserDTO() {
     }
+    
+    public UserDTO(Integer userId, String firstName, String secondName, String lastName) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+    }
 
     //Constructor usado en findUserWithDiscipline
     public UserDTO(Integer userId, String login, String firstName, String secondName, String lastName, String email, String sex, 
