@@ -21,6 +21,7 @@ import co.com.expertla.training.model.entities.UserAvailability;
 import co.com.expertla.training.model.entities.UserProfile;
 import co.com.expertla.training.dao.plan.TrainingPlanUserDao;
 import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
+import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.DayDto;
 import co.com.expertla.training.model.dto.PlanWorkoutDTO;
 import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
@@ -452,13 +453,19 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     }
 
     @Override
-    public void update(TrainingPlanWorkoutDto dto) throws Exception {
+    public void updateStrava(TrainingPlanWorkoutDto dto, Boolean isStrava) throws Exception {
         TrainingPlanWorkout workout = trainingPlanWorkoutDao.getById(new TrainingPlanWorkout(dto.getId())).get(0);
-
+        
         workout.setExecutedDistance(dto.getExecutedDistance());
         workout.setExecutedTime(dto.getExecutedTime());
+        if (isStrava) {
+            workout.setIndStrava(new Short(Status.ACTIVE.getId()));
+            workout.setLastUpdateStrava(Calendar.getInstance().getTime());
+        } else {
+            workout.setLastUpdateUser(Calendar.getInstance().getTime());
+        }
         trainingPlanWorkoutDao.merge(workout);
-
+        
     }
       
 }

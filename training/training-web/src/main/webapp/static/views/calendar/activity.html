@@ -72,11 +72,14 @@
 
                 </div>
                 <div class="border">
+                    <md-subheader ng-if="activity.lastUpdateStrava != null">
+                        Sincronizado con Strava el d&iacute;a: {{activity.lastUpdateStrava}}
+                    </md-subheader>
                     <div layout="row" >
                         <div flex>
                             <md-input-container class="md-block">
                                 <label>Tiempo</label>
-                                <input type="text"  id="time" name="time" />
+                                <input type="text"  id="time" name="time" ng-model="activity.executedTime" />
                             </md-input-container>
                         </div>
                     </div>
@@ -84,7 +87,7 @@
                         <div flex>
                             <md-input-container class="md-block">
                                 <label>Distancia</label>
-                                <input type="text"  id="distance" name="distance" />
+                                <input type="text"  id="distance" name="distance"  ng-model="activity.executedDistance"/>
                             </md-input-container>
                         </div>
                     </div>
@@ -110,8 +113,8 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">  
-            <md-button class="md-raised" ng-click="guardarActividad()">
-                Aceptar
+            <md-button class="md-raised" ng-click="updateActivity()">
+                Editar
             </md-button>
         </md-dialog-actions>
     </form>

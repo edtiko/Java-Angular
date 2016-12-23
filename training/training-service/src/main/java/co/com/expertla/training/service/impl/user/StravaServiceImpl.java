@@ -76,7 +76,7 @@ public class StravaServiceImpl implements StravaService {
         List<UserActivityPerformance> list = getMetaField(curlService, token, response, user);
         for (UserActivityPerformance userActivityPerformance : list) {
             activityPerformanceService.create(userActivityPerformance);
-        }        
+    }
     }
 
     @Override
@@ -124,17 +124,33 @@ public class StravaServiceImpl implements StravaService {
             String startDate = jo.get("start_date_local").getAsString();
             String type = jo.get("type").getAsString();
             SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Date executionDate = sp.parse(startDate);
+            String executionDateShort = sf.format(executionDate);
+            
             boolean hasHeartrate = jo.get("has_heartrate").getAsBoolean();
             boolean hasDeviceWatts = jo.get("device_watts").getAsBoolean();
             String averageHeartrate = "";
             String maxHeartrate = "";
 
-            activitiesPlan.stream().filter((dto) -> (dto.getWorkoutDate() == executionDate && Objects.equals(dto.getSportId(), SportEnum.valueOf(type.toUpperCase()).getId()))).forEach((TrainingPlanWorkoutDto dto) -> {
+         /*   for (TrainingPlanWorkoutDto dto : activitiesPlan) {
+                String workdate = sf.format(dto.getWorkoutDate());
+                if (workdate.equals(executionDateShort) && Objects.equals(dto.getSportId(), SportEnum.valueOf(type.toUpperCase()).getId())) {
+                    dto.setExecutedTime(Double.parseDouble(elapsedTime.replaceAll("'", "")));
+                    dto.setExecutedDistance(Double.parseDouble(distance.replaceAll("'", "")));
+                    try {
+                        trainingPlanWorkoutService.update(dto);
+                    } catch (Exception ex) {
+                        Logger.getLogger(StravaServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }*/
+  
+            activitiesPlan.stream().filter((dto) -> (sf.format(dto.getWorkoutDate()).equals(executionDateShort) && Objects.equals(dto.getSportId(), SportEnum.valueOf(type.toUpperCase()).getId()))).forEach((TrainingPlanWorkoutDto dto) -> {
                 dto.setExecutedTime(Double.parseDouble(elapsedTime.replaceAll("'", "")));
                 dto.setExecutedDistance(Double.parseDouble(distance.replaceAll("'", "")));
                 try {
-                    trainingPlanWorkoutService.update(dto);
+                    trainingPlanWorkoutService.updateStrava(dto, true);
                 } catch (Exception ex) {
                     Logger.getLogger(StravaServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -76,7 +76,7 @@ public interface TrainingPlanWorkoutService {
 
     public void update(PlanWorkoutDTO planWorkoutDTO)throws Exception; 
 
-    public void update(TrainingPlanWorkoutDto dto)throws Exception; 
+    public void updateStrava(TrainingPlanWorkoutDto dto, Boolean isStrava)throws Exception; 
 
  
 }

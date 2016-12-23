@@ -98,6 +98,19 @@ trainingApp.service('CalendarService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );  
+           },
+           
+           updateWorkout: function(workout){
+                     return $http.post($contextPath + 'trainingPlanWorkout/update/workout', workout)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while update activity');
+                                    return $q.reject(errResponse);
+                                }
+                        );
            }
         };
     }]);

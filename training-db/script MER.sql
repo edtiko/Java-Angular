@@ -601,6 +601,9 @@ create table training_plan_workout (
    executed_time        decimal(10,2)        null,
    executed_distance    decimal(10,2)        null,  
    is_drag              boolean              not null default false,
+   ind_strava           smallint NOT NULL DEFAULT 0,
+   last_update_strava   timestamp without time zone,    
+   last_update_user     timestamp without time zone,    
    constraint pk_training_plan_workout primary key (training_plan_workout_id)
 );
 

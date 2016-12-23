@@ -55,6 +55,14 @@ public class TrainingPlanWorkout implements Serializable {
     private Double executedTime;
     @Column(name = "executed_distance")
     private Double executedDistance;
+    @Column(name = "ind_strava", insertable=false)
+    private Short indStrava;
+    @Column(name = "last_update_strava")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdateStrava;
+    @Column(name = "last_update_user")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdateUser;
 
     public TrainingPlanWorkout() {
     }
@@ -164,6 +172,30 @@ public class TrainingPlanWorkout implements Serializable {
 
     public void setExecutedDistance(Double executedDistance) {
         this.executedDistance = executedDistance;
+    }
+
+    public Short getIndStrava() {
+        return indStrava;
+    }
+
+    public void setIndStrava(Short indStrava) {
+        this.indStrava = indStrava;
+    }
+
+    public Date getLastUpdateStrava() {
+        return lastUpdateStrava;
+    }
+
+    public void setLastUpdateStrava(Date lastUpdateStrava) {
+        this.lastUpdateStrava = lastUpdateStrava;
+    }
+
+    public Date getLastUpdateUser() {
+        return lastUpdateUser;
+    }
+
+    public void setLastUpdateUser(Date lastUpdateUser) {
+        this.lastUpdateUser = lastUpdateUser;
     }
 
     

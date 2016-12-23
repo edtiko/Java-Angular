@@ -307,5 +307,7 @@ require.config({
 require(['app'], function () {
 
     angular.bootstrap(document.getElementById('trainingApp'), ['trainingApp']);
+    
+      $("#trainingApp").removeClass("preloader");
 
 });

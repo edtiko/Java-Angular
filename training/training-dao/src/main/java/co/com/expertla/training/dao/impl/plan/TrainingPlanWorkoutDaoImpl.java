@@ -32,7 +32,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId,");
         sql.append("t.workoutDate, t.activityId, t.manualActivityId,  u.userId.userId,");
-        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = u.userId.userId), t.isDrag ");
+        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = u.userId.userId), t.isDrag , t.executedTime, t.executedDistance, t.indStrava, t.lastUpdateStrava");
         sql.append(") FROM TrainingPlanWorkout t, TrainingPlanUser u ");
         sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
         sql.append("AND u.userId.userId = :userId ");
@@ -105,7 +105,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId, t.trainingPlanUserId.userId.userId, ");
-        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = t.trainingPlanUserId.userId.userId), t.isDrag )");
+        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = t.trainingPlanUserId.userId.userId), t.isDrag, t.executedTime, t.executedDistance, t.indStrava, t.lastUpdateStrava )");
         sql.append("FROM TrainingPlanWorkout t ");
         sql.append("WHERE t.trainingPlanWorkoutId = :trainingPlanWorkoutId ");
         Query query = getEntityManager().createQuery(sql.toString());
@@ -123,7 +123,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId) throws Exception {
            StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId, t.trainingPlanUserId.userId.userId, ");
-        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = t.trainingPlanUserId.userId.userId), t.isDrag )");
+        sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = t.trainingPlanUserId.userId.userId), t.isDrag, t.executedTime, t.executedDistance, t.indStrava, t.lastUpdateStrava )");
         sql.append("FROM TrainingPlanWorkout t ");
         sql.append("WHERE t.trainingPlanUserId.userId.userId = :userId ");
         sql.append(" And t.trainingPlanUserId.stateId = ").append(Status.ACTIVE.getId());

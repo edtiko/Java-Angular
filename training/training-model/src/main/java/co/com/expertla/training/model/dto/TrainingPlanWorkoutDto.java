@@ -2,7 +2,9 @@ package co.com.expertla.training.model.dto;
 
 import co.com.expertla.training.model.entities.Activity;
 import co.com.expertla.training.model.entities.ManualActivity;
+import co.com.expertla.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
 /**
@@ -40,6 +42,9 @@ public class TrainingPlanWorkoutDto {
     private Boolean isDrag;
     private Double executedTime;
     private Double executedDistance;
+    private Short indStrava;
+    @JsonSerialize(using = JsonDateSerializer.class)
+    private Date lastUpdateStrava;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -77,7 +82,8 @@ public class TrainingPlanWorkoutDto {
 
     public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
             Activity activityId, ManualActivity manualActivityId,
-            Integer userId, Integer percentageWeather, Boolean isDrag) {
+            Integer userId, Integer percentageWeather, Boolean isDrag, Double executedTime, 
+            Double executedDistance,  Short indStrava, Date lastUpdateStrava) {
         this.id = trainingPlanWorkoutId;
         this.workoutDate = workoutDate;
         this.percentageWeather = percentageWeather;
@@ -94,6 +100,7 @@ public class TrainingPlanWorkoutDto {
             this.objective = activityId.getObjectiveId().getName();
             this.level = activityId.getObjectiveId().getLevel();
             if (activityId.getSportId() != null) {
+                this.sportId = activityId.getSportId().getSportId();
                 this.sportIcon = activityId.getSportId().getIcon();
             }
         } else if (manualActivityId != null) {
@@ -106,6 +113,10 @@ public class TrainingPlanWorkoutDto {
         }
 
         this.userId = userId;
+        this.executedTime = executedTime;
+        this.executedDistance = executedDistance;
+        this.indStrava = indStrava;
+        this.lastUpdateStrava = lastUpdateStrava;
     }
 
     public Integer getId() {
@@ -299,5 +310,14 @@ public class TrainingPlanWorkoutDto {
     public void setExecutedDistance(Double executedDistance) {
         this.executedDistance = executedDistance;
     }
+
+    public Short getIndStrava() {
+        return indStrava;
+    }
+
+    public void setIndStrava(Short indStrava) {
+        this.indStrava = indStrava;
+    }
+    
 
 }

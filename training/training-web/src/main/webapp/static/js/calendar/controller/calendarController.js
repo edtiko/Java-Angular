@@ -1,4 +1,4 @@
-trainingApp.controller('CalendarController', function ($scope, CalendarService, SportService,
+trainingApp.controller('CalendarController', function ($scope, CalendarService, SportService, ActivityService,
         $window, $mdDialog) {
     $scope.activityList = [];
     $scope.trainingPow = 0;
@@ -178,7 +178,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
 
     function ActivityController($scope, $mdDialog) {
 
-        $scope.activity = {activityId: '', modality: '', title: '', activityDescription: '', workoutDate: '', userId: $scope.userId};
+        $scope.activity = {id: '', activityId: '', modality: '', executedTime:'', executedDistance:'', title: '', indStrava:'', lastUpdateStrava:'', activityDescription: '', workoutDate: '', userId: $scope.userId};
         $scope.getActivity = function () {
             //Consulta type zona igual a PPM por defecto
             $scope.trainingPow = 1;
@@ -219,8 +219,27 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             $scope.getActivityReplace();
         }
         
-        $scope.guardarActividad = function () {
+        /*$scope.guardarActividad = function () {
             $mdDialog.hide();
+            console.log($scope.activity);
+        };*/
+        
+        $scope.updateActivity = function () {
+            CalendarService.updateWorkout($scope.activity).then(
+                    function (data) {
+                        if (data.status == 'success') {
+                            $scope.showMessage(data.output);
+                            $mdDialog.hide();
+                        } else {
+                            $scope.showMessage(data.output, "Error");
+                        }
+                    },
+                    function (error) {
+
+                    }
+
+
+            );
         };
 
         $scope.hide = function () {

@@ -346,6 +346,23 @@ public class TrainingPlanWorkoutController {
         }
     }
     
+        @RequestMapping(value = "trainingPlanWorkout/update/workout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> updatePlanWorkoutStrava(@RequestBody TrainingPlanWorkoutDto dto) {
+        ResponseService responseService = new ResponseService();
+        try {
+            trainingPlanWorkoutService.updateStrava(dto, false);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Actualizado correctamente");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear plan");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
     @RequestMapping(value = "trainingPlanWorkout/get/current/week", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> getCurrentWeek() {
         ResponseService responseService = new ResponseService();
