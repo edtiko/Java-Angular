@@ -79,5 +79,9 @@ public interface ObjectiveDao extends BaseDAO<Objective> {
      * @return
      */
     public List<ObjectiveDTO> findByDiscipline(Integer disciplineId) throws Exception;
+
+    public Integer findNextObjective(Integer trainingUserPlanId) throws Exception;
+    
+    public Integer findCurrentObjective(Integer trainingUserPlanId) throws Exception; 
     
 }

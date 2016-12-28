@@ -3,7 +3,6 @@ package co.com.expertla.training.dao.plan;
 import co.com.expertla.base.jpa.BaseDAO;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
-import co.com.expertla.training.model.entities.User;
 import java.util.Date;
 import java.util.List;
 
@@ -20,13 +19,13 @@ public interface TrainingPlanWorkoutDao extends BaseDAO<TrainingPlanWorkout> {
      * Info. Creación: <br>
      * fecha 15/07/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param user
+     * @param userId
      * @param fromDate
      * @param toDate
      * @return 
      * @throws Exception 
      */
-    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception;
+    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception;
     
     /**
      * Crea la lista de training plan workout

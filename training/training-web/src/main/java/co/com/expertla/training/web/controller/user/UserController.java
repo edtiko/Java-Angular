@@ -359,10 +359,10 @@ public class UserController {
                 createOrderFromAuthetication(userDto);
             }
 
-            List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-            if (trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
-                userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
-                userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
+           TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+            if (trainingPlanUser != null) {
+                userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
+                userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
             }
 
             session.setAttribute("user", userSession);
@@ -763,10 +763,10 @@ public class UserController {
                 userSession.setUserProfile(up);
             }
 
-            List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-            if (trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
-                userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
-                userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
+            TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+            if (trainingPlanUser != null ) {
+                userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
+                userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
             }
             //Importa los datos de strava si el usuario los tiene autorizados
             if (userDto.getIndStrava() != null && userDto.getIndStrava().equals("1") && userDto.getLastExecuteStrava() != null
@@ -925,11 +925,11 @@ public class UserController {
                         Integer trainingPlanId = jo.get("planId").getAsInt();
                         List<TrainingPlan> trainingPlan = trainingPlanService.findByTrainingPlan(new TrainingPlan(trainingPlanId));
 
-                        List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+                        TrainingPlanUser trainingPlanUserOld = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
 
-                        for (TrainingPlanUser trainingPlanUser : trainingPlanUserlist) {
-                            trainingPlanUser.setStateId(StateEnum.INACTIVE.getId());
-                            trainingPlanUserService.store(trainingPlanUser);
+                        if(trainingPlanUserOld != null) {
+                            trainingPlanUserOld.setStateId(StateEnum.INACTIVE.getId());
+                            trainingPlanUserService.store(trainingPlanUserOld);
                         }
 
                         TrainingPlanUser trainingPlanUser = new TrainingPlanUser();

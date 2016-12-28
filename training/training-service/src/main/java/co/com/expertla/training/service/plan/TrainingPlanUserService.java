@@ -93,6 +93,6 @@ public interface TrainingPlanUserService {
      * @return 
      * @throws Exception 
      */
-    public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception;
+    public TrainingPlanUser getTrainingPlanUserByUser(User user) throws Exception;
  
 }

@@ -106,7 +106,7 @@ public class TrainingPlanWorkoutController {
      */
     private List<TrainingPlanWorkoutDto> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
             Date fromDate, Date toDate) throws Exception {
-        List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(user), fromDate, toDate);
+        List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(user, fromDate, toDate);
 
         for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {
             trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
@@ -155,21 +155,21 @@ public class TrainingPlanWorkoutController {
             Date startDate = startCal.getTime();
             startCal.add(Calendar.DAY_OF_MONTH, 29);
             Date endDate = startCal.getTime();
-            trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
+            trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate, true);
 
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);
             userService.updateUser(userDTO);
             
-            List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserService.getTrainingPlanUserByUser(new User(userProfile.getUserId()));
+            TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userProfile.getUserId()));
 
             if (session.getAttribute("user") != null) {
                 UserDTO userSession = (UserDTO) session.getAttribute("user");
                 userSession.setIndLoginFirstTime(0);
 
-                if (trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
-                    userSession.setPlanActiveId(trainingPlanUserlist.get(0).getTrainingPlanId().getTrainingPlanId());
-                    userSession.setTrainingPlanUserId(trainingPlanUserlist.get(0).getTrainingPlanUserId());
+                if (trainingPlanUser != null) {
+                    userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
+                    userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
                 }
             }
 
@@ -302,7 +302,7 @@ public class TrainingPlanWorkoutController {
             Date fromDate = calendar.getTime();
             Date toDate = calendarTo.getTime();
 
-            List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(trainingPlanWorkout.getUserId()),
+            List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(trainingPlanWorkout.getUserId(),
                     fromDate, toDate);
 
             for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {

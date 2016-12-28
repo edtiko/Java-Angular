@@ -3,7 +3,6 @@ package co.com.expertla.training.service.plan;
 import co.com.expertla.training.model.dto.PlanWorkoutDTO;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
-import co.com.expertla.training.model.entities.User;
 import java.util.Date;
 import java.util.List;
 
@@ -20,22 +19,23 @@ public interface TrainingPlanWorkoutService {
      * Info. Creación: <br>
      * fecha 15/07/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param user
+     * @param userId
      * @param fromDate
      * @param toDate
      * @return 
      * @throws Exception 
      */
-    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception;
+    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception;
     
     /**
      * Genera el plan de entrenamiento para el usuario
      * @param id
      * @param fromDate
      * @param toDate
+     * @param isApproved
      * @throws Exception 
      */
-    public void generatePlan(Integer id,Date fromDate, Date toDate) throws Exception;
+    public void generatePlan(Integer id,Date fromDate, Date toDate, Boolean isApproved) throws Exception;
     
     
     /**
@@ -77,6 +77,8 @@ public interface TrainingPlanWorkoutService {
     public void update(PlanWorkoutDTO planWorkoutDTO)throws Exception; 
 
     public void updateStrava(TrainingPlanWorkoutDto dto, Boolean isStrava)throws Exception; 
+
+    public boolean isApproved(Integer trainingPlanUserId, Date fromDate, Date toDate, Integer objectiveId)throws Exception; 
 
  
 }

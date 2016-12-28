@@ -28,7 +28,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     private final int batchSize = 10;
     
     @Override
-    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
+    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId,");
         sql.append("t.workoutDate, t.activityId, t.manualActivityId,  u.userId.userId,");
@@ -39,7 +39,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         sql.append("AND t.workoutDate BETWEEN :fromDate AND :toDate ");
         sql.append("AND u.stateId = :active ");
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("userId", user.getUserId());
+        query.setParameter("userId", userId);
         query.setParameter("fromDate", fromDate, TemporalType.DATE);
         query.setParameter("toDate", toDate, TemporalType.DATE);
         query.setParameter("active", Short.valueOf(Status.ACTIVE.getId()));

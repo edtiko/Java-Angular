@@ -1,14 +1,12 @@
 package co.com.expertla.training.dao.impl.plan;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
-import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanUser;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.dao.plan.TrainingPlanUserDao;
 import co.com.expertla.training.enums.StateEnum;
 import java.util.List;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +20,7 @@ import org.springframework.stereotype.Repository;
 public class TrainingPlanUserDaoImpl extends BaseDAOImpl<TrainingPlanUser> implements TrainingPlanUserDao {
     
     @Override
-    public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception {
+    public TrainingPlanUser getTrainingPlanUserByUser(User user) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t from TrainingPlanUser t ");
         sql.append("WHERE t.userId.userId = :userId ");
@@ -31,7 +29,7 @@ public class TrainingPlanUserDaoImpl extends BaseDAOImpl<TrainingPlanUser> imple
         query.setParameter("userId", user.getUserId());
         query.setParameter("stateId", StateEnum.ACTIVE.getId().shortValue());
         List<TrainingPlanUser> list = query.getResultList();
-        return list;
+        return list!=null?list.get(0):null;
     }
     
     public TrainingPlanUserDaoImpl() {
@@ -41,7 +39,9 @@ public class TrainingPlanUserDaoImpl extends BaseDAOImpl<TrainingPlanUser> imple
     public List<TrainingPlanUser> findAll() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from TrainingPlanUser a ");
+        builder.append("where a.stateId = :stateId ");
         builder.append("order by a.TrainingPlanUserId desc ");
+        setParameter("stateId", StateEnum.ACTIVE.getId().shortValue());
         return createQuery(builder.toString());
     }
 
