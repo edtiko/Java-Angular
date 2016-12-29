@@ -24,4 +24,6 @@ public interface PlanWorkoutObjectiveService {
     public PlanWorkoutObjective findById(Integer e) throws Exception;   
 
     public List<PlanWorkoutObjective> findByFiltro(PlanWorkoutObjective filtro) throws Exception; 
+
+    public PlanWorkoutObjective findCurrentObjective(Integer trainingPlanUserId) throws Exception; 
 }

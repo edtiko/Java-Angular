@@ -56,6 +56,8 @@ public class PlanWorkoutObjective implements Serializable {
     @Column(name = "to_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date toDate;
+    @Column(name = "active")
+    private Boolean active;
 
     public PlanWorkoutObjective() {
     }
@@ -110,6 +112,14 @@ public class PlanWorkoutObjective implements Serializable {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
       
 

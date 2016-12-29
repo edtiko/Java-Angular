@@ -55,4 +55,6 @@ public interface UserTrainingOrderDao extends BaseDAO<UserTrainingOrder> {
      */
     public List<UserTrainingOrder> findByFiltro(UserTrainingOrder userTrainingOrder) throws Exception; 
 
+    public UserTrainingOrder findByUserId(Integer userId) throws Exception; 
+
 }

@@ -57,5 +57,28 @@ public class PlanWorkoutObjectiveDaoImpl  extends BaseDAOImpl<PlanWorkoutObjecti
     public List<PlanWorkoutObjective> findByFiltro(PlanWorkoutObjective filtro) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public PlanWorkoutObjective findCurrentObjective(Integer trainingPlanUserId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t FROM PlanWorkoutObjective t ");
+        sql.append("WHERE t.trainingPlanUserId.trainingPlanUserId = :trainingPlanUserId ");
+        sql.append("AND t.active = :active ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("trainingPlanUserId", trainingPlanUserId);
+        query.setParameter("active", Boolean.TRUE);
+        List<PlanWorkoutObjective> list = query.getResultList();
+
+        return list != null ? list.get(0) : null;
+    }
+
+    @Override
+    public void inactivateOld(Integer trainingPlanUserId) throws Exception {
+       StringBuilder builder = new StringBuilder();
+        builder.append("update plan_workout_objective ");
+        builder.append("set active = false ");
+        builder.append("where training_plan_user_id = ").append(trainingPlanUserId);
+        executeNativeUpdate(builder.toString());
+    }
     
 }

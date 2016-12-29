@@ -154,7 +154,7 @@ public class UserController {
     
    @Autowired
     private UserAvailabilityService userAvailabilityService;
-
+   
     /**
      * Upload single file using Spring Controller
      *
@@ -342,6 +342,9 @@ public class UserController {
                 response.sendRedirect(UrlProperties.URL_PORTAL + "mi-cuenta/");
                 return null;
             }
+           
+            userTrainingOrderService.isSuscribed(userDto.getUserId());
+            
             UserDTO userSession = new UserDTO();
             userSession.setUserId(userDto.getUserId());
             userSession.setFirstName(userDto.getFirstName());

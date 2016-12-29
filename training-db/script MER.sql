@@ -984,6 +984,7 @@ create table plan_workout_objective(
    from_date                  timestamp without time zone,
    to_date                   timestamp without time zone,
    creation_date              date                   null,
+   active                     boolean,
    constraint pk_plan_workout_objective primary key (plan_workout_objective_id)
 );
 

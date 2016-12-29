@@ -27,4 +27,8 @@ public interface PlanWorkoutObjectiveDao extends BaseDAO<PlanWorkoutObjective>{
     public PlanWorkoutObjective findById(Integer e) throws Exception;   
 
     public List<PlanWorkoutObjective> findByFiltro(PlanWorkoutObjective filtro) throws Exception; 
+
+    public PlanWorkoutObjective findCurrentObjective(Integer trainingPlanUserId) throws Exception; 
+
+    public void inactivateOld(Integer trainingPlanUserId) throws Exception; 
 }

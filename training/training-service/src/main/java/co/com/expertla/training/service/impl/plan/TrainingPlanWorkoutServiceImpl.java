@@ -129,16 +129,17 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             dates = getDatesPlan(fromDate);
             assignActivities(fromDate, toDate, userProfile, dcf, dates, trainingPlanUser, objectiveId);
         }
-        
-        //crea el historial del nodo objetivo actual
+        //inactiva el flujo anterior
+        planWorkoutObjectiveDao.inactivateOld(trainingPlanUser.getTrainingPlanUserId());
+        //crea el flujo del nodo objetivo actual
         PlanWorkoutObjective e = new PlanWorkoutObjective();
         e.setObjectiveId(new Objective(objectiveId));
         e.setTrainingPlanUserId(trainingPlanUser);
         e.setFromDate(fromDate);
         e.setToDate(toDate);
         e.setCreationDate(Calendar.getInstance().getTime());
+        e.setActive(Boolean.TRUE);
         planWorkoutObjectiveDao.create(e);
-
     }
     
     /**

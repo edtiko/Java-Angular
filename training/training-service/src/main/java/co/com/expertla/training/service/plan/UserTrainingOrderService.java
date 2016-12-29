@@ -94,7 +94,9 @@ public interface UserTrainingOrderService {
      */
     public String getPlanIdByOrder(UserTrainingOrder userTrainingOrder) throws Exception; 
 
+    public UserTrainingOrder findByUserId(Integer userId) throws Exception; 
 
+    public boolean isSuscribed(Integer userId)throws Exception; 
 
     
 }
