@@ -21,7 +21,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.typePlanPlatform = 2;
         $scope.invitation = null;
         $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
-
+        
+        $scope.go = function (path) {
+            $location.path(path);
+        };
 
         $scope.viewInvitations = function (userId) {
             ExternalCoachService.getInvitation(userId).then(

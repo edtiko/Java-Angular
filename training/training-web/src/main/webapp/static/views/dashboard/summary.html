@@ -1,0 +1,32 @@
+<div layout="column"> 
+    <div layout="column">
+        <h3>RESUMEN DE MI PERFIL</h3>
+        <div layout="row" layout-align="space-around center">
+            <div  layout="column">
+                <h2>{{user.age}}</h2>
+                <label>EDAD</label>
+            </div>
+            <div  layout="column">
+                <h2>{{user.weight}} kg</h2>
+                <label>PESO</label>
+            </div>
+            <div  layout="column">
+                <h2>{{user.height}} cm</h2>
+                <label>ALTURA</label>
+            </div>
+            <div  layout="column">
+                <h2>{{user.imc}}</h2>
+                <label>IMC</label>
+            </div>
+            <div  layout="column">
+                <h2>{{user.ppm}}</h2>
+                <label>PPM</label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <md-divider></md-divider>
+    <div ng-controller="ReportsController">
+        <div ng-include src="'static/views/reports/reports.html'"></div>
+    </div>
+</div>

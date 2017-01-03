@@ -1,9 +1,9 @@
 'use strict';
 
 trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService', 'MailService',
-    'videoService', 'ExternalCoachService', 'AudioMessageService',
+    'videoService', 'ExternalCoachService', 'AudioMessageService','$location',
     function ($scope, UserService, DashboardService, $window, messageService, MailService,
-            videoService, ExternalCoachService, AudioMessageService) {
+            videoService, ExternalCoachService, AudioMessageService, $location) {
 
         var self = this;
         $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -41,6 +41,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         $scope.views = {
             profile: {page: 'static/views/dashboard/profile.html', controller: ""},
+            summary: {page: 'static/views/dashboard/summary.html'},
             video: {page: 'static/views/video/video.html', controller: "VideoController"},
             message: {page: 'static/views/message/message.html', controller: "MessageController"},
             audioMessage: {page: 'static/views/audioMessage/audioMessage.html', controller: "AudioMessageController"},
@@ -50,7 +51,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             control: {page: 'static/views/dashboard/control.html'}
         };
 
-        $scope.pageSelected = $scope.views.profile.page;
+        $scope.pageSelected = $scope.views.summary.page;
         $scope.controllerSelected = null;
 
         $scope.calculateIMC = function () {
@@ -341,7 +342,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.showChat = true;
             $scope.showCountChat = true;
             $scope.showScript = false;
-            $scope.pageSelected = $scope.views.profile.page;
+            $scope.pageSelected = $scope.views.summary.page;
             $window.sessionStorage.setItem("selectedUser", null);
             $window.sessionStorage.setItem("planSelected", JSON.stringify(planSelected));
             $scope.planSelected = angular.copy(planSelected);
@@ -383,7 +384,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
             $scope.selectedIndex2 = index;
             $scope.tabIndexStar = 1;
-            $scope.pageSelected = $scope.views.profile.page;
+            $scope.pageSelected = $scope.views.summary.page;
             $scope.showProfileImage = true;
             $window.sessionStorage.setItem("planSelected", null);
             $window.sessionStorage.setItem("selectedUser", JSON.stringify(user));
@@ -404,7 +405,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.selectedIndex2 = index;
             $scope.selectedIndex = null;
 
-            $scope.pageSelected = $scope.views.profile.page;
+            $scope.pageSelected = $scope.views.summary.page;
             $scope.showProfileImage = true;
             $window.sessionStorage.setItem("planSelected", null);
             $window.sessionStorage.setItem("selectedUser", JSON.stringify(user));
@@ -451,7 +452,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.initControlAthlete(roleSelected, $scope.planSelected.coachUserId.userId);
 
             //$scope.showProfileImage = true;
-            $scope.pageSelected = $scope.views.profile.page;
+            $scope.pageSelected = $scope.views.summary.page;
         };
 
 
@@ -470,7 +471,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                  $scope.showCountVideo = true; 
             }
             if ($scope.planSelected != null) {
-                $scope.pageSelected = $scope.views.profile.page;
+                $scope.pageSelected = $scope.views.summary.page;
                 //mensajes 
                 self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
                 self.getReceivedMessages($scope.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
@@ -726,7 +727,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
 
-        $scope.goMessages = function () {
+        $scope.goMessages = function (roleSelected) {
+            $scope.roleSelected = roleSelected;
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             var userSelected = JSON.parse($window.sessionStorage.getItem("selectedUser")); //Usuario interno seleccionado
@@ -745,8 +747,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.pageSelected = $scope.views.message.page;
             }
         };
-
-        $scope.goAudioMessages = function () {
+        $scope.goHome = function () {
+            $scope.selectedIndex = 1;
+            $scope.pageSelected = $scope.views.summary.page;
+        };  
+        $scope.goAudioMessages = function (roleSelected) {
+             $scope.roleSelected = roleSelected;
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.userSession != null && planSelected == null) {
@@ -774,8 +780,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
 
 
-        $scope.goVideos = function () {
-
+        $scope.goVideos = function (roleSelected) {
+           $scope.roleSelected = roleSelected;
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.userSession != null && planSelected == null) {
@@ -793,7 +799,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         };
 
-        $scope.goEmail = function () {
+        $scope.goEmail = function (roleSelected) {
+             $scope.roleSelected = roleSelected;
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             var userSelected = JSON.parse($window.sessionStorage.getItem("selectedUser")); //Usuario interno seleccionado

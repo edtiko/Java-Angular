@@ -66,10 +66,10 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                     // Set chart options
                                     var options = {'title': title,
                                         'is3D': true,
-                                        'width': 1100,
+                                        'width': 800,
                                         'pointSize': 7,
                                         'hAxis': {showTextEvery: 1},
-                                        'height': 500};
+                                        'height': 400};
 
                                     // Instantiate and draw our chart, passing in some options.
 
@@ -91,6 +91,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
+                                   google.charts.setOnLoadCallback(drawGaugeChart);
                                 }
                             },
                             function (errResponse) {
@@ -179,9 +180,9 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
 
                                     var options = {'title': title,
                                         "hAxis": {showTextEvery: 1},
-                                        'width': 1100,
+                                        'width': 800,
                                         'pointSize': 7,
-                                        'height': 500};
+                                        'height': 400};
 
                                     // Instantiate and draw our chart, passing in some options.
                                     if (metafield == 1) {
@@ -202,6 +203,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
+                                    google.charts.setOnLoadCallback(drawGaugeChart);
                                 }
                             },
                             function (errResponse) {
@@ -294,6 +296,60 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                 "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
             ];
             return monthNames[date.getMonth()];
+        }
+        
+        //google.charts.load('current', {'packages': ['gauge']});
+        function drawGaugeChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Label', 'Value'],
+                ['Actividad', 80],
+                ['Calorias', 55],
+                ['Distancia', 68]
+            ]);
+
+            var options = {
+                width: 400, height: 120,
+                redFrom: 90, redTo: 100,
+                yellowFrom: 75, yellowTo: 90,
+                minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('chart_gauge'));
+
+            chart.draw(data, options);
+
+            setInterval(function () {
+                data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+                chart.draw(data, options);
+            }, 13000);
+            setInterval(function () {
+                data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+                chart.draw(data, options);
+            }, 5000);
+            setInterval(function () {
+                data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+                chart.draw(data, options);
+            }, 26000);
+        }
+        
+        function drawDonutChart(){
+                 var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
         }
 
 
