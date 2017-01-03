@@ -3,7 +3,6 @@ package co.com.expertla.training.dao.impl.plan;
 import co.com.expertla.base.jpa.BaseDAOImpl;
 import java.util.List;
 
-import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.model.dto.TrainingPlanWorkoutDto;
 import co.com.expertla.training.model.entities.TrainingPlanWorkout;
 import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;

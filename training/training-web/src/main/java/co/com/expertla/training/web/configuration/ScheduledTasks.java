@@ -54,6 +54,7 @@ public class ScheduledTasks {
 
                 PlanWorkoutObjective current = planWorkoutObjectiveService.findCurrentObjective(e.getTrainingPlanUserId());
                 boolean subscribed = userTrainingOrderService.isSuscribed(e.getUserId().getUserId());
+                Date now = Calendar.getInstance().getTime();
                 if (current != null && subscribed) {
                     Calendar startCal = Calendar.getInstance();
                     startCal.setTime(current.getToDate());
