@@ -1,0 +1,97 @@
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+        <span class="md-headline">Datos de contacto</span>
+      
+            <input type="hidden" ng-model="user.userId" />
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="user.firstName" id="uname" name="uname"  placeholder="Primer Nombre"  ng-minlength="3" ng-maxlength="500" ng-required="true"/>
+                        <div class="has-error" ng-messages="myFormUser.uname.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 500</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" >
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.secondName" id="secondName" name="secondName"  placeholder="Segundo Nombre"  ng-minlength="3"/>
+
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.lastName" id="lname" name="lname"  placeholder="Apellidos"  ng-minlength="3" ng-maxlength="500" ng-required="true"/>
+                        <div class="has-error" ng-messages="myFormUser.lname.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 500</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="email" ng-model="user.email" id="email" name="email"  placeholder="Correo Electr&oacute;nico" ng-required="true"/>
+
+                        <div class="has-error" ng-messages="myFormUser.email.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="email">Su correo es inv&aacute;lido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingemail" ng-change="setVisibleField(user_trainingemail, 'user_training', 'email')"
+                           ng-model="isActive"> Mostrar </md-switch>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label  for="sex">Sexo</label>
+
+                        <md-select id="sex" ng-model="user.sex" ng-required="true">
+                            <!--<md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>-->
+                            <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                                {{s.sex}}
+                            </md-option>
+                        </md-select>
+                        <div class="has-error" ng-messages="myFormUser.sex.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingsex" ng-change="setVisibleField(user_trainingsex, 'user_training', 'sex')">
+                    Mostrar
+                </md-switch>
+
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label>Fecha de Nacimiento (dd/mm/yyyy)</label>
+                        <!--<md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
+
+                        </md-datepicker>-->
+                        <input type="text" id="birthDate"  ng-model-options="{updateOn: 'blur'}" name="birthDate" ng-model="birthdateDt" jqdatepicker  ng-required="true" />
+                          <!--<input type="text" ng-model="birthdateDt" id="birthDate" ng-blur="showAge(this.birthdateDt)" name="birthDate" />-->
+                        <div class="has-error" ng-messages="myFormUser.birthDate.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="date">Este campo es inv&aacute;lido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingbirth_date, 'user_training', 'birth_date')"
+                           ng-model="user_trainingbirth_date">Mostrar</md-switch>
+
+            </div>
+    </md-content>
+</div>
+           

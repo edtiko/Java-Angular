@@ -83,7 +83,8 @@ require.config({
         scriptService:"script/service/scriptService",
         informeService:"informe/service/informeService",
         configurationPlanService:"configuration/service/configurationPlanService",
-        membershipService: "configuration/service/membershipService"
+        membershipService: "configuration/service/membershipService",
+        multiStepForm: "lib/angular-multi-step-form"
     },
     shim: {
         angular: {
@@ -207,11 +208,15 @@ require.config({
         adapter: {
             deps: ['angular']
         },
+        multiStepForm: {
+            exports: 'multiStepForm',
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
                 'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder',
-                'wavesurfer','adapter','moment','jqueryui'
+                'wavesurfer','adapter','moment','jqueryui','multiStepForm'
 
             ]
         },

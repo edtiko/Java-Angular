@@ -4,6 +4,21 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
             VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService) {
         var self = this;
+        $scope.currentNavItem = 0;
+        $scope.steps = [
+            {
+                templateUrl: 'static/views/datosPersonales/step1.html',
+                title: 'Datos Personales'
+            },
+            {
+                templateUrl: 'static/views/datosPersonales/step2.html',
+                title: 'Datos de Contacto'
+            }
+        ];
+        $scope.onStepChange = function(index){
+            $scope.currentNavItem = index-1;
+            console.log("el paso activo es:"+ index);
+        };
         $scope.userStravaAutorize = true;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];

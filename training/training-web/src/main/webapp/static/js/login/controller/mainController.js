@@ -1,8 +1,8 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
-    'VisibleFieldsUserService', 'ModuleService', 'ExternalCoachService',
+    'VisibleFieldsUserService', 'ModuleService', 'ExternalCoachService', 'DashboardService',
     '$window', '$mdDialog', '$mdToast', '$location', function ($http, $scope,
-            AuthService, VisibleFieldsUserService, ModuleService, ExternalCoachService, $window, $mdDialog, $mdToast, $location) {
+            AuthService, VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService, $window, $mdDialog, $mdToast, $location) {
 
         var self = this;
         $scope.successTextAlert = "";
@@ -20,10 +20,69 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.typePlanTraining = 1;
         $scope.typePlanPlatform = 2;
         $scope.invitation = null;
+        $scope.selectedIndex = 1;
         $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
-        
-        $scope.go = function (path) {
+        $scope.views = {
+            profile: {page: 'static/views/dashboard/profile.html', controller: ""},
+            summary: {page: 'static/views/dashboard/summary.html'},
+            video: {page: 'static/views/video/video.html', controller: "VideoController"},
+            message: {page: 'static/views/message/message.html', controller: "MessageController"},
+            audioMessage: {page: 'static/views/audioMessage/audioMessage.html', controller: "AudioMessageController"},
+            email: {page: 'static/views/mail/mail.html', controller: "MailController"},
+            script: {page: 'static/views/script/script.html', controller: "ScriptController"},
+            report: {page: 'static/views/reports/reports.html', controller: "ReportsController"},
+            control: {page: 'static/views/dashboard/control.html'}
+        };
+        $scope.pageSelected = $scope.views.summary.page;
+        $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
+            weight: '', height: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
+            birthDate: '', facebookPage: '', country: '', profilePhoto: '',
+            ageSport: '', ppm: '', imc: '', power: '', sportsAchievements: '',
+            aboutMe: '', indMetricSys: '', discipline: '', sport: '', shoes: '', bikes: '', potentiometer: '',
+            modelPotentiometer: '', pulsometer: '', modelPulsometer: '', objective: '', modality: '', environment: '',
+            availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '',
+            injury: '', disease: '', weather: ''
+        };
+
+        $scope.go = function (path, index) {
+            $scope.selectedIndex = index;
             $location.path(path);
+        };
+
+        $scope.goHome = function () {
+            $scope.selectedIndex = 1;
+            $scope.pageSelected = $scope.views.summary.page;
+            $scope.go('/dashboard', 1);
+        };
+
+        $scope.getDashBoardByUser = function (user) {
+            DashboardService.getDashboard(user).then(
+                    function (d) {
+                        $scope.user = d;
+                        $scope.calculateIMC();
+                        if ($scope.user.birthDate != null) {
+                            var date = $scope.user.birthDate.split("/");
+                            var birthdate = new Date(date[2], date[1] - 1, date[0]);
+                            $scope.user.age = $scope.calculateAge(birthdate);
+                        }
+                        $scope.getVisibleFieldsUserByUser(user);
+                        //$scope.getImageProfile(user.userId);
+                    },
+                    function (errResponse) {
+                        console.error('Error while fetching the dashboard');
+                        console.error(errResponse);
+                    }
+            );
+        };
+
+        $scope.calculateIMC = function () {
+
+            if ($scope.user.weight != null && $scope.user.height != null
+                    && $scope.user.weight != "" && $scope.user.height != "") {
+                $scope.user.imc = Math.round($scope.user.weight / ($scope.user.height * $scope.user.height) * 10) / 10;
+            } else if ($scope.user.weight == "" || $scope.user.height == "") {
+                $scope.user.imc = null;
+            }
         };
 
         $scope.viewInvitations = function (userId) {
@@ -99,7 +158,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                         //.targetEvent(ev)
                         );
             }
-        };
+        }
+        ;
 
         $scope.showMessageConfirmation = function (msg, title, link) {
             // Appending dialog to document.body to cover sidenav in docs app
@@ -231,7 +291,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             }
         };
         $scope.logout = function () {
-            window.location = $wordPressContextPath+'mi-cuenta/customer-logout/';
+            window.location = $wordPressContextPath + 'mi-cuenta/customer-logout/';
         };
 
         $scope.viewInvitationDialog = function () {
@@ -357,7 +417,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         function handleDataAvailable(event) {
             if (event.data && event.data.size > 0) {
                 recordedBlobs.push(event.data);
-                 $scope.mediaModel = event.data;
+                $scope.mediaModel = event.data;
             }
         }
 

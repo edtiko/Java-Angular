@@ -25,7 +25,9 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                     .then(
                             function (response) {
                                 $scope.userActivityPerformanceList = response.output;
-
+                                if (google == null) {
+                                    google.charts.load('current', {packages: ['corechart', 'gauge']});
+                                }
                                 google.charts.setOnLoadCallback(drawChart);
                                 function drawChart() {
 
@@ -116,6 +118,9 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                 function drawChart() {
 
                                     var title = '';
+                                    if(google ==  null){
+                                        google.charts.load('current', {packages: ['corechart', 'gauge']});
+                                    }
                                     var data = new google.visualization.DataTable();
                                     data.addColumn('string', 'tiempo');
                                     if (metafield == 1) {

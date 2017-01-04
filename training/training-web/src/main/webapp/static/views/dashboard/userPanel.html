@@ -1,8 +1,8 @@
-<div layout="column" class="border" style="height: 100%; min-height: 800px;">
+<div layout="column" class="border" style="height: 100%; min-height: 900px;">
     <md-content>
         <div layout="column" layout-align="space-around center" flex>
             <a  href="#data-person" >
-                <img class="circular" data-ng-src="{{profileImage}}" style="height: 200px; width: 200px;">
+                <img class="circular" data-ng-src="{{userSession.profilePhotoBase64}}" style="height: 200px; width: 200px;">
                 <md-tooltip md-direction="right">
                     Ver Perfil
                 </md-tooltip>
@@ -21,14 +21,14 @@
             <md-divider></md-divider>
         </md-list-item>
 
-        <md-list-item class="md-2-line" ng-click="go('/calendar')" ng-class="{selectedIndex: selectedIndex===2}">
+        <md-list-item class="md-2-line" ng-click="go('/calendar',2)" ng-class="{selectedIndex: selectedIndex===2}">
             <md-icon><i class="fa fa-calendar fa-lg" aria-hidden="true"></i></md-icon>
             <div class="md-list-item-text">
                 <h3>Calendario</h3>
             </div>
             <md-divider></md-divider>
         </md-list-item>
-        <md-list-item class="md-2-line" ng-click="go('/reports')" ng-class="{selectedIndex: selectedIndex===3}">
+        <md-list-item class="md-2-line" ng-click="go('/reports',3)" ng-class="{selectedIndex: selectedIndex===3}">
             <md-icon><i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i></md-icon>
             <div class="md-list-item-text">
                 <h3>Gr&aacute;ficos</h3>
