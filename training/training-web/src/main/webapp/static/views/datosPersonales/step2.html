@@ -1,27 +1,28 @@
-
-<div class="demo-md-panel md-padding">
+<div layout="column" > 
     <md-content layout-padding>
-        <span class="md-headline">Datos de contacto</span>
         <input type="hidden" ng-model="user.userId" />
-
+        <br />
+        <br />
+        <form name="frm2" ng-submit="submitUser(frm2, myFile)">
         <div layout="row">
-            <div flex="33">
+            <div flex="66">
                 <md-input-container class="md-block">
-                    <input type="number" ng-model="user.phone" min="0" string-to-number id="phone" name="phone" placeholder="Tel&eacute;fono fijo"  ng-maxlength="50"/>
-                    <div class="has-error" ng-messages="myFormUser.phone.$error">
-                        <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
+                    <input type="email" ng-model="user.email" id="email" name="email"  placeholder="Correo Electr&oacute;nico" ng-required="true"/>
+
+                    <div class="has-error" ng-messages="frm2.email.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="email">Su correo es inv&aacute;lido</div>
                     </div>
                 </md-input-container>
             </div>
-            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingphone, 'user_training', 'phone')"
-                       ng-model="user_trainingphone"> Mostrar</md-switch>
-
+            <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingemail" ng-change="setVisibleField(user_trainingemail, 'user_training', 'email')"
+                       ng-model="isActive"> Mostrar </md-switch>
         </div>
         <div layout="row">
-            <div flex="33">
+            <div flex="66">
                 <md-input-container class="md-block">
                     <input type="number" ng-model="user.cellphone" min="0" string-to-number id="cellphone" name="cellphone"  placeholder="Celular" ng-maxlength="50"/>
-                    <div class="has-error" ng-messages="myFormUser.cellphone.$error">
+                    <div class="has-error" ng-messages="frm2.cellphone.$error">
                         <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
                     </div>
                 </md-input-container>
@@ -30,7 +31,7 @@
                        ng-model="user_trainingcellphone"> Mostrar</md-switch>
         </div>
         <div layout="row">
-            <div flex="33">
+            <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Pa&iacute;s</label>
                     <md-select class="md-block" id="country" ng-model="user.countryId" ng-change="getStatesByCountry(user.countryId, true)" >
@@ -43,7 +44,7 @@
             </div>
         </div>
         <div layout="row">
-            <div flex="33">
+            <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder">
 
                     <label  for="state">Estado</label>
@@ -61,7 +62,7 @@
                        ng-model="user_trainingfederalStateId"> Mostrar</md-switch>
         </div>
         <div layout="row">
-            <div flex="33">
+            <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label for="city">Ciudad</label>
 
@@ -74,25 +75,12 @@
                 </md-input-container>
             </div>
         </div>
-        <div layout="row">
-            <div flex="33">
-                <md-input-container class="md-block">
-
-                    <input type="text" ng-model="user.address" id="address" name="address" placeholder="Direcci&oacute;n" ng-maxlength="100"/>
-                    <div class="has-error" ng-messages="myFormUser.address.$error">
-                        <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 100</div>
-                    </div>
-                </md-input-container>
-            </div>
-            <md-switch class="md-primary" aria-label="Mostrar"  ng-change="setVisibleField(user_trainingaddress, 'user_training', 'address')"
-                       ng-model="user_trainingaddress">Mostrar</md-switch>
-        </div>
 
         <div layout="row">
-            <div flex="33">
+            <div flex="66">
                 <md-input-container class="md-block">
                     <input type="number" ng-model="user.postalCode" string-to-number id="postalCode" name="postalCode"  placeholder="C&oacute;digo Postal" ng-maxlength="50"/>
-                    <div class="has-error" ng-messages="myFormUser.postalCode.$error">
+                    <div class="has-error" ng-messages="frm2.postalCode.$error">
                         <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
                     </div>
                 </md-input-container>
@@ -101,5 +89,11 @@
                        ng-model="user_trainingpostal_code"> Mostrar</md-switch>
 
         </div>
+            {{$setValidity(frm2.$valid, 2)}}
+                <br /><br />
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button type="submit" class="md-raised md-primary">Guardar</md-button>
+            </section>
+        </form>
     </md-content>
 </div>

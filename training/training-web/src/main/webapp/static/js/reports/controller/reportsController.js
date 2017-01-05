@@ -25,9 +25,8 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                     .then(
                             function (response) {
                                 $scope.userActivityPerformanceList = response.output;
-                                if (google == null) {
-                                    google.charts.load('current', {packages: ['corechart', 'gauge']});
-                                }
+                          
+                                google.charts.load('current', {packages: ['corechart', 'gauge']});
                                 google.charts.setOnLoadCallback(drawChart);
                                 function drawChart() {
 

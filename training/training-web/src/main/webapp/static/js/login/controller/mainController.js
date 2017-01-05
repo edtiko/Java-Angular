@@ -34,7 +34,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             control: {page: 'static/views/dashboard/control.html'}
         };
         $scope.pageSelected = $scope.views.summary.page;
-        $scope.user = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
+        $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', height: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
             ageSport: '', ppm: '', imc: '', power: '', sportsAchievements: '',
@@ -58,12 +58,12 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.getDashBoardByUser = function (user) {
             DashboardService.getDashboard(user).then(
                     function (d) {
-                        $scope.user = d;
+                        $scope.userDashboard = angular.copy(d);
                         $scope.calculateIMC();
-                        if ($scope.user.birthDate != null) {
-                            var date = $scope.user.birthDate.split("/");
+                        if ($scope.userDashboard.birthDate != null) {
+                            var date = $scope.userDashboard.birthDate.split("/");
                             var birthdate = new Date(date[2], date[1] - 1, date[0]);
-                            $scope.user.age = $scope.calculateAge(birthdate);
+                            $scope.userDashboard.age = $scope.calculateAge(birthdate);
                         }
                         $scope.getVisibleFieldsUserByUser(user);
                         //$scope.getImageProfile(user.userId);
@@ -77,11 +77,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
 
         $scope.calculateIMC = function () {
 
-            if ($scope.user.weight != null && $scope.user.height != null
-                    && $scope.user.weight != "" && $scope.user.height != "") {
-                $scope.user.imc = Math.round($scope.user.weight / ($scope.user.height * $scope.user.height) * 10) / 10;
-            } else if ($scope.user.weight == "" || $scope.user.height == "") {
-                $scope.user.imc = null;
+            if ($scope.userDashboard.weight != null && $scope.userDashboard.height != null
+                    && $scope.userDashboard.weight != "" && $scope.userDashboard.height != "") {
+                $scope.userDashboard.imc = Math.round($scope.userDashboard.weight / ($scope.userDashboard.height * $scope.userDashboard.height) * 10) / 10;
+            } else if ($scope.userDashboard.weight == "" || $scope.userDashboard.height == "") {
+                $scope.userDashboard.imc = null;
             }
         };
 
