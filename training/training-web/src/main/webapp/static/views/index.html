@@ -14,8 +14,6 @@
         <link rel="stylesheet" href="static/css/avada-10.css" >
         <link rel="stylesheet" href="static/css/jquery-ui.min.css" >
         <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
-        <script type="text/javascript" src="static/js/lib/loader.js"></script>
-
     </head>
 
     <!-- define angular controller -->
@@ -179,13 +177,20 @@
             </div>
             <div class="fusion-clearfix"></div>
         </div>  
-        <div layout="row" layout-align="center">
-            <div flex="20">
-                <div  ng-include src="'static/views/dashboard/userPanel.html'"></div> 
+       
+            <div layout="row" layout-align="center center" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+                <div flex="20">
+                    <div  ng-include src="'static/views/dashboard/userPanel.html'"></div> 
+                </div>
+                <div flex="75">
+                    <div ng-view ng-show="appReady" ></div> 
+                </div>
             </div>
-            <div flex="75">
+        <div layout="row" layout-align="center center" ng-if="userSession.typeUser != userSessionTypeUserAtleta">
+            <div flex>
                 <div ng-view ng-show="appReady" ></div> 
             </div>
+
         </div>
         <footer>
             <md-toolbar class="md-scroll-shrink">

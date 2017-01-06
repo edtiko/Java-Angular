@@ -45,8 +45,8 @@ public class PlanAudioDTO {
       public PlanAudioDTO(Integer planAudioId, String name, User fromUserId, User toUserId, Date createDate, Boolean toStar){
         this.id = planAudioId;
         this.name = name;
-        this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
-        this.toUser =   UserDTO.mapFromUserEntity(toUserId);
+        this.fromUser = UserDTO.mapFromUserShortEntity(fromUserId);
+        this.toUser =   UserDTO.mapFromUserShortEntity(toUserId);
         this.createDate = createDate;
         this.toStar = toStar;
     }

@@ -11,7 +11,7 @@
                 <label>PESO</label>
             </div>
             <div  layout="column">
-                <h2>{{userDashboard.height}} cm</h2>
+                <h2>{{(userDashboard.height * 100)}} cm</h2>
                 <label>ALTURA</label>
             </div>
             <div  layout="column">
@@ -26,6 +26,7 @@
     </div>
     <br />
     <md-divider></md-divider>
+     <h3>MIS OBJETIVOS SEMANALES</h3>
     <div ng-controller="ReportsController">
         <div ng-include src="'static/views/reports/reports.html'"></div>
     </div>

@@ -29,6 +29,15 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.internalNotification = false;
         $scope.wsocket;
         $scope.controllerSelected = null;
+        
+        $scope.$on('home', function (e) {
+            $scope.pageSelected = $scope.views.summary.page;
+            //$scope.$emit("pingBack", $scope.get());
+        });
+
+        $scope.$on('profile', function (e, data) {
+            $scope.getImageProfile(data.userId);
+        });
 
         $scope.getUserById = function () {
 
@@ -44,12 +53,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.showMessage("El usuario no se encuentra logueado.", "error");
             }
         };
-        $scope.goHome = function () {
-            $scope.selectedIndex = 1;
-            $scope.pageSelected = $scope.views.summary.page;
-            $scope.go('/dashboard', 1);
-        };
-
+        
         $scope.getImageProfile = function (userId) {
             if (userId != null) {
                 UserService.getImageProfile(userId)
@@ -313,7 +317,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.showChat = true;
             $scope.showCountChat = true;
             $scope.showScript = false;
-            $scope.pageSelected = $scope.views.summary.page;
+            $scope.pageSelected = $scope.views.profile.page;
             $window.sessionStorage.setItem("selectedUser", null);
             $window.sessionStorage.setItem("planSelected", JSON.stringify(planSelected));
             $scope.planSelected = angular.copy(planSelected);
@@ -422,7 +426,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                  $scope.showCountVideo = true; 
             }
             if ($scope.planSelected != null) {
-                $scope.pageSelected = $scope.views.summary.page;
+                $scope.pageSelected = $scope.views.profile.page;
                 //mensajes 
                 self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
                 self.getReceivedMessages($scope.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
@@ -678,8 +682,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
 
-        $scope.goMessages = function (roleSelected) {
-            $scope.roleSelected = roleSelected;
+        $scope.goMessages = function (roleSelected, index) {
+            if ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+                $scope.selectedIndex = index;
+                $scope.roleSelected = roleSelected;
+            }
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             var userSelected = JSON.parse($window.sessionStorage.getItem("selectedUser")); //Usuario interno seleccionado
@@ -695,11 +702,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !planSelected.external && $scope.roleSelected == -1) {
                 $scope.showMessage("Debe seleccionar un usuario");
             } else {
-                $scope.pageSelected = $scope.views.message.page;
+                $scope.pageSelected = $scope.views.message.page+'?now='+Date.now();
             }
         };
-        $scope.goAudioMessages = function (roleSelected) {
-             $scope.roleSelected = roleSelected;
+        $scope.goAudioMessages = function (roleSelected, index) {
+            if ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+                $scope.selectedIndex = index;
+                $scope.roleSelected = roleSelected;
+            }
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.userSession != null && planSelected == null) {
@@ -711,7 +721,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !planSelected.external && $scope.roleSelected == -1) {
                 $scope.showMessage("Debe seleccionar un usuario");
             } else {
-                $scope.pageSelected = $scope.views.audioMessage.page;
+                $scope.pageSelected = $scope.views.audioMessage.page+'?now='+Date.now();;
             }
         };
 
@@ -727,8 +737,11 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
 
 
-        $scope.goVideos = function (roleSelected) {
-           $scope.roleSelected = roleSelected;
+        $scope.goVideos = function (roleSelected, index) {
+            if ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+                $scope.selectedIndex = index;
+                $scope.roleSelected = roleSelected;
+            }
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.userSession != null && planSelected == null) {
@@ -741,13 +754,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.showMessage("Debe seleccionar un usuario");
             } else {
                 //window.location.href = $contextPath + "#/video";
-                $scope.pageSelected = $scope.views.video.page;
+                $scope.pageSelected = $scope.views.video.page+'?now='+Date.now();;
             }
 
         };
 
-        $scope.goEmail = function (roleSelected) {
-             $scope.roleSelected = roleSelected;
+        $scope.goEmail = function (roleSelected, index) {
+            if ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
+                $scope.selectedIndex = index;
+                $scope.roleSelected = roleSelected;
+            }
             var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
             var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             var userSelected = JSON.parse($window.sessionStorage.getItem("selectedUser")); //Usuario interno seleccionado
@@ -763,7 +779,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !planSelected.external && $scope.roleSelected == -1) {
                 $scope.showMessage("Debe seleccionar un usuario");
             } else {
-                $scope.pageSelected = $scope.views.email.page;
+                $scope.pageSelected = $scope.views.email.page+'?now='+Date.now();
             }
 
         };
@@ -942,6 +958,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             $scope.showCountAudio = true;
                             $scope.showChat = true;
                             $scope.showCountChat = true;
+                            $scope.pageSelected = $scope.views.profile.page;
                             self.getAssignedAthletes();
                             self.getAssignedStar();
                             $scope.getUserById();
@@ -991,7 +1008,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 }
 
             });
-            $("#trainingApp").removeClass("preloader");
+           // $("#trainingApp").removeClass("preloader");
         };
 
 

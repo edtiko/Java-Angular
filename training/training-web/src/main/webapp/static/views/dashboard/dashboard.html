@@ -1,7 +1,7 @@
 <div layout="row" ng-show="appReady" id="dashboard-container" >
     
     <!------------------------------------------  TABS VIEW  ------------------------------------------------------->
-    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
+    <div flex="30" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
 
         <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
     </div>

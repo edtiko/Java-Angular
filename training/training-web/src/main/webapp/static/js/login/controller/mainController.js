@@ -20,7 +20,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.typePlanTraining = 1;
         $scope.typePlanPlatform = 2;
         $scope.invitation = null;
-        $scope.selectedIndex = 1;
+        //$scope.selectedIndex = 1;
         $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
         $scope.views = {
             profile: {page: 'static/views/dashboard/profile.html', controller: ""},
@@ -33,7 +33,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             report: {page: 'static/views/reports/reports.html', controller: "ReportsController"},
             control: {page: 'static/views/dashboard/control.html'}
         };
-        $scope.pageSelected = $scope.views.summary.page;
+        //$scope.pageSelected = $scope.views.summary.page;
         $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', height: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
@@ -51,8 +51,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
 
         $scope.goHome = function () {
             $scope.selectedIndex = 1;
-            $scope.pageSelected = $scope.views.summary.page;
             $scope.go('/dashboard', 1);
+            $scope.$broadcast('home');
         };
 
         $scope.getDashBoardByUser = function (user) {
@@ -66,7 +66,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                             $scope.userDashboard.age = $scope.calculateAge(birthdate);
                         }
                         $scope.getVisibleFieldsUserByUser(user);
-                        //$scope.getImageProfile(user.userId);
+                        $scope.$broadcast('profile',{userId: user.userId });
                     },
                     function (errResponse) {
                         console.error('Error while fetching the dashboard');
@@ -207,6 +207,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             }
             $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
             $scope.userSession = res.data.entity.output;
+            $scope.getDashBoardByUser($scope.userSession);
             return JSON.parse(sessionStorage.getItem("userInfo"));
         };
         $scope.setUserSession = function () {

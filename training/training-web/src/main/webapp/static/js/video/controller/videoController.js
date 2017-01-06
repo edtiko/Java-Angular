@@ -34,13 +34,25 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                         function (data) {
                             $scope.receivedvideos = data.entity.output;
                             $scope.loadingReceived = true;
-                            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                                $scope.receivedvideos.forEach(function (value, index) {
+                     
+                            $scope.receivedvideos.forEach(function (value, index) {
+                                if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                                     if (value.fromUser.userId != $scope.userSession.userId) {
                                         value.fromUser = $scope.planSelected.starUserId;
                                     }
-                                });
-                            }
+                                }
+
+                                if (value.fromUser.userId == $scope.planSelected.starUserId.userId) {
+                                    value.fromUser = $scope.planSelected.starUserId;
+                                }
+                                else if (value.fromUser.userId == $scope.planSelected.coachUserId.userId && $scope.roleSelected != $scope.userSessionTypeUserCoachEstrella) {
+                                    value.fromUser = $scope.planSelected.coachUserId;
+                                }
+                                else if (value.fromUser.userId == $scope.planSelected.athleteUserId.userId) {
+                                    value.fromUser = $scope.planSelected.athleteUserId;
+                                }
+                            });
+                            
                         },
                         function (error) {
                             console.error(error);
@@ -65,7 +77,19 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "from", tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.sendedvideos = data.entity.output;
-                             $scope.loadingSent = true;
+                            $scope.loadingSent = true;
+                            $scope.sendedvideos.forEach(function (value, index) {
+
+                                if (value.fromUser.userId == $scope.planSelected.starUserId.userId) {
+                                    value.fromUser = $scope.planSelected.starUserId;
+                                }
+                                else if (value.fromUser.userId == $scope.planSelected.coachUserId.userId) {
+                                    value.fromUser = $scope.planSelected.coachUserId;
+                                }
+                                else if (value.fromUser.userId == $scope.planSelected.athleteUserId.userId) {
+                                    value.fromUser = $scope.planSelected.athleteUserId;
+                                }
+                            });
                         },
                         function (error) {
                             //$scope.showMessage(error);

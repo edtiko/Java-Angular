@@ -29,13 +29,23 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     function (data) {
                         $scope.receivedaudios = data.entity.output;
                         $scope.loadingReceived = true;
-                        if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                            $scope.receivedaudios.forEach(function (value, index) {
+
+                        $scope.receivedaudios.forEach(function (value, index) {
+                            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                                 if (value.fromUser.userId != $scope.userSession.userId) {
                                     value.fromUser = $scope.planSelected.starUserId;
                                 }
-                            });
-                        }
+                            }
+
+                            if (value.fromUser.userId == $scope.planSelected.starUserId.userId) {
+                                value.fromUser = $scope.planSelected.starUserId;
+                            } else if (value.fromUser.userId == $scope.planSelected.coachUserId.userId && $scope.roleSelected != $scope.userSessionTypeUserCoachEstrella) {
+                                value.fromUser = $scope.planSelected.coachUserId;
+                            } else if (value.fromUser.userId == $scope.planSelected.athleteUserId.userId) {
+                                value.fromUser = $scope.planSelected.athleteUserId;
+                            }
+                        });
+
                     },
                     function (error) {
                         //$scope.showMessage(error);
@@ -49,6 +59,16 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     function (data) {
                         $scope.sendedaudios = data.entity.output;
                         $scope.loadingSent = true;
+                        $scope.sendedaudios.forEach(function (value, index) {
+                            if (value.fromUser.userId == $scope.planSelected.starUserId.userId) {
+                                value.fromUser = $scope.planSelected.starUserId;
+                            } else if (value.fromUser.userId == $scope.planSelected.coachUserId.userId && $scope.roleSelected != $scope.userSessionTypeUserCoachEstrella) {
+                                value.fromUser = $scope.planSelected.coachUserId;
+                            } else if (value.fromUser.userId == $scope.planSelected.athleteUserId.userId) {
+                                value.fromUser = $scope.planSelected.athleteUserId;
+                            }
+                        });
+                        
                     },
                     function (error) {
                         //$scope.showMessage(error);
