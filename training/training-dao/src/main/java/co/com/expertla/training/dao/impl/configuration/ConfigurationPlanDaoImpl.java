@@ -1,7 +1,9 @@
 package co.com.expertla.training.dao.impl.configuration;
 
 import co.com.expertla.base.jpa.BaseDAOImpl;
+import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.dao.configuration.ConfigurationPlanDao;
+import co.com.expertla.training.enums.StateEnum;
 import co.com.expertla.training.model.dto.ConfigurationPlanDTO;
 import co.com.expertla.training.model.entities.ConfigurationPlan;
 import java.util.List;
@@ -225,6 +227,22 @@ public class ConfigurationPlanDaoImpl extends BaseDAOImpl<ConfigurationPlan> imp
             setParameter("communicationRole", configurationPlan.getCommunicationRoleId().getRoleId());
         }
         return createQuery(builder.toString());
+    }
+    
+
+    @Override
+    public ConfigurationPlan findByAthleteUserId(Integer userId, Integer roleSelected) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT cp ");
+        sql.append(" FROM CoachAssignedPlan  m , ConfigurationPlan cp ");    
+        sql.append(" WHERE m.trainingPlanUserId.userId.userId = :userId ");
+        sql.append(" AND  m.trainingPlanUserId.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
+        sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append(" AND cp.communicationRoleId.roleId = ").append(roleSelected);
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<ConfigurationPlan> list = query.getResultList();
+        return (list == null || list.isEmpty()) ? null : list.get(0);
     }
 
 }

@@ -1,6 +1,7 @@
 package co.com.expertla.training.dao.configuration;
 
 import co.com.expertla.base.jpa.BaseDAO;
+import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.ConfigurationPlanDTO;
 import co.com.expertla.training.model.entities.ConfigurationPlan;
 import java.util.List;
@@ -84,5 +85,17 @@ public interface ConfigurationPlanDao extends BaseDAO<ConfigurationPlan> {
      * @throws Exception 
      */
     public List<ConfigurationPlan> findByFiltro(ConfigurationPlan configurationPlan) throws Exception; 
+    
+     /**
+     * Obtiene la configuración del plan para un atleta según el rol seleccionado <br>
+     * Info. Creación: <br>
+     * fecha 10/01/2017 <br>
+     * @author Edwin Gómez
+     * @param userId
+     * @param roleSelected
+     * @return 
+     * @throws co.com.expertla.base.jpa.DAOException 
+     */
+     public ConfigurationPlan findByAthleteUserId(Integer userId, Integer roleSelected) throws DAOException;
 
 }

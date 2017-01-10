@@ -52,8 +52,8 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                         );
 
             },
-            getAssignedCoach: function (athleteUserId, roleSelected) {
-                return $http.get($contextPath + 'get/coach/' + athleteUserId+'/'+roleSelected)
+            getAssignedPlan: function (athleteUserId) {
+                return $http.get($contextPath + 'get/assigned/plan/' + athleteUserId)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -64,43 +64,17 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-           /* getAssignedStarCoachBySupervisor: function (userId) {
-                return $http.get($contextPath + 'get/coach/by/supervisor/' + userId)
+             getConfigurationPlanByUser: function (planId, userId, toUserId, planType, roleSelected) {
+                return $http.get($contextPath + 'get/count/communication/'+planId+'/'+userId+'/'+toUserId+'/'+planType+'/'+roleSelected)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching coach');
                                     return $q.reject(errResponse);
                                 }
                         );
-            },*/
-            
-           /* getAssignedAtleteCoachBySupervisor: function (userId) {
-                return $http.get($contextPath + 'get/atlete/coach/by/supervisor/' + userId)
-                        .then(
-                                function (response) {
-                                    return response.data;
-                                },
-                                function (errResponse) {
-                                    console.error('Error while fetching coach');
-                                    return $q.reject(errResponse);
-                                }
-                        );
-            },*/
-            
-            /*getAssignedUserBySupervisor: function (userId) {
-                return $http.get($contextPath + 'get/users/by/supervisor/' + userId)
-                        .then(
-                                function (response) {
-                                    return response.data;
-                                },
-                                function (errResponse) {
-                                    console.error('Error while fetching coach');
-                                    return $q.reject(errResponse);
-                                }
-                        );
-            }*/
+            }
         };
     }]);

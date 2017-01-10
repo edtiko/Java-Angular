@@ -205,14 +205,15 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             } else {
                 $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
             }
-            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
-            $scope.userSession = res.data.entity.output;
+            //$window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+            //$scope.userSession = res.data.entity.output;
             $scope.getDashBoardByUser($scope.userSession);
             return JSON.parse(sessionStorage.getItem("userInfo"));
         };
         $scope.setUserSession = function () {
             AuthService.setUserSession($scope).then(
-                    function (d) {
+                    function (user) {
+                         $scope.$broadcast('userSession',{userSession: user });
                     },
                     function (errResponse) {
                         console.error('Error while merging the profile');
@@ -223,6 +224,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.getMenuByUser = function () {
             $http.get($contextPath + '/user/getUserSession')
                     .then(function (res) {
+                        //$scope.userSession = res.data.entity.output;
                         var id = res.data.entity.output;
                         $scope.userId = id.userId;
                         $scope.roleName = id.roleName;
@@ -252,6 +254,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
                         console.error('Error while getting ' + errResponse);
                     });
         };
+        //$scope.userSession = null;
+        //$window.sessionStorage.setItem("userInfo", null);
         $scope.setUserSession();
         $scope.getMenuByUser();
 
@@ -542,8 +546,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         };
 
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-
+        
     }]);
 trainingApp.directive('stringToNumber', function () {
     return {

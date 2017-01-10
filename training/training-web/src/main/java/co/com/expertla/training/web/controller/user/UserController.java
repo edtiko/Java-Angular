@@ -334,8 +334,9 @@ public class UserController {
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         ResponseService responseService = new ResponseService();
-        session.removeAttribute("user");
+    
         try {
+            session.removeAttribute("user");
             UserDTO userDto = userService.findUserByUsername(login);
             if (userDto == null) {
                 responseService.setOutput("El usuario " + login + " no existe");
@@ -703,7 +704,7 @@ public class UserController {
             }
 
             if (userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
-                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId(), RoleEnum.COACH_INTERNO.getId());
+                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId());
                 CoachExtAthleteDTO coachExtAthleteDTO = coachExtAthleteService.findByAthleteUserId(userDto.getUserId());
 
                 if (coachAssignedPlanDTO != null) {

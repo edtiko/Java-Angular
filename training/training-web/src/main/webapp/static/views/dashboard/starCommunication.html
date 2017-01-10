@@ -1,5 +1,5 @@
 <div layout="row"><div flex ng-if="showVideo">
-        <notification-icon animation="grow" count="videoReceivedCount">
+        <notification-icon animation="grow" count="videoReceivedStar">
             <md-button aria-label="Video" class="md-fab md-mini md-raised md-primary" ng-click="goVideos(userSessionTypeUserCoachEstrella, 5)">
                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Video</md-tooltip>
                 <i class="fa fa-video-camera" aria-hidden="true"></i>
@@ -7,7 +7,7 @@
         </notification-icon>
     </div>
     <div flex  ng-if="showScript">
-        <notification-icon animation="grow" count="videoReceivedCount">
+        <notification-icon animation="grow" count="videoReceivedStar">
             <md-button  aria-label="Video" class="md-fab md-mini md-raised  md-primary " ng-click="goScript(userSessionTypeUserCoachEstrella, 5)">
                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Video</md-tooltip>
                 <i class="fa fa-video-camera"></i>
@@ -15,8 +15,7 @@
         </notification-icon>
     </div>
     <div flex ng-if="showChat">
-
-        <notification-icon animation="grow" count="messagesReceivedCount">
+        <notification-icon animation="grow" count="messagesReceivedStar">
             <md-button  aria-label="Mensajes" class="md-fab md-mini md-raised  md-primary " ng-click="goMessages(userSessionTypeUserCoachEstrella, 5)">
                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Mensajes</md-tooltip>
                 <i class="fa fa-comments"></i>
@@ -24,7 +23,7 @@
         </notification-icon>
     </div>
     <div flex ng-if="showEmail">
-        <notification-icon animation="grow" count="emailReceivedCount">
+        <notification-icon animation="grow" count="emailReceivedStar">
             <md-button aria-label="Email" class="md-fab md-mini md-raised md-primary " ng-click="goEmail(userSessionTypeUserCoachEstrella, 5)">
                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Email</md-tooltip>
                 <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -33,8 +32,7 @@
 
     </div>
     <div flex ng-if="showAudioMessage">
-
-        <notification-icon animation="grow" count="audioReceivedCount">
+        <notification-icon animation="grow" count="audioReceivedStar">
             <md-button aria-label="Audio Mensajes" class="md-fab md-mini md-raised md-primary " ng-click="goAudioMessages(userSessionTypeUserCoachEstrella, 5)">
                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Audio Mensajes</md-tooltip>
                 <i class="fa fa-microphone" aria-hidden="true"></i>

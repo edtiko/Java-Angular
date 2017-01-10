@@ -42,13 +42,13 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
             }
         };
         service.initialize = function (sessionId) {
-            //if (service.SESSION_ID == "") {
+            if (service.SESSION_ID == "") {
                 service.SESSION_ID = sessionId;
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
-            //}
+            }
         };
         
           service.getAvailableMails = function (planId, userId, tipoPlan, roleSelected) {
