@@ -65,6 +65,6 @@ public interface TrainingPlanUserDao extends BaseDAO<TrainingPlanUser> {
      * @return 
      * @throws Exception 
      */
-    public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception;
+    public TrainingPlanUser getTrainingPlanUserByUser(User user) throws Exception;
 
 }

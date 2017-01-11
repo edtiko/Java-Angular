@@ -117,4 +117,44 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         return query.getResultList();
     }
 
+    @Override
+    public Integer findNextObjective(Integer trainingUserPlanId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        Integer objectiveId = null;
+        sql.append(" SELECT (select objective_id from objective where objective_parent_id = o.objective_parent_id where level = (o.level + 1)) ");  
+        sql.append(" FROM plan_workout_objective e, objective o ");
+        sql.append(" Where e.objective_id  = o.objective_id  ");
+        sql.append(" And e.training_plan_user_id = ").append(trainingUserPlanId);
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+        objectiveId = (Integer)query.getSingleResult();
+        if(objectiveId !=null){
+            return objectiveId;
+        }else{
+        StringBuilder sql2 = new StringBuilder();
+        sql2.append(" SELECT o.objective_id ");  
+        sql2.append(" FROM user_profile up, training_plan_user tu, objective o ");
+        sql2.append(" Where up.user_id  = tu.user_id ");
+        sql2.append(" And up.objective_id = o.objective_parent_id ");
+        sql2.append(" And o.level = 1 ");
+        sql2.append(" And tu.training_plan_user_id = ").append(trainingUserPlanId);
+        Query query2 = getEntityManager().createNativeQuery(sql2.toString());
+       objectiveId = (Integer)query2.getSingleResult();  
+        }
+        
+        return objectiveId;
+    }
+    
+    @Override
+    public Integer findCurrentObjective(Integer trainingUserPlanId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        Integer objectiveId = null;
+        sql.append(" SELECT e.objective_id ");
+        sql.append(" FROM plan_workout_objective e ");
+        sql.append(" Where e.training_plan_user_id = ").append(trainingUserPlanId);
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+        objectiveId = (Integer) query.getSingleResult();
+
+        return objectiveId;
+    }
+
 }

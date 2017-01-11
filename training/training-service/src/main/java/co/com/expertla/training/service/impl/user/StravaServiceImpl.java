@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,7 +112,7 @@ public class StravaServiceImpl implements StravaService {
         JsonArray jarray = (JsonArray) jsonParser.parse(response);
         Integer userId = objUser.getUserId();
         Date lastExecutionDate = null;
-        List<TrainingPlanWorkoutDto> activitiesPlan = trainingPlanWorkoutService.getPlanWorkoutByUser(new User(objUser.getUserId()), objUser.getLastExecuteStrava(), new Date());
+        List<TrainingPlanWorkoutDto> activitiesPlan = trainingPlanWorkoutService.getPlanWorkoutByUser(objUser.getUserId(), objUser.getLastExecuteStrava(), new Date());
         List<TrainingPlanWorkoutDto> result = new ArrayList<>();
         for (JsonElement jsonElement : jarray) {
             JsonObject jo = jsonElement.getAsJsonObject();

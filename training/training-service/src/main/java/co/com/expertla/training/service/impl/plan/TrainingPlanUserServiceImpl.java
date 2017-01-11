@@ -1,9 +1,6 @@
 package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.model.entities.TrainingPlanUser;
-import co.com.expertla.training.dao.plan.TrainingPlanUserDao;
-import co.com.expertla.training.service.plan.TrainingPlanUserService;
-import java.util.List;
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.dao.plan.TrainingPlanUserDao;
 import co.com.expertla.training.service.plan.TrainingPlanUserService;
@@ -71,7 +68,7 @@ public class TrainingPlanUserServiceImpl implements TrainingPlanUserService {
     }
 
     @Override
-    public List<TrainingPlanUser> getTrainingPlanUserByUser(User user) throws Exception {
+    public TrainingPlanUser getTrainingPlanUserByUser(User user) throws Exception {
         return trainingPlanUserDao.getTrainingPlanUserByUser(user);
     }
  

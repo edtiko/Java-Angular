@@ -1,8 +1,8 @@
 package co.com.expertla.training.service.impl.plan;
 
 import co.com.expertla.training.dao.configuration.ActivityDao;
-import co.com.expertla.training.dao.configuration.TrainingPlanDao;
 import co.com.expertla.training.dao.plan.DcfDao;
+import co.com.expertla.training.dao.plan.PlanWorkoutObjectiveDao;
 import co.com.expertla.training.dao.user.UserAvailabilityDao;
 import co.com.expertla.training.dao.user.UserProfileDao;
 import java.util.List;
@@ -24,10 +24,15 @@ import co.com.expertla.training.dao.plan.TrainingPlanWorkoutDao;
 import co.com.expertla.training.enums.Status;
 import co.com.expertla.training.model.dto.DayDto;
 import co.com.expertla.training.model.dto.PlanWorkoutDTO;
+import co.com.expertla.training.model.entities.Objective;
+import co.com.expertla.training.model.entities.PlanWorkoutObjective;
+import co.com.expertla.training.service.configuration.ObjectiveService;
 import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * TrainingPlanWorkoutService <br>
@@ -53,31 +58,45 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     @Autowired
     private ActivityDao activityDao;
-
+    
     @Autowired
-    private TrainingPlanDao trainingPlanDao;
+    private ObjectiveService objectiveService;
 
     @Autowired
     private TrainingPlanUserDao trainingPlanUserDao;
+    
+    @Autowired
+    private PlanWorkoutObjectiveDao planWorkoutObjectiveDao;
 
     @Override
-    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(User user, Date fromDate, Date toDate) throws Exception {
-        return trainingPlanWorkoutDao.getPlanWorkoutByUser(user, fromDate, toDate);
+    public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception {
+        return trainingPlanWorkoutDao.getPlanWorkoutByUser(userId, fromDate, toDate);
     }
 
     @Override
-    public void generatePlan(Integer id, Date fromDate, Date toDate) throws Exception {
-        UserProfile userProfile = userProfileDao.findByUserId(id);
+    public void generatePlan(Integer userId, Date fromDate, Date toDate, Boolean isApproved) throws Exception {
+        UserProfile userProfile = userProfileDao.findByUserId(userId);
         Dcf dcf = null;
-        if(userProfile.getModalityId() != null && userProfile.getObjectiveId() != null) {
-            dcf = dcfDao.findByObjectiveIdAndModalityId(userProfile.getObjectiveId().getObjectiveId(), userProfile.getModalityId().getModalityId());
+        Integer objectiveId = null;
+        TrainingPlanUser trainingPlanUser = trainingPlanUserDao.getTrainingPlanUserByUser(new User(userId));
+
+        if(trainingPlanUser == null) {
+            throw new Exception("No existe un plan valido para el usuario actual");
+        }
+        if(isApproved){
+        objectiveId = objectiveService.findNextObjective(trainingPlanUser.getTrainingPlanUserId());
+        }else{
+            objectiveId = objectiveService.findCurrentObjective(trainingPlanUser.getTrainingPlanUserId());  
+        }
+        if(userProfile.getModalityId() != null && objectiveId != null) {
+            dcf = dcfDao.findByObjectiveIdAndModalityId(objectiveId, userProfile.getModalityId().getModalityId());
         }
         
         if(dcf == null) {
             throw new Exception("No se puede generar plan, no existe configuración para el objetivo y la modalidad seleccionada");
         }
         
-        List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(id);
+        List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(userId);
         UserAvailability userAvailability = (userAvailabilityList == null || userAvailabilityList.isEmpty()) ? null : userAvailabilityList.get(0);
         fillAvailableDays(userAvailability);
         // Determina la cantidad de dias disponibles del atleta
@@ -98,19 +117,29 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 // Se establece la bandera que fueron adicionadas sesiones para ser usada en la informacion al usuario
                 setSessionsAdded(true);
                 dates = getDatesPlan(fromDate);
-                assignActivities(fromDate, toDate, userProfile, dcf, dates);
+                assignActivities(fromDate, toDate, userProfile, dcf, dates, trainingPlanUser, objectiveId);
             }
             else{
                 // Modifica la disponibilidad del atleta restandole de la disponibilidad que tenia
                 subsessions(daysAvailable, weeklySession);
                 dates = getDatesPlan(fromDate);
-                assignActivities(fromDate, toDate, userProfile, dcf, dates);
+                assignActivities(fromDate, toDate, userProfile, dcf, dates, trainingPlanUser, objectiveId);
             }
         } else {
             dates = getDatesPlan(fromDate);
-            assignActivities(fromDate, toDate, userProfile, dcf, dates);
+            assignActivities(fromDate, toDate, userProfile, dcf, dates, trainingPlanUser, objectiveId);
         }
-
+        //inactiva el flujo anterior
+        planWorkoutObjectiveDao.inactivateOld(trainingPlanUser.getTrainingPlanUserId());
+        //crea el flujo del nodo objetivo actual
+        PlanWorkoutObjective e = new PlanWorkoutObjective();
+        e.setObjectiveId(new Objective(objectiveId));
+        e.setTrainingPlanUserId(trainingPlanUser);
+        e.setFromDate(fromDate);
+        e.setToDate(toDate);
+        e.setCreationDate(Calendar.getInstance().getTime());
+        e.setActive(Boolean.TRUE);
+        planWorkoutObjectiveDao.create(e);
     }
     
     /**
@@ -375,15 +404,15 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     }
 
     private void assignActivities(Date startDate,Date endDate, UserProfile userProfile, Dcf dcf,
-            ArrayList<Date> dates) throws Exception {
-        List<Activity> activityList = activityDao.findByObjectiveIdAndModalityIdAndEnvironmentId(userProfile.getObjectiveId().getObjectiveId(),
+            ArrayList<Date> dates, TrainingPlanUser planUser, Integer objectiveId) throws Exception {
+        List<Activity> activityList = activityDao.findByObjectiveIdAndModalityIdAndEnvironmentId(objectiveId,
                 userProfile.getModalityId().getModalityId(),userProfile.getEnvironmentId().getEnvironmentId());
         if(activityList.isEmpty()) {
             throw new Exception("No hay actividades configuradas para el objetivo "+
                         userProfile.getObjectiveId().getName() + " , la modalidad " + userProfile.getModalityId().getName()
             + " y entorno geografico " + userProfile.getEnvironmentId().getName());
         }
-        List<TrainingPlanWorkout> workouts = new ArrayList<TrainingPlanWorkout>();
+        List<TrainingPlanWorkout> workouts = new ArrayList<>();
         String pattern = dcf.getPattern();
         //Start date
         Calendar startCal = Calendar.getInstance();
@@ -396,15 +425,6 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         String code = "";
 
         List<Activity> list = new ArrayList<>();
-
-        TrainingPlanUser planUser = null;
-        
-        List<TrainingPlanUser> trainingPlanUserlist = trainingPlanUserDao.getTrainingPlanUserByUser(new User(userProfile.getUserId().getUserId()));
-        if(trainingPlanUserlist != null && !trainingPlanUserlist.isEmpty()) {
-            planUser = trainingPlanUserlist.get(0);
-        } else {
-            throw new Exception("No existe un plan valido para el usuario actual");
-        }
 
         TrainingPlanWorkout workout = new TrainingPlanWorkout();
         int i = 0;
@@ -465,6 +485,35 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             workout.setLastUpdateUser(Calendar.getInstance().getTime());
         }
         trainingPlanWorkoutDao.merge(workout);
+        
+    }
+
+    @Override
+    public boolean isApproved(Integer userId, Date fromDate, Date toDate, Integer objectiveId) throws Exception {
+        boolean res = false;
+        int countApproved = 0;
+        
+        UserProfile userProfile = userProfileDao.findByUserId(userId);
+        
+        List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutDao.getPlanWorkoutByUser(userId, fromDate, toDate);
+            List<Activity> activityList = activityDao.findByObjectiveIdAndModalityIdAndEnvironmentId(objectiveId,
+                userProfile.getModalityId().getModalityId(),userProfile.getEnvironmentId().getEnvironmentId());
+            int countActivity = activityList.size();
+            int minPercentaje = (countActivity * 80)/100;
+            
+            
+        for (Activity activity : activityList) { 
+            countApproved = list.stream().filter((workout) -> (Objects.equals(activity.getActivityId(), workout.getActivityId())
+                    && workout.getExecutedDistance() >= activity.getPlannedDistance()
+                    && workout.getExecutedTime() >= activity.getPlannedTime())).map((_item) -> 1).reduce(countApproved, Integer::sum);
+        }
+        
+        if(countApproved >= minPercentaje){
+            res = true;
+        }
+
+        return res;
+        
         
     }
       

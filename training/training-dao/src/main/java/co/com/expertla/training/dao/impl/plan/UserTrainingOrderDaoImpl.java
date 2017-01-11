@@ -68,4 +68,19 @@ public class UserTrainingOrderDaoImpl extends BaseDAOImpl<UserTrainingOrder> imp
         return createQuery(builder.toString());
     }
 
+    @Override
+    public UserTrainingOrder findByUserId(Integer userId) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from UserTrainingOrder a, User u ");
+        builder.append("WHERE u.userId = :userId ");
+        builder.append("AND u.userWordpressId = a.userId ");
+        builder.append("AND a.status = :integrated ");
+        builder.append("ORDER BY a.userTrainingOrderId DESC ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", userId);
+        query.setParameter("integrated", "integrated");
+        List<UserTrainingOrder> list = query.getResultList();
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
 }

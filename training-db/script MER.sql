@@ -973,7 +973,45 @@ CREATE TABLE user_activity_performance
       REFERENCES user_training (user_id) MATCH SIMPLE
       ON UPDATE RESTRICT ON DELETE RESTRICT
 );
-saben que es lo mejor de tocar fondo, solo te queda una opción y es subirrrrr!!
+
+/*==============================================================*/
+/* Table: plan_workout_objective                                */
+/*==============================================================*/
+create table plan_workout_objective(
+   plan_workout_objective_id  serial    not null,
+   training_plan_user_id      integer      not null,
+   objective_id               integer      not null, 
+   from_date                  timestamp without time zone,
+   to_date                   timestamp without time zone,
+   creation_date              date                   null,
+   active                     boolean,
+   constraint pk_plan_workout_objective primary key (plan_workout_objective_id)
+);
+
+/*==============================================================*/
+/* Table: parameter                                             */
+/*==============================================================*/
+create table parameter (
+   parameter_id     serial               not null,
+   value            varchar(5000)        not null, 
+   description      varchar(200)        not null, 
+   state_id         smallint,
+   creation_date    date                 null,
+   user_create      integer              null,
+   last_update      date                 null, 
+   user_update      integer              null,
+   constraint pk_parameter primary key (parameter_id)
+);
+
+alter table plan_workout_objective
+add constraint fk_plan_workout_objective foreign key (objective_id)
+references objective(objective_id)
+on delete restrict on update restrict;
+
+alter table plan_workout_objective
+add constraint fk_pw_objective_tpuser foreign key (training_plan_user_id)
+references training_plan_user(training_plan_user_id)
+on delete restrict on update restrict;
 
 alter table configuration_plan
 add constraint fk_configuration_plan_training_plan foreign key (training_plan_id)

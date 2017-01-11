@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
-* Objective Service Impl <br>
-* Info. Creación: <br>
-* fecha 30/08/2016 <br>
-* @author Andres Felipe Lopez Rodriguez
-**/
+ * Objective Service Impl <br>
+ * Info. Creación: <br>
+ * fecha 30/08/2016 <br>
+ *
+ * @author Andres Felipe Lopez Rodriguez
+*
+ */
 @Service("objectiveService")
 @Transactional
 public class ObjectiveServiceImpl implements ObjectiveService {
@@ -29,7 +31,7 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 
     @Override
     public Objective store(Objective objective) throws Exception {
-       return objectiveDao.merge(objective);
+        return objectiveDao.merge(objective);
     }
 
     @Override
@@ -62,9 +64,19 @@ public class ObjectiveServiceImpl implements ObjectiveService {
         return objectiveDao.findByFiltro(objective);
     }
 
-	@Override
+    @Override
     public List<ObjectiveDTO> findByDiscipline(Integer disciplineId) throws Exception {
         return objectiveDao.findByDiscipline(disciplineId);
+    }
+
+    @Override
+    public Integer findNextObjective(Integer trainingUserPlanId) throws Exception {
+        return objectiveDao.findNextObjective(trainingUserPlanId);
+    }
+
+    @Override
+    public Integer findCurrentObjective(Integer trainingUserPlanId) throws Exception {
+        return objectiveDao.findCurrentObjective(trainingUserPlanId);
     }
 
 }
