@@ -38,7 +38,12 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                                 if(value.messageUserId.userId == $scope.planSelected.starUserId.userId){
                                      value.messageUserId = $scope.planSelected.starUserId;
                                 }
-                                if(value.messageUserId.userId == $scope.planSelected.coachUserId.userId && $scope.roleSelected != $scope.userSessionTypeUserCoachEstrella){
+                                if(value.messageUserId.userId == $scope.planSelected.coachUserId.userId && 
+                                        $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella){
+                                     value.messageUserId = $scope.planSelected.starUserId;
+                                }
+                                if(value.messageUserId.userId == $scope.planSelected.coachUserId.userId && 
+                                        $scope.roleSelected == $scope.userSessionTypeUserCoachInterno){
                                      value.messageUserId = $scope.planSelected.coachUserId;
                                 }
                                 if(value.messageUserId.userId == $scope.planSelected.athleteUserId.userId){
