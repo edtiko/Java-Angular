@@ -1,6 +1,10 @@
 <div>
+    <div layout="row" layout-align="center center" id="chart_gauge">
+
+    </div>
     <div>
-        <div>
+        <div layout="row">
+            <md-subheader>Filtros&nbsp;></md-subheader>
             <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
                 <md-nav-item md-nav-click="getReport(null,7,false)" name="day">7 dias</md-nav-item>
                 <md-nav-item md-nav-click="getReport(null,28,true)" name="week">4 semanas</md-nav-item>
@@ -11,41 +15,39 @@
     </div>   
     <center><h3></h3></center>
 </div>
-<div layout="row" >
-<div id="collapseFive" class="accordion-body collapse in">
-            <div class="accordion-inner">
-                <ul>     
-                    <li><a class="link" ng-click="getReport(1,null,false,currentNavItem)" title="{{ 'ACTIVITIES' | translate }} ">  
-                            {{ 'ACTIVITIES' | translate }}   
-                    </a></li>
-                    <li><a class="link" ng-click="getReport(2,null,false,currentNavItem)" title="{{ 'TOTAL_CALORIES' | translate }} ">
-                            {{ 'TOTAL_CALORIES' | translate }} 
-                    </a></li>
-                    <li><a class="link" ng-click="getReport(3,null,false,currentNavItem)"title="{{ 'TOTAL_DISTANCE' | translate }} " >
-                            {{ 'TOTAL_DISTANCE' | translate }} 
-                    </a></li>
-                    <li><a class="link" ng-click="getReport(4,null,false,currentNavItem)"title="{{ 'MAX_HEART_RATE' | translate }} " >
-                            {{ 'MAX_HEART_RATE' | translate }} 
-                    </a></li>
-                    <li><a class="link" ng-click="getReport(5,null,false,currentNavItem)"title="{{ 'AVERAGE_HEART_RATE' | translate }} " >
-                            {{ 'AVERAGE_HEART_RATE' | translate }} 
-                    </a></li>
-                    <li><a class="link" ng-click="getReport(6,null,false,currentNavItem)"title=" {{ 'AVERAGE_PACE' | translate }} ">
-                           {{ 'AVERAGE_PACE' | translate }} 
-                    </a></li>  
-                    <li><a class="link" ng-click="getReport(7,null,false,currentNavItem)"title=" {{ 'POTENCIA_MAXIMA' | translate }} ">
-                           {{ 'POTENCIA_MAXIMA' | translate }} 
-                    </a></li>  
-                </ul>
+<div layout="column" >
+    <div flex id="chart_div">
+
+    </div>
+    <md-radio-group ng-model="chartSelected" md-no-ink >
+        <div layout="row" layout-align="center center">
+            <div layout="column" >
+
+                <md-radio-button value="1" ng-click="getReport(1, null, false, currentNavItem)" >{{ 'ACTIVITIES' | translate }} </md-radio-button>
+                <md-radio-button value="2" ng-click="getReport(2, null, false, currentNavItem)" >  {{ 'TOTAL_CALORIES' | translate }} </md-radio-button>
+
+            </div>
+            <div layout="column" >
+
+                <md-radio-button value="3" ng-click="getReport(3, null, false, currentNavItem)" >{{ 'TOTAL_DISTANCE' | translate }} </md-radio-button>
+                <md-radio-button value="4" ng-click="getReport(4, null, false, currentNavItem)" >  {{ 'MAX_HEART_RATE' | translate }} </md-radio-button>
+
+            </div>
+            <div layout="column" >
+
+                <md-radio-button value="5" ng-click="getReport(5, null, false, currentNavItem)" >{{ 'AVERAGE_HEART_RATE' | translate }} </md-radio-button>
+                <md-radio-button value="6" ng-click="getReport(6, null, false, currentNavItem)" >{{ 'AVERAGE_PACE' | translate }} </md-radio-button>
+
+            </div>
+            <div layout="column" >
+
+                <md-radio-button value="7" ng-click="getReport(7, null, false, currentNavItem)" > {{ 'POTENCIA_MAXIMA' | translate }} </md-radio-button>
+
             </div>
         </div>
-    <div flex id="chart_div">
-    
-    </div>
+    </md-radio-group>
+
 </div>
-
-        <script type="text/javascript" src="static/js/lib/loader.js"></script>
-        <script type="text/javascript">
-          google.charts.load('current', {packages: ['corechart']});
-        </script>
-
+<script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart', 'gauge']});
+</script>

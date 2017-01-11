@@ -93,7 +93,7 @@
       flex-grow: 1;
 }
 .fusion-secondary-header .fusion-alignright {
-  -webkit-flex-grow: 1;
+  /*-webkit-flex-grow: 1;*/
   -ms-flex-positive: 1;
       flex-grow: 1;
 }

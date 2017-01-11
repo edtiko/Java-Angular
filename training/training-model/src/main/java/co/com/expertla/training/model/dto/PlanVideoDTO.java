@@ -41,8 +41,8 @@ public class PlanVideoDTO {
             User toUserId, Date createDate, Integer indRejected, Boolean toStar){
         this.id = planVideoId;
         this.name = name;
-        this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
-        this.toUser =   UserDTO.mapFromUserEntity(toUserId);
+        this.fromUser = UserDTO.mapFromUserShortEntity(fromUserId);
+        this.toUser =   UserDTO.mapFromUserShortEntity(toUserId);
         this.createDate = createDate;
         this.indRejected = indRejected;
         this.toStar = toStar;
@@ -59,8 +59,8 @@ public class PlanVideoDTO {
     public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate, CoachAssignedPlan coachAssignedPlanId, CoachExtAthlete coachExtAthleteId){
         this.id = planVideoId;
         this.name = name;
-        this.fromUser = UserDTO.mapFromUserEntity(fromUserId);
-        this.toUser =   UserDTO.mapFromUserEntity(toUserId);
+        this.fromUser = UserDTO.mapFromUserShortEntity(fromUserId);
+        this.toUser =   UserDTO.mapFromUserShortEntity(toUserId);
         this.createDate = createDate;
         if(coachAssignedPlanId != null){
             this.coachAssignedPlanId = coachAssignedPlanId.getCoachAssignedPlanId();

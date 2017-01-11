@@ -35,16 +35,16 @@ public class PlanMessageDTO {
     public PlanMessageDTO(Integer id, String message, User messageUserId, Date creationDate) {
         this.id = id;
         this.message = message;
-        this.messageUserId = UserDTO.mapFromUserEntity(messageUserId);
+        this.messageUserId = UserDTO.mapFromUserShortEntity(messageUserId);
         this.creationDate = creationDate;
     }
     
     public PlanMessageDTO(Integer id, String message, User messageUserId, Date creationDate,User receivingUserId) {
         this.id = id;
         this.message = message;
-        this.messageUserId = UserDTO.mapFromUserEntity(messageUserId);
+        this.messageUserId = UserDTO.mapFromUserShortEntity(messageUserId);
         this.creationDate = creationDate;
-        this.receivingUserId = UserDTO.mapFromUserEntity(receivingUserId);
+        this.receivingUserId = UserDTO.mapFromUserShortEntity(receivingUserId);
     }
     
      public static PlanMessageDTO mapFromPlanMessageEntity(PlanMessage e) {

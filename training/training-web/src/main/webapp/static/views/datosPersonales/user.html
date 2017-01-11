@@ -1,6 +1,38 @@
-<div  id="user-container"  ng-include src="'static/views/datosPersonales/datosPersonales.html'"></div> 
+<!--<div  id="user-container"  ng-include src="'static/views/datosPersonales/datosPersonales.html'"></div> 
 <md-divider inset></md-divider>
 <div id="userProfileDiv"  ng-include  src="'static/views/datosPersonales/datosDeportivos.html'"></div>
 <md-divider inset></md-divider>
-<div id="surveyDiv"     ng-include src="'static/views/datosPersonales/survey.html'"></div>
+<div id="surveyDiv"     ng-include src="'static/views/datosPersonales/survey.html'"></div>-->
+<div layout="row" layout-align="center center" style="padding-bottom: 50px">
+      <div flex="20"></div>
+    <div flex="70">
+        <multi-step-container steps="steps" class="simple-prev-next" on-step-change="onStepChange($getActiveIndex())">
+            <header>
+                <md-tabs md-dynamic-height md-border-bottom md-selected="currentNavItem">
+                    <md-tab  ng-disabled="currentNavItem != '0'" label="1. Datos personales"></md-tab>
+                    <md-tab ng-disabled="currentNavItem != '1'"  label="2. Datos de contacto"></md-tab>
+                    <md-tab ng-disabled="currentNavItem != '2'"  label="3. Datos deportivos"></md-tab>
+                    <md-tab ng-disabled="currentNavItem != '3'"  label="4. Otros datos"></md-tab>
+                </md-tabs>
+                <!--<md-nav-bar  md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+                    <md-nav-item md-nav-click="goto('page1')" name="1">1. Datos personales</md-nav-item>
+                    <md-nav-item md-nav-click="goto('page1')" name="2">2. Datos de contacto</md-nav-item>
+                    <md-nav-item md-nav-click="goto('page1')" name="3">3. Datos deportivos</md-nav-item>
+                    <md-nav-item md-nav-click="goto('page1')" name="4">4. Otros datos</md-nav-item>
+                </md-nav-bar>-->
 
+                <!--<strong ng-bind-template="{{$getActiveIndex()}}. {{$getActiveStep().title}}"></strong>-->
+            <section layout="row" layout-sm="column" layout-align="end" layout-wrap>
+                <md-button ng-disabled="$isFirst()" ng-click="$previousStep()" class="md-raised md-primary"><span class="fa fa-chevron-left"></span> Anterior</md-button>
+                <md-button ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)"  ng-click="$nextStep()" class="md-raised md-primary">Siguiente <span class="fa fa-chevron-right"></span></md-button>
+            </section>
+                 <span class="md-headline">{{$getActiveStep().title}}</span>
+                 <md-subheader>Todos los datos que contengan asterisco(*) son datos obligatorios</md-subheader>
+            <!--<strong ng-if="$getActiveStep().hasForm" class="fa" ng-class="$getActiveStep().valid ? 'fa-check' : 'fa-times'"></strong>-->
+            </header>
+
+            <main step-container></main>
+        </multi-step-container>
+    </div>
+    <div flex="20"></div>
+</div>

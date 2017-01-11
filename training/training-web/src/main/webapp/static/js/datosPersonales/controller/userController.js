@@ -4,6 +4,50 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
             VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService) {
         var self = this;
+        $scope.currentNavItem = 0;
+        $scope.steps = [
+            {
+                templateUrl: 'static/views/datosPersonales/step1.html',
+                hasForm: true,
+                title: 'Datos personales'
+            },
+            {
+                templateUrl: 'static/views/datosPersonales/step2.html',
+                hasForm: true,
+                title: 'Datos de contacto'
+            },
+            {
+                templateUrl: 'static/views/datosPersonales/step3.html',
+                hasForm: true,
+                title: 'Datos deportivos'
+            },
+            {
+                templateUrl: 'static/views/datosPersonales/step4.html',
+                hasForm: true,
+                title: 'Datos deportivos'
+            },
+            {
+                templateUrl: 'static/views/datosPersonales/step5.html',
+                hasForm: true,
+                title: 'Otros datos'
+            }
+        ];
+        var c = 0;
+        $scope.onStepChange = function (index) {
+
+            if (index !== 4 || (index == 4 && c == 2)) {
+                $scope.currentNavItem = index - 1;
+            }
+             if(index == 5){
+                     $scope.currentNavItem = 3;
+            }
+            if (index == 4) {
+                c++;
+            } else {
+                c = 0;
+            }
+            console.log("el paso activo es:" + index);
+        };
         $scope.userStravaAutorize = true;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
@@ -369,13 +413,14 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.submitUser = function (form, file) {
             var user = $scope.user;
-            if ($scope.validateFieldsUser(form)) {
+            if (form.$valid) {
                 if ($scope.user.userId === null) {
                     self.createUser($scope.user, file);
                 } else {
                     self.updateUser($scope.user, $scope.user.userId, file);
                 }
             } else {
+                $scope.showMessage("Faltan campos por diligenciar", "Alerta");
                 if ($scope.errorMessages.length > 0) {
                     $scope.showMessage($scope.errorMessages, "Alerta", true);
                 }

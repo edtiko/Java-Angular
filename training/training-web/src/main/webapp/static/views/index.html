@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="static/css/avada-10.css" >
         <link rel="stylesheet" href="static/css/jquery-ui.min.css" >
         <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
-
     </head>
 
     <!-- define angular controller -->
@@ -25,6 +24,13 @@
 
                 <div class="fusion-secondary-header">
                     <div class="fusion-row"> 
+                        <div class="fusion-alignright">
+                      
+                                        <a class="fusion-logo-link" href="javascript:location.href=$wordPressContextPath">
+                                            <img src="static/img/logo.jpg" width="205" height="50" alt="Custom Pro Training" class="fusion-logo-1x fusion-standard-logo">
+                                        </a>
+                       
+                        </div>
                         <div class="fusion-alignright">
                             <div class="fusion-secondary-menu">
                                 <ul id="menu-top-menu" class="menu">
@@ -87,11 +93,11 @@
                 <div class="fusion-header-sticky-height" style="height: 77px; display: none; overflow: visible;"></div>
                 <div class="fusion-header" style="height: 77px; overflow: visible;">
                     <div class="fusion-row" style="padding-top: 0px; padding-bottom: 0px;">
-                        <div class="fusion-logo" data-margin-top="10px" data-margin-bottom="10px" data-margin-left="0px" data-margin-right="0px" style="margin-top: 10px; margin-bottom: 10px;">
+                        <!--<div class="fusion-logo" data-margin-top="10px" data-margin-bottom="10px" data-margin-left="0px" data-margin-right="0px" style="margin-top: 10px; margin-bottom: 10px;">
                             <a class="fusion-logo-link" href="javascript:location.href=$wordPressContextPath">
                                 <img src="static/img/logo.jpg" width="205" height="65" alt="Custom Pro Training" class="fusion-logo-1x fusion-standard-logo">
                             </a>
-                        </div>
+                        </div>-->
                         <div class="fusion-main-menu" style="overflow: visible">
                             <ul id="menu-menu-principal" class="fusion-menu">
                                 
@@ -170,10 +176,29 @@
                 </div>
             </div>
             <div class="fusion-clearfix"></div>
-        </div>    
+        </div>  
+       
+            <div layout="row" layout-align="center center" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+                <div flex="20">
+                    <div  ng-include src="'static/views/dashboard/userPanel.html'"></div> 
+                </div>
+                <div flex="75">
+                    <div ng-view ng-show="appReady" ></div> 
+                </div>
+            </div>
+        <div layout="row" layout-align="center center" ng-if="userSession.typeUser != userSessionTypeUserAtleta">
+            <div flex>
+                <div ng-view ng-show="appReady" ></div> 
+            </div>
 
-
-        <div ng-view ng-show="appReady" ></div> 
+        </div>
+        <footer>
+            <md-toolbar class="md-scroll-shrink">
+                <div layout="row" layout-align="center center" flex>
+                    Copyright 2016 Custom Pro Training | All Rights Reserved
+                </div>
+            </md-toolbar>
+        </footer>
         <!-- SPELLS -->
         <script type="text/javascript" data-main="static/js/run-custom-training"
         src="static/js/lib/require.js"></script>

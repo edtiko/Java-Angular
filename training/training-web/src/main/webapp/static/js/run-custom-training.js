@@ -45,6 +45,7 @@ require.config({
         messageController: "message/controller/messageController",
         videoController: "video/controller/videoController",
         audioMessageController: "audioMessage/controller/audioMessageController",
+        reportsController: "reports/controller/reportsController",
         mailController: "mail/controller/mailController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
@@ -82,7 +83,9 @@ require.config({
         scriptService:"script/service/scriptService",
         informeService:"informe/service/informeService",
         configurationPlanService:"configuration/service/configurationPlanService",
-        membershipService: "configuration/service/membershipService"
+        membershipService: "configuration/service/membershipService",
+        multiStepForm: "lib/angular-multi-step-form",
+        loader: "lib/loader"
     },
     shim: {
         angular: {
@@ -185,6 +188,9 @@ require.config({
         mailController: {
             deps: ['angular', 'trainingApp']
         },
+        reportsController: {
+            deps: ['angular', 'trainingApp']
+        },
         dashboardService: {
             deps: ['angular', 'trainingApp']
         },
@@ -203,11 +209,15 @@ require.config({
         adapter: {
             deps: ['angular']
         },
+        multiStepForm: {
+            exports: 'multiStepForm',
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
                 'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder',
-                'wavesurfer','adapter','moment','jqueryui'
+                'wavesurfer','adapter','moment','jqueryui','multiStepForm','loader'
 
             ]
         },
@@ -298,7 +308,7 @@ require.config({
                 ,'videoService','dcfService', 'characteristicService','brandService',
 		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService',
                 'audioMessageService', 'scriptService', 'informeService', 'messageController', 'videoController', 
-                'audioMessageController', 'mailController', 'configurationPlanService','membershipService'
+                'audioMessageController', 'mailController', 'reportsController','configurationPlanService','membershipService'
 
             ] }
     }

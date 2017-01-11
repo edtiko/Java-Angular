@@ -18,12 +18,13 @@ trainingApp.factory('AuthService', ['$http', '$q', '$window', function ($http, $
                                 $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
                             }
                             try {
+                                $scope.userSession = res.data.entity.output;
                                 $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
                             } catch (e) {
                                 $window.sessionStorage.clear();
                                 $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
                             }
-                            return res;
+                            return res.data.entity.output;
                         }, function (errResponse) {
                             console.error('Error while getting');
                             return $q.reject(errResponse);

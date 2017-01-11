@@ -1,0 +1,44 @@
+<div layout="row"><div flex ng-if="showVideo">
+        <notification-icon animation="grow" count="videoReceivedSup">
+            <md-button aria-label="Video" class="md-fab md-mini md-raised md-primary" ng-click="goVideos(userSessionTypeUserCoachInterno,6)">
+                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Video</md-tooltip>
+                <i class="fa fa-video-camera" aria-hidden="true"></i>
+            </md-button>
+        </notification-icon>
+    </div>
+    <div flex  ng-if="showScript">
+        <notification-icon animation="grow" count="videoReceivedSup">
+            <md-button  aria-label="Video" class="md-fab md-mini md-raised  md-primary " ng-click="goScript(userSessionTypeUserCoachInterno,6)">
+                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Video</md-tooltip>
+                <i class="fa fa-video-camera"></i>
+            </md-button>
+        </notification-icon>
+    </div>
+    <div flex ng-if="showChat">
+
+        <notification-icon animation="grow" count="messagesReceivedSup">
+            <md-button  aria-label="Mensajes" class="md-fab md-mini md-raised  md-primary " ng-click="goMessages(userSessionTypeUserCoachInterno,6)">
+                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Mensajes</md-tooltip>
+                <i class="fa fa-comments"></i>
+            </md-button>
+        </notification-icon>
+    </div>
+    <div flex ng-if="showEmail">
+        <notification-icon animation="grow" count="emailReceivedSup">
+            <md-button aria-label="Email" class="md-fab md-mini md-raised md-primary " ng-click="goEmail(userSessionTypeUserCoachInterno,6)">
+                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Email</md-tooltip>
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+            </md-button>
+        </notification-icon>
+
+    </div>
+    <div flex ng-if="showAudioMessage">
+
+        <notification-icon animation="grow" count="audioReceivedSup">
+            <md-button aria-label="Audio Mensajes" class="md-fab md-mini md-raised md-primary " ng-click="goAudioMessages(userSessionTypeUserCoachInterno,6)">
+                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Audio Mensajes</md-tooltip>
+                <i class="fa fa-microphone" aria-hidden="true"></i>
+            </md-button>
+        </notification-icon>
+    </div>
+</div>

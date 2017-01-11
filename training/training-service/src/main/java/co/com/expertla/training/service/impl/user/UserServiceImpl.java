@@ -2,6 +2,7 @@ package co.com.expertla.training.service.impl.user;
 
 import co.com.expertla.training.constant.UrlProperties;
 import co.com.expertla.training.dao.configuration.CityDao;
+import co.com.expertla.training.dao.configuration.ConfigurationPlanDao;
 import co.com.expertla.training.dao.configuration.CountryDao;
 import co.com.expertla.training.dao.configuration.DisciplineDao;
 import java.util.List;
@@ -40,10 +41,10 @@ import co.com.expertla.training.model.entities.VideoUser;
 import co.com.expertla.training.service.user.UserService;
 import co.com.expertla.training.dao.user.VideoUserDao;
 import co.com.expertla.training.dao.user.VisibleFieldsUserDao;
-import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.CoachExtAthleteDTO;
 import co.com.expertla.training.model.dto.CommunicationDTO;
 import co.com.expertla.training.model.dto.DisciplineDTO;
+import co.com.expertla.training.model.entities.ConfigurationPlan;
 import co.com.expertla.training.model.entities.FederalState;
 import co.com.expertla.training.model.entities.VisibleFieldsUser;
 import java.io.DataInputStream;
@@ -110,6 +111,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     CoachExtAthleteDao coachExtDao;
+    
+    @Autowired
+    ConfigurationPlanDao ConfigurationPlanDao;
 
     @Override
     public List<UserDTO> findAllUsers() {
@@ -460,26 +464,26 @@ public class UserServiceImpl implements UserService {
         
         CommunicationDTO communication = new CommunicationDTO();
         if (planType.equals(PLAN_TYPE_IN)) {
-            CoachAssignedPlanDTO assigned = coachDao.findByAthleteUserId(userId, roleSelected);
+            ConfigurationPlan configuration = ConfigurationPlanDao.findByAthleteUserId(userId,roleSelected);
             communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, userId, toUserId, roleSelected));
+            communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, toUserId, userId, roleSelected));
             communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, userId, roleSelected));
-            communication.setPlanMsg(assigned.getTrainingPlanId().getMessageCount());
+            communication.setPlanMsg(configuration.getMessageCount());
 
             communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, userId, roleSelected));
             communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, toUserId, roleSelected));
             communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, userId, roleSelected));
-            communication.setPlanAudio(assigned.getTrainingPlanId().getAudioCount());
+            communication.setPlanAudio(configuration.getAudioCount());
 
             communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
             communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
             communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
-            communication.setPlanMail(assigned.getTrainingPlanId().getEmailCount());
+            communication.setPlanMail(configuration.getEmailCount());
 
             communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
             communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, userId, toUserId, roleSelected));
             communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
-            communication.setPlanVideo(assigned.getTrainingPlanId().getVideoCount());
+            communication.setPlanVideo(configuration.getVideoCount());
 
         } else if (planType.equals(PLAN_TYPE_EXT)) {
 

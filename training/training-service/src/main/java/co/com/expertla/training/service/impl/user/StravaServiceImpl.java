@@ -118,7 +118,7 @@ public class StravaServiceImpl implements StravaService {
         for (JsonElement jsonElement : jarray) {
             JsonObject jo = jsonElement.getAsJsonObject();
             String activityId = jo.get("id").getAsString();
-            String externalId = jo.get("external_id").getAsString();
+            //String externalId = jo.get("external_id").getAsString();
             String distance = jo.get("distance").getAsString();
             String elapsedTime = jo.get("elapsed_time").getAsString();
             String startDate = jo.get("start_date_local").getAsString();

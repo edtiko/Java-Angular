@@ -243,6 +243,14 @@ public class UserDTO {
         }
         return null;
     }
+    
+    
+    public static UserDTO mapFromUserShortEntity(User user) {
+        if (user != null) {
+            return new UserDTO(user.getUserId(), user.getName(), user.getSecondName(), user.getLastName());
+        }
+        return null;
+    }
 
     public static List<UserDTO> mapFromUsersEntities(List<User> users) {
         return users.stream().map((user) -> mapFromUserEntity(user)).collect(Collectors.toList());

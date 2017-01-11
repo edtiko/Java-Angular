@@ -9,7 +9,6 @@ import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.SemaforoDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
-import co.com.expertla.training.model.entities.User;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ import java.util.List;
 public interface CoachAssignedPlanService {
     
     List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId) throws Exception;
-    CoachAssignedPlanDTO findByAthleteUserId(Integer userId, Integer roleSelected) throws Exception;
+    CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception;
     
     
     /**

@@ -10,7 +10,6 @@ import co.com.expertla.training.model.dto.CoachAssignedPlanDTO;
 import co.com.expertla.training.model.dto.SemaforoDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.CoachAssignedPlan;
-import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.service.plan.CoachAssignedPlanService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +33,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     }
 
     @Override
-    public CoachAssignedPlanDTO findByAthleteUserId(Integer userId, Integer roleSelected) throws Exception {
-        return dao.findByAthleteUserId(userId, roleSelected);
+    public CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception {
+        return dao.findByAthleteUserId(userId);
     }
 
     @Override

@@ -163,13 +163,13 @@ public class CoachAssignedPlanController {
 
     }
 
-    @RequestMapping(value = "get/coach/{athleteUserId}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/assigned/plan/{athleteUserId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAssignedCoach(@PathVariable("athleteUserId") Integer athleteUserId, @PathVariable("roleSelected") Integer roleSelected) {
+    Response getAssignedPlan(@PathVariable("athleteUserId") Integer athleteUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId,roleSelected);
+            CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId);
             CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(athleteUserId);
             if (assignedCoachInternal != null) {
                 assignedCoachInternal.setExternal(false);
@@ -179,7 +179,8 @@ public class CoachAssignedPlanController {
                 responseService.setOutput(assignedCoachExternal);
             } else {
                 responseService.setStatus(StatusResponse.FAIL.getName());
-                responseService.setOutput("El usuario no tiene asociado un plan activo.");
+                strResponse.append("El usuario no tiene asociado un plan activo.");
+                responseService.setOutput(strResponse);
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
