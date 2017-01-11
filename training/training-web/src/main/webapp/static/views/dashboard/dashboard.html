@@ -27,6 +27,8 @@
     <div flex="30" style="height: 900px; border: 1px solid #e1e1e1; margin: 5px;" ng-show="showControl">
 
         <!------------------------------------------  CONTROL VIEW  ------------------------------------------------------->
+        <div ng-if="showInternalControl"  ng-include src="'static/views/dashboard/control.html'"></div> 
+        
         <div ng-if="showControlAthlete"  ng-include src="'static/views/dashboard/athleteControl.html'"></div> 
         
         <div ng-if="showSupervisorControl"   ng-include src="'static/views/dashboard/supervisorControl.html'"></div>  

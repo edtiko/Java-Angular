@@ -130,7 +130,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
 
         $scope.connectToChatserver = function (sessionId) {
-            $scope.wsocket = new WebSocket('ws://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
+            $scope.wsocket = new WebSocket('wss://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
             $scope.wsocket.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
                 if ($scope.userSession.userId != msg.messageUserId.userId && msg.mobile) {
@@ -342,10 +342,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.showSupervisorControl = false;
                 $scope.showControlAthlete = true;
                 $scope.showStarControl = false;
+                $scope.showInternalControl = false;
+                $scope.lblMailStar = false;
+                $scope.lblMessageStar = false;
             } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
+                $scope.showInternalControl = false;
                 $scope.showControlAthlete = false;
                 $scope.showSupervisorControl = true;
                 $scope.showStarControl = false;
+                $scope.lblMailStar = false;
+                $scope.lblMessageStar = false;
             }
 
             $scope.showVideo = true;
@@ -400,13 +406,14 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.selectedIndex2 = index;
             $scope.selectedIndex = null;
 
-            $scope.pageSelected = $scope.views.summary.page;
+            $scope.pageSelected = $scope.views.profile.page;
             $scope.showProfileImage = true;
             $window.sessionStorage.setItem("planSelected", null);
             $window.sessionStorage.setItem("selectedUser", JSON.stringify(user));
 
             if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
-                $scope.showControlAthlete = true;
+                $scope.showInternalControl = true;
+                $scope.showControlAthlete = false;
                 $scope.showStarControl = false;
                 $scope.showSupervisorControl = false;
                 $scope.showControl = true;
@@ -418,6 +425,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.showCountAudio = false;
                 $scope.showChat = true;
                 $scope.showCountChat = false;
+                $scope.initStarControl(true);
             }
             if ($scope.userSession != null) {
                 messageService.initialize($scope.userSession.userId + user.userId);
@@ -595,7 +603,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     function (data) {
                         var res = data.entity.output;
                         $window.sessionStorage.setItem("planSelected", JSON.stringify(res));
-                        $scope.planSelected = angular.copy(res);
+                        $scope.planSelected = res;
                         if (data.entity.status == 'success') {
                             $scope.initCommunication(res);
                         } else {
@@ -629,6 +637,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     $scope.videoReceivedStar = res.receivedMail;
                     $scope.emailReceivedStar = res.receivedAudio;
                     $scope.messagesReceivedStar = res.receivedMsg;
+                    $scope.videoDurationStar = res.videoDuration;
+                    $scope.audioDurationStar = res.audioDuration;
                 });
 
                 $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (res) {
@@ -636,6 +646,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     $scope.videoReceivedSup = res.receivedMail;
                     $scope.emailReceivedSup = res.receivedAudio;
                     $scope.messagesReceivedSup = res.receivedMsg;
+                    $scope.videoDurationSup = res.videoDuration;
+                    $scope.audioDurationSup = res.audioDuration;
                 });
 
             }
@@ -654,6 +666,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.videoReceivedCount = res.receivedMail;
                         $scope.emailReceivedCount = res.receivedAudio;
                         $scope.messagesReceivedCount = res.receivedMsg;
+                        $scope.videoDurationSup = res.videoDuration;
+                        $scope.audioDurationSup = res.audioDuration;
                     });
                 } else if ($scope.roleSelected == userSessionTypeUserCoachEstrella) {
                     $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (res) {
@@ -661,6 +675,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         $scope.videoReceivedCount = res.receivedMail;
                         $scope.emailReceivedCount = res.receivedAudio;
                         $scope.messagesReceivedCount = res.receivedMsg;
+                        $scope.videoDurationStar = res.videoDuration;
+                        $scope.audioDurationStar = res.audioDuration;
                     });
                 }
 
@@ -672,6 +688,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.emailReceivedCount = 0;
                 $scope.messagesReceivedCount = 0;
             }
+            
+            $window.sessionStorage.setItem("planSelected", null);
+            $window.sessionStorage.setItem("planSelected", JSON.stringify($scope.planSelected));
 
         };
 

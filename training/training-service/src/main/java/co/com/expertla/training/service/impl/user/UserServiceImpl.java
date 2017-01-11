@@ -474,6 +474,7 @@ public class UserServiceImpl implements UserService {
             communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, toUserId, roleSelected));
             communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, userId, roleSelected));
             communication.setPlanAudio(configuration.getAudioCount());
+            communication.setAudioDuration(configuration.getAudioDuration());
 
             communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
             communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
@@ -484,6 +485,7 @@ public class UserServiceImpl implements UserService {
             communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, userId, toUserId, roleSelected));
             communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
             communication.setPlanVideo(configuration.getVideoCount());
+            communication.setVideoDuration(configuration.getVideoDuration());
 
         } else if (planType.equals(PLAN_TYPE_EXT)) {
 

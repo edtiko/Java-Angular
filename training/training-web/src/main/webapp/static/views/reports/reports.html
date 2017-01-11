@@ -1,5 +1,5 @@
 <div>
-    <div layout="row" layout-align="center center" id="chart_gauge">
+    <div layout="row" layout-align="center center" id="chart_gauge" class="chart">
 
     </div>
     <div>
@@ -16,32 +16,32 @@
     <center><h3></h3></center>
 </div>
 <div layout="column" >
-    <div flex id="chart_div">
+    <div flex id="chart_div" class="chart">
 
     </div>
     <md-radio-group ng-model="chartSelected" md-no-ink >
-        <div layout="row" layout-align="center center">
+        <div layout="row" layout-align="space-between center">
             <div layout="column" >
 
-                <md-radio-button value="1" ng-click="getReport(1, null, false, currentNavItem)" >{{ 'ACTIVITIES' | translate }} </md-radio-button>
-                <md-radio-button value="2" ng-click="getReport(2, null, false, currentNavItem)" >  {{ 'TOTAL_CALORIES' | translate }} </md-radio-button>
+                <md-radio-button value="1" ng-click="getReport(1, null, false, currentNavItem)" ><span class="md-caption">{{ 'ACTIVITIES' | translate }} </span></md-radio-button>
+                <md-radio-button value="2" ng-click="getReport(2, null, false, currentNavItem)" ><span class="md-caption">{{ 'TOTAL_CALORIES' | translate }}</span></md-radio-button>
 
             </div>
             <div layout="column" >
 
-                <md-radio-button value="3" ng-click="getReport(3, null, false, currentNavItem)" >{{ 'TOTAL_DISTANCE' | translate }} </md-radio-button>
-                <md-radio-button value="4" ng-click="getReport(4, null, false, currentNavItem)" >  {{ 'MAX_HEART_RATE' | translate }} </md-radio-button>
+                <md-radio-button value="3" ng-click="getReport(3, null, false, currentNavItem)" ><span class="md-caption">{{ 'TOTAL_DISTANCE' | translate }}</span></md-radio-button>
+                <md-radio-button value="4" ng-click="getReport(4, null, false, currentNavItem)" ><span class="md-caption">{{ 'MAX_HEART_RATE' | translate }}</span></md-radio-button>
 
             </div>
             <div layout="column" >
 
-                <md-radio-button value="5" ng-click="getReport(5, null, false, currentNavItem)" >{{ 'AVERAGE_HEART_RATE' | translate }} </md-radio-button>
-                <md-radio-button value="6" ng-click="getReport(6, null, false, currentNavItem)" >{{ 'AVERAGE_PACE' | translate }} </md-radio-button>
+                <md-radio-button value="5" ng-click="getReport(5, null, false, currentNavItem)" ><span class="md-caption">{{ 'AVERAGE_HEART_RATE' | translate }}</span></md-radio-button>
+                <md-radio-button value="6" ng-click="getReport(6, null, false, currentNavItem)" ><span class="md-caption">{{ 'AVERAGE_PACE' | translate }}</span></md-radio-button>
 
             </div>
             <div layout="column" >
 
-                <md-radio-button value="7" ng-click="getReport(7, null, false, currentNavItem)" > {{ 'POTENCIA_MAXIMA' | translate }} </md-radio-button>
+                <md-radio-button value="7" ng-click="getReport(7, null, false, currentNavItem)" ><span class="md-caption">{{ 'POTENCIA_MAXIMA' | translate }}</span></md-radio-button>
 
             </div>
         </div>

@@ -1,79 +1,75 @@
-<div layout="column" > 
-    <md-content layout-padding>
-        <br />
-        <br />
-        <form  name="myFormSurvey">
-            <div ng-repeat="category in categories">
-                <span class="md-headline">{{category.name}}</span>
+<md-content layout-padding>
+    <form  name="myFormSurvey">
+        <div ng-repeat="category in categories">
+            <span class="md-headline">{{category.name}}</span>
 
-                <div ng-repeat="question in survey" ng-if="question.questionnaireCategoryId.questionnaireCategoryId === category.questionnaireCategoryId">
+            <div ng-repeat="question in survey" ng-if="question.questionnaireCategoryId.questionnaireCategoryId === category.questionnaireCategoryId">
 
-                    <div layout="row">
-                        <div flex="66">
-                            <label>{{$index + 1}}. {{question.questionId.name}}</label>
-                        </div>
+                <div layout="row">
+                    <div flex="66">
+                        <label>{{$index + 1}}. {{question.questionId.name}}</label>
                     </div>
-                    <div layout="row">
-                        <div flex="66">
-                            <div ng-switch="question.questionId.dataType">
-                                <div ng-switch-when="text">
-                                    <md-input-container class="md-block" >
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <div ng-switch="question.questionId.dataType">
+                            <div ng-switch-when="text">
+                                <md-input-container class="md-block" >
 
-                                        <input type="text" aria-label="Texto" ng-required="question.questionId.questionType=='M'" md-max-length="1000" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
-                                    </md-input-container>
-                                </div>
-                                <div ng-switch-when="number">
-                                    <md-input-container class="md-block" >
-
-                                        <input type="number" md-max-length="50" aria-label="Numero" string-to-number ng-required="question.questionId.questionType=='M'" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
-                                    </md-input-container>
-                                </div>
-                                <div ng-switch-when="select" >
-                                    <md-input-container class="md-block" >
-                                        <md-select ng-required="question.questionId.questionType=='M'"  
-                                                   ng-change="setValue($index)" 
-                                                   aria-label="Select"
-                                                   ng-model="survey[$index].questionnaireResponseList[0].questionOptionId">
-
-                                            <md-option ng-repeat="q in question.questionId.questionOptionList" value="{{q.questionOptionId}}" >
-                                                {{q.name}}
-                                            </md-option>
-                                        </md-select>
-                                    </md-input-container>   
-                                </div>
-                                <div ng-switch-when="checkbox">
-                                    <div ng-repeat="questionOption in question.questionId.questionOptionList">
-                                        <md-checkbox 
-                                            ng-checked="getResponse($parent.$index, questionOption.questionOptionId)"
-                                            ng-click="setResponse($parent.$index, $index, questionOption.questionOptionId)">
-                                            {{questionOption.name}}
-                                        </md-checkbox>
-                                    </div>
-
-                                </div>
-                                <div ng-switch-when="radio">
-                                    <md-radio-group md-no-ink ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId">
-                                        <md-radio-button ng-repeat="questionOption in question.questionId.questionOptionList"
-                                                         ng-required="question.questionId.questionType=='M'"
-                                                         ng-click="setValue($parent.$index)"
-                                                         ng-value="questionOption.questionOptionId"
-                                                         >{{questionOption.name}}</md-radio-button>
-                                    </md-radio-group>
-                                </div>
+                                    <input type="text" aria-label="Texto" ng-required="question.questionId.questionType=='M'" md-max-length="1000" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
+                                </md-input-container>
                             </div>
-                            <div role="alert" class="has-error" ng-show="myFormSurvey.$dirty">
-                                <span ng-show="myFormSurvey[question.questionId.name].$error.required">Esta pregunta es obligatoria</span>
+                            <div ng-switch-when="number">
+                                <md-input-container class="md-block" >
+
+                                    <input type="number" md-max-length="50" aria-label="Numero" string-to-number ng-required="question.questionId.questionType=='M'" ng-model="survey[$index].questionnaireResponseList[0].response" ng-blur="setValue($index)">
+                                </md-input-container>
+                            </div>
+                            <div ng-switch-when="select" >
+                                <md-input-container class="md-block" >
+                                    <md-select ng-required="question.questionId.questionType=='M'"  
+                                               ng-change="setValue($index)" 
+                                               aria-label="Select"
+                                               ng-model="survey[$index].questionnaireResponseList[0].questionOptionId">
+
+                                        <md-option ng-repeat="q in question.questionId.questionOptionList" value="{{q.questionOptionId}}" >
+                                            {{q.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>   
+                            </div>
+                            <div ng-switch-when="checkbox">
+                                <div ng-repeat="questionOption in question.questionId.questionOptionList">
+                                    <md-checkbox 
+                                        ng-checked="getResponse($parent.$index, questionOption.questionOptionId)"
+                                        ng-click="setResponse($parent.$index, $index, questionOption.questionOptionId)">
+                                        {{questionOption.name}}
+                                    </md-checkbox>
+                                </div>
 
                             </div>
+                            <div ng-switch-when="radio">
+                                <md-radio-group md-no-ink ng-model="survey[$parent.$index].questionnaireResponseList[0].questionOptionId">
+                                    <md-radio-button ng-repeat="questionOption in question.questionId.questionOptionList"
+                                                     ng-required="question.questionId.questionType=='M'"
+                                                     ng-click="setValue($parent.$index)"
+                                                     ng-value="questionOption.questionOptionId"
+                                                     >{{questionOption.name}}</md-radio-button>
+                                </md-radio-group>
+                            </div>
+                        </div>
+                        <div role="alert" class="has-error" ng-show="myFormSurvey.$dirty">
+                            <span ng-show="myFormSurvey[question.questionId.name].$error.required">Esta pregunta es obligatoria</span>
 
                         </div>
+
                     </div>
                 </div>
             </div>
+        </div>
 
-            <section layout="row" layout-sm="column"  layout-wrap>
-                <md-button class="md-raised md-primary" ng-click="submitSurvey()" ng-disabled="myFormSurvey.$invalid">Guardar</md-button>
-            </section>
-        </form>
-    </md-content>
-</div>
+        <section layout="row" layout-sm="column"  layout-wrap>
+            <md-button class="md-raised md-primary" ng-click="submitSurvey()" ng-disabled="myFormSurvey.$invalid">Guardar</md-button>
+        </section>
+    </form>
+</md-content>

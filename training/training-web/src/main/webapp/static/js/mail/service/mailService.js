@@ -35,11 +35,11 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
         };
 
         var startListener = function () {
-            if (service.SESSION_ID != null) {
+           // if (service.SESSION_ID != null) {
                 socket.stomp.subscribe("/queue/mail/" + service.SESSION_ID, function (data) {
                     listener.notify(getMail(data.body));
                 }, { id: service.SESSION_ID });
-            }
+            //}
         };
         service.initialize = function (sessionId) {
             //if (service.SESSION_ID == "") {

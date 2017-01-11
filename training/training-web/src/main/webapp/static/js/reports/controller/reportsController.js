@@ -67,7 +67,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
                                     // Set chart options
                                     var options = {'title': title,
                                         'is3D': true,
-                                        'width': 800,
+                                        //'width': 800,
                                         'pointSize': 7,
                                         'hAxis': {showTextEvery: 1},
                                         'height': 400};
@@ -184,7 +184,7 @@ trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceS
 
                                     var options = {'title': title,
                                         "hAxis": {showTextEvery: 1},
-                                        'width': 800,
+                                        //'width': 800,
                                         'pointSize': 7,
                                         'height': 400};
 

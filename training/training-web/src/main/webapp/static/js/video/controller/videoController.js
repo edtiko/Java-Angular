@@ -17,6 +17,15 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.planSelectedStar = JSON.parse(sessionStorage.getItem("planSelectedStar"));
         $scope.isRecordable = true;
         $scope.selectedIndex = 0;
+        $scope.videoDuration = 0;
+        
+        if($scope.roleSelected == $scope.userSessionTypeUserCoachInterno){
+            $scope.videoDuration = $scope.videoDurationSup;
+        }
+        else if($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella){
+              $scope.videoDuration = $scope.videoDurationStar;
+        }
+            
 
         //Obtiene los videos recibidos 
         $scope.receivedVideos = function (tipoPlan) {
@@ -381,7 +390,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
              if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
                 $scope.toUserId = $scope.planSelected.athleteUserId.userId;
                 if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
-                    $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
+                    $scope.counterRecordInitial = $scope.videoDuration;
                     $scope.showCounter = true;
                     $scope.counterRecord = $scope.counterRecordInitial;
                 }
@@ -392,11 +401,11 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 $scope.colorTime = '';
                 $scope.toUserId = $scope.planSelected.coachUserId.userId;
                 $scope.showCounter = true;
-                $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
+                $scope.counterRecordInitial = $scope.videoDuration;
                 $scope.counterRecord = $scope.counterRecordInitial;
             } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
                 $scope.toUserId = $scope.planSelected.athleteUserId.userId;
-                $scope.counterRecordInitial = $scope.planSelected.trainingPlanId.videoDuration;
+                $scope.counterRecordInitial = $scope.videoDuration;
                 $scope.showCounter = true;
                 $scope.counterRecord = $scope.counterRecordInitial;
             }

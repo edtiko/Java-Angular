@@ -204,3 +204,7 @@ md-dialog {
     padding: 50px;
     background: url('../../static/img/preloader.gif') no-repeat 50% 50% transparent;
 }
+
+.chart {
+  width: 100%; 
+}

@@ -343,8 +343,6 @@ public class UserController {
                 response.sendRedirect(UrlProperties.URL_PORTAL + "mi-cuenta/");
                 return null;
             }
-           
-            userTrainingOrderService.isSuscribed(userDto.getUserId());
             
             UserDTO userSession = new UserDTO();
             userSession.setUserId(userDto.getUserId());

@@ -9,43 +9,37 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             {
                 templateUrl: 'static/views/datosPersonales/step1.html',
                 hasForm: true,
-                title: 'Datos personales'
+                title: 'Datos personales',
+                module: 'dp1'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step2.html',
                 hasForm: true,
-                title: 'Datos de contacto'
+                title: 'Datos de contacto',
+                module:'dc1'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step3.html',
                 hasForm: true,
-                title: 'Datos deportivos'
+                title: 'Datos deportivos',
+                module: 'dd1'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step4.html',
                 hasForm: true,
-                title: 'Datos deportivos'
+                title: 'Datos deportivos',
+                module: 'dd2'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step5.html',
                 hasForm: true,
-                title: 'Otros datos'
+                title: 'Otros datos',
+                module: 'od1'
             }
         ];
-        var c = 0;
         $scope.onStepChange = function (index) {
-
-            if (index !== 4 || (index == 4 && c == 2)) {
-                $scope.currentNavItem = index - 1;
-            }
-             if(index == 5){
-                     $scope.currentNavItem = 3;
-            }
-            if (index == 4) {
-                c++;
-            } else {
-                c = 0;
-            }
+           
+            $scope.currentNavItem = index - 1;
             console.log("el paso activo es:" + index);
         };
         $scope.userStravaAutorize = true;

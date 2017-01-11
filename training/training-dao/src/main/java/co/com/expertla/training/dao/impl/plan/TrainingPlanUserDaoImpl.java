@@ -29,7 +29,7 @@ public class TrainingPlanUserDaoImpl extends BaseDAOImpl<TrainingPlanUser> imple
         query.setParameter("userId", user.getUserId());
         query.setParameter("stateId", StateEnum.ACTIVE.getId().shortValue());
         List<TrainingPlanUser> list = query.getResultList();
-        return list!=null?list.get(0):null;
+        return list.size()>0?list.get(0):null;
     }
     
     public TrainingPlanUserDaoImpl() {

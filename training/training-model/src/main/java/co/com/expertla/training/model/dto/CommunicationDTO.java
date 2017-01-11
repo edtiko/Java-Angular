@@ -30,6 +30,9 @@ public class CommunicationDTO {
     private Integer emergencyAudio;
     private Integer emergencyMail;
     private Integer emergencyVideo;
+    
+    private Integer videoDuration;
+    private Integer audioDuration;
 
     public Integer getAvailableMsg() {
         return availableMsg;
@@ -158,10 +161,21 @@ public class CommunicationDTO {
     public void setEmergencyVideo(Integer emergencyVideo) {
         this.emergencyVideo = emergencyVideo;
     }
-    
-    
-    
-    
-    
+
+    public Integer getVideoDuration() {
+        return videoDuration;
+    }
+
+    public void setVideoDuration(Integer videoDuration) {
+        this.videoDuration = videoDuration;
+    }
+
+    public Integer getAudioDuration() {
+        return audioDuration;
+    }
+
+    public void setAudioDuration(Integer audioDuration) {
+        this.audioDuration = audioDuration;
+    }  
     
 }

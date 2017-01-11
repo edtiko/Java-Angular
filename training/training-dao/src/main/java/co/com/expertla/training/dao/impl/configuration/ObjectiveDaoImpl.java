@@ -26,7 +26,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.com.expertla.training.model.dto.ObjectiveDTO(o.objectiveId,o.name, o.level) ");
         sql.append("FROM Objective o ");
-        sql.append("order by o.name ");
+        sql.append("order by o.level ");
         Query query = getEntityManager().createQuery(sql.toString());
         return query.getResultList();
     }
@@ -38,7 +38,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         builder.append("select a from Objective a ");
         builder.append("WHERE a.stateId = :active ");
         builder.append("AND a.objectiveParentId is null ");
-        builder.append("order by a.name ");
+        builder.append("order by a.level ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
@@ -98,7 +98,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
             builder.append("AND a.disciplineId.disciplineId = :discipline ");
             setParameter("discipline", objective.getDisciplineId().getDisciplineId());
         }
-            builder.append(" ORDER BY a.name ");
+            builder.append(" ORDER BY a.level ");
 
 
         return createQuery(builder.toString());
@@ -111,7 +111,7 @@ public class ObjectiveDaoImpl extends BaseDAOImpl<Objective> implements Objectiv
         sql.append("FROM Objective o ");
         sql.append("WHERE o.disciplineId.disciplineId = :disciplineId ");
         sql.append("AND o.objectiveParentId is null ");
-        sql.append(" ORDER BY o.name ");
+        sql.append(" ORDER BY o.level ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("disciplineId", disciplineId);
         return query.getResultList();

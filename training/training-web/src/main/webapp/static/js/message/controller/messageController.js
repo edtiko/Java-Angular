@@ -42,7 +42,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                                         $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella){
                                      value.messageUserId = $scope.planSelected.starUserId;
                                 }
-                                if(value.messageUserId.userId == $scope.planSelected.coachUserId.userId && 
+                                else if(value.messageUserId.userId == $scope.planSelected.coachUserId.userId && 
                                         $scope.roleSelected == $scope.userSessionTypeUserCoachInterno){
                                      value.messageUserId = $scope.planSelected.coachUserId;
                                 }

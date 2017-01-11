@@ -2,6 +2,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
 
         var self = this;
         $scope.planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
+        $scope.audioDuration = 0;
         if ($scope.appReady && $scope.planSelected != null) {
             $scope.user = JSON.parse(sessionStorage.getItem("userInfo"));
             if ($scope.user != null && $scope.user.typeUser === $scope.userSessionTypeUserCoach || $scope.user.typeUser === $scope.userSessionTypeUserCoachInterno) {
@@ -13,10 +14,17 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                 // $scope.toUserId = 94;
 
             }
+
+
+            if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
+                $scope.audioDuration = $scope.audioDurationSup;
+            } else if ($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                $scope.audioDuration = $scope.audioDurationStar;
+            }
             //AudioMessageService.initialize($scope.planSelected.id);
             //establece la duración del audio según la configuración del plan
-            if ($scope.planSelected.trainingPlanId.audioDuration != undefined && $scope.planSelected.trainingPlanId.audioDuration != "") {
-                $scope.timeLimit = $scope.planSelected.trainingPlanId.audioDuration;
+            if ($scope.audioDuration != undefined && $scope.audioDuration != "") {
+                $scope.timeLimit = $scope.audioDuration;
             }else{
                 $scope.timeLimit = 0;
             }
