@@ -31,7 +31,6 @@ import co.com.expertla.training.service.plan.TrainingPlanWorkoutService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Objects;
 
 /**

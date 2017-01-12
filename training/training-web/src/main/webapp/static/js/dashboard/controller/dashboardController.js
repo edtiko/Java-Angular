@@ -909,8 +909,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.selectUser = function (user, index) {
 
             $scope.selectedIndex = index;
-
             $scope.pageSelected = $scope.views.profile.page;
+            $window.sessionStorage.setItem("selectedUser", null);
             $window.sessionStorage.setItem("selectedUser", JSON.stringify(user));
             $window.sessionStorage.setItem("planSelected", null);
 
@@ -1113,7 +1113,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             break;
                         case $scope.userSessionTypeUserAdmin:
                             $scope.showControl = true;
-                            $scope.showControlAthlete = true;
+                            $scope.showInternalControl = true;
+                            $scope.showControlAthlete = false;
                             $scope.showProfileImage = true;
                             $scope.showVideo = false;
                             $scope.showCountVideo = false;
@@ -1124,6 +1125,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             $scope.showChat = true;
                             $scope.showCountChat = false;
                             $scope.showScript = false;
+                            $scope.getDashBoardByUser($scope.userSession);
+                            $scope.pageSelected = $scope.views.profile.page;
                             self.getSupervisors();
                             self.getStars();
                             break;
