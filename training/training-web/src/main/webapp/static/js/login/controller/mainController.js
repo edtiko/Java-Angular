@@ -30,7 +30,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
             audioMessage: {page: 'static/views/audioMessage/audioMessage.html', controller: "AudioMessageController"},
             email: {page: 'static/views/mail/mail.html', controller: "MailController"},
             script: {page: 'static/views/script/script.html', controller: "ScriptController"},
-            report: {page: 'static/views/reports/reports.html', controller: "ReportsController"},
+            chart: {page: 'static/views/chart/chart.html', controller: "ChartController"},
+            report: {page: 'static/views/report/reports.html', controller: "ReportController"},
             control: {page: 'static/views/dashboard/control.html'}
         };
         //$scope.pageSelected = $scope.views.summary.page;

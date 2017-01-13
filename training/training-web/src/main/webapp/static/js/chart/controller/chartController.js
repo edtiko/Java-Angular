@@ -1,4 +1,4 @@
-trainingApp.controller('ReportsController', ['$scope', 'UserActivityPerformanceService', '$window',
+trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceService', '$window',
     function ($scope, UserActivityPerformanceService, $window) {
         $scope.userActivityPerformance = {userActivityPerformanceId: null,
             userId: {userId: null, name: ''},

@@ -4,14 +4,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 //var $contextPath = "https://181.143.227.220:8543/training/";
-var $contextPath = window.location.origin+"/training/";
+var $contextPath = window.location.origin + "/training/";
 //var $contextPath = "http://181.143.227.220:8086/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:4321/cpt/';
 require.config({
     waitSeconds: 200,
     paths: {
-        
         angular: 'lib/angular.min',
         angularMessages: 'lib/angular-messages.min',
         angularRoute: 'lib/angular-route.min',
@@ -41,11 +40,15 @@ require.config({
         calendarService: "calendar/service/calendarService",
         authService: "login/service/authService",
         surveyService: "questionnaire/service/surveyService",
+        marketingReportService: "report/service/marketingReportService",
+        paymentReportService: "report/service/paymentReportService",
+        saleReportService: "report/service/saleReportService",
         mainController: "login/controller/mainController",
         messageController: "message/controller/messageController",
         videoController: "video/controller/videoController",
         audioMessageController: "audioMessage/controller/audioMessageController",
-        reportsController: "reports/controller/reportsController",
+        reportController: "report/controller/reportController",
+        chartController: "chart/controller/chartController",
         mailController: "mail/controller/mailController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
@@ -70,19 +73,19 @@ require.config({
         physiologicalCapacityService: "configuration/service/physiologicalCapacityService",
         activityService: "configuration/service/activityService",
         angularSanitize: 'lib/angular-sanitize',
-        dcfService:"configuration/service/dcfService",
-        characteristicService:"configuration/service/characteristicService",
-	brandService:"configuration/service/brandService",
-        angularPickList: 'lib/picklist',        
+        dcfService: "configuration/service/dcfService",
+        characteristicService: "configuration/service/characteristicService",
+        brandService: "configuration/service/brandService",
+        angularPickList: 'lib/picklist',
         mailService: "mail/service/mailService",
         supervStarCoachService: "mail/service/supervStarCoachService",
         userActivityPerformanceService: "datosPersonales/service/userActivityPerformanceService",
         externalCoachService: "externalCoach/service/externalCoachService",
         audioMessageService: "audioMessage/service/audioMessageService",
         adapter: "lib/adapter",
-        scriptService:"script/service/scriptService",
-        informeService:"informe/service/informeService",
-        configurationPlanService:"configuration/service/configurationPlanService",
+        scriptService: "script/service/scriptService",
+        informeService: "informe/service/informeService",
+        configurationPlanService: "configuration/service/configurationPlanService",
         membershipService: "configuration/service/membershipService",
         multiStepForm: "lib/angular-multi-step-form",
         loader: "lib/loader"
@@ -188,14 +191,17 @@ require.config({
         mailController: {
             deps: ['angular', 'trainingApp']
         },
-        reportsController: {
+        reportController: {
+            deps: ['angular', 'trainingApp']
+        },
+        chartController: {
             deps: ['angular', 'trainingApp']
         },
         dashboardService: {
             deps: ['angular', 'trainingApp']
         },
         visibleFieldsUserService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         angularTranslateConfig: {
             deps: ['angular', 'angularTranslate']
@@ -214,10 +220,10 @@ require.config({
             deps: ['angular']
         },
         trainingApp: {
-            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate','angularAria','angularMaterial',
-                'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification','angularSanitize',
-                'scrollGlue','angularFilter','ngCamRecorder','recorder', 'whammy','viRecorder','angularPickList','angularAudioRecorder',
-                'wavesurfer','adapter','moment','jqueryui','multiStepForm','loader'
+            deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate', 'angularAria', 'angularMaterial',
+                'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification', 'angularSanitize',
+                'scrollGlue', 'angularFilter', 'ngCamRecorder', 'recorder', 'whammy', 'viRecorder', 'angularPickList', 'angularAudioRecorder',
+                'wavesurfer', 'adapter', 'moment', 'jqueryui', 'multiStepForm', 'loader'
 
             ]
         },
@@ -237,63 +243,72 @@ require.config({
             deps: ['angular', 'trainingApp']
         },
         roleService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         optionService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         moduleService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         bikeTypeService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         planService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         starTeamService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         physiologicalCapacityService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         activityService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         dcfService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         characteristicService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         brandService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         mailService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         supervStarCoachService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         userActivityPerformanceService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         externalCoachService: {
-            deps: ['angular','trainingApp']
+            deps: ['angular', 'trainingApp']
         },
         audioMessageService: {
-            deps: ['angular','trainingApp']
-        },
-        scriptService : {
             deps: ['angular', 'trainingApp']
         },
-        informeService : {
+        scriptService: {
             deps: ['angular', 'trainingApp']
         },
-        configurationPlanService : {
+        informeService: {
             deps: ['angular', 'trainingApp']
         },
-        membershipService : {
+        configurationPlanService: {
+            deps: ['angular', 'trainingApp']
+        },
+        membershipService: {
+            deps: ['angular', 'trainingApp']
+        },
+        marketingReportService: {
+            deps: ['angular', 'trainingApp']
+        },
+        paymentReportService: {
+            deps: ['angular', 'trainingApp']
+        },
+        saleReportService: {
             deps: ['angular', 'trainingApp']
         },
         app: {
@@ -301,23 +316,25 @@ require.config({
                 'modalityService', 'objectiveService', 'sportEquipmentService',
                 'sportService', 'userProfileService', 'authService',
                 'mainController', 'surveyService', 'calendarService',
-                'visibleFieldsUserService','utilService', 'dashboardService',
-                'roleService','messageService','bikeTypeService',
-                'optionService', 'angularTranslateConfig', 'moduleService', 'planService', 'starTeamService',
-                'physiologicalCapacityService','activityService'
-                ,'videoService','dcfService', 'characteristicService','brandService',
-		'mailService','supervStarCoachService','userActivityPerformanceService','externalCoachService',
-                'audioMessageService', 'scriptService', 'informeService', 'messageController', 'videoController', 
-                'audioMessageController', 'mailController', 'reportsController','configurationPlanService','membershipService'
+                'visibleFieldsUserService', 'utilService', 'dashboardService',
+                'roleService', 'messageService', 'bikeTypeService',
+                'optionService', 'angularTranslateConfig', 'moduleService', 'planService',
+                'starTeamService', 'physiologicalCapacityService', 'activityService',
+                'videoService', 'dcfService', 'characteristicService', 'brandService',
+                'mailService', 'supervStarCoachService', 'userActivityPerformanceService',
+                'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
+                'messageController', 'videoController', 'audioMessageController', 'mailController',
+                'chartController', 'configurationPlanService', 'membershipService',
+                'marketingReportService', 'paymentReportService', 'saleReportService'
 
-            ] }
+            ]}
     }
 });
 
 require(['app'], function () {
 
     angular.bootstrap(document.getElementById('trainingApp'), ['trainingApp']);
-    
-      $("#trainingApp").removeClass("preloader");
+
+    $("#trainingApp").removeClass("preloader");
 
 });
