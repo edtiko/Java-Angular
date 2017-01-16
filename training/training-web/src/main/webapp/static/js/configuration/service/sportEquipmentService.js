@@ -33,7 +33,7 @@ trainingApp.factory('SportEquipmentService', ['$http', '$q', function($http, $q)
                     return $http.get($contextPath+'sportEquipment/get/bikes')
                             .then(
                                     function(response){
-                                        return response.data.entity.output;
+                                        return response.data.output;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while getting bikes');

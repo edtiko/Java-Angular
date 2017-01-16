@@ -14,6 +14,7 @@ public class PaginateDto {
     private int limit;
     private int page;
     private String filter;
+    private Object filterDto;
 
     public String getOrder() {
         return order;
@@ -46,5 +47,14 @@ public class PaginateDto {
     public void setFilter(String filter) {
         this.filter = filter;
     }  
+
+    public Object getFilterDto() {
+        return filterDto;
+    }
+
+    public void setFilterDto(Object filterDto) {
+        this.filterDto = filterDto;
+    }
+
     
 }

@@ -1,6 +1,7 @@
 package co.com.expertla.training.service.impl.configuration;
 
 import co.com.expertla.training.dao.configuration.SportEquipmentDao;
+import co.com.expertla.training.model.dto.MarketingDTO;
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import co.com.expertla.training.service.configuration.SportEquipmentService;
 import java.util.List;
@@ -51,5 +52,10 @@ public class SportEquipmentServiceImpl implements SportEquipmentService {
     @Override
     public List<SportEquipmentDTO> findBikesByBikeTypeId(Integer id) throws Exception {
         return sportEquipmentDao.findBikesByBikeTypeId(id);
+    }
+
+    @Override
+    public List<MarketingDTO> findMarketingPaginate(int page, int limit, String order, Object filterDto) throws Exception {
+       return sportEquipmentDao.findMarketingPaginate(page, limit, order, filterDto);
     }
 }

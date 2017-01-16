@@ -1,5 +1,6 @@
 package co.com.expertla.training.service.configuration;
 
+import co.com.expertla.training.model.dto.MarketingDTO;
 import co.com.expertla.training.model.dto.SportEquipmentDTO;
 import java.util.List;
 
@@ -73,4 +74,6 @@ public interface SportEquipmentService {
      * @return
      */
     public List<SportEquipmentDTO> findBikesByBikeTypeId(Integer id) throws Exception;
+
+    public List<MarketingDTO> findMarketingPaginate(int page, int limit, String order, Object filterDto)  throws Exception;
 }

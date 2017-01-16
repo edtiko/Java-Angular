@@ -282,10 +282,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "where a.age > 0\n"
                 + "order by a.age asc";
 
-        Query query = getEntityManager().createNativeQuery(sql, Integer.class);
-        List<Object> list = query.getResultList();
-        List<Integer> ages = new ArrayList<>();
-        //list.stream().map(Integer::parseInt).forEach({});
-        return ages;
+        Query query = getEntityManager().createNativeQuery(sql);
+        List<Integer> list = (List<Integer>)(List<?>)query.getResultList();
+        return list;
     }
 }
