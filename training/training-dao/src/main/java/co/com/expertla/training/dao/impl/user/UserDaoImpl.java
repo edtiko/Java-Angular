@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import co.com.expertla.training.model.entities.User;
 import co.com.expertla.training.dao.user.UserDao;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.persistence.Query;
 
 /**
@@ -27,7 +30,6 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     /**
      * @author <a href="mailto:edwin.gomez@expertla.com">Edwin Gomez</a>
      * @param userId
-     * @param id
      * @return
      * @since 11/07/2016
      * @see co.com.expertla.training.dao.UserDao#findById(long)
@@ -267,5 +269,23 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Integer> getUserAges() throws DAOException {
+
+        String sql = "select a.age from(\n"
+                + "select DISTINCT EXTRACT(YEAR from AGE(birth_date)) as \"age\"\n"
+                + "from user_training\n"
+                + "where state_id = 1\n"
+                + "and birth_date is not null) a\n"
+                + "where a.age > 0\n"
+                + "order by a.age asc";
+
+        Query query = getEntityManager().createNativeQuery(sql, Integer.class);
+        List<Object> list = query.getResultList();
+        List<Integer> ages = new ArrayList<>();
+        //list.stream().map(Integer::parseInt).forEach({});
+        return ages;
     }
 }

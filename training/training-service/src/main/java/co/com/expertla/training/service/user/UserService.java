@@ -2,7 +2,6 @@ package co.com.expertla.training.service.user;
 
 import co.com.expertla.training.model.dto.CityDTO;
 import co.com.expertla.training.model.dto.CommunicationDTO;
-import co.com.expertla.training.model.dto.CountryDTO;
 import co.com.expertla.training.model.dto.FederalStateDTO;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.City;
@@ -95,6 +94,7 @@ public interface UserService {
      * @param first
      * @param max
      * @param order
+     * @param filter
      * @return
      * @throws Exception 
      */
@@ -145,5 +145,7 @@ public interface UserService {
     public Country getCountryById(Integer countryId) throws Exception; 
     
     public FederalState getFederalStateById(Integer federalStateId) throws Exception; 
+
+    public List<Integer> getUserAges()throws Exception; 
    
 }

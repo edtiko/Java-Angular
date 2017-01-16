@@ -9,32 +9,27 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             {
                 templateUrl: 'static/views/datosPersonales/step1.html',
                 hasForm: true,
-                title: 'Datos personales',
-                module: 'dp1'
+                title: 'Datos personales'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step2.html',
                 hasForm: true,
-                title: 'Datos de contacto',
-                module:'dc1'
+                title: 'Datos de contacto'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step3.html',
                 hasForm: true,
-                title: 'Datos deportivos',
-                module: 'dd1'
+                title: 'Datos deportivos'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step4.html',
                 hasForm: true,
-                title: 'Datos deportivos',
-                module: 'dd2'
+                title: 'Datos deportivos'
             },
             {
                 templateUrl: 'static/views/datosPersonales/step5.html',
                 hasForm: true,
-                title: 'Otros datos',
-                module: 'od1'
+                title: 'Otros datos'
             }
         ];
         $scope.onStepChange = function (index) {

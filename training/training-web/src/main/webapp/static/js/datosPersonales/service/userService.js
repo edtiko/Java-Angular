@@ -307,6 +307,18 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getUserAges: function () {
+                return $http.get($contextPath + 'get/user/ages/')
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching ages');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
             
         };

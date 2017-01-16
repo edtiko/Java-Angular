@@ -1,6 +1,7 @@
 package co.com.expertla.training.dao.user;
 
 import co.com.expertla.base.jpa.BaseDAO;
+import co.com.expertla.base.jpa.DAOException;
 import co.com.expertla.training.model.dto.UserDTO;
 import co.com.expertla.training.model.entities.User;
 import java.util.List;
@@ -69,6 +70,7 @@ public interface UserDao extends BaseDAO<User> {
      * @param first
      * @param max
      * @param order
+     * @param filter
      * @return
      * @throws Exception 
      */
@@ -88,4 +90,6 @@ public interface UserDao extends BaseDAO<User> {
     public Integer getCountNotification(Integer userId)throws  Exception;
     
     public List<UserDTO> findDefaultSupervisors() throws Exception;
+
+    public List<Integer> getUserAges() throws DAOException;
 }

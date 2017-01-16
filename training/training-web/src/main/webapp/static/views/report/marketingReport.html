@@ -39,7 +39,6 @@
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Pa&iacute;s</label>
                     <md-select class="md-block" id="country" ng-model="filter.countryId">
-                        <!--<md-select-label>{{country || 'Seleccione un pa&aiacute;s'}}</md-select-label>-->
                         <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
                             {{country.name}}
                         </md-option>
@@ -53,20 +52,20 @@
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Marca potenciometro</label>
-                    <md-select class="md-block" id="country" ng-model="filter.potentiometer" ng-change="getModelsPotentiometer(filter.potentiometer)">
-                         <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
-                                {{m.brand}}
-                            </md-option>
+                    <md-select class="md-block" id="potentiometer" ng-model="filter.potentiometer" ng-change="getModelsPotentiometer(filter.potentiometer)">
+                        <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
+                            {{m.brand}}
+                        </md-option>
                     </md-select>
                 </md-input-container>
             </div>
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Modelo potenciometro</label>
-                    <md-select class="md-block" id="country" ng-model="filter.modelPotentiometer">
-                       <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
-                                    {{m.name}}
-                                </md-option>
+                    <md-select class="md-block" id="potentiometerModel" name="potentiometerModel" ng-model="filter.modelPotentiometer">
+                        <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
+                            {{m.name}}
+                        </md-option>
                     </md-select>
                 </md-input-container>
             </div>
@@ -75,9 +74,9 @@
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Marca pulsometro</label>
-                    <md-select class="md-block" id="country" ng-model="filter.pulsometer" ng-change="getModelsPulsometer(filter.pulsometer)">
+                    <md-select class="md-block" id="pulsometer" name="pulsometer" ng-model="filter.pulsometer" ng-change="getModelsPulsometer(filter.pulsometer)">
                         <md-option ng-repeat="m in pulsometers" value="{{m.sportEquipmentId}}" >
-                                {{m.brand}}
+                            {{m.brand}}
                         </md-option>
                     </md-select>
                 </md-input-container>
@@ -85,10 +84,10 @@
             <div flex="33" layout-align="space-around center">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Modelo pulsometro</label>
-                    <md-select class="md-block" id="country" ng-model="filter.modelPulsometer">
+                    <md-select class="md-block" id="pulsometerModel" name="pulsometerModel" ng-model="filter.modelPulsometer">
                         <md-option ng-repeat="m in modelsPulsometer" value="{{m.modelEquipmentId}}" >
-                                    {{m.name}}
-                                </md-option>
+                            {{m.name}}
+                        </md-option>
                     </md-select>
                 </md-input-container>
             </div>
@@ -97,10 +96,9 @@
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Marca bicicleta</label>
-                    <md-select class="md-block" id="country" ng-model="filter.countryId">
-                        <!--<md-select-label>{{country || 'Seleccione un pa&aiacute;s'}}</md-select-label>-->
-                        <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
-                            {{country.name}}
+                    <md-select class="md-block" id="bike" name="bike" ng-model="filter.bike" ng-change="getModelsBike(filter.bike)">
+                        <md-option ng-repeat="bike in bikes" value="{{bike.sportEquipmentId}}" >
+                            {{bike.brand}}
                         </md-option>
                     </md-select>
                 </md-input-container>
@@ -108,10 +106,9 @@
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Modelo bicicleta</label>
-                    <md-select class="md-block" id="country" ng-model="filter.countryId">
-                        <!--<md-select-label>{{country || 'Seleccione un pa&aiacute;s'}}</md-select-label>-->
-                        <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
-                            {{country.name}}
+                    <md-select class="md-block" id="modelBike" name="modelBike" ng-model="filter.modelBike">
+                        <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
+                            {{m.name}}
                         </md-option>
                     </md-select>
                 </md-input-container>
@@ -123,7 +120,6 @@
                     <label  for="sex">Sexo</label>
 
                     <md-select id="sex" ng-model="user.sex" ng-required="true">
-                        <!--<md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>-->
                         <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
                             {{s.sex}}
                         </md-option>
@@ -132,10 +128,10 @@
             </div>
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label  for="sex">Disciplina deportiva</label>
+                    <label  for="discipline">Disciplina deportiva</label>
 
                     <md-select id="discipline" ng-model="filter.discipline" ng-required="true">
-                         <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
+                        <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                             {{d.name}}
                         </md-option>
                     </md-select>
@@ -148,9 +144,8 @@
                     <label  for="age">Edad</label>
 
                     <md-select id="age" ng-model="filter.age" ng-required="true">
-                        <!--<md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>-->
-                        <md-option ng-repeat="s in ages" value="{{s.code}}" >
-                            {{s.sex}}
+                        <md-option ng-repeat="age in ages" value="{{age}}" >
+                            {{age}}
                         </md-option>
                     </md-select>
                     <div class="has-error" ng-messages="frm1.sex.$error">
@@ -160,17 +155,13 @@
             </div>
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label  for="age">Grupo</label>
+                    <label  for="roles">Grupo</label>
 
-                    <md-select id="age" ng-model="filter.age" ng-required="true">
-                        <!--<md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>-->
-                        <md-option ng-repeat="s in ages" value="{{s.code}}" >
-                            {{s.sex}}
+                    <md-select id="roles" ng-model="filter.role" ng-required="true">
+                        <md-option ng-repeat="r in roles" value="{{r.id}}" >
+                            {{r.name}}
                         </md-option>
                     </md-select>
-                    <div class="has-error" ng-messages="frm1.sex.$error">
-                        <div ng-message="required">Este es un campo requerido</div>
-                    </div>
                 </md-input-container>
             </div>
         </div>       

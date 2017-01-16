@@ -11,7 +11,9 @@ import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -68,20 +70,21 @@ public class SportEquipmentController {
     }
     
     @RequestMapping(value = "sportEquipment/get/bikes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response getBikes() {
+    public ResponseEntity<ResponseService> getBikes() {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
-            List<SportEquipmentDTO> shoes = sportEquipmentService.findBikesByBikeTypeId(null);
-            responseService.setOutput(shoes);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            List<SportEquipmentDTO> bikes = sportEquipmentService.findAllBikes();
+            responseService.setOutput(bikes);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }   catch (Exception e) {
             Logger.getLogger(SportEquipmentController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
     

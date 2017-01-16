@@ -1184,4 +1184,24 @@ public class UserController {
         }
 
     }
+    
+    @RequestMapping(value = "get/user/ages", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getUserAges() {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<Integer> ages = userService.getUserAges();
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(ages);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
 }

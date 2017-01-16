@@ -6,10 +6,18 @@ trainingApp.controller('MarketingReportController', ['$scope', 'MarketingReportS
         $scope.potentiometers = [];
         $scope.modelsPotentiometer = [];
         $scope.modelsPulsometer = [];
+        $scope.bikes = [];
+        $scope.modelsBike = [];
         $scope.optionSelected = 1;
         $scope.sexOptions = [
             {code: "m", sex: "Masculino"},
             {code: "f", sex: "Femenino"}
+        ];
+           $scope.roles = [
+            {id: 1, name: "Atletas"},
+            {id: 2, name: "Supervisor"},
+            {id: 3, name: "Coach externo"},
+            {id: 0, name: "Todos"}
         ];
 
         self.fetchAllCountries = function () {
@@ -25,16 +33,16 @@ trainingApp.controller('MarketingReportController', ['$scope', 'MarketingReportS
         };
         self.fetchAllCountries();
 
-        $scope.getBikes = function (bikeTypeId) {
-            SportEquipmentService.getBikesByBikeTypeId(bikeTypeId).then(
+        self.getBikes = function () {
+            SportEquipmentService.getBikes().then(
                     function (d) {
                         if (d.detail == null) {
                             $scope.bikes = d.output;
                             $scope.bikes.unshift({sportEquipmentId: '', name: 'Seleccione', brand: 'Seleccione'});
-                            $scope.bikes.push({sportEquipmentId: -2, name: 'Otro', brand: 'Otro'});
-                            $scope.getModelsBike($scope.userProfile.bikes);
+                            //$scope.bikes.push({sportEquipmentId: -2, name: 'Otro', brand: 'Otro'});
+                            $scope.getModelsBike($scope.filter.bike);
                         } else {
-                            console.log("No se encontraron bicicletas de ese tipo");
+                            console.log("No se encontraron bicicletas ");
                         }
                     },
                     function (errResponse) {
@@ -43,12 +51,28 @@ trainingApp.controller('MarketingReportController', ['$scope', 'MarketingReportS
                     }
             );
         };
+        self.getBikes();
+        
+        $scope.getModelsBike = function (sportEquipmentId) {
+
+            SportEquipmentService.getModelsBySportEquipmentId(sportEquipmentId).then(
+                    function (d) {
+                        $scope.modelsBike = d;
+                        $scope.modelsBike.unshift({modelEquipmentId: -1, name: 'Seleccione'});
+                    },
+                    function (errResponse) {
+                        console.error('Error while models bikes');
+                        console.error(errResponse);
+                    }
+            );
+
+        };
 
         self.getPulsometers = function () {
             SportEquipmentService.getPulsometers().then(
                     function (d) {
                         $scope.pulsometers = d;
-                        $scope.pulsometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'}, {sportEquipmentId: -2, name: 'Otro', brand: 'Otro'});
+                        $scope.pulsometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'}); 
                     },
                     function (errResponse) {
                         console.error('Error while pulsometers');
@@ -62,7 +86,7 @@ trainingApp.controller('MarketingReportController', ['$scope', 'MarketingReportS
             SportEquipmentService.getPotentiometers().then(
                     function (d) {
                         $scope.potentiometers = d;
-                        $scope.potentiometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'}, {sportEquipmentId: -2, name: 'Otro', brand: 'Otro'});
+                        $scope.potentiometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
                     },
                     function (errResponse) {
                         console.error('Error while potentiometers');
@@ -115,5 +139,19 @@ trainingApp.controller('MarketingReportController', ['$scope', 'MarketingReportS
             );
         };
         self.getSportDisciplines();
+        
+        
+        self.getUserAges = function () {
+            UserService.getUserAges().then(
+                    function (d) {
+                        $scope.ages = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while fetching ages');
+                        console.error(errResponse);
+                    }
+            );
+        };
+        self.getUserAges();
 
     }]);

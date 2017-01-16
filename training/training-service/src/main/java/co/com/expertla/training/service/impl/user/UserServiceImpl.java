@@ -542,4 +542,9 @@ public class UserServiceImpl implements UserService {
     public FederalState getFederalStateById(Integer federalStateId) throws Exception {
         return federalStateDao.findById(federalStateId);
     }
+
+    @Override
+    public List<Integer> getUserAges() throws Exception {
+        return userDao.getUserAges();
+    }
 }
