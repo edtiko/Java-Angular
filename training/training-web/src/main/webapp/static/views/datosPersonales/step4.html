@@ -376,7 +376,7 @@
         <br /><br />
         <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
             <md-button type="submit" ng-click="submitUserProfile(formProfile, false, $event)"  class="md-raised md-primary">Guardar</md-button>
-            <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
+            <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(true, $event)">Generar Plan</md-button>
         </section>
            {{$setValidity(frm4.$valid, 4)}}
          </form>

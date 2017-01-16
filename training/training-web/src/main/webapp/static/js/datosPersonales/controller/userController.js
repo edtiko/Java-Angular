@@ -581,8 +581,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.weightmetric = '(Kg)';
         $scope.heightmetric = '(Mts)';
 
-        $scope.submitUserProfile = function (form, generatePlan, ev) {
-            if ($scope.validateFields(form)) {
+        $scope.submitUserProfile = function (generatePlan, ev) {
+            if ($scope.validateFields()) {
                 $scope.getSessions(ev, generatePlan);
             } else {
                 if ($scope.errorMessages.length != 0) {
@@ -1260,39 +1260,39 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             return false;
         };
 
-        $scope.validateFields = function (form) {
+        $scope.validateFields = function () {
             var valid = true;
             if ($scope.userProfile.objective == '' || $scope.userProfile.objective == null) {
                 $scope.errorMessages.push("Debe seleccionar un objetivo");
-                form.objective.$setTouched();
+                //form.objective.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.discipline == '' || $scope.userProfile.discipline == null) {
                 $scope.errorMessages.push("Debe seleccionar una disciplina");
-                form.discipline.$setTouched();
+                //form.discipline.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.modality == '' || $scope.userProfile.modality == null) {
                 $scope.errorMessages.push("Debe seleccionar una modalidad");
-                form.modality.$setTouched();
+                //form.modality.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.environmentId == '' || $scope.userProfile.environmentId == null) {
                 $scope.errorMessages.push("Debe seleccionar un entorno");
-                form.environment.$setTouched();
+                //form.environment.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
                 $scope.errorMessages.push("Debe seleccionar un clima predominante");
-                form.weather.$setTouched();
+                //form.weather.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.weight == '' || $scope.userProfile.weight == null) {
-                form.weight.$setTouched();
+                //form.weight.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.height == '' || $scope.userProfile.height == null) {
-                form.height.$setTouched();
+                //form.height.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.ageSport < 0) {

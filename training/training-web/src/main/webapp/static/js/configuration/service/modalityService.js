@@ -89,7 +89,7 @@ trainingApp.service('ModalityService', ['$http', '$q', function ($http, $q) {
                     return $http.get($contextPath+'modality/get/by/objectiveId/'+id)
                             .then(
                                     function(response){
-                                        return response.data.entity.output;
+                                        return response.data.output;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while getting modalities');

@@ -19,7 +19,7 @@ trainingApp.factory('SportService', ['$http', '$q', function($http, $q){
                     return $http.get($contextPath+'sport/get/entornos')
                             .then(
                                     function(response){
-                                        return response.data.entity.output;
+                                        return response.data.output;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while getting sports');
@@ -31,7 +31,7 @@ trainingApp.factory('SportService', ['$http', '$q', function($http, $q){
                     return $http.get($contextPath+'sport/get/climas')
                             .then(
                                     function(response){
-                                        return response.data.entity.output;
+                                        return response.data.output;
                                     }, 
                                     function(errResponse){
                                         console.error('Error while getting sports');
