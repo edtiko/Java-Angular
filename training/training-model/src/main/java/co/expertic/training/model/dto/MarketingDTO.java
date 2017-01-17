@@ -5,8 +5,6 @@
  */
 package co.expertic.training.model.dto;
 
-import java.util.Date;
-
 /**
  *
  * @author Edwin G
@@ -22,8 +20,8 @@ public class MarketingDTO {
     private String brand;
     private String model;
     private Integer sportEquipmentCount;
-    private Date initDate;
-    private Date endDate;
+    private String initDate;
+    private String endDate;
     private Integer countryId;
     private Integer potentiometer;
     private Integer potentiometerModel;
@@ -91,19 +89,19 @@ public class MarketingDTO {
     }
 
 
-    public Date getInitDate() {
+    public String getInitDate() {
         return initDate;
     }
 
-    public void setInitDate(Date initDate) {
+    public void setInitDate(String initDate) {
         this.initDate = initDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 

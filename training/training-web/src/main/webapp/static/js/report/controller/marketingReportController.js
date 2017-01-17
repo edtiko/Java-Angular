@@ -11,13 +11,15 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
     $scope.shoes = [];
     $scope.optionSelected = 4;
     $scope.sexOptions = [
+        {code: "", sex: "Seleccione"},
         {code: "m", sex: "Masculino"},
         {code: "f", sex: "Femenino"}
     ];
     $scope.roles = [
+        {id: '', name: "Seleccione"},
         {id: 1, name: "Atletas"},
-        {id: 2, name: "Supervisor"},
-        {id: 3, name: "Coach externo"},
+        {id: 4, name: "Supervisor"},
+        {id: 2, name: "Coach externo"},
         {id: 0, name: "Todos"}
     ];
     $scope.reportList = [];
@@ -27,13 +29,15 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
         order: 'name',
         limit: 5,
         page: 1,
-        sportEquipmentType: $scope.optionSelected, initDate: $scope.initDate, endDate: $scope.endDate,
-        countryId: $scope.countryId, shoe: $scope.shoe, potentiometer: $scope.potentiometer,
-        potentiometerModel: $scope.modelPotentiometer, pulsometer: $scope.pulsometer,
-        pulsometerModel: $scope.modelPulsometer, bike: $scope.bike, modelBike: $scope.modelBike,
-        sex: $scope.sex, discipline: $scope.discipline, age: $scope.age, role: $scope.role
+        sportEquipmentType: '', initDate: '', endDate: '',
+        countryId: '', shoe: '', potentiometer: '',
+        potentiometerModel: '', pulsometer: '',
+        pulsometerModel: '', bike: '', modelBike: '',
+        sex: '', discipline: '', age: '', role: ''
 
     };
+    
+    $scope.query.sportEquipmentType = $scope.optionSelected; 
 
     function success(response) {
         if (response.data.status == 'fail') {
@@ -60,6 +64,8 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
                 .then(
                         function (response) {
                             $scope.countries = response;
+                            $scope.countries.unshift({countryId: -1, name: 'Seleccione'});
+                            $scope.query.countryId = -1;
                         },
                         function (errResponse) {
                             console.error('Error while fetching Currencies');
@@ -72,7 +78,8 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
         SportEquipmentService.getBikes().then(
                 function (d) {
                     $scope.bikes = d;
-                    $scope.bikes.unshift({sportEquipmentId: '', name: 'Seleccione', brand: 'Seleccione'});
+                    $scope.bikes.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
+                    $scope.query.bike = -1;
                     $scope.modelsBike = [];
 
                 },
@@ -91,6 +98,7 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
                     function (d) {
                         $scope.modelsBike = d;
                         $scope.modelsBike.unshift({modelEquipmentId: -1, name: 'Seleccione'});
+                        $scope.query.modelBike = -1;
                     },
                     function (errResponse) {
                         console.error('Error while models bikes');
@@ -106,6 +114,7 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
                 function (d) {
                     $scope.pulsometers = d;
                     $scope.pulsometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
+                    $scope.query.pulsometer = -1;
                 },
                 function (errResponse) {
                     console.error('Error while pulsometers');
@@ -120,6 +129,7 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
                 function (d) {
                     $scope.potentiometers = d;
                     $scope.potentiometers.unshift({sportEquipmentId: -1, name: 'Seleccione', brand: 'Seleccione'});
+                      $scope.query.potentiometer = -1;
                 },
                 function (errResponse) {
                     console.error('Error while potentiometers');
@@ -136,6 +146,7 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
                     function (d) {
                         $scope.modelsPotentiometer = d;
                         $scope.modelsPotentiometer.unshift({modelEquipmentId: -1, name: 'Seleccione'});
+                        $scope.query.modelPotentiometer = -1;
                     },
                     function (errResponse) {
                         console.error('Error while models potentiometer');
@@ -152,6 +163,7 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
                     function (d) {
                         $scope.modelsPulsometer = d;
                         $scope.modelsPulsometer.unshift({modelEquipmentId: -1, name: 'Seleccione'});
+                        $scope.query.modelPulsometer = -1;
                     },
                     function (errResponse) {
                         console.error('Error while models pulsometer');
@@ -165,6 +177,8 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
         DisciplineService.getSportDisciplines().then(
                 function (d) {
                     $scope.disciplines = d;
+                    $scope.disciplines.unshift({disciplineId: -1, name: 'Seleccione'});
+                    $scope.query.discipline = -1;
                 },
                 function (errResponse) {
                     console.error('Error while disciplines');
@@ -201,6 +215,21 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
                 }
         );
     };
+    
+    $scope.resetForm = function () {
+        $scope.query = {
+            order: 'name',
+            limit: 5,
+            page: 1,
+            sportEquipmentType: '', initDate: '', endDate: '',
+            countryId: '', shoe: '', potentiometer: '',
+            potentiometerModel: '', pulsometer: '',
+            pulsometerModel: '', bike: '', modelBike: '',
+            sex: '', discipline: '', age: '', role: ''
+
+        };
+    };
+    
     self.getRunningShoes();
 
     $scope.getPaginate();

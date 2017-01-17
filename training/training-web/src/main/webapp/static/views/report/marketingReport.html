@@ -1,6 +1,6 @@
 <div layout="column" flex-offset="15" flex="65" layout-align="center" style="padding-bottom: 50px">
 
-    <md-radio-group ng-model="optionSelected" md-no-ink >
+    <md-radio-group ng-model="query.sportEquipmentType" md-no-ink >
         <div layout="row" layout-align="space-around center" >
             <div layout="column">
                 <md-radio-button value="4"><span class="md-caption">{{ 'POTENTIOMETER' | translate }} </span></md-radio-button>
@@ -16,190 +16,196 @@
             </div>
         </div>
     </md-radio-group>
+    <form name="frmMarketing" id="frmMarketing">
+        <div layout="column" >
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label>Fecha inicio</label>
+                        <md-datepicker id="initDate" name="initDate" md-max-date="maxDate"  ng-model="query.initDate"  ng-required="true" >
+                        </md-datepicker>
+                        <div class="has-error" ng-messages="frmMarketing.initDate.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label>Fecha fin</label>
+                        <md-datepicker id="endDate" name="endDate" md-max-date="maxDate"  ng-model="query.endDate"  ng-required="true" >
+                        </md-datepicker>
+                        <div class="has-error" ng-messages="frmMarketing.endDate.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Pa&iacute;s</label>
+                        <md-select class="md-block" id="country" ng-model="query.countryId">
+                            <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
+                                {{country.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="33" ng-if="query.sportEquipmentType != 1"></div>
+                <div flex="33" ng-if="query.sportEquipmentType == 1">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Marca zapatos</label>
+                        <md-select  ng-model="query.shoe" id="shoe" name="shoe">
+                            <md-option ng-repeat="m in shoes" value="{{m.sportEquipmentId}}" >
+                                {{m.brand}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center" ng-if="query.sportEquipmentType == 4">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Marca potenciometro</label>
+                        <md-select class="md-block" id="potentiometer" ng-model="query.potentiometer" ng-change="getModelsPotentiometer(potentiometer)">
+                            <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
+                                {{m.brand}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Modelo potenciometro</label>
+                        <md-select class="md-block" id="potentiometerModel" name="potentiometerModel" ng-model="query.modelPotentiometer">
+                            <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
+                                {{m.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center" ng-if="query.sportEquipmentType == 3">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Marca pulsometro</label>
+                        <md-select class="md-block" id="pulsometer" name="pulsometer" ng-model="query.pulsometer" ng-change="getModelsPulsometer(pulsometer)">
+                            <md-option ng-repeat="m in pulsometers" value="{{m.sportEquipmentId}}" >
+                                {{m.brand}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="33" layout-align="space-around center">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Modelo pulsometro</label>
+                        <md-select class="md-block" id="pulsometerModel" name="pulsometerModel" ng-model="query.modelPulsometer">
+                            <md-option ng-repeat="m in modelsPulsometer" value="{{m.modelEquipmentId}}" >
+                                {{m.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center" ng-if="query.sportEquipmentType == 2">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Marca bicicleta</label>
+                        <md-select class="md-block" id="bike" name="bike" ng-model="query.bike" ng-change="getModelsBike(bike)">
+                            <md-option ng-repeat="bike in bikes" value="{{bike.sportEquipmentId}}" >
+                                {{bike.brand}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Modelo bicicleta</label>
+                        <md-select class="md-block" id="modelBike" name="modelBike" ng-model="query.modelBike">
+                            <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
+                                {{m.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label  for="sex">Sexo</label>
 
-    <div layout="column" >
-        <div layout="row" layout-align="space-around center">
-            <div flex="33">
-                <md-input-container class="md-block" >
-                    <label>Fecha inicio</label>
-                    <md-datepicker id="initDate" name="initDate" md-max-date="maxDate"  ng-model="initDate"  ng-required="true" >
-                    </md-datepicker>
-                </md-input-container>
-            </div>
-            <div flex="33">
-                <md-input-container class="md-block" >
-                    <label>Fecha fin</label>
-                    <md-datepicker id="endDate" name="endDate" md-max-date="maxDate"  ng-model="endDate"  ng-required="true" >
-                    </md-datepicker>
-                </md-input-container>
-            </div>
-        </div>
-        <div layout="row" layout-align="space-around center">
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Pa&iacute;s</label>
-                    <md-select class="md-block" id="country" ng-model="countryId">
-                        <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
-                            {{country.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-            <div flex="33" ng-if="optionSelected != 1"></div>
-            <div flex="33" ng-if="optionSelected == 1">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Marca zapatos</label>
-                    <md-select  ng-model="shoe" id="shoe" name="shoe">
-                        <md-option ng-repeat="m in shoes" value="{{m.sportEquipmentId}}" >
-                            {{m.brand}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-        </div>
-        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 4">
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Marca potenciometro</label>
-                    <md-select class="md-block" id="potentiometer" ng-model="potentiometer" ng-change="getModelsPotentiometer(potentiometer)">
-                        <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
-                            {{m.brand}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Modelo potenciometro</label>
-                    <md-select class="md-block" id="potentiometerModel" name="potentiometerModel" ng-model="modelPotentiometer">
-                        <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
-                            {{m.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-        </div>
-        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 3">
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Marca pulsometro</label>
-                    <md-select class="md-block" id="pulsometer" name="pulsometer" ng-model="pulsometer" ng-change="getModelsPulsometer(pulsometer)">
-                        <md-option ng-repeat="m in pulsometers" value="{{m.sportEquipmentId}}" >
-                            {{m.brand}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-            <div flex="33" layout-align="space-around center">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Modelo pulsometro</label>
-                    <md-select class="md-block" id="pulsometerModel" name="pulsometerModel" ng-model="modelPulsometer">
-                        <md-option ng-repeat="m in modelsPulsometer" value="{{m.modelEquipmentId}}" >
-                            {{m.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-        </div>
-        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 2">
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Marca bicicleta</label>
-                    <md-select class="md-block" id="bike" name="bike" ng-model="bike" ng-change="getModelsBike(bike)">
-                        <md-option ng-repeat="bike in bikes" value="{{bike.sportEquipmentId}}" >
-                            {{bike.brand}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder">
-                    <label>Modelo bicicleta</label>
-                    <md-select class="md-block" id="modelBike" name="modelBike" ng-model="modelBike">
-                        <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
-                            {{m.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-        </div>
-        <div layout="row" layout-align="space-around center">
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder" >
-                    <label  for="sex">Sexo</label>
+                        <md-select id="sex" ng-model="query.sex" >
+                            <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                                {{s.sex}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label  for="discipline">Disciplina deportiva</label>
 
-                    <md-select id="sex" ng-model="sex" ng-required="true">
-                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
-                            {{s.sex}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
+                        <md-select id="discipline" ng-model="query.discipline">
+                            <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
+                                {{d.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
             </div>
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder" >
-                    <label  for="discipline">Disciplina deportiva</label>
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label  for="age">Edad</label>
 
-                    <md-select id="discipline" ng-model="discipline" ng-required="true">
-                        <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
-                            {{d.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-        </div>
-        <div layout="row" layout-align="space-around center">
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder" >
-                    <label  for="age">Edad</label>
+                        <md-select id="age" ng-model="query.age" >
+                            <md-option ng-repeat="age in ages" value="{{age}}" >
+                                {{age}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label  for="roles">Grupo</label>
 
-                    <md-select id="age" ng-model="age" ng-required="true">
-                        <md-option ng-repeat="age in ages" value="{{age}}" >
-                            {{age}}
-                        </md-option>
-                    </md-select>
-                    <div class="has-error" ng-messages="frm1.sex.$error">
-                        <div ng-message="required">Este es un campo requerido</div>
-                    </div>
-                </md-input-container>
-            </div>
-            <div flex="33">
-                <md-input-container class="md-block md-input-has-placeholder" >
-                    <label  for="roles">Grupo</label>
-
-                    <md-select id="roles" ng-model="role" ng-required="true">
-                        <md-option ng-repeat="r in roles" value="{{r.id}}" >
-                            {{r.name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-        </div>       
-
-            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                <md-button ng-click="getPaginate()" class="md-raised md-primary">Buscar</md-button>
+                        <md-select id="roles" ng-model="query.role">
+                            <md-option ng-repeat="r in roles" value="{{r.id}}" >
+                                {{r.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>       
+            <br /><br />
+            <section layout="row" layout-sm="column" layout-align="center" layout-wrap>
+                <md-button ng-click="getPaginate()" ng-disabled="frmMarketing.$invalid" class="md-raised md-primary">Buscar</md-button>
+                <md-button ng-click="resetForm()" class="md-raised">Cancelar</md-button>
             </section>
+
+        </div>
+    </form>
+    <div class="demo-md-panel md-padding">
+        <md-table-container>
+            <table md-table ng-model="selected" md-progress="promise">
+                <thead md-head md-order="query.order" md-on-reorder="getPaginate">
+                    <tr md-row>
+                        <th md-column md-order-by="name" md-column>Variable</th>
+                        <th md-column md-column>Marca</th>
+                        <th md-column >Modelo</th>
+                        <th md-column >Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row md-select="report" md-select-id="name" md-auto-select ng-repeat="report in reportList">
+                        <td md-cell>{{report.sportEquipment}}</td>
+                        <td md-cell>{{report.brand}}</td>
+                        <td md-cell>{{report.model}}</td>
+                        <td md-cell>{{report.sportEquipmentCount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+        <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getPaginate" md-page-select></md-table-pagination>
     </div>
-</div>
-<div class="demo-md-panel md-padding">
-    <md-table-container>
-        <table md-table ng-model="selected" md-progress="promise">
-            <thead md-head md-order="query.order" md-on-reorder="getPaginate">
-                <tr md-row>
-                    <th md-column md-order-by="sportEquipmentTypeId.name" md-column>Variable</th>
-                    <th md-column md-column>Marca</th>
-                    <th md-column >Modelo</th>
-                    <th md-column >Cantidad</th>
-                </tr>
-            </thead>
-            <tbody md-body>
-                <tr md-row md-select="report" md-select-id="name" md-auto-select ng-repeat="report in reportList">
-                    <td md-cell>{{report.sportEquipment}}</td>
-                    <td md-cell>{{report.brand}}</td>
-                    <td md-cell>{{report.model}}</td>
-                    <td md-cell>{{report.sportEquipmentCount}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </md-table-container>
-    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getPaginate" md-page-select></md-table-pagination>
 </div>
