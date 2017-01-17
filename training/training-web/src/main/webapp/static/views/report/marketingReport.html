@@ -3,16 +3,16 @@
     <md-radio-group ng-model="optionSelected" md-no-ink >
         <div layout="row" layout-align="space-around center" >
             <div layout="column">
-                <md-radio-button value="1"><span class="md-caption">{{ 'POTENTIOMETER' | translate }} </span></md-radio-button>
+                <md-radio-button value="4"><span class="md-caption">{{ 'POTENTIOMETER' | translate }} </span></md-radio-button>
             </div>
             <div layout="column">
-                <md-radio-button value="2"><span class="md-caption">{{ 'PULSOMETER' | translate }}</span></md-radio-button>
+                <md-radio-button value="3"><span class="md-caption">{{ 'PULSOMETER' | translate }}</span></md-radio-button>
             </div>
             <div layout="column">
-                <md-radio-button value="3"><span class="md-caption">{{ 'BICYCLE' | translate }}</span></md-radio-button>
+                <md-radio-button value="2"><span class="md-caption">{{ 'BICYCLE' | translate }}</span></md-radio-button>
             </div>
             <div layout="column">
-                <md-radio-button value="4"><span class="md-caption">{{ 'SPORT_SHOES' | translate }}</span></md-radio-button>
+                <md-radio-button value="1"><span class="md-caption">{{ 'SPORT_SHOES' | translate }}</span></md-radio-button>
             </div>
         </div>
     </md-radio-group>
@@ -45,8 +45,8 @@
                     </md-select>
                 </md-input-container>
             </div>
-            <div flex="33" ng-if="optionSelected != 4"></div>
-            <div flex="33" ng-if="optionSelected == 4">
+            <div flex="33" ng-if="optionSelected != 1"></div>
+            <div flex="33" ng-if="optionSelected == 1">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Marca zapatos</label>
                     <md-select  ng-model="shoe" id="shoe" name="shoe">
@@ -57,7 +57,7 @@
                 </md-input-container>
             </div>
         </div>
-        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 1">
+        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 4">
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Marca potenciometro</label>
@@ -79,7 +79,7 @@
                 </md-input-container>
             </div>
         </div>
-        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 2">
+        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 3">
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Marca pulsometro</label>
@@ -101,7 +101,7 @@
                 </md-input-container>
             </div>
         </div>
-        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 3">
+        <div layout="row" layout-align="space-around center" ng-if="optionSelected == 2">
             <div flex="33">
                 <md-input-container class="md-block md-input-has-placeholder">
                     <label>Marca bicicleta</label>
@@ -175,6 +175,9 @@
             </div>
         </div>       
 
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button ng-click="getPaginate()" class="md-raised md-primary">Buscar</md-button>
+            </section>
     </div>
 </div>
 <div class="demo-md-panel md-padding">

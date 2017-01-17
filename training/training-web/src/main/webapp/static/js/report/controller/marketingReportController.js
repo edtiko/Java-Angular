@@ -9,7 +9,7 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
     $scope.modelsBike = [];
     $scope.ages = [];
     $scope.shoes = [];
-    $scope.optionSelected = 1;
+    $scope.optionSelected = 4;
     $scope.sexOptions = [
         {code: "m", sex: "Masculino"},
         {code: "f", sex: "Femenino"}
@@ -27,13 +27,12 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
         order: 'name',
         limit: 5,
         page: 1,
-        filterDto: {
-            sportEquipmentType: $scope.optionSelected, initDate: $scope.initDate, endDate: $scope.endDate,
-            countryId: $scope.countryId, shoe: $scope.shoe, potentiometer: $scope.potentiometer,
-            potentiometerModel: $scope.modelPotentiometer, pulsometer: $scope.pulsometer,
-            pulsometerModel: $scope.modelPulsometer, bike: $scope.bike, modelBike: $scope.modelBike,
-            sex: $scope.sex, discipline: $scope.discipline, age: $scope.age, role: $scope.role
-        }
+        sportEquipmentType: $scope.optionSelected, initDate: $scope.initDate, endDate: $scope.endDate,
+        countryId: $scope.countryId, shoe: $scope.shoe, potentiometer: $scope.potentiometer,
+        potentiometerModel: $scope.modelPotentiometer, pulsometer: $scope.pulsometer,
+        pulsometerModel: $scope.modelPulsometer, bike: $scope.bike, modelBike: $scope.modelBike,
+        sex: $scope.sex, discipline: $scope.discipline, age: $scope.age, role: $scope.role
+
     };
 
     function success(response) {

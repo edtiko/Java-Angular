@@ -5,12 +5,12 @@
  */
 package co.expertic.training.training.web.controller.report;
 
-import co.com.expertla.training.model.dto.MarketingDTO;
-import co.com.expertla.training.model.dto.PaginateDto;
-import co.com.expertla.training.model.util.ResponseService;
-import co.com.expertla.training.service.configuration.SportEquipmentService;
-import co.com.expertla.training.web.controller.configuration.BikeTypeController;
-import co.com.expertla.training.web.enums.StatusResponse;
+import co.expertic.training.model.dto.MarketingDTO;
+import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.util.ResponseService;
+import co.expertic.training.service.configuration.SportEquipmentService;
+import co.expertic.training.web.controller.configuration.BikeTypeController;
+import co.expertic.training.web.enums.StatusResponse;
 import java.util.List;
 import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +43,11 @@ public class ReportController {
      * @return
      */
     @RequestMapping(value = "/marketing/paginated", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> listPaginated(@RequestBody PaginateDto paginateDto) {
+    public ResponseEntity<ResponseService> listPaginated(@RequestBody MarketingDTO paginateDto) {
         ResponseService responseService = new ResponseService();
         try {   
             paginateDto.setPage( (paginateDto.getPage()-1)*paginateDto.getLimit() );
-            List<MarketingDTO> list = sportEquipmentService.findMarketingPaginate(paginateDto.getPage(), paginateDto.getLimit(),
-                paginateDto.getOrder(), new Object());
+            List<MarketingDTO> list = sportEquipmentService.findMarketingPaginate(paginateDto);
             responseService.setOutput(list);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
