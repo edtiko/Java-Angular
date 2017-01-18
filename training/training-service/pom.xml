@@ -4,12 +4,12 @@
     xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>co.com.expertla.training</groupId>
+        <groupId>co.expertic.training</groupId>
         <artifactId>training</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>co.com.expertla.training.service</groupId>
+    <groupId>co.expertic.training.service</groupId>
     <artifactId>training-service</artifactId>
     <name>training-service</name>
     <url>http://maven.apache.org</url>
@@ -41,12 +41,12 @@
         </dependency>
 
         <dependency>
-            <groupId>co.com.expertla.training.dao</groupId>
+            <groupId>co.expertic.training.dao</groupId>
             <artifactId>training-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>co.com.expertla.training.model</groupId>
+            <groupId>co.expertic.training.model</groupId>
             <artifactId>training-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

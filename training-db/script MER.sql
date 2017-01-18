@@ -585,6 +585,7 @@ create table training_plan_user (
    training_plan_user_id serial               not null,
    user_id              integer              null,
    training_plan_id     integer              null,
+   creation_date        timestamp without time zone,
    state_id             integer              null,
    constraint pk_training_plan_user primary key (training_plan_user_id)
 );
@@ -1001,6 +1002,16 @@ create table parameter (
    last_update      date                 null, 
    user_update      integer              null,
    constraint pk_parameter primary key (parameter_id)
+);
+
+/*==============================================================*/
+/* Table: training_plan_renovation                              */
+/*==============================================================*/
+create table training_plan_renovation (
+   training_plan_renovation_id serial               not null,
+   training_plan_user_id     integer              null,
+   creation_date             timestamp without time zone,
+   constraint pk_training_plan_renovation primary key (training_plan_renovation_id)
 );
 
 alter table plan_workout_objective

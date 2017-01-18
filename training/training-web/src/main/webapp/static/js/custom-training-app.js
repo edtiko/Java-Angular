@@ -1,12 +1,12 @@
 'use strict';
-var urlCompraPlanEntrenamiento = $wordPressContextPath+'plan-de-entrenamiento-deporte/';
+var urlCompraPlanEntrenamiento = $wordPressContextPath + 'plan-de-entrenamiento-deporte/';
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
-    'ngMessages', 'ngMaterial', 'pascalprecht.translate', 'angular-notification-icons', 'md.data.table', 'ngSanitize', 'luegg.directives', 'angular.filter', 'ngCamRecorder', 'angularAudioRecorder','multiStepForm'])
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate', 'angular-notification-icons', 'md.data.table', 'ngSanitize', 'luegg.directives', 'angular.filter', 'ngCamRecorder', 'angularAudioRecorder', 'multiStepForm'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
-                $translateProvider) {
+                $translateProvider, $mdDateLocaleProvider) {
 
             var route = routeResolverProvider.route;
 
@@ -62,7 +62,11 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/mail', route.resolve('mail', 'mail/'))
 
-                    .when('/reports', route.resolve('reports', 'reports/'))
+                    .when('/marketing-report', route.resolve('marketingReport', 'report/'))
+            
+                    .when('/payment-report', route.resolve('paymentReport', 'report/'))
+            
+                    .when('/sale-report', route.resolve('saleReport', 'report/'))
 
                     .when('/external-coach', route.resolve('externalCoach', 'externalCoach/'))
 
@@ -71,7 +75,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/script', route.resolve('script', 'script/'))
 
                     .when('/informe', route.resolve('informe', 'informe/'))
-            
+
                     .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'));
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',
@@ -80,7 +84,38 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
             $translateProvider.preferredLanguage('es');
 
-$translateProvider.useSanitizeValueStrategy('sanitizeParameters');
+            $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
+            
+            $mdDateLocaleProvider.months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                                  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            $mdDateLocaleProvider.shortMonths = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 
+                                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+            $mdDateLocaleProvider.days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+            $mdDateLocaleProvider.shortDays = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
+            // Can change week display to start on Monday.
+            $mdDateLocaleProvider.firstDayOfWeek = 1;
+            // Optional.
+            //$mdDateLocaleProvider.dates = [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,
+            //                               20,21,22,23,24,25,26,27,28,29,30,31];
+            // In addition to date display, date components also need localized messages
+            // for aria-labels for screen-reader users.
+            $mdDateLocaleProvider.weekNumberFormatter = function(weekNumber) {
+              return 'Semana ' + weekNumber;
+            };
+            $mdDateLocaleProvider.msgCalendar = 'Calendario';
+            $mdDateLocaleProvider.msgOpenCalendar = 'Abrir calendario';
+            $mdDateLocaleProvider.formatDate = function(date) {
+                if(date !== ""){
+                    var day = date.getDate();
+                    var monthIndex = date.getMonth();
+                    var year = date.getFullYear();
+
+                    return day + '/' + (monthIndex + 1) + '/' + year;
+                } else {
+                    return null;
+                }
+                
+            };
 
         });
 
@@ -122,7 +157,7 @@ trainingApp.directive('jqdatepicker', function ($parse) {
         restrict: 'A',
         require: 'ngModel',
         link: function (scope, element, attrs, ngModelCtrl) {
-              var ngModel = $parse(attrs.ngModel);
+            var ngModel = $parse(attrs.ngModel);
             element.datepicker({
                 dateFormat: 'dd/mm/yy',
                 showOn: "both",
@@ -132,9 +167,9 @@ trainingApp.directive('jqdatepicker', function ($parse) {
                 changeYear: true,
                 yearRange: '-90:-18',
                 onSelect: function (date) {
-                 //scope.date = date;
+                    //scope.date = date;
                     scope.showAge(date);
-                    scope.$apply(function(scope){
+                    scope.$apply(function (scope) {
                         // Change binded variable
                         ngModel.assign(scope, date);
                     });
@@ -142,26 +177,26 @@ trainingApp.directive('jqdatepicker', function ($parse) {
             });
         }
     };
-    
+
 });
 
-trainingApp.directive('dynController', ['$compile', '$parse',function($compile, $parse) {
-  return {
-    restrict: 'A',
-    terminal: true,
-    priority: 100000,
-    link: function(scope, elem, attrs) {
-            // Parse the scope variable
-            var name = $parse(elem.attr('dyn-controller'))(scope);
-            elem.removeAttr('dyn-controller');
-            elem.attr('ng-controller', name);
+trainingApp.directive('dynController', ['$compile', '$parse', function ($compile, $parse) {
+        return {
+            restrict: 'A',
+            terminal: true,
+            priority: 100000,
+            link: function (scope, elem, attrs) {
+                // Parse the scope variable
+                var name = $parse(elem.attr('dyn-controller'))(scope);
+                elem.removeAttr('dyn-controller');
+                elem.attr('ng-controller', name);
 
-            // Compile the element with the ng-controller attribute
-            $compile(elem)(scope);       
-        }
-    };
-    
-}]);
+                // Compile the element with the ng-controller attribute
+                $compile(elem)(scope);
+            }
+        };
+
+    }]);
 
 
 /**
