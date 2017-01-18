@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.expertic.training.model.dto;
 
 /**
  *
  * @author Edwin G
  */
-public class MarketingDTO {
+public class ReportDTO {
     
     private String order;
     private int limit;
@@ -35,13 +30,14 @@ public class MarketingDTO {
     private Integer age;
     private Integer role;
     private Integer sportEquipmentType;
+    private Integer trainingPlanId;
     
-    public MarketingDTO(){
+    public ReportDTO(){
         
     }
     
     
-    public MarketingDTO(String sportEquipment, String brand, String model, Long sportEquipmentCount){
+    public ReportDTO(String sportEquipment, String brand, String model, Long sportEquipmentCount){
         this.sportEquipment = sportEquipment;
         this.brand = brand;
         this.model = model;
@@ -239,6 +235,14 @@ public class MarketingDTO {
 
     public void setFilter(String filter) {
         this.filter = filter;
+    }
+
+    public Integer getTrainingPlanId() {
+        return trainingPlanId;
+    }
+
+    public void setTrainingPlanId(Integer trainingPlanId) {
+        this.trainingPlanId = trainingPlanId;
     }
        
     

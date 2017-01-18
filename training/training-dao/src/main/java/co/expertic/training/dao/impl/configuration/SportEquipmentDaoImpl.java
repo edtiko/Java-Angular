@@ -3,7 +3,7 @@ package co.expertic.training.dao.impl.configuration;
 import co.expertic.base.jpa.BaseDAOImpl;
 import co.expertic.training.dao.configuration.SportEquipmentDao;
 import co.expertic.training.enums.SportEquipmentTypeEnum;
-import co.expertic.training.model.dto.MarketingDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.SportEquipmentDTO;
 import co.expertic.training.model.entities.SportEquipment;
 import java.text.SimpleDateFormat;
@@ -90,7 +90,7 @@ public class SportEquipmentDaoImpl extends BaseDAOImpl<SportEquipment> implement
         return query.getResultList();
     }
 
-    public int findAllMarketing(MarketingDTO filterDto) throws Exception {
+    public int findAllMarketing(ReportDTO filterDto) throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append(" select count(*) from ( select t.name as sport_equipment, b.name as brand , m.name as model \n"
                 + "\n"
@@ -126,7 +126,7 @@ public class SportEquipmentDaoImpl extends BaseDAOImpl<SportEquipment> implement
 
         if (!"".equals(filterDto.getEndDate())) {
             Date endDate = dateFormat.parse(filterDto.getEndDate());
-            builder.append(" and u.creation_date <= '").append(endDate).append("'");;
+            builder.append(" and u.creation_date <= '").append(endDate).append("'");
         }
 
         if (filterDto.getAge() != null) {
@@ -175,7 +175,7 @@ public class SportEquipmentDaoImpl extends BaseDAOImpl<SportEquipment> implement
     }
 
     @Override
-    public List<MarketingDTO> findMarketingPaginate(MarketingDTO filterDto) throws Exception {
+    public List<ReportDTO> findMarketingPaginate(ReportDTO filterDto) throws Exception {
         String order = filterDto.getOrder();
         if (filterDto.getOrder().contains("-")) {
             order = order.replaceAll("-", "") + " desc";
@@ -216,7 +216,7 @@ public class SportEquipmentDaoImpl extends BaseDAOImpl<SportEquipment> implement
 
         if (!"".equals(filterDto.getEndDate())) {
             Date endDate = dateFormat.parse(filterDto.getEndDate());
-            builder.append(" and u.creation_date <= '").append(endDate).append("'");;
+            builder.append(" and u.creation_date <= '").append(endDate).append("'");
         }
 
         if (filterDto.getAge() != null) {
@@ -265,10 +265,10 @@ public class SportEquipmentDaoImpl extends BaseDAOImpl<SportEquipment> implement
         query.setFirstResult(filterDto.getPage());
         query.setMaxResults(filterDto.getLimit());
         List<Object[]> list = query.getResultList();
-        List<MarketingDTO> res = new ArrayList<>();
+        List<ReportDTO> res = new ArrayList<>();
 
         list.stream().forEach((r) -> {
-            res.add(new MarketingDTO((String) r[0], (String) r[1], (String) r[2], (Long) r[3]));
+            res.add(new ReportDTO((String) r[0], (String) r[1], (String) r[2], (Long) r[3]));
         });
 
         if (res != null && !res.isEmpty()) {

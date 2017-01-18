@@ -125,6 +125,7 @@
     <class>co.expertic.training.model.entities.DisciplineUser</class>
     <class>co.expertic.training.model.entities.State</class>
     <class>co.expertic.training.model.entities.QuestionnaireUser</class>
+    <class>co.expertic.training.model.entities.TrainingPlanRenovation</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

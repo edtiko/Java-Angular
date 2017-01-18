@@ -5,7 +5,9 @@
  */
 package co.expertic.training.web.configuration;
 
+import co.expertic.training.dao.plan.TrainingPlanRenovationDao;
 import co.expertic.training.model.entities.PlanWorkoutObjective;
+import co.expertic.training.model.entities.TrainingPlanRenovation;
 import co.expertic.training.model.entities.TrainingPlanUser;
 import co.expertic.training.service.configuration.ObjectiveService;
 import co.expertic.training.service.plan.PlanWorkoutObjectiveService;
@@ -43,6 +45,9 @@ public class ScheduledTasks {
 
     @Autowired
     UserTrainingOrderService userTrainingOrderService;
+    
+    @Autowired
+    TrainingPlanRenovationDao trainingPlanRenovationDao;
 
     @Scheduled(fixedRate = 5000) // cada 5 segundos
     public void planEvaluate() {
@@ -71,6 +76,12 @@ public class ScheduledTasks {
                     } else {
                         workoutService.generatePlan(e.getUserId().getUserId(), startDate, endDate, false);
                     }
+                    
+                    TrainingPlanRenovation renovation = new TrainingPlanRenovation();
+                    renovation.setTrainingPlanUserId(new TrainingPlanUser(e.getTrainingPlanUserId()));
+                    renovation.setCreationDate(Calendar.getInstance().getTime());
+                    trainingPlanRenovationDao.create(renovation);
+                    
                 }
 
             }

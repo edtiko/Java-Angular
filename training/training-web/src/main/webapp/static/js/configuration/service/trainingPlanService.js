@@ -71,6 +71,18 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                     return $q.reject(errResponse);
                                 }
                         );
-            }
+            },
+            getPlanTypes: function () {
+                return $http.get($contextPath + 'trainingPlan/get/all')
+                        .then(
+                                function (response) {
+                                return response.data.output;
+                                },
+                                function (errResponse) {
+                                console.error('Error while fetching plans');
+                                        return $q.reject(errResponse);
+                                }
+                        );
+                }
         };
     }]);

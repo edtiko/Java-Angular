@@ -3,8 +3,13 @@ package co.expertic.training.dao.impl.configuration;
 import co.expertic.base.jpa.BaseDAOImpl;
 import co.expertic.training.dao.configuration.TrainingPlanDao;
 import co.expertic.training.enums.Status;
+import co.expertic.training.model.dto.ReportCountDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.TrainingPlanDTO;
 import co.expertic.training.model.entities.TrainingPlan;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
@@ -158,5 +163,125 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
         }
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
+    }
+
+    @Override
+    public List<List<ReportCountDTO>> findSaleReport(ReportDTO paginateDto) throws Exception {
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //SQL Cantidad de usuarios
+        StringBuilder sqlUser = new StringBuilder();
+        sqlUser.append("select u.creation_date, count(u.user_id) \n");
+        sqlUser.append("from user_training u, \n");
+        sqlUser.append("discipline_user du, \n");
+        sqlUser.append("training_plan_user pu\n");
+        sqlUser.append("where u.user_id = pu.user_id\n");
+        sqlUser.append("and u.user_id = du.user_id\n");
+
+        //SQL cantidad de usuarios por plan
+        StringBuilder sqlPlan = new StringBuilder();
+        sqlPlan.append(" select tp.name, count(u.user_id) \n");
+        sqlPlan.append("from user_training u, \n");
+        sqlPlan.append("discipline_user du, \n");
+        sqlPlan.append("training_plan_user pu,\n");
+        sqlPlan.append("training_plan tp\n");
+        sqlPlan.append("where u.user_id = pu.user_id\n");
+        sqlPlan.append("and u.user_id = du.user_id\n");
+        sqlPlan.append("and   tp.training_plan_id = pu.training_plan_id\n");
+
+         //SQL cantidad de renovaciones por plan
+        StringBuilder sqlRenovation = new StringBuilder();
+        sqlRenovation.append("select p.name, count(r.training_plan_renovation_id) \n");
+        sqlRenovation.append("from  training_plan_user pu,\n");
+        sqlRenovation.append("training_plan p, \n");
+        sqlRenovation.append("user_training u, \n");
+        sqlRenovation.append("discipline_user du, \n");
+        sqlRenovation.append("training_plan_renovation r \n");
+        sqlRenovation.append("where pu.training_plan_user_id = r.training_plan_user_id \n");
+        sqlRenovation.append("and u.user_id = pu.user_id \n");
+        sqlRenovation.append("and u.user_id = du.user_id\n");
+        sqlRenovation.append("and p.training_plan_id = pu.training_plan_id\n");
+
+        if (!"".equals(paginateDto.getInitDate())) {
+            Date initDate = dateFormat.parse(paginateDto.getInitDate());
+            sqlUser.append(" and u.creation_date >= '").append(initDate).append("'");
+            sqlPlan.append(" and u.creation_date >= '").append(initDate).append("'");
+            sqlRenovation.append(" and r.creation_date >= '").append(initDate).append("'");
+        }
+
+        if (!"".equals(paginateDto.getEndDate())) {
+            Date endDate = dateFormat.parse(paginateDto.getEndDate());
+            sqlUser.append(" and u.creation_date <= '").append(endDate).append("'");
+            sqlPlan.append(" and u.creation_date <= '").append(endDate).append("'");
+            sqlRenovation.append(" and r.creation_date <= '").append(endDate).append("'");
+        }
+
+        if (paginateDto.getAge() != null) {
+            sqlUser.append(" and EXTRACT(YEAR from AGE(u.birth_date)) = ").append(paginateDto.getAge());
+            sqlPlan.append(" and EXTRACT(YEAR from AGE(u.birth_date)) = ").append(paginateDto.getAge());
+            sqlRenovation.append(" and EXTRACT(YEAR from AGE(u.birth_date)) = ").append(paginateDto.getAge());
+        }
+        if (paginateDto.getCountryId() != null && paginateDto.getCountryId() != -1) {
+            sqlUser.append(" and u.country_id = ").append(paginateDto.getCountryId());
+            sqlPlan.append(" and u.country_id = ").append(paginateDto.getCountryId());
+            sqlRenovation.append(" and u.country_id = ").append(paginateDto.getCountryId());
+        }
+
+        if (!"".equals(paginateDto.getSex())) {
+            sqlUser.append(" and u.sex = '").append(paginateDto.getSex()).append("'");
+            sqlPlan.append(" and u.sex = '").append(paginateDto.getSex()).append("'");
+            sqlRenovation.append(" and u.sex = '").append(paginateDto.getSex()).append("'");
+        }
+        
+        if (paginateDto.getTrainingPlanId() != null && paginateDto.getTrainingPlanId() != -1) {
+            sqlUser.append(" and pu.training_plan_id = ").append(paginateDto.getTrainingPlanId());
+            sqlPlan.append(" and tp.training_plan_id = ").append(paginateDto.getTrainingPlanId());
+            sqlRenovation.append(" and p.training_plan_id = ").append(paginateDto.getTrainingPlanId());
+        }
+
+        if (paginateDto.getDiscipline() != null && paginateDto.getDiscipline() != -1) {
+            sqlUser.append(" and du.discipline = ").append(paginateDto.getDiscipline());
+            sqlPlan.append(" and du.discipline = ").append(paginateDto.getDiscipline());
+            sqlRenovation.append(" and du.discipline = ").append(paginateDto.getDiscipline());
+        }
+
+        sqlUser.append(" group by u.creation_date");
+
+        Query query = getEntityManager().createNativeQuery(sqlUser.toString());
+        List<Object[]> list1 = query.getResultList();
+        List<ReportCountDTO> listUser = new ArrayList<>();
+
+        list1.stream().forEach((r) -> {
+            listUser.add(new ReportCountDTO((Date) r[0], (Long) r[1]));
+        });
+
+   
+        sqlPlan.append(" group by tp.name");
+
+        Query query2 = getEntityManager().createNativeQuery(sqlPlan.toString());
+        List<Object[]> list2 = query2.getResultList();
+        List<ReportCountDTO> listPlan = new ArrayList<>();
+
+        list2.stream().forEach((r) -> {
+            listPlan.add(new ReportCountDTO((String) r[0], (Long) r[1]));
+        });
+
+
+        sqlRenovation.append(" group by p.name");
+
+        Query query3 = getEntityManager().createNativeQuery(sqlRenovation.toString());
+        List<Object[]> list3 = query3.getResultList();
+        List<ReportCountDTO> listRenovation = new ArrayList<>();
+
+        list3.stream().forEach((r) -> {
+            listRenovation.add(new ReportCountDTO((String) r[0], (Long) r[1]));
+        });
+
+        List<List<ReportCountDTO>> res = new ArrayList<>();
+        res.add(listUser);
+        res.add(listPlan);
+        res.add(listRenovation);
+
+        return res;
     }
 }

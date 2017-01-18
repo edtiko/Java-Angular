@@ -1,7 +1,7 @@
 package co.expertic.training.dao.configuration;
 
 import co.expertic.base.jpa.BaseDAO;
-import co.expertic.training.model.dto.MarketingDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.SportEquipmentDTO;
 import co.expertic.training.model.entities.SportEquipment;
 import java.util.List;
@@ -75,6 +75,6 @@ public interface SportEquipmentDao extends BaseDAO<SportEquipment>{
      */
     public List<SportEquipmentDTO> findBikesByBikeTypeId(Integer id) throws Exception;
 
-    public List<MarketingDTO> findMarketingPaginate(MarketingDTO paginateDto) throws Exception;
+    public List<ReportDTO> findMarketingPaginate(ReportDTO paginateDto) throws Exception;
 
 }

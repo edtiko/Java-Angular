@@ -2,6 +2,8 @@ package co.expertic.training.service.impl.configuration;
 
 import co.expertic.training.dao.configuration.TrainingPlanDao;
 import co.expertic.training.dao.user.UserDao;
+import co.expertic.training.model.dto.ReportCountDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.TrainingPlanDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.TrainingPlan;
@@ -80,5 +82,10 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     @Override
     public List<UserDTO> findDefaultSupervisors() throws Exception {
        return userDao.findDefaultSupervisors();
+    }
+
+    @Override
+    public List<List<ReportCountDTO>> findSaleReport(ReportDTO paginateDto) throws Exception {
+        return trainingPlanDao.findSaleReport(paginateDto);
     }
 }

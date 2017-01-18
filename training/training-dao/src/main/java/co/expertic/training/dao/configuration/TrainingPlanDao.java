@@ -1,6 +1,8 @@
 package co.expertic.training.dao.configuration;
 
 import co.expertic.base.jpa.BaseDAO;
+import co.expertic.training.model.dto.ReportCountDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.TrainingPlanDTO;
 import co.expertic.training.model.entities.TrainingPlan;
 import java.util.List;
@@ -86,8 +88,11 @@ public interface TrainingPlanDao extends BaseDAO<TrainingPlan> {
      * Info. Creación: <br>
      * fecha 23/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
+     * @param typePlan
      * @return
      * @throws Exception 
      */
     public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception;
+
+    public List<List<ReportCountDTO>> findSaleReport(ReportDTO paginateDto)throws Exception;
 }

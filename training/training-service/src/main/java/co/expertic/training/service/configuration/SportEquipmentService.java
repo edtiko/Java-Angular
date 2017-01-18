@@ -1,6 +1,6 @@
 package co.expertic.training.service.configuration;
 
-import co.expertic.training.model.dto.MarketingDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.SportEquipmentDTO;
 import java.util.List;
 
@@ -75,5 +75,5 @@ public interface SportEquipmentService {
      */
     public List<SportEquipmentDTO> findBikesByBikeTypeId(Integer id) throws Exception;
 
-    public List<MarketingDTO> findMarketingPaginate(MarketingDTO paginateDto)  throws Exception;
+    public List<ReportDTO> findMarketingPaginate(ReportDTO paginateDto)  throws Exception;
 }

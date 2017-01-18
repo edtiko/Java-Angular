@@ -1,5 +1,7 @@
 package co.expertic.training.service.configuration;
 
+import co.expertic.training.model.dto.ReportCountDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.TrainingPlanDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.TrainingPlan;
@@ -122,6 +124,8 @@ public interface TrainingPlanService {
     public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception;
 
     public List<UserDTO> findDefaultSupervisors()throws Exception;
+
+    public List<List<ReportCountDTO>> findSaleReport(ReportDTO paginateDto)throws Exception;
 
     
 }

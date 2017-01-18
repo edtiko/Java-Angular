@@ -3,6 +3,7 @@ package co.expertic.training.model.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -48,6 +51,10 @@ public class TrainingPlanUser implements Serializable {
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainingPlanUserId")
     private Collection<TrainingPlanWorkout> trainingPlanWorkoutCollection;
+    @Basic(optional = false)
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
 
     public TrainingPlanUser() {
     }
@@ -128,5 +135,13 @@ public class TrainingPlanUser implements Serializable {
     public void setCoachAssignedPlanCollection(Collection<CoachAssignedPlan> coachAssignedPlanCollection) {
         this.coachAssignedPlanCollection = coachAssignedPlanCollection;
     }
-    
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+        
 }

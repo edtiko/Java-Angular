@@ -1,7 +1,7 @@
 package co.expertic.training.service.impl.configuration;
 
 import co.expertic.training.dao.configuration.SportEquipmentDao;
-import co.expertic.training.model.dto.MarketingDTO;
+import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.SportEquipmentDTO;
 import co.expertic.training.service.configuration.SportEquipmentService;
 import java.util.List;
@@ -55,7 +55,7 @@ public class SportEquipmentServiceImpl implements SportEquipmentService {
     }
 
     @Override
-    public List<MarketingDTO> findMarketingPaginate(MarketingDTO paginateDto) throws Exception {
+    public List<ReportDTO> findMarketingPaginate(ReportDTO paginateDto) throws Exception {
        return sportEquipmentDao.findMarketingPaginate(paginateDto);
     }
 }

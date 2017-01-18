@@ -221,11 +221,11 @@ trainingApp.controller('MarketingReportController', function ($scope, MarketingR
             order: 'name',
             limit: 5,
             page: 1,
-            sportEquipmentType: '', initDate: '', endDate: '',
-            countryId: '', shoe: '', potentiometer: '',
-            potentiometerModel: '', pulsometer: '',
-            pulsometerModel: '', bike: '', modelBike: '',
-            sex: '', discipline: '', age: '', role: ''
+            sportEquipmentType: 4, initDate: '', endDate: '',
+            countryId: -1, shoe: -1, potentiometer: -1,
+            potentiometerModel: -1, pulsometer: -1,
+            pulsometerModel: -1, bike: -1, modelBike: -1,
+            sex: -1, discipline: -1, age: '', role: -1
 
         };
     };
