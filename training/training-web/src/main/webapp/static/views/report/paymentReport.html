@@ -1,16 +1,58 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="windows-1252">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<div layout="column" flex-offset="15" flex="65" style="padding-bottom: 50px" layout-align="center">
+    <form name="frmPayment">
+        <div layout="row" layout-align="space-around center">
+            <div flex="33">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label  for="role">Rol</label>
+
+                    <md-select id="role" ng-model="query.role" ng-change="getUsersByRole(query.role)" ng-required="true">
+                        <md-option ng-repeat="d in roles" value="{{d.roleId}}" >
+                            {{d.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-around center">
+            <div flex="33">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label  for="user">Usuario</label>
+
+                    <md-select id="user" ng-model="query.userId" ng-required="true">
+                        <md-option ng-repeat="d in users" value="{{d.userId}}" >
+                            {{d.fullName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <br /><br />
+        <section layout="row" layout-sm="column" layout-align="center" layout-wrap>
+            <md-button ng-click="find()" ng-disabled="frmPayment.$invalid" class="md-raised md-primary">Buscar</md-button>
+            <md-button ng-click="resetForm()" class="md-raised">Cancelar</md-button>
+        </section>
+    </form>
+
+    <md-table-container>
+        <table md-table >
+            <thead md-head >
+                <tr md-row>
+                    <th md-column >Nombre del plan</th>
+                    <th md-column >Cantidad de planes</th>
+                    <th md-column >Precio de venta</th>
+                    <th md-column >% ganancia</th>
+                    <th md-column >Valor total a pagar</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="report" md-select-id="name" md-auto-select ng-repeat="report in reportList">
+                    <td md-cell>{{report.name}}</td>
+                    <td md-cell>{{report.count}}</td>
+                    <td md-cell>{{report.price}}</td>
+                    <td md-cell>{{report.percentaje}}</td>
+                    <td md-cell>{{(report.total)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+</div>

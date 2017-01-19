@@ -88,4 +88,9 @@ public class TrainingPlanServiceImpl implements TrainingPlanService {
     public List<List<ReportCountDTO>> findSaleReport(ReportDTO paginateDto) throws Exception {
         return trainingPlanDao.findSaleReport(paginateDto);
     }
+
+    @Override
+    public List<ReportCountDTO> findPaymentReport(ReportDTO paginateDto) throws Exception {
+        return trainingPlanDao.findPaymentReport(paginateDto);
+    }
 }

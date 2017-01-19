@@ -95,4 +95,6 @@ public interface TrainingPlanDao extends BaseDAO<TrainingPlan> {
     public List<TrainingPlan> findPlaformAllActive(String typePlan) throws Exception;
 
     public List<List<ReportCountDTO>> findSaleReport(ReportDTO paginateDto)throws Exception;
+
+    public List<ReportCountDTO> findPaymentReport(ReportDTO paginateDto)throws Exception;
 }

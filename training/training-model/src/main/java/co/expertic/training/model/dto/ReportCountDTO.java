@@ -5,6 +5,7 @@
  */
 package co.expertic.training.model.dto;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -15,6 +16,9 @@ public class ReportCountDTO {
 
     private Integer count;
     private Object name;
+    private Double price;
+    private Integer percentaje;
+    private Double total;
     
     public ReportCountDTO(){
         
@@ -27,6 +31,13 @@ public class ReportCountDTO {
     public ReportCountDTO(Date name, Long count) {
         this.count = count.intValue();
         this.name = name;
+    }
+    public ReportCountDTO(String name, Long count, BigDecimal price, Integer percentaje, BigDecimal total) {
+        this.count = count.intValue();
+        this.name = name;
+        this.price = price.doubleValue();
+        this.percentaje = percentaje;
+        this.total = total.doubleValue();
     }
 
     public Integer getCount() {
@@ -45,4 +56,29 @@ public class ReportCountDTO {
         this.name = name;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getPercentaje() {
+        return percentaje;
+    }
+
+    public void setPercentaje(Integer percentaje) {
+        this.percentaje = percentaje;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+    
+    
 }

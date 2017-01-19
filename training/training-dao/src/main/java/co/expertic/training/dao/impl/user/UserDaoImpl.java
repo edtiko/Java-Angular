@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import co.expertic.training.model.entities.User;
 import co.expertic.training.dao.user.UserDao;
-import co.expertic.training.model.dto.ReportCountDTO;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;

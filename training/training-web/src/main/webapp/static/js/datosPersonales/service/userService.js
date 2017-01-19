@@ -319,6 +319,18 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            }, 
+            getUsersByRole: function (roleId) {
+                return $http.get($contextPath + 'roleuser/users/by/role/'+roleId)
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching users by role');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
             
         };

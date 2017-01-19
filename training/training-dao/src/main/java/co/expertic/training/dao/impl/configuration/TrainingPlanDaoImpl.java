@@ -2,15 +2,19 @@ package co.expertic.training.dao.impl.configuration;
 
 import co.expertic.base.jpa.BaseDAOImpl;
 import co.expertic.training.dao.configuration.TrainingPlanDao;
+import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.ReportDTO;
 import co.expertic.training.model.dto.TrainingPlanDTO;
 import co.expertic.training.model.entities.TrainingPlan;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
@@ -281,6 +285,47 @@ public class TrainingPlanDaoImpl extends BaseDAOImpl<TrainingPlan> implements Tr
         res.add(listUser);
         res.add(listPlan);
         res.add(listRenovation);
+
+        return res;
+    }
+
+    @Override
+    public List<ReportCountDTO> findPaymentReport(ReportDTO paginateDto) throws Exception {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("select tp.name, count(tu.training_plan_user_id), tp.price, p.percentaje, round(((count(tu.training_plan_user_id)*tp.price)*p.percentaje)/100) \n");
+        sql.append("from coach_assigned_plan ca,  \n");
+        sql.append("star_team st, \n");
+        sql.append("training_plan_user tu, \n");
+        sql.append("training_plan tp, \n");
+        sql.append("training_plan_percentaje p \n");
+        sql.append("where tu.training_plan_user_id =  ca.training_plan_user_id\n");
+        sql.append("and tp.training_plan_id = tu.training_plan_id\n");
+        sql.append("and st.star_team_id = ca.star_team_id \n");
+        sql.append("and p.training_plan_id = tp.training_plan_id \n");
+        
+        if (paginateDto.getRole() != null & Objects.equals(paginateDto.getRole(), RoleEnum.ESTRELLA.getId())) {
+
+            if (paginateDto.getUserId() != null && paginateDto.getUserId() != -1) {
+                sql.append(" and st.star_user_id = ").append(paginateDto.getUserId());
+                sql.append("  and p.user_id = st.star_user_id ");
+            }
+        } else if (paginateDto.getRole() != null & Objects.equals(paginateDto.getRole(), RoleEnum.COACH_INTERNO.getId())) {
+            if (paginateDto.getUserId() != null && paginateDto.getUserId() != -1) {
+                sql.append(" and st.coach_user_id = ").append(paginateDto.getUserId());
+                sql.append("  and p.user_id = st.coach_user_id ");
+            }
+        }
+        
+        sql.append(" group by tp.name,tp.price,p.percentaje\n");
+
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+        List<Object[]> list = query.getResultList();
+        List<ReportCountDTO> res = new ArrayList<>();
+
+        list.stream().forEach((r) -> {
+            res.add(new ReportCountDTO((String)r[0], (Long)r[1], (BigDecimal)r[2], (Integer)r[3], (BigDecimal)r[4]));
+        });
 
         return res;
     }

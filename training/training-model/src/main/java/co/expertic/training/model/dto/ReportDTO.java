@@ -31,6 +31,7 @@ public class ReportDTO {
     private Integer role;
     private Integer sportEquipmentType;
     private Integer trainingPlanId;
+    private Integer userId;
     
     public ReportDTO(){
         
@@ -243,6 +244,14 @@ public class ReportDTO {
 
     public void setTrainingPlanId(Integer trainingPlanId) {
         this.trainingPlanId = trainingPlanId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
        
     

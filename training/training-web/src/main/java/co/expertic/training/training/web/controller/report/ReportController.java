@@ -91,5 +91,32 @@ public class ReportController {
         }
     }
     
+    
+    /**
+     * Consulta Reporte de pagos <br>
+     * Info. Creación: <br>
+     * fecha Ene 19, 2017 <br>
+     *
+     * @author Edwin Gómez
+     * @param paginateDto
+     * @return
+     */
+    @RequestMapping(value = "/payment/find", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> paymentReport(@RequestBody ReportDTO paginateDto) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<ReportCountDTO> list = trainingPlanService.findPaymentReport(paginateDto);
+            responseService.setOutput(list);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(BikeTypeController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
      
 }

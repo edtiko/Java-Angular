@@ -69,4 +69,17 @@ public class RoleUserDaoImpl extends BaseDAOImpl<RoleUser> implements RoleUserDa
         return (list == null || list.isEmpty()) ? null : list.get(0);
     }
 
+    @Override
+    public List<UserDTO> getUsersByRole(Integer roleId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT DISTINCT new co.expertic.training.model.dto.UserDTO(ru.userId.userId, ru.userId.name, ru.userId.secondName, ru.userId.lastName )");
+        sql.append("FROM RoleUser ru ");
+        sql.append("WHERE ru.roleId.roleId = :roleId ");
+        sql.append("ORDER BY ru.userId.name ASC ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("roleId", roleId);
+        List<UserDTO> list = query.getResultList();
+        return list;
+    }
+
 }

@@ -1014,6 +1014,33 @@ create table training_plan_renovation (
    constraint pk_training_plan_renovation primary key (training_plan_renovation_id)
 );
 
+/*==============================================================*/
+/* Table: training_plan_percentaje                             */
+/*==============================================================*/
+create table training_plan_percentaje (
+   training_plan_percentaje_id serial               not null,
+   user_id                   integer,
+   training_plan_id          integer,
+   percentaje                integer,
+   creation_date             timestamp without time zone,
+   constraint pk_training_plan_percentaje primary key (training_plan_percentaje_id)
+);
+
+alter table training_plan_percentaje
+add constraint fk_tplan_percentaje_tplan foreign key (training_plan_id)
+references training_plan(training_plan_id)
+on delete restrict on update restrict;
+
+alter table training_plan_percentaje
+add constraint fk_tplan_percentaje_user foreign key (user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+alter table training_plan_renovation
+add constraint fk_tplan_renovation_tplan_user foreign key (training_plan_user_id)
+references training_plan_user(training_plan_user_id)
+on delete restrict on update restrict;
+
 alter table plan_workout_objective
 add constraint fk_plan_workout_objective foreign key (objective_id)
 references objective(objective_id)

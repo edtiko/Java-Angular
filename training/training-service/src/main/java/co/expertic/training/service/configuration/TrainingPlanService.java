@@ -74,6 +74,7 @@ public interface TrainingPlanService {
      * @param max
      * @param order
      * @param filter
+     * @param typePlan
      * @return
      * @throws Exception 
      */
@@ -118,6 +119,7 @@ public interface TrainingPlanService {
      * Info. Creación: <br>
      * fecha 23/11/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
+     * @param typePlan
      * @return
      * @throws Exception 
      */
@@ -126,6 +128,8 @@ public interface TrainingPlanService {
     public List<UserDTO> findDefaultSupervisors()throws Exception;
 
     public List<List<ReportCountDTO>> findSaleReport(ReportDTO paginateDto)throws Exception;
+
+    public List<ReportCountDTO> findPaymentReport(ReportDTO paginateDto)throws Exception;
 
     
 }

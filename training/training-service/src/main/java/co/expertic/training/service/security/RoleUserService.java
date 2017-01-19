@@ -1,5 +1,6 @@
 package co.expertic.training.service.security;
 
+import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.RoleUser;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public interface RoleUserService {
      * fecha 10/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param roleUser
+     * @return 
      * @throws Exception 
      */
     public RoleUser store(RoleUser roleUser) throws Exception;
@@ -36,8 +38,7 @@ public interface RoleUserService {
      * Info. Creación: <br>
      * fecha 10/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param roleUser
-     * @return 
+     * @param roleUser 
      * @throws Exception 
      */
     public void remove(RoleUser roleUser) throws Exception;
@@ -93,6 +94,8 @@ public interface RoleUserService {
      * @throws Exception 
      */
     public RoleUser findByUserId(Integer id) throws Exception; 
+
+    public List<UserDTO> getUsersByRole(Integer roleId)throws Exception; 
 
     
 }

@@ -2,6 +2,7 @@ package co.expertic.training.service.impl.security;
 
 import co.expertic.training.model.entities.RoleUser;
 import co.expertic.training.dao.security.RoleUserDao;
+import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.service.security.RoleUserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,10 @@ public class RoleUserServiceImpl implements RoleUserService {
     @Override
     public RoleUser findByUserId(Integer id) throws Exception {
         return roleUserDao.findByUserId(id);
+    }
+
+    @Override
+    public List<UserDTO> getUsersByRole(Integer roleId) throws Exception {
+       return roleUserDao.getUsersByRole(roleId);
     }
 }

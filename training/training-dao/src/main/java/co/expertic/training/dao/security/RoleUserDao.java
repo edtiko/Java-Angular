@@ -1,6 +1,7 @@
 package co.expertic.training.dao.security;
 
 import co.expertic.base.jpa.BaseDAO;
+import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.RoleUser;
 import java.util.List;
 
@@ -55,5 +56,7 @@ public interface RoleUserDao extends BaseDAO<RoleUser> {
     public List<RoleUser> findByFiltro(RoleUser roleUser) throws Exception; 
     
     public RoleUser findByUserId(Integer userId) throws Exception ;
+
+    public List<UserDTO> getUsersByRole(Integer roleId)throws Exception;
 
 }
