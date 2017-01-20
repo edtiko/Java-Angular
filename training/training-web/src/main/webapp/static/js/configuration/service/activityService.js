@@ -99,6 +99,18 @@ trainingApp.service('ActivityService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getActivitiesByWeek: function (userId) {
+                return $http.get($contextPath + 'trainingPlanWorkout/get/activities/week/'+userId)
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching week activities ');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
     }]);

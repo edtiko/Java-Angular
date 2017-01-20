@@ -70,7 +70,7 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                                         //'width': 800,
                                         'pointSize': 7,
                                         'hAxis': {showTextEvery: 1},
-                                        'height': 400};
+                                        'height': 300};
 
                                     // Instantiate and draw our chart, passing in some options.
 
@@ -92,7 +92,7 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
-                                   google.charts.setOnLoadCallback(drawGaugeChart);
+                                   //google.charts.setOnLoadCallback(drawGaugeChart);
                                 }
                             },
                             function (errResponse) {
@@ -186,7 +186,7 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                                         "hAxis": {showTextEvery: 1},
                                         //'width': 800,
                                         'pointSize': 7,
-                                        'height': 400};
+                                        'height': 300};
 
                                     // Instantiate and draw our chart, passing in some options.
                                     if (metafield == 1) {

@@ -30,4 +30,18 @@
 
     <div ng-controller="ChartController" ng-include src="'static/views/chart/chart.html'"></div>
 
+    <h3>ACTIVIDADES DE LA SEMANA</h3>
+
+    <md-grid-list  md-cols="3" 
+                   md-row-height-gt-md="6:1" md-row-height="6:3"
+                   md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
+
+        <md-grid-tile ng-repeat="a in weekActivities"
+                      md-colspan-sm="1"
+                      md-colspan-xs="1" >
+            <img data-ng-src="static/img/{{a.className}}" >
+            <span class="md-caption">{{a.title}}</span>
+        </md-grid-tile>
+    </md-grid-list>
+
 </div>

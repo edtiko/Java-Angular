@@ -1,9 +1,9 @@
 'use strict';
 
 trainingApp.controller('DashboardController', ['$scope', 'UserService', 'DashboardService', '$window', 'messageService', 'MailService',
-    'videoService', 'ExternalCoachService', 'AudioMessageService', '$location',
+    'videoService', 'ExternalCoachService', 'AudioMessageService', 'ActivityService','$location',
     function ($scope, UserService, DashboardService, $window, messageService, MailService,
-            videoService, ExternalCoachService, AudioMessageService, $location) {
+            videoService, ExternalCoachService, AudioMessageService,ActivityService, $location) {
 
         var self = this;
         $scope.profileImage = "static/img/profile-default.png";
@@ -1020,7 +1020,19 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-
+        
+        $scope.getActivitiesByWeek = function () {
+                ActivityService.getActivitiesByWeek($scope.userSession.userId).then(
+                        function (data) {
+                          $scope.weekActivities = data;
+                        },
+                        function (error) {
+                            console.log(error);
+                        }
+                );
+          
+        };
+       
         $scope.initStarControl = function (interno) {
             if (interno) {
                 $scope.showChat = true;
@@ -1072,6 +1084,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     $scope.getUserSessionByResponse(res);
                     //$scope.getUserById();
                     $scope.getVisibleFieldsUserByUser($scope.userSession);
+                    $scope.getActivitiesByWeek();
 
                     switch ($scope.userSession.typeUser) {
                         case $scope.userSessionTypeUserCoach:

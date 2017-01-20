@@ -382,5 +382,36 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+    @RequestMapping(value = "trainingPlanWorkout/get/activities/week/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getActivitiesByWeek(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            Calendar calendarTo = Calendar.getInstance(Locale.getDefault());
+            calendarTo.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            calendarTo.set(Calendar.MINUTE, 0);
+            calendarTo.set(Calendar.SECOND, 0);
+            calendarTo.set(Calendar.HOUR_OF_DAY, 0);
+            Date fromDate = calendar.getTime();
+            Date toDate = calendarTo.getTime();
+            
+            List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(userId, fromDate, toDate);
+            
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(list);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al obtener las actividades de la semana");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 
 }

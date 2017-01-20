@@ -248,7 +248,7 @@ public class TrainingPlanWorkoutDto {
     }
 
     public String getClassName() {
-        return className;
+        return this.sportIcon;
     }
 
     public void setClassName(String className) {
