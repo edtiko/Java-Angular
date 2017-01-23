@@ -7,8 +7,8 @@
                     Ver Perfil
                 </md-tooltip>
             </a>
-            <span class="md-title">{{userDashboard.name}} {{userDashboard.secondName}} {{userDashboard.lastName}}</span>
-            <md-subheader>{{userDashboard.federalState}},{{userDashboard.city}},{{userDashboard.country}}</md-subheader>
+            <span class="md-title">{{userSession.fullName}}</span>
+            <md-subheader>{{userSession.dashboard.federalState}},{{userSession.dashboard.city}},{{userSession.dashboard.country}}</md-subheader>
             <md-button class="md-raised md-primary" ng-click="go('/data-person')" ><i class="fa fa-sliders" aria-hidden="true"></i> Configuraci&oacute;n del Perfil</md-button>
         </div>
         <md-divider></md-divider>
@@ -20,7 +20,6 @@
                 </div>
                 <md-divider></md-divider>
             </md-list-item>
-
             <md-list-item class="md-2-line" ng-click="go('/calendar', 2)" ng-class="{selectedIndex: selectedIndex === 2}">
                 <md-icon><i class="fa fa-calendar fa-lg" aria-hidden="true"></i></md-icon>
                 <div class="md-list-item-text">
@@ -36,9 +35,37 @@
                 <md-divider ></md-divider>
             </md-list-item>
             <md-list-item class="md-2-line" ng-click="null" ng-class="{selectedIndex: selectedIndex === 4}">
+                <md-icon><i class="fa fa-users fa-lg" aria-hidden="true"></i></md-icon>
+                <div class="md-list-item-text">
+                    <h3>Comunidad</h3>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="go('/message', 5)" ng-class="{selectedIndex: selectedIndex === 5}">
+                <md-icon><i class="fa fa-comments fa-lg" aria-hidden="true"></i></md-icon>
+                <div class="md-list-item-text">
+                    <h3>Mensajes</h3>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="go('/mail', 6)" ng-class="{selectedIndex: selectedIndex === 6}">
                 <md-icon><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></md-icon>
                 <div class="md-list-item-text">
                     <h3>Mail</h3>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="go('/audio-messages', 7)" ng-class="{selectedIndex: selectedIndex === 7}">
+                <md-icon><i class="fa fa-microphone fa-lg" aria-hidden="true"></i></md-icon>
+                <div class="md-list-item-text">
+                    <h3>Audios</h3>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="go('/video', 8)" ng-class="{selectedIndex: selectedIndex === 8}">
+                <md-icon><i class="fa fa-video-camera fa-lg" aria-hidden="true"></i></md-icon>
+                <div class="md-list-item-text">
+                    <h3>Videos</h3>
                 </div>
                 <md-divider></md-divider>
             </md-list-item>

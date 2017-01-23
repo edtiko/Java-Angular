@@ -7,6 +7,10 @@ import co.expertic.training.model.entities.Injury;
 import co.expertic.training.model.entities.Weather;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DashboardDTO {
@@ -35,6 +39,7 @@ public class DashboardDTO {
     private Integer ageSport;
     private BigInteger ppm;
     private BigInteger power;
+    private Integer age;
     private String sportsAchievements;
     private String aboutMe;
     private String sport;
@@ -58,6 +63,7 @@ public class DashboardDTO {
     private String weather;
     private Integer countSupervisor;
     private Integer countStar;
+    private Integer imc;
 
 
     public DashboardDTO() {
@@ -514,6 +520,34 @@ public class DashboardDTO {
 
     public void setCountStar(Integer countStar) {
         this.countStar = countStar;
+    }
+
+    public Integer getAge() {
+        if (this.birthDate != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(birthDate);
+            LocalDate today = LocalDate.now();
+            LocalDate birthday = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+
+            Period p = Period.between(birthday, today);
+            this.age = p.getYears();
+        }
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getImc() {
+        if(this.weight != null && this.height != null){
+            this.imc = Math.round((this.weight / (this.height * this.height)*10)/10);
+        }
+        return imc;
+    }
+
+    public void setImc(Integer imc) {
+        this.imc = imc;
     }
     
     

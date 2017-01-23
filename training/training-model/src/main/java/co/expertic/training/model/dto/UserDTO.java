@@ -70,6 +70,10 @@ public class UserDTO {
     private String indStrava;
     private String codeStrava;
     private Date lastExecuteStrava;
+    private DashboardDTO dashboard;
+    private Object planSelected;
+    private CommunicationDTO starCommunication;
+    private CommunicationDTO supervisorCommunication;
     
     public UserDTO() {
     }
@@ -674,4 +678,38 @@ public class UserDTO {
     public void setLastExecuteStrava(Date lastExecuteStrava) {
         this.lastExecuteStrava = lastExecuteStrava;
     }
+
+    public DashboardDTO getDashboard() {
+        return dashboard;
+    }
+
+    public void setDashboard(DashboardDTO dashboard) {
+        this.dashboard = dashboard;
+    }
+
+    public Object getPlanSelected() {
+        return planSelected;
+    }
+
+    public void setPlanSelected(Object planSelected) {
+        this.planSelected = planSelected;
+    }
+
+    public CommunicationDTO getStarCommunication() {
+        return starCommunication;
+    }
+
+    public void setStarCommunication(CommunicationDTO starCommunication) {
+        this.starCommunication = starCommunication;
+    }
+
+    public CommunicationDTO getSupervisorCommunication() {
+        return supervisorCommunication;
+    }
+
+    public void setSupervisorCommunication(CommunicationDTO supervisorCommunication) {
+        this.supervisorCommunication = supervisorCommunication;
+    }
+    
+    
 }

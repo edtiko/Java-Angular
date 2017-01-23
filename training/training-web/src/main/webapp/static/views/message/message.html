@@ -1,22 +1,59 @@
-<md-content ng-controller="MessageController">
+<md-content>
     <div layout="row" layout-align="center" style="margin: 2%">
-        <div flex="80" layout="column"  layout-align="space-between none" class="demo-content">
+        <div flex="30" class="border">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Mensajes</span>
+                    </h2>
+                </div>
+            </md-toolbar>
+            <md-content>
+                <md-list class="md-dense" flex>
+                    <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getMessagesByRole(userSessionTypeUserCoachEstrella)" ng-class="{selectedIndex: roleSelected == userSessionTypeUserCoachEstrella}">
+                        <img data-ng-src="{{userSession.planSelected.starUserId.profilePhotoBase64}}"  class="md-avatar">
+                        <div class="md-list-item-text">
+                            <h3 style="font-weight: bold;">{{userSession.planSelected.starUserId.fullName}}</h3>
+                            <h4>Estrella</h4>
+                            <p>{{userSession.starCommunication.availableMsg}} disponibles de {{userSession.starCommunication.planMsg}}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="getMessagesByRole(userSessionTypeUserCoachInterno)" ng-class="{selectedIndex: roleSelected == userSessionTypeUserCoachInterno}">
+                        <img data-ng-src="{{userSession.planSelected.coachUserId.profilePhotoBase64}}"  class="md-avatar">
+                        <div class="md-list-item-text">
+                            <h3 style="font-weight: bold;">{{userSession.planSelected.coachUserId.fullName}}</h3>
+                            <h4>Supervisor</h4>
+                            <p>{{userSession.supervisorCommunication.availableMsg}} disponibles de {{userSession.supervisorCommunication.planMsg}}</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </div>
+        <div flex="65" layout="column"  layout-align="space-between none" class="demo-content">
             <div layout="column" style="height:550px" id="message-content">
                 <md-toolbar >
                     <div class="md-toolbar-tools">
                         <h3>
-                            <span>Mensajes</span>
+                            <span>{{userMsgSelected}}</span>
                         </h3>
                     </div>
                 </md-toolbar>
                 <md-content style="overflow-x: hidden;" scroll-glue="glued">
-                    <div layout="column" layout-align="center center" ng-if="!loading">
-                    <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-                    <span>Cargando mensajes..</span>
-                </div>
-                    <md-list>
-                        <md-list-item class="md-3-line" ng-repeat="message in messages| orderBy:'creationDate':false" ng-click="null">
-                            <img data-ng-src="{{message.messageUserId.profilePhotoBase64}}"  alt="{{message.messageUserId.login}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                    <div layout="column" layout-align="center center" ng-if="loading">
+                        <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                        <span>Cargando mensajes..</span>
+                    </div>
+                    <div layout="column" ng-repeat="message in messages| orderBy:'creationDate':false">
+                        <div ng-class="userSession.userId == message.messageUserId.userId?'bubble you':'bubble me'">
+                            <p ng-class="{self: message.self}">
+                                    {{message.message}}
+                            </p>
+                            <span class="msgTime md-caption">{{message.creationDate}}</span>
+                        </div>
+                    </div>
+                    <!--<md-list>
+                        <md-list-item class="md-2-line" ng-repeat="message in messages| orderBy:'creationDate':false" ng-click="null">
+                           <img data-ng-src="{{message.messageUserId.profilePhotoBase64}}"  alt="{{message.messageUserId.login}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                             <div class="md-list-item-text">
 
                                 <h3><strong>{{message.messageUserId.login}}</strong></h3>
@@ -29,16 +66,15 @@
 
                             <md-divider md-inset ></md-divider>
                         </md-list-item>
-                    </md-list>
+                    </md-list>-->
                 </md-content>
             </div>
-            <br />
             <div flex layout="column" style="border: 1px solid #e1e1e1; ">
                 <form ng-submit="addMessage()" name="messageForm">
                     <section layout="row" layout-sm="column" layout-wrap>
                         <div flex="80">
                             <md-input-container class="md-block" >
-                                <input type="text" placeholder="Escriba aqu&iacute; su mensaje..." ng-model="planMessage.message" />
+                                <input type="text" placeholder="Escribe un mensaje" ng-model="planMessage.message" />
                             </md-input-container>
                         </div>
                         <div >
