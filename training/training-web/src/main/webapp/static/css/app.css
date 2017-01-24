@@ -38,9 +38,9 @@ body{
 }
 
 .circulo {
-     -moz-border-radius: 50%;
-     -webkit-border-radius: 50%;
-     border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
 }
 .circular-icon {
     border-radius: 50%;
@@ -169,11 +169,11 @@ md-tooltip.tt-multiline ._md-content {
     text-decoration: underline; cursor: pointer;
 }
 .recording{
- background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,white 75%,white 100%,#7db9e8 100%);
 }
 
 .selectedIndex {
-  background: #3e84ff;
+    background: #3e84ff;
 }
 
 .md-tab{text-transform: none}
@@ -192,11 +192,11 @@ md-tooltip.tt-multiline ._md-content {
 }
 
 .md-dialog-container {
-  position: absolute;
+    position: absolute;
 }
 
 md-dialog {
- top: 30px;
+    top: 30px;
 }
 
 
@@ -224,10 +224,10 @@ md-dialog {
     position: absolute;
     top: 11px;
     transform:             rotate( 29deg ) skew( -35deg );
-        -moz-transform:    rotate( 29deg ) skew( -35deg );
-        -ms-transform:     rotate( 29deg ) skew( -35deg );
-        -o-transform:      rotate( 29deg ) skew( -35deg );
-        -webkit-transform: rotate( 29deg ) skew( -35deg );
+    -moz-transform:    rotate( 29deg ) skew( -35deg );
+    -ms-transform:     rotate( 29deg ) skew( -35deg );
+    -o-transform:      rotate( 29deg ) skew( -35deg );
+    -webkit-transform: rotate( 29deg ) skew( -35deg );
     width:  20px;
 }
 
@@ -253,4 +253,10 @@ md-dialog {
 
 .msgTime{
     float: right;
+}
+
+.md-button.md-fab.md-mini {
+    line-height: 30px;
+    width: 35px;
+    height: 10px;
 }

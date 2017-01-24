@@ -22,6 +22,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService',
         $scope.invitation = null;
         $scope.communicationStar = null;
         $scope.communicationSup = null;
+        $scope.messagesReceivedCount = null;
         //$scope.selectedIndex = 1;
         $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
         $scope.views = {

@@ -1,16 +1,16 @@
         <div layout="column" layout-align="center center" style="margin: 34px;">
-            <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta && planSelected != null && !planSelected.external">
-                <div flex ng-show="roleSelected === userSessionTypeUserCoachEstrella">
+            <div flex layout="row" layout-align="space-around center" ng-if="userSession.typeUser == userSessionTypeUserAtleta && userSession.userSession.planSelected != null && !userSession.userSession.planSelected.external">
+                <div flex ng-if="roleSelected === userSessionTypeUserCoachEstrella">
 
-                    <img class="circular" data-ng-src="{{planSelected.starUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;">
-                    <md-tooltip md-direction="left" md-visible="tooltipVisible">{{planSelected.starUserId.fullName}}</md-tooltip>
+                    <img class="circular" data-ng-src="{{userSession.planSelected.starUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;">
+                    <md-tooltip md-direction="left" md-visible="tooltipVisible">{{userSession.planSelected.starUserId.fullName}}</md-tooltip>
                     </img>
                     <md-subheader>Estrella</md-subheader>
                 </div>
-                <div flex ng-show="roleSelected === userSessionTypeUserCoachInterno">
+                <div flex ng-if="roleSelected === userSessionTypeUserCoachInterno">
 
-                    <img class="circular" data-ng-src="{{planSelected.coachUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;">
-                    <md-tooltip md-direction="right" md-visible="tooltipVisible">{{planSelected.coachUserId.fullName}}</md-tooltip>
+                    <img class="circular" data-ng-src="{{userSession.planSelected.coachUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;">
+                    <md-tooltip md-direction="right" md-visible="tooltipVisible">{{userSession.planSelected.coachUserId.fullName}}</md-tooltip>
                     </img>
                     <md-subheader>Supervisor</md-subheader>
                 </div>
@@ -34,7 +34,7 @@
                     </notification-icon>
                 </div>
                 <md-subheader ng-if="lblVideoStar">Gestionar Videos </md-subheader>
-                <md-subheader ng-if="showCountVideo">{{availableVideo}} disponibles de {{planSelected.trainingPlanId.videoCount!=null?planSelected.trainingPlanId.videoCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountVideo">{{availableVideo}} disponibles de {{userSession.planSelected.trainingPlanId.videoCount!=null?userSession.planSelected.trainingPlanId.videoCount:0}}</md-subheader>
 
                 <div flex ng-if="showChat">
 
@@ -46,7 +46,7 @@
                     </notification-icon>
                 </div>
                 <md-subheader ng-if="lblMessageStar">Mensajes</md-subheader>
-                <md-subheader ng-if="showCountChat">{{availableMessage}} disponibles de {{planSelected.trainingPlanId.messageCount!=null?planSelected.trainingPlanId.messageCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountChat">{{availableMessage}} disponibles de {{userSession.planSelected.trainingPlanId.messageCount!=null?userSession.planSelected.trainingPlanId.messageCount:0}}</md-subheader>
 
                     <!--  Email -->
 
@@ -60,7 +60,7 @@
 
                 </div>
                 <md-subheader ng-if="lblMailStar">Correo</md-subheader>
-                <md-subheader ng-if="showCountEmail">{{availableEmail}} disponibles de {{planSelected.trainingPlanId.emailCount!=null?planSelected.trainingPlanId.emailCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountEmail">{{availableEmail}} disponibles de {{userSession.planSelected.trainingPlanId.emailCount!=null?userSession.planSelected.trainingPlanId.emailCount:0}}</md-subheader>
                 
                 <!--Audio Messages-->
                 <div flex ng-if="showAudioMessage">
@@ -73,7 +73,7 @@
                     </notification-icon>
                 </div>
 
-                <md-subheader ng-if="showCountAudio">{{availableAudio}} disponibles de {{planSelected.trainingPlanId.audioCount!=null?planSelected.trainingPlanId.audioCount:0}}</md-subheader>
+                <md-subheader ng-if="showCountAudio">{{availableAudio}} disponibles de {{userSession.planSelected.trainingPlanId.audioCount!=null?userSession.planSelected.trainingPlanId.audioCount:0}}</md-subheader>
 
                  <!--Informes-->
                 <div flex="40" ng-if="showInforme">

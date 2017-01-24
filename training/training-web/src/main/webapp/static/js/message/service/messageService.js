@@ -142,21 +142,21 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
         };
 
         var startListener = function () {
-           // if (service.SESSION_ID != null) {
+            if (service.SESSION_ID != null) {
                 socket.stomp.subscribe("/queue/message/" + service.SESSION_ID, function (data) {
                     listener.notify(getMessage(data.body));
                 }, { id: service.SESSION_ID });
-           // }
+            }
         };
         service.initialize = function (sessionId) {
-           // if (service.SESSION_ID == "") {
+            if (service.SESSION_ID == "") {
                 service.SESSION_ID = sessionId;
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
 
-            //}
+            }
         };
 
         //initialize();

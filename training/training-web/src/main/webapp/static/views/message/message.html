@@ -1,6 +1,6 @@
-<md-content>
+<md-content ng-cloak ng-controller="MessageController">
     <div layout="row" layout-align="center" style="margin: 2%">
-        <div flex="30" class="border">
+        <div flex="35" class="border" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
             <md-toolbar>
                 <div class="md-toolbar-tools">
                     <h2>
@@ -15,35 +15,41 @@
                         <div class="md-list-item-text">
                             <h3 style="font-weight: bold;">{{userSession.planSelected.starUserId.fullName}}</h3>
                             <h4>Estrella</h4>
-                            <p>{{userSession.starCommunication.availableMsg}} disponibles de {{userSession.starCommunication.planMsg}}</p>
+                            <p>Mensajes disponibles {{availableMessageStar}} de {{messageCountStar}}</p>
                         </div>
+                        <md-button ng-if="userSession.starCommunication.receivedMsg>0" class="md-fab md-mini">
+                            {{receivedMessageStar}}
+                        </md-button>
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="getMessagesByRole(userSessionTypeUserCoachInterno)" ng-class="{selectedIndex: roleSelected == userSessionTypeUserCoachInterno}">
                         <img data-ng-src="{{userSession.planSelected.coachUserId.profilePhotoBase64}}"  class="md-avatar">
                         <div class="md-list-item-text">
                             <h3 style="font-weight: bold;">{{userSession.planSelected.coachUserId.fullName}}</h3>
                             <h4>Supervisor</h4>
-                            <p>{{userSession.supervisorCommunication.availableMsg}} disponibles de {{userSession.supervisorCommunication.planMsg}}</p>
+                            <p>Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
                         </div>
+                         <md-button ng-if="userSession.supervisorCommunication.receivedMsg>0" class="md-fab md-mini">
+                             {{receivedMessageSup}}
+                        </md-button>
                     </md-list-item>
                 </md-list>
             </md-content>
         </div>
-        <div flex="65" layout="column"  layout-align="space-between none" class="demo-content">
+        <div flex="75" layout="column"  layout-align="space-between none" class="demo-content">
             <div layout="column" style="height:550px" id="message-content">
                 <md-toolbar >
                     <div class="md-toolbar-tools">
                         <h3>
-                            <span>{{userMsgSelected}}</span>
+                            <span>{{userMsgSelected==null?'Mensajes':userMsgSelected}}</span>
                         </h3>
                     </div>
                 </md-toolbar>
                 <md-content style="overflow-x: hidden;" scroll-glue="glued">
-                    <div layout="column" layout-align="center center" ng-if="loading">
+                    <div layout="column" layout-align="center center" flex ng-if="loading">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                         <span>Cargando mensajes..</span>
                     </div>
-                    <div layout="column" ng-repeat="message in messages| orderBy:'creationDate':false">
+                    <div layout="column" ng-repeat="message in messages| orderBy:'creationDate':false" >
                         <div ng-class="userSession.userId == message.messageUserId.userId?'bubble you':'bubble me'">
                             <p ng-class="{self: message.self}">
                                     {{message.message}}

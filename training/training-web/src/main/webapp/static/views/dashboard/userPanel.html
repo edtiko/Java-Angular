@@ -46,6 +46,9 @@
                 <div class="md-list-item-text">
                     <h3>Mensajes</h3>
                 </div>
+                <md-button ng-if="messagesReceivedCount>0" class="md-fab md-mini">
+                    {{messagesReceivedCount}}
+                </md-button>
                 <md-divider></md-divider>
             </md-list-item>
             <md-list-item class="md-2-line" ng-click="go('/mail', 6)" ng-class="{selectedIndex: selectedIndex === 6}">
