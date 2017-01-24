@@ -1,0 +1,182 @@
+<div layout="column" layout-align="space-around center" style="margin-top: 2%">
+    <!--Datos Deportivos Title-->
+    <div  ng-show="visibleField('user_profile', null)" >
+
+        <span class="md-headline">Datos Deportivos</span>
+
+    </div>
+    <div  style="margin-top: 2%">
+        <div ng-show="visibleField('user_profile', 'objective')">
+
+            <label>Objetivo</label>
+
+            <md-subheader>{{userDashboard.objective}}</md-subheader>
+
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'discipline')">
+
+            <label>Disciplina Deportiva</label>
+
+            <md-subheader>{{userDashboard.discipline}}</md-subheader>
+
+        </div>
+
+
+        <div class="row" ng-show="visibleField('user_profile', 'modality')">
+
+            <label>Modalidad</label>
+
+            <md-subheader>{{userDashboard.modality}}</md-subheader>
+
+        </div>
+        
+          <div class="row" ng-show="visibleField('user_profile', 'environmentId')">
+
+            <label>Entorno Geogr&aacute;fico</label>
+
+            <md-subheader>{{userDashboard.environment}}</md-subheader>
+
+        </div>
+        
+          <div class="row" ng-show="visibleField('user_profile', 'weatherId')">
+
+            <label>Clima</label>
+
+            <md-subheader>{{userDashboard.weather}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'age_sport')">
+
+            <label>Edad Deportiva</label>
+
+            <md-subheader>{{userDashboard.ageSport}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'user_availability')">
+
+            <label>Disponibilidad de Tiempo</label>
+
+            <md-subheader>{{userDashboard.availability}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'sport')">
+
+            <label>Otro Deporte</label>
+
+            <md-subheader>{{userDashboard.sport}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'about_me')">
+
+            <label>Acerca de m&iacute;</label>
+
+            <md-subheader>{{userDashboard.aboutMe}}</md-subheader>
+
+        </div>
+        <div class="row" ng-show="visibleField('user_profile', 'pulsometer')">
+
+            <label>Puls&oacute;metro</label>
+
+            <md-subheader>{{userDashboard.pulsometer}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'ppm')">
+
+            <label>Ppm</label>
+
+            <md-subheader>{{userDashboard.ppm}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'vo2_running')">
+
+            <label>VO2 Running</label>
+
+            <md-subheader>{{userDashboard.vo2Running}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'vo2_ciclismo')">
+
+            <label>VO2 Ciclismo</label>
+
+            <md-subheader>{{userDashboard.vo2Ciclismo}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'potentiometer')">
+
+            <label>Potenci&oacute;metro</label>
+
+            <md-subheader>{{userDashboard.potentiometer}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'bike')">
+
+            <label>Bicicleta</label>
+
+            <md-subheader>{{userDashboard.bikes}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'shoes')">
+
+            <label>Zapato Deportivo</label>
+
+            <md-subheader>{{userDashboard.shoes}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'weight')">
+
+            <label>{{ 'WEIGHT' | translate }}</label>
+
+            <md-subheader>{{userDashboard.weight}}</md-subheader>
+
+        </div>
+        <div class="row" ng-show="visibleField('user_profile', 'height')">
+
+            <label>{{ 'HEIGHT' | translate }}</label>
+
+            <md-subheader>{{userDashboard.height}}</md-subheader>
+
+        </div>
+        <div class="row" ng-show="visibleField('user_profile', 'imc')">
+
+            <label>{{ 'IMC' | translate }}</label>
+
+            <md-subheader>{{userDashboard.imc}}</md-subheader>
+
+        </div>
+        <div class="row" ng-show="visibleField('user_profile', 'injuryId')">
+
+            <label>{{ 'INJURY' | translate }}</label>
+
+            <md-subheader>{{userDashboard.injury}}</md-subheader>
+
+        </div>
+        <div class="row" ng-show="visibleField('user_profile', 'disease')">
+
+            <label>{{ 'DISEASE' | translate }}</label>
+
+            <md-subheader>{{userDashboard.disease}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_profile', 'power')">
+
+            <label>Potencia</label>
+
+            <md-subheader>{{userDashboard.power}}</md-subheader>
+
+        </div>
+    </div>
+</div>

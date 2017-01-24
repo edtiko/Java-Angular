@@ -1,0 +1,30 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>Videos Enviados</span>
+        </h2>
+    </div>
+</md-toolbar>
+<md-content class="border" style="height: 250px">
+    <section>
+        <div layout="column" layout-align="center center" ng-if="!loadingSent">
+            <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+            <span>Cargando Videos..</span>
+        </div>
+        <md-list ng-repeat="vr  in sendedvideos| orderBy:'creationDate':false">
+            <md-list-item ng-click="null" class="md-3-line">
+                <img data-ng-src="{{vr.fromUser.profilePhotoBase64}}"  alt="{{vr.fromUser.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                <div class="md-list-item-text">
+                    <p>{{vr.fromUser.fullName}} {{showStatusVideo(vr.indRejected)}}</p>
+                </div>
+                <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
+                <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="verVideo(vr.name, vr.id, 'from')">
+                    <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                    <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                </md-button>
+            </md-list-item>
+            <md-divider></md-divider>
+        </md-list>
+    </section>
+
+</md-content>

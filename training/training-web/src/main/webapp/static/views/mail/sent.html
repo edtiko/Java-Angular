@@ -1,0 +1,17 @@
+
+<md-content style="overflow-x: hidden;" scroll-glue="glued">
+    <md-list>
+        <md-list-item class="md-3-line" ng-repeat="mail in mailsSent| orderBy:'creationDate':true" 
+                      ng-click="selectSentMail(mail.mailCommunicationId)">
+            <div class="md-list-item-text"  >
+
+                <h3>{{ 'TO' | translate }}: {{mail.receivingUser.fullName}}</h3>
+                {{ 'SUBJECT' | translate }}: {{mail.subject}}
+            </div>
+
+            <md-subheader>{{mail.creationDate}}</md-subheader>
+
+            <md-divider ></md-divider>
+        </md-list-item>
+    </md-list>
+</md-content>

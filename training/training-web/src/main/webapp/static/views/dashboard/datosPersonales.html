@@ -1,0 +1,133 @@
+<div layout="column" layout-align="space-around center" style="margin-top: 2%">
+    <!--Datos Personales Title-->
+    <span class="md-headline">Datos Personales</span>
+    <!--Panel de Datos Personales-->
+    <div style="margin-top: 2%;">
+        <div ng-show="visibleField('user_training', 'email')">
+
+            <label>Correo Electr&oacute;nico</label>
+
+            <md-subheader>{{userDashboard.email}}</md-subheader>
+
+        </div>
+
+        <div ng-show="visibleField('user_training', 'sex')">
+
+            <label>Sexo</label>
+            <div  ng-show="userDashboard.sex == 'f'">
+                <md-subheader>Femenino</md-subheader>
+            </div>
+
+            <div  ng-show="userDashboard.sex == 'm'">
+                <md-subheader> Masculino</md-subheader>
+            </div>
+
+        </div>
+
+        <div  ng-show="visibleField('user_training', 'age')">
+
+            <label>Edad</label>
+
+            <md-subheader>{{userDashboard.age}}</md-subheader>
+
+
+        </div>
+
+        <div  ng-show="visibleField('user_training', 'phone')">
+
+            <label>Tel&eacute;fono Fijo</label>
+
+            <md-subheader>{{userDashboard.phone}}</md-subheader>
+
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'cellphone')">
+
+            <label>Celular</label>
+
+            <md-subheader>{{userDashboard.cellphone}}</md-subheader>
+
+        </div>
+
+        <div class="row" >
+
+            <label>Pa&iacute;s</label>
+
+            <md-subheader>{{userDashboard.country}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'federalStateId')">
+
+            <label>Estado</label>
+
+            <md-subheader>{{userDashboard.federalState}}</md-subheader>
+
+        </div>
+
+        <div class="row">
+
+            <label>Ciudad</label>
+
+            <md-subheader>{{userDashboard.city}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'address')">
+
+            <label>Direcci&oacute;n</label>
+
+            <md-subheader>{{userDashboard.address}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'postal_code')">
+
+            <label>C&oacute;digo Postal</label>
+
+            <md-subheader>{{userDashboard.postalCode}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'birth_date')">
+
+            <label>Fecha de Nacimiento</label>
+
+            <md-subheader>{{userDashboard.birthDate}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'facebook_page')">
+
+            <label>P&aacute;gina de Facebook </label>
+
+            <md-subheader>{{userDashboard.facebookPage}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'twitter_page')">
+
+            <label>P&aacute;gina de Twitter </label>
+
+            <md-subheader>{{userDashboard.twitterPage}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'instagram_page')">
+
+            <label>P&aacute;gina de Instagram </label>
+
+            <md-subheader>{{userDashboard.instagramPage}}</md-subheader>
+
+        </div>
+
+        <div class="row" ng-show="visibleField('user_training', 'web_page')">
+
+            <label>P&aacute;gina Web </label>
+
+            <md-subheader>{{userDashboard.webPage}}</md-subheader>
+
+        </div>
+    </div>
+</div>

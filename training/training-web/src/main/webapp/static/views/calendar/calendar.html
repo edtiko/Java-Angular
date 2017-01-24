@@ -1,0 +1,133 @@
+<link rel="stylesheet" href="static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="static/css/calendar.css">   
+<div layout="row" layout-align="space-around">
+<div flex="75">  
+    <div class="page-header">
+            <div class="pull-left form-inline">
+                <div class="btn-group">
+                    <button class="btn btn-primary" data-calendar-nav="prev"><< Anterior</button>
+                    <button class="btn" data-calendar-nav="today">Hoy</button>
+                    <button class="btn btn-primary" data-calendar-nav="next">Siguiente >></button>
+                </div>
+            </div>    
+            <div class="pull-right form-inline">
+                <div class="btn-group">
+                    <button class="btn btn-primary" data-calendar-view="year">A&ntilde;o</button>
+                    <button class="btn btn-primary active" data-calendar-view="month">Mes</button>
+                    <button class="btn btn-primary" data-calendar-view="week">Semana</button>
+                    <button class="btn btn-primary" data-calendar-view="day">D&iacute;a</button>
+                </div>
+            </div>
+            <center><h3></h3></center>
+        </div>
+
+        <div id="calendar"></div>
+    </div>
+    <div layout="column">
+        <md-sidenav style="height:555px;width:210px !important;"
+                    class="md-sidenav-left"
+                    md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-md')"
+                    md-whiteframe="4">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h1 class="md-toolbar-tools">Actividades</h1>
+                </div>
+            </md-toolbar>
+            <md-input-container md-no-float class="md-block" >
+                <md-icon><i class="fa fa-search" aria-hidden="true"></i></md-icon>
+                <input type="text" ng-model="search" placeholder="Buscar.."/>
+            </md-input-container>
+            <md-content>
+                <div layout="column" layout-align="center center" ng-show="loading">
+                    <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                    <span>Cargando actividades..</span>
+                </div>
+                <section>
+                    <md-list ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
+                        <md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>
+                        <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:search" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <p>
+                                {{a.name}}
+                            </p>
+                        </md-list-item>
+                    </md-list>
+                </section>
+
+            </md-content>
+        </md-sidenav>
+        <md-sidenav style="height:300px;width:210px !important;"
+                    class="md-sidenav-left"
+                    md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-md')"
+                    md-whiteframe="4">
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h1 class="md-toolbar-tools">Actividades Manuales</h1>
+                    <span flex></span>
+                    <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="showCreateManualActivity()">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-content>
+
+                <section>
+                    <md-list ng-repeat="a in manualActivities">
+
+                        <md-list-item ng-click="null" id="ma_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <p>{{a.name}}</p>
+                            <md-button class=" md-mini md-icon-button" ng-click="showEliminarActividad(a.id, a.name)" aria-label="remove">
+                                <md-icon>
+                                    <i class="fa fa-trash" aria-hidden="true"></i></md-icon>
+                            </md-button>
+                        </md-list-item>
+
+                    </md-list>
+                </section>
+
+            </md-content>
+        </md-sidenav>
+    </div>
+</div>
+<div class="modal fade" id="events-modal">
+    <div class="modal-dialog" id="eventsss-modal">
+        <div class="modal-content" id="events-mosssdal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Actividad</h3>
+            </div>
+            <div class="modal-body" style="height: 400px">
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn" >Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-events-modal" ng-controller="CalendarController as ctr">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Actividad</h3>
+            </div>
+            <div id="add-events-modal-body" style="height: 400px"  >
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Cerrar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="static/js/calendar/language/es-CO.js"></script>
+<!--<script type="text/javascript" src="static/js/lib/jquery.min.js"></script>-->
+<script type="text/javascript" src="static/js/lib/underscore-min.js"></script>
+<!--<script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>-->
+<script type="text/javascript" src="static/js/lib/calendar.js"></script>
+<script type="text/javascript" src="static/js/calendar/controller/calendarInit.js"></script>

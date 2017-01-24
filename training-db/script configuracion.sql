@@ -1,0 +1,1 @@
+INSERT INTO training_plan values(1, 'Basico', 'Plan inicial para registro de usuario', null, current_date, current_date);

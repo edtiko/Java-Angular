@@ -1,0 +1,22 @@
+<div layout="column" layout-align="center strech" style="margin: 34px;" flex>
+    <div  layout="column" layout-align="center center" flex="auto" ng-class="{selectedIndex: selectedIndex === 5}">
+        <img class="circular" data-ng-src="{{planSelected.starUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;">
+        <span class="md-title">Estrella</span>
+        <span class="md-subhead">{{planSelected.starUserId.fullName}}</span>
+        <div layout="row">
+            <div  ng-include src="'static/views/dashboard/starCommunication.html'"></div>
+        </div>
+    </div>
+    <br />
+    <md-divider></md-divider>
+    <br />
+    <div layout="column" layout-align="center center" flex="auto" ng-class="{selectedIndex: selectedIndex === 6}">
+        <img class="circular" data-ng-src="{{planSelected.coachUserId.profilePhotoBase64}}" style="height: 80px; width: 80px;" >
+        <span class="md-title">Supervisor</span>
+        <span class="md-subhead">{{planSelected.coachUserId.fullName}}</span>
+        <div layout="row">
+            <div  ng-include src="'static/views/dashboard/supervisorCommunication.html'"></div>
+        </div>
+    </div>
+
+</div>

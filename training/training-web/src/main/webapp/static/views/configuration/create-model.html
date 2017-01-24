@@ -1,0 +1,54 @@
+<md-dialog aria-label="Model" style="width: 600px;height: 400px;">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Model</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+        <span class="md-headline">Model</span>
+
+    <form  name="formModel" novalidate>
+        <input type="hidden" ng-model="model.modelId" />
+   
+                    <div layout="row"> 
+                        <div flex="66">
+                            <md-input-container class="md-block" >
+                                <label>SportEquipmentType</label>
+                                <md-select id="sportEquipmentType" ng-model="model.sportEquipmentTypeId.sportEquipmentTypeId" required>
+                                    <md-option ng-repeat="d in sportEquipmentTypeList" value="{{d.sportEquipmentTypeId}}" >
+                                        {{d.sportEquipmentTypeId}}
+                                    </md-option>
+                                </md-select>
+                                <div class="has-error" ng-messages="formModel.sportEquipmentType.$error">
+                                    <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="model.name" id="name" name="name"  placeholder="Name" required/>
+                            <div class="has-error" ng-messages="formModel.name.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            
+
+            
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button ng-click="submitModel(formModel)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+            </section>
+
+</form>
+</md-content></div>
+</md-dialog>

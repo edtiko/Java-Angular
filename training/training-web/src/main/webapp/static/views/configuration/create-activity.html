@@ -1,0 +1,146 @@
+<md-dialog aria-label="Actividades" style="width: 600px;height: 400px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Actividades</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="demo-md-panel md-padding">
+        <md-content layout-padding>
+
+            <form  name="formActivity" novalidate>
+                <input type="hidden" ng-model="activity.activityId" />
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="activity.name" id="name" name="name"
+                                   placeholder="Nombre" required/>
+                            <div class="has-error" ng-messages="formActivity.name.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="activity.description" id="description"
+                                   name="description"  placeholder="Descripci&oacute;n" required/>
+                            <div class="has-error" ng-messages="formActivity.description.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Capacidad Fisiologica</label>
+                            <md-select id="physiologicalCapacity" 
+                                       ng-model="activity.physiologicalCapacityId.physiologicalCapacityId" 
+                                       ng-model-options="{trackBy: '$value'}"
+                                       required>
+                                <md-option ng-value="d.physiologicalCapacityId" ng-repeat="d in physiologicalCapacityList" value="{{d.physiologicalCapacityId}}" 
+                                           ng-selected="{{ activity.physiologicalCapacityId.physiologicalCapacityId === d.physiologicalCapacityId ? 'true' : 'false' }}">
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formActivity.physiologicalCapacity.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>{{ 'DISCIPLINE' | translate }}</label>
+                            <md-select id="discipline" ng-model="activity.discipline" required ng-change="getModalitiesByDisciplineId(activity.discipline)">
+                                <md-option ng-repeat="d in disciplineList" value="{{d.disciplineId}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formActivity.discipline.$error">
+                                <div ng-message="required">Este es un campo requerido</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Modalidad</label>
+                            <md-select id="modality" 
+                                       ng-model="activity.modalityId.modalityId" 
+                                       ng-model-options="{trackBy: '$value'}"
+                                       required>
+                                
+                                <md-option ng-value="d.modalityId" ng-repeat="d in modalityList" value="{{d.modalityId}}" 
+                                           ng-selected="{{ activity.modalityId.modalityId === d.modalityId ? 'true' : 'false' }}">
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formActivity.modality.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Objetivo</label>
+                            <md-select id="objective" 
+                                       ng-model="activity.objectiveId.objectiveId" 
+                                       ng-model-options="{trackBy: '$value'}"
+                                       required>
+                                <md-option ng-value="d.objectiveId" ng-repeat="d in objectiveList" value="{{d.objectiveId}}" 
+                                           ng-selected="{{ activity.objectiveId.objectiveId === d.objectiveId ? 'true' : 'false' }}">
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formActivity.objective.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Deporte</label>
+                            <md-select id="sport" 
+                                       ng-model="activity.sportId.sportId" 
+                                       ng-model-options="{trackBy: '$value'}"
+                                       required>
+                                <md-option ng-value="d.sportId" ng-repeat="d in sportList" value="{{d.sportId}}" 
+                                           ng-selected="{{ activity.sportId.sportId === d.sportId ? 'true' : 'false' }}">
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formActivity.sport.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                    <md-button ng-click="submitActivity(formActivity)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                    <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+                </section>
+
+            </form>
+        </md-content></div>
+</md-dialog>

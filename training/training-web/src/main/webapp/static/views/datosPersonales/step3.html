@@ -1,0 +1,248 @@
+<md-content layout-padding>
+        <input type="hidden" ng-model="user.userId" />
+        <form name="frm3">
+            <div layout="row">
+                <span class="md-subhead">&iquest;Eres usuario de alguna de estas p&aacute;ginas? Conecta tu cuenta</span>
+            </div>
+        <div layout="row">
+
+            <a ng-click="redirectAutorizeStrava($event)" style="cursor:pointer">
+                <img title="Desconectar de Strava?" alt="Desconectar de Strava?" style="cursor:pointer !important" class="icon-disabled" ng-if="!userStravaAutorize" data-ng-src="static/img/strava_btn.png"  />
+                <img ng-if="userStravaAutorize" data-ng-src="static/img/strava_btn.png" title="Strava" />
+            </a>
+            <!--                <a ng-href="https://my.garmin.com/mygarmin/login.htm" target="_blank"><img data-ng-src="static/img/garmin.png" class="circular-icon icon-disabled" title="Garmin" style="height: 60px; width: 60px;"/></a>
+                            <a ng-href="https://www.polar.com" target="_blank"><img  data-ng-src="static/img/polar.png" class="circular-icon icon-disabled" title="Polar" style="height: 60px; width: 60px;"/></a>
+                            <a ng-href="https://www.underarmour.com" target="_blank"><img  data-ng-src="static/img/under_armour.png" class="circular-icon icon-disabled" title="Under Armour" style="height: 60px; width: 60px;"/></a>
+                            <img  data-ng-src="static/img/nike.png" class="circular-icon icon-disabled" title="Nike" style="height: 60px; width: 60px;"/>
+                            <img  data-ng-src="static/img/suunto.png" class="circular-icon icon-disabled" title="Suunto" style="height: 60px; width: 60px;"/>-->
+
+
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Disciplina Deportiva</label>
+                    <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && (userSession.planActiveId != null && userSession.planActiveId != '0'))"
+                               id="discipline" name="discipline" ng-model="userProfile.discipline"  ng-change="getObjectivesByDiscipline(userProfile.discipline, true)" ng-required="true">
+                        <!--<md-select-label>{{d || 'Seleccione una disciplina'}}</md-select-label>-->
+                        <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
+                            {{d.name}}
+                        </md-option>
+                    </md-select>
+                    <div class="has-error" role="alert" ng-messages="frm3.discipline.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profilediscipline" ng-change="setVisibleField(user_profilediscipline, 'user_profile', 'discipline')
+                       "> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Objetivo *</label>
+                    <md-select id="objective"  name="objective" ng-model="userProfile.objective"  ng-change="getModalitiesByObjectiveId(userProfile.objective, true)">
+                        <!--<md-select-label>{{d || 'Seleccione un objetivo'}}</md-select-label>-->
+                        <md-option ng-repeat="o in objectives" value="{{o.objectiveId}}" >
+                            {{o.name}}
+                        </md-option>
+                    </md-select>
+                    <div class="has-error" role="alert" ng-messages="frm3.objective.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_profileobjective" 
+                       ng-change="setVisibleField(user_profileobjective, 'user_profile', 'objective')"> {{ 'SHOW' | translate }}</md-switch>
+
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Modalidad *</label>
+                    <md-select  ng-model="userProfile.modality" id="modality" name="modality" >
+                        <!-- <md-select-label>{{d || 'Seleccione una modalidad'}}</md-select-label>-->
+                        <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
+                            {{m.name}}
+                        </md-option>
+                    </md-select>
+                    <div class="has-error" role="alert" ng-messages="frm3.modality.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilemodality, 'user_profile', 'modality')"
+                       ng-model="user_profilemodality"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Entorno Geogr&aacute;fico *
+                    </label>
+                    <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" >
+                        <!--<md-select-label>{{m || 'Seleccione un entorno geogr&aacute;fico'}}</md-select-label>-->
+                        <md-option ng-repeat="m in entornos" value="{{m.environmentId}}" >
+                            {{m.name}}
+                        </md-option>
+                    </md-select>
+                    <div class="has-error" role="alert" ng-messages="frm3.environment.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+
+            <md-button class="md-icon-button launch md-primary" aria-label="Entorno" ng-click="showTooltipEnvironment()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+
+            </md-button>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileenvironmentId, 'user_profile', 'environmentId')"
+                       ng-model="user_profileenvironmentId"> {{ 'SHOW' | translate }}</md-switch>
+
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+
+                    <label>Clima *
+                    </label>
+                    <md-select  ng-model="userProfile.weatherId" id="weather" name="weather">
+                        <!--<md-select-label>{{m || 'Seleccione el clima'}}</md-select-label>-->
+                        <md-option ng-repeat="m in climas" value="{{m.weatherId}}" >
+                            {{m.name}}
+                        </md-option>
+                    </md-select>
+                    <div class="has-error" role="alert" ng-messages="frm3.weather.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-button class="md-icon-button launch md-primary" aria-label="Clima" ng-click="showTooltipWeather()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
+            <md-switch class="md-primary" ng-change="setVisibleField(user_profileweatherId, 'user_profile', 'weatherId')" ng-model="user_profileweatherId"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Edad Deportiva</label>
+
+                    <input type="number" min="0" id="ageSport" name="ageSport" ng-model="userProfile.ageSport">
+                </md-input-container>
+            </div>
+
+            <md-button class="md-icon-button launch md-primary" aria-label="Edad" ng-click="showTooltipSportAge()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileage_sport, 'user_profile', 'age_sport')"
+                       ng-model="user_profileage_sport"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <input ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }} {{weightmetric}}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
+                    <div class="has-error" role="alert" ng-messages="frm3.weight.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
+                    </div>
+
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileweight, 'user_profile', 'weight')"
+                       ng-model="user_profileweight"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <input type="text" ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }} {{heightmetric}}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
+                    <div class="has-error" role="alert" ng-messages="frm3.height.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileheight, 'user_profile', 'height')"
+                       ng-model="user_profileheight"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+        <div layout="row">
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <input type="text" ng-model="userProfile.imc" id="imc"  placeholder="{{ 'IMC' | translate }}" readonly="true"/>
+                </md-input-container>
+            </div> 
+            <md-button class="md-icon-button launch md-primary" aria-label="imc" ng-click="showTooltipImc()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileimc, 'user_profile', 'imc')"
+                       ng-model="user_profileimc"> {{ 'SHOW' | translate }} </md-switch>
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder">
+
+                    <label>Lesiones</label>
+                    <md-select  ng-model="userProfile.injuryId" id="injury" name="injury">
+                        <!-- <md-select-label>{{l || 'Seleccione una lesi&oacute;n'}}</md-select-label>-->
+                        <md-option ng-repeat="l in lesiones" value="{{l.injuryId}}" >
+                            {{l.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" ng-change="setVisibleField(user_profileinjuryId, 'user_profile', 'injuryId')" ng-model="user_profileinjuryId"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Enfermedades</label>
+                    <textarea md-maxlength="500" id="disease" name="disease" ng-model="userProfile.disease" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profiledisease, 'user_profile', 'disease')"
+                       ng-model="user_profiledisease"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+        <div layout="row"> 
+            <label>Disponibilidad: </label>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <div ng-repeat="d in userProfile.availability"  style="display: inline">
+                    <md-checkbox  ng-checked="d.checked"
+                                  ng-required="true"
+                                  ng-click="setAvailabilityResponse(d)">
+                        {{d.day}}
+                    </md-checkbox>
+                    &nbsp;
+                </div>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileuser_availability, 'user_profile', 'user_availability')"
+                       ng-model="user_profileuser_availability"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>&iquest;Practicas otros deportes?</label>
+                    <md-select  ng-model="userProfile.sport" id="sport" name="sport">
+                        <!-- <md-select-label>{{m || 'Seleccione un deporte'}}</md-select-label>-->
+                        <md-option ng-repeat="m in sports" value="{{m.sportId}}" >
+                            {{m.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilesport, 'user_profile', 'sport')"
+                       ng-model="user_profilesport"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+              {{$setValidity(frm3.$valid, 3)}}
+        </form>
+    </md-content>

@@ -1,0 +1,383 @@
+<md-content layout-padding>
+         <form name="frm4">
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Acerca de m&iacute;</label>
+                    <textarea md-maxlength="500" ng-model="userProfile.aboutMe" md-select-on-focus></textarea>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileabout_me, 'user_profile', 'about_me')"
+                       ng-model="user_profileabout_me"> {{ 'SHOW' | translate }}</md-switch>
+
+        </div>
+
+        <div layout="row"> 
+
+            <span class="md-subhead">&iquest;Tienes pulsometro?</span>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-radio-group ng-model="userProfile.indPulsometer">
+                    <md-radio-button  value="1"> Si</md-radio-button>
+                    <md-radio-button  value="0"> No</md-radio-button>
+                </md-radio-group>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilepulsometer, 'user_profile', 'pulsometer')"
+                       ng-model="user_profilepulsometer"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+        <div ng-show="userProfile.indPulsometer == 1">
+            <div layout="row"> 
+                <div flex="66">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label>&iquest;Cu&aacute;l?</label>
+                        <md-select  ng-model="userProfile.pulsometer" id="pulsometer" name="pulsometer" ng-change="getModelsPulsometer(userProfile.pulsometer)">
+                            <!-- <md-select-label>{{m || 'Seleccione un pulsometro'}}</md-select-label>-->
+                            <md-option ng-repeat="m in pulsometers" value="{{m.sportEquipmentId}}" >
+                                {{m.brand}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div ng-show="showModelPulsometer">
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <label >Modelo</label>
+                            <md-select  ng-model="userProfile.modelPulsometer" >
+                                <!-- <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>-->
+                                <md-option ng-repeat="m in modelsPulsometer" value="{{m.modelEquipmentId}}" >
+                                    {{m.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="showAnotherPulsometer">
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <input type="text" name="otherPulsometer" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherPulsometer" class="form-control" ng-model="userProfile.otherPulsometer">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <input  name="otherModelPulsometer" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherPulsometer" type="text" ng-model="userProfile.otherModelPulsometer">
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Umbral Aerobico
+                    </label>
+                    <input type="number" ng-model="userProfile.ppm" id="ppm" name="ppm"  ng-blur="calculatePpm()" >
+                </md-input-container>
+            </div>
+
+            <md-button class="md-icon-button launch md-primary" aria-label="ppm" ng-click="showTooltipPpm()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileppm, 'user_profile', 'ppm')"
+                       ng-model="user_profileppm"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+
+        <div layout="row">
+            <div flex="66">
+                <table md-table md-row-select ng-model="selected">
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column>Zona</th>
+                            <th md-column colspan="2">Ppm</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row>
+                            <td md-cell>2</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm81}}" style="width: 60px" ng-model="userProfile.ppm81"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm89}}" style="width: 60px" ng-model="userProfile.ppm89"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>3</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm90}}" style="width: 60px" ng-model="userProfile.ppm90"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm93}}" style="width: 60px" ng-model="userProfile.ppm93"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>4</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm94}}" style="width: 60px" ng-model="userProfile.ppm94"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm99}}" style="width: 60px" ng-model="userProfile.ppm99"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>5</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm100}}" style="width: 60px" ng-model="userProfile.ppm100"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm102}}" style="width: 60px" ng-model="userProfile.ppm102"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>6</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm103}}" style="width: 60px" ng-model="userProfile.ppm103"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm106}}" style="width: 60px" ng-model="userProfile.ppm106"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div layout="row"> 
+            <span class="md-subhead">&iquest;Tienes potenciometro?</span>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-radio-group ng-model="userProfile.indPower">
+                    <md-radio-button  value="1"> Si</md-radio-button>
+                    <md-radio-button  value="0"> No</md-radio-button>
+                </md-radio-group>
+            </div>
+
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilepotentiometer, 'user_profile', 'potentiometer')"
+                       ng-model="user_profilepotentiometer"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+        <div ng-show="userProfile.indPower == 1">
+            <div layout="row"> 
+                <div flex="66">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label>&iquest;Cu&aacute;l?</label>
+                        <md-select  ng-model="userProfile.potentiometer" id="potentiometer" name="potentiometer" ng-change="getModelsPotentiometer(userProfile.potentiometer)">
+                            <!--<md-select-label>{{m || 'Seleccione un potenciometro'}}</md-select-label>-->
+                            <md-option ng-repeat="m in potentiometers" value="{{m.sportEquipmentId}}" >
+                                {{m.brand}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+
+            <div ng-show="showModelPotentiometer">
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <label>Modelo</label>
+                            <md-select  ng-model="userProfile.modelPotentiometer" id="modelPotentiometer" name="modelPotentiometer">
+                                <!--<md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>-->
+                                <md-option ng-repeat="m in modelsPotentiometer" value="{{m.modelEquipmentId}}" >
+                                    {{m.name}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="showAnotherPotentiometer">
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <input type="text" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherPotentiometer" class="form-control" ng-model="userProfile.otherPotentiometer">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <input  class="form-control" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherPotentiometer" type="text" ng-model="userProfile.otherModelPotentiometer">
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Potencia
+                    </label>
+                    <input type="number"  ng-model="userProfile.power"  id="power" name="power" ng-blur="calculateZone(userProfile)">
+                </md-input-container>
+            </div>
+
+            <md-button class="md-icon-button launch md-primary" aria-label="potencia" ng-click="showTooltipPower()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilepower, 'user_profile', 'power')"
+                       ng-model="user_profilepower"> {{ 'SHOW' | translate }}</md-switch>
+
+        </div>
+
+
+        <div layout="row">
+            <div flex="66">
+                <table md-table md-row-select ng-model="selected1">
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column>Zona</th>
+                            <th md-column colspan="2">Power</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row>
+                            <td md-cell>2 Aer&oacute;bico</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp56}}" style="width: 60px" ng-model="userProfile.ftp56"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp75}}" style="width: 60px" ng-model="userProfile.ftp75"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>3 Tempo</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp76}}" style="width: 60px" ng-model="userProfile.ftp76"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp90}}" style="width: 60px" ng-model="userProfile.ftp90"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>4 Umbral</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp91}}" style="width: 60px" ng-model="userProfile.ftp91"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp105}}" style="width: 60px" ng-model="userProfile.ftp105"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>5 VO2 Max</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp106}}" style="width: 60px" ng-model="userProfile.ftp106"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp120}}" style="width: 60px" ng-model="userProfile.ftp120"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>VO2 M&aacute;ximo Running</label>
+                    <input type="number"  ng-model="userProfile.vo2Running">
+                </md-input-container>
+            </div>
+            <md-button class="md-icon-button launch md-primary" aria-label="running" ng-click="showTooltipVo2Running()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilevo2_running, 'user_profile', 'vo2_running')"
+                       ng-model="user_profilevo2_running"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>VO2 M&aacute;ximo Ciclismo</label>
+
+                    <input type="number"  ng-model="userProfile.vo2Ciclismo">
+                </md-input-container>
+            </div>
+            <md-button class="md-icon-button launch md-primary" aria-label="running" ng-click="showTooltipVo2Ciclismo()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilevo2_ciclismo, 'user_profile', 'vo2_ciclismo')"
+                       ng-model="user_profilevo2_ciclismo"> {{ 'SHOW' | translate }}</md-switch>
+
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <label>&iquest;Tienes bicicleta? </label>
+                <md-radio-group ng-model="indBike">
+                    <md-radio-button  value="1"> Si</md-radio-button>
+                    <md-radio-button  value="-1"> No</md-radio-button>
+                </md-radio-group>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilebike, 'user_profile', 'bike')"
+                       ng-model="user_profilebike"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+        <div  ng-show="indBike == 1">
+            <div layout="row"> 
+                <div flex="66">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label>Tipo de Bicicleta</label>
+                        <md-select  ng-model="userProfile.bikeType"
+                                    ng-change="getBikes(userProfile.bikeType)">
+                            <!-- <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>-->
+                            <md-option ng-repeat="p in bikeTypes" value="{{p.bikeTypeId}}" >
+                                {{p.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row"> 
+                <div flex="66">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label>&iquest;Cu&aacute;l?</label>
+                        <md-select  ng-model="userProfile.bikes" id="shoe" name="bikes" ng-change="getModelsBike(userProfile.bikes)">
+                            <!-- <md-select-label>{{m || 'Seleccione una bicicleta'}}</md-select-label>-->
+                            <md-option ng-repeat="m in bikes" value="{{m.sportEquipmentId}}" >
+                                {{m.brand}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" ng-show="showModelBike"> 
+                <div flex="66">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label >Modelo</label>
+                        <md-select  ng-model="userProfile.modelBike" id="shoe" name="bikes">
+                            <!-- <md-select-label>{{m || 'Seleccione un modelo'}}</md-select-label>-->
+                            <md-option ng-repeat="m in modelsBike" value="{{m.modelEquipmentId}}" >
+                                {{m.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div ng-show="showAnotherBike">
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <input type="text" name="otherBike" placeholder="&iquest;Qu&eacute; Marca?" ng-required="showAnotherBike" class="form-control" ng-model="userProfile.otherBike">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <input  name="otherModelBike" placeholder="&iquest;Qu&eacute; Modelo?" ng-required="showAnotherBike" type="text" ng-model="userProfile.otherModelBike">
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>&iquest;Qu&eacute; tipo de zapato para correr usas?</label>
+                    <md-select  ng-model="userProfile.shoes" id="shoe" name="shoe">
+                        <!-- <md-select-label>{{m || 'Seleccione un tipo'}}</md-select-label>-->
+                        <md-option ng-repeat="m in shoes" value="{{m.sportEquipmentId}}" >
+                            {{m.brand}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileshoes, 'user_profile', 'shoes')"
+                       ng-model="user_profileshoes"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder">
+                    <label>Sistema de medici&oacute;n </label>
+                    <md-select  ng-model="userProfile.indMetricSys" id="indMetricSys" name="indMetricSys" ng-change="setUnit(userProfile.indMetricSys)">
+                        <!-- <md-select-label>{{m || 'Seleccione un sistema de medici&oacute;n'}}</md-select-label>-->
+                        <md-option ng-repeat="m in metricSystems" value="{{m.id}}" >
+                            {{m.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <br /><br />
+        <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+            <md-button type="submit" ng-click="submitUserProfile(formProfile, false, $event)"  class="md-raised md-primary">Guardar</md-button>
+            <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(formProfile, true, $event)">Generar Plan</md-button>
+        </section>
+           {{$setValidity(frm4.$valid, 4)}}
+         </form>
+    </md-content>

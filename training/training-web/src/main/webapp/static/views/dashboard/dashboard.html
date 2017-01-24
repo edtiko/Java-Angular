@@ -1,0 +1,40 @@
+<div layout="row" ng-show="appReady" id="dashboard-container" >
+    
+    <!------------------------------------------  TABS VIEW  ------------------------------------------------------->
+    <div flex="30" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
+
+        <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
+    </div>
+    
+    <!--<div flex="25" ng-if="userSession.typeUser == userSessionTypeUserAtleta && planSelected != null && !planSelected.external">
+        <div  ng-include src="'static/views/dashboard/tabsDashboardAthlete.html'"></div>
+    </div>-->
+
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserAdmin">
+        <div  ng-include src="'static/views/dashboard/tabsDashboardAdmin.html'"></div>
+    </div>
+     <!--<div flex="25" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+        <div  ng-include src="'static/views/dashboard/userPanel.html'"></div>
+    </div>-->
+    
+    <div flex="75" style="height: 100%; min-height: 800px;  margin: 5px;" >
+
+        <!------------------------------------------  DASHBOARD VIEW  ------------------------------------------------------->
+        <div  id="dash-view"  ng-include src="pageSelected" ></div> 
+
+    </div>
+
+    <div flex="30" style="height: 900px; border: 1px solid #e1e1e1; margin: 5px;" ng-show="showControl">
+
+        <!------------------------------------------  CONTROL VIEW  ------------------------------------------------------->
+        <div ng-if="showInternalControl"  ng-include src="'static/views/dashboard/control.html'"></div> 
+        
+        <div ng-if="showControlAthlete"  ng-include src="'static/views/dashboard/athleteControl.html'"></div> 
+        
+        <div ng-if="showSupervisorControl"   ng-include src="'static/views/dashboard/supervisorControl.html'"></div>  
+        
+        <div ng-if="showStarControl"   ng-include src="'static/views/dashboard/starControl.html'"></div>  
+
+    </div>
+
+</div>

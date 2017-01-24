@@ -1,0 +1,58 @@
+<md-content ng-controller="MessageController">
+    <div layout="row" layout-align="center" style="margin: 2%">
+        <div flex="80" layout="column"  layout-align="space-between none" class="demo-content">
+            <div layout="column" style="height:550px" id="message-content">
+                <md-toolbar >
+                    <div class="md-toolbar-tools">
+                        <h3>
+                            <span>Mensajes</span>
+                        </h3>
+                    </div>
+                </md-toolbar>
+                <md-content style="overflow-x: hidden;" scroll-glue="glued">
+                    <div layout="column" layout-align="center center" ng-if="!loading">
+                    <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                    <span>Cargando mensajes..</span>
+                </div>
+                    <md-list>
+                        <md-list-item class="md-3-line" ng-repeat="message in messages| orderBy:'creationDate':false" ng-click="null">
+                            <img data-ng-src="{{message.messageUserId.profilePhotoBase64}}"  alt="{{message.messageUserId.login}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                            <div class="md-list-item-text">
+
+                                <h3><strong>{{message.messageUserId.login}}</strong></h3>
+                                <p ng-class="{self: message.self}">
+                                    {{message.message}}
+                                </p>
+                            </div>
+
+                            <md-subheader class="md-no-sticky">{{message.creationDate}}</md-subheader>
+
+                            <md-divider md-inset ></md-divider>
+                        </md-list-item>
+                    </md-list>
+                </md-content>
+            </div>
+            <br />
+            <div flex layout="column" style="border: 1px solid #e1e1e1; ">
+                <form ng-submit="addMessage()" name="messageForm">
+                    <section layout="row" layout-sm="column" layout-wrap>
+                        <div flex="80">
+                            <md-input-container class="md-block" >
+                                <input type="text" placeholder="Escriba aqu&iacute; su mensaje..." ng-model="planMessage.message" />
+                            </md-input-container>
+                        </div>
+                        <div >
+                            <!--<span class="count" ng-bind="max - planMessage.message.length" ng-class="{danger: planMessage.message.length > max}">140</span>
+                            <button ng-disabled="planMessage.message.length > max || planMessage.message.length === 0">Enviar</button>-->
+                            <md-button ng-click="addMessage()" ng-disabled="planMessage.message.length === 0" class="md-raised md-primary">Enviar</md-button>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</md-content>

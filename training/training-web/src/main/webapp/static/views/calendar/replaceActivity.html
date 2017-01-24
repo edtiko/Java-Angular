@@ -1,0 +1,35 @@
+<md-dialog aria-label="Actividades de Reemplazo" style="width: 400px">
+    <form name="formActivity">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Actividades de Reemplazo</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="hideReplaceActivity()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div layout="row" >
+                <md-sidenav style="height:555px;width:100% !important;"
+                            class="md-sidenav-left"
+                            md-component-id="left"
+                            md-is-locked-open="$mdMedia('gt-md')"
+                            md-whiteframe="4">
+                    <md-content>
+                        <section>
+                            <md-list ng-repeat="a  in activityReplaceList">
+                                <md-list-item ng-click="changeActivityReplace(a.activityId)" id="act_{{a.activityId}}">
+                                    <p>
+                                        {{a.name}}
+                                    </p>
+                                </md-list-item>
+                            </md-list>
+                        </section>
+
+                    </md-content>
+                </md-sidenav>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

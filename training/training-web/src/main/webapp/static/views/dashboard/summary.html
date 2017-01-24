@@ -1,0 +1,33 @@
+<div layout="column"> 
+    <div layout="column">
+        <h3>RESUMEN DE MI PERFIL</h3>
+        <div layout="row" layout-align="space-around center">
+            <div  layout="column">
+                <h2>{{userDashboard.age}}</h2>
+                <label>EDAD</label>
+            </div>
+            <div  layout="column">
+                <h2>{{userDashboard.weight}} kg</h2>
+                <label>PESO</label>
+            </div>
+            <div  layout="column">
+                <h2>{{(userDashboard.height * 100)}} cm</h2>
+                <label>ALTURA</label>
+            </div>
+            <div  layout="column">
+                <h2>{{userDashboard.imc}}</h2>
+                <label>IMC</label>
+            </div>
+            <div  layout="column">
+                <h2>{{userDashboard.ppm}}</h2>
+                <label>PPM</label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <md-divider></md-divider>
+    <h3>MIS OBJETIVOS SEMANALES</h3>
+
+    <div ng-controller="ChartController" ng-include src="'static/views/chart/chart.html'"></div>
+
+</div>

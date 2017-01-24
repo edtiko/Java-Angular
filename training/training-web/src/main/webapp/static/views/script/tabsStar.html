@@ -1,0 +1,36 @@
+<div layout="column" style=" border: 1px solid #e1e1e1; height: 100%; min-height: 800px; border-radius: 25px;">
+    <md-content >
+        <md-tabs md-dynamic-height md-border-bottom md-selected="tabIndex">
+            <md-tab label="{{ 'RECEIVED' | translate }}" md-on-select="onTabChanges(0)">
+                <md-content class="md-padding">
+                    <md-list-item ng-repeat="vr in planVideoList" >
+                        <img data-ng-src="data:image/png;base64,{{vr.planVideoId.fromUserId.profilePhoto}}"  alt="{{vr.planVideoId.fromUserId.firstName}}  {{vr.planVideoId.fromUserId.secondName}} {{vr.planVideoId.fromUserId.lastName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                        <div class="md-list-item-text">
+                            <p>{{convertMilisecondsToDate(vr.creationDate)}}</p>
+                        </div>
+                        <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
+                        <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="selectVideo(vr)">
+                            <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                            <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                        </md-button>
+                    </md-list-item>
+                </md-content>
+            </md-tab>
+            <md-tab label="{{ 'SENT' | translate }}"  md-on-select="onTabChanges(1)" >
+                <md-content class="md-padding">
+                    <md-list-item ng-repeat="a in scriptVideoList" >
+                        <img data-ng-src="data:image/png;base64,{{a.toUserId.profilePhoto}}"  alt="{{a.toUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                        <div class="md-list-item-text">
+                            <p>{{convertMilisecondsToDate(a.creationDate)}} {{showStatusVideo(a.indRejected)}}</p>
+                        </div>
+                        <md-subheader class="md-no-sticky">{{a.createDate}}</md-subheader>
+                        <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="selectVideoStar(vr)">
+                            <md-tooltip md-direction="right" md-visible="tooltipVisible">Ver Video</md-tooltip>
+                            <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
+                        </md-button>
+                    </md-list-item>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>

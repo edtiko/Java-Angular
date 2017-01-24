@@ -4,12 +4,12 @@
     xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>co.com.expertla.training</groupId>
+        <groupId>co.expertic.training</groupId>
         <artifactId>training</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
-    <groupId>co.com.expertla.training.service</groupId>
+    <groupId>co.expertic.training.service</groupId>
     <artifactId>training-service</artifactId>
     <name>training-service</name>
     <url>http://maven.apache.org</url>
@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <springframework.version>4.2.0.RELEASE</springframework.version>
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
+        <spring.security.version>3.2.5.RELEASE</spring.security.version>
 
     </properties>
     <dependencies>
@@ -26,18 +26,7 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${springframework.version}</version>
         </dependency>
-        <!-- Spring Security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -45,16 +34,26 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
 
         <dependency>
-            <groupId>co.com.expertla.training.dao</groupId>
+            <groupId>co.expertic.training.dao</groupId>
             <artifactId>training-dao</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>javaee</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>5</version>
+            <groupId>co.expertic.training.model</groupId>
+            <artifactId>training-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
             <type>jar</type>
         </dependency>
     </dependencies>

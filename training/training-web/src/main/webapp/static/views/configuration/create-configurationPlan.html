@@ -1,0 +1,139 @@
+<md-dialog aria-label="ConfigurationPlan" style="width: 600px;height: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Configuraci&oacute;n del Plan</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <div class="demo-md-panel md-padding">
+        <md-content layout-padding>
+            <span class="md-headline">Configuraci&oacute;n del Plan</span>
+
+            <form  name="formConfigurationPlan" novalidate>
+                <input type="hidden" ng-model="configurationPlan.configurationPlanId" />
+
+                <div layout="row" ng-if="planId == '0'"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Plan *</label>
+                            <md-select id="trainingPlan" ng-model="configurationPlan.trainingPlanId.trainingPlanId">
+                                <md-option ng-repeat="d in trainingPlanList" value="{{d.trainingPlanId}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formConfigurationPlan.trainingPlan.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <label>Rol *</label>
+                            <md-select id="communicationRole" ng-model="configurationPlan.communicationRoleId.roleId">
+                                <md-option ng-repeat="d in communicationRoleList" value="{{d.roleId}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formConfigurationPlan.communicationRole.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de audios" style=" display: inline" ng-model="configurationPlan.audioCount">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Duraci&oacute;n del audio" style=" display: inline" ng-model="configurationPlan.audioDuration">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de audios de emergencia" style=" display: inline" ng-model="configurationPlan.audioEmergency">
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de email" style=" display: inline" ng-model="configurationPlan.emailCount">
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de email de emergencia" style=" display: inline" ng-model="configurationPlan.emailEmergency">
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de mensajes" style=" display: inline" ng-model="configurationPlan.messageCount">
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de mensajes de emergencia" style=" display: inline" ng-model="configurationPlan.messageEmergency">
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de videos" style=" display: inline" ng-model="configurationPlan.videoCount">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Duraci&oacute;n de video" style=" display: inline" ng-model="configurationPlan.videoDuration">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de videos de emergencia" style=" display: inline" ng-model="configurationPlan.videoEmergency">
+                        </md-input-container>
+                    </div>
+                </div>
+                 <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="number" class="form-control input-sm" placeholder="Cantidad de atletas" style=" display: inline" ng-model="configurationPlan.athletesCount">
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                    <md-button ng-click="submitConfigurationPlan(formConfigurationPlan)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                    <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+                </section>
+
+            </form>
+        </md-content></div>
+</md-dialog>

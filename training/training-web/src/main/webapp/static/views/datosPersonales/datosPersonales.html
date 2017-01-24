@@ -1,0 +1,313 @@
+
+<style>
+    .md-datepicker-input-container {
+        width: 90%;
+        margin-left: 0px;
+    }
+</style>
+
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+        <span class="md-headline">Datos Personales</span>
+        <form  name="myFormUser" ng-submit="submitUser(myFormUser, myFile)">
+            <input type="hidden" ng-model="user.userId" />
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="user.firstName" id="uname" name="uname"  placeholder="Primer Nombre"  ng-minlength="3" ng-maxlength="500" ng-required="true"/>
+                        <div class="has-error" ng-messages="myFormUser.uname.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 500</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div class="ontop">
+
+                    <img class="circular" data-ng-src="{{dataImage}}"  data-err-src="static/img/profile-default.png" style="height: 250px; width: 250px;"/>
+                   
+                </div>
+                <div class="choose-file">
+                     <a href="" id="upload_link">Cambiar foto del perfil</a>
+                    <md-button class="md-fab md-mini md-primary fa fa-upload" ng-disabled="myFile==null" ng-click="uploadFile(myFile)" aria-label="Subir"> </md-button>
+                </div>
+            </div>
+            <div layout="row" >
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.secondName" id="secondName" name="secondName"  placeholder="Segundo Nombre"  ng-minlength="3"/>
+
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.lastName" id="lname" name="lname"  placeholder="Apellidos"  ng-minlength="3" ng-maxlength="500" ng-required="true"/>
+                        <div class="has-error" ng-messages="myFormUser.lname.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 500</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="email" ng-model="user.email" id="email" name="email"  placeholder="Correo Electr&oacute;nico" ng-required="true"/>
+
+                        <div class="has-error" ng-messages="myFormUser.email.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="email">Su correo es inv&aacute;lido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingemail" ng-change="setVisibleField(user_trainingemail, 'user_training', 'email')"
+                           ng-model="isActive"> Mostrar </md-switch>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label  for="sex">Sexo</label>
+
+                        <md-select id="sex" ng-model="user.sex" ng-required="true">
+                            <!--<md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>-->
+                            <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                                {{s.sex}}
+                            </md-option>
+                        </md-select>
+                        <div class="has-error" ng-messages="myFormUser.sex.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-model="user_trainingsex" ng-change="setVisibleField(user_trainingsex, 'user_training', 'sex')">
+                    Mostrar
+                </md-switch>
+
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <label>Fecha de Nacimiento (dd/mm/yyyy)</label>
+                        <!--<md-datepicker id="birthDate" name="birthDate" md-max-date="maxDate" ng-blur="showAge(this.birthdateDt)"  ng-model="birthdateDt"  ng-required="true" >
+
+                        </md-datepicker>-->
+                        <input type="text" id="birthDate"  ng-model-options="{updateOn: 'blur'}" name="birthDate" ng-model="birthdateDt" jqdatepicker  ng-required="true" />
+                          <!--<input type="text" ng-model="birthdateDt" id="birthDate" ng-blur="showAge(this.birthdateDt)" name="birthDate" />-->
+                        <div class="has-error" ng-messages="myFormUser.birthDate.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="date">Este campo es inv&aacute;lido</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingbirth_date, 'user_training', 'birth_date')"
+                           ng-model="user_trainingbirth_date">Mostrar</md-switch>
+
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="user.age" id="age"  placeholder="Edad" readonly="true"/>
+                    </md-input-container>
+                </div> 
+
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingage, 'user_training', 'age')"
+                           ng-model="user_trainingage"> Mostrar </md-switch>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="number" ng-model="user.phone" min="0" string-to-number id="phone" name="phone" placeholder="Tel&eacute;fono fijo"  ng-maxlength="50"/>
+                        <div class="has-error" ng-messages="myFormUser.phone.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingphone, 'user_training', 'phone')"
+                           ng-model="user_trainingphone"> Mostrar</md-switch>
+
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="number" ng-model="user.cellphone" min="0" string-to-number id="cellphone" name="cellphone"  placeholder="Celular" ng-maxlength="50"/>
+                         <div class="has-error" ng-messages="myFormUser.cellphone.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingcellphone, 'user_training', 'cellphone')"
+                           ng-model="user_trainingcellphone"> Mostrar</md-switch>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label>Pa&iacute;s</label>
+                        <md-select class="md-block" id="country" ng-model="user.countryId" ng-change="getStatesByCountry(user.countryId,true)" >
+                            <!--<md-select-label>{{country || 'Seleccione un pa&aiacute;s'}}</md-select-label>-->
+                            <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
+                                {{country.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+
+                        <label  for="state">Estado</label>
+
+                        <md-select  id="state"  ng-model="user.federalStateId"  ng-change="getCitiesByState(user.federalStateId,true)" >
+                            <!--<md-select-label>{{state || 'Seleccione una estado'}}</md-select-label>-->
+                            <md-option ng-repeat="state in states" value="{{state.federalStateId}}" >
+                                {{state.name}}
+                            </md-option>
+                        </md-select>
+
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingfederalStateId, 'user_training', 'federalStateId')"
+                           ng-model="user_trainingfederalStateId"> Mostrar</md-switch>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block md-input-has-placeholder">
+                        <label for="city">Ciudad</label>
+
+                        <md-select  id="city" ng-model="user.cityId" >
+                            <!--<md-select-label>{{city || 'Seleccione una ciudad'}}</md-select-label>-->
+                            <md-option ng-repeat="city in cities" value="{{city.cityId}}" >
+                                {{city.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+
+                        <input type="text" ng-model="user.address" id="address" name="address" placeholder="Direcci&oacute;n" ng-maxlength="100"/>
+                           <div class="has-error" ng-messages="myFormUser.address.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 100</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar"  ng-change="setVisibleField(user_trainingaddress, 'user_training', 'address')"
+                           ng-model="user_trainingaddress">Mostrar</md-switch>
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="number" ng-model="user.postalCode" string-to-number id="postalCode" name="postalCode"  placeholder="C&oacute;digo Postal" ng-maxlength="50"/>
+                     <div class="has-error" ng-messages="myFormUser.postalCode.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 50</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar"   ng-change="setVisibleField(user_trainingpostal_code, 'user_training', 'postal_code')"
+                           ng-model="user_trainingpostal_code"> Mostrar</md-switch>
+
+            </div>
+
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.facebookPage" name="facebookPage" id="facebookPage" name="facebookPage"  placeholder="P&aacute;gina de Facebook" ng-maxlength="100"/>
+                         <div class="has-error" ng-messages="myFormUser.facebookPage.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 100</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingfacebook_page, 'user_training', 'facebook_page')"
+                           ng-model="user_trainingfacebook_page"> Mostrar</md-switch>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.twitterPage" id="twitterPage" name="twitterPage" placeholder="P&aacute;gina de Twitter" ng-maxlength="100"/>
+                         <div class="has-error" ng-messages="myFormUser.twitterPage.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 100</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingtwitter_page, 'user_training', 'twitter_page')"
+                           ng-model="user_trainingtwitter_page"> Mostrar</md-switch>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.instagramPage" id="instagramPage" name="instagramPage" placeholder="P&aacute;gina de Instagram" ng-maxlength="100"/>
+                         <div class="has-error" ng-messages="myFormUser.instagramPage.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 100</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_traininginstagram_page, 'user_training', 'instagram_page')"
+                           ng-model="user_traininginstagram_page"> Mostrar</md-switch>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <input type="text" ng-model="user.webPage" id="webPage" name="webPage"  placeholder="P&aacute;gina Web" ng-maxlength="100"/>
+                        <div class="has-error" ng-messages="myFormUser.webPage.$error">
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 100</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" type="checkbox" ng-change="setVisibleField(user_trainingweb_page, 'user_training', 'web_page')"
+                           ng-model="user_trainingweb_page"> Mostrar</md-switch>
+            </div>
+            <div layout="row">
+                <div flex="33">
+                    <md-input-container class="md-block">
+                        <label  for="picture">Foto de Perfil</label>
+                        <input type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" placeholder="Foto de Perfil" ng-change=""/>
+                        <!--<md-button ng-click="uploadFile(myFile)" class="md-raised"><i class="fa fa-picture-o" aria-hidden="true"></i> subir foto</md-button>-->
+                    </md-input-container>
+                </div>
+                <md-switch class="md-primary" aria-label="Mostrar" type="checkbox" ng-change="setVisibleField(user_trainingprofile_photo, 'user_training', 'profile_photo')"
+                           ng-model="user_trainingprofile_photo"> Mostrar</md-switch>
+            </div>
+            <div layout="row">
+                <span class="md-subhead">&iquest;Eres usuario de alguna de estas p&aacute;ginas? Conecta tu cuenta</span>
+            </div>
+            <div layout="row">
+
+                <a ng-click="redirectAutorizeStrava($event)" style="cursor:pointer">
+                    <img title="Desconectar de Strava?" alt="Desconectar de Strava?" style="cursor:pointer !important" class="icon-disabled" ng-if="!userStravaAutorize" data-ng-src="static/img/strava_btn.png"  />
+                    <img ng-if="userStravaAutorize" data-ng-src="static/img/strava_btn.png" title="Strava" />
+                </a>
+<!--                <a ng-href="https://my.garmin.com/mygarmin/login.htm" target="_blank"><img data-ng-src="static/img/garmin.png" class="circular-icon icon-disabled" title="Garmin" style="height: 60px; width: 60px;"/></a>
+                <a ng-href="https://www.polar.com" target="_blank"><img  data-ng-src="static/img/polar.png" class="circular-icon icon-disabled" title="Polar" style="height: 60px; width: 60px;"/></a>
+                <a ng-href="https://www.underarmour.com" target="_blank"><img  data-ng-src="static/img/under_armour.png" class="circular-icon icon-disabled" title="Under Armour" style="height: 60px; width: 60px;"/></a>
+                <img  data-ng-src="static/img/nike.png" class="circular-icon icon-disabled" title="Nike" style="height: 60px; width: 60px;"/>
+                <img  data-ng-src="static/img/suunto.png" class="circular-icon icon-disabled" title="Suunto" style="height: 60px; width: 60px;"/>-->
+                
+
+            </div>
+            <br /><br />
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button type="submit" class="md-raised md-primary">Guardar</md-button>
+            </section>
+
+        </form>
+
+    </md-content>
+</div>
+<script>
+    $(function(){
+    $("#upload_link").on('click', function(e){
+        e.preventDefault();
+        $("#picture").trigger('click');
+    });
+    
+});
+</script>

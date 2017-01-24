@@ -1,0 +1,47 @@
+<md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Mensaje Nuevo</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content> 
+            <form ng-submit="sendMail()" name="mailForm">
+        <div class="md-dialog-content">
+                        <!-- Destinatario atletas cuando user == Coach Ext - Int-->
+                        <md-input-container  md-no-float class="md-block" >
+                            <label>{{ 'RECEIVER_USER' | translate }}</label>
+
+                            <input type="text" ng-model="mailCommunication.mailto" readonly="true"/>
+
+                        </md-input-container>
+
+                        <md-input-container class="md-block" >
+                            <input type="text" id="subject" name="subject" md-maxlength="100" ng-maxlength="100" placeholder="{{ 'SUBJECT' | translate }}" ng-model="mailCommunication.subject" required />
+                                <div class="has-error" ng-messages="mailForm.subject.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 100</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 100</div>
+                        </div>
+                        </md-input-container>
+                        <md-input-container class="md-block" >
+                            <textarea placeholder="{{ 'WRITE_HERE' | translate }}" id="message" name="message" style="width: 100%;max-height: 150px;overflow-y: scroll"  rows="3" md-maxlength="5000" ng-maxlength="5000" ng-model="mailCommunication.message" md-select-on-focus></textarea>
+                           <div class="has-error" ng-messages="mailForm.message.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 5000</div>
+                        </div>
+                        </md-input-container>
+        
+             <md-dialog-actions layout="row" >
+                 <md-button ng-disabled="mailCommunication.message.length === 0 || !mailForm.$valid" type="submit" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
+            </md-dialog-actions>
+                    
+        </div>
+                                
+            </form>
+    </md-dialog-content>
+</md-dialog>

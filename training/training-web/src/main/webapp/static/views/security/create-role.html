@@ -1,0 +1,38 @@
+<md-dialog aria-label="Roles" style="width: 600px;height: 400px;">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Rol</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+
+    <form  name="formRole" novalidate>
+        <input type="hidden" ng-model="role.roleId" />
+   
+                <div layout="row">
+                    <div flex="66">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="role.name" id="name" name="name"  placeholder="Nombre" required/>
+                            <div class="has-error" ng-messages="formRole.name.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            
+
+            
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button ng-click="submitRole(formRole)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                <md-button ng-click="cancel()" class="md-raised md-primary">{{ 'CANCELAR' | translate }}</md-button>
+            </section>
+
+</form>
+</md-content></div>
+</md-dialog>

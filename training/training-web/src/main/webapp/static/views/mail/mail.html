@@ -1,0 +1,17 @@
+<div layout="row" layout-align="center" style="margin: 3%" ng-controller="MailController">
+   <!-- <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
+        <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
+    </div>
+
+    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserSupervisor">
+        <div  ng-include src="'static/views/dashboard/tabsDashboardSupervisor.html'"></div>
+    </div>-->
+     <div flex="25">
+        <div  ng-include src="'static/views/mail/mailControl.html'"></div>
+    </div>
+    <div flex="80" layout="column"  layout-align="space-between none" class="demo-content">
+        <div ng-include src="viewMailSelected" id="message-content" class="border" style="height: 600px">
+        </div> 
+    </div>
+
+</div>

@@ -1,0 +1,76 @@
+<div class="demo-md-panel md-padding">
+    <md-content layout-padding>
+        <span class="md-headline">Disciplina</span>
+
+    <form  name="formDiscipline" novalidate>
+        <input type="hidden" ng-model="discipline.disciplineId" />
+   
+                <div layout="row">
+                    <div flex="33">
+                        <md-input-container class="md-block">
+                            <input type="text" ng-model="discipline.name" id="name" name="name"  placeholder="Nombre" required/>
+                            <div class="has-error" ng-messages="formDiscipline.name.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            
+
+                    <div layout="row">
+                        <div flex="33">
+                            <md-input-container class="md-block">
+                                <input type="text" ng-model="discipline.description" id="description" name="description"  placeholder="Descripci&oacute;n"/>
+                            </md-input-container>
+                        </div>
+                    </div>
+            
+            
+            <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                <md-button ng-click="submitDiscipline(formDiscipline)" class="md-raised md-primary">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+            </section>
+
+        </form>
+
+    </md-content>
+</div>
+
+<div class="demo-md-panel md-padding">
+    <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <span>Lista de Disciplinas</span>
+        </div>
+    </md-toolbar>
+
+    <md-table-container>
+        <table md-table ng-model="selected" md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="getDisciplinePaginate">
+                <tr md-row>
+                    <th md-column md-order-by="name" class="md-column">Nombre</th>
+                    <th md-column md-order-by="description" class="md-column">Descripci&oacute;n</th>
+                    <th md-column md-order-by="userCreate">Usuario de Creaci&oacute;n</th>
+                    <th md-column md-order-by="creationDate">Fecha de Creaci&oacute;n</th>
+                    <th md-column md-order-by="userUpdate">Usuario de Modificaci&oacute;n</th>
+                    <th  md-column md-order-by="lastUpdate">Fecha de Modificaci&oacute;n</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="discipline" md-select-id="name" md-auto-select ng-repeat="discipline in disciplineList">
+                    <td md-cell>{{discipline.name}}</td>
+                    <td md-cell>{{discipline.description}}</td>
+                    <td md-cell>{{discipline.userCreateName}}</td>
+                    <td md-cell>{{discipline.creationDate}}</td>
+                    <td md-cell>{{discipline.userUpdateName}}</td>
+                    <td md-cell>{{discipline.lastUpdate}}</td>
+                    <td>
+                        <md-button type="button" ng-click="editDiscipline(discipline.disciplineId)" class="md-raised md-primary">Editar</md-button>  
+                        <md-button ng-show="discipline.stateId == 1" type="button" ng-click="inactivateDiscipline(discipline.disciplineId)" class="md-raised md-warn md-button md-ink-ripple">Inactivar</md-button>
+                        <md-button ng-show="discipline.stateId == 0" type="button" ng-click="activateDiscipline(discipline.disciplineId)" class="md-raised md-primary">Activar</md-button>
+                        <md-button type="button" ng-click="deleteDiscipline(discipline.disciplineId)" class="md-raised md-primary">Eliminar</md-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+    <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getDisciplinePaginate" md-page-select></md-table-pagination>
+</div>
