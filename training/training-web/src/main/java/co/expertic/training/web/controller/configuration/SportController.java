@@ -68,38 +68,40 @@ public class SportController {
     }
     
     @RequestMapping(value = "sport/get/entornos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response getEntornos() {
+    public ResponseEntity<ResponseService> getEntornos() {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
             List<EnvironmentDTO> sports = sportService.findEntornos();
             responseService.setOutput(sports);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             Logger.getLogger(SportController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 
     @RequestMapping(value = "sport/get/climas", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response getClimas() {
+    public ResponseEntity<ResponseService> getClimas() {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
             List<WeatherDTO> sports = sportService.findClimas();
             responseService.setOutput(sports);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             Logger.getLogger(SportController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
     
