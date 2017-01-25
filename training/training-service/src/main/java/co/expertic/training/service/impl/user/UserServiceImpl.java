@@ -477,12 +477,12 @@ public class UserServiceImpl implements UserService {
             communication.setAudioDuration(configuration.getAudioDuration());
 
             communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
+            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, toUserId, userId , roleSelected));
             communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
             communication.setPlanMail(configuration.getEmailCount());
 
             communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, userId, toUserId, roleSelected));
+            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, toUserId, userId, roleSelected));
             communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
             communication.setPlanVideo(configuration.getVideoCount());
             communication.setVideoDuration(configuration.getVideoDuration());

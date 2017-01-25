@@ -11,7 +11,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.profileImageCoach = "static/img/profile-default.png";
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.coachAssignedPlanId = null;
-        $scope.availableMessage = 0;
+        /*$scope.availableMessage = 0;
         $scope.availableAudio = 0;
         $scope.availableVideo = 0;
         $scope.availableEmail = 0;
@@ -25,7 +25,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.audioReceivedSup = 0;
         $scope.videoReceivedSup = 0;
         $scope.emailReceivedSup = 0;
-        $scope.messagesReceivedSup = 0;
+        $scope.messagesReceivedSup = 0;*/
         $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
         $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
         $scope.tabIndexStar = 0;
@@ -100,25 +100,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
             return false;
         };
-        //notificación mensajes recibidos
-        messageService.receive().then(null, null, function (message) {
-            if ($scope.userSession.userId != message.messageUserId.userId) {
-                if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external) {
-                    $scope.messagesReceivedCount++;
-                } else if ($scope.userSession.planSelected != null && !$scope.userSession.planSelected.external && message.roleSelected == $scope.roleSelected) {
-                    $scope.messagesReceivedCount++;
-                } else if ($scope.userSession.planSelected != null && $scope.userSession.planSelected.external) {
-                    $scope.messagesReceivedCount++;
-                } else if (message.messageUserId.roleId == $scope.userSessionTypeUserCoachEstrella) {
-                    $scope.internalNotification = true;
-                } else {
-                    $scope.getMessageCount();
-                }
-            } else {
-                $scope.getMessageCount();
-            }
 
-        });
 
         $scope.onMessageReceived = function (data) {
             console.log(data);
@@ -142,80 +124,8 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
             };
         };
-
-        //notificación videos recibidos
-        videoService.receive().then(null, null, function (video) {
-            if (video.toUser.userId == $scope.userSession.userId) {
-                if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external) {
-                    if (video.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                        $scope.videoReceivedStar++;
-                    } else if (video.roleSelected == $scope.userSessionTypeUserCoachInterno) {
-                        $scope.videoReceivedSup++;
-                    }
-                } else if (!$scope.userSession.planSelected.external && video.roleSelected == $scope.roleSelected) {
-                    $scope.videoReceivedCount++;
-                } else if ($scope.userSession.planSelected.external) {
-                    $scope.videoReceivedCount++;
-                } else {
-                    $scope.getVideoCount();
-                }
-
-            } else {
-                $scope.getVideoCount();
-            }
-
-        });
-
-        //notificación audios recibidos
-        AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUser.userId == $scope.userSession.userId) {
-                if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external) {
-                    if (audio.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                        $scope.audioReceivedStar++;
-                    } else if (audio.roleSelected == $scope.userSessionTypeUserCoachInterno) {
-                        $scope.audioReceivedSup++;
-                    }
-                } else if (!$scope.userSession.planSelected.external && audio.roleSelected == $scope.roleSelected) {
-                    $scope.audioReceivedCount++;
-                } else if ($scope.userSession.planSelected.external) {
-                    $scope.audioReceivedCount++;
-                } else {
-                    $scope.getAudioCount();
-                }
-
-            } else {
-
-                $scope.getAudioCount();
-            }
-
-        });
-
-
-        //notificación emails recibidos
-        MailService.receive().then(null, null, function (email) {
-            if (email.receivingUser.userId == $scope.userSession.userId) {
-                if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external) {
-                    if (email.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                        $scope.emailReceivedStar++;
-                    } else if (email.roleSelected == $scope.userSessionTypeUserCoachInterno) {
-                        $scope.emailReceivedSup++;
-                    }
-                } else if (!$scope.userSession.planSelected.external && email.roleSelected == $scope.roleSelected) {
-                    $scope.emailReceivedCount++;
-                } else if ($scope.userSession.planSelected.external) {
-                    $scope.emailReceivedCount++;
-                } else if (email.receivingUser.roleId == $scope.userSessionTypeUserCoachEstrella) {
-                    $scope.internalNotification = true;
-                } else {
-                    $scope.getMailCount();
-                }
-
-            } else {
-                $scope.getMailCount();
-            }
-
-        });
-
+        
+ 
         $scope.getAudioCount = function () {
             var tipoPlan = "IN";
             var receivedUser = null;
@@ -606,7 +516,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
 
-        self.getReceivedMessages = function (planId, userId, toUserId, tipoPlan, roleSelected) {
+       /* self.getReceivedMessages = function (planId, userId, toUserId, tipoPlan, roleSelected) {
             var res = 0;
             messageService.getMessagesReceived(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
@@ -617,7 +527,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
                     return res;
-        };
+        };*/
 
         //VIDEOS COUNT
 
@@ -631,7 +541,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        self.getReceivedVideos = function (planId, fromUserId, toUserId, tipoPlan, roleSelected) {
+        /*self.getReceivedVideos = function (planId, fromUserId, toUserId, tipoPlan, roleSelected) {
             var res = 0;
             videoService.getVideosReceived(planId, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
@@ -642,7 +552,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
             return res;
-        };
+        };*/
 
         //AUDIOS COUNT
         self.getAvailableAudios = function (planId, userId, tipoPlan, roleSelected) {
@@ -655,7 +565,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
         };
-        self.getReceivedAudios = function (planId, userId, tipoPlan, roleSelected) {
+        /*self.getReceivedAudios = function (planId, userId, tipoPlan, roleSelected) {
             var res = 0;
             AudioMessageService.getAudiosReceived(planId, userId, tipoPlan, roleSelected).then(
                     function (data) {
@@ -666,7 +576,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
             return res;
-        };
+        };*/
 
         //EMAIL COUNT
         self.getAvailableMails = function (planId, userId, tipoPlan, roleSelected) {
@@ -680,7 +590,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
 
-        self.getReceivedMails = function (planId, userId, toUserId, tipoPlan, roleSelected) {
+        /*self.getReceivedMails = function (planId, userId, toUserId, tipoPlan, roleSelected) {
             var res = 0;
             MailService.getReceivedMails(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
@@ -691,31 +601,23 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                         console.error(error);
                     });
             return res;
-        };
+        };*/
+       
+        $scope.goMessages = function () {
 
-        $scope.goMessages = function (roleSelected, index) {
-            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-                $scope.selectedIndex = index;
-                $scope.roleSelected = roleSelected;
-            }
-            //var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-            var userSelected = JSON.parse($window.sessionStorage.getItem("selectedUser")); //Usuario interno seleccionado
+            if ($scope.userSession != null && $scope.userSession.planSelected == null) {
 
-            if ($scope.userSession != null && userSelected != null) {
-                $scope.pageSelected = $scope.views.message.page;
-            } else if ($scope.userSession != null && $scope.userSession.planSelected == null) {
-                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
-                    $scope.showMessage("Debe tener un plan activo");
-                } else {
-                    $scope.showMessage("Debe seleccionar un usuario");
-                }
-            } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external && $scope.roleSelected == -1) {
-                $scope.showMessage("Debe seleccionar un usuario");
+                $scope.showMessage("Debe tener un plan activo");
+
             } else {
-                $scope.pageSelected = $scope.views.message.page + '?now=' + Date.now();
+                if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
+                    $scope.pageSelected = $scope.views.messageSupervisor.page + '?now=' + Date.now();
+                } else {
+                    $scope.pageSelected = $scope.views.message.page + '?now=' + Date.now();
+                }
             }
         };
+        
         $scope.goAudioMessages = function (roleSelected, index) {
             if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
                 $scope.selectedIndex = index;
@@ -772,29 +674,18 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         };
 
-        $scope.goEmail = function (roleSelected, index) {
-            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-                $scope.selectedIndex = index;
-                $scope.roleSelected = roleSelected;
-            }
-            //var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
-            var userSelected = JSON.parse($window.sessionStorage.getItem("selectedUser")); //Usuario interno seleccionado
+        $scope.goEmail = function () {
+            if ($scope.userSession != null && $scope.userSession.planSelected == null) {
 
-            if ($scope.userSession != null && userSelected != null) {
-                $scope.pageSelected = $scope.views.email.page;
-            } else if ($scope.userSession != null && $scope.userSession.planSelected == null) {
-                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
-                    $scope.showMessage("Debe tener un plan activo");
-                } else {
-                    $scope.showMessage("Debe seleccionar un usuario");
-                }
-            } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !planSelected.external && $scope.roleSelected == -1) {
-                $scope.showMessage("Debe seleccionar un usuario");
+                $scope.showMessage("Debe tener un plan activo");
+
             } else {
-                $scope.pageSelected = $scope.views.email.page + '?now=' + Date.now();
+                if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
+                    $scope.pageSelected = $scope.views.emailSupervisor.page + '?now=' + Date.now();
+                } else {
+                    $scope.pageSelected = $scope.views.email.page + '?now=' + Date.now();
+                }
             }
-
         };
 
         $scope.selectUser = function (user, index) {
@@ -835,10 +726,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     function (data) {
                         $scope.starsByCoach = data.entity.output;
                         //inicializa websockets con las estrellas
-                        angular.forEach($scope.starsByCoach, function (value, key) {
+                        /*angular.forEach($scope.starsByCoach, function (value, key) {
                             messageService.initialize(value.userId + $scope.userSession.userId);
                             MailService.initialize(value.userId + $scope.userSession.userId);
-                        });
+                        });*/
                         self.getNotificationInternal($scope.userSession.userId);
                         if ($scope.starsByCoach == null) {
                             $scope.showMessage("No tiene estrellas asignados.");
@@ -945,29 +836,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         };
 
-        self.setAthleteRole = function () {
-            //$scope.showControl = true;
-            //$scope.showControlAthlete = true;
-            $scope.showVideo = true;
-            $scope.showCountVideo = true;
-            $scope.showEmail = true;
-            $scope.showCountEmail = true;
-            $scope.showAudioMessage = true;
-            $scope.showCountAudio = true;
-            $scope.showChat = true;
-            $scope.showCountChat = true;
-            $scope.showScript = false;
-            //$scope.getAssignedPlan();
-            //$scope.getDashBoardByUser($scope.userSession);
-            messageService.initialize($scope.userSession.planSelected.id);
-            videoService.initialize($scope.userSession.planSelected.id);
-            AudioMessageService.initialize($scope.userSession.planSelected.id);
-            MailService.initialize($scope.userSession.planSelected.id);
-            //$scope.connectToChatserver($scope.userSession.planSelected.id);
-            //$scope.messagesReceivedCount = ($scope.userSession.starCommunication.receivedMsg + $scope.userSession.supervisorCommunication.receivedMsg);
-            $scope.messagesReceivedCount = 4;
-            $scope.pageSelected = $scope.views.summary.page;
-        };
 
         $scope.init = function () {
             $scope.getUserSession(function (res) {
@@ -1014,7 +882,7 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                             self.getAssignedStar();
                             break;
                         case $scope.userSessionTypeUserAtleta:
-                            self.setAthleteRole();
+                            $scope.setAthleteRole();
                             break;
                         case $scope.userSessionTypeUserCoachEstrella:
                             $scope.showControl = true;

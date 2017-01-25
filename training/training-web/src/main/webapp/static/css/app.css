@@ -179,7 +179,7 @@ md-tooltip.tt-multiline ._md-content {
 .md-tab{text-transform: none}
 
 .md-button{    
-    text-transform: capitalize !important;/*For Lower case use lowercase*/
+    text-transform: none !important;/*For Lower case use lowercase*/
 }
 
 .boldText{

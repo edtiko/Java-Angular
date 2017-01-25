@@ -1,0 +1,17 @@
+<div layout="column" layout-align="center">
+
+    <md-button title="{{ 'CREATE' | translate }}" class="md-raised md-primary" ng-click="dialogEmail()">Escribir un mail</md-button>
+    <md-list-item class="item-small" ng-click="verRecibidos()">
+        <i class="fa fa-inbox" aria-hidden="true"></i>
+        <div class="md-list-item-text" >
+            <p ng-class="{boldText: recibidos === true}">&nbsp;Recibidos ({{mailsReceived.length}})</p>
+        </div>
+    </md-list-item>
+
+    <md-list-item class="item-small" ng-click="verEnviados()">
+        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        <div class="md-list-item-text">
+            <p ng-class="{boldText: enviados === true}">&nbsp;Enviados ({{mailsSent.length}})</p>
+        </div>
+    </md-list-item>
+</div>

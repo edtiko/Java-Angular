@@ -1,0 +1,43 @@
+<md-content ng-cloak ng-controller="MessageSupervisorController">
+    <div layout="row" layout-align="center" style="margin: 2%">
+        <div flex="75" layout="column"  layout-align="space-between none" class="demo-content">
+            <div layout="column" style="height:550px" id="message-content">
+                <md-toolbar >
+                    <div class="md-toolbar-tools">
+                        <h3>
+                            <span>Mensajes</span>
+                        </h3>
+                    </div>
+                </md-toolbar>
+                <md-content style="overflow-x: hidden;" scroll-glue="glued">
+                    <div layout="column" layout-align="center center" flex ng-if="loading">
+                        <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                        <span>Cargando mensajes..</span>
+                    </div>
+                    <div layout="column" ng-repeat="message in messages| orderBy:'creationDate':false" >
+                        <div ng-class="userSession.userId == message.messageUserId.userId?'bubble you':'bubble me'">
+                            <p ng-class="{self: message.self}">
+                                    {{message.message}}
+                            </p>
+                            <span class="msgTime md-caption">{{message.creationDate}}</span>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+            <div flex layout="column" style="border: 1px solid #e1e1e1; ">
+                <form ng-submit="addMessage()" name="messageForm">
+                    <section layout="row" layout-sm="column" layout-wrap>
+                        <div flex="80">
+                            <md-input-container class="md-block" >
+                                <input type="text" placeholder="Escribe un mensaje" ng-model="planMessage.message" />
+                            </md-input-container>
+                        </div>
+                        <div>
+                            <md-button ng-click="addMessage()" ng-disabled="planMessage.message.length === 0" class="md-raised md-primary">Enviar</md-button>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
+</md-content>

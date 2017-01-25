@@ -44,12 +44,12 @@ require.config({
         paymentReportService: "report/service/paymentReportService",
         saleReportService: "report/service/saleReportService",
         mainController: "login/controller/mainController",
-        messageController: "message/controller/messageController",
+        messageSupervisorController: "message/controller/messageSupervisorController",
         videoController: "video/controller/videoController",
         audioMessageController: "audioMessage/controller/audioMessageController",
         reportController: "report/controller/reportController",
         chartController: "chart/controller/chartController",
-        mailController: "mail/controller/mailController",
+        mailSupervisorController: "mail/controller/mailSupervisorController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         app: "routeResolver",
@@ -179,7 +179,7 @@ require.config({
         mainController: {
             deps: ['angular', 'authService']
         },
-        messageController: {
+        messageSupervisorController: {
             deps: ['angular', 'trainingApp']
         },
         videoController: {
@@ -188,7 +188,7 @@ require.config({
         audioMessageController: {
             deps: ['angular', 'trainingApp']
         },
-        mailController: {
+        mailSupervisorController: {
             deps: ['angular', 'trainingApp']
         },
         reportController: {
@@ -323,7 +323,7 @@ require.config({
                 'videoService', 'dcfService', 'characteristicService', 'brandService',
                 'mailService', 'supervStarCoachService', 'userActivityPerformanceService',
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
-                'messageController', 'videoController', 'audioMessageController', 'mailController',
+                'messageSupervisorController', 'videoController', 'audioMessageController', 'mailSupervisorController',
                 'chartController', 'configurationPlanService', 'membershipService',
                 'marketingReportService', 'paymentReportService', 'saleReportService'
 

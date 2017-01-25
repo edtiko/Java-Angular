@@ -1,7 +1,7 @@
 <div layout="row" layout-align="space-between none" ng-show="appReady" id="dashboard-container" >
     
     <!------------------------------------------  TABS VIEW  ------------------------------------------------------->
-    <div flex="25" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
+    <div flex="20" ng-if="userSession.typeUser == userSessionTypeUserCoach || userSession.typeUser == userSessionTypeUserCoachInterno || userSession.typeUser == userSessionTypeUserCoachEstrella">
 
         <div  ng-include src="'static/views/dashboard/tabsDashboard.html'"></div>
     </div>
@@ -24,7 +24,7 @@
 
 
      <!------------------------------------------  CONTROL VIEW  ------------------------------------------------------->
-    <div flex="25" style="height: 900px; border: 1px solid #e1e1e1; margin: 5px;" ng-show="showControl">
+    <div flex="20" style="height: 900px; border: 1px solid #e1e1e1; margin: 5px;" ng-show="showControl">
  
          <div ng-if="showInternalControl"  ng-include src="'static/views/dashboard/control.html'"></div> 
          

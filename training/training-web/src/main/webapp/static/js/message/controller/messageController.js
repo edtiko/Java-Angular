@@ -14,9 +14,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
         };
         $scope.athletes = [];
         var self = this;
-       // $scope.userSession.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected")); // Plan activo
-       // $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo")); // Usuario de la sesión
-        $scope.selectedUser = JSON.parse($window.sessionStorage.getItem("selectedUser")); //Usuario interno seleccionado
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.dataImage = "static/img/profile-default.png";
         $scope.glued = true;
         
@@ -29,29 +27,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
-                           
-                            /*$scope.messages.forEach(function (value, index) {
-                                if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                                    if (value.messageUserId.userId != $scope.userSession.userId) {
-                                        value.messageUserId = $scope.userSession.planSelected.starUserId;
-                                    }
-                                }
-                                if(value.messageUserId.userId == $scope.userSession.planSelected.starUserId.userId){
-                                     value.messageUserId = $scope.userSession.planSelected.starUserId;
-                                }
-                                if(value.messageUserId.userId == $scope.userSession.planSelected.coachUserId.userId && 
-                                        $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella){
-                                     value.messageUserId = $scope.userSession.planSelected.starUserId;
-                                }
-                                else if(value.messageUserId.userId == $scope.userSession.planSelected.coachUserId.userId && 
-                                        $scope.roleSelected == $scope.userSessionTypeUserCoachInterno){
-                                     value.messageUserId = $scope.userSession.planSelected.coachUserId;
-                                }
-                                if(value.messageUserId.userId == $scope.userSession.planSelected.athleteUserId.userId){
-                                     value.messageUserId = $scope.userSession.planSelected.athleteUserId;
-                                }
-                            });*/
-                            
+
                             self.readMessages($scope.userSession.planSelected, tipoPlan, $scope.roleSelected, $scope.userSession.planSelected.athleteUserId.userId, $scope.userSession.userId);
                         },
                         function (error) {
@@ -156,14 +132,15 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
         //Recibir Mensajes en tiempo real
         messageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                /*messageService.readMessage(message.id).then(
+                messageService.readMessage(message.id).then(
                         function (data) {
+                             $scope.getReceived();
                             console.log(data.entity.output);
                         },
                         function (error) {
                             //$scope.showMessage(error);
                             console.error(error);
-                        });*/
+                        });
 
                 if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external) {
                     if (message.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
@@ -212,7 +189,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
         }
             messageService.readMessages(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
-                        //$scope.getMessageCount();
+                         $scope.getReceived();
                         console.log(data.entity.output);
                     },
                     function (error) {
@@ -257,6 +234,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
         };
 
         $scope.getMessagesByRole = function (role) {
+            $scope.messages = [];
             $scope.roleSelected = role;
             if(role == $scope.userSessionTypeUserCoachEstrella){
                 $scope.userMsgSelected = $scope.userSession.planSelected.starUserId.fullName;
@@ -270,7 +248,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
             }
         };
 
-        if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
+        if ($scope.userSession != null && $scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
             $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
             $scope.availableMessageStar = $scope.userSession.starCommunication.availableMsg;
             $scope.messageCountStar = $scope.userSession.starCommunication.planMsg;
