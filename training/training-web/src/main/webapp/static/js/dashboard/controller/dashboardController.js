@@ -372,20 +372,20 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.pageSelected = $scope.views.profile.page;
                 //mensajes 
                 self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
-                $scope.messagesReceivedCount = self.getReceivedMessages($scope.userSession.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
+                //$scope.messagesReceivedCount = self.getReceivedMessages($scope.userSession.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
 
                 //videos
                 self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
-                $scope.videoReceivedCount = self.getReceivedVideos($scope.userSession.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
+                //$scope.videoReceivedCount = self.getReceivedVideos($scope.userSession.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
 
                 //audios
                 self.getAvailableAudios($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
 
-                $scope.audioReceivedCount = self.getReceivedAudios($scope.userSession.planSelected.id, fromUser, tipoPlan, roleSelected);
+                //$scope.audioReceivedCount = self.getReceivedAudios($scope.userSession.planSelected.id, fromUser, tipoPlan, roleSelected);
 
                 //email
                 self.getAvailableMails($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, roleSelected);
-                $scope.emailReceivedCount = self.getReceivedMails($scope.userSession.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
+                //$scope.emailReceivedCount = self.getReceivedMails($scope.userSession.planSelected.id, fromUser, $scope.userSession.userId, tipoPlan, roleSelected);
 
             }
         };
@@ -618,24 +618,17 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
         };
         
-        $scope.goAudioMessages = function (roleSelected, index) {
-            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-                $scope.selectedIndex = index;
-                $scope.roleSelected = roleSelected;
-            }
-            //var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        $scope.goAudioMessages = function () {
             if ($scope.userSession != null && $scope.userSession.planSelected == null) {
-                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
-                    $scope.showMessage("Debe tener un plan activo");
-                } else {
-                    $scope.showMessage("Debe seleccionar un atleta");
-                }
-            } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external && $scope.roleSelected == -1) {
-                $scope.showMessage("Debe seleccionar un usuario");
+
+                $scope.showMessage("Debe tener un plan activo");
+
             } else {
-                $scope.pageSelected = $scope.views.audioMessage.page + '?now=' + Date.now();
-                ;
+                if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
+                    $scope.pageSelected = $scope.views.audioSupervisor.page + '?now=' + Date.now();
+                } else {
+                    $scope.pageSelected = $scope.views.audio.page + '?now=' + Date.now();
+                }
             }
         };
 

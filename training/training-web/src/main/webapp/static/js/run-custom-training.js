@@ -45,6 +45,7 @@ require.config({
         saleReportService: "report/service/saleReportService",
         mainController: "login/controller/mainController",
         messageSupervisorController: "message/controller/messageSupervisorController",
+        audioSupervisorController: "audioMessage/controller/audioSupervisorController",
         videoController: "video/controller/videoController",
         audioMessageController: "audioMessage/controller/audioMessageController",
         reportController: "report/controller/reportController",
@@ -182,6 +183,9 @@ require.config({
         messageSupervisorController: {
             deps: ['angular', 'trainingApp']
         },
+        audioSupervisorController: {
+            deps: ['angular', 'trainingApp']
+        },
         videoController: {
             deps: ['angular', 'trainingApp']
         },
@@ -223,7 +227,7 @@ require.config({
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate', 'angularAria', 'angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification', 'angularSanitize',
                 'scrollGlue', 'angularFilter', 'ngCamRecorder', 'recorder', 'whammy', 'viRecorder', 'angularPickList', 'angularAudioRecorder',
-                'wavesurfer', 'adapter', 'moment', 'jqueryui', 'multiStepForm', 'loader'
+                'wavesurfer', 'adapter', 'moment', 'jqueryui', 'multiStepForm', 'loader','accordion'
 
             ]
         },
@@ -325,7 +329,7 @@ require.config({
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
                 'messageSupervisorController', 'videoController', 'audioMessageController', 'mailSupervisorController',
                 'chartController', 'configurationPlanService', 'membershipService',
-                'marketingReportService', 'paymentReportService', 'saleReportService'
+                'marketingReportService', 'paymentReportService', 'saleReportService', 'audioSupervisorController'
 
             ]}
     }

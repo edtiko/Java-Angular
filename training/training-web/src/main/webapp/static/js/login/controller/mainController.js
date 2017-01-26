@@ -43,7 +43,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             chart: {page: 'static/views/chart/chart.html', controller: "ChartController"},
             report: {page: 'static/views/report/reports.html', controller: "ReportController"},
             control: {page: 'static/views/dashboard/control.html'},
-            messageSupervisor: {page: 'static/views/message/messageSupervisor.html'}
+            messageSupervisor: {page: 'static/views/message/messageSupervisor.html'},
+            audioSupervisor: {page: 'static/views/audioMessage/audioSupervisor.html'}
         };
         //$scope.pageSelected = $scope.views.summary.page;
         $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -773,7 +774,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                         function (data) {
                             $scope.videoReceivedCount = data.entity.output;
                         });
-                $scope.getReceivedAudios($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, -1,
+                $scope.getReceivedAudios($scope.userSession.planSelected.id, coachUserId, tipoPlan, -1,
                         function (data) {
                             $scope.audioReceivedCount = data.entity.output;
                         });

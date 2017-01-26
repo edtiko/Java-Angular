@@ -1,0 +1,66 @@
+<md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Graba un nuevo Audio para tu Estrella</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content> 
+        <div class="md-dialog-content">
+            <ng-audio-recorder id='audioInput'  audio-model='recordedInputStar' ng-show="timeLimitStar > 0" show-player="false" time-limit="timeLimitStar">
+                <div ng-if="recorder.isAvailable">
+                    <div layout="column" layout-align="center center">
+                        <div layout="row" layout-align="space-around center" flex>
+                            <img id="record" data-ng-src="static/img/mic128.png"   ng-class="recorder.status.isRecording ? 'recording' : ''">
+                            <md-button class="md-fab md-mini" aria-label="elapsed time">
+                                {{recorder.elapsedTime}}
+                            </md-button>  
+                        </div>
+                        <div flex>
+                            <md-button aria-label="play"  class="md-fab md-mini md-primary" ng-click="recorder.startRecord()" ng-disabled="recorder.status.isRecording">
+                                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Empezar Grabaci&oacute;n</md-tooltip>
+                                <i class="fa fa-microphone fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                            <md-button aria-label="stop" class="md-fab md-mini md-primary" ng-click="recorder.stopRecord()" ng-disabled="recorder.status.isRecording === false">
+                                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Detener</md-tooltip>
+                                <i class="fa fa-stop fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                            <md-button aria-label="playBack" class="md-fab md-mini md-primary" ng-click="recorder.playbackRecording()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Reproducir</md-tooltip>
+                                <i class="fa fa fa-play fa-lg" aria-hidden="true"></i>
+                            </md-button>
+                            <!--<md-button aria-label="upload"  class="md-fab md-mini md-primary" onclick="onUploadStar()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                                <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Cargar Audio</md-tooltip>
+                                <i class="fa fa-upload fa-lg" aria-hidden="true"></i>
+                            </md-button>-->
+                        </div>
+
+                    </div>
+                </div>
+
+                <div ng-if="!recorder.isAvailable">
+                    Message for users when recording is not possible.
+                </div>
+            </ng-audio-recorder>
+            <div layout="row" ng-if="timeLimitStar == 0" layout-align="center">
+                No tiene tiempo configurado para enviar mensajes de audio.  
+            </div>
+            <md-dialog-actions layout="row" >
+                <md-button ng-disabled="recordedInputStar == null" ng-click=" uploadRecordStar(recordedInputStar)" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
+                <md-button ng-click="cancel()" class="md-raised">Cancelar</md-button>
+            </md-dialog-actions>
+        </div>
+    </md-dialog-content>
+</md-dialog>
+<script>
+
+    function onUploadStar() {
+        var scope = angular.element($("#audioContent")).scope();
+        scope.$apply(function () {
+            scope.uploadRecordStar();
+        });
+    }
+</script>

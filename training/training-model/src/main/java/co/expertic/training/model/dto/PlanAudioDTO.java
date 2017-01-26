@@ -42,6 +42,14 @@ public class PlanAudioDTO {
         
     }
     
+    public PlanAudioDTO(Integer planAudioId, String name, Date createDate, Integer toUserId, Boolean toStar) {
+        this.id = planAudioId;
+        this.name = name;
+        this.createDate = createDate;
+        this.toUserId =  toUserId;
+        this.toStar = toStar;
+    }
+    
       public PlanAudioDTO(Integer planAudioId, String name, User fromUserId, User toUserId, Date createDate, Boolean toStar){
         this.id = planAudioId;
         this.name = name;
