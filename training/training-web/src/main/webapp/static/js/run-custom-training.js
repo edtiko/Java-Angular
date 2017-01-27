@@ -46,7 +46,7 @@ require.config({
         mainController: "login/controller/mainController",
         messageSupervisorController: "message/controller/messageSupervisorController",
         audioSupervisorController: "audioMessage/controller/audioSupervisorController",
-        videoController: "video/controller/videoController",
+        videoSupervisorController: "video/controller/videoSupervisorController",
         audioMessageController: "audioMessage/controller/audioMessageController",
         reportController: "report/controller/reportController",
         chartController: "chart/controller/chartController",
@@ -186,7 +186,7 @@ require.config({
         audioSupervisorController: {
             deps: ['angular', 'trainingApp']
         },
-        videoController: {
+        videoSupervisorController: {
             deps: ['angular', 'trainingApp']
         },
         audioMessageController: {
@@ -327,9 +327,9 @@ require.config({
                 'videoService', 'dcfService', 'characteristicService', 'brandService',
                 'mailService', 'supervStarCoachService', 'userActivityPerformanceService',
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
-                'messageSupervisorController', 'videoController', 'audioMessageController', 'mailSupervisorController',
+                'messageSupervisorController', 'audioMessageController', 'mailSupervisorController',
                 'chartController', 'configurationPlanService', 'membershipService',
-                'marketingReportService', 'paymentReportService', 'saleReportService', 'audioSupervisorController'
+                'marketingReportService', 'paymentReportService', 'saleReportService', 'audioSupervisorController', 'videoSupervisorController'
 
             ]}
     }

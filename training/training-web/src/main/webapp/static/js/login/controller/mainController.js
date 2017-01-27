@@ -44,7 +44,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             report: {page: 'static/views/report/reports.html', controller: "ReportController"},
             control: {page: 'static/views/dashboard/control.html'},
             messageSupervisor: {page: 'static/views/message/messageSupervisor.html'},
-            audioSupervisor: {page: 'static/views/audioMessage/audioSupervisor.html'}
+            audioSupervisor: {page: 'static/views/audioMessage/audioSupervisor.html'},
+            videoSupervisor: {page: 'static/views/video/audioSupervisor.html'}
         };
         //$scope.pageSelected = $scope.views.summary.page;
         $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',

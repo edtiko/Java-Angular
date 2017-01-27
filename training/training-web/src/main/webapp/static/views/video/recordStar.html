@@ -1,0 +1,42 @@
+
+<label style="margin-left: 20px;{{colorTime}}" ng-if="showCounter">Tiempo disponible {{counterRecord}}s</label>
+<md-content layout="column" layout-align="center center">
+    <video id="gumVideoStar" ng-show="isRecord" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;" autoplay  muted></video>
+    <video id="recordedVideoStar" ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;" autoplay   controls></video>
+    <div>
+        <md-button ng-disabled="!isRecordable" style="{{colorGrabacion}}" ng-click="inicioGrabarVideoStar()" class="fa fa-video-camera fa-lg md-fab md-mini md-primary md-button ng-scope md-ink-ripple"  aria-label="play">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Grabar Video</md-tooltip>
+            <div class="md-ripple-container"></div>
+        </md-button>
+
+        <md-button class="md-fab md-mini md-primary fa fa-stop fa-lg" 
+                   type="button" ng-disabled="!isRecord" aria-label="stop" 
+                   ng-click="stopVideo()" style="">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Parar Video</md-tooltip>
+        </md-button>
+
+        <md-button ng-show="isVisibleToRefuseAtlethe" ng-disabled="isRecord || mediaModel == null" class="md-fab md-mini md-primary fa fa fa-play fa-lg" 
+                   aria-label="play" ng-click="verVideoRecibido()" style="">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Ver Video</md-tooltip>
+        </md-button>
+
+        <md-button ng-show="isVisibleSendVideo" ng-disabled="isRecord || mediaModel == null" class="md-fab md-mini md-primary fa fa fa-play fa-lg"
+                   aria-label="play" ng-click="verVideoGrabado()" style="">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Ver Video</md-tooltip>
+        </md-button>
+
+        <md-button ng-show="isVisibleDeleteVideo" ng-disabled="isRecord || mediaModel == null" class="md-fab md-mini md-primary fa fa fa-times fa-lg"
+                   aria-label="play" ng-click="eliminarVideoGrabado()">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Eliminar Video</md-tooltip>
+        </md-button>
+
+        <md-button ng-show="isVisibleSendVideo" ng-disabled="isRecord || mediaModel == null" class="md-fab md-mini md-primary fa fa-upload fa-lg" 
+                   ng-click="enviarVideo(userSessionTypeUserCoachEstrella)">
+            <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Enviar Video</md-tooltip>
+        </md-button>
+    </div>
+    <md-subheader class="md-no-sticky">Recuerde que todo contenido de video que se env&iacute;e ser&aacute; revisado de manera previa por CPT para garantizar que no contenga material que involucre desnudez, contenidos o palabras inadecuadas. Con el env&iacute;o del mensaje usted autoriza a CPT a realizar esta revisi&oacute;n.</md-subheader>
+</md-content>
+<script>
+    angular.element(document.getElementById('trainingApp')).scope().initVideo('recordedVideoStar', 'gumVideoStar');
+</script>

@@ -225,7 +225,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     });
         };
 
-        $scope.getVideosStar = function () {
+        self.getAudiosStar = function () {
             var tipoPlan = "IN";
             self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
                 $scope.receivedStar = data.entity.output;
@@ -244,7 +244,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     });
         };
 
-        $scope.getVideosAsesor = function () {
+        self.getAudiosAsesor = function () {
             var tipoPlan = "IN";
             self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
                 $scope.receivedAsesor = data.entity.output;
@@ -267,8 +267,8 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
 
         self.init = function () {
             if ($scope.userSession != null) {
-                $scope.getVideosStar();
-                $scope.getVideosAsesor();
+                self.getAudiosStar();
+                self.getAudiosAsesor();
             }
         };
 

@@ -2,7 +2,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
         $scope.messages = [];
         $scope.message = "";
         $scope.max = 140;
-        
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.planMessage = {
             coachAssignedPlanId: {id: '', athleteUserId: {userId: ''}, coachUserId: {userId: ''}},
             coachExtAthleteId: {id: '', athleteUserId: {userId: ''}, coachUserId: {userId: ''}},

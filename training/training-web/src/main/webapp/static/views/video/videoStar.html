@@ -12,21 +12,21 @@
         </md-card-header>
         <md-card-content layout="column" layout-align="center">
             <div layout="row" layout-align="center">
-                <md-button class="md-raised md-primary" ng-click="showStarRecord()">Grabar un audio</md-button>
+                <md-button class="md-raised md-primary" ng-click="showStarRecord()">Grabar un video</md-button>
             </div>
             <ang-accordion>
                 <collapsible-item item-title="Recibidos">
                     <div layout="column" layout-align="center center" ng-if="!loadingReceivedStar">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-                        <span>Cargando Audios..</span>
+                        <span>Cargando videos..</span>
                     </div>
                     <md-list class="md-dense" flex >
                         <md-list-item ng-click="null" class="md-2-line" ng-repeat="vr  in receivedStar| orderBy:'creationDate':false">
                             <div class="md-list-item-text">
-                                <p>Audio {{$index + 1}}</p>
+                                <p>Video {{$index + 1}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playAudioStar(vr.name, vr.id, 'to')">
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="verVideoStar(vr.name, vr, 'to')">
                                 <md-tooltip md-direction="right" md-visible="tooltipVisible">Reproducir Audio</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
@@ -37,16 +37,16 @@
                 <collapsible-item item-title="Enviados">
                     <div layout="column" layout-align="center center" ng-if="!loadingSentStar">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
-                        <span>Cargando Videos..</span>
+                        <span>Cargando videos..</span>
                     </div>
                     <md-list class="md-dense" flex  >
                         <md-list-item ng-click="null" class="md-2-line" ng-repeat="vr  in sendedStar| orderBy:'creationDate':false">
                             <div class="md-list-item-text">
-                                <p>Audio {{$index + 1}}</p>
+                                <p>Video {{$index + 1}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
-                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playAudioStar(vr.name, vr.id, 'from')">
-                                <md-tooltip md-direction="right" md-visible="tooltipVisible">Reproducir Audio</md-tooltip>
+                            <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="verVideoStar(vr.name, vr.id, 'from')">
+                                <md-tooltip md-direction="right" md-visible="tooltipVisible">Reproducir Video</md-tooltip>
                                 <i class="fa fa-play-circle fa-lg" aria-hidden="true"></i>
                             </md-button>
                         </md-list-item>

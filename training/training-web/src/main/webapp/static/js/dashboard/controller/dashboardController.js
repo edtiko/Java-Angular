@@ -644,25 +644,17 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         };
 
 
-        $scope.goVideos = function (roleSelected, index) {
-            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-                $scope.selectedIndex = index;
-                $scope.roleSelected = roleSelected;
-            }
-            //var planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-            var userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+        $scope.goVideos = function () {
             if ($scope.userSession != null && $scope.userSession.planSelected == null) {
-                if (userInfo != null && userInfo.typeUser == $scope.userSessionTypeUserAtleta) {
-                    $scope.showMessage("Debe tener un plan activo");
-                } else {
-                    $scope.showMessage("Debe seleccionar un atleta");
-                }
-            } else if (userInfo.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external && $scope.roleSelected == -1) {
-                $scope.showMessage("Debe seleccionar un usuario");
+
+                $scope.showMessage("Debe tener un plan activo");
+
             } else {
-                //window.location.href = $contextPath + "#/video";
-                $scope.pageSelected = $scope.views.video.page + '?now=' + Date.now();
-                ;
+                if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
+                    $scope.pageSelected = $scope.views.videoSupervisor.page + '?now=' + Date.now();
+                } else {
+                    $scope.pageSelected = $scope.views.video.page + '?now=' + Date.now();
+                }
             }
 
         };
