@@ -52,6 +52,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.expertic.training.service.user.UserService;
 import co.expertic.training.service.user.VisibleFieldsUserService;
+import co.expertic.training.web.controller.configuration.ModalityController;
 import co.expertic.training.web.controller.security.OptionController;
 import co.expertic.training.web.enums.StatusResponse;
 import com.google.gson.JsonObject;
@@ -82,6 +83,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Locale;
 import java.util.Objects;
+import org.apache.log4j.Priority;
 
 @RestController
 public class UserController {
@@ -151,10 +153,10 @@ public class UserController {
 
     @Autowired
     UserProfileService userProfileService;
-    
-   @Autowired
+
+    @Autowired
     private UserAvailabilityService userAvailabilityService;
-   
+
     /**
      * Upload single file using Spring Controller
      *
@@ -334,7 +336,7 @@ public class UserController {
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         ResponseService responseService = new ResponseService();
-    
+
         try {
             session.removeAttribute("user");
             UserDTO userDto = userService.findUserByUsername(login);
@@ -343,7 +345,7 @@ public class UserController {
                 response.sendRedirect(UrlProperties.URL_PORTAL + "mi-cuenta/");
                 return null;
             }
-            
+
             UserDTO userSession = new UserDTO();
             userSession.setUserId(userDto.getUserId());
             userSession.setFirstName(userDto.getFirstName());
@@ -361,7 +363,7 @@ public class UserController {
                 createOrderFromAuthetication(userDto);
             }
 
-           TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+            TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
             if (trainingPlanUser != null) {
                 userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
                 userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
@@ -483,13 +485,13 @@ public class UserController {
 
     //-------------------Retrieve All Countries--------------------------------------------------------
     @RequestMapping(value = "/countries/", method = RequestMethod.GET)
-    public ResponseEntity<List<Country>> listAllCountries() {
+    public ResponseEntity<ResponseService> listAllCountries() {
+        ResponseService responseService = new ResponseService();
         try {
             List<Country> countries = countryService.findAll();
-            if (countries.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-            }
-            return new ResponseEntity<>(countries, HttpStatus.OK);
+            responseService.setOutput(countries);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -498,22 +500,38 @@ public class UserController {
 
     //-------------------Retrieve States--------------------------------------------------------
     @RequestMapping(value = "/states/{countryId}", method = RequestMethod.GET)
-    public ResponseEntity<List<FederalStateDTO>> getStatesByCountry(@PathVariable("countryId") Integer countryId) {
-        List<FederalStateDTO> states = userService.findStatesByCountry(countryId);
-        if (states.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+    public ResponseEntity<ResponseService> getStatesByCountry(@PathVariable("countryId") Integer countryId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<FederalStateDTO> states = userService.findStatesByCountry(countryId);
+            responseService.setOutput(states);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
+            responseService.setOutput(e);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-        return new ResponseEntity<>(states, HttpStatus.OK);
     }
 
     //-------------------Retrieve Cities--------------------------------------------------------
     @RequestMapping(value = "/cities/{stateId}", method = RequestMethod.GET)
-    public ResponseEntity<List<CityDTO>> listAllCountries(@PathVariable("stateId") Integer stateId) {
-        List<CityDTO> cities = userService.findCitiesByState(stateId);
-        if (cities.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+    public ResponseEntity<ResponseService> listAllCountries(@PathVariable("stateId") Integer stateId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<CityDTO> cities = userService.findCitiesByState(stateId);
+            responseService.setOutput(cities);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
+            responseService.setOutput(e);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-        return new ResponseEntity<>(cities, HttpStatus.OK);
     }
 
     @ExceptionHandler(Exception.class)
@@ -766,7 +784,7 @@ public class UserController {
             }
 
             TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-            if (trainingPlanUser != null ) {
+            if (trainingPlanUser != null) {
                 userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
                 userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
             }
@@ -929,7 +947,7 @@ public class UserController {
 
                         TrainingPlanUser trainingPlanUserOld = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
 
-                        if(trainingPlanUserOld != null) {
+                        if (trainingPlanUserOld != null) {
                             trainingPlanUserOld.setStateId(StateEnum.INACTIVE.getId());
                             trainingPlanUserService.store(trainingPlanUserOld);
                         }
@@ -1184,7 +1202,7 @@ public class UserController {
         }
 
     }
-    
+
     @RequestMapping(value = "get/user/ages", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getUserAges() {

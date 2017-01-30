@@ -1,6 +1,7 @@
 package co.expertic.training.web.external.service;
 
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.service.plan.PlanAudioService;
 import co.expertic.training.service.plan.PlanMessageService;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -18,18 +19,18 @@ import org.springframework.web.socket.server.standard.SpringConfigurator;
         configurator = SpringConfigurator.class,
         encoders = MessageEncoder.class,
         decoders = MessageDecoder.class)
-public class MessageWsPoint {
+public class AudioWsPoint {
 
     private static final Logger LOGGER = Logger.getLogger(MessageWsPoint.class);
 
-    private final PlanMessageService messageService;
+    private final PlanAudioService audioService;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public MessageWsPoint(PlanMessageService messageService) {
-        this.messageService = messageService;
+    public AudioWsPoint(PlanAudioService audioService) {
+        this.audioService = audioService;
     }
 
     @Autowired
@@ -47,13 +48,7 @@ public class MessageWsPoint {
     PlanMessageDTO msg = null;
         System.out.println("Received : " + message);
         if (message != null && message.isMobile()) {      
-        
-            try {
-                msg = messageService.saveMessage(message);
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
 
-            }
             simpMessagingTemplate.convertAndSend("/queue/message/" + session.getUserProperties().get("sessionId"), msg);
         }
 
