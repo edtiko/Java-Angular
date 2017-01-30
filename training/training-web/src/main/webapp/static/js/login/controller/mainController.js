@@ -45,7 +45,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             control: {page: 'static/views/dashboard/control.html'},
             messageSupervisor: {page: 'static/views/message/messageSupervisor.html'},
             audioSupervisor: {page: 'static/views/audioMessage/audioSupervisor.html'},
-            videoSupervisor: {page: 'static/views/video/audioSupervisor.html'}
+            videoSupervisor: {page: 'static/views/video/videoSupervisor.html'}
         };
         //$scope.pageSelected = $scope.views.summary.page;
         $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -674,7 +674,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             videoService.initialize($scope.userSession.planSelected.id);
             AudioMessageService.initialize($scope.userSession.planSelected.id);
             MailService.initialize($scope.userSession.planSelected.id);
-            //$scope.connectToChatserver($scope.userSession.planSelected.id);
+            $scope.connectToChatserver($scope.userSession.planSelected.id);
             $scope.messageReceivedCount = ($scope.userSession.starCommunication.receivedMsg + $scope.userSession.supervisorCommunication.receivedMsg);
             $scope.mailReceivedCount = ($scope.userSession.starCommunication.receivedMail + $scope.userSession.supervisorCommunication.receivedMail);
             $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
