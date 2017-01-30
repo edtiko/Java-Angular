@@ -1,19 +1,18 @@
-trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout', '$mdDialog', '$window',
-    function ($scope, videoService, UserService, $timeout, $mdDialog, $window) {
-        $scope.guion = '';
-        $scope.isToStar = false;
-        $scope.showGuion = false;
-        $scope.isRecord = false;
+trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserService', '$timeout', '$mdDialog', '$window','$http',
+    function ($scope, videoService, UserService, $timeout, $mdDialog, $window, $http) {
+        $scope.isRecordStar = false;
+        $scope.isRecordAsesor = false;
         $scope.isVisibleSendVideo = true;
         $scope.isVisibleDeleteVideo = true;
-        $scope.isSendToStar = false;
-        $scope.isVisibleToRefuseAtlethe = false;
-        $scope.isSendToAtlethe = false;
         $scope.planVideoSelected = null;
-        $scope.colorGrabacion = '';
-        $scope.counterRecord = 0;
-        $scope.counterRecordInitial = 0;
-        $scope.isRecordable = true;
+        $scope.colorGrabacionStar = '';
+        $scope.colorGrabacionAsesor = '';
+        $scope.counterRecordStar = 0;
+        $scope.counterRecordAsesor = 0;
+        $scope.counterRecordInitialStar = 0;
+        $scope.counterRecordInitialAsesor = 0;
+        $scope.isRecordableStar = true;
+        $scope.isRecordableAsesor = true;
         $scope.selectedIndex = 0;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.videoDurationStar = $scope.userSession.starCommunication.videoDuration;
@@ -93,6 +92,40 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.mediaRecorderStar = '';
         $scope.mediaRecorderAsesor = '';
 
+        $scope.initVideoStar = function (recordedVideo, gumVideo) {
+            if (gumVideo != undefined && gumVideo != '') {
+                $scope.gumVideoStar = document.querySelector('video#' + gumVideo);
+            }
+
+            $scope.recordedVideoStar = document.querySelector('video#' + recordedVideo);
+            navigator.mediaDevices.getUserMedia(constraints).
+                    then(handleSuccessStar).catch(handleError);
+
+            $scope.recordedVideoStar.addEventListener('error', function (ev) {
+                console.error('MediaRecording.recordedMedia.error()');
+                alert('Error al reproducir video');
+                console.error('Your browser can not play\n\n' + $scope.recordedVideoStar.src
+                        + '\n\n media clip. event: ' + JSON.stringify(ev));
+            }, true);
+        };
+
+        $scope.initVideoAsesor = function (recordedVideo, gumVideo) {
+            if (gumVideo != undefined && gumVideo != '') {
+                $scope.gumVideoAsesor = document.querySelector('video#' + gumVideo);
+            }
+
+            $scope.recordedVideoAsesor = document.querySelector('video#' + recordedVideo);
+            navigator.mediaDevices.getUserMedia(constraints).
+                    then(handleSuccessAsesor).catch(handleError);
+
+            $scope.recordedVideoAsesor.addEventListener('error', function (ev) {
+                console.error('MediaRecording.recordedMedia.error()');
+                alert('Error al reproducir video');
+                console.error('Your browser can not play\n\n' + $scope.recordedVideoAsesor.src
+                        + '\n\n media clip. event: ' + JSON.stringify(ev));
+            }, true);
+        };
+
         // The nested try blocks will be simplified when Chrome 47 moves to Stable
         self.startRecordingVideoStar = function () {
             $scope.mediaRecorderStar = '';
@@ -149,7 +182,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     }
                 }
                 try {
-                    $scope.mediaRecorderStar = new MediaRecorder(window.stream, options);
+                    $scope.mediaRecorderAsesor = new MediaRecorder(window.stream, options);
                 } catch (e) {
                     console.error('Exception while creating MediaRecorder: ' + e);
                     alert('Exception while creating MediaRecorder: '
@@ -184,7 +217,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             }
         };
 
-        self.cleanVideoStar = function () {
+        $scope.cleanVideoStar = function () {
             $scope.gumVideoStar = document.querySelector('video#gumVideoStar');
             document.getElementById('gumVideoStar').currentTime = 0;
             //$scope.gumVideo.controls = false;
@@ -196,7 +229,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
         };
 
-        self.cleanVideoAsesor = function () {
+        $scope.cleanVideoAsesor = function () {
             $scope.gumVideoAsesor = document.querySelector('video#gumVideoAsesor');
             document.getElementById('gumVideoAsesor').currentTime = 0;
             //$scope.gumVideo.controls = false;
@@ -207,13 +240,32 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     then(handleSuccessAsesor).catch(handleError);
 
         };
+        
+        $scope.playVideoModal = function () {
+            var video = document.querySelector('video#recordedVideo');
+            var source = document.createElement('source');
+            var src = $contextPath + "video/files/" + $scope.path;
+            
+             video.pause();
+            source.setAttribute('src', src);
+
+            video.appendChild(source);
+            video.load();
+            video.play()
+
+           /* $scope.recordedVideo = document.querySelector('video#recordedVideo');
+            $scope.recordedVideo.controls = true;
+            $scope.recordedVideo.src = $contextPath + "video/files/" + path;*/
+        };
 
         $scope.playVideoStar = function (path) {
+            $scope.recordedVideoStar = document.querySelector('video#recordedVideo');
             $scope.recordedVideoStar.controls = true;
             $scope.recordedVideoStar.src = $contextPath + "video/files/" + path;
         };
 
         $scope.playVideoAsesor = function (path) {
+            $scope.recordedVideoAsesor = document.querySelector('video#recordedVideo');
             $scope.recordedVideoAsesor.controls = true;
             $scope.recordedVideoAsesor.src = $contextPath + "video/files/" + path;
         };
@@ -244,7 +296,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                 $scope.mediaRecorderStar.stop();
             }
 
-            var blob = new Blob(recordedBlobs, {type: 'video/webm'});
+            var blob = new Blob(recordedBlobsStar, {type: 'video/webm'});
             var fd = new FormData();
             fd.append("fileToUpload", blob);
 
@@ -259,14 +311,14 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             }
                     );
         };
-
+        
         $scope.savePlanVideoAsesor = function (url, fnResponse) {
             $scope.gumVideoAsesor.controls = false;
             if ($scope.mediaRecorderAsesor.state != 'inactive') {
                 $scope.mediaRecorderAsesor.stop();
             }
 
-            var blob = new Blob(recordedBlobs, {type: 'video/webm'});
+            var blob = new Blob(recordedBlobsAsesor, {type: 'video/webm'});
             var fd = new FormData();
             fd.append("fileToUpload", blob);
 
@@ -345,13 +397,13 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             $scope.counterRecordStar = $scope.counterRecordInitialStar;
             $scope.initCounterRecordStar();
 
-            $scope.stopVideoStar();
+            //$scope.stopVideoStar();
             $scope.isVisibleSendVideoStar = true;
             $scope.isVisibleDeleteVideoStar = true;
 
             $scope.colorGrabacionStar = 'color:red';
             $scope.isRecordStar = true;
-            $scope.startRecordingVideo();
+            self.startRecordingVideoStar();
         };
 
         $scope.inicioGrabarVideoAsesor = function () {
@@ -359,13 +411,13 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             $scope.counterRecordAsesor = $scope.counterRecordInitialAsesor;
             $scope.initCounterRecordAsesor();
 
-            $scope.stopVideoAsesor();
+            //$scope.stopVideoAsesor();
             $scope.isVisibleSendVideo = true;
             $scope.isVisibleDeleteVideo = true;
 
-            $scope.colorGrabacion = 'color:red';
+            $scope.colorGrabacionAsesor = 'color:red';
             $scope.isRecordAsesor = true;
-            $scope.startRecordingVideoAsesor();
+            self.startRecordingVideoAsesor();
         };
 
         $scope.stopVideoStar = function () {
@@ -381,8 +433,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             if (typeof $scope.stop === "function") {
                 $scope.stop();
             }
-            $scope.isRecord = false;
-            $scope.colorGrabacion = '';
+            $scope.isRecordAsesor = false;
+            $scope.colorGrabacionAsesor = '';
             self.stopRecordingVideoAsesor();
         };
 
@@ -420,6 +472,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
 
         $scope.verVideoStar = function (path, planVideoId, fromto) {
+            $scope.path = path;
             $scope.isRecordStar = false;
             $scope.planVideoSelected = planVideoId;
             if (planVideoId.fromUserId != undefined) {
@@ -429,12 +482,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
                                     $scope.isVisibleSendVideo = true;
                                     $scope.isVisibleDeleteVideo = false;
-
-                                    $scope.playVideoStar(path);
+                                    $scope.showVideo();
+                                    //$scope.playVideoStar(path);
                                     if (fromto == 'to') {
                                         videoService.readVideo(planVideoId.id).then(
                                                 function (data) {
-                                                    $scope.getVideoCount();
+                                                    $scope.getReceived();
                                                 },
                                                 function (error) {
                                                     //$scope.showMessage(error);
@@ -448,13 +501,14 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                 }
                         );
             } else {
-                $scope.playVideoStar(path);
+                $scope.showVideo();
             }
 
         };
 
         $scope.verVideoAsesor = function (path, planVideoId, fromto) {
-            $scope.isRecordStar = false;
+            $scope.path = path;
+            $scope.isRecordAsesor = false;
             $scope.planVideoSelected = planVideoId;
             if (planVideoId.fromUserId != undefined) {
                 UserService.getUserById(planVideoId.fromUserId)
@@ -463,12 +517,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
                                     $scope.isVisibleSendVideo = true;
                                     $scope.isVisibleDeleteVideo = false;
-
-                                    $scope.playVideoAsesor(path);
+                                    $scope.showVideo();
+                                    //$scope.playVideoAsesor(path);
                                     if (fromto == 'to') {
                                         videoService.readVideo(planVideoId.id).then(
                                                 function (data) {
-                                                    $scope.getVideoCount();
+                                                    $scope.getReceived();
                                                 },
                                                 function (error) {
                                                     //$scope.showMessage(error);
@@ -482,7 +536,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                                 }
                         );
             } else {
-                $scope.playVideoAsesor(path);
+               $scope.showVideo();
             }
 
         };
@@ -502,7 +556,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.userSession.userId + "/";
             url += $scope.userSession.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + "/" + role;
 
-            $scope.savePlanVideo(url,
+            $scope.savePlanVideoStar(url,
                     function (response) {
                         if (response.data.entity.status == 'success') {
                             $scope.showMessage("Video cargado correctamente.");
@@ -536,7 +590,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.userSession.userId + "/";
             url += $scope.userSession.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + "/" + role;
 
-            $scope.savePlanVideo(url,
+            $scope.savePlanVideoAsesor(url,
                     function (response) {
                         if (response.data.entity.status == 'success') {
                             $scope.showMessage("Video cargado correctamente.");
@@ -558,7 +612,11 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         //lee los videos recibidos en tiempo real
         videoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
-                $scope.receivedvideos.push(video);
+                if (video.toStar == 'true') {
+                    $scope.receivedStar.push(video);
+                } else {
+                    $scope.receivedAsesor.push(video);
+                }
             }
 
         });
@@ -606,6 +664,31 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             };
 
         }
+        
+        $scope.showVideo = function () {
+            $mdDialog.show({
+                controller: showVideoController,
+                scope: $scope.$new(),
+                templateUrl: 'static/views/video/showVideoModal.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose: false,
+                fullscreen: $scope.customFullscreen
+            });
+        };
+        
+        function showVideoController($scope, $mdDialog) {
+            
+            //$scope.playVideoModal();
+
+            $scope.hide = function () {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+        }
+        
 
         self.getAvailableVideos = function (planId, userId, tipoPlan, roleSelected, fn) {
             videoService.getAvailableVideos(planId, userId, tipoPlan, roleSelected).then(

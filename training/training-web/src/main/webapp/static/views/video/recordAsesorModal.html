@@ -12,18 +12,9 @@
         <div class="md-dialog-content">
            <div  ng-include src="'static/views/video/recordAsesor.html'"></div>
             <md-dialog-actions layout="row" >
-                <md-button ng-disabled="recordedInputAsesor == null" ng-click="uploadRecordAsesor(recordedInputAsesor)" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
+                <md-button ng-disabled="isRecordAsesor || mediaModelAsesor == null" ng-click="enviarVideoAsesor(userSessionTypeUserCoachInterno)" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
                 <md-button ng-click="cancel()" class="md-raised">Cancelar</md-button>
             </md-dialog-actions>
         </div>
     </md-dialog-content>
 </md-dialog>
-<script>
-
-    function onUploadAsesor() {
-        var scope = angular.element($("#audioContent")).scope();
-        scope.$apply(function () {
-            scope.uploadRecordAsesor();
-        });
-    }
-</script>

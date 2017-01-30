@@ -1,0 +1,19 @@
+<md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Mostrar video</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content> 
+        <div class="md-dialog-content">
+            <video id="recordedVideo" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;" autoplay   controls="controls"></video>
+        </div>
+    </md-dialog-content>
+</md-dialog>
+<script>
+     angular.element(document.getElementById('videoContent')).scope().playVideoModal();
+</script>
