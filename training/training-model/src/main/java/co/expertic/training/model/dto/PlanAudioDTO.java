@@ -28,6 +28,7 @@ public class PlanAudioDTO {
     private Integer coachExtAthleteId;
     private Boolean toStar;
     private Integer roleSelected;
+    private boolean mobile;
     
     public PlanAudioDTO(){
         
@@ -175,6 +176,14 @@ public class PlanAudioDTO {
 
     public void setRoleSelected(Integer roleSelected) {
         this.roleSelected = roleSelected;
+    }
+
+    public boolean isMobile() {
+        return mobile;
+    }
+
+    public void setMobile(boolean mobile) {
+        this.mobile = mobile;
     }
     
       

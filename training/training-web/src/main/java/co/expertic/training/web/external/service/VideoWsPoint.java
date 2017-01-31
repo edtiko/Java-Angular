@@ -1,7 +1,7 @@
 package co.expertic.training.web.external.service;
 
-import co.expertic.training.model.dto.PlanAudioDTO;
-import co.expertic.training.service.plan.PlanAudioService;
+import co.expertic.training.model.dto.PlanVideoDTO;
+import co.expertic.training.service.plan.PlanVideoService;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -16,20 +16,20 @@ import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 @ServerEndpoint(value = "/audio/{sessionId}",
         configurator = SpringConfigurator.class,
-        encoders = AudioEncoder.class,
-        decoders = AudioDecoder.class)
-public class AudioWsPoint {
+        encoders = VideoEncoder.class,
+        decoders = VideoDecoder.class)
+public class VideoWsPoint {
 
-    private static final Logger LOGGER = Logger.getLogger(AudioWsPoint.class);
+    private static final Logger LOGGER = Logger.getLogger(VideoWsPoint.class);
 
-    private final PlanAudioService audioService;
+    private final PlanVideoService videoService;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public AudioWsPoint(PlanAudioService audioService) {
-        this.audioService = audioService;
+    public VideoWsPoint(PlanVideoService videoService) {
+        this.videoService = videoService;
     }
 
     @Autowired
@@ -43,15 +43,15 @@ public class AudioWsPoint {
     }
 
     @OnMessage
-    public void onMessage(final Session session, final PlanAudioDTO message) {
+    public void onMessage(final Session session, final PlanVideoDTO message) {
 
-        if (message != null && message.isMobile()) {      
+        if (message != null && message.isMobile()) {
 
-            simpMessagingTemplate.convertAndSend("/queue/audio/" + session.getUserProperties().get("sessionId"), message);
+            simpMessagingTemplate.convertAndSend("/queue/video/" + session.getUserProperties().get("sessionId"), message);
         }
 
-            sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(message));
-        
+        sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(message));
+
     }
 
     @OnClose

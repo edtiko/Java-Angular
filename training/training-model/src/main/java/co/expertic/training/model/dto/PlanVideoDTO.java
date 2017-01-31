@@ -31,6 +31,7 @@ public class PlanVideoDTO {
     private Integer indRejected;
     private Boolean toStar;
     private Integer roleSelected;
+    private boolean mobile;
     
     public PlanVideoDTO(){
         
@@ -213,6 +214,14 @@ public class PlanVideoDTO {
 
     public void setRoleSelected(Integer roleSelected) {
         this.roleSelected = roleSelected;
+    }
+
+    public boolean isMobile() {
+        return mobile;
+    }
+
+    public void setMobile(boolean mobile) {
+        this.mobile = mobile;
     }
 
       
