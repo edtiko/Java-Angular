@@ -598,41 +598,18 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             //ATLETA
             if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
 
-                //messageService.initialize(plan.id);
-                //videoService.initialize(plan.id);
-                //AudioMessageService.initialize(plan.id);
-                //MailService.initialize(plan.id);
-                //$scope.connectToChatserver(plan.id);
 
                 $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (res) {
                     $scope.communicationStar = angular.copy(res);
-//                    $scope.audioReceivedStar = res.receivedAudio;
-//                    $scope.videoReceivedStar = res.receivedMail;
-//                    $scope.emailReceivedStar = res.receivedAudio;
-//                    $scope.messagesReceivedStar = res.receivedMsg;
-//                    $scope.videoDurationStar = res.videoDuration;
-//                    $scope.audioDurationStar = res.audioDuration;
                 });
 
                 $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (res) {
                     $scope.communicationSup = angular.copy(res);
-//                    $scope.audioReceivedSup = res.receivedAudio;
-//                    $scope.videoReceivedSup = res.receivedMail;
-//                    $scope.emailReceivedSup = res.receivedAudio;
-//                    $scope.messagesReceivedSup = res.receivedMsg;
-//                    $scope.videoDurationSup = res.videoDuration;
-//                    $scope.audioDurationSup = res.audioDuration;
                 });
 
             }
             //SUPERVISOR
             else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
-
-                //$scope.connectToChatserver(plan.id);
-                //messageService.initialize(plan.id);
-                //videoService.initialize(plan.id);
-                //AudioMessageService.initialize(plan.id);
-                //MailService.initialize(plan.id);
 
                 if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
                     $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (res) {
@@ -666,6 +643,29 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             $window.sessionStorage.setItem("planSelected", null);
             $window.sessionStorage.setItem("planSelected", JSON.stringify($scope.planSelected));
 
+        };
+        
+        $scope.onMessageReceived = function (data) {
+            console.log(data);
+        };
+
+        $scope.connectToChatserver = function (sessionId) {
+            $scope.wsocket = new WebSocket('ws://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
+            $scope.wsocket.onmessage = function (data) {
+                var msg = JSON.parse(data.data);
+                if ($scope.userSession.userId != msg.messageUserId.userId && msg.mobile) {
+                    //$scope.messagesReceivedCount++;
+                }
+            };
+
+            $scope.wsocket.onopen = function (event) {
+                console.log('Push connection from server is working');
+
+            };
+            $scope.wsocket.onclose = function (event) {
+                console.log('Error on push connection from server ');
+
+            };
         };
 
         $scope.setAthleteRole = function () {

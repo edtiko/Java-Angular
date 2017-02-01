@@ -21,7 +21,7 @@
     <!-- define angular controller -->
     <body ng-cloak ng-controller="mainController" id="trainingApp" class="preloader">
 
-        <div class="fusion-header-wrapper">
+        <div class="fusion-header-wrapper" ng-if="userSession.typeUser != userSessionTypeUserAtleta">
             <div class="fusion-header-v3 fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo- fusion-mobile-menu-design-modern ">
 
                 <div class="fusion-secondary-header">
@@ -184,7 +184,12 @@
                 <div flex="20">
                     <div  ng-include src="'static/views/dashboard/userPanel.html'"></div> 
                 </div>
-                <div flex="75">
+                <div flex="75" layout="column">
+                    <div layout="row" layout-margin layout-align="end center" style="height: 70px" class="border">
+                        <span class="blue">BIENVENIDO</span>
+                        <h4 class="blue"> {{userLogin}}</h4>
+                        <img data-ng-src="{{userSession.profilePhotoBase64}}" class="circular" style="height: 50px; width: 50px;">
+                    </div>
                     <div ng-view ng-show="appReady" ></div> 
                 </div>
             </div>

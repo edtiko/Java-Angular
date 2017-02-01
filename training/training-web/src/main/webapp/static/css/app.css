@@ -34,7 +34,7 @@ body{
 
 .circular {
     border-radius: 50%;
-    border: 1px solid #e1e1e1; 
+    /*border: 1px solid #e1e1e1;*/ 
 }
 
 .circulo {
@@ -173,7 +173,11 @@ md-tooltip.tt-multiline ._md-content {
 }
 
 .selectedIndex {
-    background: #3e84ff;
+    background: #00E8E8;
+}
+
+.selectedIndex i{
+    color: #666666 !important;
 }
 
 .md-tab{text-transform: none}
@@ -259,4 +263,12 @@ md-dialog {
     line-height: 30px;
     width: 35px;
     height: 10px;
+}
+
+label{
+   color: #0064F8 !important;
+}
+
+.blue{
+    color: #0064F8;
 }

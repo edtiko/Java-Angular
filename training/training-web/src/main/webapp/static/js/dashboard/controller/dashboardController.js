@@ -101,29 +101,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             return false;
         };
 
-
-        $scope.onMessageReceived = function (data) {
-            console.log(data);
-        };
-
-        $scope.connectToChatserver = function (sessionId) {
-            $scope.wsocket = new WebSocket('wss://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
-            $scope.wsocket.onmessage = function (data) {
-                var msg = JSON.parse(data.data);
-                if ($scope.userSession.userId != msg.messageUserId.userId && msg.mobile) {
-                    //$scope.messagesReceivedCount++;
-                }
-            };
-
-            $scope.wsocket.onopen = function (event) {
-                console.log('Push connection from server is working');
-
-            };
-            $scope.wsocket.onclose = function (event) {
-                console.log('Error on push connection from server ');
-
-            };
-        };
         
  
         $scope.getAudioCount = function () {

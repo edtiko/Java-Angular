@@ -1,82 +1,103 @@
-<div layout="column" class="border" style="height: 100%; min-height: 900px;">
-    <md-content layout-margin>
-        <div layout="column" layout-align="space-around center" flex>
+<div layout="column"  style="height: 100%;">
+    <md-content style="background: #1C2127" class="border">
+        <div layout="row" layout-align="center">
+            <a href="javascript:location.href=$wordPressContextPath">
+                <img src="static/img/logo-blanco.png" width="300" height="150" alt="Custom Pro Training">
+            </a>
+        </div>
+        <div layout="column" layout-margin layout-align="space-around center" flex>
             <a  href="#data-person" >
                 <img class="circular" data-ng-src="{{userSession.profilePhotoBase64}}" style="height: 200px; width: 200px;">
                 <md-tooltip md-direction="right">
                     Ver Perfil
                 </md-tooltip>
             </a>
-            <span class="md-title">{{userSession.fullName}}</span>
-            <md-subheader>{{userSession.dashboard.federalState}},{{userSession.dashboard.city}},{{userSession.dashboard.country}}</md-subheader>
-            <md-button class="md-raised md-primary" ng-click="go('/data-person')" ><i class="fa fa-sliders" aria-hidden="true"></i> Configuraci&oacute;n del perfil</md-button>
+            <span class="md-title" style="color: #FFFFFF">{{userSession.fullName}}</span>
+            <span class="md-caption" style="color: #00E8E8">{{userSession.dashboard.federalState}},{{userSession.dashboard.city}},{{userSession.dashboard.country}}</span>
+            <!--<md-button class="md-raised md-primary" ng-click="go('/data-person')" ><i class="fa fa-sliders" aria-hidden="true"></i> Configuraci&oacute;n del perfil</md-button>-->
         </div>
         <md-divider></md-divider>
         <md-list class="md-dense" flex>
-            <md-list-item class="md-2-line" ng-click="goHome()" ng-class="{selectedIndex: selectedIndex === 1}">
-                <md-icon><i class="fa fa-home fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Inicio</h3>
+            <md-list-item class="md-2-line" ng-click="goHome()" >
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 1}">
+                    <md-icon ><i class="fa fa-home fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">INICIO</h3>
                 </div>
                 <md-divider></md-divider>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-click="go('/calendar', 2)" ng-class="{selectedIndex: selectedIndex === 2}">
-                <md-icon><i class="fa fa-calendar fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Calendario</h3>
+            <md-list-item class="md-2-line" ng-click="go('/calendar', 2)" >
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 2}">
+                    <md-icon><i class="fa fa-calendar fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">CALENDARIO</h3>
                 </div>
                 <md-divider></md-divider>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-click="go('/reports', 3)" ng-class="{selectedIndex: selectedIndex === 3}">
-                <md-icon><i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Gr&aacute;ficos</h3>
+            <md-list-item class="md-2-line" ng-click="go('/reports', 3)" >
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 3}">
+                    <md-icon><i class="fa fa-bar-chart fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">GR&Aacute;FICOS</h3>
                 </div>
                 <md-divider ></md-divider>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-click="null" ng-class="{selectedIndex: selectedIndex === 4}">
-                <md-icon><i class="fa fa-users fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Comunidad</h3>
+            <md-list-item class="md-2-line" ng-click="null">
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 4}">
+                    <md-icon><i class="fa fa-users fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">COMUNIDAD</h3>
                 </div>
                 <md-divider></md-divider>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-click="go('/message', 5)" ng-class="{selectedIndex: selectedIndex === 5}">
-                <md-icon><i class="fa fa-comments fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Mensajes</h3>
+            <md-list-item class="md-2-line" ng-click="go('/message', 5)" >
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 5}">
+                    <md-icon><i class="fa fa-comments fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
                 </div>
-                <md-button ng-if="messageReceivedCount>0" class="md-fab md-mini">
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">MENSAJES</h3>
+                </div>
+                <md-button ng-if="messageReceivedCount > 0" class="md-fab md-mini">
                     {{messageReceivedCount}}
                 </md-button>
                 <md-divider></md-divider>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-click="go('/mail', 6)" ng-class="{selectedIndex: selectedIndex === 6}">
-                <md-icon><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Mail</h3>
+            <md-list-item class="md-2-line" ng-click="go('/mail', 6)">
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 6}">
+                    <md-icon><i class="fa fa-envelope fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
                 </div>
-                <md-button ng-if="mailReceivedCount>0" class="md-fab md-mini">
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">MAIL</h3>
+                </div>
+                <md-button ng-if="mailReceivedCount > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
                     {{mailReceivedCount}}
                 </md-button>
                 <md-divider></md-divider>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-click="go('/audio-messages', 7)" ng-class="{selectedIndex: selectedIndex === 7}">
-                <md-icon><i class="fa fa-microphone fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Audios</h3>
+            <md-list-item class="md-2-line" ng-click="go('/audio-messages', 7)">
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 7}">
+                    <md-icon><i class="fa fa-microphone fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
                 </div>
-                 <md-button ng-if="audioReceivedCount>0" class="md-fab md-mini">
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">AUDIOS</h3>
+                </div>
+                <md-button ng-if="audioReceivedCount > 0" class="md-fab md-mini">
                     {{audioReceivedCount}}
                 </md-button>
                 <md-divider></md-divider>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-click="go('/video', 8)" ng-class="{selectedIndex: selectedIndex === 8}">
-                <md-icon><i class="fa fa-video-camera fa-lg" aria-hidden="true"></i></md-icon>
-                <div class="md-list-item-text">
-                    <h3>Videos</h3>
+            <md-list-item class="md-2-line" ng-click="go('/video', 8)" >
+                <div flex="25" ng-class="{selectedIndex: selectedIndex === 8}">
+                    <md-icon><i class="fa fa-video-camera fa-lg" style="color: #666666" aria-hidden="true"></i></md-icon>
                 </div>
-                 <md-button ng-if="videoReceivedCount>0" class="md-fab md-mini">
+                <div flex layout-padding class="md-list-item-text">
+                    <h3 style="color: #00E8E8">VIDEOS</h3>
+                </div>
+                <md-button ng-if="videoReceivedCount > 0" class="md-fab md-mini">
                     {{videoReceivedCount}}
                 </md-button>
                 <md-divider></md-divider>

@@ -1,47 +1,53 @@
 <div layout="column"> 
     <div layout="column">
-        <h3>RESUMEN DE MI PERFIL</h3>
-        <div layout="row" layout-align="space-around center">
-            <div  layout="column">
-                <h2>{{userSession.dashboard.age}}</h2>
-                <label>EDAD</label>
-            </div>
-            <div  layout="column">
-                <h2>{{userSession.dashboard.weight}} kg</h2>
-                <label>PESO</label>
-            </div>
-            <div  layout="column">
-                <h2>{{(userSession.dashboard.height * 100)}} cm</h2>
-                <label>ALTURA</label>
-            </div>
-            <div  layout="column">
-                <h2>{{userSession.dashboard.imc}}</h2>
-                <label>IMC</label>
-            </div>
-            <div  layout="column">
-                <h2>{{userSession.dashboard.ppm}}</h2>
-                <label>PPM</label>
-            </div>
-        </div>
+        <md-card>
+            <md-card-content layout="column" layout-align="center">
+                <h3 style="color: #0064F8">RESUMEN DE MI PERFIL</h3>
+                <div layout="row" layout-align="space-around center">
+                    <div  layout="column">
+                        <h2>{{userSession.dashboard.age}}</h2>
+                        <h4 style="color: #0064F8">EDAD</h4>
+                    </div>
+                    <div  layout="column">
+                        <h2>{{userSession.dashboard.weight}} kg</h2>
+                        <h4 style="color: #0064F8">PESO</h4>
+                    </div>
+                    <div  layout="column">
+                        <h2>{{(userSession.dashboard.height * 100)}} cm</h2>
+                        <h4 style="color: #0064F8">ALTURA</h4>
+                    </div>
+                    <div  layout="column">
+                        <h2>{{userSession.dashboard.imc}}</h2>
+                        <h4 style="color: #0064F8">IMC</h4>
+                    </div>
+                    <div  layout="column">
+                        <h2>{{userSession.dashboard.ppm}}</h2>
+                        <h4 style="color: #0064F8">PPM</h4>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
     </div>
     <br />
     <md-divider></md-divider>
-    <h3>MIS OBJETIVOS SEMANALES</h3>
+    <h3 style="color: #0064F8">MIS OBJETIVOS SEMANALES</h3>
 
     <div ng-controller="ChartController" ng-include src="'static/views/chart/chart.html'"></div>
+    <md-card>
+        <md-card-content layout="column" layout-align="center">
+            <h3 style="color: #0064F8">ACTIVIDADES DE LA SEMANA</h3>
 
-    <h3>ACTIVIDADES DE LA SEMANA</h3>
+            <md-grid-list  md-cols="3" 
+                           md-row-height-gt-md="6:1" md-row-height="6:3"
+                           md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px" layout-align="start none">
 
-    <md-grid-list  md-cols="3" 
-                   md-row-height-gt-md="6:1" md-row-height="6:3"
-                   md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px">
-
-        <md-grid-tile ng-repeat="a in weekActivities"
-                      md-colspan-sm="1"
-                      md-colspan-xs="1" >
-            <img data-ng-src="static/img/{{a.className}}" >
-            <span class="md-caption">{{a.title}}</span>
-        </md-grid-tile>
-    </md-grid-list>
-
+                <md-grid-tile ng-repeat="a in weekActivities"
+                              md-colspan-sm="1"
+                              md-colspan-xs="1">
+                    <img data-ng-src="static/img/{{a.className}}" layout-align="start none">
+                    <span style="color: #0064F8" class="md-caption">&nbsp; {{a.title}}</span>
+                </md-grid-tile>
+            </md-grid-list>
+        </md-card-content>
+    </md-card>
 </div>
