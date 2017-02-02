@@ -6,28 +6,31 @@
 <div layout="row" layout-align="center center" style="padding-bottom: 50px">
       <div flex="20"></div>
     <div flex="70">
+        <h4 style="color: #0064F8">CONFIGURACI&Oacute;N DE MI PERFIL</h4>
+        <!-- progressbar -->
+        <ul id="progressbar">
+            <li ng-class="{active: currentNavItem== 0}">1</li>
+            <li ng-class="{active: currentNavItem== 1}">2</li>
+            <li ng-class="{active: currentNavItem== 2}">3</li>
+            <li ng-class="{active: currentNavItem== 3}">4</li>
+            <li ng-class="{active: currentNavItem== 4}">5</li>
+        </ul>
         <multi-step-container steps="steps" class="simple-prev-next" on-step-change="onStepChange($getActiveIndex())">
             <header>
-                <md-tabs md-dynamic-height md-border-bottom md-selected="currentNavItem">
-                    <md-tab ng-disabled="currentNavItem != '0'" style="color: #0064F8" label="1. Datos personales"></md-tab>
-                    <md-tab ng-disabled="currentNavItem != '1'" style="color: #0064F8" label="2. Datos de contacto"></md-tab>
-                    <md-tab ng-disabled="currentNavItem != '2'" style="color: #0064F8" label="3. Datos deportivos"></md-tab>
-                    <md-tab ng-disabled="currentNavItem != '3'" style="color: #0064F8" label="4. Datos deportivos"></md-tab>
-                    <md-tab ng-disabled="currentNavItem != '4'" style="color: #0064F8" label="5. Otros datos"></md-tab>
+                <md-tabs md-dynamic-height md-selected="currentNavItem">
+                    <md-tab ng-disabled="currentNavItem != '0'"  label="DATOS PERSONALES"></md-tab>
+                    <md-tab ng-disabled="currentNavItem != '1'"  label="DATOS DE CONTACTO"></md-tab>
+                    <md-tab ng-disabled="currentNavItem != '2'"  label="DATOS DEPORTIVOS"></md-tab>
+                    <md-tab ng-disabled="currentNavItem != '3'"  label="DATOS DEPORTIVOS"></md-tab>
+                    <md-tab ng-disabled="currentNavItem != '4'"  label="OTROS DATOS"></md-tab>
                 </md-tabs>
-                <!--<md-nav-bar  md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-                    <md-nav-item md-nav-click="goto('page1')" name="1">1. Datos personales</md-nav-item>
-                    <md-nav-item md-nav-click="goto('page1')" name="2">2. Datos de contacto</md-nav-item>
-                    <md-nav-item md-nav-click="goto('page1')" name="3">3. Datos deportivos</md-nav-item>
-                    <md-nav-item md-nav-click="goto('page1')" name="4">4. Otros datos</md-nav-item>
-                </md-nav-bar>-->
 
                 <!--<strong ng-bind-template="{{$getActiveIndex()}}. {{$getActiveStep().title}}"></strong>-->
             <section layout="row" layout-sm="column" layout-align="end" layout-wrap>
-                <md-button ng-disabled="$isFirst()" ng-click="$previousStep()" class="md-raised md-primary"><span class="fa fa-chevron-left"></span> Anterior</md-button>
-                <md-button ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)"  ng-click="$nextStep()" class="md-raised md-primary">Siguiente <span class="fa fa-chevron-right"></span></md-button>
+                <md-button ng-disabled="$isFirst()" ng-click="$previousStep()" class="md-raised"><span class="fa fa-chevron-left"></span> Anterior</md-button>
+                <md-button ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)" style="background: #1C2127; color:#00E8E8;" ng-click="$nextStep()" >Siguiente <span class="fa fa-chevron-right"></span></md-button>
             </section>
-                <h3 class="blue">{{$getActiveStep().title}}</h3>
+                <!--<h3 class="blue">{{$getActiveStep().title}}</h3>-->
                  <md-subheader>Todos los datos que contengan asterisco(*) son datos obligatorios</md-subheader>
             <!--<strong ng-if="$getActiveStep().hasForm" class="fa" ng-class="$getActiveStep().valid ? 'fa-check' : 'fa-times'"></strong>-->
             </header>

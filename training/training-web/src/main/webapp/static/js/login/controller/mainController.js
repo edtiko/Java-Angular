@@ -29,7 +29,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         $scope.mailReceivedCount = 0;
         $scope.audioReceivedCount = 0;
         $scope.videoReceivedCount = 0;
-        //$scope.selectedIndex = 1;
+        $scope.selectedIndex = 1;
         $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
         $scope.views = {
             profile: {page: 'static/views/dashboard/profile.html', controller: ""},

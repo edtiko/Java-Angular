@@ -19,8 +19,8 @@
         <div layout="row"> 
             <div flex="66">
                 <md-radio-group ng-model="userProfile.indPulsometer">
-                    <md-radio-button  value="1"> Si</md-radio-button>
-                    <md-radio-button  value="0"> No</md-radio-button>
+                    <md-radio-button class="my-radio"  value="1"> Si</md-radio-button>
+                    <md-radio-button class="my-radio"  value="0"> No</md-radio-button>
                 </md-radio-group>
             </div>
             <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilepulsometer, 'user_profile', 'pulsometer')"
@@ -137,8 +137,8 @@
         <div layout="row"> 
             <div flex="66">
                 <md-radio-group ng-model="userProfile.indPower">
-                    <md-radio-button  value="1"> Si</md-radio-button>
-                    <md-radio-button  value="0"> No</md-radio-button>
+                    <md-radio-button class="my-radio"  value="1"> Si</md-radio-button>
+                    <md-radio-button class="my-radio"  value="0"> No</md-radio-button>
                 </md-radio-group>
             </div>
 
@@ -279,8 +279,8 @@
             <div flex="66">
                 <label>&iquest;Tienes bicicleta? </label>
                 <md-radio-group ng-model="indBike">
-                    <md-radio-button  value="1"> Si</md-radio-button>
-                    <md-radio-button  value="-1"> No</md-radio-button>
+                    <md-radio-button class="my-radio"  value="1"> Si</md-radio-button>
+                    <md-radio-button class="my-radio"  value="-1"> No</md-radio-button>
                 </md-radio-group>
             </div>
             <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilebike, 'user_profile', 'bike')"
@@ -375,8 +375,8 @@
         </div>
         <br /><br />
         <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-            <md-button type="submit" ng-click="submitUserProfile(formProfile, false, $event)"  class="md-raised md-primary">Guardar</md-button>
-            <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" class="md-raised md-primary" ng-click="submitUserProfile(true, $event)">Generar Plan</md-button>
+            <md-button type="submit" ng-click="submitUserProfile(formProfile, false, $event)"  style="background: #1C2127; color:#00E8E8;">Guardar</md-button>
+            <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" style="background: #1C2127; color:#00E8E8;" ng-click="submitUserProfile(true, $event)">Generar Plan</md-button>
         </section>
            {{$setValidity(frm4.$valid, 4)}}
          </form>

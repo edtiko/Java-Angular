@@ -2,7 +2,7 @@
     <div layout="column">
         <md-card>
             <md-card-content layout="column" layout-align="center">
-                <h3 style="color: #0064F8">RESUMEN DE MI PERFIL</h3>
+                <h4 style="color: #0064F8">RESUMEN DE MI PERFIL</h4>
                 <div layout="row" layout-align="space-around center">
                     <div  layout="column">
                         <h2>{{userSession.dashboard.age}}</h2>
@@ -30,12 +30,12 @@
     </div>
     <br />
     <md-divider></md-divider>
-    <h3 style="color: #0064F8">MIS OBJETIVOS SEMANALES</h3>
+    <h4 style="color: #0064F8">MIS OBJETIVOS SEMANALES</h4>
 
     <div ng-controller="ChartController" ng-include src="'static/views/chart/chart.html'"></div>
     <md-card>
         <md-card-content layout="column" layout-align="center">
-            <h3 style="color: #0064F8">ACTIVIDADES DE LA SEMANA</h3>
+            <h4 style="color: #0064F8">ACTIVIDADES DE LA SEMANA</h4>
 
             <md-grid-list  md-cols="3" 
                            md-row-height-gt-md="6:1" md-row-height="6:3"
