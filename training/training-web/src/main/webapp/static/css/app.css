@@ -30,6 +30,8 @@
 body{
     width: 100%;
     height: auto;
+    font-family: 'Raleway', serif;
+    font-size: 14px;
 }
 
 .circular {
@@ -280,6 +282,24 @@ label{
   position: relative;
   overflow: hidden;
   -webkit-padding-start: 0px;
+  margin: 0px;
+}
+#ul-titles {
+    margin: -35px 0px 0px 0px;
+}
+#one{
+    position:relative;
+    width:auto;
+    z-index:1000; 
+    line-height:normal;
+}
+
+#ul-titles li {
+    color: #0064F8;
+    display: inline-block;
+    position: relative;
+    margin: 0 120px 0 -25px;
+    width: 22px; 
 }
 #progressbar:before, .active:after {
   content: '';
@@ -302,12 +322,12 @@ label{
   width: 2em;
   height: 2em;
   text-align: center;
-  line-height: 2em;
+  line-height: 1.8em;
   border-radius: 1em;
   -webkit-border-radius:1em;
   -moz-border-radius:1em;
   background: #0064F8;
-  margin: 0 1em;
+  /*margin: 0 1em;*/
   display: inline-block;
   position: relative;
   /*border: 2px solid #00E8E8;*/
@@ -335,15 +355,15 @@ label{
   display: none;
 }
 
-.active {
+#progressbar .active {
     background: #0064F8;
 }
 
-.active ~ li {
+#progressbar .active ~ li {
   background: white;
 }
 
-.active ~ li::before {
+#progressbar .active ~ li::before {
     background: #666666;
 }
 
@@ -376,5 +396,23 @@ md-switch.md-checked .md-thumb {
 
 md-switch[disabled] .md-thumb {
     background-color: #00E8E8 !important; /* disabled switch color */
+}
+
+md-checkbox .md-icon {
+    background: #1C2127;
+}
+
+md-checkbox.md-checked .md-icon{
+    background: #00E8E8 !important;
+}
+h5{
+   color: #0064F8 !important;
+}
+
+.number_dash{
+    font-size: 42px;
+    background: -webkit-linear-gradient(#00E8E8, #0064F8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 

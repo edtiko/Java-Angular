@@ -29,15 +29,11 @@
                     md-component-id="left"
                     md-is-locked-open="$mdMedia('gt-md')"
                     md-whiteframe="4">
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <h1 class="md-toolbar-tools">Actividades</h1>
-                </div>
-            </md-toolbar>
             <md-input-container md-no-float class="md-block" >
                 <md-icon><i class="fa fa-search" aria-hidden="true"></i></md-icon>
                 <input type="text" ng-model="search" placeholder="Buscar.."/>
             </md-input-container>
+            <h5>ACTIVIDADES PREDETERMINADAS</h5>
             <md-content>
                 <div layout="column" layout-align="center center" ng-show="loading">
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>

@@ -10,20 +10,27 @@
         <!-- progressbar -->
         <ul id="progressbar">
             <li ng-class="{active: currentNavItem== 0}">1</li>
-            <li ng-class="{active: currentNavItem== 1}">2</li>
-            <li ng-class="{active: currentNavItem== 2}">3</li>
-            <li ng-class="{active: currentNavItem== 3}">4</li>
-            <li ng-class="{active: currentNavItem== 4}">5</li>
+            <li id="#two" ng-class="{active: currentNavItem== 1}">2</li>
+            <li id="#three" ng-class="{active: currentNavItem== 2}">3</li>
+            <li id="#four" ng-class="{active: currentNavItem== 3}">4</li>
+            <li id="#five" ng-class="{active: currentNavItem== 4}">5</li>
         </ul>
+        <div id="ul-titles" layout="row" class="blue" layout-align="space-between start">
+            <h5>DATOS PERSONALES</h5>
+            <h5>DATOS DE CONTACTO</h5>
+            <h5>DATOS DEPORTIVOS</h5>
+            <h5>DATOS DEPORTIVOS</h5>
+            <h5>OTROS DATOS</h5>
+        </div>
         <multi-step-container steps="steps" class="simple-prev-next" on-step-change="onStepChange($getActiveIndex())">
             <header>
-                <md-tabs md-dynamic-height md-selected="currentNavItem">
+                <!--<md-tabs md-dynamic-height md-selected="currentNavItem">
                     <md-tab ng-disabled="currentNavItem != '0'"  label="DATOS PERSONALES"></md-tab>
                     <md-tab ng-disabled="currentNavItem != '1'"  label="DATOS DE CONTACTO"></md-tab>
                     <md-tab ng-disabled="currentNavItem != '2'"  label="DATOS DEPORTIVOS"></md-tab>
                     <md-tab ng-disabled="currentNavItem != '3'"  label="DATOS DEPORTIVOS"></md-tab>
                     <md-tab ng-disabled="currentNavItem != '4'"  label="OTROS DATOS"></md-tab>
-                </md-tabs>
+                </md-tabs>-->
 
                 <!--<strong ng-bind-template="{{$getActiveIndex()}}. {{$getActiveStep().title}}"></strong>-->
             <section layout="row" layout-sm="column" layout-align="end" layout-wrap>
