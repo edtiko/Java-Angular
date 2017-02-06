@@ -51,8 +51,8 @@ public class AudioMessageController {
 
     @Autowired
     private PlanAudioService planAudioService;
-    
-     @Autowired
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -79,8 +79,8 @@ public class AudioMessageController {
 
     @RequestMapping(value = "upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}/{roleSelected}", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<ResponseService> uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, 
-                         @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan,@PathVariable Integer roleSelected) {
+    ResponseEntity<ResponseService> uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId,
+            @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan, @PathVariable Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         int availableAudios = 0;
@@ -94,18 +94,17 @@ public class AudioMessageController {
                     availableAudios = planAudioService.getCountAudioByPlanExt(planId, fromUserId);
                     emergencyAudios = planAudioService.getCountAudioByEmergencyPlanExt(planId, fromUserId);
                 }
-                if(availableAudios == 0 && emergencyAudios > 0){
-                     responseService.setOutput("Audio cargado correctamente, se estan consumiendo los audio mensajes de emergencia ("+emergencyAudios+")");
-                }
-                else if (availableAudios == 0 && emergencyAudios == 0) {
+                if (availableAudios == 0 && emergencyAudios > 0) {
+                    responseService.setOutput("Audio cargado correctamente, se estan consumiendo los audio mensajes de emergencia (" + emergencyAudios + ")");
+                } else if (availableAudios == 0 && emergencyAudios == 0) {
                     strResponse.append("Ya consumió el limite de audios permitidos para su plan.");
                     responseService.setOutput(strResponse);
                     responseService.setStatus(StatusResponse.FAIL.getName());
-                      return new ResponseEntity<>(responseService, HttpStatus.OK);
-                }else{
-                     responseService.setOutput("Audio mensaje cargado correctamente."); 
+                    return new ResponseEntity<>(responseService, HttpStatus.OK);
+                } else {
+                    responseService.setOutput("Audio mensaje cargado correctamente.");
                 }
-                String fileName = dateString + "_" + fromUserId + "_" + toUserId+".wav";
+                String fileName = dateString + "_" + fromUserId + "_" + toUserId + ".wav";
 
                 File directory = new File(ROOT);
                 File archivo = new File(ROOT + "/" + fileName);
@@ -116,7 +115,7 @@ public class AudioMessageController {
                 } else if (!archivo.exists()) {
                     Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
                 }
-                 PlanAudioDTO dto = planAudioService.getByAudioPath(fileName);
+                PlanAudioDTO dto = planAudioService.getByAudioPath(fileName);
                 if (dto == null) {
                     PlanAudio audio = new PlanAudio();
                     audio.setFromUserId(new User(fromUserId));
@@ -124,10 +123,11 @@ public class AudioMessageController {
                     audio.setToUserId(new User(toUserId));
                     audio.setCreationDate(Calendar.getInstance().getTime());
                     audio.setReaded(Boolean.FALSE);
-                    if(roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()){
-                    audio.setToStar(Boolean.FALSE);
-                    }if(roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()){
-                    audio.setToStar(Boolean.TRUE);   
+                    if (roleSelected != -1 && roleSelected == RoleEnum.COACH_INTERNO.getId()) {
+                        audio.setToStar(Boolean.FALSE);
+                    }
+                    if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
+                        audio.setToStar(Boolean.TRUE);
                     }
                     if (tipoPlan.equals(COACH_INTERNO)) {
                         audio.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
@@ -138,14 +138,13 @@ public class AudioMessageController {
                     dto.setFromUser(userService.findById(fromUserId));
                     dto.setRoleSelected(roleSelected);
                     responseService.setOutput(dto);
-                 simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
+                    simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
                 }
-                
 
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 //responseService.setOutput(dto);
-                  return new ResponseEntity<>(responseService, HttpStatus.OK);
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
                 responseService.setOutput(strResponse);
@@ -163,21 +162,21 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/get/audios/{planId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAudiosByUser(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
-                            @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected ) {
+    ResponseEntity<ResponseService> getAudiosByUser(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
+            @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(planId, userId, fromto, tipoPlan, roleSelected);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(audios);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
@@ -195,24 +194,23 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/get/count/available/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
-                               @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+    Response getAvailableAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
+            @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         Integer emergency = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planAudioService.getCountAudioByPlan(planId, userId,roleSelected);
-                emergency = planAudioService.getCountAudioEmergencyByPlan(planId, userId,roleSelected);
+                count = planAudioService.getCountAudioByPlan(planId, userId, roleSelected);
+                emergency = planAudioService.getCountAudioEmergencyByPlan(planId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planAudioService.getCountAudioByPlanExt(planId, userId);
                 emergency = planAudioService.getCountAudioByEmergencyPlanExt(planId, userId);
             }
-            
-            
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            responseService.setOutput(count == 0?emergency:count);
+            responseService.setOutput(count == 0 ? emergency : count);
             return Response.status(Response.Status.OK).entity(responseService).build();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -226,8 +224,8 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/get/count/received/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAudiosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
-                               @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+    Response getAudiosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
+            @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
@@ -252,8 +250,8 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/read/all/{planId}/{userId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId, 
-                        @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+    Response readAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
+            @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -277,20 +275,20 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/read/{planAudioId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response readAudio(@PathVariable("planAudioId") Integer planAudioId) {
+    ResponseEntity<ResponseService> readAudio(@PathVariable("planAudioId") Integer planAudioId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             planAudioService.readAudio(planAudioId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Audio Leido Correctamente.");
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
