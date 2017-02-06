@@ -17,6 +17,8 @@
         <link rel="stylesheet" type="text/css" href="static/css/ang-accordion.css">
         <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     </head>
 
     <!-- define angular controller -->
@@ -186,10 +188,25 @@
                     <div  ng-include src="'static/views/dashboard/userPanel.html'"></div> 
                 </div>
                 <div flex="75" layout="column">
-                    <div layout="row" layout-margin layout-align="end center" style="height: 70px" class="border">
+                    <div layout="row" layout-margin layout-align="end center" class="border">
                         <span class="blue">BIENVENIDO</span>
                         <h4 class="blue"> {{userLogin}}</h4>
-                        <img data-ng-src="{{userSession.profilePhotoBase64}}" class="circular" style="height: 50px; width: 50px;">
+                        <img data-ng-src="{{userSession.profilePhotoBase64}}" class="circular" style="height: 45px; width: 45px;">
+                        <md-menu md-position-mode="target-right bottom">
+                            <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                <md-icon md-menu-origin>
+                                <i class="material-icons" id="apps_icon">apps</i>
+                                </md-icon>
+                            </md-button>
+                            <md-menu-content width="2" style="background: #1C2127;">
+                                <md-menu-item  style="color: #00E8E8;">
+                                    <md-button ng-click="null"><md-icon md-menu-align-target><i style="color: #666666" class="fa fa-user fa-lg" aria-hidden="true"></i></md-icon> <span md-menu-align-target>MI CUENTA</span></md-button>
+                                </md-menu-item>
+                                <md-menu-item style="color: #00E8E8;">
+                                    <md-button ng-click="logout()"><md-icon md-menu-align-target><i style="color: #666666" class="fa fa-sign-out fa-lg" aria-hidden="true"></i></md-icon> <span md-menu-align-target>CERRAR SESIÓN</span></md-button>
+                                </md-menu-item>
+                            </md-menu-content>
+                        </md-menu>
                     </div>
                     <div ng-view ng-show="appReady" ></div> 
                 </div>

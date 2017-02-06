@@ -54,7 +54,7 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 return $http.get($contextPath + '/countries/')
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching countries');
@@ -66,7 +66,7 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 return $http.get($contextPath + '/states/' + countryId)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching states');
@@ -78,7 +78,7 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 return $http.get($contextPath + '/cities/' + stateId)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching cities');

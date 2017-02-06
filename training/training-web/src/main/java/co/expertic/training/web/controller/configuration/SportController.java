@@ -74,6 +74,7 @@ public class SportController {
         try {
             List<EnvironmentDTO> sports = sportService.findEntornos();
             responseService.setOutput(sports);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             Logger.getLogger(SportController.class.getName()).log(Priority.FATAL, null, e);
@@ -92,6 +93,7 @@ public class SportController {
         try {
             List<WeatherDTO> sports = sportService.findClimas();
             responseService.setOutput(sports);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             Logger.getLogger(SportController.class.getName()).log(Priority.FATAL, null, e);

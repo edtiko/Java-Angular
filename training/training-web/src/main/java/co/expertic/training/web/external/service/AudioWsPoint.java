@@ -1,7 +1,7 @@
 package co.expertic.training.web.external.service;
 
-import co.expertic.training.model.dto.PlanMessageDTO;
-import co.expertic.training.service.plan.PlanMessageService;
+import co.expertic.training.model.dto.PlanAudioDTO;
+import co.expertic.training.service.plan.PlanAudioService;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
@@ -14,22 +14,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
-@ServerEndpoint(value = "/chat/{sessionId}",
+@ServerEndpoint(value = "/audiows/{sessionId}",
         configurator = SpringConfigurator.class,
-        encoders = MessageEncoder.class,
-        decoders = MessageDecoder.class)
-public class MessageWsPoint {
+        encoders = AudioEncoder.class,
+        decoders = AudioDecoder.class)
+public class AudioWsPoint {
 
-    private static final Logger LOGGER = Logger.getLogger(MessageWsPoint.class);
+    private static final Logger LOGGER = Logger.getLogger(AudioWsPoint.class);
 
-    private final PlanMessageService messageService;
+    private final PlanAudioService audioService;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public MessageWsPoint(PlanMessageService messageService) {
-        this.messageService = messageService;
+    public AudioWsPoint(PlanAudioService audioService) {
+        this.audioService = audioService;
     }
 
     @Autowired
@@ -43,18 +43,11 @@ public class MessageWsPoint {
     }
 
     @OnMessage
-    public void onMessage(final Session session, final PlanMessageDTO message) {
-    PlanMessageDTO msg = null;
-        System.out.println("Received : " + message);
-        if (message != null && message.isMobile()) {      
-        
-            try {
-                msg = messageService.saveMessage(message);
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
+    public void onMessage(final Session session, final PlanAudioDTO message) {
 
-            }
-            simpMessagingTemplate.convertAndSend("/queue/message/" + session.getUserProperties().get("sessionId"), msg);
+        if (message != null && message.isMobile()) {      
+
+            simpMessagingTemplate.convertAndSend("/queue/audio/" + session.getUserProperties().get("sessionId"), message);
         }
 
             sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(message));

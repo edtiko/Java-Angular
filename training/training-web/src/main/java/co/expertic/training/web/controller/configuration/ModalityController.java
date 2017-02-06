@@ -210,6 +210,7 @@ public class ModalityController {
         try {
             List<ModalityDTO> modalities = modalityService.findAll();
             responseService.setOutput(modalities);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }   catch (Exception e) {
             Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
@@ -228,6 +229,7 @@ public class ModalityController {
         try {
             List<ModalityDTO> modalities = modalityService.findByDisciplineId(id);
             responseService.setOutput(modalities);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }   catch (Exception e) {
             Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
@@ -246,6 +248,8 @@ public class ModalityController {
         try {
             List<ModalityDTO> modalities = modalityService.findByObjectiveId(id);
             responseService.setOutput(modalities);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }   catch (Exception e) {
             Logger.getLogger(ModalityController.class.getName()).log(Priority.FATAL, null, e);
