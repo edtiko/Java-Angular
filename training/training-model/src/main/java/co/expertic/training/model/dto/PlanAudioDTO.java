@@ -61,7 +61,7 @@ public class PlanAudioDTO {
     
       public static PlanAudioDTO mapFromPlanAudioEntity(PlanAudio audio) {
         if (audio != null) {
-            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getFromUserId(), audio.getToUserId(), audio.getCreationDate(), audio.getToStar());
+            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getCreationDate(), audio.getToUserId().getUserId(), audio.getToStar());
         }
         return null;
     }

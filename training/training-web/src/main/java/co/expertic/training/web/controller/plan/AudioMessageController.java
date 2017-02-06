@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -78,7 +79,7 @@ public class AudioMessageController {
 
     @RequestMapping(value = "upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}/{roleSelected}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, 
+    ResponseEntity<ResponseService> uploadAudio(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId, @PathVariable Integer fromUserId, 
                          @PathVariable Integer planId, @PathVariable String dateString, @PathVariable String tipoPlan,@PathVariable Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -100,7 +101,7 @@ public class AudioMessageController {
                     strResponse.append("Ya consumió el limite de audios permitidos para su plan.");
                     responseService.setOutput(strResponse);
                     responseService.setStatus(StatusResponse.FAIL.getName());
-                    return Response.status(Response.Status.OK).entity(responseService).build();
+                      return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }else{
                      responseService.setOutput("Audio mensaje cargado correctamente."); 
                 }
@@ -136,6 +137,7 @@ public class AudioMessageController {
                     dto = planAudioService.create(audio);
                     dto.setFromUser(userService.findById(fromUserId));
                     dto.setRoleSelected(roleSelected);
+                    responseService.setOutput(dto);
                  simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
                 }
                 
@@ -143,19 +145,19 @@ public class AudioMessageController {
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 //responseService.setOutput(dto);
-                return Response.status(Response.Status.OK).entity(responseService).build();
+                  return new ResponseEntity<>(responseService, HttpStatus.OK);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
                 responseService.setOutput(strResponse);
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 responseService.setDetail(e.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
         } else {
             strResponse.append("Audio cargado esta vacio.");
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 
