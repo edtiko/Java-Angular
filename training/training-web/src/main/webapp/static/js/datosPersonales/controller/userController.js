@@ -32,8 +32,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 title: 'OTROS DATOS'
             }
         ];
-        $scope.onStepChange = function (index) {
-           
+        $scope.onStepChange = function (index, event) {
+
+            if (index == 3) {
+                $scope.submitUser();
+            }else if(index == 5){
+                $scope.submitUserProfile(true, event);
+            }
             $scope.currentNavItem = index - 1;
             console.log("el paso activo es:" + index);
         };
@@ -349,7 +354,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 if (file !== undefined && file != null) {
                                     $scope.uploadFile(file);
                                 }
-                                $scope.showMessage("Usuario editado correctamente.");
+                                //$scope.showMessage("Usuario editado correctamente.");
 
                             },
                             function (errResponse) {
@@ -401,14 +406,14 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         });
 
         $scope.submitUser = function (form, file) {
-            var user = $scope.user;
-            if (form.$valid) {
+            //var user = $scope.user;
+            //if (form.$valid) {
                 if ($scope.user.userId === null) {
                     self.createUser($scope.user, file);
                 } else {
                     self.updateUser($scope.user, $scope.user.userId, file);
                 }
-            } else {
+           /* } else {
                 $scope.showMessage("Faltan campos por diligenciar", "Alerta");
                 if ($scope.errorMessages.length > 0) {
                     $scope.showMessage($scope.errorMessages, "Alerta", true);
@@ -416,7 +421,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.user = user;
                 $scope.errorMessages = [];
                 window.scrollTo(0, 200);
-            }
+            }*/
         };
 
         self.edit = function (id) {
@@ -465,8 +470,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.uploadFile = function (file) {
-
-            //var file = $scope.myFile;
+            
+            if (file.files[0] !== undefined) {
+                var file = file.files[0];
+            }
             if (file !== undefined && $scope.isImage(file.type)) {
                 $scope.showMessage("Debe seleccionar una imagen valida.", "error");
                 //$window.alert("Debe seleccionar una imagen valida.");

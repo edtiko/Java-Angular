@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
-@ServerEndpoint(value = "/audio/{sessionId}",
+@ServerEndpoint(value = "/videows/{sessionId}",
         configurator = SpringConfigurator.class,
         encoders = VideoEncoder.class,
         decoders = VideoDecoder.class)

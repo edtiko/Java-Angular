@@ -446,3 +446,13 @@ h5{
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
+.md-raised{
+    min-width: 200px;
+    background: #1C2127 !important; 
+    color:#AAFD6F !important; 
+}
+
+.md-raised[disabled]{
+    color: rgba(0,0,0,0.38) !important;
+    cursor: default; 
+}

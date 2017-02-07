@@ -228,12 +228,12 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         self.getAudiosStar = function () {
             var tipoPlan = "IN";
             self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
-                $scope.receivedStar = data.entity.output;
+                $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;
 
             });
             self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
-                $scope.sendedStar = data.entity.output;
+                $scope.sendedStar = data.output;
                 $scope.loadingSentStar = true;
 
             });
@@ -247,13 +247,13 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         self.getAudiosAsesor = function () {
             var tipoPlan = "IN";
             self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
-                $scope.receivedAsesor = data.entity.output;
+                $scope.receivedAsesor = data.output;
                 $scope.loadingReceivedAsesor = true;
 
             });
 
             self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
-                $scope.sendedAsesor = data.entity.output;
+                $scope.sendedAsesor = data.output;
                 $scope.loadingSentAsesor = true;
 
             });

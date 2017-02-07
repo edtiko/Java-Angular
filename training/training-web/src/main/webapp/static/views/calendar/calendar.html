@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="static/css/bootstrap.min.css" />
 <link rel="stylesheet" href="static/css/calendar.css">   
 <div layout="row" layout-align="space-around">
-<div flex="75">  
-    <div class="page-header">
+    <div flex="75">  
+        <h4 style="color: #0064F8">CALENDARIO</h4>
+        <div class="page-header">
             <div class="pull-left form-inline">
                 <div class="btn-group">
                     <button class="btn btn-primary" data-calendar-nav="prev"><< Anterior</button>
@@ -57,15 +58,7 @@
                     md-component-id="left"
                     md-is-locked-open="$mdMedia('gt-md')"
                     md-whiteframe="4">
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <h1 class="md-toolbar-tools">Actividades Manuales</h1>
-                    <span flex></span>
-                    <md-button class="md-fab md-mini md-primary" aria-label="Create" ng-click="showCreateManualActivity()">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </md-button>
-                </div>
-            </md-toolbar>
+            <h5>ACTIVIDADES MANUALES</h5>
             <md-content>
 
                 <section>
@@ -81,8 +74,10 @@
 
                     </md-list>
                 </section>
-
             </md-content>
+            <md-button class="md-raised" aria-label="Create" ng-click="showCreateManualActivity()">
+                A&Ntilde;ADE UNA ACTIVIDAD
+            </md-button>
         </md-sidenav>
     </div>
 </div>

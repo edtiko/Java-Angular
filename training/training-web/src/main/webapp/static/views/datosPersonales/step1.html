@@ -1,12 +1,12 @@
  <md-content layout-padding>
         <form name="frm1">
             <input type="hidden" ng-model="user.userId" />
-            <input style="display:none" type="file" accept="image/*" file-model="myFile" ng-model="user.profile_photo" id="picture" />
+            <input style="display:none" type="file" accept="image/*" onchange="angular.element(this).scope().uploadFile(this)" file-model="myFile" ng-model="user.profile_photo" id="picture" />
             <div layout="row">
                 <div flex>
                     <img class="circular" data-ng-src="{{dataImage}}"  data-err-src="static/img/profile-default.png" style="height: 150px; width: 150px;"/>
-                    <a href="" id="upload_link">Cambiar foto del perfil</a>
-                    <md-button class="md-fab md-mini md-primary fa fa-upload" ng-disabled="myFile == null" ng-click="uploadFile(myFile)" aria-label="Subir"> </md-button>
+                    <md-button class="md-raised"  id="upload_link">Editar foto de perfil</md-button>
+                    <!--<md-button class="md-fab md-mini md-primary fa fa-upload" ng-disabled="myFile == null" ng-click="uploadFile(myFile)" aria-label="Subir"> </md-button>-->
 
                 </div>   
             </div>

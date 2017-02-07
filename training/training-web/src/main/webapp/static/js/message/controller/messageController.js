@@ -135,7 +135,6 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
                 messageService.readMessage(message.id).then(
                         function (data) {
                              $scope.getReceived();
-                            console.log(data.entity.output);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -190,7 +189,7 @@ trainingApp.controller("MessageController", ['$scope', 'messageService', '$windo
             messageService.readMessages(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
                          $scope.getReceived();
-                        console.log(data.entity.output);
+                        console.log(data.output);
                     },
                     function (error) {
                         //$scope.showMessage(error);

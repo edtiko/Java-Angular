@@ -650,7 +650,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.connectToChatserver = function (sessionId) {
-            $scope.wsocket = new WebSocket('ws://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
+            $scope.wsocket = new WebSocket('wss://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
             $scope.wsocket.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
                 if ($scope.userSession.userId != msg.messageUserId.userId && msg.mobile) {

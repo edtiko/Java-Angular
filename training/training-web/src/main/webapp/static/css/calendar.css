@@ -1,6 +1,19 @@
 body{
     font-family: 'Raleway', serif;
-    font-size: 14px;
+    font-size: 14px !important;
+}
+
+
+.h4, h4 {
+    font-size: 14px !important;
+}
+
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    font-weight: bold !important;
+    line-height: 1.1;
+    color: inherit;
 }
 b[class*="cal-cell"] {
     float: left;
