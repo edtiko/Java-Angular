@@ -185,8 +185,8 @@
         </div>  -->
        
             <div layout="row" layout-align="center" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
-                <div flex="20">
-                    <div  ng-include src="'static/views/dashboard/userPanel.html'"></div> 
+                <div flex="20" style="background: #1C2127;">
+                    <div flex ng-include src="'static/views/dashboard/userPanel.html'"></div> 
                 </div>
                 <div flex="75" layout="column">
                     <div layout="row" layout-margin layout-align="end center" class="border">
@@ -201,7 +201,7 @@
                             </md-button>
                             <md-menu-content width="2" style="background: #1C2127;">
                                 <md-menu-item  style="color: #00E8E8;">
-                                    <md-button ng-click="null"><md-icon md-menu-align-target><i style="color: #666666" class="fa fa-user fa-lg" aria-hidden="true"></i></md-icon> <span md-menu-align-target>MI CUENTA</span></md-button>
+                                    <md-button ng-click="account()"><md-icon md-menu-align-target><i style="color: #666666" class="fa fa-user fa-lg" aria-hidden="true"></i></md-icon> <span md-menu-align-target>MI CUENTA</span></md-button>
                                 </md-menu-item>
                                 <md-menu-item style="color: #00E8E8;">
                                     <md-button ng-click="logout()"><md-icon md-menu-align-target><i style="color: #666666" class="fa fa-sign-out fa-lg" aria-hidden="true"></i></md-icon> <span md-menu-align-target>CERRAR SESIÓN</span></md-button>
@@ -210,6 +210,9 @@
                         </md-menu>
                     </div>
                     <div ng-view ng-show="appReady" ></div> 
+                    <div id="footer" layout="row" style="background: #666666; color:#ffffff;" layout-align="center center">
+                           Copyright 2016 Custom Pro Training | All Rights Reserved
+                    </div>
                 </div>
             </div>
         <div layout="column" layout-align="center center" ng-if="userSession.typeUser != userSessionTypeUserAtleta">
@@ -218,13 +221,6 @@
             </div>
 
         </div>
-        <footer>
-            <md-toolbar class="md-scroll-shrink" style="background: #666666; color:#ffffff;">
-                <div layout="row" layout-align="center center" flex>
-                Copyright 2016 Custom Pro Training | All Rights Reserved
-            </div>
-            </md-toolbar>
-        </footer>
         <!-- SPELLS -->
         <script type="text/javascript" data-main="static/js/run-custom-training"
         src="static/js/lib/require.js"></script>

@@ -312,6 +312,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         $scope.logout = function () {
             window.location = $wordPressContextPath + 'mi-cuenta/customer-logout/';
         };
+        
+        $scope.account = function(){
+          window.location = $wordPressContextPath+'/mi-cuenta/';
+        };
 
         $scope.viewInvitationDialog = function () {
             $mdDialog.show({

@@ -29,9 +29,14 @@
 }*/
 body{
     /*width: 100%;*/
-    height: auto;
     font-family: 'Raleway', serif;
-    font-size: 14px !important;
+    font-size: 12px !important;
+}
+html, body { height:100%;}
+
+h4{
+  font-size: 16px !important;  
+  font-weight: bold;
 }
 
 .circular {
@@ -454,11 +459,6 @@ h5{
     color:#AAFD6F !important; 
 }*/
 
-.md-raised[disabled]{
-    color: rgba(0,0,0,0.38) !important;
-    background: rgba(0,0,0,0.38) !important;
-    cursor: default; 
-}
 
 .accordion .open .title{
     background: #0064F8;
@@ -485,3 +485,10 @@ md-list {
 #calendar{
     width: 100% !important;
 }
+
+#footer {position: relative;
+         height: 50px;
+         clear:both;
+         bottom: 0px;
+         margin-bottom: 0px;
+} 

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="static/css/calendar.css">   
 <div layout="row" layout-padding layout-align="space-between">
     <div flex="75">  
-        <h4 style="color: #0064F8; font-weight: bold">CALENDARIO</h4>
+        <h5 style="color: #0064F8; font-weight: bold">CALENDARIO</h5>
         <div class="page-header">
             <div class="pull-left form-inline">
                 <div class="btn-group">
@@ -24,12 +24,12 @@
 
         <div id="calendar"></div>
     </div>
-    <md-card style="height: 900px">
+    <md-card style="height: 735px">
         <md-card-content layout="column" layout-align="center">
 
             <md-input-container md-no-float class="md-block" >
-                <md-icon><i class="fa fa-search" aria-hidden="true"></i></md-icon>
                 <input type="text" ng-model="search" placeholder="Buscar.."/>
+                <md-icon><i style="color: #0064F8" class="fa fa-search" aria-hidden="true"></i></md-icon>
             </md-input-container>
             <h5 style="font-weight: bold">ACTIVIDADES PREDETERMINADAS</h5>
             <br />
@@ -39,7 +39,7 @@
                     <span>Cargando actividades..</span>
                 </div>
                 <md-list  class="md-dense" flex  ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
-                    <ang-accordion close-icon-class="fa fa-chevron-up" open-icon-class="fa fa-chevron-down">
+                    <ang-accordion close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
                         <collapsible-item item-title="{{ key}}">
                             <!--<md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>-->
                             <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:search" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
