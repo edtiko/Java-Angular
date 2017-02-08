@@ -1,14 +1,12 @@
 <md-dialog aria-label="Crear Actividad Manual" style="width: 500px">
     <form name="formActivity" ng-submit="saveActivity()">
-        <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>{{manualActivityTitle}} {{selectedDay==null?manualActivity.workoutDate:selectedDay}}</h2>
+                <h2 style="color: #0064F8; font-weight: bold">{{manualActivityTitle}} {{selectedDay==null?manualActivity.workoutDate:selectedDay}}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()">
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <i style="color: #AAFD6F" class="fa fa-times" aria-hidden="true"></i>
                 </md-button>
             </div>
-        </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div layout="row"> 
@@ -86,7 +84,7 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">  
-            <md-button class="md-primary md-raised" type="submit" ng-disabled="formActivity.$invalid">
+            <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" type="submit" ng-disabled="formActivity.$invalid">
                 Guardar
             </md-button>
             <md-button class="md-raised" ng-click="cancel()">

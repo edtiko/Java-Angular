@@ -1,14 +1,12 @@
 <md-dialog aria-label="Detalle Actividad" style="width: 500px">
     <form name="formActivity" novalidate>
-        <md-toolbar>
             <div class="md-toolbar-tools">
-                <h2>Detalle Actividad</h2>
+                <h2 style="color: #0064F8; font-weight: bold">Detalle Actividad</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()">
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <i style="color: #AAFD6F" class="fa fa-times" aria-hidden="true"></i>
                 </md-button>
             </div>
-        </md-toolbar>
         <md-dialog-content>
             <div class="md-dialog-content">
                 <div layout="row"> 
@@ -111,7 +109,7 @@
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">  
-            <md-button class="md-raised md-primary" ng-click="updateActivity()">
+            <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="updateActivity()">
                 Guardar
             </md-button>
              <md-button class="md-raised" ng-click="cancel()">

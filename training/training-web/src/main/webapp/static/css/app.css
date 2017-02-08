@@ -301,7 +301,7 @@ label{
     margin: 0 120px 0 -25px;
     width: 22px; 
 }
-#progressbar:before, .active:after {
+#progressbar:before, #progressbar .active:after {
   content: '';
   width: 100%;
   border: 1px solid #666666;
@@ -309,7 +309,7 @@ label{
   top: 1em;
   /*margin-top: -2px;*/
 }
-.active:after {
+#progressbar .active:after {
   border-color: #666666;
   z-index:-1;
 }
@@ -448,11 +448,40 @@ h5{
 }
 .md-raised{
     min-width: 200px;
+}
+/*.md-raised:not([disabled]){
     background: #1C2127 !important; 
     color:#AAFD6F !important; 
-}
+}*/
 
 .md-raised[disabled]{
     color: rgba(0,0,0,0.38) !important;
+    background: rgba(0,0,0,0.38) !important;
     cursor: default; 
+}
+
+.accordion .open .title{
+    background: #0064F8;
+    color: #FFFFFF;
+    font-weight: bold;
+} 
+
+.accordion .title{
+    background: #FFFFFF;
+    color: #0064F8;
+    font-weight: bold;
+} 
+
+md-list {
+    display: block;
+     padding: 0px;
+}
+
+.accordion .body .content{
+  overflow-y: scroll;
+  height: 200px;
+}
+
+#calendar{
+    width: 100% !important;
 }

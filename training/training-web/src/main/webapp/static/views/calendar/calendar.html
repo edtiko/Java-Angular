@@ -1,85 +1,77 @@
 <link rel="stylesheet" href="static/css/bootstrap.min.css" />
 <link rel="stylesheet" href="static/css/calendar.css">   
-<div layout="row" layout-align="space-around">
+<div layout="row" layout-padding layout-align="space-between">
     <div flex="75">  
-        <h4 style="color: #0064F8">CALENDARIO</h4>
+        <h4 style="color: #0064F8; font-weight: bold">CALENDARIO</h4>
         <div class="page-header">
             <div class="pull-left form-inline">
                 <div class="btn-group">
-                    <button class="btn btn-primary" data-calendar-nav="prev"><< Anterior</button>
+                    <button class="btn" data-calendar-nav="prev"><i class="fa fa-chevron-left fa-lg" aria-hidden="true"></i></button>
                     <button class="btn" data-calendar-nav="today">Hoy</button>
-                    <button class="btn btn-primary" data-calendar-nav="next">Siguiente >></button>
+                    <button class="btn" data-calendar-nav="next"><i class="fa fa-chevron-right fa-lg" aria-hidden="true"></i></button>
                 </div>
             </div>    
             <div class="pull-right form-inline">
                 <div class="btn-group">
-                    <button class="btn btn-primary" data-calendar-view="year">A&ntilde;o</button>
-                    <button class="btn btn-primary active" data-calendar-view="month">Mes</button>
-                    <button class="btn btn-primary" data-calendar-view="week">Semana</button>
-                    <button class="btn btn-primary" data-calendar-view="day">D&iacute;a</button>
+                    <button class="btn" data-calendar-view="day">D&iacute;a</button>
+                    <button class="btn" data-calendar-view="week">Semana</button>
+                    <button class="btn  active" data-calendar-view="month">Mes</button>
+                    <button class="btn" data-calendar-view="year">A&ntilde;o</button>
                 </div>
             </div>
-            <center><h3></h3></center>
+            <center><span class="number_dash" id="title_date"></span></center>
         </div>
 
         <div id="calendar"></div>
     </div>
-    <div layout="column">
-        <md-sidenav style="height:555px;width:210px !important;"
-                    class="md-sidenav-left"
-                    md-component-id="left"
-                    md-is-locked-open="$mdMedia('gt-md')"
-                    md-whiteframe="4">
+    <md-card style="height: 900px">
+        <md-card-content layout="column" layout-align="center">
+
             <md-input-container md-no-float class="md-block" >
                 <md-icon><i class="fa fa-search" aria-hidden="true"></i></md-icon>
                 <input type="text" ng-model="search" placeholder="Buscar.."/>
             </md-input-container>
-            <h5>ACTIVIDADES PREDETERMINADAS</h5>
-            <md-content>
+            <h5 style="font-weight: bold">ACTIVIDADES PREDETERMINADAS</h5>
+            <br />
+            <md-content style="overflow-y: scroll; height: 30%" class="border">
                 <div layout="column" layout-align="center center" ng-show="loading">
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                     <span>Cargando actividades..</span>
                 </div>
-                <section>
-                    <md-list ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
-                        <md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>
-                        <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:search" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <p>
-                                {{a.name}}
-                            </p>
-                        </md-list-item>
-                    </md-list>
-                </section>
-
+                <md-list  class="md-dense" flex  ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
+                    <ang-accordion close-icon-class="fa fa-chevron-up" open-icon-class="fa fa-chevron-down">
+                        <collapsible-item item-title="{{ key}}">
+                            <!--<md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>-->
+                            <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:search" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <p>
+                                    {{a.name}}
+                                </p>
+                            </md-list-item>
+                        </collapsible-item>
+                    </ang-accordion>
+                </md-list>
             </md-content>
-        </md-sidenav>
-        <md-sidenav style="height:300px;width:210px !important;"
-                    class="md-sidenav-left"
-                    md-component-id="left"
-                    md-is-locked-open="$mdMedia('gt-md')"
-                    md-whiteframe="4">
-            <h5>ACTIVIDADES MANUALES</h5>
-            <md-content>
+            <br />
+            <h5 style="font-weight: bold">ACTIVIDADES MANUALES</h5>
+            <md-content class="border">
+                <md-list class="md-dense" flex  ng-repeat="a in manualActivities">
 
-                <section>
-                    <md-list ng-repeat="a in manualActivities">
+                    <md-list-item ng-click="null" id="ma_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <p>{{a.name}}</p>
+                        <md-button class=" md-mini md-icon-button" ng-click="showEliminarActividad(a.id, a.name)" aria-label="remove">
+                            <md-icon>
+                                <i class="fa fa-trash" aria-hidden="true"></i></md-icon>
+                        </md-button>
+                    </md-list-item>
 
-                        <md-list-item ng-click="null" id="ma_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <p>{{a.name}}</p>
-                            <md-button class=" md-mini md-icon-button" ng-click="showEliminarActividad(a.id, a.name)" aria-label="remove">
-                                <md-icon>
-                                    <i class="fa fa-trash" aria-hidden="true"></i></md-icon>
-                            </md-button>
-                        </md-list-item>
-
-                    </md-list>
-                </section>
+                </md-list>
             </md-content>
-            <md-button class="md-raised" aria-label="Create" ng-click="showCreateManualActivity()">
+            <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" aria-label="Create" ng-click="showCreateManualActivity()">
                 A&Ntilde;ADE UNA ACTIVIDAD
             </md-button>
-        </md-sidenav>
-    </div>
+        </md-card-content>
+    </md-card>
+
 </div>
 <div class="modal fade" id="events-modal">
     <div class="modal-dialog" id="eventsss-modal">
