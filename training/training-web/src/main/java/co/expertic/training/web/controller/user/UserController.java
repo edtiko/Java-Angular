@@ -167,7 +167,7 @@ public class UserController {
      */
     @RequestMapping(value = "/uploadFile/{userId}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
+    ResponseEntity<ResponseService> uploadFileHandler(@RequestParam("file") MultipartFile file, @PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         if (!file.isEmpty()) {
@@ -177,19 +177,19 @@ public class UserController {
                 strResponse.append("Imagen cargada correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 responseService.setOutput(strResponse);
-                return Response.status(Response.Status.OK).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
                 responseService.setOutput(strResponse);
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 responseService.setDetail(e.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
         } else {
             strResponse.append("Imagen cargada esta vacia.");
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 
@@ -226,18 +226,18 @@ public class UserController {
 
     //-------------------Retrieve Single User--------------------------------------------------------
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> getUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<ResponseService> getUser(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
         try {
-            System.out.println("Fetching User with id " + userId);
             UserDTO user = userService.findById(userId);
-            if (user == null) {
-                System.out.println("User with id " + userId + " not found");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            responseService.setOutput(user);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+             responseService.setStatus(StatusResponse.FAIL.getName());
+             responseService.setMessage(ex.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 

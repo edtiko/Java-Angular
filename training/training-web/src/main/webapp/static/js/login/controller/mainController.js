@@ -31,6 +31,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         $scope.videoReceivedCount = 0;
         $scope.selectedIndex = 1;
         $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
+        $scope.wsocket;
+        $scope.wsAudioMobile;
+        $scope.wsVideoMobile;
         $scope.views = {
             profile: {page: 'static/views/dashboard/profile.html', controller: ""},
             summary: {page: 'static/views/dashboard/summary.html'},
@@ -671,6 +674,39 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
             };
         };
+        
+        $scope.connectToAudioWsMovil = function (sessionId) {
+            $scope.wsAudioMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'audiows/' + sessionId);
+            $scope.wsAudioMobile.onmessage = function (data) {
+                var msg = JSON.parse(data.data); 
+            };
+
+            $scope.wsAudioMobile.onopen = function (event) {
+                console.log('Push connection from audio mobile server is working');
+
+            };
+            $scope.wsAudioMobile.onclose = function (event) {
+                console.log('Error on push connection from audio mobile server ');
+
+            };
+        };
+        
+        $scope.connectToVideoWsMovil = function (sessionId) {
+            $scope.wsVideoMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'videows/' + sessionId);
+            $scope.wsVideoMobile.onmessage = function (data) {
+                var msg = JSON.parse(data.data);
+            };
+
+            $scope.wsVideoMobile.onopen = function (event) {
+                console.log('Push connection from video mobile server is working');
+
+            };
+            $scope.wsVideoMobile.onclose = function (event) {
+                console.log('Error on push connection from video mobile server ');
+
+            };
+        };
+    
 
         $scope.setAthleteRole = function () {
 
@@ -679,6 +715,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             AudioMessageService.initialize($scope.userSession.planSelected.id);
             MailService.initialize($scope.userSession.planSelected.id);
             $scope.connectToChatserver($scope.userSession.planSelected.id);
+            $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
+            $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
             $scope.messageReceivedCount = ($scope.userSession.starCommunication.receivedMsg + $scope.userSession.supervisorCommunication.receivedMsg);
             $scope.mailReceivedCount = ($scope.userSession.starCommunication.receivedMail + $scope.userSession.supervisorCommunication.receivedMail);
             $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
@@ -708,11 +746,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
         //notificación audios recibidos
         AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUser.userId == $scope.userSession.userId) {
+            //if (audio.toUser.userId == $scope.userSession.userId) {
     
                     $scope.audioReceivedCount++;
            
-            }
+            //}
 
         });
 

@@ -10,6 +10,7 @@ public class ResponseService {
     private String status;
     private Object output;
     private String detail;
+    private String message;
 
     public ResponseService() {
     }
@@ -36,6 +37,14 @@ public class ResponseService {
 
     public void setDetail(String detail) {
         this.detail = detail;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
     
     

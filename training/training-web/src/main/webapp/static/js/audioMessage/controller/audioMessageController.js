@@ -60,11 +60,14 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     processData: false,
                     contentType: false
                 }).done(function (data) {
-                    if (data.entity.status == 'success') {
-                        $scope.showMessage(data.entity.output);
+                    if (data.status == 'success') {
+                        $scope.showMessage(data.message);
                         $scope.getVideosStar();
+                        if (data.output != null) {
+                            $scope.wsAudioMobile.send(JSON.stringify(data.output));
+                        }
                     } else {
-                        $scope.showMessage(data.entity.output);
+                        $scope.showMessage(data.output);
                     }
                     console.log(data);
                 }).error(function (error) {
@@ -91,11 +94,14 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     processData: false,
                     contentType: false
                 }).done(function (data) {
-                    if (data.entity.status == 'success') {
-                        $scope.showMessage(data.entity.output);
+                    if (data.status == 'success') {
+                        $scope.showMessage(data.message);
                         $scope.getVideosAsesor();
+                        if (data.output != null) {
+                            $scope.wsAudioMobile.send(data.output);
+                        }
                     } else {
-                        $scope.showMessage(data.entity.output);
+                        $scope.showMessage(data.message);
                     }
                     console.log(data);
                 }).error(function (error) {
@@ -111,7 +117,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         $scope.playAudioAsesor = function (path, planAudioId, fromto) {
 
             $scope.selectedIndex = 1;
-            var audioPath = $contextPath + "audio/files/audios/" + path;
+            var audioPath = path;
             var audioDiv = angular.element("#recordedAsesor");
 
             //marcar video como visto
@@ -138,7 +144,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         $scope.playAudioStar = function (path, planAudioId, fromto) {
 
             $scope.selectedIndex = 1;
-            var audioPath = $contextPath + "audio/files/audios/" + path;
+            var audioPath = path;
             var audioDiv = angular.element("#recordedStar");
 
             //marcar video como visto

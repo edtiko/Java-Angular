@@ -32,7 +32,7 @@ trainingApp.controller("VideoSupervisorController", ['$scope', 'videoService', '
             if ($scope.isToStar) {
                 videoService.getVideosByUser(-1, $scope.userSession.userId, "to", tipoPlan, -1).then(
                         function (data) {
-                            $scope.receivedvideos = data.entity.output;
+                            $scope.receivedvideos = data.output;
                             $scope.loadingReceived = true;
                         },
                         function (error) {
@@ -41,7 +41,7 @@ trainingApp.controller("VideoSupervisorController", ['$scope', 'videoService', '
             } else {
                 videoService.getVideosByUser($scope.userSession.planSelected.id, $scope.userSession.userId, "to", tipoPlan, $scope.roleSelected).then(
                         function (data) {
-                            $scope.receivedvideos = data.entity.output;
+                            $scope.receivedvideos = data.output;
                             $scope.loadingReceived = true;
                             
                         },
@@ -57,7 +57,7 @@ trainingApp.controller("VideoSupervisorController", ['$scope', 'videoService', '
             if ($scope.isToStar) {
                 videoService.getVideosByUser($scope.coachAssignedPlanSelected.id, $scope.userSession.userId, "from", tipoPlan, -1).then(
                         function (data) {
-                            $scope.sendedvideos = data.entity.output;
+                            $scope.sendedvideos = data.output;
                             $scope.loadingSent = true;
                         },
                         function (error) {
@@ -67,7 +67,7 @@ trainingApp.controller("VideoSupervisorController", ['$scope', 'videoService', '
             } else {
                 videoService.getVideosByUser($scope.userSession.planSelected.id, $scope.userSession.userId, "from", tipoPlan, $scope.roleSelected).then(
                         function (data) {
-                            $scope.sendedvideos = data.entity.output;
+                            $scope.sendedvideos = data.output;
                             $scope.loadingSent = true;
           
                         },
@@ -308,22 +308,25 @@ trainingApp.controller("VideoSupervisorController", ['$scope', 'videoService', '
 
             $scope.savePlanVideo(url,
                     function (response) {
-                        if (response.data.entity.status == 'success') {
-                            $scope.showMessage("Video cargado correctamente.");
-                            var video = response.data.entity.output;
+                        if (response.data.status == 'success') {
+                            $scope.showMessage(response.data.message);
+                            var video = response.data.output;
                             if (video != "") {
                                 if ($scope.isToStar) {
                                     video.sesionId = $scope.coachAssignedPlanSelected.id;
                                 } else {
                                     video.sesionId = $scope.userSession.planSelected.id;
                                 }
-                                $scope.getVideoCount();
+                                //$scope.getVideoCount();
                                 //videoService.send(video);
+                                if (response.data.output != null) {
+                                    $scope.wsVideoMobile.send(response.data.output);
+                                }
                             }
                             $scope.colorTime = '';
                             $scope.counterRecord = $scope.counterRecordInitial;
                         } else {
-                            $scope.showMessage(response.data.entity.output, "error");
+                            $scope.showMessage(response.data.output, "error");
                         }
                         $scope.sendedVideos(tipoPlan);
                     }

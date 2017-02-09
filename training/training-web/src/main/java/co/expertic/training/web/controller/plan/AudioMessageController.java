@@ -95,14 +95,13 @@ public class AudioMessageController {
                     emergencyAudios = planAudioService.getCountAudioByEmergencyPlanExt(planId, fromUserId);
                 }
                 if (availableAudios == 0 && emergencyAudios > 0) {
-                    responseService.setOutput("Audio cargado correctamente, se estan consumiendo los audio mensajes de emergencia (" + emergencyAudios + ")");
+                    responseService.setMessage("Audio cargado correctamente, se estan consumiendo los audio mensajes de emergencia (" + emergencyAudios + ")");
                 } else if (availableAudios == 0 && emergencyAudios == 0) {
-                    strResponse.append("Ya consumió el limite de audios permitidos para su plan.");
-                    responseService.setOutput(strResponse);
+                    responseService.setMessage("Ya consumió el limite de audios permitidos para su plan.");
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 } else {
-                    responseService.setOutput("Audio mensaje cargado correctamente.");
+                    responseService.setMessage("Audio mensaje cargado correctamente.");
                 }
                 String fileName = dateString + "_" + fromUserId + "_" + toUserId + ".wav";
 
@@ -135,7 +134,7 @@ public class AudioMessageController {
                         audio.setCoachExtAthleteId(new CoachExtAthlete(planId));
                     }
                     dto = planAudioService.create(audio);
-                    dto.setFromUser(userService.findById(fromUserId));
+                    dto.setFromUserId(fromUserId);
                     dto.setRoleSelected(roleSelected);
                     responseService.setOutput(dto);
                     simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
@@ -153,8 +152,7 @@ public class AudioMessageController {
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
         } else {
-            strResponse.append("Audio cargado esta vacio.");
-            responseService.setOutput(strResponse);
+            responseService.setMessage("Audio cargado esta vacio.");
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }

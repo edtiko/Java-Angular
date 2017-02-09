@@ -93,7 +93,7 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/upload/{toUserId}/{fromUserId}/{planId}/{dateString}/{tipoPlan}/{roleSelected}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId,
+    ResponseEntity<ResponseService> uploadVideo(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId,
             @PathVariable Integer fromUserId, @PathVariable Integer planId,
             @PathVariable String dateString, @PathVariable String tipoPlan, @PathVariable Integer roleSelected) {
         ResponseService responseService = new ResponseService();
@@ -110,14 +110,13 @@ public class PlanVideoController {
                     emergencyVideos = planVideoService.getCountVideoEmergencyExt(planId, fromUserId);
                 }
                 if (availableVideos == 0 && emergencyVideos > 0) {
-                    responseService.setOutput("Video cargado correctamente, se estan consumiendo los videos de emergencia (" + emergencyVideos + ")");
+                    responseService.setMessage("Video cargado correctamente, se estan consumiendo los videos de emergencia (" + emergencyVideos + ")");
                 } else if (availableVideos == 0 && emergencyVideos == 0) {
-                    strResponse.append("Ya consumió el limite de videos permitidos para su plan.");
-                    responseService.setOutput(strResponse);
+                    responseService.setMessage("Ya consumió el limite de videos permitidos para su plan.");
                     responseService.setStatus(StatusResponse.FAIL.getName());
-                    return Response.status(Response.Status.OK).entity(responseService).build();
+                    return new ResponseEntity<>(responseService, HttpStatus.OK);
                 } else {
-                    responseService.setOutput("Video mensaje cargado correctamente.");
+                    responseService.setMessage("Video mensaje cargado correctamente.");
                 }
                 String fileName = dateString + "_" + fromUserId + "_" + toUserId;
                 File directory = new File(ROOT);
@@ -125,11 +124,9 @@ public class PlanVideoController {
                 if (!directory.exists()) {
                     if (directory.mkdir()) {
                         Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
-                        //storageService.store(file);
                     }
                 } else if (!archivo.exists()) {
                     Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
-                    //storageService.store(file);
                 }
 
                 PlanVideoDTO dto = planVideoService.getByVideoPath(fileName);
@@ -151,26 +148,25 @@ public class PlanVideoController {
                         video.setCoachExtAthleteId(new CoachExtAthlete(planId));
                     }
                     dto = planVideoService.create(video);
-                    dto.setFromUser(userService.findById(fromUserId));
+                    dto.setFromUserId(fromUserId);
                     dto.setRoleSelected(roleSelected);
+                    responseService.setOutput(dto);
                     simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
                 }
-                //strResponse.append("video cargado correctamente.");
+
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
-                responseService.setOutput(dto);
-                return Response.status(Response.Status.OK).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
                 responseService.setOutput(strResponse);
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 responseService.setDetail(e.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
         } else {
-            strResponse.append("Video cargado esta vacio.");
-            responseService.setOutput(strResponse);
+            responseService.setMessage("Video cargado esta vacio.");
             responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 
@@ -348,7 +344,7 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+    ResponseEntity<ResponseService> getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
                              @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -363,13 +359,13 @@ public class PlanVideoController {
             List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(videos);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }

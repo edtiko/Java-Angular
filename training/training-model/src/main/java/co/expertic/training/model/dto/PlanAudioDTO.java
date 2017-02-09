@@ -1,9 +1,12 @@
 
 package co.expertic.training.model.dto;
 
+import co.expertic.training.constant.UrlProperties;
 import co.expertic.training.model.entities.PlanAudio;
 import co.expertic.training.model.entities.User;
+import co.expertic.training.model.util.CustomerDateAndTimeDeserialize;
 import co.expertic.training.model.util.JsonDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
@@ -22,6 +25,7 @@ public class PlanAudioDTO {
     private UserDTO fromUser;
     private String  audioPath;
     @JsonSerialize(using=JsonDateTimeSerializer.class)
+    @JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
     private Date    createDate;
     private Integer sesionId;
     private Integer coachAssignedPlanId;
@@ -115,7 +119,7 @@ public class PlanAudioDTO {
     }
 
     public String getName() {
-        return name;
+        return UrlProperties.URL_AUDIO_FILES+name;
     }
 
     public void setName(String name) {

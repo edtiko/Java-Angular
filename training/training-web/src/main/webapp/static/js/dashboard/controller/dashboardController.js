@@ -34,7 +34,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.starNotification = false;
         $scope.supNotification = false;
         $scope.internalNotification = false;
-        $scope.wsocket;
         $scope.controllerSelected = null;
         
         $scope.$on('home', function (e) {
@@ -345,6 +344,12 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 MailService.initialize($scope.userSession.planSelected.id);
                 //ws movil
                 $scope.connectToChatserver($scope.userSession.planSelected.id);
+                
+                //ws movil
+                $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
+                
+                 //ws movil
+                $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
                 
                 $scope.pageSelected = $scope.views.profile.page;
                 //mensajes 

@@ -1,10 +1,13 @@
 package co.expertic.training.model.dto;
 
+import co.expertic.training.constant.UrlProperties;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import co.expertic.training.model.entities.PlanVideo;
 import co.expertic.training.model.entities.User;
+import co.expertic.training.model.util.CustomerDateAndTimeDeserialize;
 import co.expertic.training.model.util.JsonDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
@@ -22,6 +25,7 @@ public class PlanVideoDTO {
     private UserDTO fromUser;
     private String  videoPath;
     @JsonSerialize(using=JsonDateTimeSerializer.class)
+    @JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
     private Date    createDate;
     private Integer sesionId;
     private Integer coachAssignedPlanId;
@@ -136,7 +140,7 @@ public class PlanVideoDTO {
     }
 
     public String getName() {
-        return name;
+        return UrlProperties.URL_VIDEO_FILES+name;
     }
 
     public void setName(String name) {

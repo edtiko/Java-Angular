@@ -400,7 +400,7 @@ public class UserDTO {
         return profilePhoto;
     }
 
-    public String getProfilePhotoBase64() {
+    /*public String getProfilePhotoBase64() {
         String base64Encoded = "";
 
         if (this.profilePhoto != null) {
@@ -419,7 +419,7 @@ public class UserDTO {
         }
         
         return base64Encoded;
-    }
+    }*/
 
     public void setProfilePhoto(byte[] profilePhoto) {
         this.profilePhoto = profilePhoto;

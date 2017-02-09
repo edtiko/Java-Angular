@@ -491,4 +491,18 @@ md-list {
          clear:both;
          bottom: 0px;
          margin-bottom: 0px;
-} 
+}
+
+.welcome{
+  font-size: 16px;
+  font-family: "Raleway";
+  color: rgb(0, 125, 253);
+  text-transform: uppercase;
+  line-height: 0.938;
+}
+
+md-menu-item>.md-button{
+     font-size: 12px !important; 
+}
+
+
