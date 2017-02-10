@@ -90,7 +90,7 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                 return $http.get($contextPath + '/user/' + id)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching users');

@@ -11,25 +11,9 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.profileImageCoach = "static/img/profile-default.png";
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.coachAssignedPlanId = null;
-        /*$scope.availableMessage = 0;
-        $scope.availableAudio = 0;
-        $scope.availableVideo = 0;
-        $scope.availableEmail = 0;
-        $scope.audioReceivedCount = 0;
-        $scope.videoReceivedCount = 0;
-        $scope.emailReceivedCount = 0;
-        $scope.audioReceivedStar = 0;
-        $scope.videoReceivedStar = 0;
-        $scope.emailReceivedStar = 0;
-        $scope.messagesReceivedStar = 0;
-        $scope.audioReceivedSup = 0;
-        $scope.videoReceivedSup = 0;
-        $scope.emailReceivedSup = 0;
-        $scope.messagesReceivedSup = 0;*/
         $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
         $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
         $scope.tabIndexStar = 0;
-        //$scope.planSelected = null;
         $scope.selectedIndex2 = null;
         $scope.starNotification = false;
         $scope.supNotification = false;
@@ -41,9 +25,16 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             //$scope.$emit("pingBack", $scope.get());
         });
 
-        $scope.$on('profile', function (e, data) {
-            $scope.getImageProfile(data.userId);
-        });
+        /*$scope.$on('profile', function (e, data) {
+            $scope.getImageProfile(data.userId, function (data) {
+                if (data != "") {
+                    $scope.profileImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("profileImage", $scope.profileImage);
+                } else {
+                    $scope.profileImage = "static/img/profile-default.png";
+                }
+            });
+        });*/
 
         $scope.$on('userSession', function (e, data) {
             $scope.userSession = data.userSession;
@@ -61,25 +52,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                 $scope.getDashBoardByUser(user);
             } else {
                 $scope.showMessage("El usuario no se encuentra logueado.", "error");
-            }
-        };
-
-        $scope.getImageProfile = function (userId) {
-            if (userId != null) {
-                UserService.getImageProfile(userId)
-                        .then(
-                                function (response) {
-                                    if (response != "") {
-                                        $scope.profileImage = "data:image/png;base64," + response;
-                                    } else {
-                                        $scope.profileImage = "static/img/profile-default.png";
-                                    }
-                                },
-                                function (errResponse) {
-                                    console.error('Error while fetching Image Profile');
-                                    console.error(errResponse);
-                                }
-                        );
             }
         };
 
@@ -246,7 +218,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             $scope.showScript = false;
             $scope.pageSelected = $scope.views.profile.page;
             $window.sessionStorage.setItem("selectedUser", null);
-            //$window.sessionStorage.setItem("planSelected", JSON.stringify(planSelected));
             $scope.userSession['planSelected'] = planSelected;
 
             if (planSelected != "" && planSelected != null && planSelected.external) {

@@ -1,59 +1,59 @@
-<div layout="column" class="border" style="height: 600px">
-    <div flex>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h3>
-                    <span>Bandeja de entrada</span>
-                </h3>
+<div layout="column">
+    <md-card style="height: 600px">
+        <md-card-content>
+            <div flex>
+                <div layout="row" layout-align="center">
+                    <md-button title="{{ 'CREATE' | translate }}" style="width: 250px; font-weight: bold" class="md-raised" ng-click="dialogEmail()">Escribir mensaje</md-button>
+                </div>
+                <md-list class="md-dense" flex>
+                    <md-list-item  ng-click="verRecibidos()" class="md-2-line"  ng-class="{selectedMail: recibidos === true}">
+                        <img src="static/img/inbox.png"/>
+                        <div class="md-list-item-text" >
+                            <h3>&nbsp; Bandeja de entrada</h3>
+                        </div>
+                        <md-button ng-if="mailsReceived.length > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
+                            {{mailsReceived.length}}
+                        </md-button>
+                    </md-list-item>
+                    <md-list-item ng-click="verEnviados()" class="md-2-line" ng-class="{selectedMail: enviados === true}">
+                        <img src="static/img/send_email.png"/>
+                        <div class="md-list-item-text">
+                            <h3>&nbsp; Mails enviados</h3>
+
+                        </div>
+                        <md-button ng-if="mailsSent.length > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
+                            {{mailsSent.length}}
+                        </md-button>
+                    </md-list-item>
+                </md-list>
             </div>
-        </md-toolbar>
-        <md-content>
-            <div layout="row" layout-align="center">
-            <md-button title="{{ 'CREATE' | translate }}" style="width: 200px" class="md-raised md-primary" ng-click="dialogEmail()">Escribir un mail</md-button>
+            <div flex >
+                <h4 style="color: #0064F8; padding: 18px">
+                    <span>CONTACTOS</span>
+                </h4>
+
+                <md-list class="md-dense" flex>
+                    <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getEmailByRole(userSessionTypeUserCoachEstrella)">
+                        <div class="rectangule1"></div>
+                        <img data-ng-src="{{starImage}}"  class="md-avatar">
+                        <div class="md-list-item-text">
+                            <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.starUserId.fullName}}</h3>
+                            <h3 style="color: #0064F8">Estrella</h3>
+                            <p>Mails disponibles {{availableMailStar}} de {{mailCountStar}}</p>
+                        </div>
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="getEmailByRole(userSessionTypeUserCoachInterno)">
+                        <div class="rectangule2"></div>
+                        <img data-ng-src="{{asesorImage}}"  class="md-avatar">
+                        <div class="md-list-item-text">
+                            <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.coachUserId.fullName}}</h3>
+                            <h3 style="color: #0064F8">Supervisor</h3>
+                            <p>Mails  disponibles {{availableMailSup}} de {{mailCountSup}}</p>
+                        </div>
+                    </md-list-item>
+                </md-list>
+
             </div>
-            <md-list class="md-dense" flex>
-                <md-list-item  ng-click="verRecibidos()" class="md-2-line" ng-class="{selectedIndex: recibidos === true}">
-                    <i class="fa fa-inbox" aria-hidden="true"></i>
-                    <div class="md-list-item-text" >
-                        <h3>&nbsp; Bandeja de entrada ({{mailsReceived.length}})</h3>
-                    </div>
-                </md-list-item>
-                <md-list-item ng-click="verEnviados()" class="md-2-line" ng-class="{selectedIndex: enviados === true}">
-                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                    <div class="md-list-item-text">
-                        <h3>&nbsp; Mails enviados ({{mailsSent.length}})</h3>
-                    </div>
-                </md-list-item>
-            </md-list>
-        </md-content>
-    </div>
-    <div flex>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>
-                    <span>Contactos</span>
-                </h2>
-            </div>
-        </md-toolbar>
-        <md-content>
-            <md-list class="md-dense" flex>
-                <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getEmailByRole(userSessionTypeUserCoachEstrella)" ng-class="{selectedIndex: roleSelected == userSessionTypeUserCoachEstrella}">
-                    <img data-ng-src="{{userSession.planSelected.starUserId.profilePhotoBase64}}"  class="md-avatar">
-                    <div class="md-list-item-text">
-                        <h3 style="font-weight: bold;">{{userSession.planSelected.starUserId.fullName}}</h3>
-                        <h4>Estrella</h4>
-                        <p>Mails disponibles {{availableMailStar}} de {{mailCountStar}}</p>
-                    </div>
-                </md-list-item>
-                <md-list-item class="md-3-line" ng-click="getEmailByRole(userSessionTypeUserCoachInterno)" ng-class="{selectedIndex: roleSelected == userSessionTypeUserCoachInterno}">
-                    <img data-ng-src="{{userSession.planSelected.coachUserId.profilePhotoBase64}}"  class="md-avatar">
-                    <div class="md-list-item-text">
-                        <h3 style="font-weight: bold;">{{userSession.planSelected.coachUserId.fullName}}</h3>
-                        <h4>Supervisor</h4>
-                        <p>Mails  disponibles {{availableMailSup}} de {{mailCountSup}}</p>
-                    </div>
-                </md-list-item>
-            </md-list>
-        </md-content>
-    </div>
+        </md-card-content>
+    </md-card>
 </div>

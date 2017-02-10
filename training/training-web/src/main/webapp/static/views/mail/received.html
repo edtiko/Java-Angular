@@ -7,15 +7,13 @@
 
             <div class="md-list-item-text" style="margin-left: 1%" ng-if="mail.read">
 
-                <h3>{{ 'FROM' | translate }}: {{mail.sendingUser.fullName}}</h3>
-                {{ 'SUBJECT' | translate }}: {{mail.subject}}
+                <h3 style="font-weight: bold; color: #0064F8; text-transform: capitalize">{{mail.sendingUser.fullName}}</h3>
             </div>
             <div class="md-list-item-text" style="margin-left: 1%;font-weight: bold" ng-if="mail.read == false">
 
-                <h3 style="font-weight: bold" >{{ 'FROM' | translate }}: {{mail.sendingUser.fullName}}</h3>
-                {{ 'SUBJECT' | translate }}: {{mail.subject}}
+                <h3 style="font-weight: bold; color: #0064F8; text-transform: capitalize" > {{mail.sendingUser.fullName}}</h3>
             </div>
-
+            <span>{{mail.subject}}</span>
             <md-subheader>{{mail.creationDate}}</md-subheader>
 
             <md-divider></md-divider>

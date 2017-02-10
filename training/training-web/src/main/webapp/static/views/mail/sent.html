@@ -5,10 +5,9 @@
                       ng-click="selectSentMail(mail.mailCommunicationId)">
             <div class="md-list-item-text"  >
 
-                <h3>{{ 'TO' | translate }}: {{mail.receivingUser.fullName}}</h3>
-                {{ 'SUBJECT' | translate }}: {{mail.subject}}
+                <h3 style="font-weight: bold; color: #0064F8; text-transform: capitalize">{{mail.receivingUser.fullName}}</h3>
             </div>
-
+            <span>{{mail.subject}}</span>
             <md-subheader>{{mail.creationDate}}</md-subheader>
 
             <md-divider ></md-divider>

@@ -4,6 +4,7 @@ import co.expertic.training.model.entities.Role;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.util.Date;
@@ -33,6 +34,7 @@ public class UserDTO {
     private String cellphone;
     private String address;
     private String postalCode;
+    @JsonIgnore
     private byte[] profilePhoto;
     private String facebookPage;
     private String instagramPage;

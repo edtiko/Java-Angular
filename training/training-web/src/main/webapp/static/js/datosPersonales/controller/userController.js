@@ -5,6 +5,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService) {
         var self = this;
         $scope.currentNavItem = 0;
+        $scope.profileImage = $window.sessionStorage.getItem("profileImage");
         $scope.steps = [
             {
                 templateUrl: 'static/views/datosPersonales/step1.html',
@@ -111,9 +112,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         .then(
                                 function (response) {
                                     if (response != "") {
-                                        $scope.dataImage = "data:image/png;base64," + response;
+                                        $scope.profileImage = "data:image/png;base64," + response;
                                     } else {
-                                        $scope.dataImage = "static/img/profile-default.png";
+                                        $scope.profileImage = "static/img/profile-default.png";
                                     }
                                 },
                                 function (errResponse) {

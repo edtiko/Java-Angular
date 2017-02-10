@@ -11,6 +11,8 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         $scope.availableAudioAsesor = $scope.userSession.supervisorCommunication.availableAudio;
         $scope.audioPlanAsesor = $scope.userSession.supervisorCommunication.planAudio;
         $scope.selectedIndex = 0;
+        $scope.starImage = $window.sessionStorage.getItem("starImage");
+        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
 
         self.receivedAudios = function (tipoPlan, role, fn) {
 

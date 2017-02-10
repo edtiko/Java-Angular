@@ -29,6 +29,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         var sourceBuffer;
         $scope.mediaModelStar = null;
         $scope.mediaModelAsesor = null;
+        $scope.starImage = $window.sessionStorage.getItem("starImage");
+        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
 
         var constraints = {
             audio: true,
@@ -559,8 +561,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
             $scope.savePlanVideoStar(url,
                     function (response) {
                         if (response.data.entity.status == 'success') {
-                            $scope.showMessage("Video cargado correctamente.");
-                            var video = response.data.entity.output;
+                            $scope.showMessage(response.data.message);
+                            var video = response.data.output;
                             if (video != "") {
                                 video.sesionId = $scope.userSession.planSelected.id;
 
@@ -568,7 +570,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             $scope.colorTimeStar = '';
                             $scope.counterRecordStar = $scope.counterRecordInitialStar;
                         } else {
-                            $scope.showMessage(response.data.entity.output, "error");
+                            $scope.showMessage(response.data.message, "error");
                         }
                         self.getVideosStar();
                     }
@@ -594,14 +596,14 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                     function (response) {
                         if (response.data.entity.status == 'success') {
                             $scope.showMessage("Video cargado correctamente.");
-                            var video = response.data.entity.output;
+                            var video = response.data.output;
                             if (video != "") {
                                 video.sesionId = $scope.userSession.planSelected.id;
                             }
                             $scope.colorTimeAsesor = '';
                             $scope.counterRecordAsesor = $scope.counterRecordInitialAsesor;
                         } else {
-                            $scope.showMessage(response.data.entity.output, "error");
+                            $scope.showMessage(response.data.entity.message, "error");
                         }
                         self.getVideosAsesor();
                     }
@@ -701,12 +703,12 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         self.getVideosStar = function () {
             var tipoPlan = "IN";
             self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
-                $scope.receivedStar = data.entity.output;
+                $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;
 
             });
             self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
-                $scope.sendedStar = data.entity.output;
+                $scope.sendedStar = data.output;
                 $scope.loadingSentStar = true;
 
             });
@@ -720,13 +722,13 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         self.getVideosAsesor = function () {
             var tipoPlan = "IN";
             self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
-                $scope.receivedAsesor = data.entity.output;
+                $scope.receivedAsesor = data.output;
                 $scope.loadingReceivedAsesor = true;
 
             });
 
             self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
-                $scope.sendedAsesor = data.entity.output;
+                $scope.sendedAsesor = data.output;
                 $scope.loadingSentAsesor = true;
 
             });

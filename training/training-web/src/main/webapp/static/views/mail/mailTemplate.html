@@ -1,13 +1,11 @@
 <md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
-    <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Mensaje Nuevo</h2>
+            <h2 style="color: #0064F8; font-weight: bold">Mensaje Nuevo</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="cancel()">
-                <i class="fa fa-times" aria-hidden="true"></i>
+                <i style="color: #AAFD6F" class="fa fa-times" aria-hidden="true"></i>
             </md-button>
         </div>
-    </md-toolbar>
     <md-dialog-content> 
             <form ng-submit="sendMail()" name="mailForm">
         <div class="md-dialog-content">
@@ -37,7 +35,7 @@
                         </md-input-container>
         
              <md-dialog-actions layout="row" >
-                 <md-button ng-disabled="mailCommunication.message.length === 0 || !mailForm.$valid" type="submit" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
+                 <md-button ng-disabled="mailCommunication.message.length === 0 || !mailForm.$valid" type="submit" style="background: #1C2127; color:#AAFD6F;" class="md-raised">{{ 'SEND' | translate }}</md-button>
             </md-dialog-actions>
                     
         </div>

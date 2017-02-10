@@ -1,10 +1,16 @@
-<div layout="row" layout-align="center" style="margin: 3%" >
-     <div flex="25">
+<md-content  ng-cloak style="margin: 2%" > 
+<h4 style="color: #0064F8;">
+    <span ng-if="recibidos">BANDEJA DE ENTRADA</span>
+    <span ng-if="enviados">MAILS ENVIADOS</span>
+    </h4>
+<div layout="row" layout-align="center">
+    <div flex="35">
         <div  ng-include src="'static/views/mail/mailControl.html'"></div>
     </div>
-    <div flex="80" layout="column"  layout-align="space-between none" class="demo-content">
+    <div flex="75" layout="column"  layout-align="space-between none" >
         <div ng-include src="viewMailSelected" id="message-content" class="border" style="height: 600px">
         </div> 
     </div>
 
 </div>
+</md-content>

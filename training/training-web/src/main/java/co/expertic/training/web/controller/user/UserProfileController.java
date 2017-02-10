@@ -144,6 +144,7 @@ public class UserProfileController {
 
             UserProfileDTO user = userProfileService.findDTOByUserId(userProfile.getUserId());
             responseService.setOutput(user);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }catch (Exception e) {
             Logger.getLogger(UserProfileController.class.getName()).log(Priority.FATAL, null, e);

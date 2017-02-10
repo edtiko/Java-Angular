@@ -1,10 +1,10 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'messageService', 'MailService',
     'videoService', 'AudioMessageService', 'VisibleFieldsUserService',
-    'ModuleService', 'ExternalCoachService', 'DashboardService',
+    'ModuleService', 'ExternalCoachService', 'DashboardService','UserService',
     '$window', '$mdDialog', '$mdToast', '$location',
     function ($http, $scope, AuthService, messageService, MailService, videoService, AudioMessageService,
-            VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService, $window,
+            VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService,UserService, $window,
             $mdDialog, $mdToast, $location) {
 
         var self = this;
@@ -34,6 +34,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         $scope.wsocket;
         $scope.wsAudioMobile;
         $scope.wsVideoMobile;
+        $scope.profileImage = $window.sessionStorage.getItem("profileImage");
+        $scope.starImage = $window.sessionStorage.getItem("starImage");
+        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.views = {
             profile: {page: 'static/views/dashboard/profile.html', controller: ""},
             summary: {page: 'static/views/dashboard/summary.html'},
@@ -83,13 +86,34 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                             $scope.userDashboard.age = $scope.calculateAge(birthdate);
                         }
                         $scope.getVisibleFieldsUserByUser(user);
-                        $scope.$broadcast('profile', {userId: user.userId});
+                        $scope.getImageProfile(user.userId, function (data) {
+                            if (data != "") {
+                                $scope.profileImage = "data:image/png;base64," + data;
+                                $window.sessionStorage.setItem("profileImage", $scope.profileImage);
+                            } else {
+                                $scope.profileImage = "static/img/profile-default.png";
+                            }
+                        });
+                        //$scope.$broadcast('profile', {userId: user.userId});
                     },
                     function (errResponse) {
                         console.error('Error while fetching the dashboard');
                         console.error(errResponse);
                     }
             );
+        };
+
+        $scope.getImageProfile = function (userId, fn) {
+            if (userId != null) {
+                UserService.getImageProfile(userId)
+                        .then(
+                               fn,
+                                function (errResponse) {
+                                    console.error('Error while fetching Image Profile');
+                                    console.error(errResponse);
+                                }
+                        );
+            }
         };
 
         $scope.calculateIMC = function () {
@@ -722,6 +746,23 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
             $scope.videoReceivedCount = ($scope.userSession.starCommunication.receivedVideo + $scope.userSession.supervisorCommunication.receivedVideo);
             $scope.pageSelected = $scope.views.summary.page;
+            $scope.getImageProfile($scope.userSession.planSelected.starUserId.userId, function (data) {
+                if (data != "") {
+                    $scope.starImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("starImage", $scope.starImage);
+                } else {
+                    $scope.starImage = "static/img/profile-default.png";
+                }
+            });
+            $scope.getImageProfile($scope.userSession.planSelected.coachUserId.userId, function (data) {
+                if (data != "") {
+                    $scope.asesorImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);
+                } else {
+                    $scope.asesorImage = "static/img/profile-default.png";
+                }
+
+            });
         };
         
          //notificación mensajes recibidos

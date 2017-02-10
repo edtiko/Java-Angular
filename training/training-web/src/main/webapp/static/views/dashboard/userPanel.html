@@ -7,7 +7,7 @@
         </div>
         <div layout="column" layout-margin layout-align="space-around center" flex>
             <a  href="#data-person" >
-                <img class="circular" data-ng-src="{{userSession.profilePhotoBase64}}" style="height: 103px; width: 104px;">
+                <img class="circular" data-ng-src="{{profileImage}}" style="height: 103px; width: 104px;">
                 <md-tooltip md-direction="right">
                     Ver Perfil
                 </md-tooltip>
@@ -61,7 +61,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">MENSAJES</span>
                 </div>
-                <md-button ng-if="messageReceivedCount > 0" class="md-fab md-mini">
+                <md-button ng-if="messageReceivedCount > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
                     {{messageReceivedCount}}
                 </md-button>
                 <md-divider></md-divider>
@@ -85,7 +85,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">AUDIOS</span>
                 </div>
-                <md-button ng-if="audioReceivedCount > 0" class="md-fab md-mini">
+                <md-button ng-if="audioReceivedCount > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
                     {{audioReceivedCount}}
                 </md-button>
                 <md-divider></md-divider>
@@ -97,7 +97,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">VIDEOS</span>
                 </div>
-                <md-button ng-if="videoReceivedCount > 0" class="md-fab md-mini">
+                <md-button ng-if="videoReceivedCount > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
                     {{videoReceivedCount}}
                 </md-button>
                 <md-divider></md-divider>

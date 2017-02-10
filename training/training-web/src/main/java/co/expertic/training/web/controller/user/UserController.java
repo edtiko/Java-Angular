@@ -795,13 +795,13 @@ public class UserController {
 
                 }
                 //obtiene los datos de perfil ó datos deportivos del usuario
-                UserProfileMovilDTO up = UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId()));
+               /* UserProfileMovilDTO up = UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId()));
 
                 List<UserAvailabilityDTO> availability = userAvailabilityService.findDtoByUserId(userDto.getUserId());
                 if (!availability.isEmpty()) {
                     up.setAvailability(availability);
                 }
-                userSession.setUserProfile(up);
+                userSession.setUserProfile(up);*/
             }
 
             TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
