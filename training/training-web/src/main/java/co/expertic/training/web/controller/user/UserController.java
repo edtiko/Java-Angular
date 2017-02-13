@@ -11,13 +11,12 @@ import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.DashboardDTO;
 import co.expertic.training.model.dto.FederalStateDTO;
+import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.OpenTokDTO;
 import co.expertic.training.model.dto.PaginateDto;
-import co.expertic.training.model.dto.UserAvailabilityDTO;
 import co.expertic.training.model.dto.UserBasicMovilDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserMovilDTO;
-import co.expertic.training.model.dto.UserProfileMovilDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.Country;
 import co.expertic.training.model.entities.Discipline;
@@ -1233,6 +1232,26 @@ public class UserController {
             List<Integer> ages = userService.getUserAges();
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(ages);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "get/user/notification/{userSessionId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getUserNotification(@PathVariable("userSessionId") Integer userSessionId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<NotificationDTO> list = userService.getUserNotification(userSessionId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(list);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

@@ -331,6 +331,18 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getUserNotification: function (userId) {
+                return $http.get($contextPath + 'get/user/notification/'+userId)
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching user notifications');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
             
         };

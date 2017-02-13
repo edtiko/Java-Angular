@@ -3,7 +3,7 @@
     <h4 style="color: #0064F8"><img src="static/img/settings.png">  MENSAJES</h4>
     <div flex layout="row" layout-align="center">
         <div flex="35" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
-            <md-card style="height:550px">
+            <md-card style="min-height:550px">
                 <md-card-content> 
                     <md-list class="md-dense" flex>
                         <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getMessagesByRole(userSessionTypeUserCoachEstrella)" >
@@ -14,9 +14,7 @@
                                 <h3 style="color: #0064F8">Estrella</h3>
                                 <p>Mensajes disponibles {{availableMessageStar}} de {{messageCountStar}}</p>
                             </div>
-                            <md-button ng-if="userSession.starCommunication.receivedMsg > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
-                                {{receivedMessageStar}}
-                            </md-button>
+                            <div ng-if="receivedMessageStar > 0" class="circle_notification">{{receivedMessageStar}}</div>
                         </md-list-item>
                         <md-list-item class="md-3-line" ng-click="getMessagesByRole(userSessionTypeUserCoachInterno)" >
                             <div class="rectangule2"></div>
@@ -26,9 +24,7 @@
                                 <h3 style="color: #0064F8">Supervisor</h3>
                                 <p>Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
                             </div>
-                            <md-button ng-if="userSession.supervisorCommunication.receivedMsg > 0" class="md-fab md-mini" style="background: #AAFD6F; color: #000">
-                                {{receivedMessageSup}}
-                            </md-button>
+                            <div ng-if="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>
                         </md-list-item>
                     </md-list>
                 </md-card-content>
@@ -37,9 +33,9 @@
         <div flex="75" layout="column"  layout-align="space-between none">
             <div layout="row" layout-align="center">
                 <h3 style="text-transform: capitalize">{{userMsgSelected==null?'Mensajes':userMsgSelected}} 
-                <img src="static/img/circle_chat.png" style="width: 12px; height: 12px;"></h3>
+                    <img src="static/img/circle_chat.png" style="width: 12px; height: 12px;"></h3>
             </div>
-            <div layout="column" style="height:390px" flex>
+            <div layout="column" style="min-height:390px" flex>
                 <md-content style="overflow-x: hidden;" scroll-glue="glued">
                     <div layout="column" layout-align="center center" flex ng-if="loading">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
@@ -65,11 +61,11 @@
                                 <input type="text" placeholder="Escribe un mensaje" ng-model="planMessage.message" />
                             </md-input-container>
                         </div>
-                             <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="addMessage()" ng-disabled="planMessage.message.length === 0">
-                                <md-icon md-menu-origin>
+                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="addMessage()" ng-disabled="planMessage.message.length === 0">
+                            <md-icon md-menu-origin>
                                 <img src="static/img/send_chat.png">
-                                </md-icon>
-                            </md-button>
+                            </md-icon>
+                        </md-button>
                     </section>
                 </form>
             </div>

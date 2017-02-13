@@ -3,6 +3,7 @@ package co.expertic.training.service.user;
 import co.expertic.training.model.dto.CityDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.FederalStateDTO;
+import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.City;
 import co.expertic.training.model.entities.Country;
@@ -147,5 +148,7 @@ public interface UserService {
     public FederalState getFederalStateById(Integer federalStateId) throws Exception; 
 
     public List<Integer> getUserAges()throws Exception; 
+
+    public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception; 
    
 }

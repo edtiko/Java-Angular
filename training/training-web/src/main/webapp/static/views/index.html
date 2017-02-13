@@ -189,7 +189,30 @@
                     <div flex ng-include src="'static/views/dashboard/userPanel.html'"></div> 
                 </div>
                 <div flex="75" layout="column">
-                    <div layout="row" layout-margin layout-align="end center" class="border">
+                    <div layout="row" layout-margin layout-align="end center" class="border">        
+                        <md-menu md-position-mode="target-right bottom">
+                            <md-button  id="bell_notification" aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                                <md-icon md-menu-origin>
+                                    <img src="static/img/bell.png" />
+                                </md-icon>
+                                <div ng-if="listNotification.length > 0" class="circle_notification">{{listNotification.length}}</div>
+                            </md-button>
+                            <md-menu-content md-position-mode="target-right bottom" layout-padding style="background: #1C2127;">
+                                <h3 style="color: #00E8E8 !important;">NOTIFICACIONES</h3>
+                                <md-list class="md-dense" flex>
+                                    <md-list-item ng-repeat="n in listNotification" class="md-3-line"  ng-click="verModulo(n.module)" >
+                                        <img ng-if="n.roleId == userSessionTypeUserCoachInterno" data-ng-src="{{asesorImage}}"  class="md-avatar"> 
+                                        <img ng-if="n.roleId == userSessionTypeUserCoachEstrella" data-ng-src="{{starImage}}"  class="md-avatar border">
+                                        <div class="md-list-item-text">
+                                            <h3 style="color: #ffffff;" ng-if="n.roleId == userSessionTypeUserCoachInterno">{{userSession.planSelected.coachUserId.fullName}}</h3>
+                                            <h3 style="color: #ffffff;" ng-if="n.roleId == userSessionTypeUserCoachEstrella">{{userSession.planSelected.starUserId.fullName}}</h3>
+                                            <p style="color: #ffffff;">Te envío un mensaje de {{n.module}}</p>
+                                            <a href="javascript:void(0)" style="color: #AAFD6F">Ver {{n.module}}</a>
+                                        </div>
+                                    </md-list-item>
+                                </md-list>
+                            </md-menu-content>
+                        </md-menu>
                         <span class="blue">BIENVENIDO</span>
                         <span class="blue" style="text-transform: uppercase; font-weight: bold"> {{userLogin}}</span>
                         <img data-ng-src="{{profileImage}}" class="circular" style="height: 45px; width: 45px;">

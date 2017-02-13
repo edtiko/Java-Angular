@@ -532,9 +532,36 @@ md-menu-item>.md-button{
 }
 
 .circle_notification{
-  border-radius: 50%;
-  background-color: rgb(170, 252, 112);
-  width: 18px;
-  height: 18px;
+    border-radius: 50%;
+    background-color: rgb(170, 252, 112);
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: normal;
+    padding-top: 2px;
+    color: #000;
+    font-weight: bold;
 }
 
+.Ellipse_3 {
+  border-radius: 50%;
+  background-color: rgb(170, 252, 112);
+  position: absolute;
+  left: 1175px;
+  top: 29px;
+  width: 18px;
+  height: 18px;
+  z-index: 52;
+}
+
+#bell_notification .circle_notification{
+    display: block;
+    position: absolute;
+    top: 20%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    line-height: 18px;
+    padding-top: 0px;
+}

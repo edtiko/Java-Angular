@@ -741,17 +741,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
                     });
         };
         
-        $scope.getActivitiesByWeek = function () {
-                ActivityService.getActivitiesByWeek($scope.userSession.userId).then(
-                        function (data) {
-                          $scope.weekActivities = data;
-                        },
-                        function (error) {
-                            console.log(error);
-                        }
-                );
-          
-        };
        
         $scope.initStarControl = function (interno) {
             if (interno) {
@@ -774,89 +763,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         };
 
-
-        $scope.init = function () {
-            $scope.getUserSession(function (res) {
-                $window.sessionStorage.setItem("planSelected", null);
-                $window.sessionStorage.setItem("planSelectedStar", null);
-                $window.sessionStorage.setItem("selectedUser", null);
-                //$scope.userSession.planSelected = null;
-                //$scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-                $scope.getUserSessionByResponse(res);
-                $scope.userSession = res.data.entity.output;
-                
-                if ($scope.userSession != null) {
-                    //$scope.getUserById();
-                    $scope.getVisibleFieldsUserByUser($scope.userSession);
-                    $scope.getActivitiesByWeek();
-
-                    switch ($scope.userSession.typeUser) {
-                        case $scope.userSessionTypeUserCoach:
-                            $scope.showControl = true;
-                            $scope.showControlAthlete = true;
-                            $scope.showVideo = true;
-                            $scope.showCountVideo = true;
-                            $scope.showEmail = true;
-                            $scope.showCountEmail = true;
-                            $scope.showAudioMessage = true;
-                            $scope.showCountAudio = true;
-                            $scope.showChat = true;
-                            $scope.showCountChat = true;
-                            self.getAthletesCoachExternal();
-                            break;
-                        case $scope.userSessionTypeUserCoachInterno:
-                            $scope.showControl = true;
-                            $scope.showSupervisorControl = true;
-                            $scope.showVideo = true;
-                            $scope.showCountVideo = true;
-                            $scope.showEmail = true;
-                            $scope.showCountEmail = true;
-                            $scope.showAudioMessage = true;
-                            $scope.showCountAudio = true;
-                            $scope.showChat = true;
-                            $scope.showCountChat = true;
-                            $scope.pageSelected = $scope.views.profile.page;
-                            self.getAssignedAthletes();
-                            self.getAssignedStar();
-                            break;
-                        case $scope.userSessionTypeUserAtleta:
-                            $scope.setAthleteRole();
-                            break;
-                        case $scope.userSessionTypeUserCoachEstrella:
-                            $scope.showControl = true;
-                            $scope.showStarControl = true;
-                            $scope.showProfileImage = true;
-                            $scope.getSupervisorsByStar();
-                            break;
-                        case $scope.userSessionTypeUserAdmin:
-                            $scope.showControl = true;
-                            $scope.showInternalControl = true;
-                            $scope.showControlAthlete = false;
-                            $scope.showProfileImage = true;
-                            $scope.showVideo = false;
-                            $scope.showCountVideo = false;
-                            $scope.showEmail = true;
-                            $scope.showCountEmail = false;
-                            $scope.showAudioMessage = false;
-                            $scope.showCountAudio = false;
-                            $scope.showChat = true;
-                            $scope.showCountChat = false;
-                            $scope.showScript = false;
-                            $scope.getDashBoardByUser($scope.userSession);
-                            $scope.pageSelected = $scope.views.profile.page;
-                            self.getSupervisors();
-                            self.getStars();
-                            break;
-
-                    }
-                }
-
-            });
-            // $("#trainingApp").removeClass("preloader");
-        };
-
-
-        $scope.init();
 
     }]);
 

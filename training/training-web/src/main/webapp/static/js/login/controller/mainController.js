@@ -1,10 +1,10 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'messageService', 'MailService',
     'videoService', 'AudioMessageService', 'VisibleFieldsUserService',
-    'ModuleService', 'ExternalCoachService', 'DashboardService','UserService',
+    'ModuleService', 'ExternalCoachService', 'DashboardService', 'UserService', 'ActivityService',
     '$window', '$mdDialog', '$mdToast', '$location',
     function ($http, $scope, AuthService, messageService, MailService, videoService, AudioMessageService,
-            VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService,UserService, $window,
+            VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService, UserService, ActivityService, $window,
             $mdDialog, $mdToast, $location) {
 
         var self = this;
@@ -64,6 +64,22 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             injury: '', disease: '', weather: ''
         };
 
+        $scope.verModulo = function (module) {
+            switch (module) {
+                case "message":
+                    $scope.go('/message', 5);
+                    break
+                case "mail":
+                    $scope.go('/mail', 6);
+                    break;
+                case "audio":
+                    $scope.go('/audio-messages', 7);
+                case "video":
+                    $scope.go('/video', 8);
+
+            }
+        };
+
         $scope.go = function (path, index) {
             $scope.selectedIndex = index;
             $location.path(path);
@@ -107,7 +123,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             if (userId != null) {
                 UserService.getImageProfile(userId)
                         .then(
-                               fn,
+                                fn,
                                 function (errResponse) {
                                     console.error('Error while fetching Image Profile');
                                     console.error(errResponse);
@@ -339,9 +355,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         $scope.logout = function () {
             window.location = $wordPressContextPath + 'mi-cuenta/customer-logout/';
         };
-        
-        $scope.account = function(){
-          window.location = $wordPressContextPath+'/mi-cuenta/';
+
+        $scope.account = function () {
+            window.location = $wordPressContextPath + '/mi-cuenta/';
         };
 
         $scope.viewInvitationDialog = function () {
@@ -675,7 +691,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             $window.sessionStorage.setItem("planSelected", JSON.stringify($scope.planSelected));
 
         };
-        
+
         $scope.onMessageReceived = function (data) {
             console.log(data);
         };
@@ -698,11 +714,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
             };
         };
-        
+
         $scope.connectToAudioWsMovil = function (sessionId) {
             $scope.wsAudioMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'audiows/' + sessionId);
             $scope.wsAudioMobile.onmessage = function (data) {
-                var msg = JSON.parse(data.data); 
+                var msg = JSON.parse(data.data);
             };
 
             $scope.wsAudioMobile.onopen = function (event) {
@@ -714,7 +730,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
             };
         };
-        
+
         $scope.connectToVideoWsMovil = function (sessionId) {
             $scope.wsVideoMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'videows/' + sessionId);
             $scope.wsVideoMobile.onmessage = function (data) {
@@ -730,7 +746,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
             };
         };
-    
+
 
         $scope.setAthleteRole = function () {
 
@@ -763,9 +779,19 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                 }
 
             });
+
+            $scope.getUserNotification($scope.userSession.userId);
         };
-        
-         //notificación mensajes recibidos
+
+        $scope.getUserNotification = function (userId) {
+            UserService.getUserNotification(userId).then(
+                    function (data) {
+                        $scope.listNotification = data;
+                    }
+            );
+        };
+
+        //notificación mensajes recibidos
         messageService.receive().then(null, null, function (message) {
             if ($scope.userSession.userId != message.messageUserId.userId) {
 
@@ -788,9 +814,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         //notificación audios recibidos
         AudioMessageService.receive().then(null, null, function (audio) {
             //if (audio.toUser.userId == $scope.userSession.userId) {
-    
-                    $scope.audioReceivedCount++;
-           
+
+            $scope.audioReceivedCount++;
+
             //}
 
         });
@@ -799,9 +825,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         //notificación emails recibidos
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
-        
-                    $scope.mailReceivedCount++;
-             
+
+                $scope.mailReceivedCount++;
+
             }
 
         });
@@ -815,7 +841,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                     });
         };
 
-        $scope.getReceivedMails = function (planId, userId, toUserId, tipoPlan, roleSelected,fn) {
+        $scope.getReceivedMails = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
             MailService.getReceivedMails(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
@@ -824,7 +850,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                     });
         };
 
-        $scope.getReceivedVideos = function (planId, fromUserId, toUserId, tipoPlan, roleSelected,fn) {
+        $scope.getReceivedVideos = function (planId, fromUserId, toUserId, tipoPlan, roleSelected, fn) {
             videoService.getVideosReceived(planId, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
@@ -841,7 +867,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                         console.error(error);
                     });
         };
-        
+
         $scope.getReceived = function () {
             var tipoPlan = "IN";
             if ($scope.userSession != null) {
@@ -862,11 +888,105 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                         function (data) {
                             $scope.audioReceivedCount = data.entity.output;
                         });
+                $scope.getUserNotification($scope.userSession.userId);
             }
 
         };
 
-        //$scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+        $scope.getActivitiesByWeek = function () {
+            ActivityService.getActivitiesByWeek($scope.userSession.userId).then(
+                    function (data) {
+                        $scope.weekActivities = data;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+
+        };
+
+        $scope.init = function () {
+            $scope.getUserSession(function (res) {
+                $window.sessionStorage.setItem("planSelected", null);
+                $window.sessionStorage.setItem("planSelectedStar", null);
+                $window.sessionStorage.setItem("selectedUser", null);
+                //$scope.userSession.planSelected = null;
+                //$scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                $scope.getUserSessionByResponse(res);
+                $scope.userSession = res.data.entity.output;
+
+                if ($scope.userSession != null) {
+                    //$scope.getUserById();
+                    $scope.getVisibleFieldsUserByUser($scope.userSession);
+                    $scope.getActivitiesByWeek();
+
+                    switch ($scope.userSession.typeUser) {
+                        case $scope.userSessionTypeUserCoach:
+                            $scope.showControl = true;
+                            $scope.showControlAthlete = true;
+                            $scope.showVideo = true;
+                            $scope.showCountVideo = true;
+                            $scope.showEmail = true;
+                            $scope.showCountEmail = true;
+                            $scope.showAudioMessage = true;
+                            $scope.showCountAudio = true;
+                            $scope.showChat = true;
+                            $scope.showCountChat = true;
+                            self.getAthletesCoachExternal();
+                            break;
+                        case $scope.userSessionTypeUserCoachInterno:
+                            $scope.showControl = true;
+                            $scope.showSupervisorControl = true;
+                            $scope.showVideo = true;
+                            $scope.showCountVideo = true;
+                            $scope.showEmail = true;
+                            $scope.showCountEmail = true;
+                            $scope.showAudioMessage = true;
+                            $scope.showCountAudio = true;
+                            $scope.showChat = true;
+                            $scope.showCountChat = true;
+                            $scope.pageSelected = $scope.views.profile.page;
+                            self.getAssignedAthletes();
+                            self.getAssignedStar();
+                            break;
+                        case $scope.userSessionTypeUserAtleta:
+                            $scope.setAthleteRole();
+                            break;
+                        case $scope.userSessionTypeUserCoachEstrella:
+                            $scope.showControl = true;
+                            $scope.showStarControl = true;
+                            $scope.showProfileImage = true;
+                            $scope.getSupervisorsByStar();
+                            break;
+                        case $scope.userSessionTypeUserAdmin:
+                            $scope.showControl = true;
+                            $scope.showInternalControl = true;
+                            $scope.showControlAthlete = false;
+                            $scope.showProfileImage = true;
+                            $scope.showVideo = false;
+                            $scope.showCountVideo = false;
+                            $scope.showEmail = true;
+                            $scope.showCountEmail = false;
+                            $scope.showAudioMessage = false;
+                            $scope.showCountAudio = false;
+                            $scope.showChat = true;
+                            $scope.showCountChat = false;
+                            $scope.showScript = false;
+                            $scope.getDashBoardByUser($scope.userSession);
+                            $scope.pageSelected = $scope.views.profile.page;
+                            self.getSupervisors();
+                            self.getStars();
+                            break;
+
+                    }
+                }
+
+            });
+            // $("#trainingApp").removeClass("preloader");
+        };
+
+
+        $scope.init();
 
     }]);
 trainingApp.directive('stringToNumber', function () {

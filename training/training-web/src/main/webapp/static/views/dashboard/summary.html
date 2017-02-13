@@ -32,7 +32,7 @@
     <md-divider></md-divider>
     <h4 style="color: #0064F8">MIS OBJETIVOS SEMANALES</h4>
 
-    <div ng-controller="ChartController" ng-include src="'static/views/chart/chart.html'"></div>
+    <div ng-controller="DashboardChartController" ng-include src="'static/views/dashboard/dashboardChart.html'"></div>
     <md-card>
         <md-card-content layout="column" layout-align="center">
             <h4 style="color: #0064F8">ACTIVIDADES DE LA SEMANA</h4>
@@ -43,8 +43,8 @@
 
                 <md-grid-tile ng-repeat="a in weekActivities"
                               md-colspan-sm="1"
-                              md-colspan-xs="1">
-                    <img data-ng-src="static/img/{{a.className}}" layout-align="start none">
+                              md-colspan-xs="1" style="text-align: left;">
+                    <img data-ng-src="static/img/{{a.className}}">
                     <span style="color: #0064F8" class="md-caption">&nbsp; {{a.title}}</span>
                 </md-grid-tile>
             </md-grid-list>

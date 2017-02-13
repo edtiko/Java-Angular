@@ -1,6 +1,5 @@
 <meta charset="utf-8"> 
-<div layout="column" layout-padding>
-       <h4 style="color: #0064F8"> GRÁFICOS</h4>
+<div>
     <div layout="row" layout-align="space-around center">
         <div layout="column" layout-align="center center">
             <span style="color: #0064F8">ACTIVIDAD</span>
@@ -61,11 +60,11 @@
     </div>   
     <center><h3></h3></center>
 </div>
-<div layout="column" layout-padding>
+<div layout="column" >
     <div flex id="chart_div" class="chart">
 
     </div>
-    <md-radio-group ng-model="chartSelected" md-no-ink >
+    <!--<md-radio-group ng-model="chartSelected" md-no-ink >
         <div layout="row" layout-align="space-between center">
             <div layout="column" >
 
@@ -91,9 +90,9 @@
 
             </div>
         </div>
-    </md-radio-group>
+    </md-radio-group>-->
 
 </div>
 <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart', 'gauge']});
+    google.charts.load('current', {packages: ['corechart']});
 </script>

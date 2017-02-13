@@ -2,6 +2,7 @@ package co.expertic.training.dao.user;
 
 import co.expertic.base.jpa.BaseDAO;
 import co.expertic.base.jpa.DAOException;
+import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.User;
 import java.util.List;
@@ -92,4 +93,6 @@ public interface UserDao extends BaseDAO<User> {
     public List<UserDTO> findDefaultSupervisors() throws Exception;
 
     public List<Integer> getUserAges() throws DAOException;
+
+    public List<NotificationDTO> getUserNotification(Integer userSessionId)throws DAOException;
 }

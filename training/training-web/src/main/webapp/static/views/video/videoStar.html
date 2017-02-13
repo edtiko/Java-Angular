@@ -1,5 +1,5 @@
 <div layout="column">
-    <md-card>
+    <md-card style="min-height:650px">
         <md-card-header>
             <md-card-avatar>
                 <img class="circular" data-ng-src="{{starImage}}" style="height: 50px; width: 50px;"/>
@@ -14,7 +14,7 @@
             <div layout="row" layout-align="center">
                 <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="showStarRecord()">Grabar un video</md-button>
             </div>
-            <ang-accordion close-icon-class="fa fa-chevron-up" open-icon-class="fa fa-chevron-down">
+            <ang-accordion close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
                 <collapsible-item item-title="Recibidos">
                     <div layout="column" layout-align="center center" ng-if="!loadingReceivedStar">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>

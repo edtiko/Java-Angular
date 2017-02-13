@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import co.expertic.training.model.entities.User;
 import co.expertic.training.dao.user.UserDao;
+import co.expertic.training.model.dto.NotificationDTO;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
@@ -115,7 +118,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         }
 
     }
-    
+
     @Override
     public List<UserDTO> findAllUsersWithDiscipline() throws Exception {
         StringBuilder sql = new StringBuilder();
@@ -123,14 +126,14 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         sql.append("u.email,u.sex,u.phone,du.discipline.disciplineId,u.stateId, r.roleId.roleId, u.countryId.countryId, u.profilePhoto, ");
         sql.append(" (SELECT v.url FROM VideoUser v WHERE v.userId.userId = u.userId), (SELECT p.aboutMe FROM UserProfile p WHERE p.userId.userId =u.userId)  )");
         sql.append("FROM User u, DisciplineUser du, RoleUser r ");
-        sql.append("WHERE u.userId = du.userId.userId "); 
+        sql.append("WHERE u.userId = du.userId.userId ");
         sql.append("AND u.userId = r.userId.userId ");
         sql.append("ORDER BY u.name ASC ");
         Query query = getEntityManager().createQuery(sql.toString());
         List<UserDTO> list = query.getResultList();
         return list;
     }
-    
+
     @Override
     public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception {
         StringBuilder sql = new StringBuilder();
@@ -138,7 +141,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         sql.append("u.email,u.sex,u.phone,du.discipline.disciplineId, du.discipline.disciplineIdExt,u.stateId, r.roleId.roleId, u.countryId.countryId, u.profilePhoto, ");
         sql.append(" (SELECT v.url FROM VideoUser v WHERE v.userId.userId = u.userId), (SELECT p.aboutMe FROM UserProfile p WHERE p.userId.userId =u.userId)  )");
         sql.append("FROM User u, DisciplineUser du, RoleUser r ");
-        sql.append("WHERE u.userId = du.userId.userId "); 
+        sql.append("WHERE u.userId = du.userId.userId ");
         sql.append("AND u.userId = r.userId.userId ");
         sql.append("AND u.userId = :userId ");
         sql.append("ORDER BY u.name ASC ");
@@ -156,7 +159,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         return query;
     }
 
-	@Override
+    @Override
     public List<UserDTO> findPaginate(int first, int max, String order, String filter) throws Exception {
         if (order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
@@ -174,15 +177,15 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         builder.append("(select a.userId FROM User a WHERE u.userUpdate = a.userId),  ");
         builder.append(" r.roleId  ");
         builder.append(") from User u, DisciplineUser du, RoleUser r ");
-        builder.append("WHERE u.userId = du.userId.userId "); 
+        builder.append("WHERE u.userId = du.userId.userId ");
         builder.append("AND u.userId = r.userId.userId ");
         if (order.contains("roleId.name")) {
             builder.append("order by r.");
         } else {
             builder.append("order by u.");
         }
-        
-            builder.append(order);
+
+        builder.append(order);
         int count = findAllUsers().size();
 
         Query query = this.getEntityManager().createQuery(builder.toString());
@@ -196,7 +199,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
 
         return list;
     }
-    
+
     @Override
     public List<User> getStarFromAtlethe(Integer userId) throws Exception {
         StringBuilder string = new StringBuilder();
@@ -210,7 +213,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         List<User> query = createQuery(string.toString());
         return query;
     }
-    
+
     @Override
     public Integer getCountNotification(Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
@@ -228,10 +231,10 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         sql.append(" from   mail_communication");
         sql.append(" where receiving_user = ").append(userId);
         sql.append(" and read = false");
-         sql.append(" and coach_assigned_plan_id is null ");
+        sql.append(" and coach_assigned_plan_id is null ");
         sql.append(" and coach_ext_athlete_id is null ) n ");
 
-       /* sql.append(" union ");
+        /* sql.append(" union ");
 
         sql.append(" select count(plan_audio_id) count");
         sql.append(" from plan_audio ");
@@ -248,7 +251,6 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         sql.append(" and readed = false ");
         sql.append(" and coach_assigned_plan_id is null ");
         sql.append(" and coach_ext_athlete_id is null ) n");*/
-        
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
         List<Number> count = (List<Number>) query.getResultList();
@@ -280,7 +282,63 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "order by a.age asc";
 
         Query query = getEntityManager().createNativeQuery(sql);
-        List<Integer> list = (List<Integer>)(List<?>)query.getResultList();
+        List<Integer> list = (List<Integer>) (List<?>) query.getResultList();
         return list;
+    }
+
+    @Override
+    public List<NotificationDTO> getUserNotification(Integer userSessionId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" select notification.*  from(\n"
+                + "select plan_audio_id as id,\n"
+                + "       from_user_id as from_user_id, \n"
+                + "       'audio' as module, \n"
+                + "        CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
+                + "        creation_date\n"
+                + "from plan_audio\n"
+                + "where to_user_id = 202\n"
+                + "and readed = false\n"
+                + "\n"
+                + "union\n"
+                + "\n"
+                + "select plan_video_id as id,\n"
+                + "       from_user_id as from_user_id, \n"
+                + "       'video' as module, \n"
+                + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
+                + "       creation_date\n"
+                + "from plan_video\n"
+                + "where to_user_id = 202\n"
+                + "and readed = false\n"
+                + "\n"
+                + "union\n"
+                + "\n"
+                + "select mail_communication_id as id,\n"
+                + "       sending_user as from_user_id, \n"
+                + "       'mail' as module, \n"
+                + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
+                + "       creation_date\n"
+                + "from mail_communication\n"
+                + "where receiving_user = 202\n"
+                + "and read = false\n"
+                + "\n"
+                + "union \n"
+                + "\n"
+                + "select plan_message_id as id,\n"
+                + "       message_user_id as from_user_id, \n"
+                + "      'message' as module, \n"
+                + "      CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
+                + "      creation_date\n"
+                + "from plan_message\n"
+                + "where receiving_user_id = 202\n"
+                + "and readed = false) notification\n"
+                + "\n"
+                + "order by notification.creation_date desc ");
+        Query query = this.getEntityManager().createNativeQuery(sql.toString());
+        List<Object[]> list = query.getResultList();
+        List<NotificationDTO> res = new ArrayList<>();
+        list.stream().forEach((result) -> {
+            res.add(new NotificationDTO((Integer) result[0], (Integer) result[1] , (String) result[2], (Integer) result[3],(Date) result[4]));
+        });
+        return res;
     }
 }

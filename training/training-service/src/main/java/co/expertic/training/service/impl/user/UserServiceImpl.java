@@ -44,6 +44,7 @@ import co.expertic.training.dao.user.VisibleFieldsUserDao;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.DisciplineDTO;
+import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.entities.ConfigurationPlan;
 import co.expertic.training.model.entities.FederalState;
 import co.expertic.training.model.entities.VisibleFieldsUser;
@@ -546,5 +547,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Integer> getUserAges() throws Exception {
         return userDao.getUserAges();
+    }
+
+    @Override
+    public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception {
+        return userDao.getUserNotification(userSessionId);
     }
 }

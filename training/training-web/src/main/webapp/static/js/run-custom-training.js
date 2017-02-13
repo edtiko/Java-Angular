@@ -50,7 +50,7 @@ require.config({
         videoSupervisorController: "video/controller/videoSupervisorController",
         audioMessageController: "audioMessage/controller/audioMessageController",
         reportController: "report/controller/reportController",
-        chartController: "chart/controller/chartController",
+        dashboardChartController: "chart/controller/dashboardChartController",
         mailSupervisorController: "mail/controller/mailSupervisorController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
@@ -202,7 +202,7 @@ require.config({
         reportController: {
             deps: ['angular', 'trainingApp']
         },
-        chartController: {
+        dashboardChartController: {
             deps: ['angular', 'trainingApp']
         },
         dashboardService: {
@@ -332,7 +332,7 @@ require.config({
                 'mailService', 'supervStarCoachService', 'userActivityPerformanceService',
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
                 'messageSupervisorController', 'audioMessageController', 'mailSupervisorController',
-                'chartController', 'configurationPlanService', 'membershipService',
+                'dashboardChartController', 'configurationPlanService', 'membershipService',
                 'marketingReportService', 'paymentReportService', 'saleReportService', 'audioSupervisorController', 'videoSupervisorController','sharedProperties'
 
             ]}

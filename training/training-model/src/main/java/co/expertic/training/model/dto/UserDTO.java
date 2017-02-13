@@ -6,11 +6,9 @@ import co.expertic.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 /**
