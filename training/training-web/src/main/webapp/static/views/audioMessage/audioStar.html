@@ -5,15 +5,16 @@
                 <img class="circular" data-ng-src="{{starImage}}" style="height: 50px; width: 50px;"/>
             </md-card-avatar>
             <md-card-header-text>
+                <span class="md-title" style="text-transform: capitalize">{{userSession.planSelected.starUserId.fullName}}</span>
                 <span class="md-title">Estrella</span>
-                <span class="md-subhead">{{userSession.planSelected.starUserId.fullName}}</span>
                 <span class="md-caption">Audios disponibles {{availableVideoStar}} de {{videoPlanStar}}</span>
             </md-card-header-text>
+            <div ng-click="showStarRecord()" class="circle_black"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
         </md-card-header>
         <md-card-content layout="column" layout-align="center">
-            <div layout="row" layout-align="center">
+            <!--<div layout="row" layout-align="center">
                 <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="showStarRecord()">Grabar un audio</md-button>
-            </div>
+            </div>-->
             <ang-accordion close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
                 <collapsible-item item-title="Recibidos">
                     <div layout="column" layout-align="center center" ng-if="!loadingReceivedStar">

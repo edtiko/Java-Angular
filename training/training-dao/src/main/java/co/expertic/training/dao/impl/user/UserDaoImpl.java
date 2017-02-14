@@ -325,7 +325,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "\n"
                 + "select plan_message_id as id,\n"
                 + "       message_user_id as from_user_id, \n"
-                + "      'message' as module, \n"
+                + "      'chat' as module, \n"
                 + "      CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "      creation_date\n"
                 + "from plan_message\n"

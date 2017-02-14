@@ -189,7 +189,7 @@
                     <div flex ng-include src="'static/views/dashboard/userPanel.html'"></div> 
                 </div>
                 <div flex="75" layout="column">
-                    <div layout="row" layout-margin layout-align="end center" class="border">        
+                    <div layout="row" layout-padding layout-align="end center">        
                         <md-menu md-position-mode="target-right bottom">
                             <md-button  id="bell_notification" aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                                 <md-icon md-menu-origin>
@@ -199,6 +199,7 @@
                             </md-button>
                             <md-menu-content md-position-mode="target-right bottom" layout-padding style="background: #1C2127;">
                                 <h3 style="color: #00E8E8 !important;">NOTIFICACIONES</h3>
+                                <span style="color: #ffffff;" ng-if="listNotification.length == 0">No hay notificaciones disponibles</span>
                                 <md-list class="md-dense" flex>
                                     <md-list-item ng-repeat="n in listNotification" class="md-3-line"  ng-click="verModulo(n.module)" >
                                         <img ng-if="n.roleId == userSessionTypeUserCoachInterno" data-ng-src="{{asesorImage}}"  class="md-avatar"> 
@@ -232,6 +233,7 @@
                             </md-menu-content>
                         </md-menu>
                     </div>
+                    <md-divider></md-divider>
                     <div ng-view ng-show="appReady" ></div> 
                     <div id="footer" layout="row" style="background: #666666; color:#ffffff;" layout-align="center center">
                            Copyright 2016 Custom Pro Training | All Rights Reserved

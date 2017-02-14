@@ -77,6 +77,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/informe', route.resolve('informe', 'informe/'))
             
                     .when('/chart', route.resolve('chart','chart/'))
+            
+                    .when('/progress', route.resolve('progress','progress/'))
 
                     .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'));
             $translateProvider.useStaticFilesLoader({

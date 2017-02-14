@@ -343,67 +343,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
             }
         };
 
-        //Consulta si existen notificaciones internas pendientes por leer 
-        self.getNotificationInternal = function (userSessionId) {
-            UserService.notificationInternal(userSessionId).then(
-                    function (d) {
-                        if (d.status == 'success') {
-                            var res = d.output;
-                            if (res) {
-                                $scope.internalNotification = true;
-                            } else {
-                                $scope.internalNotification = false;
-                            }
-                        } else {
-                            $scope.showMessage(d.output);
-                        }
-                    },
-                    function (errResponse) {
-                        console.error('Error while getting notification: ' + errResponse);
-                    }
-            );
-        };
-
-        self.getNotificationStar = function (communicationPlanId, athleteUserId, userId, planType, roleSelected) {
-            UserService.notificationRole(communicationPlanId, athleteUserId, userId, planType, roleSelected).then(
-                    function (d) {
-                        if (d.status == 'success') {
-                            var res = d.output;
-                            if (res) {
-                                $scope.starNotification = true;
-                            } else {
-                                $scope.starNotification = false;
-                            }
-                        } else {
-                            $scope.showMessage(d.output);
-                        }
-                    },
-                    function (errResponse) {
-                        console.error('Error while getting notification: ' + errResponse);
-                    }
-            );
-        };
-
-        self.getNotificationSupervisor = function (communicationPlanId, athleteUserId, userId, planType, roleSelected) {
-            UserService.notificationRole(communicationPlanId, athleteUserId, userId, planType, roleSelected).then(
-                    function (d) {
-                        if (d.status == 'success') {
-                            var res = d.output;
-                            if (res) {
-                                $scope.supNotification = true;
-                            } else {
-                                $scope.supNotification = false;
-                            }
-                        } else {
-                            $scope.showMessage(d.output);
-                        }
-                    },
-                    function (errResponse) {
-                        console.error('Error while getting notification: ' + errResponse);
-                    }
-            );
-        };
-
 
         self.initControls = function (plan, tipoPlan) {
 
@@ -644,40 +583,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
 
         };
 
-        //Obtener atletas de Coach Interno  
-        self.getAssignedAthletes = function () {
-            DashboardService.getAssignedAthletes($scope.userSession.userId).then(
-                    function (data) {
-                        $scope.athletes = data.entity.output;
-                        if ($scope.athletes == null) {
-                            $scope.showMessage("No tiene planes asignados.");
-                        }
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-        self.getAssignedStar = function () {
-            DashboardService.getAssignedStarByCoach($scope.userSession.userId).then(
-                    function (data) {
-                        $scope.starsByCoach = data.entity.output;
-                        //inicializa websockets con las estrellas
-                        /*angular.forEach($scope.starsByCoach, function (value, key) {
-                            messageService.initialize(value.userId + $scope.userSession.userId);
-                            MailService.initialize(value.userId + $scope.userSession.userId);
-                        });*/
-                        self.getNotificationInternal($scope.userSession.userId);
-                        if ($scope.starsByCoach == null) {
-                            $scope.showMessage("No tiene estrellas asignados.");
-                        }
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
         //Obtener atletas de Coach Externo
         self.getAthletesCoachExternal = function () {
             ExternalCoachService.fetchAthletes($scope.userSession.trainingPlanUserId, "ACTIVE").then(

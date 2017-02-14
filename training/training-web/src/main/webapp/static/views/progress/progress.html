@@ -1,0 +1,62 @@
+<meta charset="utf-8"> 
+<div layout="column" layout-padding>
+    <h4 style="color: #0064F8">RESUMEN DE MI PROGRESO</h4>
+    <span class="md-caption">Aquí encontrarás el resumen de todas las actividades</span>
+    <div layout="row" layout-align="center">
+        <div layout="row" flex="35">
+            <div flex="35">
+                <md-input-container class="md-block" flex-gt-s
+                                    <label>Resumen del progreso</label>
+                    <md-select id="sex" ng-model="user.sex" ng-required="true">
+                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                            {{s.sex}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+        <div layout="row" layout-align="space-around center" flex="15">
+            <label>Exportar</label>
+            <div>
+                <a href="javascript:void(0)"><img src="static/img/xls.png"  /></a>
+            </div>
+            <div>
+                <a href="javascript:void(0)"><img src="static/img/pdf.png"  /></a>
+            </div>
+            <div>
+                <a href="javascript:void(0)"><img src="static/img/print.png"  /></a>
+            </div>
+        </div>
+
+    </div>
+    <div layout="row" layout-align="center">
+        <div layout="row" layout-align="space-around center" flex="65">
+            <div layout="row" flex>
+                <div flex="75">
+                    <label>Fecha</label>
+                    <md-select id="sex" ng-model="user.sex" ng-required="true">
+                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                            {{s.sex}}
+                        </md-option>
+                    </md-select>
+                </div>
+            </div>
+            <div layout="row" flex>
+                <div flex="75">
+                    <label>Actividad</label>
+                    <md-select id="sex" ng-model="user.sex" ng-required="true">
+                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                            {{s.sex}}
+                        </md-option>
+                    </md-select>
+                </div>
+            </div>
+        </div>
+        <div flex="25" layout="column" layout-align="center center">
+            <div class="circle_blue"><img src="static/img/pinon.png" /></div>
+            <h5 style="color: #0064F8">PERSONALIZAR INFORME</h5>
+        </div>
+
+    </div>
+
+</div>
