@@ -30,14 +30,10 @@
 body{
     /*width: 100%;*/
     font-family: 'Raleway', serif;
-    font-size: 12px !important;
+    font-size: 16px !important;
 }
 html, body { height:100%;}
 
-h4{
-  font-size: 16px !important;  
-  font-weight: bold;
-}
 
 .circular {
     border-radius: 50%;
@@ -502,6 +498,11 @@ md-list {
   height: 200px;
 }
 
+.accordion-audio .body .content{
+  overflow-y: hidden;
+  height: auto;
+}
+
 #calendar{
     width: 100% !important;
 }
@@ -544,7 +545,6 @@ md-menu-item>.md-button{
     height: 18px;
     text-align: center;
     line-height: normal;
-    padding-top: 2px;
     color: #000;
     font-weight: bold;
 }
@@ -586,5 +586,103 @@ padding-top: 8px;
     box-sizing: initial !important;
     padding-top: 8px;
 }
+
+.circle_black42 {
+  border-radius: 50%;
+  background-color: rgb(28, 33, 39);
+  box-shadow: 0px 6px 7.76px 0.24px rgba(0, 0, 0, 0.24);
+  width: 42px;
+  height: 42px;
+  text-align: center;
+}
+
+.circle_black42 img{
+  box-sizing: initial !important;
+    padding-top: 8px;
+}
+
+
+.cpt-title {
+  font-size: 24px;
+  font-family: "Raleway";
+  color: rgb(0, 100, 248);
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1.333
+}
+
+
+.sub-title{
+  font-size: 18px;
+  font-family: "Raleway";
+  color: rgb(0, 100, 248);
+  text-transform: uppercase;
+  line-height: 0.834;
+  -moz-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
+  -webkit-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
+  -ms-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
+}
+
+.disponibles {
+  font-size: 16px;
+  font-family: "Raleway";
+  color: rgb(28, 33, 39);
+  line-height: 0.938;
+}
+
+.rectangule_h {
+  background-color: rgb(170, 253, 111);
+  width: 50px;
+  height: 5px;
+}
+
+.rectangule_audio_aqua {
+  background-color: #00E8E8;
+  width: 50px;
+  height: 5px;
+}
+
+.circle_audio_record {
+  border-width: 5px;
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-radius: 50%;
+  background-color: rgb(0, 100, 248);
+  box-shadow: 0px 12px 21.34px 0.66px rgba(0, 0, 0, 0.16);
+  width: 110px;
+  height: 110px;
+  text-align: center;
+}
+
+.circle_audio_record img{
+  box-sizing: initial !important;
+    padding-top: 18px;
+}
+
+.cpt-info {
+  font-size: 16px;
+  font-family: "Raleway";
+  color: rgb(28, 33, 39);
+  line-height: 0.938;
+}
+
+.circle_pause{
+  border-width: 5px;
+  border-color: rgb(237, 237, 237);
+  border-style: solid;
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 12px 21.34px 0.66px rgba(0, 0, 0, 0.16);
+  width: 110px;
+  height: 110px;
+  text-align: center;
+}
+
+.circle_pause img{
+  box-sizing: initial !important;
+  padding-top: 28px;
+}
+
+
 
 

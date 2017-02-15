@@ -1,30 +1,39 @@
+<meta charset="utf-8">
 <div layout="column">
     <md-card style="min-height:650px">
         <md-card-header>
-            <md-card-avatar>
-                <img class="circular" data-ng-src="{{asesorImage}}" style="height: 50px; width: 50px;"/>
-            </md-card-avatar>
-            <md-card-header-text>
-                <span class="md-title" style="text-transform: capitalize">{{userSession.planSelected.coachUserId.fullName}}</span>
-                <span class="md-title">ASESOR</span>
-                <span class="md-caption">Audios disponibles <b>{{availableAudioAsesor}} de {{audioPlanAsesor}}</b></span>
-            </md-card-header-text>
-            <div class="circle_black" ng-click="showAsesorRecord()"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
+            <div layout="row" layout-align="space-around center" flex="100">
+                <div>
+                    <img class="circular" data-ng-src="{{asesorImage}}" style="width: 118px; height: 117px;"/>
+                </div>
+                <div layout="column">
+                    <div>
+                        <span class="sub-title boldText">{{userSession.planSelected.coachUserId.fullName}}</span>
+                    </div>
+                    <div>
+                        <span class="sub-title">ASESOR</span>
+                    </div>
+                    <div>
+                        <span class="disponibles">Audios disponibles <b>{{availableAudioAsesor}} de {{audioPlanAsesor}}</b></span>
+                    </div>
+                    <div class="rectangule_h"></div>
+                </div>
+            </div>
+            <div layout="row" layout-align="end start">
+                <div ng-click="showAsesorRecord()" class="circle_black"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
+            </div>
         </md-card-header>
         <md-card-content layout="column" layout-align="center">
-            <!--<div layout="row" layout-align="center">
-                <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="showAsesorRecord()">Grabar un audio</md-button>
-            </div>-->
-            <ang-accordion close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
-                <collapsible-item item-title="Recibidos">
+            <ang-accordion class="accordion-audio" close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
+                <collapsible-item item-title="RECIBIDOS">
                     <div layout="column" layout-align="center center" ng-if="!loadingReceivedAsesor">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                         <span>Cargando Audios..</span>
                     </div>
-                    <md-list class="md-dense" flex >
+                    <!--<md-list class="md-dense" flex >
                         <md-list-item ng-click="null" class="md-2-line" ng-repeat="vr  in receivedAsesor| orderBy:'creationDate':false">
                             <div class="md-list-item-text">
-                                <p>Audio {{$index+1}}</p>
+                                <p>Audio {{$index + 1}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
                             <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playAudioAsesor(vr.name, vr.id, 'to')">
@@ -33,18 +42,37 @@
                             </md-button>
                         </md-list-item>
                         <md-divider></md-divider>
-                    </md-list>
+                    </md-list>-->
+                    <md-table-container>
+                        <table md-table>
+                            <thead md-head>
+                                <tr md-row>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
+                                    <th md-column></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row  md-auto-select ng-repeat="vr  in receivedAsesor| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
+                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td>{{vr.createDate}}</td>
+                                    <td><div class="circle_black42" ng-click="playAudioAsesor(vr.name, vr.id, 'to')"><img src="static/img/play.png" /></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{receivedAsesor.length}}"></md-table-pagination>  
                     <div id="recordedReceivedAsesor"></div>
                 </collapsible-item>
-                <collapsible-item item-title="Enviados">
+                <collapsible-item item-title="ENVIADOS">
                     <div layout="column" layout-align="center center" ng-if="!loadingSentAsesor">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                         <span>Cargando Audios..</span>
                     </div>
-                    <md-list class="md-dense" flex >
+                    <!--<md-list class="md-dense" flex >
                         <md-list-item ng-click="null" class="md-2-line" ng-repeat="vr  in sendedAsesor| orderBy:'creationDate':false">
                             <div class="md-list-item-text">
-                                <p>Audio {{$index+1}}</p>
+                                <p>Audio {{$index + 1}}</p>
                             </div>
                             <md-subheader class="md-no-sticky">{{vr.createDate}}</md-subheader>
                             <md-button aria-label="play" class="md-fab md-mini md-primary" ng-click="playAudioAsesor(vr.name, vr.id, 'from')">
@@ -53,8 +81,27 @@
                             </md-button>
                         </md-list-item>
                         <md-divider></md-divider>
-                    </md-list>
-                    <div id="recordedAsesor"></div>
+                    </md-list>-->
+                    <md-table-container>
+                        <table md-table>
+                            <thead md-head>
+                                <tr md-row>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
+                                    <th md-column></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row  md-auto-select ng-repeat="vr  in sendedAsesor| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
+                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td>{{vr.createDate}}</td>
+                                    <td><div class="circle_black42" ng-click="playAudioAsesor(vr.name, vr.id, 'from')"><img src="static/img/play.png" /></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{sendedAsesor.length}}"></md-table-pagination>      
+                <div id="recordedAsesor"></div>
                 </collapsible-item>
             </ang-accordion>
         </md-card-content>

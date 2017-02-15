@@ -1,25 +1,28 @@
-<md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2>Graba un nuevo Audio para tu Asesor</h2>
-            <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </md-button>
+<meta charset="utf-8">
+<md-dialog draggable layout-padding  style="width: 600px;">
+    <div class="md-toolbar-tools">
+        <div>
+            <span class="cpt-title">GRABA UN NUEVO AUDIO PARA TU ASESOR</span>
+            <span class="cpt-info">Presiona el botón para comenzar a grabar</span>
         </div>
-    </md-toolbar>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+    </div>
     <md-dialog-content> 
         <div class="md-dialog-content">
             <ng-audio-recorder id='audioInput'  audio-model='recordedInputAsesor' ng-show="timeLimitAsesor > 0" show-player="false" time-limit="timeLimitAsesor">
                 <div ng-if="recorder.isAvailable">
                     <div layout="column" layout-align="center center">
                         <div layout="row" layout-align="space-around center" flex>
-                            <img id="record" data-ng-src="static/img/mic128.png"   ng-class="recorder.status.isRecording ? 'recording' : ''">
-                            <md-button class="md-fab md-mini" aria-label="elapsed time">
+                            <div ng-if="!recorder.status.isRecording" ng-click="recorder.startRecord()" class="circle_audio_record"><img data-ng-src="static/img/mic_white.png"   ng-class="recorder.status.isRecording ? 'recording' : ''"></div>
+                            <div ng-if="recorder.status.isRecording" ng-click="recorder.stopRecord()" class="circle_pause"><img data-ng-src="static/img/pause.png"></div>
+                            <md-button class="md-fab md-mini" style="background-color: rgb(170, 252, 112); color: #000" aria-label="elapsed time">
                                 {{recorder.elapsedTime}}
                             </md-button>  
                         </div>
-                        <div flex>
+                        <!--<div flex>
                             <md-button aria-label="play"  class="md-fab md-mini md-primary" ng-click="recorder.startRecord()" ng-disabled="recorder.status.isRecording">
                                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Empezar Grabaci&oacute;n</md-tooltip>
                                 <i class="fa fa-microphone fa-lg" aria-hidden="true"></i>
@@ -32,15 +35,15 @@
                                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Reproducir</md-tooltip>
                                 <i class="fa fa fa-play fa-lg" aria-hidden="true"></i>
                             </md-button>
-                            <!--<md-button aria-label="upload"  class="md-fab md-mini md-primary" onclick="onUploadAsesor()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                            <md-button aria-label="upload"  class="md-fab md-mini md-primary" onclick="onUploadAsesor()" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
                                 <md-tooltip md-direction="bottom" md-visible="tooltipVisible">Cargar Audio</md-tooltip>
                                 <i class="fa fa-upload fa-lg" aria-hidden="true"></i>
-                            </md-button>-->
-                        </div>
+                            </md-button>
+                        </div>-->
 
                     </div>
                 </div>
-
+                <br /><br /><br />
                 <div ng-if="!recorder.isAvailable">
                     Message for users when recording is not possible.
                 </div>
@@ -48,9 +51,9 @@
             <div layout="row" ng-if="timeLimitAsesor == 0" layout-align="center">
                 No tiene tiempo configurado para enviar mensajes de audio.  
             </div>
-            <md-dialog-actions layout="row" >
-                <md-button style="background: #1C2127; color:#AAFD6F;" ng-disabled="recordedInputAsesor == null" ng-click="uploadRecordAsesor(recordedInputAsesor)" class="md-raised">{{ 'SEND' | translate }}</md-button>
-                <md-button ng-click="cancel()" class="md-raised">Cancelar</md-button>
+            <md-dialog-actions layout="row" layout-align="center">  
+                <md-button ng-click="cancel()" class="md-raised">ELIMINAR</md-button>
+                <md-button style="background: #1C2127; color:#AAFD6F;" ng-disabled="recordedInputAsesor == null" ng-click="uploadRecordAsesor(recordedInputAsesor)" class="md-raised">{{ 'SEND' | translate }}</md-button>          
             </md-dialog-actions>
         </div>
     </md-dialog-content>

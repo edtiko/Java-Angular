@@ -13,6 +13,11 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         $scope.selectedIndex = 0;
         $scope.starImage = $window.sessionStorage.getItem("starImage");
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        $scope.query = {
+            filter: '',
+            limit: 2,
+            page: 1
+        };
 
         self.receivedAudios = function (tipoPlan, role, fn) {
 
@@ -32,6 +37,15 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                         $scope.showMessage(error);
                         console.error(error);
                     });
+        };
+        
+        $scope.getSendAsesorPaginate = function () {
+            $scope.promise = ConfigurationPlanService.getPaginate($scope.query, $scope.planId, function (response) {
+                $scope.configurationPlanList = success(response);
+                if ($scope.configurationPlanList.length > 0) {
+                    $scope.count = $scope.configurationPlanList[0].count;
+                }
+            }).$promise;
         };
 
         self.getUrl = function (role) {
