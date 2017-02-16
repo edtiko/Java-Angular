@@ -573,6 +573,24 @@ md-menu-item>.md-button{
 padding-top: 8px;
 }
 
+.circle_video_modal {
+  border-radius: 50%;
+  background-color: rgb(0, 100, 248);
+  box-shadow: 0px 7px 14.55px 0.45px rgba(0, 0, 0, 0.16);
+  width: 54px;
+  height: 52px;
+  text-align: center;
+}
+
+.circle_video_modal_white {
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 7px 14.55px 0.45px rgba(0, 0, 0, 0.16);
+  width: 53px;
+  height: 52px;
+  text-align: center;
+}
+
 .circle_black {
     border-radius: 50%;
     background-color: rgb(28, 33, 39);

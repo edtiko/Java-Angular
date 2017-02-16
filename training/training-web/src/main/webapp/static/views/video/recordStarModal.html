@@ -1,20 +1,50 @@
-<md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2>Grabar un video</h2>
-            <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </md-button>
+<meta charset="utf-8">
+<md-dialog draggable style="width: 825px; padding-top: 25px; ">
+    <div class="md-toolbar-tools" layout-align="space-around start">
+        <div layout="column">
+            <span class="cpt-title">GRABAR UN NUEVO VIDEO</span>
+            <span class="cpt-info">Presiona el botón para comenzar a grabar</span>
         </div>
-    </md-toolbar>
+        <div layout="row" layout-padding layout-align="space-around center" flex="30">
+            <div layout="column" layout-align="center">
+                <div class="circle_video_modal" ng-disabled="!isRecordableStar" ng-click="inicioGrabarVideoStar()"><img style="padding-top: 15px" src="static/img/record_video_white.png"></div>
+                <span class="cpt-info">Grabar</span>
+            </div>
+            <div layout="column" layout-align="center">
+                <div class="circle_video_modal_white" ng-disabled="!isRecordStar" aria-label="stop" 
+                     ng-click="stopVideoStar()"><img style="padding-top: 15px" src="static/img/pause_video_modal.png"></div>
+                <span class="cpt-info">Pausar</span>
+            </div>
+            <div layout="column" layout-align="center"> 
+                <div class="circle_video_modal_white" ng-disabled="!isRecordStar" aria-label="stop" 
+                     ng-click="stopVideoStar()"><img style="padding-top: 15px" src="static/img/stop.png"></div>
+                <span class="cpt-info">Parar</span>
+            </div>
+            <div layout="column" layout-align="center">
+                <div class="circle_video_modal_white" ng-disabled="isRecordStar || mediaModelStar == null" ng-click="verVideoGrabadoStar()"><img style="padding-top: 15px" src="static/img/play_blue.png"></div>
+                <span class="cpt-info">Reproducir</span>
+            </div>
+        </div>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F" class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
     <md-dialog-content> 
         <div class="md-dialog-content">
-           <div  ng-include src="'static/views/video/recordStar.html'"></div>
-            <md-dialog-actions layout="row" >
-                <md-button ng-disabled="isRecordStar || mediaModelStar == null" ng-click="enviarVideoStar(userSessionTypeUserCoachEstrella)" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
-                <md-button ng-click="cancel()" class="md-raised">Cancelar</md-button>
-            </md-dialog-actions>
+            <!--<label style="margin-left: 20px;{{colorTimeStar}}" ng-if="showCounterStar">Tiempo disponible {{counterRecordStar}}s</label>-->
+            <md-content layout="column" layout-align="center center">
+                <video id="gumVideoStar" ng-show="isRecordStar" style="background-color: #000;border: 2px solid #fff; width: 566px; height: 315px;" autoplay  muted></video>
+                <video id="recordedVideoStar" ng-show="!isRecordStar" style="background-color: #000;border: 2px solid #fff;width: 566px; height: 315px;" autoplay   controls></video>
+                <!--<md-subheader class="md-no-sticky">Recuerde que todo contenido de video que se env&iacute;e ser&aacute; revisado de manera previa por CPT para garantizar que no contenga material que involucre desnudez, contenidos o palabras inadecuadas. Con el env&iacute;o del mensaje usted autoriza a CPT a realizar esta revisi&oacute;n.</md-subheader>-->
+            </md-content>
+            <br /><br />
+            <div layout="row" layout-align="center">                
+                <md-button ng-disabled="isRecordStar || mediaModelStar == null" ng-click="eliminarVideoGrabadoStar()" class="md-raised">ELIMINAR</md-button>
+                <md-button ng-disabled="isRecordStar || mediaModelStar == null" ng-click="enviarVideoStar(userSessionTypeUserCoachEstrella)" style="background: #1C2127; color:#AAFD6F;" class="md-raised">{{ 'SEND' | translate }}</md-button>
+            </div>
         </div>
     </md-dialog-content>
 </md-dialog>
+<script>
+    angular.element(document.getElementById('videoContent')).scope().initVideoStar('recordedVideoStar', 'gumVideoStar');
+</script>

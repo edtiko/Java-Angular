@@ -31,6 +31,11 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         $scope.mediaModelAsesor = null;
         $scope.starImage = $window.sessionStorage.getItem("starImage");
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        $scope.query = {
+            filter: '',
+            limit: 2,
+            page: 1
+        };
 
         var constraints = {
             audio: true,
@@ -253,7 +258,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
             video.appendChild(source);
             video.load();
-            video.play()
+            video.play();
 
            /* $scope.recordedVideo = document.querySelector('video#recordedVideo');
             $scope.recordedVideo.controls = true;
@@ -473,8 +478,9 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
         };
 
 
-        $scope.verVideoStar = function (path, planVideoId, fromto) {
+        $scope.verVideoStar = function (path, planVideoId, fromto, index) {
             $scope.path = path;
+            $scope.numVideo = index;
             $scope.isRecordStar = false;
             $scope.planVideoSelected = planVideoId;
             if (planVideoId.fromUserId != undefined) {
@@ -508,8 +514,9 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
         };
 
-        $scope.verVideoAsesor = function (path, planVideoId, fromto) {
+        $scope.verVideoAsesor = function (path, planVideoId, fromto, index) {
             $scope.path = path;
+            $scope.numVideo = index;
             $scope.isRecordAsesor = false;
             $scope.planVideoSelected = planVideoId;
             if (planVideoId.fromUserId != undefined) {
@@ -560,7 +567,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
             $scope.savePlanVideoStar(url,
                     function (response) {
-                        if (response.data.entity.status == 'success') {
+                        if (response.data.status == 'success') {
                             $scope.showMessage(response.data.message);
                             var video = response.data.output;
                             if (video != "") {
@@ -594,8 +601,8 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
             $scope.savePlanVideoAsesor(url,
                     function (response) {
-                        if (response.data.entity.status == 'success') {
-                            $scope.showMessage("Video cargado correctamente.");
+                        if (response.status == 'success') {
+                            $scope.showMessage(response.data.message);
                             var video = response.data.output;
                             if (video != "") {
                                 video.sesionId = $scope.userSession.planSelected.id;
@@ -603,7 +610,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
                             $scope.colorTimeAsesor = '';
                             $scope.counterRecordAsesor = $scope.counterRecordInitialAsesor;
                         } else {
-                            $scope.showMessage(response.data.entity.message, "error");
+                            $scope.showMessage(response.data.message, "error");
                         }
                         self.getVideosAsesor();
                     }

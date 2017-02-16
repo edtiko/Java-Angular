@@ -39,14 +39,6 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     });
         };
         
-        $scope.getSendAsesorPaginate = function () {
-            $scope.promise = ConfigurationPlanService.getPaginate($scope.query, $scope.planId, function (response) {
-                $scope.configurationPlanList = success(response);
-                if ($scope.configurationPlanList.length > 0) {
-                    $scope.count = $scope.configurationPlanList[0].count;
-                }
-            }).$promise;
-        };
 
         self.getUrl = function (role) {
             var tipoPlan = "IN";

@@ -81,7 +81,7 @@ trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', fun
             return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
-                                return response.data;
+                                return response.data.output;
                             },
                             function (errResponse) {
                                 console.error('Error while available messages');

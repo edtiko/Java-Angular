@@ -124,7 +124,7 @@ public class PlanVideoDTO {
     }
 
     public String getVideoPath() {
-        return videoPath;
+        return UrlProperties.URL_VIDEO_FILES+name;
     }
 
     public void setVideoPath(String videoPath) {
@@ -140,7 +140,7 @@ public class PlanVideoDTO {
     }
 
     public String getName() {
-        return UrlProperties.URL_VIDEO_FILES+name;
+        return name;
     }
 
     public void setName(String name) {

@@ -264,7 +264,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             }
             //$window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
             //$scope.userSession = res.data.entity.output;
-            $scope.getDashBoardByUser($scope.userSession);
             return JSON.parse(sessionStorage.getItem("userInfo"));
         };
         $scope.setUserSession = function () {
@@ -697,7 +696,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.connectToChatserver = function (sessionId) {
-            $scope.wsocket = new WebSocket('wss://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
+            $scope.wsocket = new WebSocket('ws://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
             $scope.wsocket.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
                 if ($scope.userSession.userId != msg.messageUserId.userId && msg.mobile) {
@@ -716,7 +715,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.connectToAudioWsMovil = function (sessionId) {
-            $scope.wsAudioMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'audiows/' + sessionId);
+            $scope.wsAudioMobile = new WebSocket('ws://' + window.location.host + window.location.pathname + 'audiows/' + sessionId);
             $scope.wsAudioMobile.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
             };
@@ -732,7 +731,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.connectToVideoWsMovil = function (sessionId) {
-            $scope.wsVideoMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'videows/' + sessionId);
+            $scope.wsVideoMobile = new WebSocket('ws://' + window.location.host + window.location.pathname + 'videows/' + sessionId);
             $scope.wsVideoMobile.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
             };
@@ -749,7 +748,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
 
         $scope.setAthleteRole = function () {
-
+            $scope.getDashBoardByUser($scope.userSession);
             messageService.initialize($scope.userSession.planSelected.id);
             videoService.initialize($scope.userSession.planSelected.id);
             AudioMessageService.initialize($scope.userSession.planSelected.id);

@@ -1,14 +1,13 @@
-<md-dialog draggable aria-label="Mensaje Nuevo" style="width: 600px;">
-    <md-toolbar>
+<meta charset="utf-8">
+<md-dialog style="width: 600px;">
         <div class="md-toolbar-tools">
-            <h2>Mostrar video</h2>
+            <span class="cpt-title">RUTINA NÚMERO {{numVideo+1}}</span>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="cancel()">
-                <i class="fa fa-times" aria-hidden="true"></i>
+                <i style="color: #AAFD6F" class="fa fa-times fa-lg" aria-hidden="true"></i>
             </md-button>
         </div>
-    </md-toolbar>
-    <md-dialog-content> 
+    <md-dialog-content layout-align="center"> 
         <div class="md-dialog-content">
             <video id="recordedVideo" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;" autoplay   controls="controls"></video>
         </div>

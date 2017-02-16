@@ -1,18 +1,18 @@
 <md-content ng-cloak style="margin: 2%;">
 
-    <h4 style="color: #0064F8"><img src="static/img/settings.png">  MENSAJES</h4>
+    <span class="cpt-title"><img src="static/img/settings.png">  MENSAJES</span>
     <div flex layout="row" layout-align="center">
         <div flex="35" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
             <md-card style="min-height:550px">
                 <md-card-content> 
-                    <md-list class="md-dense" flex>
+                    <md-list  flex>
                         <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getMessagesByRole(userSessionTypeUserCoachEstrella)" >
                             <div class="rectangule1"></div>
                             <img data-ng-src="{{starImage}}"  class="md-avatar">
                             <div class="md-list-item-text">
                                 <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.starUserId.fullName}}</h3>
                                 <h3 style="color: #0064F8">Estrella</h3>
-                                <p>Mensajes disponibles {{availableMessageStar}} de {{messageCountStar}}</p>
+                                <p style="color: #000">Mensajes disponibles {{availableMessageStar}} de {{messageCountStar}}</p>
                             </div>
                             <div ng-if="receivedMessageStar > 0" class="circle_notification">{{receivedMessageStar}}</div>
                         </md-list-item>
@@ -22,7 +22,7 @@
                             <div class="md-list-item-text">
                                 <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.coachUserId.fullName}}</h3>
                                 <h3 style="color: #0064F8">Supervisor</h3>
-                                <p>Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
+                                <p style="color: #000">Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
                             </div>
                             <div ng-if="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>
                         </md-list-item>

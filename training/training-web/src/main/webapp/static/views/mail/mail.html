@@ -1,8 +1,6 @@
 <md-content  ng-cloak style="margin: 2%" > 
-<h4 style="color: #0064F8;">
-    <span ng-if="recibidos">BANDEJA DE ENTRADA</span>
-    <span ng-if="enviados">MAILS ENVIADOS</span>
-    </h4>
+    <span class="cpt-title" ng-if="recibidos">BANDEJA DE ENTRADA</span>
+    <span class="cpt-title" ng-if="enviados">MAILS ENVIADOS</span>
 <div layout="row" layout-align="center">
     <div flex="35">
         <div  ng-include src="'static/views/mail/mailControl.html'"></div>
