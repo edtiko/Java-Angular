@@ -110,6 +110,18 @@ trainingApp.service('UserActivityPerformanceService', ['$http', '$q', function (
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getProgressReport: function(date, activity,userId){
+                 return $http.get($contextPath + '/get/userActivityPerformance/progress/'+date+'/'+activity+'/'+userId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching userActivityPerformances');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
     }]);

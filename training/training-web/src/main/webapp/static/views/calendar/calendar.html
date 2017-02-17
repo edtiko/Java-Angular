@@ -38,7 +38,7 @@
                     <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                     <span>Cargando actividades..</span>
                 </div>
-                <md-list  class="md-dense" flex  ng-repeat="(key, value)  in activityList | groupBy: 'capacity'">
+                <md-list  class="md-dense" flex  ng-repeat="(key, value)  in activityList |orderBy:'capacity' | groupBy: 'capacity'">
                     <ang-accordion close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
                         <collapsible-item item-title="{{ key}}">
                             <!--<md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>-->

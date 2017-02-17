@@ -437,4 +437,30 @@ public class UserActivityPerformanceController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
+    
+   /** Consulta getProgressReport <br>
+     * Info. Creacion: <br>
+     * fecha Feb 17, 2017 <br>
+     *
+     * @author Edwin Gómez
+     * @param date
+     * @param activity
+     * @return
+     */
+    @RequestMapping(value = "get/userActivityPerformance/progress/{date}/{activity}/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getProgressReport(@PathVariable("date") Integer date, @PathVariable("activity") Integer activity) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserActivityPerformance> userActivityPerformanceList = userActivityPerformanceService.getProgressReport(date, activity, userId);
+            responseService.setOutput(userActivityPerformanceList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserActivityPerformanceController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 }

@@ -4,6 +4,9 @@
             <md-card-content layout="column" layout-align="center">
                 <h4 style="color: #0064F8">RESUMEN DE MI PERFIL</h4>
                 <div layout="row" layout-align="space-around center">
+                    <div>
+                      <a href="javascript:void(0)" ng-click=""><img src="static/img/arrow_left.png" /></a>
+                    </div>
                     <div  layout="column">
                         <span class="number_dash">{{userSession.dashboard.age}}</span>
                         <h5 style="color: #0064F8">EDAD</h5>
@@ -23,6 +26,16 @@
                     <div  layout="column">
                         <span class="number_dash">{{userSession.dashboard.ppm}}</span>
                         <h5 style="color: #0064F8">PPM</h5>
+                    </div>
+                     <div  layout="column">
+                         <span class="number_dash">
+                             <img ng-if="userSession.dashboard.discipline == 'Ciclismo'" src="static/img/bicycle.png"> 
+                             <img ng-if="userSession.dashboard.discipline == 'Running'" src="static/img/running.png">
+                         </span>
+                        <h5 style="color: #0064F8">DISCIPLINA</h5>
+                    </div>
+                    <div>
+                      <a href="javascript:void(0)" ng-click=""><img src="static/img/arrow_right.png" /></a>
                     </div>
                 </div>
             </md-card-content>

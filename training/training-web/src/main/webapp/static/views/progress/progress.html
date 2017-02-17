@@ -1,21 +1,27 @@
 <meta charset="utf-8"> 
-<div layout="column" layout-padding>
-    <h4 style="color: #0064F8">RESUMEN DE MI PROGRESO</h4>
-    <span class="md-caption">Aquí encontrarás el resumen de todas las actividades</span>
+<div layout="column"  layout-padding>
+    <span class="cpt-title">RESUMEN DE MI PROGRESO</span>
+    <span class="cpt-info">Aquí encontrarás el resumen de todas las actividades</span>
     <div layout="row" layout-align="center">
-        <div layout="row" flex="35">
-            <div flex="35">
-                <md-input-container class="md-block" flex-gt-s
-                                    <label>Resumen del progreso</label>
-                    <md-select id="sex" ng-model="user.sex" ng-required="true">
-                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
-                            {{s.sex}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
+        <div layout="row" layout-align="space-around center" flex="65">
+            <div layout="row" flex>
+                <div flex="75">
+                    <!--<md-input-container class="md-block">
+                        <label>Resumen del progreso</label>
+                        <md-select id="sex" ng-model="user.sex" >
+                            <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
+                                {{s.sex}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>-->
+                </div>
+            </div>
+            <div layout="row" flex>
+                <div flex="75">
+                </div>
             </div>
         </div>
-        <div layout="row" layout-align="space-around center" flex="15">
+        <div layout="row" layout-align="space-around center" flex="25">
             <label>Exportar</label>
             <div>
                 <a href="javascript:void(0)"><img src="static/img/xls.png"  /></a>
@@ -33,30 +39,162 @@
         <div layout="row" layout-align="space-around center" flex="65">
             <div layout="row" flex>
                 <div flex="75">
-                    <label>Fecha</label>
-                    <md-select id="sex" ng-model="user.sex" ng-required="true">
-                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
-                            {{s.sex}}
-                        </md-option>
-                    </md-select>
+                    <md-input-container class="md-block">
+                        <label>Fecha</label>
+                        <md-select id="dateProgress" ng-model="filter.date" >
+                            <md-option  value="1" ng-selected="true" >
+                                Ultimos 30 días
+                            </md-option>
+                            <md-option  value="2" >
+                                Trimestre
+                            </md-option>
+                            <md-option  value="3" >
+                                Semestre
+                            </md-option>
+                            <md-option  value="4" >
+                                Año
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
                 </div>
             </div>
             <div layout="row" flex>
                 <div flex="75">
-                    <label>Actividad</label>
-                    <md-select id="sex" ng-model="user.sex" ng-required="true">
-                        <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
-                            {{s.sex}}
-                        </md-option>
-                    </md-select>
+                    <md-input-container class="md-block">
+                        <label>Actividad</label>
+                        <md-select id="activityProgressId" ng-model="filter.activity" >
+                            <md-option value="1" ng-selected="true" >
+                                Todas
+                            </md-option>
+                            <md-option value="2" >
+                                Bicicleta montaña
+                            </md-option>
+                            <md-option value="3" >
+                                Bicicleta loma
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
                 </div>
+            </div>
+            <div>
+                <md-button class="md-fab md-mini" style="background: #0064F8;" ng-click="getProgressReport()">
+                    <md-tooltip md-direction="top" md-visible="tooltipVisible">Buscar</md-tooltip>
+                    <i style="color: #FFFFFF;" class="fa fa-search fa-lg" aria-hidden="true"></i>
+                </md-button>
             </div>
         </div>
         <div flex="25" layout="column" layout-align="center center">
-            <div class="circle_blue"><img src="static/img/pinon.png" /></div>
+            <md-menu md-position-mode="target-right bottom">
+                <md-button  style="width: 65px; height: 65px;" aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <div md-menu-origin class="circle_blue"><img src="static/img/pinon.png" /></div>
+                </md-button>
+                <md-menu-content layout="row" md-position-mode="target-right bottom" layout-padding style="border-width: 2px;
+                                 border-color: rgb(0, 100, 248);
+                                 border-style: solid;
+                                 background-color: rgb(0, 100, 248);
+                                 box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.27);   width: 721px;
+                                 height: 267px;">
+                    <div layout="column" flex>
+                        <span style="color:#FFFFFF; font-weight: bold">CAMPOS DISPONIBLES</span>
+                        <br />
+                        <select style="height: 180px; background: #0064F8; color: #FFFFFF" ng-model="leftSelect" multiple>
+                            <option value="1">Distancia</option>
+                            <option value="2">Tiempo</option>
+                            <option value="3">Frecuencia Cardíaca Máxima</option>
+                            <option value="4">Frecuencia Cardíaca Media</option>
+                            <option value="5">Ritmo medio</option>
+                            <option value="6">Potencia Máxima</option>
+                            <option value="7">Calorías</option>
+                        </select>
+                    </div>
+                    <div layout="column" layout-align="center center">
+                        <md-button  style="background: #1C2127; color:#AAFD6F;" my-click="moveRight()">AGREGAR ></md-button>
+                        <md-button  style="background:#0064F8; color:#FFFFFF;  border: 1px solid #FFFFFF" my-click="moveLeft()">< ELIMINAR</md-button>
+                    </div>
+                    <div layout="column" flex>
+                        <span style="color:#FFFFFF; font-weight: bold">CAMPOS SELECCIONADOS</span>
+                        <br />
+                        <select style="height: 180px; background: #0064F8; color: #FFFFFF" ng-model="toRemove" multiple>
+                            <option ng-repeat="el in rightSelect" value="{{el}}">{{el}}</option>
+                              <option value="1">Distancia</option>
+                            <option value="2">Tiempo</option>
+                            <option value="3">Frecuencia Cardíaca Máxima</option>
+                            <option value="4">Frecuencia Cardíaca Media</option>
+                            <option value="5">Ritmo medio</option>
+                            <option value="6">Potencia Máxima</option>
+                            <option value="7">Calorías</option>
+                        </select>
+                    </div>
+                </md-menu-content>
+            </md-menu>
             <h5 style="color: #0064F8">PERSONALIZAR INFORME</h5>
         </div>
 
     </div>
+    <md-divider></md-divider>
+    <div layout="row" layout-align="center center">
+        <md-card style="width: 828px; height: 469px;" layout-align="center center">
+            <md-card-content layout="row" layout-align="space-around center">
+                <div layout="column">
+                    <div layout="row" >
+                        <span style="color:#0064F8; font-weight: bold">Contador:</span>
+                    </div>
+                    <div layout="row">
+                        <span style="color:#0064F8; font-weight: bold">Distancia:</span>
 
+                    </div>
+                    <div layout="row">
+                        <span style="color:#0064F8; font-weight: bold">Tiempo:</span>
+
+                    </div>
+                    <div layout="row">
+                        <span style="color:#0064F8; font-weight: bold">Frecuencia Cardíaca Máxima:</span>
+
+                    </div>
+                    <div layout="row">
+                        <span style="color:#0064F8; font-weight: bold">Frecuencia Cardíaca Media:</span>
+
+                    </div>
+                    <div layout="row">
+                        <span style="color:#0064F8; font-weight: bold">Ritmo medio:</span>
+
+                    </div>
+                    <div layout="row">
+                        <span style="color:#0064F8; font-weight: bold">Potencia Máxima:</span>
+
+                    </div>
+                    <div layout="row">
+                        <span style="color:#0064F8; font-weight: bold">Calorías:</span>
+
+                    </div>
+                </div>
+                <div layout="column">
+                    <div layout="row">
+                        <span>50 activities</span>
+                    </div>
+                    <div layout="row">
+                        <span>422.79 km</span>
+                    </div>
+                    <div layout="row">
+                        <span>78:09:55 h_m_s</span>
+                    </div>
+                    <div layout="row">
+                        <span>600</span>
+                    </div>
+                    <div layout="row">
+                        <span>500</span>
+                    </div>
+                    <div layout="row">
+                        <span>80.000</span>
+                    </div>
+                    <div layout="row">
+                        <span>--</span>
+                    </div>
+                    <div layout="row">
+                        <span>31.505 C</span>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
 </div>

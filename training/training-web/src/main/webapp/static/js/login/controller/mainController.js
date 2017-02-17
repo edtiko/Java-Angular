@@ -74,8 +74,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                     break;
                 case "audio":
                     $scope.go('/audio-messages', 7);
+                    break;
                 case "video":
                     $scope.go('/video', 8);
+                    break;
 
             }
         };
@@ -183,7 +185,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             // to prevent interaction outside of dialog
 
             var titleDefault = 'Confirmaci\u00f3n';
-            if (title != "") {
+            if (title != "" && title != undefined) {
                 titleDefault = title;
             }
 
@@ -696,7 +698,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.connectToChatserver = function (sessionId) {
-            $scope.wsocket = new WebSocket('ws://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
+            $scope.wsocket = new WebSocket('wss://' + window.location.host + window.location.pathname + 'chat/' + sessionId);
             $scope.wsocket.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
                 if ($scope.userSession.userId != msg.messageUserId.userId && msg.mobile) {
@@ -715,7 +717,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.connectToAudioWsMovil = function (sessionId) {
-            $scope.wsAudioMobile = new WebSocket('ws://' + window.location.host + window.location.pathname + 'audiows/' + sessionId);
+            $scope.wsAudioMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'audiows/' + sessionId);
             $scope.wsAudioMobile.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
             };
@@ -731,7 +733,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.connectToVideoWsMovil = function (sessionId) {
-            $scope.wsVideoMobile = new WebSocket('ws://' + window.location.host + window.location.pathname + 'videows/' + sessionId);
+            $scope.wsVideoMobile = new WebSocket('wss://' + window.location.host + window.location.pathname + 'videows/' + sessionId);
             $scope.wsVideoMobile.onmessage = function (data) {
                 var msg = JSON.parse(data.data);
             };

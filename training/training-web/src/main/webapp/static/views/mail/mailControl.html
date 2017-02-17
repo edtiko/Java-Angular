@@ -5,7 +5,7 @@
                 <div layout="row" layout-align="center">
                     <md-button title="{{ 'CREATE' | translate }}" style="width: 250px; font-weight: bold" class="md-raised" ng-click="dialogEmail()">Escribir mensaje</md-button>
                 </div>
-                <md-list class="md-dense" flex>
+                <md-list flex>
                     <md-list-item  ng-click="verRecibidos()" class="md-2-line"  ng-class="{selectedMail: recibidos === true}">
                         <img src="static/img/inbox.png"/>
                         <div class="md-list-item-text" >
@@ -28,14 +28,14 @@
                     <span>CONTACTOS</span>
                 </h4>
 
-                <md-list class="md-dense" flex>
+                <md-list flex>
                     <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getEmailByRole(userSessionTypeUserCoachEstrella)">
                         <div class="rectangule1"></div>
                         <img data-ng-src="{{starImage}}"  class="md-avatar">
                         <div class="md-list-item-text">
                             <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.starUserId.fullName}}</h3>
                             <h3 style="color: #0064F8">Estrella</h3>
-                            <p>Mails disponibles {{availableMailStar}} de {{mailCountStar}}</p>
+                            <p style="color: #000">Mails disponibles {{availableMailStar}} de {{mailCountStar}}</p>
                         </div>
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="getEmailByRole(userSessionTypeUserCoachInterno)">
@@ -44,7 +44,7 @@
                         <div class="md-list-item-text">
                             <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.coachUserId.fullName}}</h3>
                             <h3 style="color: #0064F8">Supervisor</h3>
-                            <p>Mails  disponibles {{availableMailSup}} de {{mailCountSup}}</p>
+                            <p style="color: #000">Mails  disponibles {{availableMailSup}} de {{mailCountSup}}</p>
                         </div>
                     </md-list-item>
                 </md-list>

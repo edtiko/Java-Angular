@@ -601,7 +601,7 @@ trainingApp.controller("VideoController", ['$scope', 'videoService', 'UserServic
 
             $scope.savePlanVideoAsesor(url,
                     function (response) {
-                        if (response.status == 'success') {
+                        if (response.data.status == 'success') {
                             $scope.showMessage(response.data.message);
                             var video = response.data.output;
                             if (video != "") {
