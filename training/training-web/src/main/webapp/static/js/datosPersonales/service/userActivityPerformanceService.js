@@ -115,7 +115,7 @@ trainingApp.service('UserActivityPerformanceService', ['$http', '$q', function (
                  return $http.get($contextPath + '/get/userActivityPerformance/progress/'+date+'/'+activity+'/'+userId)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching userActivityPerformances');

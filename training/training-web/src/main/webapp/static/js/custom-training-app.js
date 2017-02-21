@@ -79,6 +79,16 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/chart', route.resolve('chart','chart/'))
             
                     .when('/progress', route.resolve('progress','progress/'))
+            
+                    .when('/account', route.resolve('account','account/'))
+                    
+                    .when('/suscription', route.resolve('suscription','suscription/'))
+            
+                    .when('/order', route.resolve('order','order/'))
+            
+                    .when('/pay-method', route.resolve('payMethod','payMethod/'))
+            
+                    .when('/create-pay-method', route.resolve('createPayMethod','createPayMethod/'))
 
                     .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'));
             $translateProvider.useStaticFilesLoader({

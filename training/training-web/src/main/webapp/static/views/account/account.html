@@ -1,0 +1,58 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding style="height: 680px">
+    <span class="cpt-title">INFORMACIÓN DE LA CUENTA</span>
+    <md-grid-list  md-cols="3" 
+                   md-row-height-gt-md="6:3" md-row-height="6:3"
+                   md-gutter-gt-md="16px" md-gutter-md="4px" md-gutter="2px" >
+        <!--.select {
+          background-color: rgb(255, 255, 255);
+          box-shadow: 0px 15px 24px 0px rgba(0, 0, 0, 0.06);
+          position: absolute;
+          left: 1147px;
+          top: 477px;
+          width: 250px;
+          height: 169px;
+          z-index: 201;
+        }-->
+
+
+        <md-grid-tile ng-click="go('/suscription')">
+            <md-card layout="column" layout-align="center center" style="width: 250px; height: 169px;">
+                <div><img src="static/img/suscription.png"></div>
+                <span style="color: rgb(0, 100, 248); font-weight: bold;">SUCRIPCIÓN</span>
+            </md-card>
+        </md-grid-tile>
+        <md-grid-tile ng-click="go('/order')">
+            <md-card layout="column" layout-align="center center" style="width: 250px; height: 169px;">
+                <div><img src="static/img/order.png"></div>
+                <span style="color: rgb(0, 100, 248); font-weight: bold;">PEDIDOS</span>
+            </md-card>
+        </md-grid-tile>
+        <md-grid-tile ng-click="go('/downloads')">
+            <md-card layout="column" layout-align="center center" style="width: 250px; height: 169px;">
+                <div><img src="static/img/download.png"></div>
+                <span style="color: rgb(0, 100, 248); font-weight: bold;">DESCARGAS</span>
+            </md-card>
+        </md-grid-tile>
+        <md-grid-tile ng-click="go('/pay-method')">
+            <md-card layout="column" layout-align="center center" style="width: 250px; height: 169px;">
+                <div><img src="static/img/pay_method.png"></div>
+                <span style="color: rgb(0, 100, 248); font-weight: bold;">MÉTODOS DE PAGO</span>
+            </md-card>
+        </md-grid-tile>
+        <md-grid-tile ng-click="go('/address')">
+            <md-card layout="column" layout-align="center center" style="width: 250px; height: 169px;">
+                <div><img src="static/img/location.png"></div>
+                <span style="color: rgb(0, 100, 248); font-weight: bold;">DIRECCIONES</span>
+            </md-card>
+        </md-grid-tile>
+        <md-grid-tile ng-click="go('/account-setup')">
+            <md-card layout="column" layout-align="center center" style="width: 250px; height: 169px;">
+                <div><img src="static/img/setup_account.png"></div>
+                <span style="color: rgb(0, 100, 248); font-weight: bold;">CONFIGURACIÓN</span>
+            </md-card>
+        </md-grid-tile>
+    </md-grid-list>
+    <br /><br /><br />
+    <md-divider></md-divider>
+</div>

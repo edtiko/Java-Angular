@@ -1,0 +1,87 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding>
+    <span class="cpt-title">MÉTODOS DE PAGO</span>
+    <div layout="column" layout-padding>
+        <div layout="row">
+            <md-card layout="row" layout-padding style="width: 753px">
+                <div layout="row" flex="10" layout-align="center center" >
+                    <img src="static/img/visa.png">
+                </div>
+                <div flex="20">
+                    <span class="sub-title">**** **** **** 1345</span>
+                </div>
+
+                <div layout="row" flex layout-align="center center" >
+                    <md-radio-group ng-model="data.group1">
+                        <md-radio-button value="visa">
+                            Método de pago predeterminado
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div layout="row" layout-align="space-between center" flex="10">
+                    <a><img src="static/img/edit.png"></a>
+                    <a><img src="static/img/x.png"></a>
+                </div>
+            </md-card>
+            <!--<div layout="row" layout-align="center center">
+                <md-button class="md-raised" style="background: #000; color: rgb(170, 252, 112)">AGREGAR OTRO <img src="static/img/rigth_green.png"></md-button>
+            </div>-->
+        </div>
+        <div layout="row">
+            <md-card layout="row" layout-padding style="width: 753px">
+                <div layout="row" flex="10" layout-align="center center" >
+                    <img src="static/img/master.png">
+                </div>
+                <div flex="20">
+                    <span class="sub-title">**** **** **** 1345</span>
+                </div>
+                <div layout="row" flex layout-align="center center" >
+                    <md-radio-group ng-model="data.group1">
+                        <md-radio-button value="master">
+                            Método de pago predeterminado
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div layout="row" layout-align="space-between center" flex="10">
+                    <a><img src="static/img/edit.png"></a>
+                    <a><img src="static/img/x.png"></a>
+                </div>
+            </md-card>
+            <!--<div layout="row" layout-align="center center">
+                <md-button class="md-raised" style="background: #000; color: rgb(170, 252, 112)">AGREGAR OTRO <img src="static/img/rigth_green.png"></md-button>
+            </div>-->
+        </div>
+        <div layout="row">
+            <md-card layout="row" layout-padding style="width: 753px">
+                <div layout="row" flex="10" layout-align="center center" >
+                    <img src="static/img/paypal.png">
+                </div>
+                <div flex="20">
+                    <span></span>
+                </div>
+                <div layout="row" flex layout-align="center center" >
+                    <md-radio-group ng-model="data.group1">
+                        <md-radio-button value="paypal">
+                            Método de pago predeterminado
+                        </md-radio-button>
+                    </md-radio-group>
+                </div>
+                <div layout="row" layout-align="space-between center" flex="10">
+                    <a><img src="static/img/edit.png"></a>
+                    <a><img src="static/img/x.png"></a>
+                </div>
+            </md-card>
+            <!--<div layout="row" layout-align="center center">
+                <md-button class="md-raised" style="background: #000; color: rgb(170, 252, 112)">AGREGAR OTRO <img src="static/img/rigth_green.png"></md-button>
+            </div>-->
+        </div>
+        <div layout="row" style="width: 785px">
+            <div flex>
+                <md-button class="md-raised" ng-click="go('/account')"><img src="static/img/left.png"> REGRESAR</md-button>
+            </div>
+            <div layout="row" layout-align="end center" flex>
+                <md-button ng-click="go('/create-pay-method')" class="md-raised" style="background: #000; color: rgb(170, 252, 112)">AÑADIR MÉTODO DE PAGO <img src="static/img/rigth_green.png"></md-button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -42,16 +42,16 @@
                     <md-input-container class="md-block">
                         <label>Fecha</label>
                         <md-select id="dateProgress" ng-model="filter.date" >
-                            <md-option  value="1" ng-selected="true" >
+                            <md-option  value="30" ng-selected="true" >
                                 Ultimos 30 días
                             </md-option>
-                            <md-option  value="2" >
+                            <md-option  value="90" >
                                 Trimestre
                             </md-option>
-                            <md-option  value="3" >
+                            <md-option  value="180" >
                                 Semestre
                             </md-option>
-                            <md-option  value="4" >
+                            <md-option  value="365" >
                                 Año
                             </md-option>
                         </md-select>
@@ -135,63 +135,14 @@
     <div layout="row" layout-align="center center">
         <md-card style="width: 828px; height: 469px;" layout-align="center center">
             <md-card-content layout="row" layout-align="space-around center">
-                <div layout="column">
-                    <div layout="row" >
+                <div layout="column" ng-if="result.length > 0">
+                     <div layout="row" >
                         <span style="color:#0064F8; font-weight: bold">Contador:</span>
+                        <span>&nbsp;&nbsp; {{result[0].activityCount}} activities</span>
                     </div>
-                    <div layout="row">
-                        <span style="color:#0064F8; font-weight: bold">Distancia:</span>
-
-                    </div>
-                    <div layout="row">
-                        <span style="color:#0064F8; font-weight: bold">Tiempo:</span>
-
-                    </div>
-                    <div layout="row">
-                        <span style="color:#0064F8; font-weight: bold">Frecuencia Cardíaca Máxima:</span>
-
-                    </div>
-                    <div layout="row">
-                        <span style="color:#0064F8; font-weight: bold">Frecuencia Cardíaca Media:</span>
-
-                    </div>
-                    <div layout="row">
-                        <span style="color:#0064F8; font-weight: bold">Ritmo medio:</span>
-
-                    </div>
-                    <div layout="row">
-                        <span style="color:#0064F8; font-weight: bold">Potencia Máxima:</span>
-
-                    </div>
-                    <div layout="row">
-                        <span style="color:#0064F8; font-weight: bold">Calorías:</span>
-
-                    </div>
-                </div>
-                <div layout="column">
-                    <div layout="row">
-                        <span>50 activities</span>
-                    </div>
-                    <div layout="row">
-                        <span>422.79 km</span>
-                    </div>
-                    <div layout="row">
-                        <span>78:09:55 h_m_s</span>
-                    </div>
-                    <div layout="row">
-                        <span>600</span>
-                    </div>
-                    <div layout="row">
-                        <span>500</span>
-                    </div>
-                    <div layout="row">
-                        <span>80.000</span>
-                    </div>
-                    <div layout="row">
-                        <span>--</span>
-                    </div>
-                    <div layout="row">
-                        <span>31.505 C</span>
+                    <div layout="row" ng-repeat="res in result" >
+                        <span style="color:#0064F8; font-weight: bold">{{res.label}}:</span>
+                        <span>&nbsp;&nbsp;{{res.value}}</span>
                     </div>
                 </div>
             </md-card-content>

@@ -1,6 +1,7 @@
 package co.expertic.training.service.user;
 
 import co.expertic.training.model.dto.ChartDTO;
+import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import java.util.Date;
@@ -157,5 +158,7 @@ public interface UserActivityPerformanceService {
     public List<ChartDTO> findActivitiesByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
     
     public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
+
+    public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId) throws Exception;
     
 }

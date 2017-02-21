@@ -194,6 +194,7 @@
             <groupId>co.expertic.training.service</groupId>
             <artifactId>training-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>co.expertic.training.model</groupId>

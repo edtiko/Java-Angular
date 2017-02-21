@@ -1,9 +1,11 @@
 package co.expertic.training.dao.impl.user;
 
 import co.expertic.base.jpa.BaseDAOImpl;
+import co.expertic.base.jpa.DAOException;
 import co.expertic.training.dao.user.UserActivityPerformanceDao;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.ChartDTO;
+import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
 import co.expertic.training.model.entities.ActivityPerformanceMetafield;
 import co.expertic.training.model.entities.UserActivityPerformance;
@@ -466,6 +468,32 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
         
 //        List<UserActivityPerformanceDTO> list = query.getResultList();
         return chartList;
+    }
+
+    @Override
+    public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a.activity_performance_metafield_id, sum(cast(b.value as double precision)) val, a.label , \n");
+        builder.append("(select count(activity_performance_metafield_id) \n");
+        builder.append(" from user_activity_performance where user_id = ").append(userId);
+        builder.append(" and activity_performance_metafield_id=1) activities\n");
+        builder.append("from activity_performance_metafield a,\n");
+        builder.append("     user_activity_performance b\n");
+        builder.append("where a.activity_performance_metafield_id = b.activity_performance_metafield_id\n");
+        builder.append("and b.user_id = \n").append(userId);
+        builder.append("and a.activity_performance_metafield_id != 1\n");
+        if(date != -1){
+            builder.append(" and b.creation_date > current_date - interval '").append(date).append("' day ");
+        }
+        builder.append("group by a.activity_performance_metafield_id");
+        Query query = this.getEntityManager().createNativeQuery(builder.toString());
+        List<Object[]> list = query.getResultList();
+        List<ProgressReportDTO> result = new ArrayList<>();
+        list.stream().forEach((ob) -> {
+            result.add(new ProgressReportDTO((Integer) ob[0], (Double) ob[1], (String) ob[2], (Long) ob[3]));
+        });
+
+        return result;
     }
 
 }

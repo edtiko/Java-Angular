@@ -4,6 +4,7 @@ trainingApp.controller('ProgressController', ['$scope', 'UserActivityPerformance
         $scope.rightSelect = [];
         $scope.toRemove = [];
         $scope.leftSelect = [];
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.filter = {
            date: '',
            activity: '',

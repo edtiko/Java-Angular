@@ -2,6 +2,7 @@ package co.expertic.training.service.impl.user;
 
 import co.expertic.training.dao.user.UserActivityPerformanceDao;
 import co.expertic.training.model.dto.ChartDTO;
+import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import co.expertic.training.service.user.UserActivityPerformanceService;
@@ -87,5 +88,10 @@ public class UserActivityPerformanceServiceImpl implements UserActivityPerforman
     @Override
     public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId(Date fromDate, Date toDate, Integer userId) throws Exception {
         return userActivityPerformanceDao.findConsolidationByDateRangeAndUserId(fromDate, toDate, userId);
+    }
+
+    @Override
+    public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId)throws Exception  {
+        return userActivityPerformanceDao.getProgressReport(date, activity, userId);
     }
 }

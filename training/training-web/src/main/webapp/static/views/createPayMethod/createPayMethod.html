@@ -1,0 +1,66 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding>
+    <span class="cpt-title">MÉTODOS DE PAGO</span>
+    <div layout="column" style="padding: 80px">
+        <ang-accordion class="accordion-audio" close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
+            <collapsible-item item-title="TARJETA DE CRÉDITO O DÉBITO" initially-open="true">
+                <div layout="row" layout-align="end center">
+                    <img src="static/img/tarjetas.png">
+                </div>
+                <div layout="row">
+                    <div flex>
+                        <md-input-container class="md-block" >
+                            <label>Nombre</label>
+                            <input type="text" ng-model="name" id="name" name="name" />
+
+                        </md-input-container>
+                    </div>
+                    <div flex>
+                        <md-input-container class="md-block" >
+                            <label>Apellido</label>
+                            <input type="text" ng-model="lastName" id="lastName" name="lastName" />
+                        </md-input-container>
+                    </div>
+                </div>
+                 <div layout="row">
+                    <div flex>
+                        <md-input-container class="md-block" >
+                            <label>Número de tarjeta</label>
+                            <input type="text" ng-model="cardNumber" id="cardNumber" name="cardNumber" />
+
+                        </md-input-container>
+                    </div>
+                    <div flex>
+                        <md-input-container class="md-block" >
+                            <label>Fecha de vencimiento</label>
+                            <input type="text" ng-model="expirationDate" id="expirationDate" name="expirationDate" />
+                        </md-input-container>
+                    </div>
+                </div>
+                    <div layout="row">
+                    <div flex>
+                        <md-input-container class="md-block" >
+                            <label>Código de seguridad</label>
+                            <input type="text" ng-model="securityCode" id="securityCode" name="securityCode" />
+
+                        </md-input-container>
+                    </div>
+                    <div flex>
+                        <md-radio-group>
+                            <md-radio-button>Método de pago predeterminado</md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+                <div layout="row" layout-align="end center">
+                    <md-button class="md-raised" style="background: #000; color: rgb(170, 252, 112)" ng-click="">GUARDAR</md-button>
+                </div>
+            </collapsible-item>
+            <collapsible-item item-title="PAYPAL">
+
+            </collapsible-item>
+        </ang-accordion>
+        <div layout="row">
+            <md-button class="md-raised" ng-click="go('/pay-method')"><img src="static/img/left.png"> REGRESAR</md-button>
+        </div>
+    </div>
+</div>

@@ -4,16 +4,14 @@ import co.expertic.base.util.DateUtil;
 import co.expertic.base.util.MessageUtil;
 import co.expertic.training.model.dto.ChartDTO;
 import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
-import co.expertic.training.model.entities.ActivityPerformanceMetafield;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import java.util.List;
 import co.expertic.training.model.util.ResponseService;
-import co.expertic.training.model.util.UtilDate;
 import co.expertic.training.service.user.UserActivityPerformanceService;
 import co.expertic.training.web.enums.StatusResponse;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
@@ -445,13 +443,14 @@ public class UserActivityPerformanceController {
      * @author Edwin Gómez
      * @param date
      * @param activity
+     * @param userId
      * @return
      */
     @RequestMapping(value = "get/userActivityPerformance/progress/{date}/{activity}/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseService> getProgressReport(@PathVariable("date") Integer date, @PathVariable("activity") Integer activity) {
+    public ResponseEntity<ResponseService> getProgressReport(@PathVariable("date") Integer date, @PathVariable("activity") Integer activity, @PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
-            List<UserActivityPerformance> userActivityPerformanceList = userActivityPerformanceService.getProgressReport(date, activity, userId);
+            List<ProgressReportDTO> userActivityPerformanceList = userActivityPerformanceService.getProgressReport(date, activity, userId);
             responseService.setOutput(userActivityPerformanceList);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

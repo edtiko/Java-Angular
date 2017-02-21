@@ -1,7 +1,9 @@
 package co.expertic.training.dao.user;
 
 import co.expertic.base.jpa.BaseDAO;
+import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.ChartDTO;
+import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import java.util.Date;
@@ -129,4 +131,6 @@ public interface UserActivityPerformanceDao extends BaseDAO<UserActivityPerforma
     public List<ChartDTO> findActivitiesByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
     
     public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
+
+    public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId) throws DAOException;
 }
