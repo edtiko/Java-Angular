@@ -43,6 +43,7 @@ require.config({
         marketingReportService: "report/service/marketingReportService",
         paymentReportService: "report/service/paymentReportService",
         saleReportService: "report/service/saleReportService",
+        accountService: "account/service/accountService",
         sharedProperties: "dashboard/service/sharedProperties",
         mainController: "login/controller/mainController",
         messageSupervisorController: "message/controller/messageSupervisorController",
@@ -171,6 +172,9 @@ require.config({
         },
         userProfileService: {
             deps: ['angular', 'trainingApp']
+        },
+        accountService:{
+           deps: ['angular', 'trainingApp'] 
         },
         authService: {
             deps: ['angular', 'trainingApp']
@@ -333,7 +337,7 @@ require.config({
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
                 'messageSupervisorController', 'audioMessageController', 'mailSupervisorController',
                 'dashboardChartController', 'configurationPlanService', 'membershipService',
-                'marketingReportService', 'paymentReportService', 'saleReportService', 'audioSupervisorController', 'videoSupervisorController','sharedProperties'
+                'marketingReportService', 'paymentReportService', 'saleReportService', 'audioSupervisorController', 'videoSupervisorController','accountService'
 
             ]}
     }

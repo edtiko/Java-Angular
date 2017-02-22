@@ -553,4 +553,33 @@ public class UserServiceImpl implements UserService {
     public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception {
         return userDao.getUserNotification(userSessionId);
     }
+    
+    @Override
+    public String getSubscriptions(Integer userId) throws Exception {
+        URL url = new URL(UrlProperties.URL_PORTAL + "training-controller.php");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setInstanceFollowRedirects(true);
+        User user = userDao.findById(userId);
+        String postData = "user_id=" + user.getUserWordpressId();
+        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        con.setRequestProperty("Content-length", String.valueOf(postData.length()));
+        con.setDoOutput(true);
+        con.setDoInput(true);
+        try (DataOutputStream output = new DataOutputStream(con.getOutputStream())) {
+            output.writeBytes(postData);
+        }
+        int code = con.getResponseCode(); // 200 = HTTP_OK
+
+        // read the response
+        DataInputStream input = new DataInputStream(con.getInputStream());
+        int c;
+        StringBuilder resultBuf = new StringBuilder();
+        while ((c = input.read()) != -1) {
+            resultBuf.append((char) c);
+        }
+        input.close();
+
+        return resultBuf.toString();
+    }
 }
