@@ -332,6 +332,70 @@ public class UserController {
         responseService.setStatus(StatusResponse.SUCCESS.getName());
         return responseService;
     }
+    
+    private UserMovilDTO createUserPlanMovil(UserDTO userDTO) throws Exception {
+        User user = new User();
+        user.setLogin(userDTO.getLogin());
+        user.setName(userDTO.getFirstName());
+        user.setSecondName(userDTO.getSecondName());
+        user.setPassword(userDTO.getPassword());
+        user.setEmail(userDTO.getEmail());
+        user.setIndMetricSys(userDTO.getIndMetricSys());
+
+        if (userDTO.getIndMetricSys() == null || userDTO.getIndMetricSys().isEmpty()) {
+            user.setIndMetricSys("1");
+        }
+
+        user.setPhone(userDTO.getPhone());
+        user.setLastName(userDTO.getLastName());
+        user.setSex(userDTO.getSex());
+        user.setStateId(StateEnum.ACTIVE.getId().shortValue());
+        user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
+        user.setUserWordpressId(userDTO.getUserWordpressId());
+
+        if (userDTO.getCountryId() != null) {
+            user.setCountryId(new Country(userDTO.getCountryId()));
+        }
+
+        user.setCreationDate(new Date());
+        UserMovilDTO dto = userService.saveUserMovil(user);
+        DisciplineUser disciplineUser = new DisciplineUser();
+        disciplineUser.setUserId(new User(dto.getUserId()));
+        disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
+        disciplineUserService.create(disciplineUser);
+
+        if (userDTO.getTypeUser() != null) {
+            Role role = new Role();
+            if (userDTO.getTypeUser().equals("atleta")) {
+                role.setRoleId(1);
+            } else if (userDTO.getTypeUser().equals("coach")) {
+                role.setRoleId(2);
+            } else {
+                role.setRoleId(3);
+            }
+
+            RoleUser roleUser = new RoleUser();
+            roleUser.setRoleId(role);
+            roleUser.setUserId(user);
+            roleUserService.create(roleUser);
+        }
+        //mostrar por defecto la foto de perfil
+        if (user != null) {
+            VisibleFieldsUser visibleDefault = new VisibleFieldsUser();
+            visibleDefault.setColumnName("profile_photo");
+            visibleDefault.setTableName("user_training");
+            visibleDefault.setUserId(dto.getUserId());
+            visibleFieldsUserService.create(visibleDefault);
+        }
+
+        TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
+        trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
+        trainingPlanUser.setUserId(user);
+        trainingPlanUser.setTrainingPlanId(new TrainingPlan(0));//Plan basico por defecto
+        trainingPlanUserService.create(trainingPlanUser);
+
+        return dto;
+    }
 
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
@@ -893,10 +957,10 @@ public class UserController {
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }
 
-                responseService = createUserPlan(userDTO);
+                UserMovilDTO userDto = createUserPlanMovil(userDTO);
 
-                if (responseService.getOutput() == null) {
-                    responseService.setOutput("Usuario registrado exitosamente");
+                if (userDto != null) {
+                    responseService.setOutput(userDto);
                 }
 
                 return new ResponseEntity<>(responseService, HttpStatus.OK);

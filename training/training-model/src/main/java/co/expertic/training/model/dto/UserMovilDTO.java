@@ -1,7 +1,9 @@
 package co.expertic.training.model.dto;
 
+import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 import org.apache.log4j.Logger;
@@ -50,11 +52,51 @@ public class UserMovilDTO {
     private Integer trainingPlanUserId;
     private UserBasicMovilDTO starUser;
     private UserBasicMovilDTO coachUser;
+    @JsonIgnore
     private UserProfileMovilDTO userProfile;
     private String planType;
     private Integer communicationPlanId;
 
     public UserMovilDTO() {
+    }
+
+    //constructor usado por mapFromUserEntity
+    public UserMovilDTO(Integer userId, String firstName, String secondName, String lastName, String email, Date birthDate, String address,
+            String sex, String phone, String cellphone, Integer cityId,
+            Short stateId, String login, String facebookPage, String instagramPage, String twitterPage,
+            String webPage, String postalCode, Integer federalStateId, Integer countryId) {
+
+        this.userId = userId;
+        this.login = login;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.email = email;
+        this.sex = sex;
+        this.phone = phone;
+        this.cellphone = cellphone;
+        this.cityId = cityId;
+        this.stateId = stateId;
+        this.facebookPage = facebookPage;
+        this.instagramPage = instagramPage;
+        this.twitterPage = twitterPage;
+        this.webPage = webPage;
+        this.postalCode = postalCode;
+        this.federalStateId = federalStateId;
+        this.countryId = countryId;
+    }
+
+    public static UserMovilDTO mapFromUserEntity(User user) {
+        if (user != null) {
+            return new UserMovilDTO(user.getUserId(), user.getName(), user.getSecondName(), user.getLastName(), user.getEmail(), user.getBirthDate(), user.getAddress(),
+                    user.getSex(), user.getPhone(), user.getCellphone(), (user.getCityId() != null ? user.getCityId().getCityId() : null),
+                    user.getStateId(), user.getLogin(), user.getFacebookPage(), user.getInstagramPage(), user.getTwitterPage(), user.getWebPage(), user.getPostalCode(),
+                    user.getCityId() != null ? user.getCityId().getFederalStateId().getFederalStateId() : null,
+                    user.getCountryId() != null ? user.getCountryId().getCountryId() : null);
+        }
+        return null;
     }
 
     public UserBasicMovilDTO getStarUser() {
@@ -289,19 +331,17 @@ public class UserMovilDTO {
         this.roleId = roleId;
     }
 
-
     public String getFullName() {
-        if(this.secondName != null) {
+        if (this.secondName != null) {
             return this.fullName = this.firstName + " " + this.secondName + " " + this.lastName;
         }
-        return this.fullName = this.firstName + " " + this.lastName;        
+        return this.fullName = this.firstName + " " + this.lastName;
     }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
 
     }
-
 
     public Integer getTrainingPlanUserId() {
         return trainingPlanUserId;
@@ -366,7 +406,5 @@ public class UserMovilDTO {
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
-    
-
 
 }

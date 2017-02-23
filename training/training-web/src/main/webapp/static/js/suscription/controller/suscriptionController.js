@@ -1,7 +1,7 @@
 trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$window',
     function ($scope, AccountService, $window) {
 
-        $scope.suscriptionList = [];
+        $scope.subscriptionList = [];
         $scope.count = 0;
         $scope.selected = [];
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -25,19 +25,28 @@ trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$w
                 }
             }).$promise;
         };
-        
+
         $scope.getSubscriptions = function () {
             AccountService.getSubscriptions($scope.userSession.userId).then(
                     function (data) {
-                        $scope.suscriptionList = JSON.parse(data);
+                        $scope.subscriptionList = JSON.parse(JSON.parse(data));
+                        //console.log($scope.suscriptionList);
                     },
-                    function(error){
-                         console.log(error);
+                    function (error) {
+                        console.log(error);
                     }
             );
         };
-
         
+        $scope.showSubscription = function(item){
+          console.log(item);  
+        };
+        
+        $scope.onSelect = function(item){
+                 console.log(item);  
+        };
+
+
         $scope.getSubscriptions();
 
     }]);

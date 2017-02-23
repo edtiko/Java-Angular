@@ -6,25 +6,27 @@
     <span class="cpt-info">Haz clic sobre la suscripción para ver detalles</span>
   <br />  <br />
     <div layout="column" layout-padding>
-        <span style="color:#000; font-weight: bold">Sucripciones activas</span>
+        <span style="color:#000; font-weight: bold">Sucripciones</span>
         <md-table-container>
-            <table md-table md-row-select ng-model="selected" md-progress="promise">
+            <table md-table md-row-select ng-model="selected">
                 <thead md-head >
                     <tr md-row md-auto-select>
-                        <th class="md-column">SUSCRIPCIÓN</th>
-                        <th class="md-column">ESTADO</th>
-                        <th class="md-column">FECHA</th>
-                        <th class="md-column">PRÓXIMO PAGO</th>
-                        <th class="md-column">TOTAL</th>
+                        <th class="md-column"><strong style="color: #0064F8">SUSCRIPCIÓN</strong></th>
+                        <th class="md-column"><strong style="color: #0064F8">ESTADO</strong></th>
+                        <th class="md-column"><strong style="color: #0064F8">FECHA</strong></th>
+                        <th class="md-column"><strong style="color: #0064F8">PRÓXIMO PAGO</strong></th>
+                        <th class="md-column"><strong style="color: #0064F8">TOTAL</strong></th>
+                    </tr>
                 </thead>
                 <tbody md-body>
-                    <!--<tr md-row md-select="configurationPlan" md-select-id="trainingPlanId.name" md-auto-select ng-repeat="configurationPlan in suscriptionList">
-                <td md-cell>{{configurationPlan.trainingPlanId.name}}</td>
-                <td md-cell>{{configurationPlan.communicationRoleId.name}}</td>
-                <td md-cell>{{configurationPlan.audioDuration}}</td>
-                <td md-cell>{{configurationPlan.audioEmergency}}</td>
-                </tr>-->
-                    <tr md-row>
+              <tr md-row md-select="subscription" md-select-id="id" md-auto-select ng-repeat="subscription in subscriptionList| limitTo: query.limit: (query.page - 1) * query.limit">
+                <td md-cell>{{subscription.id}}</td>
+                <td md-cell>{{subscription.state}}</td>
+                <td md-cell>{{subscription.order_date}}</td>
+                <td md-cell>{{subscription.order_date}}</td>
+                <td md-cell>USD: ${{subscription.total}}.00</td>
+                </tr>
+                    <!--<tr md-row>
                         <td md-cell>#1216</td>
                         <td md-cell>Pagado</td>
                         <td md-cell>12/12/2016</td>
@@ -37,17 +39,18 @@
                         <td md-cell>26/12/2016</td>
                         <td md-cell>25/02/2017</td>
                         <td md-cell>USD: $20.000</td>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
         </md-table-container>
-       <!-- <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getSuscriptionsPaginate" md-page-select></md-table-pagination>-->
+        <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{subscriptionList.length}}"></md-table-pagination>  
          <br />  <br />
-       <span style="color:#000; font-weight: bold">Sucripción #1216</span>
+         <div ng-if="selected.length > 0">
+       <span style="color:#000; font-weight: bold">Sucripción #{{selected[0].id}}</span>
        <md-card>
            <table md-table>
                             <thead md-head>
-                                <tr md-row>
+                                <tr md-row style="text-transform: capitalize">
                                     <th md-column><span style="font-weight: bold; color: #0064F8" >PRODUCTO</span></th>
                                     <th md-column><span style="font-weight: bold; color: #0064F8" >ESTADO</span></th>
                                     <th md-column><span style="font-weight: bold; color: #0064F8" >FECHA</span></th>
@@ -57,17 +60,18 @@
                                 </tr>
                             </thead>
                             <tbody md-body>
-                                <tr md-row  md-auto-select>
-                                    <td>Jairo Londoño</td>
-                                    <td>Pagado</td>
-                                    <td>26/12/2016</td>
-                                    <td>25/02/2017</td>
-                                    <td>USD: $20.00</td>
-                                    <td>PayPal</td>
+                                <tr md-row  md-auto-select style="text-transform: capitalize">
+                                    <td>{{selected[0].products[0].name}}</td>
+                                    <td>{{selected[0].state}}</td>
+                                    <td>{{selected[0].order_date}}</td>
+                                    <td>{{selected[0].order_date}}</td>
+                                    <td>USD: ${{selected[0].total}}.00</td>
+                                    <td>{{selected[0].payment_method}}</td>
                                 </tr>
                             </tbody>
                         </table>
        </md-card>
+         </div>
     </div>
         <div layout="row">
         <md-button class="md-raised" ng-click="go('/account')"><img src="static/img/left.png"> REGRESAR</md-button>

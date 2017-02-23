@@ -5,6 +5,7 @@ import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.FederalStateDTO;
 import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserMovilDTO;
 import co.expertic.training.model.entities.City;
 import co.expertic.training.model.entities.Country;
 import co.expertic.training.model.entities.FederalState;
@@ -25,6 +26,8 @@ public interface UserService {
     UserDTO findUserByUsername(String username)throws Exception;
 
     Integer saveUser(User user) throws Exception;
+    
+    UserMovilDTO saveUserMovil(User user) throws Exception;
 
     int updateUser(UserDTO user);
 

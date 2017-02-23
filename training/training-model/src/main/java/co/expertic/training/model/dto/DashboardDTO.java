@@ -8,10 +8,10 @@ import co.expertic.training.model.entities.Weather;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DashboardDTO {
 
@@ -524,10 +524,13 @@ public class DashboardDTO {
 
     public Integer getAge() {
         if (this.birthDate != null) {
-            Calendar cal = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance(Locale.getDefault());
             cal.setTime(birthDate);
+            Integer year = cal.get(Calendar.YEAR);
+            Integer month = cal.get(Calendar.MONTH);
+            Integer day = cal.get(Calendar.DAY_OF_MONTH);
             LocalDate today = LocalDate.now();
-            LocalDate birthday = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+            LocalDate birthday = LocalDate.of(year, month+1, day);
 
             Period p = Period.between(birthday, today);
             this.age = p.getYears();

@@ -45,6 +45,7 @@ public class TrainingPlanWorkoutDto {
     private Short indStrava;
     @JsonSerialize(using = JsonDateSerializer.class)
     private Date lastUpdateStrava;
+    private String urlIcon;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -317,6 +318,14 @@ public class TrainingPlanWorkoutDto {
 
     public void setIndStrava(Short indStrava) {
         this.indStrava = indStrava;
+    }
+
+    public String getUrlIcon() {
+        return urlIcon;
+    }
+
+    public void setUrlIcon(String urlIcon) {
+        this.urlIcon = urlIcon;
     }
     
 

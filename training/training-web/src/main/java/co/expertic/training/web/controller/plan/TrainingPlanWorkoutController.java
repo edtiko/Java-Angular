@@ -120,8 +120,8 @@ public class TrainingPlanWorkoutController {
 
         return list;
     }
-    
-     @RequestMapping(value = "trainingPlanWorkout/validate/planWorkout/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = "trainingPlanWorkout/validate/planWorkout/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> validatePlan(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
@@ -148,7 +148,7 @@ public class TrainingPlanWorkoutController {
             HttpSession session) {
         ResponseService responseService = new ResponseService();
         try {
-            
+
             Calendar startCal = Calendar.getInstance();
             startCal.setTime(new Date());
             startCal.add(Calendar.DAY_OF_MONTH, 1);
@@ -160,7 +160,7 @@ public class TrainingPlanWorkoutController {
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);
             userService.updateUser(userDTO);
-            
+
             TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userProfile.getUserId()));
 
             if (session.getAttribute("user") != null) {
@@ -267,38 +267,39 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
     @RequestMapping(value = "/trainingPlanWorkout/get/by/user/intervalDate/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> getTrainingPlanWorkoutByUserInterval(@RequestBody PlanWorkoutDTO trainingPlanWorkout, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
-            Calendar calendar = Calendar.getInstance(Locale.getDefault());    
-            calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+            Calendar calendar = Calendar.getInstance(Locale.getDefault());
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.HOUR_OF_DAY, 0);
-            Calendar calendarTo = Calendar.getInstance(Locale.getDefault()); 
-            calendarTo.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+            Calendar calendarTo = Calendar.getInstance(Locale.getDefault());
+            calendarTo.set(Calendar.DAY_OF_MONTH, calendar.getMaximum(Calendar.DAY_OF_MONTH));
             calendarTo.set(Calendar.MINUTE, 0);
             calendarTo.set(Calendar.SECOND, 0);
             calendarTo.set(Calendar.HOUR_OF_DAY, 0);
-        
+
             if (trainingPlanWorkout.getYear() > 0) {
                 calendar.set(Calendar.YEAR, trainingPlanWorkout.getYear());
                 calendarTo.set(Calendar.YEAR, trainingPlanWorkout.getYear());
             }
 
-            /*if (trainingPlanWorkout.getMonth() > 0) {
-                calendar.set(Calendar.MONTH, month);
-                calendarTo.set(Calendar.MONTH, month + 1);
-            }*/
+            if (trainingPlanWorkout.getMonth() > 0) {
+                calendar.set(Calendar.MONTH, trainingPlanWorkout.getMonth() - 1);
+                calendarTo.set(Calendar.MONTH, trainingPlanWorkout.getMonth() - 1);
+            }
 
-            if (trainingPlanWorkout.getWeekMonth() > 0) {
+            /* if (trainingPlanWorkout.getWeekMonth() > 0) {
                 //calendarTo.set(Calendar.MONTH, month);
                 calendar.set(Calendar.WEEK_OF_YEAR, trainingPlanWorkout.getWeekMonth()+1);
                 calendarTo.set(Calendar.WEEK_OF_YEAR, trainingPlanWorkout.getWeekMonth()+1);
-            }
-
+            }*/
             Date fromDate = calendar.getTime();
             Date toDate = calendarTo.getTime();
 
@@ -309,8 +310,8 @@ public class TrainingPlanWorkoutController {
                 trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
                 trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
                 String url = request.getRequestURL().substring(0, request.getRequestURL().indexOf("trainingPlanWorkout"));
-                url+= "static/img/";
-                trainingPlanWorkoutDto.setClassName(url + "/" + trainingPlanWorkoutDto.getSportIcon());
+                url += "static/img/";
+                trainingPlanWorkoutDto.setUrlIcon(url + "/" + trainingPlanWorkoutDto.getSportIcon());
             }
 
             if (list == null) {
@@ -328,7 +329,7 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
     @RequestMapping(value = "trainingPlanWorkout/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> updatePlanWorkout(@RequestBody PlanWorkoutDTO planWorkoutDTO) {
         ResponseService responseService = new ResponseService();
@@ -345,8 +346,8 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
-        @RequestMapping(value = "trainingPlanWorkout/update/workout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @RequestMapping(value = "trainingPlanWorkout/update/workout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> updatePlanWorkoutStrava(@RequestBody TrainingPlanWorkoutDto dto) {
         ResponseService responseService = new ResponseService();
         try {
@@ -362,7 +363,7 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
     @RequestMapping(value = "trainingPlanWorkout/get/current/week", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> getCurrentWeek() {
         ResponseService responseService = new ResponseService();
@@ -382,9 +383,9 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
+
     @RequestMapping(value = "trainingPlanWorkout/get/activities/week/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> getActivitiesByWeek(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<ResponseService> getActivitiesByWeek(@PathVariable("userId") Integer userId, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
         try {
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -399,9 +400,15 @@ public class TrainingPlanWorkoutController {
             calendarTo.set(Calendar.HOUR_OF_DAY, 0);
             Date fromDate = calendar.getTime();
             Date toDate = calendarTo.getTime();
-            
+
             List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(userId, fromDate, toDate);
-            
+
+            list.stream().forEach((trainingPlanWorkoutDto) -> {
+                String url = request.getRequestURL().substring(0, request.getRequestURL().indexOf("trainingPlanWorkout"));
+                url += "static/img/";
+                trainingPlanWorkoutDto.setUrlIcon(url + "/" + trainingPlanWorkoutDto.getSportIcon());
+            });
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(list);
             return new ResponseEntity<>(responseService, HttpStatus.OK);

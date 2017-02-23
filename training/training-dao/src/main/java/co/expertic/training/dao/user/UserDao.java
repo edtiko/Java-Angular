@@ -19,7 +19,7 @@ public interface UserDao extends BaseDAO<User> {
 
     List<User> findAllUsers();
 
-    public Integer saveUser(User user) throws Exception;
+    public User saveUser(User user) throws Exception;
 
     public Integer updateUser(User user);
 

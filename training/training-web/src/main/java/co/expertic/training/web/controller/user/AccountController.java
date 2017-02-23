@@ -54,7 +54,7 @@ public class AccountController {
                   if (statusRes.equals("success")) {
                         if (jo.get("output") != null && !jo.get("output").isJsonNull()) {
                            //JsonElement jelem =  gson.fromJson(jo.get("output"), JsonElement.class);
-                           json = jo.get("output").getAsJsonObject().toString();
+                           json = jo.get("output").getAsJsonPrimitive().toString();
                         }
                   }
                 

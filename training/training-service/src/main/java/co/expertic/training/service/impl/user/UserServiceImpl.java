@@ -45,6 +45,7 @@ import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.DisciplineDTO;
 import co.expertic.training.model.dto.NotificationDTO;
+import co.expertic.training.model.dto.UserMovilDTO;
 import co.expertic.training.model.entities.ConfigurationPlan;
 import co.expertic.training.model.entities.FederalState;
 import co.expertic.training.model.entities.VisibleFieldsUser;
@@ -178,7 +179,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public Integer saveUser(User user) throws Exception {
-        return userDao.saveUser(user);
+        return userDao.saveUser(user).getUserId();
+    }
+     @Transactional
+    @Override
+        public UserMovilDTO saveUserMovil(User user) throws Exception {
+        return UserMovilDTO.mapFromUserEntity(userDao.saveUser(user));
     }
 
     @Transactional

@@ -59,8 +59,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     }
 
     @Override
-    public Integer saveUser(User user) throws Exception {
-        return create(user).getUserId();
+    public User saveUser(User user) throws Exception {
+        return create(user);
     }
 
     @Override
