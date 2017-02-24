@@ -1,5 +1,5 @@
-trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$window',
-    function ($scope, AccountService, $window) {
+trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$window','$filter','$mdDialog',
+    function ($scope, AccountService, $window,$filter,$mdDialog) {
 
         $scope.subscriptionList = [];
         $scope.count = 0;
@@ -25,25 +25,104 @@ trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$w
                 }
             }).$promise;
         };
+        
+        Date.prototype.addDays = function (days) {
+            var dat = new Date(this.valueOf());
+            dat.setDate(dat.getDate() + days);
+            return dat;
+        };
+        
+        function addDays(date, days) {
+            var result = new Date(date);
+            result.setDate(date.getDate() + days);
+            return result;
+        }
 
         $scope.getSubscriptions = function () {
-            AccountService.getSubscriptions($scope.userSession.userId).then(
+            $scope.loading = true;
+            $scope.promise = AccountService.getSubscriptions($scope.userSession.userId).then(
                     function (data) {
                         $scope.subscriptionList = JSON.parse(JSON.parse(data));
-                        //console.log($scope.suscriptionList);
+                        angular.forEach($scope.subscriptionList, function (v, k) {
+                            //  var date = $filter('limitTo')(v['order_date'], 10, 0).split("-");
+                             // var obj = new Date(date[0], date[1]-1, date[2]);
+                              
+                            //v['order_next_date'] = addDays(obj, 30);
+                            switch (v['state']) {
+                                case 'on-hold':
+                                    v['state_user'] = 'En espera';
+                                    break;
+                                case 'pending':
+                                    v['state_user'] = 'Pendiente';
+                                    break;
+                                case 'active':
+                                    v['state_user'] = 'Activa';
+                                    break;
+                                case 'expired':
+                                    v['state_user'] = 'Expirada';
+                                    break;
+                                case 'cancelled':
+                                    v['state_user'] = 'Cancelada';
+                                    break;
+                                case 'pending-cancel':
+                                    v['state_user'] = 'Pendiente por cancelar';
+                                    break;
+                                case 'switched':
+                                    v['state_user'] = 'Cambiada';
+                                    break;
+                                default:
+                                    v['state_user'] = 'Sin estado';
+                                    break;
+
+                            }
+                        });
+
+                        $scope.loading = false;
                     },
                     function (error) {
+                        console.log(error);
+                        $scope.loading = false;
+                    }
+            ).$promise;
+        };
+        
+        $scope.confirmationCancel = function(){
+                $mdDialog.show({
+                    scope: $scope.$new(),
+                    templateUrl: 'static/views/suscription/cancelConfirmation.html',
+                    parent: angular.element(document.querySelector('#trainingApp')),
+                    clickOutsideToClose: true,
+                    fullscreen: $scope.customFullscreen,
+                    controller: function () {
+                        $scope.cancel = function () {
+                            $mdDialog.cancel();
+                        };
+                    }
+                });
+        };
+        
+        $scope.cancelSuscription = function () {
+            var id = $scope.selected[0].id;
+            var status = $scope.selected[0].state;
+            AccountService.cancelSuscription(id, status).then(
+                    function (data) {
+                       if(data.status == 'success'){
+                           $scope.showMessage(data.output);
+                       }
+                    },
+                    function (error) {
+                        $scope.showMessage("Ocurrió un error");
                         console.log(error);
                     }
             );
         };
-        
-        $scope.showSubscription = function(item){
-          console.log(item);  
+
+        $scope.showSubscription = function (item) {
+            console.log(item);
         };
-        
-        $scope.onSelect = function(item){
-                 console.log(item);  
+
+        $scope.onSelect = function (item) {
+            console.log(item);
         };
 
 

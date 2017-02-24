@@ -31,35 +31,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("account")
 public class AccountController {
-    
+
     private static final Logger LOGGER = Logger.getLogger(AccountController.class);
-    
+
     @Autowired
     private UserService userService;
-    
-    
+
     @RequestMapping(value = "get/subscriptions/{userId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getSubscriptions(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            Gson gson = new Gson();
             String json = null;
-              String jsonResponse = userService.getSubscriptions(userId);
+            String jsonResponse = userService.getSubscriptions(userId);
             if (jsonResponse != null && !jsonResponse.isEmpty()) {
                 JsonParser jsonParser = new JsonParser();
                 JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
                 String statusRes = jo.get("status").getAsString();
-                  if (statusRes.equals("success")) {
-                        if (jo.get("output") != null && !jo.get("output").isJsonNull()) {
-                           //JsonElement jelem =  gson.fromJson(jo.get("output"), JsonElement.class);
-                           json = jo.get("output").getAsJsonPrimitive().toString();
-                        }
-                  }
-                
+                if (statusRes.equals("success")) {
+                    if (jo.get("output") != null && !jo.get("output").isJsonNull()) {
+                        //JsonElement jelem =  gson.fromJson(jo.get("output"), JsonElement.class);
+                        json = jo.get("output").getAsJsonPrimitive().toString();
+                    }
+                }
+
             }
-            //List messages = userService.getSuscriptions(userId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(json);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -72,5 +69,33 @@ public class AccountController {
         }
 
     }
-    
+
+    @RequestMapping(value = "cancel/subscription/{subscriptionId}/{status}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> cancelSubscription(@PathVariable("subscriptionId") Integer subscriptionId, @PathVariable("status") String status) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            String jsonResponse = userService.cancelSubscription(subscriptionId, status);
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+                if (statusRes.equals("success")) {
+                    responseService.setOutput("Suscripción cancelada con éxito.");
+                }
+
+            }
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+
 }

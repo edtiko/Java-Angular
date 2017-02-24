@@ -13,8 +13,19 @@ trainingApp.service("AccountService", ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            cancelSuscription: function (subscriptionId, status) {
+                return $http.get($contextPath + 'account/cancel/subscription/' + subscriptionId+'/'+status)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while cancel subscription');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
-            
-            
+              
         };
     }]);

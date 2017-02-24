@@ -65,13 +65,12 @@ public class UserServiceImpl implements UserService {
     private static final String PLAN_TYPE_IN = "IN";
     private static final String PLAN_TYPE_EXT = "EXT";
 
-
     @Autowired
     private UserDao userDao;
 
     @Autowired
     private CityDao cityDao;
-    
+
     @Autowired
     private CountryDao countryDao;
 
@@ -89,10 +88,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private VideoUserDao videoUserDao;
-    
+
     @Autowired
     private DisciplineDao disciplineDao;
-    
+
     @Autowired
     private VisibleFieldsUserDao visibleFieldsDao;
 
@@ -113,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     CoachExtAthleteDao coachExtDao;
-    
+
     @Autowired
     ConfigurationPlanDao ConfigurationPlanDao;
 
@@ -125,21 +124,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findById(Integer id) throws Exception {
         UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(id));
-        
+
         if (user != null) {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
 
-            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
-            user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId():null);
+            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString() : "");
+            user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId() : null);
             List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
-            if(disciplineUser != null){
+            if (disciplineUser != null) {
                 user.setDisciplineId(disciplineUser.get(0).getDisciplineId());
                 user.setDisciplineName(disciplineUser.get(0).getName());
             }
-            
+
             return user;
         }
-        
+
         return null;
     }
 
@@ -160,15 +159,15 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             RoleUser roleUser = roleUserDao.findByUserId(user.getUserId());
 
-            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString():"");
-            user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId():null);
-            user.setRoleName(roleUser != null ? roleUser.getRoleId().getName():"");
+            user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString() : "");
+            user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId() : null);
+            user.setRoleName(roleUser != null ? roleUser.getRoleId().getName() : "");
             List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
-            if(disciplineUser != null){
+            if (disciplineUser != null) {
                 user.setDisciplineId(disciplineUser.get(0).getDisciplineId());
                 user.setDisciplineName(disciplineUser.get(0).getName());
             }
-            
+
             return user;
         }
 
@@ -181,15 +180,16 @@ public class UserServiceImpl implements UserService {
     public Integer saveUser(User user) throws Exception {
         return userDao.saveUser(user).getUserId();
     }
-     @Transactional
+
+    @Transactional
     @Override
-        public UserMovilDTO saveUserMovil(User user) throws Exception {
+    public UserMovilDTO saveUserMovil(User user) throws Exception {
         return UserMovilDTO.mapFromUserEntity(userDao.saveUser(user));
     }
 
     @Transactional
     @Override
-    public int updateUser(UserDTO userDTO) {       
+    public int updateUser(UserDTO userDTO) {
         User user = userDao.findById(userDTO.getUserId());
         City city = cityDao.findById(userDTO.getCityId());
         user.setName(userDTO.getFirstName());
@@ -318,7 +318,7 @@ public class UserServiceImpl implements UserService {
                 throw new Exception(jo.get("output").getAsJsonObject().get("errors").toString());
             }
         }
-        
+
         user = userDao.create(user);
         disciplineUserDao.create(discipline);
         roleUserDao.create(roleUser);
@@ -327,14 +327,14 @@ public class UserServiceImpl implements UserService {
             videoUserDao.create(video);
         }
         //mostrar por defecto la foto de perfil
-        if(user != null){
-        VisibleFieldsUser visibleDefault = new VisibleFieldsUser();
-        visibleDefault.setColumnName("profile_photo");
-        visibleDefault.setTableName("user_training");
-        visibleDefault.setUserId(user.getUserId());
-        visibleFieldsDao.create(visibleDefault);
+        if (user != null) {
+            VisibleFieldsUser visibleDefault = new VisibleFieldsUser();
+            visibleDefault.setColumnName("profile_photo");
+            visibleDefault.setTableName("user_training");
+            visibleDefault.setUserId(user.getUserId());
+            visibleFieldsDao.create(visibleDefault);
         }
-        
+
         return user;
     }
 
@@ -388,13 +388,13 @@ public class UserServiceImpl implements UserService {
 
         userDao.merge(user);
     }
-    
+
     /**
-     * 
+     *
      * @param uri
      * @param params
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
     public String sendPostWordpress(String uri, String params) throws IOException {
@@ -422,22 +422,22 @@ public class UserServiceImpl implements UserService {
 
         return resultBuf.toString();
     }
-    
+
     /**
-     * 
+     *
      * @param dto
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
     public String wordpressIntegrationUserRegistration(UserDTO dto) throws IOException {
         String postData = "login=" + dto.getLogin().trim() + "&email=" + dto.getEmail();
-        
-        if(dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
             postData += "&password=" + dto.getPassword();
         }
-        
-        return sendPostWordpress(UrlProperties.URL_PORTAL + "create_user_internal.php", postData);        
+
+        return sendPostWordpress(UrlProperties.URL_PORTAL + "create_user_internal.php", postData);
     }
 
     @Override
@@ -454,24 +454,24 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> findUserWithDisciplineById(Integer userId) throws Exception {
         return userDao.findUserWithDisciplineById(userId);
     }
-    
+
     @Override
     public User getStarFromAtlethe(Integer userId) throws Exception {
         List<User> userList = userDao.getStarFromAtlethe(userId);
-        
-        if(userList != null && !userList.isEmpty()) {
+
+        if (userList != null && !userList.isEmpty()) {
             return userList.get(0);
         }
-        
+
         return null;
     }
 
     @Override
     public CommunicationDTO getCommunicationUser(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception {
-        
+
         CommunicationDTO communication = new CommunicationDTO();
         if (planType.equals(PLAN_TYPE_IN)) {
-            ConfigurationPlan configuration = ConfigurationPlanDao.findByAthleteUserId(userId,roleSelected);
+            ConfigurationPlan configuration = ConfigurationPlanDao.findByAthleteUserId(userId, roleSelected);
             communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
             communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, toUserId, userId, roleSelected));
             communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, userId, roleSelected));
@@ -484,7 +484,7 @@ public class UserServiceImpl implements UserService {
             communication.setAudioDuration(configuration.getAudioDuration());
 
             communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, toUserId, userId , roleSelected));
+            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, toUserId, userId, roleSelected));
             communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
             communication.setPlanMail(configuration.getEmailCount());
 
@@ -559,33 +559,17 @@ public class UserServiceImpl implements UserService {
     public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception {
         return userDao.getUserNotification(userSessionId);
     }
-    
+
     @Override
     public String getSubscriptions(Integer userId) throws Exception {
-        URL url = new URL(UrlProperties.URL_PORTAL + "training-controller.php");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setInstanceFollowRedirects(true);
         User user = userDao.findById(userId);
-        String postData = "user_id=" + user.getUserWordpressId();
-        con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        con.setRequestProperty("Content-length", String.valueOf(postData.length()));
-        con.setDoOutput(true);
-        con.setDoInput(true);
-        try (DataOutputStream output = new DataOutputStream(con.getOutputStream())) {
-            output.writeBytes(postData);
-        }
-        int code = con.getResponseCode(); // 200 = HTTP_OK
+        String postData = "user_id=" + user.getUserWordpressId() + "&action=get_subscriptions";
+        return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
+    }
 
-        // read the response
-        DataInputStream input = new DataInputStream(con.getInputStream());
-        int c;
-        StringBuilder resultBuf = new StringBuilder();
-        while ((c = input.read()) != -1) {
-            resultBuf.append((char) c);
-        }
-        input.close();
-
-        return resultBuf.toString();
+    @Override
+    public String cancelSubscription(Integer subscriptionId, String actualStatus) throws Exception {
+        String postData = "subscription_id=" + subscriptionId +"&actual_status="+actualStatus+"&action=cancel_subscription";
+        return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
     }
 }

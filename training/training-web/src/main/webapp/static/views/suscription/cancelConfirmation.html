@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<md-dialog  style="  width:698px; height: 398px;">
+    <div class="md-toolbar-tools">
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div layout="column" layout-align="center center">
+                <img src="static/img/cancel_suscription.png">
+                <span style="color: #0064F8">¿ESTÁS SEGURO QUE QUIERES <strong>CANCELAR TU SUSCRIPCIÓN?</strong></span>
+            </div>      
+        </div>
+        <div layout="row" layout-align="center center" >
+            <md-button class="md-raised" ng-click="cancelSuscription()">SI</md-button>
+            <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="cancel()">NO</md-button>
+        </div>
+    </md-dialog-content>
+</md-dialog>

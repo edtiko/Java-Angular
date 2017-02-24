@@ -155,5 +155,7 @@ public interface UserService {
     public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception; 
 
     public String getSubscriptions(Integer userId) throws Exception; 
+
+    public String cancelSubscription(Integer subscriptionId, String actualStatus) throws Exception;
    
 }
