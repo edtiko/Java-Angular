@@ -1,5 +1,5 @@
-trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$window','$filter','$mdDialog',
-    function ($scope, AccountService, $window,$filter,$mdDialog) {
+trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$window','$mdDialog',
+    function ($scope, AccountService, $window,$mdDialog) {
 
         $scope.subscriptionList = [];
         $scope.count = 0;
@@ -44,10 +44,7 @@ trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$w
                     function (data) {
                         $scope.subscriptionList = JSON.parse(JSON.parse(data));
                         angular.forEach($scope.subscriptionList, function (v, k) {
-                            //  var date = $filter('limitTo')(v['order_date'], 10, 0).split("-");
-                             // var obj = new Date(date[0], date[1]-1, date[2]);
-                              
-                            //v['order_next_date'] = addDays(obj, 30);
+                    
                             switch (v['state']) {
                                 case 'on-hold':
                                     v['state_user'] = 'En espera';
@@ -75,6 +72,10 @@ trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$w
                                     break;
 
                             }
+                        });
+                        
+                        $scope.subscriptionList = $scope.subscriptionList.filter(function (e) {
+                            return  (e['products'][0].plan != '' || e['products'][0].name.indexOf("Membresia") !== -1);
                         });
 
                         $scope.loading = false;
@@ -108,6 +109,7 @@ trainingApp.controller('SuscriptionController', ['$scope', 'AccountService', '$w
                     function (data) {
                        if(data.status == 'success'){
                            $scope.showMessage(data.output);
+                           $scope.getSubscriptions();
                        }
                     },
                     function (error) {

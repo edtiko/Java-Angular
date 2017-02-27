@@ -1,0 +1,77 @@
+<meta charset="utf-8">
+<md-dialog  style="  width:698px;">
+    <div class="md-toolbar-tools">
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <div layout="column">
+                <span style="color:#000; font-weight: bold">Pedido #{{selected[0].order_id}}</span>
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head >
+                            <tr md-row md-auto-select>
+                                <th class="md-column"><strong style="color: #0064F8">Producto</strong></th>
+                                <th class="md-column"><strong style="color: #0064F8">Cantidad</strong></th>
+                                <th class="md-column"><strong style="color: #0064F8">Precio</strong></th>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row>
+                                <td md-cell>{{selected[0].products[0].name}}</td>
+                                <td md-cell>1</td>
+                                <td md-cell>${{selected[0].total}}.00</td>
+                            </tr>
+                        </tbody>
+                        <tfoot md-foot>
+                            <tr md-row>
+                                <td md-cell colspan="2" md-cell><strong style="color: #0064F8">Subtotal: </strong></td>
+                                <td md-cell> ${{selected[0].sub_total}}.00</td>
+                            </tr>
+                            <tr md-row>
+                                <td md-cell colspan="2"><strong style="color: #0064F8">Método de pago: </strong></td>
+                                <td md-cell style="text-transform: capitalize">{{selected[0].payment_method}}</td>
+                            </tr>
+                            <tr md-row>
+                                <td md-cell colspan="2" md-cell><strong style="color: #0064F8">Total: </strong></td>
+                                <td md-cell> ${{selected[0].total}}.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </md-table-container>
+                <span style="color:#000; font-weight: bold">Información de la Suscripción</span>
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head >
+                            <tr md-row>
+                                <th class="md-column"><strong style="color: #0064F8">Suscripción</strong></th>
+                                <th class="md-column"><strong style="color: #0064F8">Fecha de Inicio</strong></th>
+                                <th class="md-column"><strong style="color: #0064F8">Fecha de Finalización</strong></th>
+                                <th class="md-column"><strong style="color: #0064F8">Precio</strong></th>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row>
+                                <td md-cell>{{selected[0].id}}</td>
+                                <td md-cell>{{selected[0].order_date| limitTo: 10: 0}}</td>
+                                <td md-cell>{{selected[0].next_payment| limitTo: 10: 0}}</td>
+                                <td md-cell>${{selected[0].total}}.00 /mes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+                <span style="color:#000; font-weight: bold">Datos de cliente</span>
+                <ul>
+                    <li><strong style="color: #0064F8">Correo electrónico:</strong> {{selected[0].address.email}}</li>
+                    <li><strong style="color: #0064F8">Tel:</strong> {{selected[0].address.phone}}</li>
+                </ul>
+                <span style="color:#000; font-weight: bold">Dirección de faturación</span>
+                <span>{{selected[0].address.address_1}}</span>
+            </div>      
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="center">
+        <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="cancel()">ACEPTAR</md-button>
+    </md-dialog-actions>
+</md-dialog>

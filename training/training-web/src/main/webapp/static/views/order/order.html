@@ -6,7 +6,11 @@
     <span class="cpt-info">Haz clic sobre el pedido para ver detalles</span>
     <br />  <br />
     <div layout="column" layout-padding>
-        <md-table-container>
+        <div layout="column" layout-align="center center" ng-if="loading">
+            <md-progress-circular style="color: #0064F8 !important;" md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+            <span>Cargando..</span>
+        </div>
+        <md-table-container ng-if="!loading">
             <table md-table md-row-select ng-model="selected" md-progress="promise">
                 <thead md-head >
                     <tr md-row md-auto-select>
@@ -17,81 +21,69 @@
                         <th class="md-column"></th>
                 </thead>
                 <tbody md-body>
-                    <!--<tr md-row md-select="configurationPlan" md-select-id="trainingPlanId.name" md-auto-select ng-repeat="configurationPlan in suscriptionList">
-                <td md-cell>{{configurationPlan.trainingPlanId.name}}</td>
-                <td md-cell>{{configurationPlan.communicationRoleId.name}}</td>
-                <td md-cell>{{configurationPlan.audioDuration}}</td>
-                <td md-cell>{{configurationPlan.audioEmergency}}</td>
-                </tr>-->
-                    <tr md-row>
-                        <td md-cell>#2183</td>
-                        <td md-cell>12/12/2016</td>
-                        <td md-cell>Pendiente de pago</td>
-                        <td md-cell>USD: $20.000</td>
-                        <td md-cell><a>Pagar factura</a></td>
-                    </tr>
-                    <tr md-row>
-                        <td md-cell>#2170</td>
-                        <td md-cell>10/12/2016</td>
-                        <td md-cell>Pendiente de pago</td>
-                        <td md-cell>USD: $20.000</td>
-                        <td md-cell><a>Ver factura</a></td>
+                    <tr md-row md-select="order" md-select-id="id" md-auto-select ng-repeat="order in orderList| limitTo: query.limit: (query.page - 1) * query.limit">
+                        <td md-cell>#{{order.order_id}}</td>
+                        <td md-cell>{{order.order_date| limitTo: 10: 0}}</td>
+                        <td md-cell>{{order.state_user}}</td>
+                        <td md-cell>USD: ${{order.total}}.00</td>
+                        <td md-cell><a href="javascript:void(0)" ng-click="verFactura()">Ver factura</a></td>
                     </tr>
                 </tbody>
             </table>
         </md-table-container>
-        <!-- <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{{count}}" md-on-paginate="getSuscriptionsPaginate" md-page-select></md-table-pagination>-->
-
+        <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{orderList.length}}"></md-table-pagination>  
         <br /><br />
-        <span style="color:#000; font-weight: bold">Pedido #2183</span>
-        <div layout="row">
-            <md-card flex="20" layout-padding layout="column" layout-align="center center">
-                <div><img src="static/img/foto_running.png"></div>
-                <span style="color:#000; font-weight: bold" >RUNNING</span>
-            </md-card>
-            <md-card flex layout-padding>
-                <table md-table>
-                    <thead md-head>
-                        <tr md-row>
-                            <th md-column><span class="sub-title" style="font-weight: bold;" >PEDIDO</span></th>
-                            <th md-column><span class="sub-title" style="font-weight: bold;" >PRODUCTO</span></th>
-                            <th md-column><span class="sub-title" style="font-weight: bold;" >CANTIDAD</span></th>
-                            <th md-column><span class="sub-title" style="font-weight: bold;" >TOTAL</span></th>
-                        </tr>
-                    </thead>
-                    <tbody md-body>
-                        <tr md-row  md-auto-select>
-                            <td>#2183</td>
-                            <td>Jairo Londoño</td>
-                            <td>1 plan</td>
-                            <td>USD: $20.00</td>
-                        </tr>
-                    </tbody>
-                    <tfoot md-foot>
-                        <tr md-row>
-                            <td></td>
-                            <td></td>
-                            <td md-cell><strong class="sub-title" style="color: #0064F8">SUBTOTAL </strong></td>
-                            <td md-cell> USD: $20.00</td>
-                        </tr>
-                        <tr md-row>
-                            <td></td>
-                            <td></td>
-                            <td><strong class="sub-title" style="color: #0064F8">MÉTODO DE PAGO </strong></td>
-                            <td> Tarjeta de crédito</td>
-                        </tr>
-                        <tr md-row>
-                            <td></td>
-                            <td></td>
-                            <td md-cell><strong class="cpt-title" style="color: #0064F8">TOTAL </strong></td>
-                            <td md-cell> USD: $20.00</td>
-                        </tr>
-                    </tfoot>
-                </table> 
-            </md-card>  
+        <div ng-if="selected.length > 0">
+            <span style="color:#000; font-weight: bold">Pedido #{{selected[0].order_id}}</span>
+            <div layout="row">
+                <md-card flex="20" layout-padding layout="column" layout-align="center center">
+                    <div><img src="static/img/foto_running.png"></div>
+                    <span style="color:#000; font-weight: bold" >RUNNING</span>
+                </md-card>
+                <md-card flex layout-padding>
+                    <table md-table>
+                        <thead md-head>
+                            <tr md-row>
+                                <th md-column><span class="sub-title" style="font-weight: bold;" >PEDIDO</span></th>
+                                <th md-column><span class="sub-title" style="font-weight: bold;" >PRODUCTO</span></th>
+                                <th md-column><span class="sub-title" style="font-weight: bold;" >CANTIDAD</span></th>
+                                <th md-column><span class="sub-title" style="font-weight: bold;" >TOTAL</span></th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row  md-auto-select>
+                                <td>#{{selected[0].order_id}}</td>
+                                <td>{{selected[0].products[0].name}}</td>
+                                <td>1</td>
+                                <td>USD: ${{selected[0].total}}.00</td>
+                            </tr>
+                        </tbody>
+                        <tfoot md-foot>
+                            <tr md-row>
+                                <td></td>
+                                <td></td>
+                                <td md-cell><strong class="sub-title" style="color: #0064F8">SUBTOTAL </strong></td>
+                                <td md-cell> USD: ${{selected[0].sub_total}}.00</td>
+                            </tr>
+                            <tr md-row>
+                                <td></td>
+                                <td></td>
+                                <td><strong class="sub-title" style="color: #0064F8">MÉTODO DE PAGO </strong></td>
+                                <td style="text-transform: capitalize">{{selected[0].payment_method}}</td>
+                            </tr>
+                            <tr md-row>
+                                <td></td>
+                                <td></td>
+                                <td md-cell><strong class="cpt-title" style="color: #0064F8">TOTAL </strong></td>
+                                <td md-cell> USD: ${{selected[0].total}}.00</td>
+                            </tr>
+                        </tfoot>
+                    </table> 
+                </md-card>  
+            </div>
         </div>
         <div layout="row">
-        <md-button class="md-raised" ng-click="go('/account')"><img src="static/img/left.png"> REGRESAR</md-button>
+            <md-button class="md-raised" ng-click="go('/account')"><img src="static/img/left.png"> REGRESAR</md-button>
         </div>
     </div>
 </div>

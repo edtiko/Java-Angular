@@ -24,7 +24,7 @@
                 </thead>
                 <tbody md-body>
                     <tr md-row md-select="subscription" md-select-id="id" md-auto-select ng-repeat="subscription in subscriptionList| limitTo: query.limit: (query.page - 1) * query.limit">
-                        <td md-cell>{{subscription.id}}</td>
+                        <td md-cell>#{{subscription.id}}</td>
                         <td md-cell>{{subscription.state_user}}</td>
                         <td md-cell>{{subscription.order_date | limitTo: 10: 0}}</td>
                         <td md-cell>{{subscription.next_payment | limitTo: 10: 0}}</td>
