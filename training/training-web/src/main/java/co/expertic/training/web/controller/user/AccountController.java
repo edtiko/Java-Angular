@@ -8,12 +8,8 @@ package co.expertic.training.web.controller.user;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.user.UserService;
 import co.expertic.training.web.enums.StatusResponse;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -87,6 +83,38 @@ public class AccountController {
 
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+    
+    @RequestMapping(value = "get/address/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getInfoAddress(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            String json = null;
+            String jsonResponse = userService.getInfoAddressUser(userId);
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+                if (statusRes.equals("success")) {
+                    if (jo.get("output") != null && !jo.get("output").isJsonNull()) {
+                        json = jo.get("output").getAsJsonPrimitive().toString();
+                    }
+                }
+
+            }
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(json);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

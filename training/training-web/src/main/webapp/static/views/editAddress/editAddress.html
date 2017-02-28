@@ -1,0 +1,78 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding>
+    <span class="cpt-title">DIRECCIONES</span>
+    <div layout="column" layout-padding>
+        <span class="sub-title">DIRECCIÓN DE FACTURACIÓN</span>
+        <span class="cpt-info">La siguiente dirección será utilizada por defecto en la pagina de pago</span>
+
+        <form name="editAddressFrm">
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_first_name[0]" id="uname" name="uname"  placeholder="Primer Nombre"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+                  <div flex="33">    
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_second_name[0]" id="uname" name="uname"  placeholder="Segundo Nombre" />
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center">
+                    <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_last_name[0]" id="uname" name="uname"  placeholder="Apellidos"  ng-required="true"/>
+                    </md-input-container>
+                    </div>
+                 <div flex="33">
+                     <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_second_name[0]" id="uname" name="uname"  placeholder="Compañia" />
+                    </md-input-container>
+                 </div>  
+            </div>
+             <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_second_name[0]" id="uname" name="uname"  placeholder="Dirección"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+                 <div flex="33">
+                     <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_country[0]" id="uname" name="uname"  placeholder="País"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+            </div>
+             <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_second_name[0]" id="uname" name="uname"  placeholder="Región/Estado"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+                 <div flex="33">
+                     <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_second_name[0]" id="uname" name="uname"  placeholder="Ciudad"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_second_name[0]" id="uname" name="uname"  placeholder="Código postal" />
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                     <md-input-container class="md-block" >
+                        <input type="text" ng-model="addressInfo.billing_phone[0]" id="uname" name="uname"  placeholder="Teléfono"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="end center">
+                <md-button ng-click="editAddress()" class="md-raised" style="background: #000; color: rgb(170, 252, 112)">GUARDAR</md-button>
+            </div>
+        </form>
+    </div>
+    <md-divider></md-divider>
+    <div layout="row">
+        <md-button class="md-raised" ng-click="go('/account')"><img src="static/img/left.png"> REGRESAR</md-button>
+    </div>
+</div>

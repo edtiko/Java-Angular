@@ -572,4 +572,11 @@ public class UserServiceImpl implements UserService {
         String postData = "subscription_id=" + subscriptionId +"&actual_status="+actualStatus+"&action=cancel_subscription";
         return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
     }
+    
+    @Override
+    public String getInfoAddressUser(Integer userId) throws Exception {
+        User user = userDao.findById(userId);
+        String postData = "user_id=" + user.getUserWordpressId() + "&action=info_user_address";
+        return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
+    }
 }

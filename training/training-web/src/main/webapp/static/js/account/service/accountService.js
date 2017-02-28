@@ -1,9 +1,8 @@
 'use strict';
 trainingApp.service("AccountService", ['$http', '$q', function ($http, $q) {
         return{
-            
             getSubscriptions: function (userId) {
-                return $http.get($contextPath + 'account/get/subscriptions/'+userId)
+                return $http.get($contextPath + 'account/get/subscriptions/' + userId)
                         .then(
                                 function (response) {
                                     return response.data.output;
@@ -15,7 +14,7 @@ trainingApp.service("AccountService", ['$http', '$q', function ($http, $q) {
                         );
             },
             cancelSuscription: function (subscriptionId, status) {
-                return $http.get($contextPath + 'account/cancel/subscription/' + subscriptionId+'/'+status)
+                return $http.get($contextPath + 'account/cancel/subscription/' + subscriptionId + '/' + status)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -25,7 +24,19 @@ trainingApp.service("AccountService", ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getInfoAddress: function (userId) {
+                return $http.get($contextPath + 'account/get/address/' + userId)
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching info address');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
-              
+
         };
     }]);

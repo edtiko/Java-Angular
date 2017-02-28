@@ -1,0 +1,25 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding>
+    <span class="cpt-title">DIRECCIONES</span>
+    <div layout="column" layout-padding>
+        <span class="sub-title">DIRECCIÓN DE FACTURACIÓN</span>
+        <span class="cpt-info">La siguiente dirección será utilizada por defecto en la pagina de pago</span>
+        <div layout="row" layout-padding>
+            <div layout="column" layout-align="center center" ng-if="addressInfo==null">
+                <md-progress-circular style="color: #0064F8 !important;" md-mode="indeterminate" md-diameter="20"></md-progress-circular>
+                <span>Cargando..</span>
+            </div>
+            <div layout="column" flex ng-if="addressInfo!=null">
+                <span>{{addressInfo.billing_first_name[0]}} {{addressInfo.billing_second_name[0]}} {{addressInfo.billing_last_name[0]}}</span>
+                <span></span>
+            </div>
+            <div flex ng-if="addressInfo!=null">
+                <md-button ng-click="go('/edit-address')" class="md-raised" style="background: #000; color: rgb(170, 252, 112)">CAMBIAR DIRECCIÓN</md-button>
+            </div>
+        </div>
+    </div>
+    <md-divider></md-divider>
+    <div layout="row">
+        <md-button class="md-raised" ng-click="go('/account')"><img src="static/img/left.png"> REGRESAR</md-button>
+    </div>
+</div>

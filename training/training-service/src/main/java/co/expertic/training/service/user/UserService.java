@@ -157,5 +157,7 @@ public interface UserService {
     public String getSubscriptions(Integer userId) throws Exception; 
 
     public String cancelSubscription(Integer subscriptionId, String actualStatus) throws Exception;
+
+    public String getInfoAddressUser(Integer userId)throws Exception;
    
 }

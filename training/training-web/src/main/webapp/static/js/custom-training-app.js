@@ -4,7 +4,7 @@ var urlCompraPlanEntrenamiento = $wordPressContextPath + 'plan-de-entrenamiento-
 
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
-    'ngMessages', 'ngMaterial', 'pascalprecht.translate', 'angular-notification-icons', 'md.data.table', 'ngSanitize', 'luegg.directives', 'angular.filter', 'ngCamRecorder', 'angularAudioRecorder', 'multiStepForm','angAccordion'])
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate', 'angular-notification-icons', 'md.data.table', 'ngSanitize', 'luegg.directives', 'angular.filter', 'ngCamRecorder', 'angularAudioRecorder', 'multiStepForm', 'angAccordion'])
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
                 $translateProvider, $mdDateLocaleProvider) {
 
@@ -63,9 +63,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/mail', route.resolve('mail', 'mail/'))
 
                     .when('/marketing-report', route.resolve('marketingReport', 'report/'))
-            
+
                     .when('/payment-report', route.resolve('paymentReport', 'report/'))
-            
+
                     .when('/sale-report', route.resolve('saleReport', 'report/'))
 
                     .when('/external-coach', route.resolve('externalCoach', 'externalCoach/'))
@@ -75,20 +75,24 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/script', route.resolve('script', 'script/'))
 
                     .when('/informe', route.resolve('informe', 'informe/'))
+
+                    .when('/chart', route.resolve('chart', 'chart/'))
+
+                    .when('/progress', route.resolve('progress', 'progress/'))
+
+                    .when('/account', route.resolve('account', 'account/'))
+
+                    .when('/suscription', route.resolve('suscription', 'suscription/'))
+
+                    .when('/order', route.resolve('order', 'order/'))
+
+                    .when('/pay-method', route.resolve('payMethod', 'payMethod/'))
+
+                    .when('/create-pay-method', route.resolve('createPayMethod', 'createPayMethod/'))
+
+                    .when('/address', route.resolve('address', 'address/'))
             
-                    .when('/chart', route.resolve('chart','chart/'))
-            
-                    .when('/progress', route.resolve('progress','progress/'))
-            
-                    .when('/account', route.resolve('account','account/'))
-                    
-                    .when('/suscription', route.resolve('suscription','suscription/'))
-            
-                    .when('/order', route.resolve('order','order/'))
-            
-                    .when('/pay-method', route.resolve('payMethod','payMethod/'))
-            
-                    .when('/create-pay-method', route.resolve('createPayMethod','createPayMethod/'))
+                    .when('/edit-address', route.resolve('editAddress', 'editAddress/'))
 
                     .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'));
             $translateProvider.useStaticFilesLoader({
@@ -99,11 +103,11 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             $translateProvider.preferredLanguage('es');
 
             $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
-            
-            $mdDateLocaleProvider.months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-                                  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-            $mdDateLocaleProvider.shortMonths = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 
-                                            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+            $mdDateLocaleProvider.months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            $mdDateLocaleProvider.shortMonths = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+                'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
             $mdDateLocaleProvider.days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
             $mdDateLocaleProvider.shortDays = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'];
             // Can change week display to start on Monday.
@@ -113,13 +117,13 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             //                               20,21,22,23,24,25,26,27,28,29,30,31];
             // In addition to date display, date components also need localized messages
             // for aria-labels for screen-reader users.
-            $mdDateLocaleProvider.weekNumberFormatter = function(weekNumber) {
-              return 'Semana ' + weekNumber;
+            $mdDateLocaleProvider.weekNumberFormatter = function (weekNumber) {
+                return 'Semana ' + weekNumber;
             };
             $mdDateLocaleProvider.msgCalendar = 'Calendario';
             $mdDateLocaleProvider.msgOpenCalendar = 'Abrir calendario';
-            $mdDateLocaleProvider.formatDate = function(date) {
-                if(date !== ""){
+            $mdDateLocaleProvider.formatDate = function (date) {
+                if (date !== "") {
                     var day = date.getDate();
                     var monthIndex = date.getMonth();
                     var year = date.getFullYear();
@@ -128,7 +132,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                 } else {
                     return null;
                 }
-                
+
             };
 
         });
