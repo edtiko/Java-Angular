@@ -56,6 +56,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.net.URLEncoder;
 
 @Service("usuarioService")
 @Transactional
@@ -577,6 +578,13 @@ public class UserServiceImpl implements UserService {
     public String getInfoAddressUser(Integer userId) throws Exception {
         User user = userDao.findById(userId);
         String postData = "user_id=" + user.getUserWordpressId() + "&action=info_user_address";
+        return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
+    }
+
+    @Override
+    public String editAddressUser(String addressUserJson) throws Exception {
+    
+        String postData = "json=" + URLEncoder.encode(addressUserJson, "UTF-8") + "&action=edit_user_address";
         return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
     }
 }

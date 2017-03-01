@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -115,6 +116,36 @@ public class AccountController {
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(json);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+    
+    
+      @RequestMapping(value = "edit/address", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<ResponseService> editUserAddress(@RequestBody String addressUserJson) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            String jsonResponse = userService.editAddressUser(addressUserJson);
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+                 if (statusRes.equals("success")) {
+                    responseService.setMessage("Dirección actualizada con éxito.");
+                }else{
+                    responseService.setMessage(jo.get("output").getAsString());
+                 }
+            }
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

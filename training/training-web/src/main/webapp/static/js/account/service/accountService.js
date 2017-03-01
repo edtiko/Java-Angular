@@ -36,6 +36,18 @@ trainingApp.service("AccountService", ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            editUserAddress: function (editAddress) {
+                return $http.post($contextPath + 'account/edit/address', editAddress)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (error) {
+                                    console.error('Error while edit info address');
+                                    return $q.reject(error);
+                                }
+                        );
             }
 
         };

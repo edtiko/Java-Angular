@@ -423,7 +423,7 @@ public class UserController {
             userSession.setRoleName(userDto.getRoleName());
             userSession.setIndStrava(userDto.getIndStrava());
             userSession.setProfilePhoto(userDto.getProfilePhoto());
-            
+            userSession.setUserWordpressId(userDto.getUserWordpressId());
             DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userDto.getUserId());
             userSession.setDashboard(dashboard);
 

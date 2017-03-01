@@ -159,5 +159,7 @@ public interface UserService {
     public String cancelSubscription(Integer subscriptionId, String actualStatus) throws Exception;
 
     public String getInfoAddressUser(Integer userId)throws Exception;
+
+    public String editAddressUser(String addressUserJson)throws Exception;
    
 }
