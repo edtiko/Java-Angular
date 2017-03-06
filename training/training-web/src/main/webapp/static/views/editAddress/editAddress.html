@@ -37,27 +37,42 @@
                     </md-input-container>
                 </div>
                 <div flex="33">
-                    <md-input-container class="md-block" >
-                        <input type="text" ng-model="editAddress.country_id" id="country_id" name="country_id"  placeholder="País"  ng-required="true"/>
+                    <md-input-container class="md-block">
+                        <label>Pa&iacute;s</label>
+                        <md-select class="md-block" id="billing_country" ng-model="editAddress.billing_country" ng-change="getStatesByCountry(editAddress.billing_country, true)" >
+                            <md-option ng-repeat="country in countries" value="{{country.countryId}}" >
+                                {{country.name}}
+                            </md-option>
+                        </md-select>
                     </md-input-container>
                 </div>
             </div>
             <div layout="row" layout-align="space-around center">
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" ng-model="editAddress.state_id" id="state_id" name="state_id"  placeholder="Región/Estado"  ng-required="true"/>
+                        <label  for="state">Estado/Región</label>
+                        <md-select  id="state"  ng-model="editAddress.billing_state"  ng-change="getCitiesByState(editAddress.billing_state, true)" >
+                            <md-option ng-repeat="state in states" value="{{state.federalStateId}}" >
+                                {{state.name}}
+                            </md-option>
+                        </md-select>
                     </md-input-container>
                 </div>
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" ng-model="editAddress.city_id" id="city_id" name="city_id"  placeholder="Ciudad"  ng-required="true"/>
+                        <label for="city">Ciudad</label>
+                    <md-select  id="city" ng-model="editAddress.billing_city" >
+                        <md-option ng-repeat="city in cities" value="{{city.cityId}}" >
+                            {{city.name}}
+                        </md-option>
+                    </md-select>
                     </md-input-container>
                 </div>
             </div>
             <div layout="row" layout-align="space-around center">
                 <div flex="33">
                     <md-input-container class="md-block" >
-                        <input type="text" ng-model="editAddress.postal_code" id="postal_code" name="postal_code"  placeholder="Código postal" />
+                        <input type="text" ng-model="editAddress.billing_postcode" id="postal_code" name="postal_code"  placeholder="Código postal" />
                     </md-input-container>
                 </div>
                 <div flex="33">
@@ -68,12 +83,12 @@
             </div>
             <div layout="row"  layout-align="space-around center">
                 <div flex="33" >
-                <md-checkbox ng-model="editAddress.all">
-                    Actualizar para mis suscripciones activas
-                </md-checkbox>
+                    <md-checkbox ng-model="editAddress.all">
+                        Actualizar para mis suscripciones activas
+                    </md-checkbox>
                 </div>
                 <div flex="33">
-                <md-button ng-click="editAddressInfo()" class="md-raised" style="background: #000; color: rgb(170, 252, 112)">GUARDAR</md-button>
+                    <md-button ng-click="editAddressInfo()" class="md-raised" style="background: #000; color: rgb(170, 252, 112)">GUARDAR</md-button>
                 </div>
             </div>
         </form>

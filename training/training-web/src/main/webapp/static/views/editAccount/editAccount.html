@@ -1,0 +1,78 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding ng-cloak>
+    <span class="cpt-title">CONFIGURACIÓN DE LA CUENTA</span>
+    <div layout="column" layout-padding>
+        <form name="editAccountFrm" ng-submit="editAccountUser()">
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="account.firstName"  id="firstName" name="firstName"  placeholder="Primer Nombre"  ng-required="true"/>
+                         <div class="has-error" ng-messages="editAccountFrm.firstName.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 500</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div flex="33">    
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="account.secondName" id="secondName" name="secondName"  placeholder="Segundo Nombre" />
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="account.lastName" id="lastName" name="lastName"  placeholder="Apellidos"  ng-required="true"/>
+                        <div class="has-error" ng-messages="editAccountFrm.lastName.$error">
+                            <div ng-message="required">Este es un campo requerido</div>
+                            <div ng-message="minlength">El tama&ntilde;o minimo requerido es 3</div>
+                            <div ng-message="maxlength">El tama&ntilde;o m&aacute;ximo requerido es 500</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="email" ng-model="account.email" id="email" name="email"  placeholder="Correo Electr&oacute;nico" readonly="true"/>
+                    </md-input-container>
+                </div>  
+            </div>
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" >
+                        <input type="text" ng-model="account.login" id="login" name="login"  placeholder="Usuario"  readonly="true"/>
+                        <a href="javascript:void(0)" ng-click="showSecurity = !showSecurity" >cambiar contraseña</a>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block" ng-if="showSecurity">
+                        <input type="password" ng-model="account.password" id="password" name="password"  placeholder="Contraseña"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row" layout-align="space-around center">
+                <div flex="33">
+                    <md-input-container class="md-block" ng-if="showSecurity">
+                        <input type="password" ng-model="account.newPassword" id="newPassword" name="newPassword"  placeholder="Nueva contraseña"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+                <div flex="33">
+                    <md-input-container class="md-block" ng-if="showSecurity">
+                        <input type="password" ng-model="account.confirmPassword" id="confirmPassword" name="confirmPassword"  placeholder="Confirmar nueva contraseña"  ng-required="true"/>
+                    </md-input-container>
+                </div>
+            </div>
+            <div layout="row"  layout-align="space-around center">
+                <div flex="33" >
+                </div>
+                <div flex="33">
+                    <md-button type="submit" class="md-raised" style="background: #000; color: rgb(170, 252, 112)">GUARDAR</md-button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <md-divider></md-divider>
+    <div layout="row">
+        <md-button class="md-raised" ng-click="go('/account')"><img src="static/img/left.png"> REGRESAR</md-button>
+    </div>
+</div>

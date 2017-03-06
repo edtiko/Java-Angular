@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<md-dialog  style="  width:698px; height: 398px;">
+    <div class="md-toolbar-tools">
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <md-dialog-content>
+        <div class="md-dialog-content" style="height: 150px">
+            <div layout="column" layout-align="center center">
+                <img src="static/img/error.png">
+                <br />
+                <span style="color: #0064F8"><strong>¡NO SE PUDO REALIZAR LA ACTUALIZACIÓN DE TUS DATOS</strong> <span style="text-transform: uppercase">{{errorMsg}}!</span></span>
+            </div>      
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row"  layout-align="center">  
+        <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="cancel()">ACEPTAR</md-button>
+    </md-dialog-actions>
+</md-dialog>

@@ -41,6 +41,7 @@ import co.expertic.training.model.entities.VideoUser;
 import co.expertic.training.service.user.UserService;
 import co.expertic.training.dao.user.VideoUserDao;
 import co.expertic.training.dao.user.VisibleFieldsUserDao;
+import co.expertic.training.model.dto.AccountDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.DisciplineDTO;
@@ -57,6 +58,7 @@ import java.net.URL;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.net.URLEncoder;
+import jdk.nashorn.internal.runtime.Context;
 
 @Service("usuarioService")
 @Transactional
@@ -570,10 +572,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String cancelSubscription(Integer subscriptionId, String actualStatus) throws Exception {
-        String postData = "subscription_id=" + subscriptionId +"&actual_status="+actualStatus+"&action=cancel_subscription";
+        String postData = "subscription_id=" + subscriptionId + "&actual_status=" + actualStatus + "&action=cancel_subscription";
         return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
     }
-    
+
     @Override
     public String getInfoAddressUser(Integer userId) throws Exception {
         User user = userDao.findById(userId);
@@ -583,8 +585,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String editAddressUser(String addressUserJson) throws Exception {
-    
+
         String postData = "json=" + URLEncoder.encode(addressUserJson, "UTF-8") + "&action=edit_user_address";
+        return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
+    }
+
+    @Override
+    public String editAccountUser(AccountDTO account) throws Exception {
+        User user = userDao.findById(account.getUserId());
+
+        if (!user.getPassword().equals(account.getPassword())) {
+            throw new Exception(", La contraseña actual es incorrecta");
+        }
+
+        user.setName(account.getFirstName());
+        user.setSecondName(account.getSecondName());
+        user.setLastName(account.getLastName());
+        if (!"".equals(account.getNewPassword())) {
+            user.setPassword(account.getNewPassword());
+        }
+        userDao.merge(user);
+        String postData = "user_id=" + user.getUserWordpressId() + "&first_name=" + account.getFirstName()
+                + "&second_name=" + account.getSecondName() + "&last_name=" + account.getLastName()
+                + "&password=" + account.getNewPassword() + "&action=edit_account_user";
         return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
     }
 }

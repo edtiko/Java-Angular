@@ -1,5 +1,6 @@
 package co.expertic.training.service.user;
 
+import co.expertic.training.model.dto.AccountDTO;
 import co.expertic.training.model.dto.CityDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.FederalStateDTO;
@@ -161,5 +162,7 @@ public interface UserService {
     public String getInfoAddressUser(Integer userId)throws Exception;
 
     public String editAddressUser(String addressUserJson)throws Exception;
+
+    public String editAccountUser(AccountDTO account) throws Exception;
    
 }

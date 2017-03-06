@@ -93,6 +93,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/address', route.resolve('address', 'address/'))
             
                     .when('/edit-address', route.resolve('editAddress', 'editAddress/'))
+            
+                    .when('/edit-account', route.resolve('editAccount', 'editAccount/'))
 
                     .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'));
             $translateProvider.useStaticFilesLoader({

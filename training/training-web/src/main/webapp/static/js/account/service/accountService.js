@@ -48,6 +48,18 @@ trainingApp.service("AccountService", ['$http', '$q', function ($http, $q) {
                                     return $q.reject(error);
                                 }
                         );
+            },
+            updateAccountUser: function (account) {
+                return $http.post($contextPath + 'account/edit/user', account)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (error) {
+                                    console.error('Error while edit account');
+                                    return $q.reject(error);
+                                }
+                        );
             }
 
         };

@@ -5,6 +5,8 @@
  */
 package co.expertic.training.web.controller.user;
 
+import co.expertic.training.model.dto.AccountDTO;
+import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.user.UserService;
 import co.expertic.training.web.enums.StatusResponse;
@@ -152,6 +154,34 @@ public class AccountController {
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+    
+    @RequestMapping(value = "edit/user", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<ResponseService> editUserAccount(@RequestBody AccountDTO account) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            String jsonResponse = userService.editAccountUser(account);
+            
+            if (jsonResponse != null && !jsonResponse.isEmpty()) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
+                String statusRes = jo.get("status").getAsString();
+                if (!statusRes.equals("success")) {
+                    responseService.setMessage(jo.get("output").getAsString());
+                }
+            }
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setMessage(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
