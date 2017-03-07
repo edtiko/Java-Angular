@@ -1,0 +1,35 @@
+<div layout="column"> 
+    <div layout="column">
+        <md-card>
+            <md-card-content layout="column" layout-align="center">
+                <h4 style="color: #0064F8">ATLETAS ACTIVOS POR PLAN</h4>
+                <div layout="row" layout-align="space-around center">
+
+                    <div  layout="column">
+                        <span class="number_dash">{{userSession.dashboard.age}}</span>
+                        <h5 style="color: #0064F8">BAJO</h5>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{userSession.dashboard.weight}} kg</span>
+                        <h5 style="color: #0064F8">MEDIO</h5>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{(userSession.dashboard.height * 100)}} cm</span>
+                        <h5 style="color: #0064F8">ALTO</h5>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{userSession.dashboard.imc}}</span>
+                        <h5 style="color: #0064F8">PREMIUM</h5>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+    <br />
+    <h4 style="color: #0064F8">MIS OBJETIVOS SEMANALES</h4>
+
+    <div>
+        
+    </div>
+
+</div>

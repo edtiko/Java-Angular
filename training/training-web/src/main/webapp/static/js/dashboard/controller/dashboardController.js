@@ -11,14 +11,10 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.profileImageCoach = "static/img/profile-default.png";
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.coachAssignedPlanId = null;
-        $scope.tabIndex = $window.sessionStorage.getItem("tabIndex");
-        $scope.tabIndex2 = $window.sessionStorage.getItem("tabIndex2");
-        $scope.tabIndexStar = 0;
         $scope.selectedIndex2 = null;
         $scope.starNotification = false;
         $scope.supNotification = false;
         $scope.internalNotification = false;
-        $scope.controllerSelected = null;
         
         $scope.$on('home', function (e) {
             $scope.pageSelected = $scope.views.summary.page;
@@ -237,7 +233,6 @@ trainingApp.controller('DashboardController', ['$scope', 'UserService', 'Dashboa
         $scope.selectCoach = function (user, index) {
 
             $scope.selectedIndex2 = index;
-            $scope.tabIndexStar = 1;
             $scope.pageSelected = $scope.views.profile.page;
             $scope.showProfileImage = true;
             $window.sessionStorage.setItem("planSelected", null);

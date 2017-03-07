@@ -429,32 +429,34 @@ public class UserController {
             DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userDto.getUserId());
             userSession.setDashboard(dashboard);
 
-            if (userDto.getUserWordpressId() != null) {
-                createOrderFromAuthetication(userDto);
-            }
+            if (Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId()) || Objects.equals(userDto.getRoleId(), RoleEnum.COACH.getId())) {
+                if (userDto.getUserWordpressId() != null) {
+                    createOrderFromAuthetication(userDto);
+                }
 
-            TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-            if (trainingPlanUser != null) {
-                userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
-                userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
+                TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
+                if (trainingPlanUser != null) {
+                    userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
+                    userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
 
-                CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(userDto.getUserId());
-                CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(userDto.getUserId());
-                if (assignedCoachInternal != null) {
-                    assignedCoachInternal.setExternal(false);
-                    Integer toUserId = assignedCoachInternal.getCoachUserId().getUserId();
-                    CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.ESTRELLA.getId());
-                    CommunicationDTO supCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.COACH_INTERNO.getId());
-                    userSession.setStarCommunication(starCommunication);
-                    userSession.setSupervisorCommunication(supCommunication);
-                    userSession.setPlanSelected(assignedCoachInternal);
-                } else if (assignedCoachExternal != null) {
-                    assignedCoachExternal.setExternal(true);
-                    userSession.setPlanSelected(assignedCoachExternal);
+                    CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(userDto.getUserId());
+                    CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(userDto.getUserId());
+                    if (assignedCoachInternal != null) {
+                        assignedCoachInternal.setExternal(false);
+                        Integer toUserId = assignedCoachInternal.getCoachUserId().getUserId();
+                        CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.ESTRELLA.getId());
+                        CommunicationDTO supCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.COACH_INTERNO.getId());
+                        userSession.setStarCommunication(starCommunication);
+                        userSession.setSupervisorCommunication(supCommunication);
+                        userSession.setPlanSelected(assignedCoachInternal);
+                    } else if (assignedCoachExternal != null) {
+                        assignedCoachExternal.setExternal(true);
+                        userSession.setPlanSelected(assignedCoachExternal);
+                    }
+
                 }
 
             }
-
             session.setAttribute("user", userSession);
             Locale locale = new Locale("es", "CO");
             Locale.setDefault(locale);

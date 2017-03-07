@@ -184,9 +184,9 @@
             <div class="fusion-clearfix"></div>
         </div>  -->
        
-            <div layout="row" layout-align="center" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+            <div layout="row" layout-align="center">
                 <div flex="18" style="background: #1C2127;">
-                    <div flex ng-include src="'static/views/dashboard/userPanel.html'"></div> 
+                    <div flex ng-include src="userPanel"></div> 
                 </div>
                 <div flex="75" layout="column">
                     <div layout="row" layout-padding layout-align="end center">        
@@ -240,12 +240,6 @@
                     </div>
                 </div>
             </div>
-        <div layout="column" layout-align="center center" ng-if="userSession.typeUser != userSessionTypeUserAtleta">
-            <div flex>
-                <div ng-view ng-show="appReady" ></div> 
-            </div>
-
-        </div>
         <!-- SPELLS -->
         <script type="text/javascript" data-main="static/js/run-custom-training"
         src="static/js/lib/require.js"></script>

@@ -38,22 +38,25 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         $scope.starImage = $window.sessionStorage.getItem("starImage");
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.views = {
-            profile: {page: 'static/views/dashboard/profile.html', controller: ""},
-            summary: {page: 'static/views/dashboard/summary.html'},
-            video: {page: 'static/views/video/video.html', controller: "VideoController"},
-            message: {page: 'static/views/message/message.html', controller: "MessageController"},
-            audioMessage: {page: 'static/views/audioMessage/audioMessage.html', controller: "AudioMessageController"},
-            email: {page: 'static/views/mail/mail.html', controller: "MailController"},
-            emailSupervisor: {page: 'static/views/mail/mailSupervisor.html', controller: "MailController"},
-            script: {page: 'static/views/script/script.html', controller: "ScriptController"},
-            chart: {page: 'static/views/chart/chart.html', controller: "ChartController"},
-            report: {page: 'static/views/report/reports.html', controller: "ReportController"},
-            control: {page: 'static/views/dashboard/control.html'},
-            messageSupervisor: {page: 'static/views/message/messageSupervisor.html'},
-            audioSupervisor: {page: 'static/views/audioMessage/audioSupervisor.html'},
-            videoSupervisor: {page: 'static/views/video/videoSupervisor.html'}
+            profile:  'static/views/dashboard/profile.html',
+            summaryAthlete: 'static/views/dashboard/summaryAthlete.html',
+            summaryAsesor: 'static/views/dashboard/summaryAsesor.html',
+            video:  'static/views/video/video.html',
+            message:  'static/views/message/message.html',
+            audioMessage:  'static/views/audioMessage/audioMessage.html',
+            email:  'static/views/mail/mail.html',
+            emailSupervisor:  'static/views/mail/mailSupervisor.html',
+            script:  'static/views/script/script.html',
+            chart:  'static/views/chart/chart.html',
+            report:  'static/views/report/reports.html',
+            control: 'static/views/dashboard/control.html',
+            messageSupervisor:'static/views/message/messageSupervisor.html',
+            audioSupervisor: 'static/views/audioMessage/audioSupervisor.html',
+            videoSupervisor: 'static/views/video/videoSupervisor.html',
+            athletePanel : 'static/views/dashboard/userPanel.html',
+            asesorPanel: 'static/views/dashboard/asesorPanel.html'
         };
-        //$scope.pageSelected = $scope.views.summary.page;
+        //$scope.pageSelected = $scope.views.summary;
         $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
             weight: '', height: '', phone: '', cellphone: '', federalState: '', city: '', address: '', postalCode: '',
             birthDate: '', facebookPage: '', country: '', profilePhoto: '',
@@ -217,8 +220,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                         //.targetEvent(ev)
                         );
             }
-        }
-        ;
+        };
 
         $scope.showMessageConfirmation = function (msg, title, link) {
             // Appending dialog to document.body to cover sidenav in docs app
@@ -750,6 +752,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
 
         $scope.setAthleteRole = function () {
+            $scope.dashboardSelected = $scope.views.summaryAthlete;
+            $scope.userPanel = $scope.views.athletePanel;
             $scope.getDashBoardByUser($scope.userSession);
             messageService.initialize($scope.userSession.planSelected.id);
             videoService.initialize($scope.userSession.planSelected.id);
@@ -762,7 +766,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             $scope.mailReceivedCount = ($scope.userSession.starCommunication.receivedMail + $scope.userSession.supervisorCommunication.receivedMail);
             $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
             $scope.videoReceivedCount = ($scope.userSession.starCommunication.receivedVideo + $scope.userSession.supervisorCommunication.receivedVideo);
-            $scope.pageSelected = $scope.views.summary.page;
+        
             $scope.getImageProfile($scope.userSession.planSelected.starUserId.userId, function (data) {
                 if (data != "") {
                     $scope.starImage = "data:image/png;base64," + data;
@@ -781,6 +785,26 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
             });
 
+            $scope.getUserNotification($scope.userSession.userId);
+        };
+        
+        $scope.setAsesorRole = function () {
+            $scope.dashboardSelected = $scope.views.summaryAsesor;
+            $scope.userPanel = $scope.views.asesorPanel;
+
+            messageService.initialize($scope.userSession.planSelected.id);
+            videoService.initialize($scope.userSession.planSelected.id);
+            AudioMessageService.initialize($scope.userSession.planSelected.id);
+            MailService.initialize($scope.userSession.planSelected.id);
+            $scope.connectToChatserver($scope.userSession.planSelected.id);
+            $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
+            $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
+//            $scope.messageReceivedCount = ($scope.userSession.starCommunication.receivedMsg + $scope.userSession.supervisorCommunication.receivedMsg);
+//            $scope.mailReceivedCount = ($scope.userSession.starCommunication.receivedMail + $scope.userSession.supervisorCommunication.receivedMail);
+//            $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
+//            $scope.videoReceivedCount = ($scope.userSession.starCommunication.receivedVideo + $scope.userSession.supervisorCommunication.receivedVideo);
+            //self.getAssignedAthletes();
+            //self.getAssignedStar();
             $scope.getUserNotification($scope.userSession.userId);
         };
 
@@ -1033,19 +1057,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                             self.getAthletesCoachExternal();
                             break;
                         case $scope.userSessionTypeUserCoachInterno:
-                            $scope.showControl = true;
-                            $scope.showSupervisorControl = true;
-                            $scope.showVideo = true;
-                            $scope.showCountVideo = true;
-                            $scope.showEmail = true;
-                            $scope.showCountEmail = true;
-                            $scope.showAudioMessage = true;
-                            $scope.showCountAudio = true;
-                            $scope.showChat = true;
-                            $scope.showCountChat = true;
-                            $scope.pageSelected = $scope.views.profile.page;
-                            self.getAssignedAthletes();
-                            self.getAssignedStar();
+                            $scope.setAsesorRole();
                             break;
                         case $scope.userSessionTypeUserAtleta:
                             $scope.setAthleteRole();
@@ -1071,7 +1083,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                             $scope.showCountChat = false;
                             $scope.showScript = false;
                             $scope.getDashBoardByUser($scope.userSession);
-                            $scope.pageSelected = $scope.views.profile.page;
+                            $scope.dashboardSelected = $scope.views.profile;
                             self.getSupervisors();
                             self.getStars();
                             break;

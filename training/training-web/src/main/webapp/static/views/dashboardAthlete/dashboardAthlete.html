@@ -1,0 +1,69 @@
+<div layout="column"> 
+    <div layout="column">
+        <md-card>
+            <md-card-content layout="column" layout-align="center">
+                <h4 style="color: #0064F8">RESUMEN DE MI PERFIL</h4>
+                <div layout="row" layout-align="space-around center">
+                    <div>
+                      <a href="javascript:void(0)" ng-click=""><img src="static/img/arrow_left.png" /></a>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{userSession.dashboard.age}}</span>
+                        <h5 style="color: #0064F8">EDAD</h5>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{userSession.dashboard.weight}} kg</span>
+                        <h5 style="color: #0064F8">PESO</h5>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{(userSession.dashboard.height * 100)}} cm</span>
+                        <h5 style="color: #0064F8">ALTURA</h5>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{userSession.dashboard.imc}}</span>
+                        <h5 style="color: #0064F8">IMC</h5>
+                    </div>
+                    <div  layout="column">
+                        <span class="number_dash">{{userSession.dashboard.ppm}}</span>
+                        <h5 style="color: #0064F8">PPM</h5>
+                    </div>
+                     <div  layout="column">
+                         <span class="number_dash">
+                             <img ng-if="userSession.dashboard.discipline == 'Ciclismo'" src="static/img/bicycle.png"> 
+                             <img ng-if="userSession.dashboard.discipline == 'Running'" src="static/img/running.png">
+                         </span>
+                        <h5 style="color: #0064F8">DISCIPLINA</h5>
+                    </div>
+                    <div>
+                      <a href="javascript:void(0)" ng-click=""><img src="static/img/arrow_right.png" /></a>
+                    </div>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+    <br />
+    <md-divider></md-divider>
+    <h4 style="color: #0064F8">MIS OBJETIVOS SEMANALES</h4>
+
+    <div ng-controller="DashboardChartController" ng-include src="'static/views/dashboard/dashboardChart.html'"></div>
+    <md-card>
+        <md-card-content layout="column" layout-align="center">
+            <h4 style="color: #0064F8">ACTIVIDADES DE LA SEMANA</h4>
+
+            <md-grid-list  md-cols="3" 
+                           md-row-height-gt-md="6:1" md-row-height="6:3"
+                           md-gutter-gt-md="16px" md-gutter-md="8px" md-gutter="4px" layout-align="start none">
+
+                <md-grid-tile ng-repeat="a in weekActivities"
+                              md-colspan-sm="1"
+                              md-colspan-xs="1" style="text-align: left;">
+                    <img data-ng-src="static/img/{{a.className}}">
+                    <span style="color: #0064F8" class="md-caption">&nbsp; {{a.title}}</span>
+                </md-grid-tile>
+            </md-grid-list>
+            <div layout="column" layout-align="center center">
+            <md-button class="md-raised" ng-click="go('/calendar', 2)" style="background: #1C2127; color:#AAFD6F;">VER CALENDARIO</md-button>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>
