@@ -7,6 +7,8 @@ package co.expertic.training.model.dto;
 
 import co.expertic.training.model.entities.ConfigurationPlan;
 import co.expertic.training.model.entities.User;
+import co.expertic.training.model.util.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
 
 /**
@@ -21,9 +23,11 @@ public class CoachAssignedPlanDTO{
     private UserDTO starUserId;
     private Integer starTeamId;
     private TrainingPlanDTO trainingPlanId; 
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date creationDate;
     private boolean external;
     private String color;
+    private int count;
     
      public CoachAssignedPlanDTO(){
          
@@ -46,7 +50,17 @@ public class CoachAssignedPlanDTO{
         this.starTeamId = startTeamId;
         this.external = false;
         if(plan != null){
-           trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
+           this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
+        }
+    }
+    
+    public CoachAssignedPlanDTO(Integer id, User athleteUserId, ConfigurationPlan plan, Date planDate) {
+        this.id = id;
+        this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
+        this.external = false;
+        this.creationDate = planDate;
+        if (plan != null) {
+            this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
         }
     }
 
@@ -129,6 +143,14 @@ public class CoachAssignedPlanDTO{
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
     
     

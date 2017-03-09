@@ -8,7 +8,9 @@ package co.expertic.training.web.controller.plan;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.MailCommunicationDTO;
+import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.ColourIndicator;
 import co.expertic.training.model.util.ResponseService;
@@ -24,7 +26,10 @@ import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,14 +61,14 @@ public class CoachAssignedPlanController {
 
     @Autowired
     PlanMessageService planMessageService;
-   
-    @RequestMapping(value = "get/athtletes/{coachUserId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Response getAssignedAthletes(@PathVariable("coachUserId") Integer coachUserId) {
+
+    @RequestMapping(value = "get/athtletes/{coachUserId}", method = RequestMethod.POST)
+    public ResponseEntity<ResponseService> getAssignedAthletes(@PathVariable("coachUserId") Integer coachUserId, @RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId);
+            paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
+            List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId, paginateDto);
             List<ColourIndicator> colours = colourIndicatorService.findAll();
 
             int firstOrder = 0;
@@ -87,7 +92,7 @@ public class CoachAssignedPlanController {
                 }
             }
 
-            for (CoachAssignedPlanDTO athlete : athletes) {                
+            for (CoachAssignedPlanDTO athlete : athletes) {
                 int countFirstColour = 0;
                 int countSecondColour = 0;
                 int countThirdColour = 0;
@@ -131,13 +136,13 @@ public class CoachAssignedPlanController {
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
@@ -212,6 +217,24 @@ public class CoachAssignedPlanController {
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+
+    }
+
+    @RequestMapping(value = "get/count/plan/{coachUserId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getCountPlanByCoach(@PathVariable("coachUserId") Integer coachUserId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<ReportCountDTO> list = coachService.getCountByPlanCoach(coachUserId);
+            responseService.setOutput(list);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(e.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }

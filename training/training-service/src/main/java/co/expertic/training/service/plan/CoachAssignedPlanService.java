@@ -6,6 +6,8 @@
 package co.expertic.training.service.plan;
 
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
+import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
@@ -17,7 +19,7 @@ import java.util.List;
  */
 public interface CoachAssignedPlanService {
     
-    List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId) throws Exception;
+    List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId, PaginateDto paginateDto) throws Exception;
     CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception;
     
     
@@ -48,5 +50,7 @@ public interface CoachAssignedPlanService {
     public List<UserDTO> findStarByCoachUserId(Integer userId) throws Exception;
     
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
+    
+    public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception; 
     
 }

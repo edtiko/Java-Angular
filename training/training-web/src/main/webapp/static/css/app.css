@@ -549,6 +549,12 @@ md-menu-item>.md-button{
     font-weight: bold;
 }
 
+.circle_state{
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
 #bell_notification .circle_notification{
     display: block;
     position: absolute;

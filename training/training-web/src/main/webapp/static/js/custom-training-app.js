@@ -22,9 +22,13 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
             $routeProvider
 
-                    .when('/dashboard', route.resolve('dashboard', 'dashboard/'))
+                    .when('/dashboard-athlete', route.resolve('dashboardAthlete', 'dashboardAthlete/'))
+            
+                    .when('/dashboard-asesor', route.resolve('dashboardAsesor', 'dashboardAsesor/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
+            
+                    .when('/asesor-profile', route.resolve('asesorProfile', 'asesorProfile/'))
 
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
 

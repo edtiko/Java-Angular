@@ -6,7 +6,7 @@
             </a>
         </div>
         <div layout="column" layout-margin layout-align="space-around center" flex>
-            <a  href="#data-person" >
+            <a  href="#asesor-profile" >
                 <img class="circular" data-ng-src="{{profileImage}}" style="height: 130px; width: 131px;">
                 <md-tooltip md-direction="right">
                     Ver Perfil
@@ -17,7 +17,7 @@
         </div>
         <md-divider></md-divider>
         <md-list class="md-dense" flex>
-            <md-list-item class="md-2-line" ng-click="goHome()" >
+            <md-list-item class="md-2-line" ng-click="go('/dashboard-asesor', 1)" >
                 <div flex="25" ng-class="{selectedIndex: selectedIndex === 1}">
                     <md-icon><img src="static/img/init.png"></md-icon>
                 </div>
@@ -28,7 +28,7 @@
             </md-list-item>
             <md-list-item class="md-2-line" ng-click="go('/athletes', 2)" >
                 <div flex="25" ng-class="{selectedIndex: selectedIndex === 2}">
-                    <md-icon><img src="static/img/my_atlhetes.png"></md-icon>
+                    <md-icon><img src="static/img/my_athletes.png"></md-icon>
                 </div>
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">MIS ATLETAS</span>

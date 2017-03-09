@@ -63,6 +63,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -234,8 +235,8 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-             responseService.setStatus(StatusResponse.FAIL.getName());
-             responseService.setMessage(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setMessage(ex.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
@@ -332,7 +333,7 @@ public class UserController {
         responseService.setStatus(StatusResponse.SUCCESS.getName());
         return responseService;
     }
-    
+
     private UserMovilDTO createUserPlanMovil(UserDTO userDTO) throws Exception {
         User user = new User();
         user.setLogin(userDTO.getLogin());
@@ -479,7 +480,13 @@ public class UserController {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;
             }
-            response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard");
+
+            if (Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId())) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-athlete");
+
+            } else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH_INTERNO.getId())) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-asesor");
+            }
             return null;
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -862,7 +869,7 @@ public class UserController {
 
                 }
                 //obtiene los datos de perfil ó datos deportivos del usuario
-               /* UserProfileMovilDTO up = UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId()));
+                /* UserProfileMovilDTO up = UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId()));
 
                 List<UserAvailabilityDTO> availability = userAvailabilityService.findDtoByUserId(userDto.getUserId());
                 if (!availability.isEmpty()) {
@@ -1046,6 +1053,7 @@ public class UserController {
                         trainingPlanUser.setUserId(userId);
                         trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
                         trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
+                        trainingPlanUser.setCreationDate(Calendar.getInstance().getTime());
                         trainingPlanUserService.create(trainingPlanUser);
 
                         if (jo.get("starTeamId") != null

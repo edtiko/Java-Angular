@@ -752,7 +752,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
 
         $scope.setAthleteRole = function () {
-            $scope.dashboardSelected = $scope.views.summaryAthlete;
+            $scope.go('/dashboard-athlete', 1);
             $scope.userPanel = $scope.views.athletePanel;
             $scope.getDashBoardByUser($scope.userSession);
             messageService.initialize($scope.userSession.planSelected.id);
@@ -789,21 +789,28 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
         
         $scope.setAsesorRole = function () {
-            $scope.dashboardSelected = $scope.views.summaryAsesor;
+            $scope.go('/dashboard-asesor', 1);
             $scope.userPanel = $scope.views.asesorPanel;
+            $scope.getImageProfile($scope.userSession.userId, function (data) {
+                if (data != "") {
+                    $scope.profileImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("profileImage", $scope.profileImage);
+                } else {
+                    $scope.profileImage = "static/img/profile-default.png";
+                }
+            });
 
-            messageService.initialize($scope.userSession.planSelected.id);
+            /*messageService.initialize($scope.userSession.planSelected.id);
             videoService.initialize($scope.userSession.planSelected.id);
             AudioMessageService.initialize($scope.userSession.planSelected.id);
             MailService.initialize($scope.userSession.planSelected.id);
             $scope.connectToChatserver($scope.userSession.planSelected.id);
             $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
-            $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
+            $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);*/
 //            $scope.messageReceivedCount = ($scope.userSession.starCommunication.receivedMsg + $scope.userSession.supervisorCommunication.receivedMsg);
 //            $scope.mailReceivedCount = ($scope.userSession.starCommunication.receivedMail + $scope.userSession.supervisorCommunication.receivedMail);
 //            $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
 //            $scope.videoReceivedCount = ($scope.userSession.starCommunication.receivedVideo + $scope.userSession.supervisorCommunication.receivedVideo);
-            //self.getAssignedAthletes();
             //self.getAssignedStar();
             $scope.getUserNotification($scope.userSession.userId);
         };
@@ -1016,7 +1023,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         self.getAssignedAthletes = function () {
             DashboardService.getAssignedAthletes($scope.userSession.userId).then(
                     function (data) {
-                        $scope.athletes = data.entity.output;
+                        $scope.assignedAthletes = data.output;
                         if ($scope.athletes == null) {
                             $scope.showMessage("No tiene planes asignados.");
                         }
@@ -1039,9 +1046,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
                 if ($scope.userSession != null) {
                     //$scope.getUserById();
-                    $scope.getVisibleFieldsUserByUser($scope.userSession);
-                    $scope.getActivitiesByWeek();
-
                     switch ($scope.userSession.typeUser) {
                         case $scope.userSessionTypeUserCoach:
                             $scope.showControl = true;

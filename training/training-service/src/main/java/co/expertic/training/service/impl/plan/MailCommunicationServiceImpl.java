@@ -119,7 +119,7 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     @Override
     public List<UserDTO> getAllRecipientsByCoachId(Integer userId) throws Exception {
         List<UserDTO> recipients = new ArrayList<>();
-        List<CoachAssignedPlanDTO> starsAndAthletes = coachAssignedPlanDao.findByCoachUserId(userId);
+       /* List<CoachAssignedPlanDTO> starsAndAthletes = coachAssignedPlanDao.findByCoachUserId(userId);
         List<SupervStarCoach> supervisors = supervStarCoachDao.findByCoachId(userId);
         for (SupervStarCoach supervisor : supervisors) {
             recipients.add(UserDTO.mapFromUserEntity(supervisor.getSupervisorId()));
@@ -127,7 +127,7 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         for (CoachAssignedPlanDTO u : starsAndAthletes) {
             recipients.add(u.getAthleteUserId());
             recipients.add(u.getStarUserId());
-        }
+        }*/
         return recipients;
     }
     

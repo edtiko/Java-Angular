@@ -7,6 +7,8 @@ package co.expertic.training.service.impl.plan;
 
 import co.expertic.training.dao.plan.CoachAssignedPlanDao;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
+import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
@@ -28,8 +30,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     CoachAssignedPlanDao dao;
 
     @Override
-    public List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId) throws Exception {
-        return dao.findByCoachUserId(userId);
+    public List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId, PaginateDto paginateDto) throws Exception {
+        return dao.findByCoachUserId(userId, paginateDto);
     }
 
     @Override
@@ -60,6 +62,11 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     @Override
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception {
         return dao.findSemaforoByUserId(userId);
+    }
+
+    @Override
+    public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception {
+        return dao.getCountByPlanCoach(userId);
     }
     
 }

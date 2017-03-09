@@ -13,12 +13,10 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getAssignedAthletes: function (coachUserId) {
-                return $http.get($contextPath + 'get/athtletes/' + coachUserId)
+            getAssignedAthletesPaginate: function (query, coachUserId, res) {
+                return $http.post($contextPath + 'get/athtletes/' + coachUserId, query)
                         .then(
-                                function (response) {
-                                    return response.data;
-                                },
+                                res,
                                 function (errResponse) {
                                     console.error('Error while fetching athletes');
                                     return $q.reject(errResponse);
@@ -39,8 +37,8 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                         );
 
             },
-             getSupervisorsByStar: function (starUserId) {
-                 return $http.get($contextPath + 'get/supervisors/by/star/' + starUserId)
+            getSupervisorsByStar: function (starUserId) {
+                return $http.get($contextPath + 'get/supervisors/by/star/' + starUserId)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -64,14 +62,24 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-             getConfigurationPlanByUser: function (planId, userId, toUserId, planType, roleSelected) {
-                return $http.get($contextPath + 'get/count/communication/'+planId+'/'+userId+'/'+toUserId+'/'+planType+'/'+roleSelected)
+            getConfigurationPlanByUser: function (planId, userId, toUserId, planType, roleSelected) {
+                return $http.get($contextPath + 'get/count/communication/' + planId + '/' + userId + '/' + toUserId + '/' + planType + '/' + roleSelected)
                         .then(
                                 function (response) {
                                     return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching coach');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getCountByPlanAsesor: function (coachUserId, fn) {
+                return $http.get($contextPath + 'get/count/plan/' + coachUserId)
+                        .then(
+                                fn,
+                                function (errResponse) {
+                                    console.error('Error while fetching count plan coach');
                                     return $q.reject(errResponse);
                                 }
                         );

@@ -8,6 +8,8 @@ package co.expertic.training.dao.plan;
 import co.expertic.base.jpa.BaseDAO;
 import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
+import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.User;
@@ -19,7 +21,7 @@ import java.util.List;
  */
 public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     
-    List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId) throws DAOException;
+    List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId, PaginateDto paginateDto) throws DAOException;
     
     CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws DAOException;
     
@@ -41,4 +43,6 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     public List<User> findStarByCoachUserId(Integer userId) throws Exception;
     
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
+    
+    public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception; 
 }

@@ -1,0 +1,29 @@
+<div layout="row" layout-align="center center" style="padding-bottom: 50px">
+    <div flex="20"></div>
+    <div flex="70">
+        <h4 style="color: #0064F8">CONFIGURACI&Oacute;N DE MI PERFIL</h4>
+        <!-- progressbar -->
+        <div layout="column" layout-align="center center">
+        <ul id="progressbar" style="width: 300px">
+            <li ng-class="{active: currentNavItem == 0}">1</li>
+            <li id="#two" ng-class="{active: currentNavItem == 1}">2</li>
+        </ul>
+        <div id="ul-titles" style="width: 350px" layout="row" class="blue" layout-align="space-between start">
+            <h5>DATOS PERSONALES</h5>
+            <h5>DATOS DE CONTACTO</h5>
+        </div>
+        </div>
+        <multi-step-container steps="steps" class="simple-prev-next" on-step-change="onStepChange($getActiveIndex(), $event)">
+            <header>
+                <md-subheader>Todos los datos que contengan asterisco(*) son datos obligatorios</md-subheader>
+            </header>
+            <main step-container></main>
+            <section layout="row" layout-sm="column" layout-align="center" layout-wrap>
+                <md-button ng-disabled="$isFirst()" ng-click="$previousStep()" class="md-raised"><span class="fa fa-chevron-left"></span> ANTERIOR</md-button>
+                <md-button class="md-raised" ng-if="$getActiveIndex() !== 2" ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)" style="background: #1C2127; color:#AAFD6F;" ng-click="$nextStep()" >SIGUIENTE <span class="fa fa-chevron-right"></span></md-button>
+                <md-button class="md-raised" ng-if="$getActiveIndex() === 2" ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)" style="background: #1C2127; color:#AAFD6F;" ng-click="submitUser(true, $event)" >GUARDAR <span class="fa fa-chevron-right"></span></md-button>
+            </section>
+        </multi-step-container>
+    </div>
+    <div flex="20"></div>
+</div>
