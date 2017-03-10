@@ -46,15 +46,10 @@ require.config({
         accountService: "account/service/accountService",
         sharedProperties: "dashboard/service/sharedProperties",
         mainController: "login/controller/mainController",
-        messageSupervisorController: "message/controller/messageSupervisorController",
-        audioSupervisorController: "audioMessage/controller/audioSupervisorController",
-        videoSupervisorController: "video/controller/videoSupervisorController",
-        audioMessageController: "audioMessage/controller/audioMessageController",
-        reportController: "report/controller/reportController",
-        dashboardChartController: "chart/controller/dashboardChartController",
-        mailSupervisorController: "mail/controller/mailSupervisorController",
+        dashboardChartController: "dashboard/controller/dashboardController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
+        athleteService: "athletes/service/athleteService",
         app: "routeResolver",
         sockjs: "lib/sockjs.min",
         moment: "lib/moment.min",
@@ -188,26 +183,8 @@ require.config({
         mainController: {
             deps: ['angular', 'authService']
         },
-        messageSupervisorController: {
-            deps: ['angular', 'trainingApp']
-        },
-        audioSupervisorController: {
-            deps: ['angular', 'trainingApp']
-        },
-        videoSupervisorController: {
-            deps: ['angular', 'trainingApp']
-        },
-        audioMessageController: {
-            deps: ['angular', 'trainingApp']
-        },
-        mailSupervisorController: {
-            deps: ['angular', 'trainingApp']
-        },
-        reportController: {
-            deps: ['angular', 'trainingApp']
-        },
-        dashboardChartController: {
-            deps: ['angular', 'trainingApp']
+        dashboardChartController:{
+             deps: ['angular', 'authService']
         },
         dashboardService: {
             deps: ['angular', 'trainingApp']
@@ -323,6 +300,9 @@ require.config({
         saleReportService: {
             deps: ['angular', 'trainingApp']
         },
+        athleteService:{
+             deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -335,9 +315,9 @@ require.config({
                 'videoService', 'dcfService', 'characteristicService', 'brandService',
                 'mailService', 'supervStarCoachService', 'userActivityPerformanceService',
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
-                'messageSupervisorController', 'audioMessageController', 'mailSupervisorController',
                 'dashboardChartController', 'configurationPlanService', 'membershipService',
-                'marketingReportService', 'paymentReportService', 'saleReportService', 'audioSupervisorController', 'videoSupervisorController','accountService'
+                'marketingReportService', 'paymentReportService', 'saleReportService','accountService',
+                'athleteService'
 
             ]}
     }

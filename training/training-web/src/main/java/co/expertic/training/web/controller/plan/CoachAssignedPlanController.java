@@ -5,6 +5,7 @@
  */
 package co.expertic.training.web.controller.plan;
 
+import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.MailCommunicationDTO;
@@ -133,6 +134,27 @@ public class CoachAssignedPlanController {
                     athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
                 }
             }
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(athletes);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "get/athletes/by/{coachUserId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getAthletes(@PathVariable("coachUserId") Integer coachUserId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+
+            List<AthleteDTO> athletes = coachService.findAthletesByCoachUserId(coachUserId);
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);

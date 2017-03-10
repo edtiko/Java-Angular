@@ -22,6 +22,7 @@ public class NotificationDTO {
     private Date creationDate;
     private String module;
     private Integer roleId;
+    private Long count;
     
     
     public NotificationDTO(){
@@ -35,6 +36,11 @@ public class NotificationDTO {
         this.module = module;
         this.roleId = roleId;
 
+    }
+    
+     public NotificationDTO(Long count, String module){
+        this.module = module;
+        this.count = count;
     }
 
     public Integer getId() {
@@ -83,6 +89,14 @@ public class NotificationDTO {
 
     public void setFromUserId(Integer fromUserId) {
         this.fromUserId = fromUserId;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
     
     

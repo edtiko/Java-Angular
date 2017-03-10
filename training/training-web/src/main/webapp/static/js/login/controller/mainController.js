@@ -1043,6 +1043,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                 //$scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
                 $scope.getUserSessionByResponse(res);
                 $scope.userSession = res.data.entity.output;
+                //$window.sessionStorage.setItem("userInfo", $scope.userSession);
 
                 if ($scope.userSession != null) {
                     //$scope.getUserById();

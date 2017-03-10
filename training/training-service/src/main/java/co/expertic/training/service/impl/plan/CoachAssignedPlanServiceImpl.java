@@ -6,13 +6,24 @@
 package co.expertic.training.service.impl.plan;
 
 import co.expertic.training.dao.plan.CoachAssignedPlanDao;
+import co.expertic.training.dao.user.UserDao;
+import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
+import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
+import co.expertic.training.model.entities.ColourIndicator;
+import co.expertic.training.service.configuration.ColourIndicatorService;
 import co.expertic.training.service.plan.CoachAssignedPlanService;
+import co.expertic.training.service.plan.MailCommunicationService;
+import co.expertic.training.service.plan.PlanMessageService;
+import co.expertic.training.service.plan.PlanVideoService;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +35,22 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
-    
+public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
+
     @Autowired
     CoachAssignedPlanDao dao;
+
+    @Autowired
+    UserDao userDao;
+
+    @Autowired
+    ColourIndicatorService colourIndicatorService;
+
+    @Autowired
+    MailCommunicationService mailCommunicationService;
+
+    @Autowired
+    PlanMessageService planMessageService;
 
     @Override
     public List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId, PaginateDto paginateDto) throws Exception {
@@ -43,17 +66,17 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     public CoachAssignedPlan create(CoachAssignedPlan coachAssignedPlan) throws Exception {
         return dao.create(coachAssignedPlan);
     }
-    
+
     @Override
     public List<CoachAssignedPlanDTO> findByStarUserId(Integer userId) throws Exception {
         return dao.findByStarUserId(userId);
     }
-    
+
     @Override
     public List<UserDTO> findCoachByStarUserId(Integer userId) throws Exception {
         return UserDTO.mapFromUsersEntities(dao.findCoachByStarUserId(userId));
     }
-    
+
     @Override
     public List<UserDTO> findStarByCoachUserId(Integer userId) throws Exception {
         return UserDTO.mapFromUsersEntities(dao.findStarByCoachUserId(userId));
@@ -68,5 +91,78 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService{
     public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception {
         return dao.getCountByPlanCoach(userId);
     }
-    
+
+    @Override
+    public List<AthleteDTO> findAthletesByCoachUserId(Integer coachUserId) throws Exception {
+        List<AthleteDTO> list = dao.findAthletesByCoachUserId(coachUserId);
+        List<ColourIndicator> colours = colourIndicatorService.findAll();
+
+        int firstOrder = 0;
+        int secondOrder = 0;
+        String firstColour = "{'background-color':'white'}";
+        String secondColour = "{'background-color':'white'}";
+        String thirdColour = "{'background-color':'white'}";
+        for (ColourIndicator colour : colours) {
+            if (colour.getColourOrder().equals(1)) {
+                firstOrder = colour.getHoursSpent();
+                firstColour = colour.getColour();
+            }
+            if (colour.getColourOrder().equals(2)) {
+                secondOrder = colour.getHoursSpent();
+                secondColour = colour.getColour();
+            }
+            if (colour.getColourOrder().equals(3)) {
+                thirdColour = colour.getColour();
+            }
+        }
+        for (AthleteDTO athlete : list) {
+            athlete.setNotificationList(userDao.getUserCountNotification(athlete.getAthleteUserId()));
+            int countFirstColour = 0;
+            int countSecondColour = 0;
+            int countThirdColour = 0;
+            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getAthleteUserId());
+
+            List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId());
+
+            for (MailCommunicationDTO mail : mails) {
+                if (!mail.getRead()) {
+                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
+                        countFirstColour++;
+                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
+                }
+            }
+
+            for (PlanMessageDTO mail : messages) {
+                long hours = (calculateHourDifference(mail.getCreationDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
+                }
+            }
+            if (countThirdColour > 0) {
+                athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+            } else if (countSecondColour > 0) {
+                athlete.setColor(secondColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+            } else if (countFirstColour > 0) {
+                athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+            }
+        }
+        return list;
+    }
+
+    private long calculateHourDifference(Date creationDate) {
+        Date now = new Date();
+        long diff = now.getTime() - creationDate.getTime();
+        long hoursSpent = diff / (60 * 60 * 1000);
+        return hoursSpent;
+    }
+
 }

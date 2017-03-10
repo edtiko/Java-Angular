@@ -296,7 +296,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "        CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "        creation_date\n"
                 + "from plan_audio\n"
-                + "where to_user_id = 202\n"
+                + "where to_user_id = "+userSessionId+" \n"
                 + "and readed = false\n"
                 + "\n"
                 + "union\n"
@@ -307,7 +307,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "       creation_date\n"
                 + "from plan_video\n"
-                + "where to_user_id = 202\n"
+                + "where to_user_id = "+userSessionId+" \n"
                 + "and readed = false\n"
                 + "\n"
                 + "union\n"
@@ -318,7 +318,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "       creation_date\n"
                 + "from mail_communication\n"
-                + "where receiving_user = 202\n"
+                + "where receiving_user = "+userSessionId+" \n"
                 + "and read = false\n"
                 + "\n"
                 + "union \n"
@@ -329,7 +329,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "      CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "      creation_date\n"
                 + "from plan_message\n"
-                + "where receiving_user_id = 202\n"
+                + "where receiving_user_id = "+userSessionId+" \n"
                 + "and readed = false) notification\n"
                 + "\n"
                 + "order by notification.creation_date desc ");
@@ -338,6 +338,52 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         List<NotificationDTO> res = new ArrayList<>();
         list.stream().forEach((result) -> {
             res.add(new NotificationDTO((Integer) result[0], (Integer) result[1] , (String) result[2], (Integer) result[3],(Date) result[4]));
+        });
+        return res;
+    }
+    
+    
+    @Override
+    public List<NotificationDTO> getUserCountNotification(Integer userSessionId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" select notification.*  from(\n" +
+"                select  count(plan_audio_id),\n" +
+"                       'audio' as module\n" +
+"                from plan_audio\n" +
+"                where to_user_id = 202\n" +
+"                and readed = false\n" +
+"                group by to_user_id\n" +
+"                union\n" +
+"                \n" +
+"                select count(plan_video_id),\n" +
+"                       'video' as module\n" +
+"                from plan_video\n" +
+"                where to_user_id = 202\n" +
+"                and readed = false\n" +
+"                group by to_user_id\n" +
+"                \n" +
+"                union\n" +
+"                \n" +
+"                select count(mail_communication_id), \n" +
+"                       'mail' as module\n" +
+"                from mail_communication\n" +
+"                where receiving_user = 202\n" +
+"                and read = false\n" +
+"                group by receiving_user\n" +
+"                \n" +
+"                union \n" +
+"                \n" +
+"                select count(plan_message_id),\n" +
+"                      'chat' as module\n" +
+"                from plan_message\n" +
+"                where receiving_user_id = 202\n" +
+"                and readed = false\n" +
+"                group by receiving_user_id ) notification ");
+        Query query = this.getEntityManager().createNativeQuery(sql.toString());
+        List<Object[]> list = query.getResultList();
+        List<NotificationDTO> res = new ArrayList<>();
+        list.stream().forEach((result) -> {
+            res.add(new NotificationDTO((Long) result[0], (String) result[1]));
         });
         return res;
     }

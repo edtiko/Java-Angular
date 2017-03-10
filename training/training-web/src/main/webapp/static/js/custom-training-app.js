@@ -100,7 +100,12 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             
                     .when('/edit-account', route.resolve('editAccount', 'editAccount/'))
 
-                    .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'));
+                    .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'))
+                    
+                    .when('/athletes', route.resolve('athletes','athletes/'))
+            
+                    .when('/athlete-profile/:user', route.resolve('athleteProfile', 'athleteProfile/'));
+            
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',
                 suffix: '.json'

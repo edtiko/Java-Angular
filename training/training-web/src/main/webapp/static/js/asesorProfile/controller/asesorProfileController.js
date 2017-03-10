@@ -1,8 +1,6 @@
 
-trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$window', '$location', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService', '$location', '$mdDialog', 'DcfService', function ($scope, UserService,
-            $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
-            VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService) {
+trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$window', '$location', 'VisibleFieldsUserService', '$mdDialog', 
+    function ($scope, UserService, $window, $location, VisibleFieldsUserService, $mdDialog) {
         var self = this;
         $scope.currentNavItem = 0;
         $scope.profileImage = $window.sessionStorage.getItem("profileImage");
@@ -119,7 +117,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
                     );
 
         };
-        
+
         $scope.visibleField = function (tableName, columnName) {
             for (var i = 0; i < $scope.fields.length; i++) {
                 if ($scope.fields[i].tableName == tableName && $scope.fields[i].columnName == columnName) {
@@ -156,6 +154,32 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
             self.getUserById();
         });
         
+        $scope.isImage = function (type) {
+            if (type.indexOf("image") !== -1) {
+                return false;
+            }
+            return true;
+        };
+        
+        $scope.getImageProfile = function (userId) {
+            if (userId != null) {
+                UserService.getImageProfile(userId)
+                        .then(
+                                function (response) {
+                                    if (response != "") {
+                                        $scope.profileImage = "data:image/png;base64," + response;
+                                    } else {
+                                        $scope.profileImage = "static/img/profile-default.png";
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching Image Profile');
+                                }
+                        );
+            }
+        };
+
+
         $scope.uploadFile = function (file) {
 
             if (file.files[0] !== undefined) {
@@ -189,6 +213,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
             UserService.updateUser(user, id)
                     .then(
                             function (msg) {
+                                $scope.editConfirmation();
                                 $scope.getVisibleFieldsUserByUser();
                                 if (file !== undefined && file != null) {
                                     $scope.uploadFile(file);
@@ -196,19 +221,49 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
 
                             },
                             function (errResponse) {
-                                console.error('Error while updating User.');
+                                $scope.editConfirmation();
+                                console.error('Error while updating User.' + errResponse);
                             }
                     );
             VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
                     function (msg) {
                         $scope.setUserSession();
-                        console.log(msg);
                     },
                     function (errResponse) {
                         console.error('Error while creating visible fields.');
                         console.error(errResponse);
                     }
             );
+        };
+
+        $scope.editConfirmation = function () {
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/asesorProfile/editConfirmation.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
+        };
+
+        $scope.errorConfirmation = function () {
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/asesorProfile/errorMessage.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
         };
 
         $scope.submitUser = function (file) {

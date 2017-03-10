@@ -7,6 +7,7 @@ package co.expertic.training.dao.plan;
 
 import co.expertic.base.jpa.BaseDAO;
 import co.expertic.base.jpa.DAOException;
+import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.ReportCountDTO;
@@ -45,4 +46,6 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
     
     public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception; 
+
+    public List<AthleteDTO> findAthletesByCoachUserId(Integer coachUserId) throws DAOException;
 }

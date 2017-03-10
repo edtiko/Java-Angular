@@ -5,6 +5,7 @@
  */
 package co.expertic.training.service.plan;
 
+import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.ReportCountDTO;
@@ -52,5 +53,7 @@ public interface CoachAssignedPlanService {
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
     
     public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception; 
+
+    public List<AthleteDTO> findAthletesByCoachUserId(Integer coachUserId) throws Exception;
     
 }
