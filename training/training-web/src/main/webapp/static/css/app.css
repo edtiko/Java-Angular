@@ -707,6 +707,15 @@ padding-top: 8px;
   padding-top: 28px;
 }
 
+.selectedLetter{
+   color: #0064F8 !important;
+}
 
+.selectedBlue{
+    background: #0064F8;
+}
 
+.selectedBlue h5{
+    color: #FFFFFF !important;
+}
 

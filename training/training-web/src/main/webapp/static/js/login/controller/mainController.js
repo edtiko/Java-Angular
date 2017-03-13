@@ -97,7 +97,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.getDashBoardByUser = function (user) {
-            DashboardService.getDashboard(user).then(
+            DashboardService.getDashboard(user.userId).then(
                     function (d) {
                         $scope.userDashboard = angular.copy(d);
                         $scope.calculateIMC();
@@ -789,7 +789,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
         
         $scope.setAsesorRole = function () {
-            $scope.go('/dashboard-asesor', 1);
+            //$scope.go('/dashboard-asesor', 1);
             $scope.userPanel = $scope.views.asesorPanel;
             $scope.getImageProfile($scope.userSession.userId, function (data) {
                 if (data != "") {

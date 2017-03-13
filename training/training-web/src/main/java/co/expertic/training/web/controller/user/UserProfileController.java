@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -110,23 +111,22 @@ public class UserProfileController {
         }
     }
 
-    @RequestMapping(value = "dashboard/get/by/id", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response findDashboardById(@RequestBody UserProfileDTO userProfile) {
+    @RequestMapping(value = "dashboard/get/by/id/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> findDashboardById(@PathVariable Integer userId) {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-
-            DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userProfile.getUserId());
+            DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userId);
             responseService.setOutput(dashboard);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             Logger.getLogger(UserProfileController.class.getName()).log(Priority.FATAL, null, e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
     

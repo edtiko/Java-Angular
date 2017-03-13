@@ -1,11 +1,9 @@
 trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
         return {
-            getDashboard: function (userProfile) {
-                return $http.post($contextPath + 'dashboard/get/by/id', userProfile)
+            getDashboard: function (userId, fn) {
+                return $http.get($contextPath + 'dashboard/get/by/id/'+userId)
                         .then(
-                                function (response) {
-                                    return response.data.entity.output;
-                                },
+                                fn,
                                 function (errResponse) {
                                     console.error(userProfile);
                                     console.error('Error while getting dashboard');

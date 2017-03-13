@@ -2,41 +2,52 @@
     <div>
         <span class="cpt-title">MIS ATLETAS</span>
     </div>
-    <div>
+    <div layout="column" layout-padding>
+        <div layout="row">
+            <md-input-container md-no-float class="md-block" >
+                <input type="text" ng-model="search" placeholder="Buscar"/>
+                <md-icon><i style="color: #0064F8" class="fa fa-search" aria-hidden="true"></i></md-icon>
+            </md-input-container>
+            <div layout="row" layout-align="space-around center" flex>
+                <div ng-repeat="letter in names">
+                    <span style="font-weight: bold; color: #666666" ng-class="{selectedLetter: filt === letter}" ng-click="setFilter(letter)"> {{letter}} </span>
+                </div>
+            </div>
+        </div>
         <md-grid-list  md-cols="3" 
-                       md-row-height-gt-md="6:3" md-row-height="6:3"
-                       md-gutter-gt-md="16px" md-gutter-md="4px" md-gutter="2px" >
+                       md-row-height-gt-md="2:3" md-row-height="2:3">
 
-            <md-grid-tile ng-repeat="athlete in athletes">
+            <md-grid-tile ng-repeat="athlete in athletesFiltered| filter:startsWith | orderBy: 'fullName'">
                 <md-card layout="column" layout-align="center center" style="width: 303px; height: 450px;">
                     <div><img class="circular" data-ng-src="{{athlete.srcImage}}" style="width: 117px; height: 117px;  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.13);"/></div>
                     <span style="color: rgb(0, 100, 248); font-weight: bold; text-transform: uppercase">{{athlete.fullName}}</span>  
                     <span style="color: rgb(0, 100, 248); text-transform: uppercase">{{athlete.country}}</span>
-                    <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="go('/athlete-profile/{{athlete.athleteUserId}}')">VER PERFIL</md-button>
+                    <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="go('/athlete-detail/'+athlete.athleteUserId,1)">VER PERFIL</md-button>
+                    <br />
                     <md-divider></md-divider>
-                    <div>
-                        <!--<md-grid-list  md-cols="3" 
-                                       md-row-height-gt-md="6:3" md-row-height="6:3"
-                                       md-gutter-gt-md="16px" md-gutter-md="4px" md-gutter="2px" >
-                            <md-grid-tile>
-                                <img src="static/img/calendar_29.png">
-                            </md-grid-tile>
-                            <md-grid-tile>
-                                <img src="static/img/chat_29.png">
-                            </md-grid-tile>
-                            <md-grid-tile>
-                                <img src="static/img/chart_29.png">
-                            </md-grid-tile>
-                            <md-grid-tile>
-                                <img src="static/img/mail_29.png">
-                            </md-grid-tile>
-                            <md-grid-tile>
-                                <img src="static/img/audio_29.png">
-                            </md-grid-tile>
-                            <md-grid-tile>
-                                <img src="static/img/video_29.png">
-                            </md-grid-tile>
-                        </md-grid-list>-->
+                    <div layout="column">
+                        <div layout="row" layout-align="space-between center">
+                            <div flex>
+                                <img src="static/img/send_chat.png">
+                            </div>
+                            <div flex>
+                                <img src="static/img/send_chat.png">
+                            </div>
+                            <div flex>
+                                <img src="static/img/send_chat.png">
+                            </div>
+                        </div>
+                        <div layout="row" layout-align="space-around center">
+                            <div>
+                                <img src="static/img/send_chat.png">
+                            </div>
+                            <div>
+                                <img src="static/img/send_chat.png">
+                            </div>
+                            <div>
+                                <img src="static/img/send_chat.png">
+                            </div>
+                        </div>
                     </div>
                 </md-card>
             </md-grid-tile>

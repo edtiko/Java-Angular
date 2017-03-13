@@ -554,5 +554,8 @@ public class DashboardDTO {
     }
     
     
+    public String getFullName(){
+        return this.name+" "+this.secondName+" "+this.lastName;
+    }
 
 }
