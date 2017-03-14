@@ -63,6 +63,15 @@ public class CoachAssignedPlanDTO{
             this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
         }
     }
+    
+    public CoachAssignedPlanDTO(Integer id, User starUserId,ConfigurationPlan plan) {
+        this.id = id;
+        this.starUserId = UserDTO.mapFromUserEntity(starUserId);
+        this.external = false;
+        if (plan != null) {
+            this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
+        }
+    }
 
     /* public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {
         if (e != null) {

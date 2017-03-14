@@ -126,7 +126,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.resetProfile = function () {
             self.getUserById();
-        };
+        };        
         $scope.showAge = function (d) {
             $scope.birthdateDt = d;
 

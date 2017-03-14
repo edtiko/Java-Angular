@@ -1026,6 +1026,94 @@ create table training_plan_percentaje (
    constraint pk_training_plan_percentaje primary key (training_plan_percentaje_id)
 );
 
+
+CREATE TABLE training_level
+(
+  training_level_id integer NOT NULL,
+  description character varying(500) NOT NULL,
+  min_sesion integer,
+  max_sesion integer,
+  min_hour_week integer,
+  max_hour_week integer,
+  min_week_plan integer,
+  max_week_plan integer,
+  modality_id integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_training_level PRIMARY KEY (training_level_id)
+);
+
+CREATE TABLE weekly_load
+(
+  weekly_load_id integer NOT NULL,
+  num_week character varying(500) NOT NULL,
+  value integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_weekly_load PRIMARY KEY (weekly_load_id)
+);
+
+CREATE TABLE intensity_zone_dist
+(
+  intensity_zone_dist_id integer NOT NULL,
+  training_level_id integer,
+  z1 integer,
+  z2 integer,
+  z3 integer,
+  z4 integer,
+  z5 integer,
+  z6 integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_intensity_zone_dist PRIMARY KEY (intensity_zone_dist_id)
+);
+
+CREATE TABLE intensity_zone_sesion_dist
+(
+  intensity_zone_sesion_dist_id integer NOT NULL,
+  num_sesion integer,
+  sesion integer,
+  daily_percentaje integer,
+  z1 integer,
+  z2 integer,
+  z3 integer,
+  z4 integer,
+  z5 integer,
+  z6 integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_intensity_zone_sesion_dist PRIMARY KEY (intensity_zone_sesion_dist_id)
+);
+
+
+CREATE TABLE zone_time_serie
+(
+  zone_time_serie_id integer NOT NULL,
+  num_zone integer,
+  num_interval integer,
+  num_min integer,
+  num_max integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_zone_time_serie PRIMARY KEY (zone_time_serie_id)
+);
+
+
 alter table training_plan_percentaje
 add constraint fk_tplan_percentaje_tplan foreign key (training_plan_id)
 references training_plan(training_plan_id)

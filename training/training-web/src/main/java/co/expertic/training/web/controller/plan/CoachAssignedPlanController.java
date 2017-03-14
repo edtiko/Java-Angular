@@ -191,8 +191,7 @@ public class CoachAssignedPlanController {
     }
 
     @RequestMapping(value = "get/assigned/plan/{athleteUserId}", method = RequestMethod.GET)
-    public @ResponseBody
-    Response getAssignedPlan(@PathVariable("athleteUserId") Integer athleteUserId) {
+    public ResponseEntity<ResponseService> getAssignedPlan(@PathVariable("athleteUserId") Integer athleteUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -208,16 +207,16 @@ public class CoachAssignedPlanController {
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 strResponse.append("El usuario no tiene asociado un plan activo.");
                 responseService.setOutput(strResponse);
-                return Response.status(Response.Status.OK).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(e.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }

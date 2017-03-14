@@ -5,13 +5,13 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         $scope.athleteUserId = $routeParams.user;
         $scope.moduleSelected = 1;
         $scope.athleteView = {
-            profile: 'static/views/athleteDetail/profile.html',
-            chat: 'static/views/message/summaryAthlete.html',
-            mail: 'static/views/mail/summaryAsesor.html',
-            audio: 'static/views/audioMessage/video.html',
-            video: 'static/views/video/message.html',
-            calendar: 'static/views/calendar/audioMessage.html',
-            chart: 'static/views/chart/mail.html'
+            profile: 'static/views/athleteDetail/profile/profile.html',
+            chat: 'static/views/athleteDetail/message/chat.html',
+            mail: 'static/views/athleteDetail/mail/mail.html',
+            audio: 'static/views/athleteDetail/audio/audio.html',
+            video: 'static/views/athleteDetail/video/video.html',
+            calendar: 'static/views/athleteDetail/calendar/calendar.html',
+            chart: 'static/views/athleteDetail/chart/chart.html'
         };
 
 
@@ -60,6 +60,18 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         };
         
         
-        $scope.getProfile();
+        $scope.getActivePlan = function(){
+            AthleteService.getActivePlan($scope.athleteUserId, function(res){
+                $scope.planSelected = res.data.output;
+            });
+        };
+        
+        
+        self.init = function () {
+            $scope.getProfile();
+            $scope.getActivePlan();
+        };
+        
+        self.init();
 
     }]);
