@@ -7,6 +7,11 @@ import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.dao.plan.TrainingPlanWorkoutDao;
 import co.expertic.training.enums.Status;
+import co.expertic.training.model.entities.IntensityZoneDist;
+import co.expertic.training.model.entities.IntensityZoneSesionDist;
+import co.expertic.training.model.entities.MonthlyVolume;
+import co.expertic.training.model.entities.WeeklyVolume;
+import co.expertic.training.model.entities.ZoneTimeSerie;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.persistence.Query;
@@ -19,13 +24,13 @@ import org.springframework.stereotype.Repository;
  * fecha 15/07/2016 <br>
  *
  * @author Andres Felipe Lopez Rodriguez
-*
+ *
  */
 @Repository
 public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout> implements TrainingPlanWorkoutDao {
 
     private final int batchSize = 10;
-    
+
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception {
         StringBuilder sql = new StringBuilder();
@@ -47,16 +52,16 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     }
 
     @Override
-    public List<TrainingPlanWorkout> createList (List<TrainingPlanWorkout> list) throws Exception {
+    public List<TrainingPlanWorkout> createList(List<TrainingPlanWorkout> list) throws Exception {
         List<TrainingPlanWorkout> listCreated = bulkSave(list);
         return listCreated;
     }
-    
+
     @Override
-    public TrainingPlanWorkout createTrainingPlanWorkout (TrainingPlanWorkout trainingPlanWorkout) throws Exception {
+    public TrainingPlanWorkout createTrainingPlanWorkout(TrainingPlanWorkout trainingPlanWorkout) throws Exception {
         return create(trainingPlanWorkout);
     }
-    
+
     private <T extends TrainingPlanWorkout> List<T> bulkSave(List<T> entities) {
         final List<T> savedEntities = new ArrayList<>(entities.size());
         int i = 0;
@@ -71,9 +76,9 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         }
         return savedEntities;
     }
- 
+
     private <T extends TrainingPlanWorkout> T persistOrMerge(T t) {
-        if (t.getTrainingPlanWorkoutId()== null) {
+        if (t.getTrainingPlanWorkoutId() == null) {
             getEntityManager().persist(t);
             return t;
         } else {
@@ -98,8 +103,7 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         builder.append(" where  manual_activity_id = ").append(manualActivityId);
         executeNativeUpdate(builder.toString());
     }
-    
-        
+
     @Override
     public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception {
         StringBuilder sql = new StringBuilder();
@@ -110,17 +114,17 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("trainingPlanWorkoutId", trainingPlanWorkoutId);
         List<TrainingPlanWorkoutDto> list = query.getResultList();
-        
-        if(list != null && !list.isEmpty()) {
+
+        if (list != null && !list.isEmpty()) {
             return list.get(0);
         }
-        
+
         return null;
     }
 
     @Override
     public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId) throws Exception {
-           StringBuilder sql = new StringBuilder();
+        StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId, t.workoutDate, t.activityId, t.manualActivityId, t.trainingPlanUserId.userId.userId, ");
         sql.append("(select up.weatherId.percentage FROM UserProfile up WHERE up.userId.userId = t.trainingPlanUserId.userId.userId), t.isDrag, t.executedTime, t.executedDistance, t.indStrava, t.lastUpdateStrava )");
         sql.append("FROM TrainingPlanWorkout t ");
@@ -129,11 +133,76 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         List<TrainingPlanWorkoutDto> list = query.getResultList();
-        
-        if(list != null && !list.isEmpty()) {
+
+        if (list != null && !list.isEmpty()) {
             return list.get(0);
         }
-        
+
         return null;
+    }
+
+    @Override
+    public WeeklyVolume getWeeklyVolume(Integer modalityId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t ");
+        sql.append("FROM WeeklyVolume t ");
+        sql.append("WHERE t.modalityId.modalityId = :modalityId ");
+        sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+         query.setParameter("modalityId", modalityId);
+        List<WeeklyVolume> list = query.getResultList();
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
+    
+    @Override
+    public MonthlyVolume getMonthlyVolume(Integer modalityId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t ");
+        sql.append("FROM MonthlyVolume t ");
+        sql.append("WHERE t.modalityId.modalityId = :modalityId ");
+        sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("modalityId", modalityId);
+        List<MonthlyVolume> list = query.getResultList();
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    public List<IntensityZoneDist> getIntensityZoneDist() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t ");
+        sql.append("FROM IntensityZoneDist t ");
+        sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        List<IntensityZoneDist> list = query.getResultList();
+
+        return list;
+    }
+
+    public List<IntensityZoneSesionDist> getIntensityZoneSesionDist() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t ");
+        sql.append("FROM IntensityZoneSesionDist t ");
+        sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        List<IntensityZoneSesionDist> list = query.getResultList();
+
+        return list;
+    }
+
+    public List<ZoneTimeSerie> getZoneTimeSerie() throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT t ");
+        sql.append("FROM ZoneTimeSerie t ");
+        sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        List<ZoneTimeSerie> list = query.getResultList();
+
+        return list;
     }
 }

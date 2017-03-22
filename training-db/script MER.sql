@@ -314,12 +314,21 @@ create table membership_user (
 /*==============================================================*/
 /* Table: modality                                              */
 /*==============================================================*/
-create table modality (
-   modality_id          serial              not null,
-   discipline_id        integer              null,
-   name                 varchar(200)         not null,
-   constraint pk_modality primary key (modality_id)
+CREATE TABLE modality
+(
+  modality_id serial NOT NULL,
+  discipline_id integer,
+  name character varying(200) NOT NULL,
+  ind_taper boolean,
+  ind_build boolean,
+  state_id integer,
+  creation_date timestamp without time zone,
+  last_update timestamp without time zone,
+  user_create integer,
+  user_update integer,
+  CONSTRAINT pk_modality PRIMARY KEY (modality_id)
 );
+
 
 /*==============================================================*/
 /* Table: objective                                             */
@@ -632,6 +641,7 @@ create table user_profile (
    user_id              integer              null,
    objective_id         integer              null,
    modality_id          integer              null,
+   available_time       integer              null,
    ind_pulsometer       varchar(1)           null,
    ind_potentiometer    varchar(1)           null,
    age_sport            integer              null,
@@ -1029,7 +1039,7 @@ create table training_plan_percentaje (
 
 CREATE TABLE training_level
 (
-  training_level_id integer NOT NULL,
+  training_level_id serial NOT NULL,
   description character varying(500) NOT NULL,
   min_sesion integer,
   max_sesion integer,
@@ -1046,22 +1056,49 @@ CREATE TABLE training_level
   CONSTRAINT pk_training_level PRIMARY KEY (training_level_id)
 );
 
-CREATE TABLE weekly_load
+CREATE TABLE weekly_volume
 (
-  weekly_load_id integer NOT NULL,
-  num_week character varying(500) NOT NULL,
-  value integer,
+  weekly_volume_id serial NOT NULL,
+  initial_value integer NOT NULL,
+  increase integer NOT NULL,
+  discharge integer NOT NULL,
+  modality_id integer,
   user_create integer,
   user_update integer,
   creation_date time without time zone,
   last_update time without time zone,
   state_id smallint,
-  CONSTRAINT pk_weekly_load PRIMARY KEY (weekly_load_id)
+  CONSTRAINT pk_weekly_volume PRIMARY KEY (weekly_volume_id)
 );
+
+CREATE TABLE monthly_volume
+(
+  monthly_volume_id serial NOT NULL,
+  initial_value integer NOT NULL,
+  increase integer NOT NULL,
+  discharge integer NOT NULL,
+  modality_id integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_monthly_volume PRIMARY KEY (monthly_volume_id)
+);
+
+alter table weekly_volume
+add constraint fk_weekly_volume_modality foreign key (modality_id)
+references modality(modality_id)
+on delete restrict on update restrict;
+
+alter table monthly_volume
+add constraint fk_monthly_volume_modality foreign key (modality_id)
+references modality(modality_id)
+on delete restrict on update restrict;
 
 CREATE TABLE intensity_zone_dist
 (
-  intensity_zone_dist_id integer NOT NULL,
+  intensity_zone_dist_id serial NOT NULL,
   training_level_id integer,
   z1 integer,
   z2 integer,
@@ -1079,7 +1116,7 @@ CREATE TABLE intensity_zone_dist
 
 CREATE TABLE intensity_zone_sesion_dist
 (
-  intensity_zone_sesion_dist_id integer NOT NULL,
+  intensity_zone_sesion_dist_id serial NOT NULL,
   num_sesion integer,
   sesion integer,
   daily_percentaje integer,
@@ -1100,7 +1137,7 @@ CREATE TABLE intensity_zone_sesion_dist
 
 CREATE TABLE zone_time_serie
 (
-  zone_time_serie_id integer NOT NULL,
+  zone_time_serie_id serial NOT NULL,
   num_zone integer,
   num_interval integer,
   num_min integer,
@@ -1112,6 +1149,11 @@ CREATE TABLE zone_time_serie
   state_id smallint,
   CONSTRAINT pk_zone_time_serie PRIMARY KEY (zone_time_serie_id)
 );
+
+alter table intensity_zone_dist
+add constraint fk_izonedist_tlevel foreign key (training_level_id)
+references training_level(training_level_id)
+on delete restrict on update restrict;
 
 
 alter table training_plan_percentaje
@@ -1567,7 +1609,7 @@ alter table user_profile
 
 alter table user_profile
    add constraint fk_user_pro_reference_objectiv foreign key (objective_id)
-      references objective (objective_id)
+      references training_level (training_level_id)
       on delete restrict on update restrict;
 
 alter table user_profile

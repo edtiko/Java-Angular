@@ -1,7 +1,9 @@
 package co.expertic.training.service.impl.configuration;
 
 import co.expertic.training.dao.configuration.ObjectiveDao;
+import co.expertic.training.dao.configuration.TrainingLevelDao;
 import co.expertic.training.model.dto.ObjectiveDTO;
+import co.expertic.training.model.dto.TrainingLevelDTO;
 import co.expertic.training.model.entities.Objective;
 import co.expertic.training.service.configuration.ObjectiveService;
 import java.util.List;
@@ -23,6 +25,9 @@ public class ObjectiveServiceImpl implements ObjectiveService {
 
     @Autowired
     private ObjectiveDao objectiveDao;
+    
+    @Autowired
+    private TrainingLevelDao levelDao;
 
     @Override
     public Objective create(Objective objective) throws Exception {
@@ -77,6 +82,11 @@ public class ObjectiveServiceImpl implements ObjectiveService {
     @Override
     public Integer findCurrentObjective(Integer trainingUserPlanId) throws Exception {
         return objectiveDao.findCurrentObjective(trainingUserPlanId);
+    }
+
+    @Override
+    public List<TrainingLevelDTO> findByModality(Integer modalityId) throws Exception {
+        return levelDao.findByModality(modalityId);
     }
 
 }

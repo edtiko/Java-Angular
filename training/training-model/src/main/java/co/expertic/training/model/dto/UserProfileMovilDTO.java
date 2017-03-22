@@ -7,7 +7,7 @@ package co.expertic.training.model.dto;
 
 import co.expertic.training.model.entities.Environment;
 import co.expertic.training.model.entities.Modality;
-import co.expertic.training.model.entities.Objective;
+import co.expertic.training.model.entities.TrainingLevel;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.entities.UserProfile;
 import co.expertic.training.model.entities.Weather;
@@ -42,15 +42,15 @@ public class UserProfileMovilDTO {
     public UserProfileMovilDTO() {
     }
 
-    private UserProfileMovilDTO(Integer userProfileId, Integer ageSport, BigInteger ppm, BigInteger power, User userId, Objective objectiveId, Modality modalityId, Integer vo2Running, Integer vo2Ciclismo, Environment environmentId, Weather weatherId) {
+    private UserProfileMovilDTO(Integer userProfileId, Integer ageSport, BigInteger ppm, BigInteger power, User userId, TrainingLevel objectiveId, Modality modalityId, Integer vo2Running, Integer vo2Ciclismo, Environment environmentId, Weather weatherId) {
         this.userProfileId = userProfileId;
         this.ageSport = ageSport;
         this.ppm = ppm;
         this.power = power;
         this.userId = userId.getUserId();
         if(objectiveId != null){
-        this.objectiveId = objectiveId.getObjectiveId();
-        this.objectiveName = objectiveId.getName();
+        this.objectiveId = objectiveId.getTrainingLevelId();
+        this.objectiveName = objectiveId.getDescription();
         }
         if(modalityId != null){
         this.modalityId = modalityId.getModalityId();

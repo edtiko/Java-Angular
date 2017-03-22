@@ -1,26 +1,25 @@
 'use strict';
 trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
         return {
-            
-            getPaginate: function(query, res){
-                    return $http.post($contextPath+'objective/paginated', query)
-                            .then(
-                                    res, 
-                                    function(errResponse){
-                                        console.error('Error while getting service ' + errResponse);
-                                        return $q.reject(errResponse);
-                                    }
-                            );
+            getPaginate: function (query, res) {
+                return $http.post($contextPath + 'objective/paginated', query)
+                        .then(
+                                res,
+                                function (errResponse) {
+                                    console.error('Error while getting service ' + errResponse);
+                                    return $q.reject(errResponse);
+                                }
+                        );
             },
-            getDiscipline: function(res){
-                    return $http.get($contextPath+'discipline/get/all')
-                            .then(
-                                    res, 
-                                    function(errResponse){
-                                        console.error('Error while getting service ' + errResponse);
-                                        return $q.reject(errResponse);
-                                    }
-                            );
+            getDiscipline: function (res) {
+                return $http.get($contextPath + 'discipline/get/all')
+                        .then(
+                                res,
+                                function (errResponse) {
+                                    console.error('Error while getting service ' + errResponse);
+                                    return $q.reject(errResponse);
+                                }
+                        );
             },
             getObjectiveById: function (id) {
                 return $http.get($contextPath + '/get/objective/by/' + id)
@@ -59,7 +58,7 @@ trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
                         );
             },
             deleteObjective: function (objective) {
-                return $http.post($contextPath + '/objective/delete',objective)
+                return $http.post($contextPath + '/objective/delete', objective)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -70,29 +69,41 @@ trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getObjectives: function(){
-                    return $http.get($contextPath+'objective/get/all')
-                            .then(
-                                    function(response){
-                                        return response.data.output;
-                                    }, 
-                                    function(errResponse){
-                                        console.error('Error while getting objectives');
-                                        return $q.reject(errResponse);
-                                    }
-                            );
+            getObjectives: function () {
+                return $http.get($contextPath + 'objective/get/all')
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while getting objectives');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             },
-            getObjectivesByDiscipline: function(disciplineId){
-                    return $http.get($contextPath+'objective/get/by/discipline/'+disciplineId)
-                            .then(
-                                    function(response){
-                                        return response.data;
-                                    }, 
-                                    function(errResponse){
-                                        console.error('Error while getting objectives by discipline');
-                                        return $q.reject(errResponse);
-                                    }
-                            );
+            getObjectivesByDiscipline: function (disciplineId) {
+                return $http.get($contextPath + 'objective/get/by/discipline/' + disciplineId)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while getting objectives by discipline');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getLevelsByModality: function (modalityId) {
+                return $http.get($contextPath + 'objective/get/by/modality/' + modalityId)
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while getting objectives by modality');
+                                    return $q.reject(errResponse);
+                                }
+                        );
             }
         };
     }]);

@@ -126,6 +126,13 @@
     <class>co.expertic.training.model.entities.State</class>
     <class>co.expertic.training.model.entities.QuestionnaireUser</class>
     <class>co.expertic.training.model.entities.TrainingPlanRenovation</class>
+    <class>co.expertic.training.model.entities.ZoneTimeSerie</class>
+    <class>co.expertic.training.model.entities.TrainingLevel</class>
+    <class>co.expertic.training.model.entities.IntensityZoneSesionDist</class>
+    <class>co.expertic.training.model.entities.IntensityZoneDist</class>
+    <class>co.expertic.training.model.entities.WeeklyLoad</class>
+    <class>co.expertic.training.model.entities.MonthlyVolume</class>
+    <class>co.expertic.training.model.entities.WeeklyVolume</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

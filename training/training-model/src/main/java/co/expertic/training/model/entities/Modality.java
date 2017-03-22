@@ -52,9 +52,9 @@ public class Modality implements Serializable {
     private Discipline disciplineId;
     @OneToMany(mappedBy = "modalityId")
     private Collection<Dcf> dcfCollection;
-
+    
     @Column(name = "state_id")
-    private Short stateId;
+    private Short stateId; 
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;

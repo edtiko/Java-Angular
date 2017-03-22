@@ -62,9 +62,12 @@ public class UserProfile implements Serializable {
     private String sportsAchievements;
     @Column(name = "about_me")
     private String aboutMe;
+    @Column(name= "available_time")
+    private Integer availableTime;
+    
     @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
     @ManyToOne
-    private Objective objectiveId;
+    private TrainingLevel objectiveId;
     
     @JoinColumn(name = "weather_id", referencedColumnName = "weather_id")
     @ManyToOne
@@ -163,11 +166,11 @@ public class UserProfile implements Serializable {
         this.aboutMe = aboutMe;
     }
 
-    public Objective getObjectiveId() {
+    public TrainingLevel getObjectiveId() {
         return objectiveId;
     }
 
-    public void setObjectiveId(Objective objectiveId) {
+    public void setObjectiveId(TrainingLevel objectiveId) {
         this.objectiveId = objectiveId;
     }
 
@@ -287,6 +290,14 @@ public class UserProfile implements Serializable {
 
     public void setDisease(String disease) {
         this.disease = disease;
+    }
+
+    public Integer getAvailableTime() {
+        return availableTime;
+    }
+
+    public void setAvailableTime(Integer availableTime) {
+        this.availableTime = availableTime;
     }
       
     

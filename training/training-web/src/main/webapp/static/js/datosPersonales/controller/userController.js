@@ -211,10 +211,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
                             var disc = $scope.userProfile.discipline;
                             if (disc != undefined && disc != "") {
-                                $scope.getObjectivesByDiscipline(disc, false);
+                               // $scope.getObjectivesByDiscipline(disc, false);
+                                $scope.getModalitiesByDisciplineId(disc, false);
                             }
-                            if ($scope.userProfile.objective != undefined && $scope.userProfile.objective != "") {
-                                $scope.getModalitiesByObjectiveId($scope.userProfile.objective);
+                            if ($scope.userProfile.modality != undefined && $scope.userProfile.modality != "") {
+                                $scope.getLevelsByModality($scope.userProfile.modality);
                             }
 
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
@@ -969,7 +970,20 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
         this.getPotentiometers();
+        
+          $scope.getLevelsByModality = function (modalityId) {
+            ObjectiveService.getLevelsByModality(modalityId).then(
+                    function (d) {
+                        $scope.objectives = d;
+                    },
+                    function (errResponse) {
+                        console.error('Error while getting objectives');
+                        console.error(errResponse);
+                    }
+            );
+        };
 
+/*
         $scope.getObjectivesByDiscipline = function (disciplineId, change) {
             if (change) {
                 $scope.userProfile.objective = '';
@@ -996,9 +1010,14 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     }
             );
         };
-//        this.getObjectives();
+        
+        */
 
-        $scope.getModalitiesByDisciplineId = function (id) {
+        $scope.getModalitiesByDisciplineId = function (id, change) {
+            if (change) {
+                $scope.userProfile.objective = '';
+                $scope.userProfile.modality = '';
+            }
             ModalityService.getModalitiesByDisciplineId(id).then(
                     function (d) {
                         $scope.modalities = d;

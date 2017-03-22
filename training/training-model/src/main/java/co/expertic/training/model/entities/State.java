@@ -31,6 +31,9 @@ import javax.persistence.Table;
     @NamedQuery(name = "State.findByDescription", query = "SELECT s FROM State s WHERE s.description = :description")})
 public class State implements Serializable {
 
+    @OneToMany(mappedBy = "stateId")
+    private Collection<Discipline> disciplineCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -102,6 +105,14 @@ public class State implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.State[ stateId=" + stateId + " ]";
+    }
+
+    public Collection<Discipline> getDisciplineCollection() {
+        return disciplineCollection;
+    }
+
+    public void setDisciplineCollection(Collection<Discipline> disciplineCollection) {
+        this.disciplineCollection = disciplineCollection;
     }
     
 }
