@@ -23,10 +23,13 @@ import co.expertic.training.dao.plan.TrainingPlanUserDao;
 import co.expertic.training.dao.plan.TrainingPlanWorkoutDao;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.DayDto;
-import co.expertic.training.model.dto.IntensityZoneSesionDist;
+import co.expertic.training.model.dto.IntensityZoneSesionDTO;
 import co.expertic.training.model.dto.IntervaloTiempo;
 import co.expertic.training.model.dto.PlanWorkoutDTO;
 import co.expertic.training.model.dto.SerieGenerada;
+import co.expertic.training.model.entities.IntensityZone;
+import co.expertic.training.model.entities.IntensityZoneDist;
+import co.expertic.training.model.entities.IntensityZoneSesion;
 import co.expertic.training.model.entities.MonthlyVolume;
 import co.expertic.training.model.entities.Objective;
 import co.expertic.training.model.entities.PlanWorkoutObjective;
@@ -108,14 +111,14 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             Integer availableTime = userProfile.getAvailableTime();
             Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
             Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
-            generatePlan(availableTime, numSesiones, numSemanas);
+            generatePlan(availableTime, numSesiones, numSemanas, weekVolume, monthVolume, userProfile.getObjectiveId().getTrainingLevelId());
         } else {
             throw new Exception("No se puede generar plan, no existe una objetivo registrado");
         }
 
     }
 
-    public static List<SerieGenerada> generatePlan(Integer horas_entrenamiento, Integer num_sesiones, Integer num_semanas) {
+    public List<SerieGenerada> generatePlan(Integer horas_entrenamiento, Integer num_sesiones, Integer num_semanas, WeeklyVolume weekVolume, MonthlyVolume monthVolume, Integer trainingLevelId) throws Exception {
 
         //calcula los minutos semanales de acuerdo a las horas de entrenamiento
         Integer min_semanales = horas_entrenamiento * 60;
@@ -127,37 +130,17 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         carga_intensidad_sesion.put(3, 100);
         carga_intensidad_sesion.put(4, 90);
 
-        Integer volInicialSemana = 60;
-        Integer iSemana = 5;
+        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(num_sesiones);
+        IntensityZone intesityZoneDist = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId);
+                
+        Integer volInicialSemana = weekVolume.getInitialValue();
+        Integer iSemana = weekVolume.getIncrease();
+        Integer weekDischarge = weekVolume.getDischarge();
 
-        Integer volInicialMes = 40;
-        Integer iMes = 8;
+        Integer volInicialMes = monthVolume.getInitialValue();
+        Integer iMes = monthVolume.getIncrease();
+        Integer monthDischarge = monthVolume.getDischarge();
 
-        //1. volumen semanal 
-        //porcentaje inicial 
-        //incremento
-        //1. volumen mensual cada 4 bloques
-        //porcentaje inicial 
-        //incremento
-        //volumen semanal * volumen mensual
-        //definir modelo para editar cada 4 bloques de semana y mes el porcentaje si disminuye o aumenta
-        //y el porcentaje con que inicia primera semana y primer mes
-        // taper
-        // segun la modalidad y fecha de competencia se configura :
-        // 1. num semanas hacia atras desde la competencia inclusivo
-        // 2. se le asigna o actualiza porcentaje por num_semana
-        // 3. porcentaje volumen semanal
-        // build por competencia (modalidad) 
-        // num semanas hacia atras desde el taper o competencia  
-        // 
-        //x repartir las descargas rigidas en los build segun el numero de semanas de carga
-        //restar a tiempo (Minutos en Zona por Sesion de Entrenamiento) el tiempo de calentamiento y enfriamento
-        // descarga
-        Map<Integer, Integer> progresion_mes = new HashMap<>();
-        progresion_mes.put(1, 80);
-        progresion_mes.put(2, 95);
-        progresion_mes.put(3, 100);
-        progresion_mes.put(4, 50);
 
         Map<Integer, Integer> dist_int_zona = new HashMap<>();
         dist_int_zona.put(1, 0);
@@ -166,32 +149,36 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         dist_int_zona.put(4, 22);
         dist_int_zona.put(5, 8);
         dist_int_zona.put(6, 2);
+        
+        Collection<IntensityZoneDist> intensityZone = intesityZoneDist.getIntensityZoneDistCollection();
+        
 
-        List<IntensityZoneSesionDist> dist = new ArrayList<>();
-        dist.add(new IntensityZoneSesionDist(1, 1, 0));
-        dist.add(new IntensityZoneSesionDist(1, 2, 0));
-        dist.add(new IntensityZoneSesionDist(1, 3, 0));
-        dist.add(new IntensityZoneSesionDist(1, 4, 0));
-        dist.add(new IntensityZoneSesionDist(1, 5, 0));
-        dist.add(new IntensityZoneSesionDist(1, 6, 0));
-        dist.add(new IntensityZoneSesionDist(2, 1, 0));
-        dist.add(new IntensityZoneSesionDist(2, 2, 0));
-        dist.add(new IntensityZoneSesionDist(2, 3, 70));
-        dist.add(new IntensityZoneSesionDist(2, 4, 35));
-        dist.add(new IntensityZoneSesionDist(2, 5, 0));
-        dist.add(new IntensityZoneSesionDist(2, 6, 0));
-        dist.add(new IntensityZoneSesionDist(3, 1, 0));
-        dist.add(new IntensityZoneSesionDist(3, 2, 0));
-        dist.add(new IntensityZoneSesionDist(3, 3, 30));
-        dist.add(new IntensityZoneSesionDist(3, 4, 65));
-        dist.add(new IntensityZoneSesionDist(3, 5, 20));
-        dist.add(new IntensityZoneSesionDist(3, 6, 0));
-        dist.add(new IntensityZoneSesionDist(4, 1, 0));
-        dist.add(new IntensityZoneSesionDist(4, 2, 0));
-        dist.add(new IntensityZoneSesionDist(4, 3, 0));
-        dist.add(new IntensityZoneSesionDist(4, 4, 0));
-        dist.add(new IntensityZoneSesionDist(4, 5, 80));
-        dist.add(new IntensityZoneSesionDist(4, 6, 100));
+
+        List<IntensityZoneSesionDTO> dist = new ArrayList<>();
+        dist.add(new IntensityZoneSesionDTO(1, 1, 0));
+        dist.add(new IntensityZoneSesionDTO(1, 2, 0));
+        dist.add(new IntensityZoneSesionDTO(1, 3, 0));
+        dist.add(new IntensityZoneSesionDTO(1, 4, 0));
+        dist.add(new IntensityZoneSesionDTO(1, 5, 0));
+        dist.add(new IntensityZoneSesionDTO(1, 6, 0));
+        dist.add(new IntensityZoneSesionDTO(2, 1, 0));
+        dist.add(new IntensityZoneSesionDTO(2, 2, 0));
+        dist.add(new IntensityZoneSesionDTO(2, 3, 70));
+        dist.add(new IntensityZoneSesionDTO(2, 4, 35));
+        dist.add(new IntensityZoneSesionDTO(2, 5, 0));
+        dist.add(new IntensityZoneSesionDTO(2, 6, 0));
+        dist.add(new IntensityZoneSesionDTO(3, 1, 0));
+        dist.add(new IntensityZoneSesionDTO(3, 2, 0));
+        dist.add(new IntensityZoneSesionDTO(3, 3, 30));
+        dist.add(new IntensityZoneSesionDTO(3, 4, 65));
+        dist.add(new IntensityZoneSesionDTO(3, 5, 20));
+        dist.add(new IntensityZoneSesionDTO(3, 6, 0));
+        dist.add(new IntensityZoneSesionDTO(4, 1, 0));
+        dist.add(new IntensityZoneSesionDTO(4, 2, 0));
+        dist.add(new IntensityZoneSesionDTO(4, 3, 0));
+        dist.add(new IntensityZoneSesionDTO(4, 4, 0));
+        dist.add(new IntensityZoneSesionDTO(4, 5, 80));
+        dist.add(new IntensityZoneSesionDTO(4, 6, 100));
 
         //Map<Integer, Double> min_x_semana = new HashMap<>();
         Map<Integer, Double> dist_int_tiempo_sesion = new HashMap<>();
@@ -211,12 +198,26 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             double min_x_dia = base / num_sesiones;
             //System.out.println("base:" + base + " minutos/dia:" + min_x_dia);
 
-            carga_intensidad_sesion.keySet().stream().forEach((Integer k) -> {
+            intesityZoneSesionDist.stream().forEach((izonesesion) -> {
+                double min_x_sesion = (min_x_dia * izonesesion.getDailyPercentaje()) / 100;
+                dist_int_tiempo_sesion.put(izonesesion.getSesion(), min_x_sesion);
+            });
+            /*carga_intensidad_sesion.keySet().stream().forEach((Integer k) -> {
                 double min_x_sesion = (min_x_dia * carga_intensidad_sesion.get(k)) / 100;
                 dist_int_tiempo_sesion.put(k, min_x_sesion);
+            });*/
+            
+            intensityZone.stream().forEach((izone)->{
+                 double tiempo_x_zona = (base * izone.getPercentaje()) / 100;
+                dist_int_tiempo_zona.put(izone.getNumZone(), tiempo_x_zona);
+
+                dist.stream().filter((intensityZoneSesionDist) -> (Objects.equals(izone.getNumZone(), intensityZoneSesionDist.getZone()) && intensityZoneSesionDist.getZone() != 2)).forEach((intensityZoneSesionDist) -> {
+                    double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
+                    intensityZoneSesionDist.setTime(min_zona_sesion);
+                });
             });
 
-            dist_int_zona.keySet().stream().forEach((k) -> {
+            /*dist_int_zona.keySet().stream().forEach((k) -> {
                 double tiempo_x_zona = (base * dist_int_zona.get(k)) / 100;
                 dist_int_tiempo_zona.put(k, tiempo_x_zona);
 
@@ -224,13 +225,13 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                     double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
                     intensityZoneSesionDist.setTime(min_zona_sesion);
                 });
-            });
+            });*/
 
             Map<Integer, Double> sum_tiempo_sesion = new HashMap<>();
 
             for (int i = 1; i <= num_sesiones; i++) {
                 Double sum_min_zona_sesion = 0.0;
-                for (IntensityZoneSesionDist item : dist) {
+                for (IntensityZoneSesionDTO item : dist) {
                     if (item.getSesion() == i && item.getTime() != null) {
                         sum_min_zona_sesion += item.getTime();
                     }
@@ -245,7 +246,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
             });
 
-            for (IntensityZoneSesionDist d : dist) {
+            for (IntensityZoneSesionDTO d : dist) {
                 SerieGenerada res = getSerieTime(d.getTime(), d.getZone());
                 resultado.add(new SerieGenerada(w, d.getZone(), d.getSesion(), res.getTiempo(), res.getNumSesiones()));
             }

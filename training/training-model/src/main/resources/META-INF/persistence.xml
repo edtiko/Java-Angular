@@ -133,6 +133,8 @@
     <class>co.expertic.training.model.entities.WeeklyLoad</class>
     <class>co.expertic.training.model.entities.MonthlyVolume</class>
     <class>co.expertic.training.model.entities.WeeklyVolume</class>
+    <class>co.expertic.training.model.entities.IntensityZone</class>
+    <class>co.expertic.training.model.entities.IntensityZoneSesion</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

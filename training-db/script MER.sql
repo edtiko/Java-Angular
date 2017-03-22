@@ -1096,50 +1096,68 @@ add constraint fk_monthly_volume_modality foreign key (modality_id)
 references modality(modality_id)
 on delete restrict on update restrict;
 
-CREATE TABLE intensity_zone_dist
+CREATE TABLE intensity_zone
 (
-  intensity_zone_dist_id serial NOT NULL,
+  intensity_zone_id serial NOT NULL,
   training_level_id integer,
-  z1 integer,
-  z2 integer,
-  z3 integer,
-  z4 integer,
-  z5 integer,
-  z6 integer,
+  num_zone integer,
+  percentaje double precision,
   user_create integer,
   user_update integer,
   creation_date time without time zone,
   last_update time without time zone,
   state_id smallint,
+  CONSTRAINT pk_intensity_zone PRIMARY KEY (intensity_zone_id)
+);
+
+CREATE TABLE intensity_zone_dist
+(
+  intensity_zone_dist_id serial NOT NULL,
+  intensity_zone_id integer,
+  num_zone integer,
+  percentaje double precision,
   CONSTRAINT pk_intensity_zone_dist PRIMARY KEY (intensity_zone_dist_id)
+);
+
+alter table intensity_zone_dist
+add constraint fk_izone_izonedist foreign key (intensity_zone_id)
+references intensity_zone(intensity_zone_id)
+on delete restrict on update restrict;
+
+CREATE TABLE intensity_zone_sesion
+(
+  intensity_zone_sesion_id serial NOT NULL,
+  num_sesion integer,
+  sesion integer,
+  daily_percentaje integer,
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  state_id smallint,
+  CONSTRAINT pk_intensity_zone_sesion PRIMARY KEY(intensity_zone_sesion_id)
 );
 
 CREATE TABLE intensity_zone_sesion_dist
 (
   intensity_zone_sesion_dist_id serial NOT NULL,
-  num_sesion integer,
-  sesion integer,
-  daily_percentaje integer,
-  z1 integer,
-  z2 integer,
-  z3 integer,
-  z4 integer,
-  z5 integer,
-  z6 integer,
-  user_create integer,
-  user_update integer,
-  creation_date time without time zone,
-  last_update time without time zone,
-  state_id smallint,
-  CONSTRAINT pk_intensity_zone_sesion_dist PRIMARY KEY (intensity_zone_sesion_dist_id)
+  intensity_zone_sesion_id integer not null,
+  num_zone integer,
+  zone_percentaje double precision,
+  CONSTRAINT pk_intensity_zone_sesion_dist PRIMARY KEY(intensity_zone_sesion_dist_id)
 );
+
+alter table intensity_zone_sesion_dist
+add constraint fk_izonesesion_izonedist foreign key (intensity_zone_sesion_id)
+references intensity_zone_sesion(intensity_zone_sesion_id)
+on delete restrict on update restrict;
 
 
 CREATE TABLE zone_time_serie
 (
   zone_time_serie_id serial NOT NULL,
   num_zone integer,
-  num_interval integer,
+  num_interval double precision,
   num_min integer,
   num_max integer,
   user_create integer,

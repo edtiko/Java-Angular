@@ -7,8 +7,9 @@ import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.dao.plan.TrainingPlanWorkoutDao;
 import co.expertic.training.enums.Status;
+import co.expertic.training.model.entities.IntensityZone;
 import co.expertic.training.model.entities.IntensityZoneDist;
-import co.expertic.training.model.entities.IntensityZoneSesionDist;
+import co.expertic.training.model.entities.IntensityZoneSesion;
 import co.expertic.training.model.entities.MonthlyVolume;
 import co.expertic.training.model.entities.WeeklyVolume;
 import co.expertic.training.model.entities.ZoneTimeSerie;
@@ -173,24 +174,33 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         return null;
     }
 
-    public List<IntensityZoneDist> getIntensityZoneDist() throws Exception {
+    @Override
+    public IntensityZone getIntensityZone(Integer trainingLevelId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t ");
-        sql.append("FROM IntensityZoneDist t ");
+        sql.append("FROM IntensityZone t ");
+        sql.append("WHERE t.trainingLevelId.trainingLevelId = :trainingLevelId ");
         sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
-        List<IntensityZoneDist> list = query.getResultList();
+        query.setParameter("trainingLevelId", trainingLevelId);
+        List<IntensityZone> list = query.getResultList();
 
-        return list;
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
     }
 
-    public List<IntensityZoneSesionDist> getIntensityZoneSesionDist() throws Exception {
+    @Override
+    public List<IntensityZoneSesion> getIntensityZoneSesion(Integer numSesion) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t ");
-        sql.append("FROM IntensityZoneSesionDist t ");
+        sql.append("FROM IntensityZoneSesion t ");
+        sql.append("WHERE t.numSesion = :numSesion ");
         sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
-        List<IntensityZoneSesionDist> list = query.getResultList();
+        query.setParameter("numSesion", numSesion);
+        List<IntensityZoneSesion> list = query.getResultList();
 
         return list;
     }

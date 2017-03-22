@@ -2,6 +2,8 @@ package co.expertic.training.dao.plan;
 
 import co.expertic.base.jpa.BaseDAO;
 import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
+import co.expertic.training.model.entities.IntensityZone;
+import co.expertic.training.model.entities.IntensityZoneSesion;
 import co.expertic.training.model.entities.MonthlyVolume;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.model.entities.WeeklyVolume;
@@ -76,4 +78,8 @@ public interface TrainingPlanWorkoutDao extends BaseDAO<TrainingPlanWorkout> {
     public WeeklyVolume getWeeklyVolume(Integer modalityId) throws Exception;
 
     public MonthlyVolume getMonthlyVolume(Integer modalityId) throws Exception;
+    
+    public List<IntensityZoneSesion> getIntensityZoneSesion(Integer numSesion) throws Exception;
+    
+     public IntensityZone getIntensityZone(Integer trainingLevelId) throws Exception;
 }

@@ -9,18 +9,18 @@ package co.expertic.training.model.dto;
  *
  * @author Edwin G
  */
-public class IntensityZoneSesionDist {
+public class IntensityZoneSesionDTO {
 
     private Integer sesion;
     private Integer zone;
     private Integer percentaje;
     private Double time;
 
-    public IntensityZoneSesionDist() {
+    public IntensityZoneSesionDTO() {
 
     }
 
-    public IntensityZoneSesionDist(Integer sesion, Integer zone, Integer percentaje) {
+    public IntensityZoneSesionDTO(Integer sesion, Integer zone, Integer percentaje) {
         this.sesion = sesion;
         this.zone = zone;
         this.percentaje = percentaje;
