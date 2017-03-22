@@ -163,8 +163,8 @@ trainingApp.controller('StarTeamController', ['$scope', 'StarTeamService',
         $scope.getPlan = function (starTeam, userParam) {
             TrainingPlanService.getPlanTypes().then(
                     function (d) {
-                        if (d.status == 'success') {
-                            var data = d.output;
+                        if (d) {
+                            var data = d;
                             var rcPlan = '', rcPrice = '';
 
                             for (var i = 0; i < data.length; i++) {
