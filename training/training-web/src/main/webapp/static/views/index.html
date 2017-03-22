@@ -25,7 +25,7 @@
     <!-- define angular controller -->
     <body ng-cloak ng-controller="mainController" id="trainingApp" class="preloader">
 
-        <!--<div class="fusion-header-wrapper" ng-if="userSession.typeUser != userSessionTypeUserAtleta">
+        <div class="fusion-header-wrapper" ng-if="userSession.typeUser == userSessionTypeUserAdmin">
             <div class="fusion-header-v3 fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo- fusion-mobile-menu-design-modern ">
 
                 <div class="fusion-secondary-header">
@@ -182,14 +182,14 @@
                 </div>
             </div>
             <div class="fusion-clearfix"></div>
-        </div>  -->
+        </div>  
        
             <div layout="row" layout-align="center">
                 <div flex="18" style="background: #1C2127;">
                     <div flex ng-include src="userPanel"></div> 
                 </div>
                 <div flex="75" layout="column">
-                    <div layout="row" layout-padding layout-align="end center">        
+                    <div layout="row" layout-padding layout-align="end center" ng-if="userSession.typeUser != userSessionTypeUserAdmin">        
                         <md-menu md-position-mode="target-right bottom">
                             <md-button  id="bell_notification" aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                                 <md-icon md-menu-origin>
