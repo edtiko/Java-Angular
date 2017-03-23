@@ -4,50 +4,6 @@
     <!--<persistence-unit name="training-model" transaction-type="RESOURCE_LOCAL">-->
     <jta-data-source>java:/trainingDS</jta-data-source>
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>co.expertic.training.model.State</class>
-    <class>co.expertic.training.model.Questionnaire</class>
-    <class>co.expertic.training.model.PaymentMethod</class>
-    <class>co.expertic.training.model.SneakerUserProfile</class>
-    <class>co.expertic.training.model.ResponseType</class>
-    <class>co.expertic.training.model.Modality</class>
-    <class>co.expertic.training.model.SportObjectType</class>
-    <class>co.expertic.training.model.SportObject</class>
-    <class>co.expertic.training.model.Country</class>
-    <class>co.expertic.training.model.UserProfile</class>
-    <class>co.expertic.training.model.UserSport</class>
-    <class>co.expertic.training.model.Discipline</class>
-    <class>co.expertic.training.model.ResponseOption</class>
-    <class>co.expertic.training.model.Dcf</class>
-    <class>co.expertic.training.model.OptionType</class>
-    <class>co.expertic.training.model.DataType</class>
-    <class>co.expertic.training.model.BikeUserProfile</class>
-    <class>co.expertic.training.model.City</class>
-    <class>co.expertic.training.model.Role</class>
-    <class>co.expertic.training.model.Membership</class>
-    <class>co.expertic.training.model.QuestionnaireResponse</class>
-    <class>co.expertic.training.model.Workout</class>
-    <class>co.expertic.training.model.FederalState</class>
-    <class>co.expertic.training.model.Objective</class>
-    <class>co.expertic.training.model.VideoUser</class>
-    <class>co.expertic.training.model.MembershipPrice</class>
-    <class>co.expertic.training.model.QuestionnaireRespHistory</class>
-    <class>co.expertic.training.model.TrainingPlan</class>
-    <class>co.expertic.training.model.MembershipUser</class>
-    <class>co.expertic.training.model.QuestionOption</class>
-    <class>co.expertic.training.model.MembershipPromotion</class>
-    <class>co.expertic.training.model.DisciplineUser</class>
-    <class>co.expertic.training.model.QuestionnaireCategory</class>
-    <class>co.expertic.training.model.User</class>
-    <class>co.expertic.training.model.Activity</class>
-    <class>co.expertic.training.model.TrainingPlanUser</class>
-    <class>co.expertic.training.model.QuestionnaireQuestion</class>
-    <class>co.expertic.training.model.RoleUser</class>
-    <class>co.expertic.training.model.TrainingPlanWorkout</class>
-    <class>co.expertic.training.model.Question</class>
-    <class>co.expertic.training.model.Brand</class>
-    <class>co.expertic.training.model.PhysiologicalCapacity</class>
-    <class>co.expertic.training.model.MembershipDiscount</class>
-    <class>co.expertic.training.model.Sport</class>
     <class>co.expertic.training.model.entities.PlanType</class>
     <class>co.expertic.training.model.entities.DisciplineSport</class>
     <class>co.expertic.training.model.entities.PlanAudio</class>
@@ -130,11 +86,11 @@
     <class>co.expertic.training.model.entities.TrainingLevel</class>
     <class>co.expertic.training.model.entities.IntensityZoneSesionDist</class>
     <class>co.expertic.training.model.entities.IntensityZoneDist</class>
-    <class>co.expertic.training.model.entities.WeeklyLoad</class>
     <class>co.expertic.training.model.entities.MonthlyVolume</class>
     <class>co.expertic.training.model.entities.WeeklyVolume</class>
     <class>co.expertic.training.model.entities.IntensityZone</class>
     <class>co.expertic.training.model.entities.IntensityZoneSesion</class>
+    <class>co.expertic.training.model.entities.TrainingUserSerie</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

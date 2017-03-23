@@ -56,6 +56,14 @@
                        ng-change="setVisibleField(user_profileobjective, 'user_profile', 'objective')"> {{ 'SHOW' | translate }}</md-switch>
 
         </div>
+            <div layout="row">
+                <div flex="66">
+                    <md-input-container class="md-block md-input-has-placeholder" >
+                        <label>Horas de entrenamiento *</label>
+                        <input type="number" min="0" id="availableTime" name="availableTime" ng-model="userProfile.availableTime" required="true">
+                    </md-input-container>
+                </div>
+            </div>   
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >

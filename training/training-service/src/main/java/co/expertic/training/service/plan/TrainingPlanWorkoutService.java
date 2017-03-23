@@ -32,10 +32,9 @@ public interface TrainingPlanWorkoutService {
      * @param id
      * @param fromDate
      * @param toDate
-     * @param isApproved
      * @throws Exception 
      */
-    public void generatePlan(Integer id,Date fromDate, Date toDate, Boolean isApproved) throws Exception;
+    public void generatePlan(Integer id,Date fromDate, Date toDate) throws Exception;
     
     
     /**

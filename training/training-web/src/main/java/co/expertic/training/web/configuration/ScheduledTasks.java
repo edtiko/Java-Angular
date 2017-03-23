@@ -71,11 +71,11 @@ public class ScheduledTasks {
 
                     boolean approved = workoutService.isApproved(e.getTrainingPlanUserId(), current.getFromDate(), current.getToDate(), current.getObjectiveId().getObjectiveId());
 
-                    if (approved) {
+                  /*  if (approved) {
                         workoutService.generatePlan(e.getUserId().getUserId(), startDate, endDate, true);
                     } else {
                         workoutService.generatePlan(e.getUserId().getUserId(), startDate, endDate, false);
-                    }
+                    }*/
                     
                     TrainingPlanRenovation renovation = new TrainingPlanRenovation();
                     renovation.setTrainingPlanUserId(new TrainingPlanUser(e.getTrainingPlanUserId()));

@@ -155,7 +155,7 @@ public class TrainingPlanWorkoutController {
             Date startDate = startCal.getTime();
             startCal.add(Calendar.DAY_OF_MONTH, 29);
             Date endDate = startCal.getTime();
-            trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate, true);
+            trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
 
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);

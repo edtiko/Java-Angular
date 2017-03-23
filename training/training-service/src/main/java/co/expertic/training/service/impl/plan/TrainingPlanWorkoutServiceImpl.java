@@ -21,6 +21,7 @@ import co.expertic.training.model.entities.UserAvailability;
 import co.expertic.training.model.entities.UserProfile;
 import co.expertic.training.dao.plan.TrainingPlanUserDao;
 import co.expertic.training.dao.plan.TrainingPlanWorkoutDao;
+import co.expertic.training.dao.plan.TrainingUserSerieDao;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.DayDto;
 import co.expertic.training.model.dto.IntensityZoneSesionDTO;
@@ -31,9 +32,9 @@ import co.expertic.training.model.entities.IntensityZone;
 import co.expertic.training.model.entities.IntensityZoneDist;
 import co.expertic.training.model.entities.IntensityZoneSesion;
 import co.expertic.training.model.entities.MonthlyVolume;
-import co.expertic.training.model.entities.Objective;
-import co.expertic.training.model.entities.PlanWorkoutObjective;
+import co.expertic.training.model.entities.TrainingUserSerie;
 import co.expertic.training.model.entities.WeeklyVolume;
+import co.expertic.training.model.entities.ZoneTimeSerie;
 import co.expertic.training.service.configuration.ObjectiveService;
 import co.expertic.training.service.plan.TrainingPlanWorkoutService;
 import java.util.ArrayList;
@@ -58,12 +59,12 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     @Autowired
     private TrainingPlanWorkoutDao trainingPlanWorkoutDao;
+    
+    @Autowired
+    private TrainingUserSerieDao trainingUserSerieDao;
 
     @Autowired
     private UserProfileDao userProfileDao;
-
-    @Autowired
-    private DcfDao dcfDao;
 
     @Autowired
     private UserAvailabilityDao userAvailabilityDao;
@@ -71,14 +72,10 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     @Autowired
     private ActivityDao activityDao;
 
-    @Autowired
-    private ObjectiveService objectiveService;
 
     @Autowired
     private TrainingPlanUserDao trainingPlanUserDao;
 
-    @Autowired
-    private PlanWorkoutObjectiveDao planWorkoutObjectiveDao;
 
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception {
@@ -94,11 +91,13 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         return maxSesion;
     }
 
+    @Override
     public void generatePlan(Integer userId, Date fromDate, Date toDate) throws Exception {
         UserProfile userProfile = userProfileDao.findByUserId(userId);
+        TrainingPlanUser trainingPlanUser = trainingPlanUserDao.getTrainingPlanUserByUser(new User(userId));
         WeeklyVolume weekVolume = null;
         MonthlyVolume monthVolume = null;
-        
+
         if (userProfile.getModalityId() != null) {
             weekVolume = trainingPlanWorkoutDao.getWeeklyVolume(userProfile.getModalityId().getModalityId());
             monthVolume = trainingPlanWorkoutDao.getMonthlyVolume(userProfile.getModalityId().getModalityId());
@@ -106,109 +105,121 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             throw new Exception("No se puede generar plan, no existe una modalidad registrada");
         }
 
-        if (userProfile.getObjectiveId() != null && weekVolume != null && monthVolume != null) {
-
-            Integer availableTime = userProfile.getAvailableTime();
-            Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
-            Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
-            generatePlan(availableTime, numSesiones, numSemanas, weekVolume, monthVolume, userProfile.getObjectiveId().getTrainingLevelId());
-        } else {
+        if (userProfile.getObjectiveId() == null) {
             throw new Exception("No se puede generar plan, no existe una objetivo registrado");
         }
+        
+        if(userProfile.getAvailableTime() == null || userProfile.getAvailableTime() == 0){
+             throw new Exception("No se puede generar plan, no existe horas de entrenamiento registrado");
+        }
+        
+        List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(userId);
+        UserAvailability userAvailability = (userAvailabilityList == null || userAvailabilityList.isEmpty()) ? null : userAvailabilityList.get(0);
+        fillAvailableDays(userAvailability);
+        // Determina la cantidad de dias disponibles del atleta
+        int daysAvailable = getAvailableDays();
+
+        List<SerieGenerada> result = getSeries(userProfile, weekVolume, monthVolume);
+        
+        
+        // determina la cantidad de sesiones semanales
+        int weeklySession = userProfile.getObjectiveId().getMaxSesion();
+
+        ArrayList<Date> dates = new ArrayList<>();
+        // Determina los posibles casos, sin son iguales, deja la asignacion como la definio el usuario
+        // en caso que sea diferente asigna mas disponibilidad o resta disponibilidad
+        if (daysAvailable != weeklySession) {
+            // Si la disponibilidad del atleta es menor que la necesaria, se debe incrementar la disponibilidad
+            if (daysAvailable < weeklySession) {
+                // Modifica la disponibilidad del atleta hasta completar las sesiones requeridas
+                addSessions(daysAvailable, weeklySession);
+                // Se establece la bandera que fueron adicionadas sesiones para ser usada en la informacion al usuario
+                setSessionsAdded(true);
+                dates = getDatesPlan(fromDate);
+                assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
+            } else {
+                // Modifica la disponibilidad del atleta restandole de la disponibilidad que tenia
+                subsessions(daysAvailable, weeklySession);
+                dates = getDatesPlan(fromDate);
+                 assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
+            }
+        } else {
+            dates = getDatesPlan(fromDate);
+             assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
+        }
+        
 
     }
 
-    public List<SerieGenerada> generatePlan(Integer horas_entrenamiento, Integer num_sesiones, Integer num_semanas, WeeklyVolume weekVolume, MonthlyVolume monthVolume, Integer trainingLevelId) throws Exception {
+    public List<SerieGenerada> getSeries(UserProfile userProfile, WeeklyVolume weekVolume, MonthlyVolume monthVolume) throws Exception {
 
         //calcula los minutos semanales de acuerdo a las horas de entrenamiento
-        Integer min_semanales = horas_entrenamiento * 60;
+        Integer availableTime = userProfile.getAvailableTime();
+        Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
+        Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
+        Integer trainingLevelId = userProfile.getObjectiveId().getTrainingLevelId();
+        Integer min_semanales = availableTime * 60;
 
-        //volumen sesión
-        Map<Integer, Integer> carga_intensidad_sesion = new HashMap<>();
-        carga_intensidad_sesion.put(1, 110);
-        carga_intensidad_sesion.put(2, 100);
-        carga_intensidad_sesion.put(3, 100);
-        carga_intensidad_sesion.put(4, 90);
-
-        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(num_sesiones);
+        Integer volInicialSemana = 0;
+        Integer iSemana = 0;
+        Integer weekDischarge = 0;
+        Integer volSemana = 0;
+        
+        Integer volInicialMes = 0;
+        Integer iMes = 0;
+        Integer monthDischarge = 0;
+        Integer volMes = 0;
+        
+        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones);
         IntensityZone intesityZoneDist = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId);
-                
-        Integer volInicialSemana = weekVolume.getInitialValue();
-        Integer iSemana = weekVolume.getIncrease();
-        Integer weekDischarge = weekVolume.getDischarge();
 
-        Integer volInicialMes = monthVolume.getInitialValue();
-        Integer iMes = monthVolume.getIncrease();
-        Integer monthDischarge = monthVolume.getDischarge();
+        if (weekVolume != null) {
+            volInicialSemana = weekVolume.getInitialValue();
+            iSemana = weekVolume.getIncrease();
+            weekDischarge = weekVolume.getDischarge();
+            volSemana = volInicialSemana;
+        }
 
+        if (monthVolume != null) {
+            volInicialMes = monthVolume.getInitialValue();
+            iMes = monthVolume.getIncrease();
+            monthDischarge = monthVolume.getDischarge();
+            volMes = volInicialMes;
+        }
 
-        Map<Integer, Integer> dist_int_zona = new HashMap<>();
-        dist_int_zona.put(1, 0);
-        dist_int_zona.put(2, 40);
-        dist_int_zona.put(3, 28);
-        dist_int_zona.put(4, 22);
-        dist_int_zona.put(5, 8);
-        dist_int_zona.put(6, 2);
-        
         Collection<IntensityZoneDist> intensityZone = intesityZoneDist.getIntensityZoneDistCollection();
-        
-
 
         List<IntensityZoneSesionDTO> dist = new ArrayList<>();
-        dist.add(new IntensityZoneSesionDTO(1, 1, 0));
-        dist.add(new IntensityZoneSesionDTO(1, 2, 0));
-        dist.add(new IntensityZoneSesionDTO(1, 3, 0));
-        dist.add(new IntensityZoneSesionDTO(1, 4, 0));
-        dist.add(new IntensityZoneSesionDTO(1, 5, 0));
-        dist.add(new IntensityZoneSesionDTO(1, 6, 0));
-        dist.add(new IntensityZoneSesionDTO(2, 1, 0));
-        dist.add(new IntensityZoneSesionDTO(2, 2, 0));
-        dist.add(new IntensityZoneSesionDTO(2, 3, 70));
-        dist.add(new IntensityZoneSesionDTO(2, 4, 35));
-        dist.add(new IntensityZoneSesionDTO(2, 5, 0));
-        dist.add(new IntensityZoneSesionDTO(2, 6, 0));
-        dist.add(new IntensityZoneSesionDTO(3, 1, 0));
-        dist.add(new IntensityZoneSesionDTO(3, 2, 0));
-        dist.add(new IntensityZoneSesionDTO(3, 3, 30));
-        dist.add(new IntensityZoneSesionDTO(3, 4, 65));
-        dist.add(new IntensityZoneSesionDTO(3, 5, 20));
-        dist.add(new IntensityZoneSesionDTO(3, 6, 0));
-        dist.add(new IntensityZoneSesionDTO(4, 1, 0));
-        dist.add(new IntensityZoneSesionDTO(4, 2, 0));
-        dist.add(new IntensityZoneSesionDTO(4, 3, 0));
-        dist.add(new IntensityZoneSesionDTO(4, 4, 0));
-        dist.add(new IntensityZoneSesionDTO(4, 5, 80));
-        dist.add(new IntensityZoneSesionDTO(4, 6, 100));
+        intesityZoneSesionDist.stream().forEach((izone) -> {
+            izone.getIntensityZoneSesionDistCollection().stream().forEach((izonedist) -> {
+                dist.add(new IntensityZoneSesionDTO(izone.getSesion(), izonedist.getNumZone(), izonedist.getZonePercentaje()));
+            });
+        });
 
-        //Map<Integer, Double> min_x_semana = new HashMap<>();
         Map<Integer, Double> dist_int_tiempo_sesion = new HashMap<>();
         Map<Integer, Double> dist_int_tiempo_zona = new HashMap<>();
         List<SerieGenerada> resultado = new ArrayList<>();
 
-        Integer volSemana = volInicialSemana;
-        Integer volMes = volInicialMes;
+        for (int w = 1; w <= numSemanas; w++) {
 
-        /*1, 5, 9,  13 primer carga
-        2, 6, 10, 14 segunda carga
-        3, 7, 11, 15 tercer carga
-        4, 8, 12, 16 cuarta carga */
-        for (int w = 1; w <= num_semanas; w++) {
+            if (w % 4 == 0 && weekVolume != null) {
+                volSemana = (volInicialSemana * weekDischarge) / 100;
+            }
+
+            if (w % 16 == 0 && monthVolume != null) {
+                volMes = (volInicialMes * monthDischarge) / 100;
+            }
 
             double base = (((min_semanales * volSemana) / 100) * volMes) / 100;
-            double min_x_dia = base / num_sesiones;
-            //System.out.println("base:" + base + " minutos/dia:" + min_x_dia);
+            double min_x_dia = base / numSesiones;
 
             intesityZoneSesionDist.stream().forEach((izonesesion) -> {
                 double min_x_sesion = (min_x_dia * izonesesion.getDailyPercentaje()) / 100;
                 dist_int_tiempo_sesion.put(izonesesion.getSesion(), min_x_sesion);
             });
-            /*carga_intensidad_sesion.keySet().stream().forEach((Integer k) -> {
-                double min_x_sesion = (min_x_dia * carga_intensidad_sesion.get(k)) / 100;
-                dist_int_tiempo_sesion.put(k, min_x_sesion);
-            });*/
-            
-            intensityZone.stream().forEach((izone)->{
-                 double tiempo_x_zona = (base * izone.getPercentaje()) / 100;
+
+            intensityZone.stream().forEach((izone) -> {
+                double tiempo_x_zona = (base * izone.getPercentaje()) / 100;
                 dist_int_tiempo_zona.put(izone.getNumZone(), tiempo_x_zona);
 
                 dist.stream().filter((intensityZoneSesionDist) -> (Objects.equals(izone.getNumZone(), intensityZoneSesionDist.getZone()) && intensityZoneSesionDist.getZone() != 2)).forEach((intensityZoneSesionDist) -> {
@@ -217,19 +228,9 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 });
             });
 
-            /*dist_int_zona.keySet().stream().forEach((k) -> {
-                double tiempo_x_zona = (base * dist_int_zona.get(k)) / 100;
-                dist_int_tiempo_zona.put(k, tiempo_x_zona);
-
-                dist.stream().filter((intensityZoneSesionDist) -> (Objects.equals(k, intensityZoneSesionDist.getZone()) && intensityZoneSesionDist.getZone() != 2)).forEach((intensityZoneSesionDist) -> {
-                    double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
-                    intensityZoneSesionDist.setTime(min_zona_sesion);
-                });
-            });*/
-
             Map<Integer, Double> sum_tiempo_sesion = new HashMap<>();
 
-            for (int i = 1; i <= num_sesiones; i++) {
+            for (int i = 1; i <= numSesiones; i++) {
                 Double sum_min_zona_sesion = 0.0;
                 for (IntensityZoneSesionDTO item : dist) {
                     if (item.getSesion() == i && item.getTime() != null) {
@@ -247,104 +248,52 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             });
 
             for (IntensityZoneSesionDTO d : dist) {
-                SerieGenerada res = getSerieTime(d.getTime(), d.getZone());
+                SerieGenerada res = getSerieTime(d.getTime(), d.getZone(), w);
                 resultado.add(new SerieGenerada(w, d.getZone(), d.getSesion(), res.getTiempo(), res.getNumSesiones()));
             }
 
-            System.out.println("vol semana: " + volSemana + " vol mes: " + volMes);
             if (w % 4 == 0) {
                 volMes = volMes + iMes;
-            }
+                volSemana = volInicialSemana;
+            } else {
 
-            volSemana = volSemana + iSemana;
+                volSemana = volSemana + iSemana;
+            }
 
         }
 
         return resultado;
 
     }
+   
 
-    public static SerieGenerada getSerieTime(Double tiempo, Integer zona) {
-
+    public SerieGenerada getSerieTime(Double tiempo, Integer zona, Integer week)throws Exception {
+        
+        //1. semana 1 escogemos el que tenga más series, segundo el intermedio, y el tercero el más alto, cuarta cualquiera
+        ZoneTimeSerie serie =  trainingPlanWorkoutDao.getZoneTimeSerie(zona);
+        
+        if(serie == null){
+            throw new Exception("No se puede generar plan, no existe zone_time_serie para la zona: "+zona);
+        }
+        
         List<IntervaloTiempo> list = new ArrayList<>();
-        list.add(new IntervaloTiempo(1, 15.00));
-        list.add(new IntervaloTiempo(1, 30.00));
-        list.add(new IntervaloTiempo(1, 45.00));
+
+        for (double i = serie.getNumMin(); i <= serie.getNumMax(); i += serie.getNumInterval()) {
+            list.add(new IntervaloTiempo(week, zona, i));
+        }
+                      //78
+        
+        /*list.add(new IntervaloTiempo(1, 15.00));    si es 1 semana selecciona el min = 15
+        list.add(new IntervaloTiempo(1, 30.00));      si es 2 semana selecciona el de la mitad = 60
+        list.add(new IntervaloTiempo(1, 45.00));      si es 3 semana selecciona el mayor = 90
         list.add(new IntervaloTiempo(1, 60.00));
         list.add(new IntervaloTiempo(1, 75.00));
-        list.add(new IntervaloTiempo(1, 90.00));
+        list.add(new IntervaloTiempo(1, 90.00));*/
 
-        list.add(new IntervaloTiempo(2, 15.00));
-        list.add(new IntervaloTiempo(2, 30.00));
-        list.add(new IntervaloTiempo(2, 45.00));
-        list.add(new IntervaloTiempo(2, 60.00));
-        list.add(new IntervaloTiempo(2, 75.00));
-        list.add(new IntervaloTiempo(2, 90.00));
-        list.add(new IntervaloTiempo(2, 105.00));
-        list.add(new IntervaloTiempo(2, 120.00));
-        list.add(new IntervaloTiempo(2, 135.00));
-        list.add(new IntervaloTiempo(2, 150.00));
-        list.add(new IntervaloTiempo(2, 165.00));
-        list.add(new IntervaloTiempo(2, 180.00));
-
-        list.add(new IntervaloTiempo(3, 20.00));
-        list.add(new IntervaloTiempo(3, 25.00));
-        list.add(new IntervaloTiempo(3, 30.00));
-        list.add(new IntervaloTiempo(3, 35.00));
-        list.add(new IntervaloTiempo(3, 40.00));
-        list.add(new IntervaloTiempo(3, 45.00));
-        list.add(new IntervaloTiempo(3, 50.00));
-        list.add(new IntervaloTiempo(3, 55.00));
-        list.add(new IntervaloTiempo(3, 60.00));
-        list.add(new IntervaloTiempo(3, 65.00));
-        list.add(new IntervaloTiempo(3, 70.00));
-        list.add(new IntervaloTiempo(3, 75.00));
-        list.add(new IntervaloTiempo(3, 80.00));
-        list.add(new IntervaloTiempo(3, 85.00));
-        list.add(new IntervaloTiempo(3, 90.00));
-
-        list.add(new IntervaloTiempo(4, 10.00));
-        list.add(new IntervaloTiempo(4, 15.00));
-        list.add(new IntervaloTiempo(4, 20.00));
-        list.add(new IntervaloTiempo(4, 25.00));
-        list.add(new IntervaloTiempo(4, 30.00));
-        list.add(new IntervaloTiempo(4, 35.00));
-        list.add(new IntervaloTiempo(4, 40.00));
-        list.add(new IntervaloTiempo(4, 45.00));
-        list.add(new IntervaloTiempo(4, 50.00));
-        list.add(new IntervaloTiempo(4, 55.00));
-        list.add(new IntervaloTiempo(4, 60.00));
-        list.add(new IntervaloTiempo(4, 65.00));
-
-        list.add(new IntervaloTiempo(5, 10.00));
-        list.add(new IntervaloTiempo(5, 12.00));
-        list.add(new IntervaloTiempo(5, 14.00));
-        list.add(new IntervaloTiempo(5, 16.00));
-        list.add(new IntervaloTiempo(5, 18.00));
-        list.add(new IntervaloTiempo(5, 20.00));
-        list.add(new IntervaloTiempo(5, 22.00));
-        list.add(new IntervaloTiempo(5, 24.00));
-        list.add(new IntervaloTiempo(5, 26.00));
-        list.add(new IntervaloTiempo(5, 28.00));
-        list.add(new IntervaloTiempo(5, 30.00));
-        list.add(new IntervaloTiempo(5, 32.00));
-
-        list.add(new IntervaloTiempo(6, 2.00));
-        list.add(new IntervaloTiempo(6, 2.50));
-        list.add(new IntervaloTiempo(6, 3.00));
-        list.add(new IntervaloTiempo(6, 3.50));
-        list.add(new IntervaloTiempo(6, 4.00));
-        list.add(new IntervaloTiempo(6, 4.50));
-        list.add(new IntervaloTiempo(6, 5.00));
-        list.add(new IntervaloTiempo(6, 5.50));
-        list.add(new IntervaloTiempo(6, 6.00));
-        list.add(new IntervaloTiempo(6, 6.50));
-        list.add(new IntervaloTiempo(6, 7.00));
-        list.add(new IntervaloTiempo(6, 7.50));
 
         Double res = 0.0;
         Long numSeries = 0l;
-        //Double sum = list.stream().min(IntervaloTiempo::getTiempo);
+  
         Double min = list.stream().filter(i -> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMin();
         //Double max = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMax();
         //Double average = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.averagingDouble(IntervaloTiempo::getTiempo));
@@ -378,8 +327,31 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
         return new SerieGenerada(res, numSeries);
     }
+    
+    public Integer getPositionWeek(Integer week, Integer numSemanas) {
+        Integer res = 0;
+        Integer bloque = 1;
+        Integer bloqueSelected = 0;
 
-    @Override
+        Map<Integer, Integer> semanaBloque = new HashMap<>();
+        for (int i = 1; i <= numSemanas; i++) {
+            semanaBloque.put(i, bloque);
+            if (week == i) {
+                bloqueSelected = bloque;
+            }
+
+            if (i % 4 == 0) {
+                bloque++;
+            }
+        }
+        final Integer bloques = bloqueSelected;
+
+        Map<Integer, Integer> collect = semanaBloque.entrySet().stream().filter(map -> Objects.equals(map.getValue(), bloques)).collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+
+        return res;
+    }
+
+   /*
     public void generatePlan(Integer userId, Date fromDate, Date toDate, Boolean isApproved) throws Exception {
         UserProfile userProfile = userProfileDao.findByUserId(userId);
         Dcf dcf = null;
@@ -445,7 +417,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         e.setCreationDate(Calendar.getInstance().getTime());
         e.setActive(Boolean.TRUE);
         planWorkoutObjectiveDao.create(e);
-    }
+    }*/
 
     /**
      * Obtains the activities according to the pattern configured
@@ -501,6 +473,15 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         }
 
         return list;
+    }
+    
+       private TrainingUserSerie buildWorkoutSerie(TrainingPlanUser plan, SerieGenerada serie, Date date) {
+        TrainingUserSerie workout = new TrainingUserSerie();
+        workout.setTrainingPlanUserId(plan);
+        workout.setNumSeries(serie.getNumSesiones());
+        workout.setSerieTime(serie.getTiempo());
+        workout.setWorkDate(date);
+        return workout;
     }
 
     private TrainingPlanWorkout buildWorkout(TrainingPlanUser plan, Activity activity, Date date) {
@@ -591,13 +572,15 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     // Determina la cantidad de dias disponibles del Atleta
     private int getAvailableDays() {
-        int counter = 0;
+       /* int counter = 0;
         for (DayDto dia : avalabiltyDays) {
             if (dia.isSelected()) {
                 counter++;
             }
         }
-        return counter;
+        
+        counter = (int) avalabiltyDays.stream().filter(i->i.isSelected()).count();*/
+        return (int) avalabiltyDays.stream().filter(i->i.isSelected()).count();
     }
 
     // Aumenta la disponibilidad del atleta de acuerdo a numero dado
@@ -702,6 +685,30 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         objDay = new DayDto();
         objDay.setSelected(userAvailability.getSaturday());
         avalabiltyDays.add(objDay);
+    }
+    
+    private void assignSeries(Date startDate, Date endDate, ArrayList<Date> dates, TrainingPlanUser trainingPlanUser, List<SerieGenerada> series) throws Exception {
+        List<TrainingUserSerie> workoutSeries = new ArrayList<>();
+
+        //Start date
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTime(startDate);
+        //End date
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTime(endDate);
+
+        TrainingUserSerie workout = new TrainingUserSerie();
+
+        for (Date date : dates) {
+
+            for (SerieGenerada serie : series) {
+                workout = buildWorkoutSerie(trainingPlanUser, serie, date);
+                workoutSeries.add(workout);
+            }
+
+        }
+
+        trainingUserSerieDao.createList(workoutSeries);
     }
 
     private void assignActivities(Date startDate, Date endDate, UserProfile userProfile, Dcf dcf,

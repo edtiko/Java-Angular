@@ -67,6 +67,7 @@ public class UserProfileDTO implements Serializable {
     private Float height;
     private Integer injuryId;
     private String disease;
+    private Integer availableTime;
 
     public UserProfileDTO() {
     }
@@ -74,7 +75,7 @@ public class UserProfileDTO implements Serializable {
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
             BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,  
             Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
-            Float weight, Float height, Injury injury, String disease) {
+            Float weight, Float height, Injury injury, String disease, Integer availableTime) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -93,6 +94,7 @@ public class UserProfileDTO implements Serializable {
         this.weatherId = weatherId;
         this.weight = weight;
         this.height = height;
+        this.availableTime = availableTime;
         if(injury != null){
         this.injuryId = injury.getInjuryId();
         }
@@ -538,5 +540,15 @@ public class UserProfileDTO implements Serializable {
     public void setDisease(String disease) {
         this.disease = disease;
     }
+
+    public Integer getAvailableTime() {
+        return availableTime;
+    }
+
+    public void setAvailableTime(Integer availableTime) {
+        this.availableTime = availableTime;
+    }
+    
+    
         
 }

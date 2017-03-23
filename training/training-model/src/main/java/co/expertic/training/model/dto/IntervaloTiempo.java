@@ -11,13 +11,14 @@ package co.expertic.training.model.dto;
  */
 public class IntervaloTiempo {
     
+    private Integer id;
     private Integer zona;
     private Double tiempo;
     
     public IntervaloTiempo(){
         
     }
-    public IntervaloTiempo(Integer zona, Double tiempo){
+    public IntervaloTiempo(Integer id, Integer zona, Double tiempo){
         this.zona = zona;
         this.tiempo = tiempo;
     }

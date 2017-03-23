@@ -7,6 +7,7 @@ import co.expertic.training.model.entities.IntensityZoneSesion;
 import co.expertic.training.model.entities.MonthlyVolume;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.model.entities.WeeklyVolume;
+import co.expertic.training.model.entities.ZoneTimeSerie;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * fecha 15/07/2016 <br>
  *
  * @author Andres Felipe Lopez Rodriguez
-*
+ *
  */
 public interface TrainingPlanWorkoutDao extends BaseDAO<TrainingPlanWorkout> {
 
@@ -78,8 +79,10 @@ public interface TrainingPlanWorkoutDao extends BaseDAO<TrainingPlanWorkout> {
     public WeeklyVolume getWeeklyVolume(Integer modalityId) throws Exception;
 
     public MonthlyVolume getMonthlyVolume(Integer modalityId) throws Exception;
-    
+
     public List<IntensityZoneSesion> getIntensityZoneSesion(Integer numSesion) throws Exception;
-    
-     public IntensityZone getIntensityZone(Integer trainingLevelId) throws Exception;
+
+    public IntensityZone getIntensityZone(Integer trainingLevelId) throws Exception;
+
+    public ZoneTimeSerie getZoneTimeSerie(Integer zone) throws Exception;
 }

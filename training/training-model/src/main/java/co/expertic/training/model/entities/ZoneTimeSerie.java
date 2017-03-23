@@ -38,7 +38,7 @@ public class ZoneTimeSerie implements Serializable {
     @Column(name = "num_zone")
     private Integer numZone;
     @Column(name = "num_interval")
-    private Integer numInterval;
+    private Double numInterval;
     @Column(name = "num_min")
     private Integer numMin;
     @Column(name = "num_max")
@@ -79,11 +79,11 @@ public class ZoneTimeSerie implements Serializable {
         this.numZone = numZone;
     }
 
-    public Integer getNumInterval() {
+    public Double getNumInterval() {
         return numInterval;
     }
 
-    public void setNumInterval(Integer numInterval) {
+    public void setNumInterval(Double numInterval) {
         this.numInterval = numInterval;
     }
 

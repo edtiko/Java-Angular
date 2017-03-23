@@ -6,7 +6,6 @@
 package co.expertic.training.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -14,9 +13,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,8 +37,6 @@ public class IntensityZone implements Serializable {
     @Basic(optional = false)
     @Column(name = "intensity_zone_id")
     private Integer intensityZoneId;
-    @Column(name = "training_level_id")
-    private Integer trainingLevelId;
     @Column(name = "user_create")
     private Integer userCreate;
     @Column(name = "user_update")
@@ -51,8 +49,9 @@ public class IntensityZone implements Serializable {
     private Date lastUpdate;
     @Column(name = "state_id")
     private Short stateId;
-    @OneToMany(mappedBy = "intensityZoneId")
-    private Collection<IntensityZoneDist> intensityZoneDistCollection;
+    @JoinColumn(name = "training_level_id", referencedColumnName = "training_level_id")
+    @ManyToOne
+    private TrainingLevel trainingLevelId;
 
     public IntensityZone() {
     }
@@ -67,14 +66,6 @@ public class IntensityZone implements Serializable {
 
     public void setIntensityZoneId(Integer intensityZoneId) {
         this.intensityZoneId = intensityZoneId;
-    }
-
-    public Integer getTrainingLevelId() {
-        return trainingLevelId;
-    }
-
-    public void setTrainingLevelId(Integer trainingLevelId) {
-        this.trainingLevelId = trainingLevelId;
     }
 
     public Integer getUserCreate() {
@@ -117,12 +108,12 @@ public class IntensityZone implements Serializable {
         this.stateId = stateId;
     }
 
-    public Collection<IntensityZoneDist> getIntensityZoneDistCollection() {
-        return intensityZoneDistCollection;
+    public TrainingLevel getTrainingLevelId() {
+        return trainingLevelId;
     }
 
-    public void setIntensityZoneDistCollection(Collection<IntensityZoneDist> intensityZoneDistCollection) {
-        this.intensityZoneDistCollection = intensityZoneDistCollection;
+    public void setTrainingLevelId(TrainingLevel trainingLevelId) {
+        this.trainingLevelId = trainingLevelId;
     }
 
     @Override

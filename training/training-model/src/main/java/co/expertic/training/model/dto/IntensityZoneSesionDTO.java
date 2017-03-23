@@ -13,14 +13,14 @@ public class IntensityZoneSesionDTO {
 
     private Integer sesion;
     private Integer zone;
-    private Integer percentaje;
+    private Double percentaje;
     private Double time;
 
     public IntensityZoneSesionDTO() {
 
     }
 
-    public IntensityZoneSesionDTO(Integer sesion, Integer zone, Integer percentaje) {
+    public IntensityZoneSesionDTO(Integer sesion, Integer zone, Double percentaje) {
         this.sesion = sesion;
         this.zone = zone;
         this.percentaje = percentaje;
@@ -42,11 +42,11 @@ public class IntensityZoneSesionDTO {
         this.zone = zone;
     }
 
-    public Integer getPercentaje() {
+    public Double getPercentaje() {
         return percentaje;
     }
 
-    public void setPercentaje(Integer percentaje) {
+    public void setPercentaje(Double percentaje) {
         this.percentaje = percentaje;
     }
 

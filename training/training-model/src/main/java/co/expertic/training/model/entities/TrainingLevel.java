@@ -33,6 +33,9 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "TrainingLevel.findAll", query = "SELECT t FROM TrainingLevel t")})
 public class TrainingLevel implements Serializable {
 
+    @OneToMany(mappedBy = "trainingLevelId")
+    private Collection<IntensityZone> intensityZoneCollection;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,8 +72,6 @@ public class TrainingLevel implements Serializable {
     private Date lastUpdate;
     @Column(name = "state_id")
     private Short stateId;
-    @OneToMany(mappedBy = "trainingLevelId")
-    private Collection<IntensityZoneDist> intensityZoneDistCollection;
 
     public TrainingLevel() {
     }
@@ -196,14 +197,6 @@ public class TrainingLevel implements Serializable {
         this.stateId = stateId;
     }
 
-    public Collection<IntensityZoneDist> getIntensityZoneDistCollection() {
-        return intensityZoneDistCollection;
-    }
-
-    public void setIntensityZoneDistCollection(Collection<IntensityZoneDist> intensityZoneDistCollection) {
-        this.intensityZoneDistCollection = intensityZoneDistCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -227,6 +220,14 @@ public class TrainingLevel implements Serializable {
     @Override
     public String toString() {
         return "co.expertic.training.model.entities.TrainingLevel[ trainingLevelId=" + trainingLevelId + " ]";
+    }
+
+    public Collection<IntensityZone> getIntensityZoneCollection() {
+        return intensityZoneCollection;
+    }
+
+    public void setIntensityZoneCollection(Collection<IntensityZone> intensityZoneCollection) {
+        this.intensityZoneCollection = intensityZoneCollection;
     }
     
 }

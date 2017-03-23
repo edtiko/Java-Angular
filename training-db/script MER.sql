@@ -1100,8 +1100,6 @@ CREATE TABLE intensity_zone
 (
   intensity_zone_id serial NOT NULL,
   training_level_id integer,
-  num_zone integer,
-  percentaje double precision,
   user_create integer,
   user_update integer,
   creation_date time without time zone,
@@ -1123,6 +1121,12 @@ alter table intensity_zone_dist
 add constraint fk_izone_izonedist foreign key (intensity_zone_id)
 references intensity_zone(intensity_zone_id)
 on delete restrict on update restrict;
+
+alter table intensity_zone
+add constraint fk_izone_level foreign key (training_level_id)
+references training_level(training_level_id)
+on delete restrict on update restrict;
+
 
 CREATE TABLE intensity_zone_sesion
 (
@@ -1167,6 +1171,26 @@ CREATE TABLE zone_time_serie
   state_id smallint,
   CONSTRAINT pk_zone_time_serie PRIMARY KEY (zone_time_serie_id)
 );
+
+
+CREATE TABLE training_user_serie
+(
+  training_user_serie_id serial NOT NULL,
+  training_plan_user_id integer,
+  work_date date,
+  num_series integer,
+  serie_time decimal(10,2),
+  user_create integer,
+  user_update integer,
+  creation_date time without time zone,
+  last_update time without time zone,
+  CONSTRAINT pk_training_user_serie PRIMARY KEY (training_user_serie_id)
+);
+
+alter table training_user_serie
+add constraint fk_serieuser_tplanuser foreign key (training_plan_user_id)
+references training_plan_user(training_plan_user_id)
+on delete restrict on update restrict;
 
 alter table intensity_zone_dist
 add constraint fk_izonedist_tlevel foreign key (training_level_id)

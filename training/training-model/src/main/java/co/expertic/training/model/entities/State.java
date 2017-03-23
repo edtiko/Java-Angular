@@ -5,13 +5,11 @@
  */
 package co.expertic.training.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -30,9 +28,6 @@ import javax.persistence.Table;
     @NamedQuery(name = "State.findByName", query = "SELECT s FROM State s WHERE s.name = :name"),
     @NamedQuery(name = "State.findByDescription", query = "SELECT s FROM State s WHERE s.description = :description")})
 public class State implements Serializable {
-
-    @OneToMany(mappedBy = "stateId")
-    private Collection<Discipline> disciplineCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -105,14 +100,6 @@ public class State implements Serializable {
     @Override
     public String toString() {
         return "co.com.expertla.training.model.entities.State[ stateId=" + stateId + " ]";
-    }
-
-    public Collection<Discipline> getDisciplineCollection() {
-        return disciplineCollection;
-    }
-
-    public void setDisciplineCollection(Collection<Discipline> disciplineCollection) {
-        this.disciplineCollection = disciplineCollection;
     }
     
 }

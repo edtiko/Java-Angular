@@ -503,6 +503,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             userProfileId: null,
             indPulsometer: '',
             indPower: '',
+            availableTime: '',
             ageSport: '',
             ppm: '',
             power: '',

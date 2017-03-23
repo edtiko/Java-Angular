@@ -8,7 +8,6 @@ import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.dao.plan.TrainingPlanWorkoutDao;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.entities.IntensityZone;
-import co.expertic.training.model.entities.IntensityZoneDist;
 import co.expertic.training.model.entities.IntensityZoneSesion;
 import co.expertic.training.model.entities.MonthlyVolume;
 import co.expertic.training.model.entities.WeeklyVolume;
@@ -205,14 +204,20 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
         return list;
     }
 
-    public List<ZoneTimeSerie> getZoneTimeSerie() throws Exception {
+    @Override
+    public ZoneTimeSerie getZoneTimeSerie(Integer numZone) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t ");
         sql.append("FROM ZoneTimeSerie t ");
+        sql.append("WHERE t.numZone = :numZone ");
         sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("numZone", numZone);
         List<ZoneTimeSerie> list = query.getResultList();
 
-        return list;
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
     }
 }
