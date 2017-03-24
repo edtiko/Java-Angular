@@ -6,6 +6,7 @@
 package co.expertic.training.model.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,6 +51,8 @@ public class IntensityZone implements Serializable {
     private Date lastUpdate;
     @Column(name = "state_id")
     private Short stateId;
+    @OneToMany(mappedBy = "intensityZoneId")
+    private Collection<IntensityZoneDist> intensityZoneDistCollection;
     @JoinColumn(name = "training_level_id", referencedColumnName = "training_level_id")
     @ManyToOne
     private TrainingLevel trainingLevelId;
@@ -106,6 +110,14 @@ public class IntensityZone implements Serializable {
 
     public void setStateId(Short stateId) {
         this.stateId = stateId;
+    }
+
+    public Collection<IntensityZoneDist> getIntensityZoneDistCollection() {
+        return intensityZoneDistCollection;
+    }
+
+    public void setIntensityZoneDistCollection(Collection<IntensityZoneDist> intensityZoneDistCollection) {
+        this.intensityZoneDistCollection = intensityZoneDistCollection;
     }
 
     public TrainingLevel getTrainingLevelId() {

@@ -40,8 +40,8 @@ public class TrainingLevelDaoImpl extends BaseDAOImpl<TrainingLevel> implements 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.TrainingLevelDTO(o.trainingLevelId,o.description) ");
         sql.append("FROM TrainingLevel o ");
-        sql.append("WHERE o.modalityId.modalityId = :modalityId ");
-        sql.append(" ORDER BY o.name ");
+        sql.append("WHERE o.modalityId = :modalityId ");
+        sql.append(" ORDER BY o.description ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("modalityId", modalityId);
         return query.getResultList();

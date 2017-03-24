@@ -73,7 +73,7 @@ public class DashboardDTO {
             String sex, Float weight,Float height,
             String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
             String indMetricSys, City city, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
-            String sportsAchievements, String aboutMe, String objective, String modality, String twitterPage, String instagramPage, 
+            String sportsAchievements, String aboutMe, String modality, String twitterPage, String instagramPage, 
             String webPage, Integer vo2Running, Integer vo2Ciclismo, Injury injury, String disease, Environment environment, Weather weather) {
         this.userId = userId;
         this.name = name;
@@ -97,7 +97,6 @@ public class DashboardDTO {
         this.power = power;
         this.sportsAchievements = sportsAchievements;
         this.aboutMe = aboutMe;
-        this.objective = objective;
         this.modality = modality;
         this.twitterPage = twitterPage;
         this.instagramPage = instagramPage;

@@ -34,8 +34,8 @@ public class UserProfileController {
     @Autowired
     private UserProfileService userProfileService;
 
-    @RequestMapping(value = "userProfile/get/by/id", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response findById(@RequestBody UserProfileDTO userProfile) {
+    @RequestMapping(value = "userProfile/get/by/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> findById(@PathVariable Integer userId) {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
@@ -46,16 +46,16 @@ public class UserProfileController {
 //                return Response.status(Response.Status.OK).entity(responseService).build();
 //            }
 
-            UserProfileDTO user = userProfileService.findDTOByUserId(userProfile.getUserId());
+            UserProfileDTO user = userProfileService.findDTOByUserId(userId);
             responseService.setOutput(user);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             Logger.getLogger(UserProfileController.class.getName()).log(Priority.FATAL, null, e);
 //            strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "internalError"));
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 

@@ -65,7 +65,7 @@ public class UserProfile implements Serializable {
     @Column(name= "available_time")
     private Integer availableTime;
     
-    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
+    @JoinColumn(name = "objective_id", referencedColumnName = "training_level_id")
     @ManyToOne
     private TrainingLevel objectiveId;
     

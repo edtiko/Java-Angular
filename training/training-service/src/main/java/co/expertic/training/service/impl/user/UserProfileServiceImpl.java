@@ -359,6 +359,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setWeatherId(new Weather(dto.getWeatherId()));
         userProfile.setInjuryId(dto.getInjuryId() == null?null: new Injury(dto.getInjuryId()));
         userProfile.setDisease(dto.getDisease());
+        userProfile.setAvailableTime(dto.getAvailableTime());
         User user = userDao.findById(dto.getUserId());
         if(!dto.getIndMetricSys().equals("-1")){
         user.setIndMetricSys(dto.getIndMetricSys());
@@ -634,6 +635,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
         userProfile.setInjuryId(dto.getInjuryId() == null?null: new Injury(dto.getInjuryId()));
         userProfile.setDisease(dto.getDisease());
+        userProfile.setAvailableTime(dto.getAvailableTime());
     }
 
     /**

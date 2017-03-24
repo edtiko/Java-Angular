@@ -47,8 +47,6 @@ public class Objective implements Serializable {
     private Collection<Activity> activityCollection;
     @OneToMany(mappedBy = "objectiveId")
     private Collection<Dcf> dcfCollection;
-    @OneToMany(mappedBy = "objectiveId")
-    private Collection<UserProfile> userProfileCollection;
     @Column(name = "state_id")
     private Short stateId;
     @Column(name = "creation_date")
@@ -173,14 +171,7 @@ public class Objective implements Serializable {
     public void setDcfCollection(Collection<Dcf> dcfCollection) {
         this.dcfCollection = dcfCollection;
     }
-    @JsonIgnore
-    public Collection<UserProfile> getUserProfileCollection() {
-        return userProfileCollection;
-    }
 
-    public void setUserProfileCollection(Collection<UserProfile> userProfileCollection) {
-        this.userProfileCollection = userProfileCollection;
-    }
 
     @Override
     public int hashCode() {

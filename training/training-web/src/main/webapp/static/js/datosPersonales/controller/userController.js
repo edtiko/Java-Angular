@@ -200,7 +200,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         );
 
 
-                UserProfileService.getProfile(user).then(
+                UserProfileService.getProfile(user.userId).then(
                         function (data) {
                             if (data != "") {
                                 $scope.userProfile = angular.copy(data);
@@ -588,7 +588,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.submitUserProfile = function (generatePlan, ev) {
             if ($scope.validateFields()) {
-                $scope.getSessions(ev, generatePlan);
+                if (generatePlan) {
+                    if ($scope.userSession.planActiveId == '0') {
+                        $scope.showMessageConfirmation(
+                                "Para generar tu plan debes adquirir un plan de entrenamiento. <br> Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios.<br> Deseas adquirirlo? "
+                                , 'Informaci\u00f3n', urlCompraPlanEntrenamiento);
+                        return;
+                    }
+                    $scope.confirmDialogGeneratePlan(ev, generatePlan);
+                } else {
+                    $scope.confirmDialogGuardarUserProfile(ev, generatePlan);
+                }
             } else {
                 if ($scope.errorMessages.length != 0) {
                     $scope.showMessage($scope.errorMessages, "Alerta", true);
@@ -670,10 +680,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
 
-        $scope.confirmDialogGuardarUserProfile = function (ev, generatePlan, msg) {
+        $scope.confirmDialogGuardarUserProfile = function (ev, generatePlan) {
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .textContent('\u00BFDesea guardar sus datos deportivos?' + msg)
+                    .textContent('\u00BFDesea guardar sus datos deportivos?')
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
@@ -703,20 +713,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                     }
                                     var msg = '';
 
-                                    if (generatePlan) {
-                                        if (days < weeklyDays) {
-                                            msg = "Tenga en cuenta que los dias requeridos para generar el plan son " + weeklyDays + " dias, pulse Aceptar si desea que el sistema los genere aleatoriamente o Cancelar si desea hacerlo manualmente";
-                                        }
-                                        if ($scope.userSession.planActiveId == '0') {
-                                            $scope.showMessageConfirmation(
-                                                    "Para generar tu plan debes adquirir un plan de entrenamiento. <br> Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios.<br> Deseas adquirirlo? "
-                                                    , 'Informaci\u00f3n', urlCompraPlanEntrenamiento);
-                                            return;
-                                        }
-                                        $scope.confirmDialogGeneratePlan(ev, generatePlan, msg);
-                                    } else {
-                                        $scope.confirmDialogGuardarUserProfile(ev, generatePlan, msg);
-                                    }
+                
                                 } else {
                                 }
                             },
@@ -732,13 +729,14 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 userProfile.userId = $scope.user.userId;
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
-                            $scope.userProfile = d;
-                            self.getEquipments();
-                            $scope.calculateIMC();
+                            //$scope.userProfile = d;
+                            //self.getEquipments();
+                            //$scope.calculateIMC();
                             if (generatePlan) {
                                 $scope.validatePlan($scope.userProfile);
                             } else {
                                 $scope.showMessage("Datos Deportivos creados exitosamente.");
+                                self.getUserById();
                             }
                         },
                         function (errResponse) {
@@ -750,13 +748,14 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             } else {
                 UserProfileService.mergeProfile(userProfile).then(
                         function (d) {
-                            $scope.userProfile = d;
-                            self.getEquipments();
-                            $scope.calculateIMC();
+                            //$scope.userProfile = d;
+                            //self.getEquipments();
+                            //$scope.calculateIMC();
                             if (generatePlan) {
                                  $scope.validatePlan($scope.userProfile);
                             } else {
                                 $scope.showMessage("Datos Deportivos editados exitosamente.");
+                                 self.getUserById();
                             }
 
                         },
@@ -863,11 +862,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
 
-        $scope.confirmDialogGeneratePlan = function (ev, generatePlan, msg) {
+        $scope.confirmDialogGeneratePlan = function (ev, generatePlan) {
 
             var confirm = $mdDialog.confirm()
                     .title('Confirmaci\u00f3n')
-                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?' + msg)
+                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?')
                     .ariaLabel('Lucky day')
                     .targetEvent(ev)
                     .ok('Aceptar')
@@ -973,6 +972,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         this.getPotentiometers();
         
           $scope.getLevelsByModality = function (modalityId) {
+            $scope.userProfile.objective = '';
             ObjectiveService.getLevelsByModality(modalityId).then(
                     function (d) {
                         $scope.objectives = d;

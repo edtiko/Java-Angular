@@ -1127,6 +1127,11 @@ add constraint fk_izone_level foreign key (training_level_id)
 references training_level(training_level_id)
 on delete restrict on update restrict;
 
+alter table user_profile
+add constraint fk_uprofile_level foreign key (objective_id)
+references training_level(training_level_id)
+on delete restrict on update restrict;
+
 
 CREATE TABLE intensity_zone_sesion
 (
@@ -1179,6 +1184,7 @@ CREATE TABLE training_user_serie
   training_plan_user_id integer,
   work_date date,
   num_series integer,
+  num_zona   integer,
   serie_time decimal(10,2),
   user_create integer,
   user_update integer,

@@ -19,6 +19,6 @@ trainingApp.controller('DashboardAthleteController', ['$scope', 'UserService', '
         };
         
         $scope.getVisibleFieldsUserByUser($scope.userSession);
-        $scope.getActivitiesByWeek();
+        //$scope.getActivitiesByWeek();
 
     }]);

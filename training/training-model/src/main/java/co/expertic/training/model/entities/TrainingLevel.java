@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,9 +30,6 @@ import javax.persistence.TemporalType;
 @NamedQueries({
     @NamedQuery(name = "TrainingLevel.findAll", query = "SELECT t FROM TrainingLevel t")})
 public class TrainingLevel implements Serializable {
-
-    @OneToMany(mappedBy = "trainingLevelId")
-    private Collection<IntensityZone> intensityZoneCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,9 +52,8 @@ public class TrainingLevel implements Serializable {
     private Integer minWeekPlan;
     @Column(name = "max_week_plan")
     private Integer maxWeekPlan;
-    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
-    @ManyToOne
-    private Modality modalityId;
+    @Column(name = "modality_id")
+    private Integer modalityId;
     @Column(name = "user_create")
     private Integer userCreate;
     @Column(name = "user_update")
@@ -72,6 +66,8 @@ public class TrainingLevel implements Serializable {
     private Date lastUpdate;
     @Column(name = "state_id")
     private Short stateId;
+    @OneToMany(mappedBy = "trainingLevelId")
+    private Collection<IntensityZone> intensityZoneCollection;
 
     public TrainingLevel() {
     }
@@ -149,11 +145,11 @@ public class TrainingLevel implements Serializable {
         this.maxWeekPlan = maxWeekPlan;
     }
 
-    public Modality getModalityId() {
+    public Integer getModalityId() {
         return modalityId;
     }
 
-    public void setModalityId(Modality modalityId) {
+    public void setModalityId(Integer modalityId) {
         this.modalityId = modalityId;
     }
 
@@ -197,6 +193,14 @@ public class TrainingLevel implements Serializable {
         this.stateId = stateId;
     }
 
+    public Collection<IntensityZone> getIntensityZoneCollection() {
+        return intensityZoneCollection;
+    }
+
+    public void setIntensityZoneCollection(Collection<IntensityZone> intensityZoneCollection) {
+        this.intensityZoneCollection = intensityZoneCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -220,14 +224,6 @@ public class TrainingLevel implements Serializable {
     @Override
     public String toString() {
         return "co.expertic.training.model.entities.TrainingLevel[ trainingLevelId=" + trainingLevelId + " ]";
-    }
-
-    public Collection<IntensityZone> getIntensityZoneCollection() {
-        return intensityZoneCollection;
-    }
-
-    public void setIntensityZoneCollection(Collection<IntensityZone> intensityZoneCollection) {
-        this.intensityZoneCollection = intensityZoneCollection;
     }
     
 }

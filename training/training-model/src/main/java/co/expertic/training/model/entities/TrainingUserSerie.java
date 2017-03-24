@@ -34,8 +34,8 @@ public class TrainingUserSerie implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)@SequenceGenerator(name = "training_user_serie_seq", sequenceName = "training_user_serie_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_user_serie_seq")
+    @Basic(optional = false)@SequenceGenerator(name = "training_user_serie_training_user_serie_id_seq", sequenceName = "training_user_serie_training_user_serie_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_user_serie_training_user_serie_id_seq")
     @Column(name = "training_user_serie_id")
     private Integer trainingUserSerieId;
     @Column(name = "work_date")
@@ -45,6 +45,8 @@ public class TrainingUserSerie implements Serializable {
     private Integer numSeries;
     @Column(name = "serie_time")
     private Double serieTime;
+    @Column(name = "num_zona")
+    private Integer numZona;
     @Column(name = "user_create")
     private Integer userCreate;
     @Column(name = "user_update")
@@ -137,6 +139,15 @@ public class TrainingUserSerie implements Serializable {
     public void setTrainingPlanUserId(TrainingPlanUser trainingPlanUserId) {
         this.trainingPlanUserId = trainingPlanUserId;
     }
+
+    public Integer getNumZona() {
+        return numZona;
+    }
+
+    public void setNumZona(Integer numZona) {
+        this.numZona = numZona;
+    }
+    
 
     @Override
     public int hashCode() {

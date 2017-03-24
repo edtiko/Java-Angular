@@ -29,15 +29,14 @@ trainingApp.factory('UserProfileService', ['$http', '$q', function($http, $q){
                             );
             },
              
-            getProfile: function(userProfile){
+            getProfile: function(userId){
                 
-                    return $http.post($contextPath+'userProfile/get/by/id',userProfile)
+                    return $http.get($contextPath+'userProfile/get/by/'+userId)
                             .then(
                                     function(response){
-                                        return response.data.entity.output;
+                                        return response.data.output;
                                     }, 
                                     function(errResponse){
-                                        console.error(userProfile);
                                         console.error('Error while getting userProfile');
                                         return $q.reject(errResponse);
                                     }

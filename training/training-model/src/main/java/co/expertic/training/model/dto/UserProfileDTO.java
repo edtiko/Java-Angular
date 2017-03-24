@@ -1,6 +1,7 @@
 package co.expertic.training.model.dto;
 
 import co.expertic.training.model.entities.Injury;
+import co.expertic.training.model.entities.Modality;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
@@ -73,8 +74,8 @@ public class UserProfileDTO implements Serializable {
     }
     
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
-            BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,  
-            Integer objective, Integer modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
+            BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,
+            Modality modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
             Float weight, Float height, Injury injury, String disease, Integer availableTime) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
@@ -86,8 +87,9 @@ public class UserProfileDTO implements Serializable {
         this.aboutMe = aboutMe;
         this.userId = userId;
         this.indMetricSys = indMetricSys;
-        this.objective = objective;
-        this.modality = modality;
+        if(modality != null){
+        this.modality = modality.getModalityId();
+        }
         this.vo2Running = vo2Running;
         this.vo2Ciclismo = vo2Ciclismo;
         this.environmentId = environmentId;

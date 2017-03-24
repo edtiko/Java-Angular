@@ -18,7 +18,7 @@ public class IntervaloTiempo {
     public IntervaloTiempo(){
         
     }
-    public IntervaloTiempo(Integer id, Integer zona, Double tiempo){
+    public IntervaloTiempo(Integer zona, Double tiempo){
         this.zona = zona;
         this.tiempo = tiempo;
     }

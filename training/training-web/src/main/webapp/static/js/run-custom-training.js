@@ -181,10 +181,10 @@ require.config({
             deps: ['angular', 'trainingApp']
         },
         mainController: {
-            deps: ['angular', 'authService']
+            deps: ['angular', 'trainingApp']
         },
         dashboardChartController:{
-             deps: ['angular', 'authService']
+             deps: ['angular', 'trainingApp']
         },
         dashboardService: {
             deps: ['angular', 'trainingApp']
