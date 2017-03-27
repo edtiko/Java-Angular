@@ -6,6 +6,8 @@
 package co.expertic.training.dao.plan;
 
 import co.expertic.base.jpa.BaseDAO;
+import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
+import co.expertic.training.model.dto.TrainingUserSerieDTO;
 import co.expertic.training.model.entities.TrainingUserSerie;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +18,16 @@ import java.util.List;
  */
 public interface TrainingUserSerieDao extends BaseDAO<TrainingUserSerie> {
     
-  public List<TrainingUserSerie> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception;
+  public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception;
     
   public List<TrainingUserSerie> createList(List<TrainingUserSerie> list) throws Exception;
   
   public TrainingUserSerie createTrainingUserSerie(TrainingUserSerie trainingPlanWorkout) throws Exception;
+  
+  public TrainingUserSerie getPlanWorkoutByUser(Integer userId) throws Exception;
+  
+  public TrainingUserSerieDTO getPlanWorkoutById(Integer id) throws Exception;
+
+  public void deleteSeriesByTrainingPlanUserId(Integer trainingPlanUserId) throws Exception;
     
 }

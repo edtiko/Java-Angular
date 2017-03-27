@@ -41,7 +41,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.submitUserProfile(true, event);
             }
             $scope.currentNavItem = index - 1;
-            console.log("el paso activo es:" + index);
+            //console.log("el paso activo es:" + index);
         };
         $scope.userStravaAutorize = true;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
@@ -972,7 +972,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         this.getPotentiometers();
         
           $scope.getLevelsByModality = function (modalityId) {
-            $scope.userProfile.objective = '';
+            //$scope.userProfile.objective = '';
             ObjectiveService.getLevelsByModality(modalityId).then(
                     function (d) {
                         $scope.objectives = d;

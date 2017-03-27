@@ -26,6 +26,7 @@ import co.expertic.training.model.dto.IntensityZoneSesionDTO;
 import co.expertic.training.model.dto.IntervaloTiempo;
 import co.expertic.training.model.dto.PlanWorkoutDTO;
 import co.expertic.training.model.dto.SerieGenerada;
+import co.expertic.training.model.dto.TrainingUserSerieDTO;
 import co.expertic.training.model.entities.IntensityZone;
 import co.expertic.training.model.entities.IntensityZoneDist;
 import co.expertic.training.model.entities.IntensityZoneSesion;
@@ -75,51 +76,69 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception {
-        return trainingPlanWorkoutDao.getPlanWorkoutByUser(userId, fromDate, toDate);
-    }
-
-    public static Integer getNumSesiones(UserProfile userProfile) {
-        Integer res = 0;
-        Collection<UserAvailability> availabilty = userProfile.getUserAvailabilityCollection();
-        Integer minSesion = userProfile.getObjectiveId().getMinSesion();
-        Integer maxSesion = userProfile.getObjectiveId().getMaxSesion();
-
-        return maxSesion;
+        return trainingUserSerieDao.getPlanWorkoutByUser(userId, fromDate, toDate);
     }
 
     @Override
-    public void generatePlan(Integer userId, Date fromDate, Date toDate) throws Exception {
+    public void generatePlan(Integer userId, Date fromDate) throws Exception {
+        
         UserProfile userProfile = userProfileDao.findByUserId(userId);
         TrainingPlanUser trainingPlanUser = trainingPlanUserDao.getTrainingPlanUserByUser(new User(userId));
         WeeklyVolume weekVolume = null;
         MonthlyVolume monthVolume = null;
+        
+        if (trainingPlanUser == null) {
+            throw new Exception("No existe un plan valido para el usuario actual");
+        }else{
+            trainingUserSerieDao.deleteSeriesByTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
+        }
 
         if (userProfile.getModalityId() != null) {
             weekVolume = trainingPlanWorkoutDao.getWeeklyVolume(userProfile.getModalityId().getModalityId());
             monthVolume = trainingPlanWorkoutDao.getMonthlyVolume(userProfile.getModalityId().getModalityId());
         } else {
-            throw new Exception("No se puede generar plan, no existe una modalidad registrada");
+            throw new Exception("No se puede generar plan, no existe una modalidad registrada.");
         }
 
         if (userProfile.getObjectiveId() == null) {
-            throw new Exception("No se puede generar plan, no existe una objetivo registrado");
+            throw new Exception("No se puede generar plan, no existe una objetivo registrado.");
         }
 
         if (userProfile.getAvailableTime() == null || userProfile.getAvailableTime() == 0) {
-            throw new Exception("No se puede generar plan, no existe horas de entrenamiento registrado");
+            throw new Exception("No se puede generar plan, no existe horas de entrenamiento registrado.");
+        }else if(userProfile.getAvailableTime() < userProfile.getObjectiveId().getMinHourWeek()){
+               throw new Exception("No se puede generar plan, el nivel "+userProfile.getObjectiveId().getDescription()+" requiere minimo "+userProfile.getObjectiveId().getMinHourWeek()+" horas.");
+        }else if(userProfile.getAvailableTime() > userProfile.getObjectiveId().getMaxHourWeek()){
+               throw new Exception("No se puede generar plan, el nivel "+userProfile.getObjectiveId().getDescription()+" tiene un máximo de "+userProfile.getObjectiveId().getMaxHourWeek()+" horas.");
         }
         
-        Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
+        if (userProfile.getCompetenceDate() == null) {
+            throw new Exception("No se puede generar plan, no existe fecha de competencia registrada.");
+        }
+        
+        Integer numSemanasMin = userProfile.getObjectiveId().getMinWeekPlan();
+        Integer numSemanasMax = userProfile.getObjectiveId().getMaxWeekPlan();
+        Date toDate = userProfile.getCompetenceDate();
         List<UserAvailability> userAvailabilityList = userAvailabilityDao.findByUserId(userId);
         UserAvailability userAvailability = (userAvailabilityList == null || userAvailabilityList.isEmpty()) ? null : userAvailabilityList.get(0);
         fillAvailableDays(userAvailability);
         // Determina la cantidad de dias disponibles del atleta
         int daysAvailable = getAvailableDays();
+        int numSesiones = daysAvailable;
+        
+        if(daysAvailable < userProfile.getObjectiveId().getMinSesion()){
+              throw new Exception("No se puede generar plan, el nivel "+userProfile.getObjectiveId().getDescription()+" requiere minimo "+userProfile.getObjectiveId().getMinSesion()+" de días disponibles. ");
+        }else if(daysAvailable == userProfile.getObjectiveId().getMinSesion()){
+            numSesiones = userProfile.getObjectiveId().getMinSesion();
+        }
+        else if(daysAvailable > userProfile.getObjectiveId().getMinSesion() || daysAvailable > userProfile.getObjectiveId().getMaxSesion()){
+            numSesiones = userProfile.getObjectiveId().getMaxSesion();
+        }
 
-        List<SerieGenerada> result = getSeries(userProfile, weekVolume, monthVolume);
+        List<SerieGenerada> result = getSeries(userProfile, weekVolume, monthVolume, numSesiones);
 
         // determina la cantidad de sesiones semanales
-        int weeklySession = userProfile.getObjectiveId().getMaxSesion();
+        int weeklySession = numSesiones;
 
         ArrayList<Date> dates = new ArrayList<>();
         // Determina los posibles casos, sin son iguales, deja la asignacion como la definio el usuario
@@ -131,26 +150,26 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 addSessions(daysAvailable, weeklySession);
                 // Se establece la bandera que fueron adicionadas sesiones para ser usada en la informacion al usuario
                 setSessionsAdded(true);
-                dates = getDatesPlan(fromDate,numSemanas);
+                dates = getDatesPlan(fromDate,toDate, numSemanasMin, numSemanasMax);
                 assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
             } else {
                 // Modifica la disponibilidad del atleta restandole de la disponibilidad que tenia
                 subsessions(daysAvailable, weeklySession);
-                dates = getDatesPlan(fromDate,numSemanas);
+                dates = getDatesPlan(fromDate,toDate, numSemanasMin, numSemanasMax);
                 assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
             }
         } else {
-            dates = getDatesPlan(fromDate,numSemanas);
+            dates = getDatesPlan(fromDate,toDate, numSemanasMin, numSemanasMax);
             assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
         }
 
     }
 
-    public List<SerieGenerada> getSeries(UserProfile userProfile, WeeklyVolume weekVolume, MonthlyVolume monthVolume) throws Exception {
+    public List<SerieGenerada> getSeries(UserProfile userProfile, WeeklyVolume weekVolume, MonthlyVolume monthVolume, Integer numSesiones) throws Exception {
 
         //calcula los minutos semanales de acuerdo a las horas de entrenamiento
         Integer availableTime = userProfile.getAvailableTime();
-        Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
+        //Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
         Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
         Integer trainingLevelId = userProfile.getObjectiveId().getTrainingLevelId();
         Integer min_semanales = availableTime * 60;
@@ -522,8 +541,8 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     }
 
     @Override
-    public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception {
-        return trainingPlanWorkoutDao.getPlanWorkoutById(trainingPlanWorkoutId);
+    public TrainingUserSerieDTO getPlanWorkoutById(Integer id) throws Exception {
+        return trainingUserSerieDao.getPlanWorkoutById(id);
     }
 
     private ArrayList<DayDto> avalabiltyDays = new ArrayList<>();
@@ -541,7 +560,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     // Recibe:
     // El numero de sesiones mensuales
     // La fecha siguiente a la compra del plan
-    public ArrayList<Date> getDatesPlan(Date startDate, Integer numSemanas) {
+    public ArrayList<Date> getDatesPlan(Date startDate, Date toDate, Integer numSemanasMin, Integer numSemanasMax) throws Exception{
         ArrayList<Date> dates = new ArrayList<>(); //Lista donde se retornan las fechas del plan
 
         // Se determina el dia de la semana de la fecha dada
@@ -555,13 +574,24 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         int startDay = clstartdate.get(Calendar.DAY_OF_WEEK);
 
         // Se determina la inicial y la fecha final, 1 mes despuis de la inicial
+        //Date dtstartdateMin = clstartdate.getTime();
+        Calendar clstartdateMin = Calendar.getInstance();
+        clstartdateMin.setTime(startDate);
+        clstartdateMin.add(Calendar.WEEK_OF_MONTH, numSemanasMin);
+        Date dtPlanFinishMin = clstartdateMin.getTime();
+        
+        //Date dtstartdateMax = clstartdate.getTime();
+
         Date dtstartdate = clstartdate.getTime();
-        clstartdate.add(Calendar.WEEK_OF_MONTH, numSemanas);
-        Date dtPlanFinish = clstartdate.getTime();
+        Date dtIteratorDate = dtstartdate;
+        
+        if(toDate.compareTo(dtPlanFinishMin) < 0){
+              throw new Exception("No se puede generar plan, se deben cumplir al menos "+numSemanasMin+" semanas. Ingrese una fecha de competencia mayor.");
+        }
 
         // Itera hasta que sea menor que la fecha de finalizacion de generacion del plan
-        Date dtIteratorDate = dtstartdate;
-        while (dtIteratorDate.before(dtPlanFinish)) {
+ 
+        while (dtIteratorDate.before(toDate)) {
             // Por cada dia de la semana busca si esta disponible para el usuario
             for (int j = startDay; j < 8; j++) {
                 // Se determina si tiene disponibilidad
@@ -573,7 +603,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 clFecha.setTime(dtIteratorDate);
                 clFecha.add(Calendar.DAY_OF_MONTH, 1);
                 dtIteratorDate = clFecha.getTime();
-                if (dtIteratorDate.equals(dtPlanFinish)) {
+                if (dtIteratorDate.equals(toDate)) {
                     break;
                 }
             }
@@ -794,8 +824,8 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     }
 
     @Override
-    public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId) throws Exception {
-        return trainingPlanWorkoutDao.getPlanWorkoutByUser(userId);
+    public TrainingUserSerie getPlanWorkoutByUser(Integer userId) throws Exception {
+        return trainingUserSerieDao.getPlanWorkoutByUser(userId);
     }
 
     @Override

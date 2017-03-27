@@ -7,12 +7,20 @@
     <% if (events.length > 0) { %>
     <div data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" class="events-list" data-cal-start="<%= start %>" data-cal-end="<%= end %>">
         <% _.each(events, function(event) { %>
-        <% var style = ''; %>
+        <% var style = ''; var icon = 'static/img/'+event['className']; %>
         <% if(event.manualActivity){ 
         style = 'background-color: rgba(180, 182, 181, 0.42) !important;'
         }
         else if(event.drag){
          style = 'background-color: #f5c0d1 !important;'
+        }
+        
+        if(event.discipline != ''){
+          if(event.discipline == 'Ciclismo'){
+          icon = 'static/img/bicycle.png';
+          }else if(event.discipline == 'Running'){
+          icon = 'static/img/running.png';
+          }
         }
         %>
 
@@ -30,7 +38,7 @@
 
 
             <div data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" style="width: 22px">
-                <img style="height: 20px; width: 25px" src="static/img/<%= event['className'] %>" alt="<%= event['className'] %>"/>
+                <img style="height: 20px; width: 25px" src="<%= icon %>" alt="<%= event['className'] %>"/>
                 
                 
             </div>

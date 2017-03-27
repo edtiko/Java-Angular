@@ -2,8 +2,11 @@ package co.expertic.training.model.dto;
 
 import co.expertic.training.model.entities.Injury;
 import co.expertic.training.model.entities.Modality;
+import co.expertic.training.model.entities.TrainingLevel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,14 +72,16 @@ public class UserProfileDTO implements Serializable {
     private Integer injuryId;
     private String disease;
     private Integer availableTime;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date endDate;
 
     public UserProfileDTO() {
     }
     
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
-            BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys,
+            BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys, TrainingLevel objective,
             Modality modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
-            Float weight, Float height, Injury injury, String disease, Integer availableTime) {
+            Float weight, Float height, Injury injury, String disease, Integer availableTime, Date competenceDate) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -90,6 +95,9 @@ public class UserProfileDTO implements Serializable {
         if(modality != null){
         this.modality = modality.getModalityId();
         }
+        if(objective != null) {
+            this.objective = objective.getTrainingLevelId();
+        }
         this.vo2Running = vo2Running;
         this.vo2Ciclismo = vo2Ciclismo;
         this.environmentId = environmentId;
@@ -97,6 +105,7 @@ public class UserProfileDTO implements Serializable {
         this.weight = weight;
         this.height = height;
         this.availableTime = availableTime;
+        this.endDate = competenceDate;
         if(injury != null){
         this.injuryId = injury.getInjuryId();
         }
@@ -549,6 +558,14 @@ public class UserProfileDTO implements Serializable {
 
     public void setAvailableTime(Integer availableTime) {
         this.availableTime = availableTime;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
     
     

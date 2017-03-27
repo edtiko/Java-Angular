@@ -194,6 +194,31 @@ trainingApp.directive('jqdatepicker', function ($parse) {
                 buttonImageOnly: true,
                 changeMonth: true,
                 changeYear: true,
+                onSelect: function (date) {
+                    scope.$apply(function (scope) {
+                        // Change binded variable
+                        ngModel.assign(scope, date);
+                    });
+                }
+            });
+        }
+    };
+
+});
+
+trainingApp.directive('jqdatepickerbirthday', function ($parse) {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModelCtrl) {
+            var ngModel = $parse(attrs.ngModel);
+            element.datepicker({
+                dateFormat: 'dd/mm/yy',
+                showOn: "both",
+                buttonImage: "static/img/calendar.gif",
+                buttonImageOnly: true,
+                changeMonth: true,
+                changeYear: true,
                 yearRange: '-90:-18',
                 onSelect: function (date) {
                     //scope.date = date;

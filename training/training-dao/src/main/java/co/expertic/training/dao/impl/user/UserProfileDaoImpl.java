@@ -25,8 +25,8 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.UserProfileDTO(u.userProfileId, u.indPulsometer, u.indPower, ");
         sql.append("u.ageSport,u.ppm,u.power,u.sportsAchievements,u.aboutMe,u.userId.userId, u.userId.indMetricSys, ");
-        sql.append(" u.modalityId, u.vo2Running, u.vo2Ciclismo, u.environmentId.environmentId, u.weatherId.weatherId,");
-        sql.append(" u.userId.weight, u.userId.height, u.injuryId, u.disease, u.availableTime) ");
+        sql.append(" u.objectiveId, u.modalityId, u.vo2Running, u.vo2Ciclismo, u.environmentId.environmentId, u.weatherId.weatherId,");
+        sql.append(" u.userId.weight, u.userId.height, u.injuryId, u.disease, u.availableTime, u.competenceDate) ");
         sql.append("FROM UserProfile u ");
         //sql.append("LEFT JOIN u.objectiveId o ");
         sql.append("WHERE u.userId.userId = :id ");

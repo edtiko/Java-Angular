@@ -4,12 +4,14 @@ import co.expertic.base.util.MessageUtil;
 import co.expertic.training.model.dto.CalendarEventDto;
 import co.expertic.training.model.dto.PlanWorkoutDTO;
 import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
+import co.expertic.training.model.dto.TrainingUserSerieDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserProfileDTO;
 import co.expertic.training.model.entities.Activity;
 import co.expertic.training.model.entities.ManualActivity;
 import co.expertic.training.model.entities.TrainingPlanUser;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
+import co.expertic.training.model.entities.TrainingUserSerie;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.plan.TrainingPlanUserService;
@@ -125,8 +127,8 @@ public class TrainingPlanWorkoutController {
     public ResponseEntity<ResponseService> validatePlan(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
-            TrainingPlanWorkoutDto plan = trainingPlanWorkoutService.getPlanWorkoutByUser(userId);
-            if (plan != null) {
+            TrainingUserSerie userSerie = trainingPlanWorkoutService.getPlanWorkoutByUser(userId);
+            if (userSerie != null) {
                 responseService.setOutput("Ya tiene un plan generado y  se perderá al generar el nuevo.");
             } else {
                 responseService.setOutput("");
@@ -153,9 +155,7 @@ public class TrainingPlanWorkoutController {
             startCal.setTime(new Date());
             startCal.add(Calendar.DAY_OF_MONTH, 1);
             Date startDate = startCal.getTime();
-            startCal.add(Calendar.DAY_OF_MONTH, 29);
-            Date endDate = startCal.getTime();
-            trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate, endDate);
+            trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate);
 
             UserDTO userDTO = userService.findById(userProfile.getUserId());
             userDTO.setIndLoginFirstTime(0);
@@ -415,6 +415,23 @@ public class TrainingPlanWorkoutController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al obtener las actividades de la semana");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+        @RequestMapping(value = "trainingPlanWorkout/get/serie/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getWorkoutSerie(@PathVariable("id") Integer id) {
+        ResponseService responseService = new ResponseService();
+        try {
+            TrainingUserSerieDTO serie = trainingPlanWorkoutService.getPlanWorkoutById(id);
+            responseService.setOutput(serie);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al crear plan");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

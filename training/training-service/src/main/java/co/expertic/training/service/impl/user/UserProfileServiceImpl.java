@@ -23,7 +23,6 @@ import co.expertic.training.model.entities.EquipmentUserProfile;
 import co.expertic.training.model.entities.Injury;
 import co.expertic.training.model.entities.Modality;
 import co.expertic.training.model.entities.ModelEquipment;
-import co.expertic.training.model.entities.Objective;
 import co.expertic.training.model.entities.Sport;
 import co.expertic.training.model.entities.SportEquipment;
 import co.expertic.training.model.entities.SportEquipmentType;
@@ -636,6 +635,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setInjuryId(dto.getInjuryId() == null?null: new Injury(dto.getInjuryId()));
         userProfile.setDisease(dto.getDisease());
         userProfile.setAvailableTime(dto.getAvailableTime());
+        userProfile.setCompetenceDate(dto.getEndDate());
     }
 
     /**

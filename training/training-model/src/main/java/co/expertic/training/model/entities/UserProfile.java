@@ -3,6 +3,7 @@ package co.expertic.training.model.entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -64,6 +67,9 @@ public class UserProfile implements Serializable {
     private String aboutMe;
     @Column(name= "available_time")
     private Integer availableTime;
+    @Column(name= "competence_date")
+    @Temporal(TemporalType.DATE)
+    private Date competenceDate;
     
     @JoinColumn(name = "objective_id", referencedColumnName = "training_level_id")
     @ManyToOne
@@ -231,6 +237,14 @@ public class UserProfile implements Serializable {
         this.equipmentUserProfileCollection = equipmentUserProfileCollection;
     }
 
+    public Date getCompetenceDate() {
+        return competenceDate;
+    }
+
+    public void setCompetenceDate(Date competenceDate) {
+        this.competenceDate = competenceDate;
+    }
+   
     @Override
     public int hashCode() {
         int hash = 0;

@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <md-content layout-padding>
     <input type="hidden" ng-model="user.userId" />
     <form name="frm3">
@@ -75,11 +76,40 @@
         <div layout="row">
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label>Horas de entrenamiento *</label>
+                    <label>Horas de entrenamiento semanal*</label>
                     <input type="number" min="0" id="availableTime" name="availableTime" ng-model="userProfile.availableTime" required="true">
                 </md-input-container>
             </div>
-        </div>   
+        </div>
+        <div layout="row">
+            <div flex="66">
+                <md-input-container class="md-block" >
+                    <label>Fecha de competencia ó chequeo (dd/mm/yyyy)</label>
+                    <input type="text" id="endDate" readonly="true"  ng-model-options="{updateOn: 'blur'}" name="endDate" ng-model="userProfile.endDate" jqdatepicker  ng-required="true" />
+                    <div class="has-error" ng-messages="frm3.endDate.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                        <div ng-message="date">Este campo es inv&aacute;lido</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </div>
+        <div layout="row"> 
+            <label>Disponibilidad: </label>
+        </div>
+        <div layout="row"> 
+            <div flex="66">
+                <div ng-repeat="d in userProfile.availability"  style="display: inline">
+                    <md-checkbox  ng-checked="d.checked"
+                                  ng-required="true"
+                                  ng-click="setAvailabilityResponse(d)">
+                        {{d.day}}
+                    </md-checkbox>
+                    &nbsp;
+                </div>
+            </div>
+            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileuser_availability, 'user_profile', 'user_availability')"
+                       ng-model="user_profileuser_availability"> {{ 'SHOW' | translate }}</md-switch>
+        </div>
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
@@ -210,26 +240,6 @@
             <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profiledisease, 'user_profile', 'disease')"
                        ng-model="user_profiledisease"> {{ 'SHOW' | translate }}</md-switch>
         </div>
-
-        <div layout="row"> 
-            <label>Disponibilidad: </label>
-        </div>
-        <div layout="row"> 
-            <div flex="66">
-                <div ng-repeat="d in userProfile.availability"  style="display: inline">
-                    <md-checkbox  ng-checked="d.checked"
-                                  ng-required="true"
-                                  ng-click="setAvailabilityResponse(d)">
-                        {{d.day}}
-                    </md-checkbox>
-                    &nbsp;
-                </div>
-            </div>
-            <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileuser_availability, 'user_profile', 'user_availability')"
-                       ng-model="user_profileuser_availability"> {{ 'SHOW' | translate }}</md-switch>
-        </div>
-
-
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >

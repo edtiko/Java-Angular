@@ -1,6 +1,7 @@
 package co.expertic.training.model.dto;
 
 import co.expertic.training.model.entities.Activity;
+import co.expertic.training.model.entities.Discipline;
 import co.expertic.training.model.entities.ManualActivity;
 import co.expertic.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -82,42 +83,29 @@ public class TrainingPlanWorkoutDto {
     }
 
     public TrainingPlanWorkoutDto(Integer trainingPlanWorkoutId, Date workoutDate,
-            Activity activityId, ManualActivity manualActivityId,
-            Integer userId, Integer percentageWeather, Boolean isDrag, Double executedTime, 
-            Double executedDistance,  Short indStrava, Date lastUpdateStrava) {
+            ManualActivity manualActivityId,
+            Integer userId, Boolean isDrag) {
         this.id = trainingPlanWorkoutId;
         this.workoutDate = workoutDate;
-        this.percentageWeather = percentageWeather;
         this.isDrag = isDrag;
-        if (activityId != null) {
-            this.activityId = activityId.getActivityId();
-            this.title = activityId.getName();
-            this.activityDescription = activityId.getDescription();
-            this.modalityId = activityId.getModalityId().getModalityId();
-            this.modality = activityId.getModalityId().getName();
-            this.disciplineId = activityId.getModalityId().getDisciplineId().getDisciplineId();
-            this.discipline = activityId.getModalityId().getDisciplineId().getName();
-            this.objectiveId = activityId.getObjectiveId().getObjectiveId();
-            this.objective = activityId.getObjectiveId().getName();
-            this.level = activityId.getObjectiveId().getLevel();
-            if (activityId.getSportId() != null) {
-                this.sportId = activityId.getSportId().getSportId();
-                this.sportIcon = activityId.getSportId().getIcon();
-            }
-        } else if (manualActivityId != null) {
-            this.manualActivity = true;
-            this.activityId = manualActivityId.getManualActivityId();
-            this.title = manualActivityId.getName();
-            this.activityDescription = manualActivityId.getDescription();
-            this.sportIcon = manualActivityId.getSportId().getIcon();
-            this.sportId = manualActivityId.getSportId().getSportId();
-        }
-
+        this.manualActivity = true;
+        this.activityId = manualActivityId.getManualActivityId();
+        this.title = manualActivityId.getName();
+        this.activityDescription = manualActivityId.getDescription();
+        this.sportIcon = manualActivityId.getSportId().getIcon();
+        this.sportId = manualActivityId.getSportId().getSportId();
         this.userId = userId;
-        this.executedTime = executedTime;
-        this.executedDistance = executedDistance;
-        this.indStrava = indStrava;
-        this.lastUpdateStrava = lastUpdateStrava;
+    }
+    
+    public TrainingPlanWorkoutDto(Integer trainingUserSerieId, Date workDate, Integer numSeries, Double timeSerie, Integer numZone, Discipline discipline) {
+        this.id = trainingUserSerieId;
+        this.workoutDate = workDate;
+        this.isDrag = false;
+        this.title = numSeries + " series de " + timeSerie + " min. en z" + numZone;
+        this.activityDescription = numSeries + " series de " + timeSerie + " min. en z" + numZone;
+        if (discipline != null) {
+            this.discipline = discipline.getName();
+        }
     }
 
     public Integer getId() {

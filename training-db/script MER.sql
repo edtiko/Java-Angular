@@ -642,6 +642,7 @@ create table user_profile (
    objective_id         integer              null,
    modality_id          integer              null,
    available_time       integer              null,
+   competence_date      date                 null,
    ind_pulsometer       varchar(1)           null,
    ind_potentiometer    varchar(1)           null,
    age_sport            integer              null,

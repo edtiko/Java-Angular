@@ -2,7 +2,9 @@ package co.expertic.training.service.plan;
 
 import co.expertic.training.model.dto.PlanWorkoutDTO;
 import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
+import co.expertic.training.model.dto.TrainingUserSerieDTO;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
+import co.expertic.training.model.entities.TrainingUserSerie;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public interface TrainingPlanWorkoutService {
      * @param toDate
      * @throws Exception 
      */
-    public void generatePlan(Integer id,Date fromDate, Date toDate) throws Exception;
+    public void generatePlan(Integer id,Date fromDate) throws Exception;
     
     
     /**
@@ -69,9 +71,9 @@ public interface TrainingPlanWorkoutService {
      */
     public List<TrainingPlanWorkout> getById(TrainingPlanWorkout trainingPlanWorkout) throws Exception;
     
-      public TrainingPlanWorkoutDto getPlanWorkoutById(Integer trainingPlanWorkoutId) throws Exception; 
+      public TrainingUserSerieDTO getPlanWorkoutById(Integer id) throws Exception; 
 
-    public TrainingPlanWorkoutDto getPlanWorkoutByUser(Integer userId)throws Exception; 
+    public TrainingUserSerie getPlanWorkoutByUser(Integer userId)throws Exception; 
 
     public void update(PlanWorkoutDTO planWorkoutDTO)throws Exception; 
 
