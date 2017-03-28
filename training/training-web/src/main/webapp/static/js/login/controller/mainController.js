@@ -271,15 +271,30 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             return JSON.parse(sessionStorage.getItem("userInfo"));
         };
         $scope.setUserSession = function () {
-            AuthService.setUserSession($scope).then(
-                    function (user) {
-                        $scope.$broadcast('userSession', {userSession: user});
-                    },
-                    function (errResponse) {
-                        console.error('Error while merging the profile');
-                        console.error(errResponse);
-                    }
-            );
+            AuthService.setUserSession(function (res) {
+                if (res.data.entity.output == null) {
+                    $scope.showMessage("El usuario no se encuentra logueado");
+                    $scope.logout();
+                    $("#trainingApp").removeClass("preloader");
+                    return res;
+                }
+
+                $scope.appReady = true;
+                if (res.data.entity.output.secondName == null || res.data.entity.output.secondName == 'undefined') {
+                    $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.lastName;
+                } else {
+                    $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
+                }
+                try {
+                    $scope.userSession = res.data.entity.output;
+                    $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+                } catch (e) {
+                    $window.sessionStorage.clear();
+                    $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+                }
+               
+               $scope.init();
+            });
         };
         $scope.getMenuByUser = function () {
             $http.get($contextPath + '/user/getUserSession')
@@ -314,10 +329,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                         console.error('Error while getting ' + errResponse);
                     });
         };
-        //$scope.userSession = null;
-        //$window.sessionStorage.setItem("userInfo", null);
-        $scope.setUserSession();
-        $scope.getMenuByUser();
 
         $scope.getVisibleFieldsUserByUser = function (user) {
             if (user != null) {
@@ -767,7 +778,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
             $scope.videoReceivedCount = ($scope.userSession.starCommunication.receivedVideo + $scope.userSession.supervisorCommunication.receivedVideo);
         
-            $scope.getImageProfile($scope.userSession.planSelected.userStarId, function (data) {
+            $scope.getImageProfile($scope.userSession.planSelected.starUserId.userId, function (data) {
                 if (data != "") {
                     $scope.starImage = "data:image/png;base64," + data;
                     $window.sessionStorage.setItem("starImage", $scope.starImage);
@@ -775,7 +786,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                     $scope.starImage = "static/img/profile-default.png";
                 }
             });
-            $scope.getImageProfile($scope.userSession.planSelected.userCoachId, function (data) {
+            $scope.getImageProfile($scope.userSession.planSelected.coachUserId.userId, function (data) {
                 if (data != "") {
                     $scope.asesorImage = "data:image/png;base64," + data;
                     $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);
@@ -800,18 +811,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                 }
             });
 
-            /*messageService.initialize($scope.userSession.planSelected.id);
-            videoService.initialize($scope.userSession.planSelected.id);
-            AudioMessageService.initialize($scope.userSession.planSelected.id);
-            MailService.initialize($scope.userSession.planSelected.id);
-            $scope.connectToChatserver($scope.userSession.planSelected.id);
-            $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
-            $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);*/
-//            $scope.messageReceivedCount = ($scope.userSession.starCommunication.receivedMsg + $scope.userSession.supervisorCommunication.receivedMsg);
-//            $scope.mailReceivedCount = ($scope.userSession.starCommunication.receivedMail + $scope.userSession.supervisorCommunication.receivedMail);
-//            $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
-//            $scope.videoReceivedCount = ($scope.userSession.starCommunication.receivedVideo + $scope.userSession.supervisorCommunication.receivedVideo);
-            //self.getAssignedStar();
             $scope.getUserNotification($scope.userSession.userId);
         };
 
@@ -1039,11 +1038,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                 $window.sessionStorage.setItem("planSelected", null);
                 $window.sessionStorage.setItem("planSelectedStar", null);
                 $window.sessionStorage.setItem("selectedUser", null);
-                //$scope.userSession.planSelected = null;
-                //$scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-                $scope.getUserSessionByResponse(res);
                 $scope.userSession = res.data.entity.output;
-                //$window.sessionStorage.setItem("userInfo", $scope.userSession);
 
                 if ($scope.userSession != null) {
                     //$scope.getUserById();
@@ -1074,6 +1069,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                             $scope.getSupervisorsByStar();
                             break;
                         case $scope.userSessionTypeUserAdmin:
+                            $scope.getMenuByUser();
                             $scope.showControl = true;
                             $scope.showInternalControl = true;
                             $scope.showControlAthlete = false;
@@ -1100,8 +1096,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             // $("#trainingApp").removeClass("preloader");
         };
 
-
-        $scope.init();
+      
+        //$scope.getMenuByUser();
+        $scope.setUserSession();
 
     }]);
 trainingApp.directive('stringToNumber', function () {

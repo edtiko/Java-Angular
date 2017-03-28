@@ -47,7 +47,7 @@ require.config({
         accountService: "account/service/accountService",
         sharedProperties: "dashboard/service/sharedProperties",
         mainController: "login/controller/mainController",
-        dashboardChartController: "dashboard/controller/dashboardController",
+        dashboardChartController: "chart/controller/dashboardChartController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         athleteService: "athletes/service/athleteService",

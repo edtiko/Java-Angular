@@ -26,7 +26,7 @@
     </div>
     <md-card style="height: 735px">
         <md-card-content layout="column" layout-align="center">
-
+             <!--
             <md-input-container md-no-float class="md-block" >
                 <input type="text" ng-model="search" placeholder="Buscar.."/>
                 <md-icon><i style="color: #0064F8" class="fa fa-search" aria-hidden="true"></i></md-icon>
@@ -41,7 +41,6 @@
                 <md-list  class="md-dense" flex  ng-repeat="(key, value)  in activityList |orderBy:'capacity' | groupBy: 'capacity'">
                     <ang-accordion close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
                         <collapsible-item item-title="{{ key}}">
-                            <!--<md-subheader ng-show="!loading" class="md-accent">{{ key}}</md-subheader>-->
                             <md-list-item ng-click="null" ng-repeat="a in value| filter:ignoreAccents:search" id="act_{{a.id}}" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)">
                                 <p>
                                     {{a.name}}
@@ -51,7 +50,7 @@
                     </ang-accordion>
                 </md-list>
             </md-content>
-            <br />
+            <br />-->
             <h5 style="font-weight: bold">ACTIVIDADES MANUALES</h5>
             <md-content class="border">
                 <md-list class="md-dense" flex  ng-repeat="a in manualActivities">

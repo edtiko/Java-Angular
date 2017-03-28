@@ -334,7 +334,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     );
             VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
                     function (msg) {
-                        $scope.setUserSession();
+                        //$scope.setUserSession();
                         console.log(msg);
                     },
                     function (errResponse) {
@@ -365,7 +365,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     );
             VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
                     function (msg) {
-                        $scope.setUserSession();
+                       // $scope.setUserSession();
                         console.log(msg);
                     },
                     function (errResponse) {
@@ -768,7 +768,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
             VisibleFieldsUserService.createVisibleFieldsUser(userProfile.userId, $scope.visibleFields).then(
                     function (msg) {
-                        $scope.setUserSession();
+                        //$scope.setUserSession();
                         console.log(msg);
                     },
                     function (errResponse) {

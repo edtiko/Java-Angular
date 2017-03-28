@@ -76,10 +76,11 @@ public class CoachAssignedPlanDTO{
         }
     }
     
-      public CoachAssignedPlanDTO(Integer id, Integer starUserId, Integer coachUserId, ConfigurationPlan plan) {
+      public CoachAssignedPlanDTO(Integer id, User starUserId, User coachUserId, User athleteUserId, ConfigurationPlan plan) {
         this.id = id;
-        this.userStarId = starUserId;
-        this.userCoachId = coachUserId;
+        this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
+        this.starUserId = UserDTO.mapFromUserEntity(starUserId);
+        this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.external = false;
         if (plan != null) {
             this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);

@@ -43,6 +43,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -314,45 +315,37 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 list.add(new IntervaloTiempo(zona, i));
             }
         }
-        //78
 
-        /*list.add(new IntervaloTiempo(1, 15.00));    si es 1 semana selecciona el min = 15
-        list.add(new IntervaloTiempo(1, 30.00));      si es 2 semana selecciona el de la mitad = 60
-        list.add(new IntervaloTiempo(1, 45.00));      si es 3 semana selecciona el mayor = 90
-        list.add(new IntervaloTiempo(1, 60.00));
-        list.add(new IntervaloTiempo(1, 75.00));
-        list.add(new IntervaloTiempo(1, 90.00));*/
         Double res = 0.0;
         Long numSeries = 0l;
 
         Double min = list.stream().filter(i -> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMin();
         //Double max = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMax();
         //Double average = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.averagingDouble(IntervaloTiempo::getTiempo));
-
-        for (IntervaloTiempo intervalo : list) {
-
-            if (Objects.equals(intervalo.getZona(), zona)) {
-
-                if (zona < 4) {
-
-                    if (Objects.equals(tiempo, intervalo.getTiempo())) {
-                        res = intervalo.getTiempo();
-                        numSeries = 1L;
-                    } else if (tiempo.compareTo(intervalo.getTiempo()) == 1) {
-                        if (res.compareTo(intervalo.getTiempo()) == -1) {
-                            res = intervalo.getTiempo();
-                            numSeries = 1L;
-                        }
-                    }
-                } else if (Objects.equals(tiempo, intervalo.getTiempo())) {
-                    res = min;
-                    numSeries = Math.round(tiempo / min);
-                    break;
-                } else if (tiempo.compareTo(intervalo.getTiempo()) == 1) {
-                    res = min;
-                    numSeries = Math.round(tiempo / min);
-                    break;
+      Random randomGenerator = new Random();
+        List<Double> possibleTimes = new ArrayList<>();
+        boolean equal = list.stream().filter(t -> Objects.equals(tiempo, t.getTiempo())).count() > 0;
+        if (equal) {
+            List<IntervaloTiempo> times = list.stream().filter(t -> tiempo % t.getTiempo() == 0).collect(Collectors.toList());
+            int index = randomGenerator.nextInt(times.size());
+            res = times.get(index).getTiempo();
+            numSeries = Math.round(tiempo / res);
+        } else {
+            list.stream().filter((intervalo) -> (tiempo.compareTo(intervalo.getTiempo()) == 1)).forEach((intervalo) -> {
+                List<IntervaloTiempo> times = list.stream().filter(t -> intervalo.getTiempo().compareTo(t.getTiempo()) == 1 && (intervalo.getTiempo() % t.getTiempo() == 0)).collect(Collectors.toList());
+                if (times != null && !times.isEmpty()) {
+                    possibleTimes.add(intervalo.getTiempo());
                 }
+            });
+            if (!possibleTimes.isEmpty()) {
+                int index = randomGenerator.nextInt(possibleTimes.size());
+                List<IntervaloTiempo> times = list.stream().filter(t -> possibleTimes.get(index).compareTo(t.getTiempo()) == 1 && (possibleTimes.get(index) % t.getTiempo() == 0)).collect(Collectors.toList());
+                int index2 = randomGenerator.nextInt(times.size());
+                res = times.get(index2).getTiempo();
+                numSeries = Math.round(possibleTimes.get(index) / res);
+            }else{
+                res = min;
+                numSeries = 1l;
             }
         }
 

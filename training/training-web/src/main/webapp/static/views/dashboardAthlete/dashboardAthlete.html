@@ -57,7 +57,8 @@
                 <md-grid-tile ng-repeat="a in weekActivities"
                               md-colspan-sm="1"
                               md-colspan-xs="1" style="text-align: left;">
-                    <img data-ng-src="static/img/{{a.className}}">
+                      <img ng-if="a.discipline == 'Ciclismo'" src="static/img/bicycle.png"> 
+                      <img ng-if="a.discipline == 'Running'" src="static/img/running.png">
                     <span style="color: #0064F8" class="md-caption">&nbsp; {{a.title}}</span>
                 </md-grid-tile>
             </md-grid-list>

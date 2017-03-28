@@ -21,7 +21,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         );
     };
 
-    $scope.getActivityByUser = function () {
+    /*$scope.getActivityByUser = function () {
         if ($scope.appReady) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             var planAthleteSelected = JSON.parse($window.sessionStorage.getItem("coachAssignedPlanSelected"));
@@ -49,7 +49,8 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             $scope.showMessage("El usuario no se encuentra logueado.", "error");
         }
     };
-    $scope.getActivityByUser();
+    $scope.getActivityByUser();*/
+    $scope.getManualActivities();
 
     $scope.showCreateReplaceActivity = function (ev) {
         $scope.selectedDay = null;
