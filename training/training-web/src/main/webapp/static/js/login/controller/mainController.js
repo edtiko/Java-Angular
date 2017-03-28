@@ -767,7 +767,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);
             $scope.videoReceivedCount = ($scope.userSession.starCommunication.receivedVideo + $scope.userSession.supervisorCommunication.receivedVideo);
         
-            $scope.getImageProfile($scope.userSession.planSelected.starUserId.userId, function (data) {
+            $scope.getImageProfile($scope.userSession.planSelected.userStarId, function (data) {
                 if (data != "") {
                     $scope.starImage = "data:image/png;base64," + data;
                     $window.sessionStorage.setItem("starImage", $scope.starImage);
@@ -775,7 +775,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                     $scope.starImage = "static/img/profile-default.png";
                 }
             });
-            $scope.getImageProfile($scope.userSession.planSelected.coachUserId.userId, function (data) {
+            $scope.getImageProfile($scope.userSession.planSelected.userCoachId, function (data) {
                 if (data != "") {
                     $scope.asesorImage = "data:image/png;base64," + data;
                     $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);

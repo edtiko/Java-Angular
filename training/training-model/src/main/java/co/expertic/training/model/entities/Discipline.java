@@ -200,10 +200,7 @@ public class Discipline implements Serializable {
             return false;
         }
         Discipline other = (Discipline) object;
-        if ((this.disciplineId == null && other.disciplineId != null) || (this.disciplineId != null && !this.disciplineId.equals(other.disciplineId))) {
-            return false;
-        }
-        return true;
+        return !((this.disciplineId == null && other.disciplineId != null) || (this.disciplineId != null && !this.disciplineId.equals(other.disciplineId)));
     }
 
     @Override

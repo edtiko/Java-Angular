@@ -127,7 +127,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             $mdDialog.show({
                 controller: ActivityController,
                 scope: $scope.$new(),
-                templateUrl: 'static/views/calendar/activity.html',
+                templateUrl: 'static/views/calendar/serie.html',
                 parent: angular.element(document.body),
                 clickOutsideToClose: true,
                 fullscreen: $scope.customFullscreen
@@ -178,13 +178,13 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
 
     function ActivityController($scope, $mdDialog) {
 
-        $scope.activity = {id: '', activityId: '', modality: '', executedTime:'', executedDistance:'', title: '', indStrava:'', lastUpdateStrava:'', activityDescription: '', workoutDate: '', userId: $scope.userId};
+        //$scope.activity = {id: '', activityId: '', modality: '', executedTime:'', executedDistance:'', title: '', indStrava:'', lastUpdateStrava:'', activityDescription: '', workoutDate: '', userId: $scope.userId};
         $scope.getActivity = function () {
             //Consulta type zona igual a PPM por defecto
             $scope.trainingPow = 1;
-            CalendarService.getActivityPpm($scope.selectedId, 1).then(
+            CalendarService.getSerie($scope.selectedId).then(
                     function (data) {
-                        $scope.activity = angular.copy(data.output);
+                        $scope.serie = angular.copy(data.output);
                     },
                     function (error) {
 
@@ -192,7 +192,9 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             );
         };
         
-        $scope.getActivityReplace = function () {
+        $scope.getActivity();
+        
+       /* $scope.getActivityReplace = function () {
             CalendarService.getActivityReplace($scope.selectedId).then(
                     function (data) {
                         $scope.activityReplaceList = angular.copy(data.output);
@@ -219,11 +221,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             $scope.getActivityReplace();
         }
         
-        /*$scope.guardarActividad = function () {
-            $mdDialog.hide();
-            console.log($scope.activity);
-        };*/
-        
+
         $scope.updateActivity = function () {
             CalendarService.updateWorkout($scope.activity).then(
                     function (data) {
@@ -240,7 +238,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
 
 
             );
-        };
+        };*/
 
         $scope.hide = function () {
             $mdDialog.hide();

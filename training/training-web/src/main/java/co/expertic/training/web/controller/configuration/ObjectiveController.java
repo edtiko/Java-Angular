@@ -4,6 +4,7 @@ import co.expertic.base.util.MessageUtil;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.ObjectiveDTO;
 import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.dto.TrainingLevelDTO;
 import co.expertic.training.model.entities.Objective;
 import java.util.List;
 import co.expertic.training.model.util.ResponseService;
@@ -179,6 +180,31 @@ public class ObjectiveController {
         ResponseService responseService = new ResponseService();
         try {     
             List<ObjectiveDTO> objectives = objectiveService.findByDiscipline(disciplineId);
+            responseService.setOutput(objectives);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar los objectives");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+         /**
+     * Consulta objective por modality id <br>
+     * Creation Date: <br>
+     * date 22/03/2017 <br>
+     * @author Edwin Gómez
+     * @param modalityId
+     * @return
+     */
+    @RequestMapping(value = "objective/get/by/modality/{modalityId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> listByModality(@PathVariable("modalityId") Integer modalityId) {
+        ResponseService responseService = new ResponseService();
+        try {     
+            List<TrainingLevelDTO> objectives = objectiveService.findByModality(modalityId);
             responseService.setOutput(objectives);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

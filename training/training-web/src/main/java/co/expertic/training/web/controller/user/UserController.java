@@ -444,7 +444,7 @@ public class UserController {
                     CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(userDto.getUserId());
                     if (assignedCoachInternal != null) {
                         assignedCoachInternal.setExternal(false);
-                        Integer toUserId = assignedCoachInternal.getCoachUserId().getUserId();
+                        Integer toUserId = assignedCoachInternal.getUserCoachId();
                         CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.ESTRELLA.getId());
                         CommunicationDTO supCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.COACH_INTERNO.getId());
                         userSession.setStarCommunication(starCommunication);

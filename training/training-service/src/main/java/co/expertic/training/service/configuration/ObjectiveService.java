@@ -1,6 +1,7 @@
 package co.expertic.training.service.configuration;
 
 import co.expertic.training.model.dto.ObjectiveDTO;
+import co.expertic.training.model.dto.TrainingLevelDTO;
 import co.expertic.training.model.entities.Objective;
 import java.util.List;
 
@@ -111,6 +112,8 @@ public interface ObjectiveService {
     public Integer findNextObjective(Integer trainingUserPlanId) throws Exception;
     
     public Integer findCurrentObjective(Integer trainingUserPlanId) throws Exception;
+
+    public List<TrainingLevelDTO> findByModality(Integer modalityId) throws Exception;
 
     
 }

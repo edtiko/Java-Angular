@@ -28,6 +28,9 @@ public class CoachAssignedPlanDTO{
     private boolean external;
     private String color;
     private int count;
+    private Integer userCoachId;
+    private Integer userAthleteId;
+    private Integer userStarId;
     
      public CoachAssignedPlanDTO(){
          
@@ -67,6 +70,16 @@ public class CoachAssignedPlanDTO{
     public CoachAssignedPlanDTO(Integer id, User starUserId,ConfigurationPlan plan) {
         this.id = id;
         this.starUserId = UserDTO.mapFromUserEntity(starUserId);
+        this.external = false;
+        if (plan != null) {
+            this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
+        }
+    }
+    
+      public CoachAssignedPlanDTO(Integer id, Integer starUserId, Integer coachUserId, ConfigurationPlan plan) {
+        this.id = id;
+        this.userStarId = starUserId;
+        this.userCoachId = coachUserId;
         this.external = false;
         if (plan != null) {
             this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
@@ -160,6 +173,30 @@ public class CoachAssignedPlanDTO{
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public Integer getUserCoachId() {
+        return userCoachId;
+    }
+
+    public void setUserCoachId(Integer userCoachId) {
+        this.userCoachId = userCoachId;
+    }
+
+    public Integer getUserAthleteId() {
+        return userAthleteId;
+    }
+
+    public void setUserAthleteId(Integer userAthleteId) {
+        this.userAthleteId = userAthleteId;
+    }
+
+    public Integer getUserStarId() {
+        return userStarId;
+    }
+
+    public void setUserStarId(Integer userStarId) {
+        this.userStarId = userStarId;
     }
     
     

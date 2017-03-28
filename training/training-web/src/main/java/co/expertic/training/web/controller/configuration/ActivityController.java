@@ -302,7 +302,7 @@ public class ActivityController {
     public ResponseEntity<ResponseService> getActivity(@PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
         ResponseService responseService = new ResponseService();
         try {
-            TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            TrainingPlanWorkoutDto trainingPlanWorkoutDto = null;
             List<UserZone> listUserZone = userZoneService.findByUserId(trainingPlanWorkoutDto.getUserId());
             Integer percentage = trainingPlanWorkoutDto.getPercentageWeather();
             String activity = trainingPlanWorkoutDto.getActivityDescription();
@@ -365,7 +365,7 @@ public class ActivityController {
             @PathVariable("ppm") Integer ppm) {
         ResponseService responseService = new ResponseService();
         try {
-            TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            TrainingPlanWorkoutDto trainingPlanWorkoutDto = null;
             List<UserZone> listUserZone = userZoneService.findByUserId(trainingPlanWorkoutDto.getUserId());
             Integer percentage = trainingPlanWorkoutDto.getPercentageWeather();
             String activity = trainingPlanWorkoutDto.getActivityDescription();
@@ -433,7 +433,7 @@ public class ActivityController {
             @PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
         ResponseService responseService = new ResponseService();
         try {
-            TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            TrainingPlanWorkoutDto trainingPlanWorkoutDto = null;
             Integer activityId = trainingPlanWorkoutDto.getActivityId();
             List<Activity> activityList = activityService.findActivityReplaceByActivity(activityId);
             responseService.setOutput(activityList);
@@ -507,7 +507,7 @@ public class ActivityController {
             @PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
         ResponseService responseService = new ResponseService();
         try {
-            TrainingPlanWorkoutDto trainingPlanWorkoutDto = trainingPlanWorkoutService.getPlanWorkoutById(trainingPlanWorkoutId);
+            TrainingPlanWorkoutDto trainingPlanWorkoutDto = null;
             if(trainingPlanWorkoutDto != null && trainingPlanWorkoutDto.getActivityId() != null){
             Integer activityId = trainingPlanWorkoutDto.getActivityId();
             List<ActivityMovilDTO> activityList = activityService.findActivityReplaceByActivityMovil(activityId);

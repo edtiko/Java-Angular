@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package training;
+package co.expertic.training.service.test;
 
-import co.expertic.training.service.test.IntensityZoneSesionDist;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,7 +20,17 @@ public class GeneratePlan {
 
     public static void main(String[] args) {
 
-        Integer horas_entrenamiento = 5;
+       Double tiempo = getSerieTime(78.38, 2);
+       System.out.println("tiempo es:"+ tiempo);
+        
+       /*  Double d1 = 10.45;
+      Double d2 = 11.50;
+      Integer retval = d1.compareTo(d2);
+      System.out.println("tiempo es:"+ retval);*/
+    }
+    
+    public static void generatePlan(){
+         Integer horas_entrenamiento = 5;
         Integer min_semanales = horas_entrenamiento * 60;
         Integer num_sesiones = 4;
         Map<Integer, Integer> carga_semana = new HashMap<>();
@@ -44,80 +53,6 @@ public class GeneratePlan {
         dist_int_zona.put(5, 8);
         dist_int_zona.put(6, 2);
         
-        Map<Integer, Double> tiempo_zona_serie_dist = new HashMap<>();
-        tiempo_zona_serie_dist.put(1, 15.0);
-        tiempo_zona_serie_dist.put(1, 30.0);
-        tiempo_zona_serie_dist.put(1, 45.0);
-        tiempo_zona_serie_dist.put(1, 60.0);
-        tiempo_zona_serie_dist.put(1, 75.0);
-        tiempo_zona_serie_dist.put(1, 90.0);
-        
-        tiempo_zona_serie_dist.put(2, 15.0);
-        tiempo_zona_serie_dist.put(2, 30.0);
-        tiempo_zona_serie_dist.put(2, 45.0);
-        tiempo_zona_serie_dist.put(2, 60.0);
-        tiempo_zona_serie_dist.put(2, 75.0);
-        tiempo_zona_serie_dist.put(2, 90.0);
-        tiempo_zona_serie_dist.put(2, 105.0);
-        tiempo_zona_serie_dist.put(2, 120.0);
-        tiempo_zona_serie_dist.put(2, 135.0);
-        tiempo_zona_serie_dist.put(2, 150.0);
-        tiempo_zona_serie_dist.put(2, 165.0);
-        tiempo_zona_serie_dist.put(2, 180.0);
-        
-        tiempo_zona_serie_dist.put(3, 20.0);
-        tiempo_zona_serie_dist.put(3, 25.0);
-        tiempo_zona_serie_dist.put(3, 30.0);
-        tiempo_zona_serie_dist.put(3, 35.0);
-        tiempo_zona_serie_dist.put(3, 40.0);
-        tiempo_zona_serie_dist.put(3, 45.0);
-        tiempo_zona_serie_dist.put(3, 50.0);
-        tiempo_zona_serie_dist.put(3, 55.0);
-        tiempo_zona_serie_dist.put(3, 60.0);
-        tiempo_zona_serie_dist.put(3, 65.0);
-        tiempo_zona_serie_dist.put(3, 70.0);
-        tiempo_zona_serie_dist.put(3, 75.0);
-        
-        tiempo_zona_serie_dist.put(4, 10.0);
-        tiempo_zona_serie_dist.put(4, 15.0);
-        tiempo_zona_serie_dist.put(4, 20.0);
-        tiempo_zona_serie_dist.put(4, 25.0);
-        tiempo_zona_serie_dist.put(4, 30.0);
-        tiempo_zona_serie_dist.put(4, 35.0);
-        tiempo_zona_serie_dist.put(4, 40.0);
-        tiempo_zona_serie_dist.put(4, 45.0);
-        tiempo_zona_serie_dist.put(4, 50.0);
-        tiempo_zona_serie_dist.put(4, 55.0);
-        tiempo_zona_serie_dist.put(4, 60.0);
-        tiempo_zona_serie_dist.put(4, 65.0);
-        
-        tiempo_zona_serie_dist.put(5, 10.0);
-        tiempo_zona_serie_dist.put(5, 12.0);
-        tiempo_zona_serie_dist.put(5, 14.0);
-        tiempo_zona_serie_dist.put(5, 16.0);
-        tiempo_zona_serie_dist.put(5, 18.0);
-        tiempo_zona_serie_dist.put(5, 20.0);
-        tiempo_zona_serie_dist.put(5, 22.0);
-        tiempo_zona_serie_dist.put(5, 24.0);
-        tiempo_zona_serie_dist.put(5, 26.0);
-        tiempo_zona_serie_dist.put(5, 28.0);
-        tiempo_zona_serie_dist.put(5, 30.0);
-        tiempo_zona_serie_dist.put(5, 32.0);
-        
-        tiempo_zona_serie_dist.put(6, 2.0);
-        tiempo_zona_serie_dist.put(6, 2.5);
-        tiempo_zona_serie_dist.put(6, 3.0);
-        tiempo_zona_serie_dist.put(6, 3.5);
-        tiempo_zona_serie_dist.put(6, 4.0);
-        tiempo_zona_serie_dist.put(6, 4.5);
-        tiempo_zona_serie_dist.put(6, 5.0);
-        tiempo_zona_serie_dist.put(6, 5.5);
-        tiempo_zona_serie_dist.put(6, 6.0);
-        tiempo_zona_serie_dist.put(6, 6.5);
-        tiempo_zona_serie_dist.put(6, 7.0);
-        tiempo_zona_serie_dist.put(6, 7.5);
-        
-
         Map<Integer, Double> min_x_semana = new HashMap<>();
         Map<Integer, Double> dist_int_tiempo_sesion = new HashMap<>();
         Map<Integer, Double> dist_int_tiempo_zona = new HashMap<>();
@@ -147,6 +82,8 @@ public class GeneratePlan {
         dist.add(new IntensityZoneSesionDist(4, 4, 0));
         dist.add(new IntensityZoneSesionDist(4, 5, 80));
         dist.add(new IntensityZoneSesionDist(4, 6, 100));
+        
+        
 
         carga_semana.keySet().stream().forEach((Integer key) -> {
             System.out.println("Semana #" + key);
@@ -213,7 +150,7 @@ public class GeneratePlan {
             /*sum_tiempo_sesion.keySet().stream().forEach((Integer s) -> {
                 System.out.println("map sesion:" + s + " tiempo total:" + sum_tiempo_sesion.get(s));
             });*/
-
+            
             dist.stream().forEach((d)->{
                   System.out.println("zone: "+d.getZone()+" sesion:"+d.getSesion()+" time:"+d.getTime());
         });
@@ -222,7 +159,117 @@ public class GeneratePlan {
             System.exit(0);
 
         });
-
+    }
+    
+    public static Double getSerieTime(Double tiempo, Integer zona){
+        
+       Map<Integer, Double> tiempo_zona_serie_dist = new HashMap<>();
+        tiempo_zona_serie_dist.put(1, 15.0);
+        tiempo_zona_serie_dist.put(1, 30.0);
+        tiempo_zona_serie_dist.put(1, 45.0);
+        tiempo_zona_serie_dist.put(1, 60.0);
+        tiempo_zona_serie_dist.put(1, 75.0);
+        tiempo_zona_serie_dist.put(1, 90.0);
+        
+        tiempo_zona_serie_dist.put(2, 15.0);
+        tiempo_zona_serie_dist.put(2, 30.0);
+        tiempo_zona_serie_dist.put(2, 45.0);
+        tiempo_zona_serie_dist.put(2, 60.0);
+        tiempo_zona_serie_dist.put(2, 75.0);
+        tiempo_zona_serie_dist.put(2, 90.0);
+        tiempo_zona_serie_dist.put(2, 105.0);
+        tiempo_zona_serie_dist.put(2, 120.0);
+        tiempo_zona_serie_dist.put(2, 135.0);
+        tiempo_zona_serie_dist.put(2, 150.0);
+        tiempo_zona_serie_dist.put(2, 165.0);
+        tiempo_zona_serie_dist.put(2, 180.0);
+        
+        tiempo_zona_serie_dist.put(3, 20.0);
+        tiempo_zona_serie_dist.put(3, 25.0);
+        tiempo_zona_serie_dist.put(3, 30.0);
+        tiempo_zona_serie_dist.put(3, 35.0);
+        tiempo_zona_serie_dist.put(3, 40.0);
+        tiempo_zona_serie_dist.put(3, 45.0);
+        tiempo_zona_serie_dist.put(3, 50.0);
+        tiempo_zona_serie_dist.put(3, 55.0);
+        tiempo_zona_serie_dist.put(3, 60.0);
+        tiempo_zona_serie_dist.put(3, 65.0);
+        tiempo_zona_serie_dist.put(3, 70.0);
+        tiempo_zona_serie_dist.put(3, 75.0);  //78
+        tiempo_zona_serie_dist.put(3, 80.0);
+        tiempo_zona_serie_dist.put(3, 85.0);
+        tiempo_zona_serie_dist.put(3, 90.0);
+        
+        tiempo_zona_serie_dist.put(4, 10.0);
+        tiempo_zona_serie_dist.put(4, 15.0);
+        tiempo_zona_serie_dist.put(4, 20.0);
+        tiempo_zona_serie_dist.put(4, 25.0);
+        tiempo_zona_serie_dist.put(4, 30.0);
+        tiempo_zona_serie_dist.put(4, 35.0);
+        tiempo_zona_serie_dist.put(4, 40.0);
+        tiempo_zona_serie_dist.put(4, 45.0);
+        tiempo_zona_serie_dist.put(4, 50.0);
+        tiempo_zona_serie_dist.put(4, 55.0);
+        tiempo_zona_serie_dist.put(4, 60.0);
+        tiempo_zona_serie_dist.put(4, 65.0);
+        
+        tiempo_zona_serie_dist.put(5, 10.0);
+        tiempo_zona_serie_dist.put(5, 12.0);
+        tiempo_zona_serie_dist.put(5, 14.0);
+        tiempo_zona_serie_dist.put(5, 16.0);
+        tiempo_zona_serie_dist.put(5, 18.0);
+        tiempo_zona_serie_dist.put(5, 20.0);
+        tiempo_zona_serie_dist.put(5, 22.0);
+        tiempo_zona_serie_dist.put(5, 24.0);
+        tiempo_zona_serie_dist.put(5, 26.0);
+        tiempo_zona_serie_dist.put(5, 28.0);
+        tiempo_zona_serie_dist.put(5, 30.0);
+        tiempo_zona_serie_dist.put(5, 32.0);
+        
+        tiempo_zona_serie_dist.put(6, 2.0);
+        tiempo_zona_serie_dist.put(6, 2.5);
+        tiempo_zona_serie_dist.put(6, 3.0);
+        tiempo_zona_serie_dist.put(6, 3.5);
+        tiempo_zona_serie_dist.put(6, 4.0);
+        tiempo_zona_serie_dist.put(6, 4.5);
+        tiempo_zona_serie_dist.put(6, 5.0);
+        tiempo_zona_serie_dist.put(6, 5.5);
+        tiempo_zona_serie_dist.put(6, 6.0);
+        tiempo_zona_serie_dist.put(6, 6.5);
+        tiempo_zona_serie_dist.put(6, 7.0);
+        tiempo_zona_serie_dist.put(6, 7.5);
+        
+        Iterator it = tiempo_zona_serie_dist.keySet().iterator();
+        Double res = 0.0;
+        Integer numSeries = 0;
+        boolean mayor = false;
+        Double numMayor = 0.0;
+        Double numMenorMayor = 0.0;
+        boolean menor = false;
+        
+        
+        while (it.hasNext()) {
+            Integer k = (Integer) it.next();
+            
+            if(Objects.equals(k, zona)){
+                
+                if(Objects.equals(tiempo, tiempo_zona_serie_dist.get(k))){
+                    res = tiempo_zona_serie_dist.get(k);
+                    numSeries = 1;
+                }
+                
+                if(tiempo.compareTo(tiempo_zona_serie_dist.get(k)) == 1){
+                    menor = true;
+                    if (res.compareTo(tiempo_zona_serie_dist.get(k)) == -1) {
+                        res = tiempo_zona_serie_dist.get(k);
+                    }
+                }
+            }
+              
+            
+        }
+        
+        return res;
     }
 
 }

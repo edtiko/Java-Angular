@@ -25,10 +25,10 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.UserProfileDTO(u.userProfileId, u.indPulsometer, u.indPower, ");
         sql.append("u.ageSport,u.ppm,u.power,u.sportsAchievements,u.aboutMe,u.userId.userId, u.userId.indMetricSys, ");
-        sql.append(" o.objectiveId, u.modalityId.modalityId, u.vo2Running, u.vo2Ciclismo, u.environmentId.environmentId, u.weatherId.weatherId,");
-        sql.append(" u.userId.weight, u.userId.height, u.injuryId, u.disease) ");
+        sql.append(" u.objectiveId, u.modalityId, u.vo2Running, u.vo2Ciclismo, u.environmentId.environmentId, u.weatherId.weatherId,");
+        sql.append(" u.userId.weight, u.userId.height, u.injuryId, u.disease, u.availableTime, u.competenceDate) ");
         sql.append("FROM UserProfile u ");
-        sql.append("LEFT JOIN u.objectiveId o ");
+        //sql.append("LEFT JOIN u.objectiveId o ");
         sql.append("WHERE u.userId.userId = :id ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", id);
@@ -54,10 +54,10 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         sql.append("SELECT new co.expertic.training.model.dto.DashboardDTO(u.userId.userId,u.userId.name,u.userId.secondName, u.userId.lastName, ");
         sql.append("u.userId.email,u.userId.birthDate,u.userId.sex,u.userId.weight,u.userId.height, u.userId.phone,u.userId.cellphone,u.userId.address, ");
         sql.append("u.userId.postalCode,u.userId.profilePhoto,u.userId.facebookPage, u.userId.indMetricSys,u.userId.cityId, ");
-        sql.append("u.userId.countryId.name,u.ageSport, u.ppm, u.power, u.sportsAchievements, u.aboutMe, o.name, u.modalityId.name, ");
+        sql.append("u.userId.countryId.name,u.ageSport, u.ppm, u.power, u.sportsAchievements, u.aboutMe, u.modalityId.name, ");
         sql.append("u.userId.twitterPage, u.userId.instagramPage, u.userId.webPage, u.vo2Running, u.vo2Ciclismo, u.injuryId, u.disease, u.environmentId, u.weatherId )");
         sql.append("FROM UserProfile u ");
-        sql.append("LEFT JOIN u.objectiveId o ");
+        //sql.append("LEFT JOIN u.objectiveId o ");
         sql.append("WHERE u.userId.userId = :id ");
         
         Query query = getEntityManager().createQuery(sql.toString());

@@ -23,10 +23,10 @@ import co.expertic.training.model.entities.EquipmentUserProfile;
 import co.expertic.training.model.entities.Injury;
 import co.expertic.training.model.entities.Modality;
 import co.expertic.training.model.entities.ModelEquipment;
-import co.expertic.training.model.entities.Objective;
 import co.expertic.training.model.entities.Sport;
 import co.expertic.training.model.entities.SportEquipment;
 import co.expertic.training.model.entities.SportEquipmentType;
+import co.expertic.training.model.entities.TrainingLevel;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.entities.UserAvailability;
 import co.expertic.training.model.entities.UserProfile;
@@ -340,7 +340,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             sportEquipments.add(equipmentUser);
         }
 
-        userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
+        userProfile.setObjectiveId(dto.getObjective() == null ? null : new TrainingLevel(dto.getObjective()));
         UserAvailability availability = new UserAvailability();
         buildUserAvailabilityObject(dto, availability);
         availability.setUserProfileId(userProfile);
@@ -358,6 +358,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setWeatherId(new Weather(dto.getWeatherId()));
         userProfile.setInjuryId(dto.getInjuryId() == null?null: new Injury(dto.getInjuryId()));
         userProfile.setDisease(dto.getDisease());
+        userProfile.setAvailableTime(dto.getAvailableTime());
         User user = userDao.findById(dto.getUserId());
         if(!dto.getIndMetricSys().equals("-1")){
         user.setIndMetricSys(dto.getIndMetricSys());
@@ -620,7 +621,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setAgeSport(dto.getAgeSport());
         userProfile.setIndPower(dto.getIndPower());
         userProfile.setIndPulsometer(dto.getIndPulsometer());
-        userProfile.setObjectiveId(dto.getObjective() == null ? null : new Objective(dto.getObjective()));
+        userProfile.setObjectiveId(dto.getObjective() == null ? null : new TrainingLevel(dto.getObjective()));
         userProfile.setPower(dto.getPower());
         userProfile.setPpm(dto.getPpm());
         userProfile.setSportsAchievements(dto.getSportsAchievements());
@@ -633,6 +634,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setModalityId(dto.getModality() == null ? null : new Modality(dto.getModality()));
         userProfile.setInjuryId(dto.getInjuryId() == null?null: new Injury(dto.getInjuryId()));
         userProfile.setDisease(dto.getDisease());
+        userProfile.setAvailableTime(dto.getAvailableTime());
+        userProfile.setCompetenceDate(dto.getEndDate());
     }
 
     /**

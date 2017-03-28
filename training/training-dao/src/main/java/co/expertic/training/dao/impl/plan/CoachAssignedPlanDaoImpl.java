@@ -62,11 +62,12 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     @Override
     public CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.starTeamId.starUserId, cp) ");
+        sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.starTeamId.starUserId.userId, m.starTeamId.coachUserId.userId, cp) ");
         sql.append(" FROM CoachAssignedPlan  m, ConfigurationPlan cp ");
         sql.append(" WHERE m.trainingPlanUserId.userId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append(" AND cp.communicationRoleId.roleId = ").append(RoleEnum.ATLETA.getId());
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         List<CoachAssignedPlanDTO> list = query.getResultList();

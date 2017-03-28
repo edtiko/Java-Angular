@@ -3,6 +3,7 @@ package co.expertic.training.model.entities;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -62,9 +65,15 @@ public class UserProfile implements Serializable {
     private String sportsAchievements;
     @Column(name = "about_me")
     private String aboutMe;
-    @JoinColumn(name = "objective_id", referencedColumnName = "objective_id")
+    @Column(name= "available_time")
+    private Integer availableTime;
+    @Column(name= "competence_date")
+    @Temporal(TemporalType.DATE)
+    private Date competenceDate;
+    
+    @JoinColumn(name = "objective_id", referencedColumnName = "training_level_id")
     @ManyToOne
-    private Objective objectiveId;
+    private TrainingLevel objectiveId;
     
     @JoinColumn(name = "weather_id", referencedColumnName = "weather_id")
     @ManyToOne
@@ -163,11 +172,11 @@ public class UserProfile implements Serializable {
         this.aboutMe = aboutMe;
     }
 
-    public Objective getObjectiveId() {
+    public TrainingLevel getObjectiveId() {
         return objectiveId;
     }
 
-    public void setObjectiveId(Objective objectiveId) {
+    public void setObjectiveId(TrainingLevel objectiveId) {
         this.objectiveId = objectiveId;
     }
 
@@ -228,6 +237,14 @@ public class UserProfile implements Serializable {
         this.equipmentUserProfileCollection = equipmentUserProfileCollection;
     }
 
+    public Date getCompetenceDate() {
+        return competenceDate;
+    }
+
+    public void setCompetenceDate(Date competenceDate) {
+        this.competenceDate = competenceDate;
+    }
+   
     @Override
     public int hashCode() {
         int hash = 0;
@@ -287,6 +304,14 @@ public class UserProfile implements Serializable {
 
     public void setDisease(String disease) {
         this.disease = disease;
+    }
+
+    public Integer getAvailableTime() {
+        return availableTime;
+    }
+
+    public void setAvailableTime(Integer availableTime) {
+        this.availableTime = availableTime;
     }
       
     
