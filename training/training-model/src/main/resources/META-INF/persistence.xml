@@ -91,6 +91,8 @@
     <class>co.expertic.training.model.entities.IntensityZone</class>
     <class>co.expertic.training.model.entities.IntensityZoneSesion</class>
     <class>co.expertic.training.model.entities.TrainingUserSerie</class>
+    <class>co.expertic.training.model.entities.BuildPeakVolume</class>
+    <class>co.expertic.training.model.entities.TrainingLoadType</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

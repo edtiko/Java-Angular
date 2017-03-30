@@ -1,6 +1,7 @@
 package co.expertic.training.service.impl.plan;
 
 import co.expertic.training.dao.configuration.ActivityDao;
+import co.expertic.training.dao.plan.BuildPeakVolumeDao;
 import co.expertic.training.dao.user.UserAvailabilityDao;
 import co.expertic.training.dao.user.UserProfileDao;
 import java.util.List;
@@ -20,6 +21,7 @@ import co.expertic.training.model.entities.UserProfile;
 import co.expertic.training.dao.plan.TrainingPlanUserDao;
 import co.expertic.training.dao.plan.TrainingPlanWorkoutDao;
 import co.expertic.training.dao.plan.TrainingUserSerieDao;
+import co.expertic.training.enums.LoadTypeEnum;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.DayDto;
 import co.expertic.training.model.dto.IntensityZoneSesionDTO;
@@ -27,6 +29,7 @@ import co.expertic.training.model.dto.IntervaloTiempo;
 import co.expertic.training.model.dto.PlanWorkoutDTO;
 import co.expertic.training.model.dto.SerieGenerada;
 import co.expertic.training.model.dto.TrainingUserSerieDTO;
+import co.expertic.training.model.entities.BuildPeakVolume;
 import co.expertic.training.model.entities.IntensityZone;
 import co.expertic.training.model.entities.IntensityZoneDist;
 import co.expertic.training.model.entities.IntensityZoneSesion;
@@ -75,6 +78,9 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     @Autowired
     private TrainingPlanUserDao trainingPlanUserDao;
 
+    @Autowired
+    private BuildPeakVolumeDao buildPeakVolumeDao;
+
     @Override
     public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception {
         return trainingUserSerieDao.getPlanWorkoutByUser(userId, fromDate, toDate);
@@ -82,22 +88,17 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     @Override
     public void generatePlan(Integer userId, Date fromDate) throws Exception {
-        
+
         UserProfile userProfile = userProfileDao.findByUserId(userId);
         TrainingPlanUser trainingPlanUser = trainingPlanUserDao.getTrainingPlanUserByUser(new User(userId));
-        WeeklyVolume weekVolume = null;
-        MonthlyVolume monthVolume = null;
-        
+
         if (trainingPlanUser == null) {
             throw new Exception("No existe un plan valido para el usuario actual");
-        }else{
+        } else {
             trainingUserSerieDao.deleteSeriesByTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
         }
 
-        if (userProfile.getModalityId() != null) {
-            weekVolume = trainingPlanWorkoutDao.getWeeklyVolume(userProfile.getModalityId().getModalityId());
-            monthVolume = trainingPlanWorkoutDao.getMonthlyVolume(userProfile.getModalityId().getModalityId());
-        } else {
+        if (userProfile.getModalityId() == null) {
             throw new Exception("No se puede generar plan, no existe una modalidad registrada.");
         }
 
@@ -107,16 +108,18 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
         if (userProfile.getAvailableTime() == null || userProfile.getAvailableTime() == 0) {
             throw new Exception("No se puede generar plan, no existe horas de entrenamiento registrado.");
-        }else if(userProfile.getAvailableTime() < userProfile.getObjectiveId().getMinHourWeek()){
-               throw new Exception("No se puede generar plan, el nivel "+userProfile.getObjectiveId().getDescription()+" requiere minimo "+userProfile.getObjectiveId().getMinHourWeek()+" horas.");
-        }else if(userProfile.getAvailableTime() > userProfile.getObjectiveId().getMaxHourWeek()){
-               throw new Exception("No se puede generar plan, el nivel "+userProfile.getObjectiveId().getDescription()+" tiene un máximo de "+userProfile.getObjectiveId().getMaxHourWeek()+" horas.");
+        } else if (userProfile.getAvailableTime() < userProfile.getObjectiveId().getMinHourWeek()) {
+            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getDescription() + " requiere minimo " + userProfile.getObjectiveId().getMinHourWeek() + " horas.");
+        } else if (userProfile.getAvailableTime() > userProfile.getObjectiveId().getMaxHourWeek()) {
+            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getDescription() + " tiene un máximo de " + userProfile.getObjectiveId().getMaxHourWeek() + " horas.");
         }
-        
+
         if (userProfile.getCompetenceDate() == null) {
             throw new Exception("No se puede generar plan, no existe fecha de competencia registrada.");
         }
-        
+
+        WeeklyVolume weekVolume = trainingPlanWorkoutDao.getWeeklyVolume(userProfile.getModalityId().getModalityId());
+        MonthlyVolume monthVolume = trainingPlanWorkoutDao.getMonthlyVolume(userProfile.getModalityId().getModalityId());
         Integer numSemanasMin = userProfile.getObjectiveId().getMinWeekPlan();
         Integer numSemanasMax = userProfile.getObjectiveId().getMaxWeekPlan();
         Date toDate = userProfile.getCompetenceDate();
@@ -126,17 +129,34 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         // Determina la cantidad de dias disponibles del atleta
         int daysAvailable = getAvailableDays();
         int numSesiones = daysAvailable;
-        
-        if(daysAvailable < userProfile.getObjectiveId().getMinSesion()){
-              throw new Exception("No se puede generar plan, el nivel "+userProfile.getObjectiveId().getDescription()+" requiere minimo "+userProfile.getObjectiveId().getMinSesion()+" de días disponibles. ");
-        }else if(daysAvailable == userProfile.getObjectiveId().getMinSesion()){
+
+        Calendar clstartdate = Calendar.getInstance();
+        clstartdate.setTime(fromDate);
+        clstartdate.set(Calendar.HOUR_OF_DAY, 0);
+        clstartdate.set(Calendar.MINUTE, 0);
+        clstartdate.set(Calendar.SECOND, 0);
+        clstartdate.set(Calendar.MILLISECOND, 0);
+        int startWeek = clstartdate.get(Calendar.WEEK_OF_YEAR);
+
+        Calendar clenddate = Calendar.getInstance();
+        clenddate.setTime(toDate);
+        clenddate.set(Calendar.HOUR_OF_DAY, 0);
+        clenddate.set(Calendar.MINUTE, 0);
+        clenddate.set(Calendar.SECOND, 0);
+        clenddate.set(Calendar.MILLISECOND, 0);
+        int endWeek = clenddate.get(Calendar.WEEK_OF_YEAR);
+
+        int numSemanas = endWeek - startWeek;
+
+        if (daysAvailable < userProfile.getObjectiveId().getMinSesion()) {
+            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getDescription() + " requiere minimo " + userProfile.getObjectiveId().getMinSesion() + " de días disponibles. ");
+        } else if (daysAvailable == userProfile.getObjectiveId().getMinSesion()) {
             numSesiones = userProfile.getObjectiveId().getMinSesion();
-        }
-        else if(daysAvailable > userProfile.getObjectiveId().getMinSesion() || daysAvailable > userProfile.getObjectiveId().getMaxSesion()){
+        } else if (daysAvailable > userProfile.getObjectiveId().getMinSesion() || daysAvailable > userProfile.getObjectiveId().getMaxSesion()) {
             numSesiones = userProfile.getObjectiveId().getMaxSesion();
         }
 
-        List<SerieGenerada> result = getSeries(userProfile, weekVolume, monthVolume, numSesiones);
+        List<SerieGenerada> result = getSeries(userProfile, weekVolume, monthVolume, numSesiones, numSemanas);
 
         // determina la cantidad de sesiones semanales
         int weeklySession = numSesiones;
@@ -151,27 +171,27 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 addSessions(daysAvailable, weeklySession);
                 // Se establece la bandera que fueron adicionadas sesiones para ser usada en la informacion al usuario
                 setSessionsAdded(true);
-                dates = getDatesPlan(fromDate,toDate, numSemanasMin, numSemanasMax);
+                dates = getDatesPlan(fromDate, toDate, numSemanasMin, numSemanasMax);
                 assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
             } else {
                 // Modifica la disponibilidad del atleta restandole de la disponibilidad que tenia
                 subsessions(daysAvailable, weeklySession);
-                dates = getDatesPlan(fromDate,toDate, numSemanasMin, numSemanasMax);
+                dates = getDatesPlan(fromDate, toDate, numSemanasMin, numSemanasMax);
                 assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
             }
         } else {
-            dates = getDatesPlan(fromDate,toDate, numSemanasMin, numSemanasMax);
+            dates = getDatesPlan(fromDate, toDate, numSemanasMin, numSemanasMax);
             assignSeries(fromDate, toDate, dates, trainingPlanUser, result);
         }
 
     }
 
-    public List<SerieGenerada> getSeries(UserProfile userProfile, WeeklyVolume weekVolume, MonthlyVolume monthVolume, Integer numSesiones) throws Exception {
+    public List<SerieGenerada> getSeries(UserProfile userProfile, WeeklyVolume weekVolume, MonthlyVolume monthVolume, Integer numSesiones, Integer numSemanas) throws Exception {
 
         //calcula los minutos semanales de acuerdo a las horas de entrenamiento
         Integer availableTime = userProfile.getAvailableTime();
         //Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
-        Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
+        //Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
         Integer trainingLevelId = userProfile.getObjectiveId().getTrainingLevelId();
         Integer min_semanales = availableTime * 60;
 
@@ -186,7 +206,21 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         Integer volMes = 0;
 
         List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones);
-        IntensityZone intesityZoneDist = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId);
+        IntensityZone intesityZoneBase = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BASE.getId());
+        Collection<IntensityZoneDist> intensityZoneDistBase = intesityZoneBase.getIntensityZoneDistCollection();
+
+        IntensityZone intesityZoneBuild = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BUILD.getId());
+        Collection<IntensityZoneDist> intensityZoneDistBuild = intesityZoneBuild.getIntensityZoneDistCollection();
+
+        IntensityZone intesityZonePeak = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.PEAK.getId());
+        Collection<IntensityZoneDist> intensityZoneDistPeak = intesityZonePeak.getIntensityZoneDistCollection();
+
+        List<BuildPeakVolume> buildPeakList = buildPeakVolumeDao.findByModalityId(userProfile.getModalityId().getModalityId());
+        int weekBuildPeakStart = 0;
+        int weekBuildPeak = 1;
+        if (buildPeakList != null && !buildPeakList.isEmpty() && numSemanas > buildPeakList.size()) {
+            weekBuildPeakStart = numSemanas - buildPeakList.size();
+        }
 
         if (weekVolume != null) {
             volInicialSemana = weekVolume.getInitialValue();
@@ -202,8 +236,6 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             volMes = volInicialMes;
         }
 
-        Collection<IntensityZoneDist> intensityZone = intesityZoneDist.getIntensityZoneDistCollection();
-
         List<IntensityZoneSesionDTO> dist = new ArrayList<>();
         intesityZoneSesionDist.stream().forEach((izone) -> {
             for (IntensityZoneSesionDist izonedist : izone.getIntensityZoneSesionDistCollection()) {
@@ -212,7 +244,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         });
 
         Map<Integer, Double> dist_int_tiempo_sesion = new HashMap<>();
-        Map<Integer, Double> dist_int_tiempo_zona = new HashMap<>();
+        //Map<Integer, Double> dist_int_tiempo_zona = new HashMap<>();
         List<SerieGenerada> resultado = new ArrayList<>();
 
         for (int w = 1; w <= numSemanas; w++) {
@@ -226,6 +258,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
 
             double base = (((min_semanales * volSemana) / 100) * volMes) / 100;
+
             double min_x_dia = base / numSesiones;
 
             intesityZoneSesionDist.stream().forEach((izonesesion) -> {
@@ -233,22 +266,69 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 dist_int_tiempo_sesion.put(izonesesion.getSesion(), min_x_sesion);
             });
 
-            //intensityZone.stream().forEach((izone) -> {
-            for (IntensityZoneDist izone : intensityZone) {
-                double tiempo_x_zona = (base * izone.getPercentaje()) / 100;
-                dist_int_tiempo_zona.put(izone.getNumZone(), tiempo_x_zona);
+            if (weekBuildPeakStart > 0 && w > weekBuildPeakStart) {
+                for (BuildPeakVolume buildPeak : buildPeakList) {
+                    if (buildPeak.getWeek() == weekBuildPeak) {
+                        base = (min_semanales * buildPeak.getVolume()) / 100;
+                        if (Objects.equals(buildPeak.getTrainingLoadTypeId().getTrainingLoadTypeId(), LoadTypeEnum.BUILD.getId())) {
+                            for (IntensityZoneDist izoneBuild : intensityZoneDistBuild) {
 
-                for (IntensityZoneSesionDTO intensityZoneSesionDist : dist) {
-                    if (Objects.equals(izone.getNumZone(), intensityZoneSesionDist.getZone()) && intensityZoneSesionDist.getZone() != 2) {
-                        double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
-                        intensityZoneSesionDist.setTime(min_zona_sesion);
+                                double tiempo_x_zona = (base * izoneBuild.getPercentaje()) / 100;
+                                for (IntensityZoneSesionDTO intensityZoneSesionDist : dist) {
+                                    if (Objects.equals(intensityZoneSesionDist.getZone(), izoneBuild.getNumZone())) {
+                                        double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
+                                        intensityZoneSesionDist.setTime(min_zona_sesion);
+                                    }
+                                }
+
+                            }
+                        } else if (Objects.equals(buildPeak.getTrainingLoadTypeId().getTrainingLoadTypeId(), LoadTypeEnum.PEAK.getId())) {
+                            for (IntensityZoneDist izonePeak : intensityZoneDistPeak) {
+
+                                double tiempo_x_zona = (base * izonePeak.getPercentaje()) / 100;
+                                for (IntensityZoneSesionDTO intensityZoneSesionDist : dist) {
+                                    if (Objects.equals(intensityZoneSesionDist.getZone(), izonePeak.getNumZone())) {
+                                        double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
+                                        intensityZoneSesionDist.setTime(min_zona_sesion);
+                                    }
+                                }
+
+                            }
+                        } else {
+
+                            for (IntensityZoneDist izone : intensityZoneDistBase) {
+                                double tiempo_x_zona = (base * izone.getPercentaje()) / 100;
+                                //dist_int_tiempo_zona.put(izone.getNumZone(), tiempo_x_zona);
+
+                                for (IntensityZoneSesionDTO intensityZoneSesionDist : dist) {
+                                    if (Objects.equals(izone.getNumZone(), intensityZoneSesionDist.getZone()) && intensityZoneSesionDist.getZone() != 2) {
+                                        double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
+                                        intensityZoneSesionDist.setTime(min_zona_sesion);
+                                    }
+
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+                weekBuildPeak++;
+            } else {
+
+                for (IntensityZoneDist izone : intensityZoneDistBase) {
+                    double tiempo_x_zona = (base * izone.getPercentaje()) / 100;
+                    //dist_int_tiempo_zona.put(izone.getNumZone(), tiempo_x_zona);
+
+                    for (IntensityZoneSesionDTO intensityZoneSesionDist : dist) {
+                        if (Objects.equals(izone.getNumZone(), intensityZoneSesionDist.getZone()) && intensityZoneSesionDist.getZone() != 2) {
+                            double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
+                            intensityZoneSesionDist.setTime(min_zona_sesion);
+                        }
+
                     }
 
                 }
-                /* dist.stream().filter((intensityZoneSesionDist) -> (Objects.equals(izone.getNumZone(), intensityZoneSesionDist.getZone()) && intensityZoneSesionDist.getZone() != 2)).forEach((intensityZoneSesionDist) -> {
-                    double min_zona_sesion = (intensityZoneSesionDist.getPercentaje() * tiempo_x_zona) / 100;
-                    intensityZoneSesionDist.setTime(min_zona_sesion);
-                });*/
             }
 
             Map<Integer, Double> sum_tiempo_sesion = new HashMap<>();
@@ -264,15 +344,11 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
 
             dist_int_tiempo_sesion.keySet().stream().forEach((Integer s) -> {
-                  for (IntensityZoneSesionDTO intensityZoneSesionDist : dist) {
+                for (IntensityZoneSesionDTO intensityZoneSesionDist : dist) {
                     if (Objects.equals(intensityZoneSesionDist.getSesion(), s) && intensityZoneSesionDist.getZone() == 2) {
-                           intensityZoneSesionDist.setTime(dist_int_tiempo_sesion.get(s) - sum_tiempo_sesion.get(s));
+                        intensityZoneSesionDist.setTime(dist_int_tiempo_sesion.get(s) - sum_tiempo_sesion.get(s));
                     }
-
                 }
-               /* dist.stream().filter((intensityZoneSesionDist) -> (Objects.equals(intensityZoneSesionDist.getSesion(), s) && intensityZoneSesionDist.getZone() == 2)).forEach((intensityZoneSesionDist) -> {
-                    intensityZoneSesionDist.setTime(dist_int_tiempo_sesion.get(s) - sum_tiempo_sesion.get(s));
-                });*/
 
             });
 
@@ -322,7 +398,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         Double min = list.stream().filter(i -> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMin();
         //Double max = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMax();
         //Double average = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.averagingDouble(IntervaloTiempo::getTiempo));
-      Random randomGenerator = new Random();
+        Random randomGenerator = new Random();
         List<Double> possibleTimes = new ArrayList<>();
         boolean equal = list.stream().filter(t -> Objects.equals(tiempo, t.getTiempo())).count() > 0;
         if (equal) {
@@ -343,7 +419,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 int index2 = randomGenerator.nextInt(times.size());
                 res = times.get(index2).getTiempo();
                 numSeries = Math.round(possibleTimes.get(index) / res);
-            }else{
+            } else {
                 res = min;
                 numSeries = 1l;
             }
@@ -553,7 +629,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
     // Recibe:
     // El numero de sesiones mensuales
     // La fecha siguiente a la compra del plan
-    public ArrayList<Date> getDatesPlan(Date startDate, Date toDate, Integer numSemanasMin, Integer numSemanasMax) throws Exception{
+    public ArrayList<Date> getDatesPlan(Date startDate, Date toDate, Integer numSemanasMin, Integer numSemanasMax) throws Exception {
         ArrayList<Date> dates = new ArrayList<>(); //Lista donde se retornan las fechas del plan
 
         // Se determina el dia de la semana de la fecha dada
@@ -572,18 +648,16 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         clstartdateMin.setTime(startDate);
         clstartdateMin.add(Calendar.WEEK_OF_MONTH, numSemanasMin);
         Date dtPlanFinishMin = clstartdateMin.getTime();
-        
-        //Date dtstartdateMax = clstartdate.getTime();
 
+        //Date dtstartdateMax = clstartdate.getTime();
         Date dtstartdate = clstartdate.getTime();
         Date dtIteratorDate = dtstartdate;
-        
-        if(toDate.compareTo(dtPlanFinishMin) < 0){
-              throw new Exception("No se puede generar plan, se deben cumplir al menos "+numSemanasMin+" semanas. Ingrese una fecha de competencia mayor.");
+
+        if (toDate.compareTo(dtPlanFinishMin) < 0) {
+            throw new Exception("No se puede generar plan, se deben cumplir al menos " + numSemanasMin + " semanas. Ingrese una fecha de competencia mayor.");
         }
 
         // Itera hasta que sea menor que la fecha de finalizacion de generacion del plan
- 
         while (dtIteratorDate.before(toDate)) {
             // Por cada dia de la semana busca si esta disponible para el usuario
             for (int j = startDay; j < 8; j++) {
@@ -605,7 +679,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         }
         return dates;
     }
-    
+
     // Determina la cantidad de dias disponibles del Atleta
     private int getAvailableDays() {
         /* int counter = 0;
@@ -741,7 +815,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 workoutSeries.add(workout);
             }
         }
-                
+
         /*for (Date date : dates) {
             for (SerieGenerada serie : series) {
                 workout = buildWorkoutSerie(trainingPlanUser, serie, date);
@@ -761,7 +835,6 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
 
         }*/
-
         trainingUserSerieDao.createList(workoutSeries);
     }
 

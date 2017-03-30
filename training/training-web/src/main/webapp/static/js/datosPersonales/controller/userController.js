@@ -51,6 +51,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.cities = [];
         $scope.dateAsString = null;
         $scope.birthdateDt = null;
+        $scope.competenceDt = null;
         $scope.dataImage = "static/img/profile-default.png";
         $scope.sexOptions = [
             {code: "m", sex: "Masculino"},
@@ -240,6 +241,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             $scope.userProfile.weight = parseFloat(Math.round($scope.userProfile.weight * 100) / 100).toFixed(2);
                             if ($scope.userProfile.weight != null && $scope.userProfile.height != null) {
                                 $scope.calculateIMC();
+                            }
+                            
+                            if ($scope.userProfile.endDate != null) {
+                                $scope.competenceDt = $scope.userProfile.endDate;
                             }
 
                         },
@@ -725,6 +730,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
 
         $scope.createOrMergeUserProfile = function (userProfile, generatePlan) {
+            userProfile.endDate = $scope.competenceDt;
+            
             if (userProfile.userProfileId == null) {
                 userProfile.userId = $scope.user.userId;
                 UserProfileService.createProfile(userProfile).then(

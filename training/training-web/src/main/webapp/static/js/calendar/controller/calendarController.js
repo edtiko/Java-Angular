@@ -5,11 +5,11 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
     $scope.replaceActivityId = null;
     $scope.labelTrainingPow = 'Entrenamiento por potencia';
     $scope.loading = true;
-    $scope.userId = null;
+    $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
     var self = this;
 
     $scope.getManualActivities = function () {
-        CalendarService.getManualActivityList($scope.userId).then(
+        CalendarService.getManualActivityList($scope.userSession.userId).then(
                 function (data) {
                     $scope.manualActivities = data.output;
                 },

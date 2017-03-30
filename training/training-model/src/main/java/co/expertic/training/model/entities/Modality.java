@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -54,7 +55,7 @@ public class Modality implements Serializable {
     private Collection<Dcf> dcfCollection;
     
     @Column(name = "state_id")
-    private Short stateId; 
+    private Short stateId;
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
@@ -65,6 +66,8 @@ public class Modality implements Serializable {
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "modalityId")
+    private Collection<BuildPeakVolume> buildPeakVolumeCollection;
 
     public Modality() {
     }
@@ -177,6 +180,14 @@ public class Modality implements Serializable {
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
 
+    }
+
+    public Collection<BuildPeakVolume> getBuildPeakVolumeCollection() {
+        return buildPeakVolumeCollection;
+    }
+
+    public void setBuildPeakVolumeCollection(Collection<BuildPeakVolume> buildPeakVolumeCollection) {
+        this.buildPeakVolumeCollection = buildPeakVolumeCollection;
     }
 
 }

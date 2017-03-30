@@ -174,14 +174,16 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     }
 
     @Override
-    public IntensityZone getIntensityZone(Integer trainingLevelId) throws Exception {
+    public IntensityZone getIntensityZone(Integer trainingLevelId, Integer typeLoadId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t ");
         sql.append("FROM IntensityZone t ");
         sql.append("WHERE t.trainingLevelId.trainingLevelId = :trainingLevelId ");
+        sql.append(" AND t.trainingLoadTypeId.trainingLoadTypeId = :typeLoadId ");
         sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("trainingLevelId", trainingLevelId);
+        query.setParameter("typeLoadId", typeLoadId);
         List<IntensityZone> list = query.getResultList();
 
         if (list != null && !list.isEmpty()) {

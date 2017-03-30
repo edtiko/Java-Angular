@@ -6,7 +6,6 @@
 package co.expertic.training.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,7 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,54 +27,81 @@ import javax.persistence.TemporalType;
  * @author Edwin G
  */
 @Entity
-@Table(name = "intensity_zone")
+@Table(name = "build_peak_volume")
 @NamedQueries({
-    @NamedQuery(name = "IntensityZone.findAll", query = "SELECT i FROM IntensityZone i")})
-public class IntensityZone implements Serializable {
+    @NamedQuery(name = "BuildPeakVolume.findAll", query = "SELECT b FROM BuildPeakVolume b")})
+public class BuildPeakVolume implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "intensity_zone_id")
-    private Integer intensityZoneId;
+    @SequenceGenerator(name = "build_peak_volume_build_peak_volume_id_seq", sequenceName = "build_peak_volume_build_peak_volume_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "build_peak_volume_build_peak_volume_id_seq")
+    @Column(name = "build_peak_volume_id")
+    private Integer buildPeakVolumeId;
+    @Basic(optional = false)
+    @Column(name = "week")
+    private int week;
+    @Basic(optional = false)
+    @Column(name = "volume")
+    private int volume;
+
     @Column(name = "user_create")
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "last_update")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
     @Column(name = "state_id")
-    private Short stateId;
-    @OneToMany(mappedBy = "intensityZoneId")
-    private Collection<IntensityZoneDist> intensityZoneDistCollection;
-    
-    @JoinColumn(name = "training_level_id", referencedColumnName = "training_level_id")
-    @ManyToOne
-    private TrainingLevel trainingLevelId;
-    
+    private Integer stateId;
+    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
+    @ManyToOne(optional = false)
+    private Modality modalityId;
     @JoinColumn(name = "training_load_type_id", referencedColumnName = "training_load_type_id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private TrainingLoadType trainingLoadTypeId;
 
-    public IntensityZone() {
+    public BuildPeakVolume() {
     }
 
-    public IntensityZone(Integer intensityZoneId) {
-        this.intensityZoneId = intensityZoneId;
+    public BuildPeakVolume(Integer buildPeakVolumeId) {
+        this.buildPeakVolumeId = buildPeakVolumeId;
     }
 
-    public Integer getIntensityZoneId() {
-        return intensityZoneId;
+    public BuildPeakVolume(Integer buildPeakVolumeId, int week, int volume) {
+        this.buildPeakVolumeId = buildPeakVolumeId;
+        this.week = week;
+        this.volume = volume;
     }
 
-    public void setIntensityZoneId(Integer intensityZoneId) {
-        this.intensityZoneId = intensityZoneId;
+    public Integer getBuildPeakVolumeId() {
+        return buildPeakVolumeId;
     }
+
+    public void setBuildPeakVolumeId(Integer buildPeakVolumeId) {
+        this.buildPeakVolumeId = buildPeakVolumeId;
+    }
+
+    public int getWeek() {
+        return week;
+    }
+
+    public void setWeek(int week) {
+        this.week = week;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
 
     public Integer getUserCreate() {
         return userCreate;
@@ -109,28 +135,20 @@ public class IntensityZone implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public Short getStateId() {
+    public Integer getStateId() {
         return stateId;
     }
 
-    public void setStateId(Short stateId) {
+    public void setStateId(Integer stateId) {
         this.stateId = stateId;
     }
 
-    public Collection<IntensityZoneDist> getIntensityZoneDistCollection() {
-        return intensityZoneDistCollection;
+    public Modality getModalityId() {
+        return modalityId;
     }
 
-    public void setIntensityZoneDistCollection(Collection<IntensityZoneDist> intensityZoneDistCollection) {
-        this.intensityZoneDistCollection = intensityZoneDistCollection;
-    }
-
-    public TrainingLevel getTrainingLevelId() {
-        return trainingLevelId;
-    }
-
-    public void setTrainingLevelId(TrainingLevel trainingLevelId) {
-        this.trainingLevelId = trainingLevelId;
+    public void setModalityId(Modality modalityId) {
+        this.modalityId = modalityId;
     }
 
     public TrainingLoadType getTrainingLoadTypeId() {
@@ -141,23 +159,22 @@ public class IntensityZone implements Serializable {
         this.trainingLoadTypeId = trainingLoadTypeId;
     }
     
-    
-
+   
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (intensityZoneId != null ? intensityZoneId.hashCode() : 0);
+        hash += (buildPeakVolumeId != null ? buildPeakVolumeId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof IntensityZone)) {
+        if (!(object instanceof BuildPeakVolume)) {
             return false;
         }
-        IntensityZone other = (IntensityZone) object;
-        if ((this.intensityZoneId == null && other.intensityZoneId != null) || (this.intensityZoneId != null && !this.intensityZoneId.equals(other.intensityZoneId))) {
+        BuildPeakVolume other = (BuildPeakVolume) object;
+        if ((this.buildPeakVolumeId == null && other.buildPeakVolumeId != null) || (this.buildPeakVolumeId != null && !this.buildPeakVolumeId.equals(other.buildPeakVolumeId))) {
             return false;
         }
         return true;
@@ -165,7 +182,7 @@ public class IntensityZone implements Serializable {
 
     @Override
     public String toString() {
-        return "co.expertic.training.model.entities.IntensityZone[ intensityZoneId=" + intensityZoneId + " ]";
+        return "co.expertic.training.model.entities.BuildPeakVolume[ buildPeakVolumeId=" + buildPeakVolumeId + " ]";
     }
     
 }
