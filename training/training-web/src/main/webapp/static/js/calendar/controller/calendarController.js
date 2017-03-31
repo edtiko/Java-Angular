@@ -183,7 +183,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.getActivity = function () {
             //Consulta type zona igual a PPM por defecto
             $scope.trainingPow = 1;
-            CalendarService.getSerie($scope.selectedId).then(
+            CalendarService.getSerie($scope.selectedId, $scope.userSession.userId).then(
                     function (data) {
                         $scope.serie = angular.copy(data.output);
                     },

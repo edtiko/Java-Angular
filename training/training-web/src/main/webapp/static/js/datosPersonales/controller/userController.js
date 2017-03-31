@@ -509,6 +509,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             indPulsometer: '',
             indPower: '',
             availableTime: '',
+            testDistance: '',
             ageSport: '',
             ppm: '',
             power: '',
@@ -549,14 +550,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 {day: 'Domingo', checked: false}
             ],
             bikeType: '',
-            ftp56: '',
-            ftp75: '',
-            ftp76: '',
-            ftp90: '',
-            ftp91: '',
-            ftp105: '',
+            ftp0: '',
+            ftp129: '',
+            ftp114: '',
             ftp106: '',
-            ftp120: '',
+            ftp100: '',
+            ftp97: '',
+            ftp90: '',
+            ppm0: '',
+            ppm82: '',
             ppm81: '',
             ppm89: '',
             ppm90: '',
@@ -1225,31 +1227,62 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 }
             }
         };
+        
+        $scope.calculatePaceZone = function () {
+            if ($scope.userProfile.testDistance !== "") {
+                var pace = 20 / $scope.userProfile.testDistance;
+                pace = (pace * 95)/100; 
+                //TODO falta multiplicar la parte decimal por 6
+                //TODO cuando es ciclismo 
+                $scope.userProfile.ftp0 = (pace * 0) / 100;
+                $scope.userProfile.ftp129 = (pace * 129) / 100;
+
+                $scope.userProfile.ftp114 = (pace * 114) / 100;
+                $scope.userProfile.ftp106 = (pace * 106) / 100;
+
+                $scope.userProfile.ftp100 = (pace * 100) / 100;
+                $scope.userProfile.ftp97 = (pace * 97) / 100;
+
+                $scope.userProfile.ftp90 = (pace * 90) / 100;
+            }
+        };
 
         $scope.calculateZone = function () {
             if ($scope.userProfile.power !== "") {
-                $scope.userProfile.ftp56 = ($scope.userProfile.power * 56) / 100;
-                $scope.userProfile.ftp75 = ($scope.userProfile.power * 75) / 100;
-                $scope.userProfile.ftp76 = ($scope.userProfile.power * 76) / 100;
-                $scope.userProfile.ftp90 = ($scope.userProfile.power * 90) / 100;
-                $scope.userProfile.ftp91 = ($scope.userProfile.power * 91) / 100;
-                $scope.userProfile.ftp105 = ($scope.userProfile.power * 105) / 100;
-                $scope.userProfile.ftp106 = ($scope.userProfile.power * 106) / 100;
-                $scope.userProfile.ftp120 = ($scope.userProfile.power * 120) / 100;
+                var power = ($scope.userProfile.power * 95) / 100;
+                $scope.userProfile.ftp0 = (power * 0) / 100;
+                $scope.userProfile.ftp129 = (power * 129) / 100;
+
+                $scope.userProfile.ftp114 = (power * 114) / 100;
+                $scope.userProfile.ftp106 = (power * 106) / 100;
+
+                $scope.userProfile.ftp100 = (power * 100) / 100;
+                $scope.userProfile.ftp97 = (power * 97) / 100;
+
+                $scope.userProfile.ftp90 = (power * 90) / 100;
             }
         };
         $scope.calculatePpm = function () {
             if ($scope.userProfile.ppm !== "") {
-                $scope.userProfile.ppm81 = ($scope.userProfile.ppm * 81) / 100;
-                $scope.userProfile.ppm89 = ($scope.userProfile.ppm * 89) / 100;
-                $scope.userProfile.ppm90 = ($scope.userProfile.ppm * 90) / 100;
-                $scope.userProfile.ppm93 = ($scope.userProfile.ppm * 93) / 100;
-                $scope.userProfile.ppm94 = ($scope.userProfile.ppm * 94) / 100;
-                $scope.userProfile.ppm99 = ($scope.userProfile.ppm * 99) / 100;
-                $scope.userProfile.ppm100 = ($scope.userProfile.ppm * 100) / 100;
-                $scope.userProfile.ppm102 = ($scope.userProfile.ppm * 102) / 100;
-                $scope.userProfile.ppm103 = ($scope.userProfile.ppm * 103) / 100;
-                $scope.userProfile.ppm106 = ($scope.userProfile.ppm * 106) / 100;
+                var ppm = ($scope.userProfile.ppm * 95)/100;
+                
+                $scope.userProfile.ppm0 = (ppm * 0) / 100;
+                $scope.userProfile.ppm81 = (ppm * 81) / 100;
+                
+                $scope.userProfile.ppm82 = (ppm * 82) / 100;
+                $scope.userProfile.ppm89 = (ppm * 89) / 100;
+                
+                $scope.userProfile.ppm90 = (ppm * 90) / 100;
+                $scope.userProfile.ppm93 = (ppm * 93) / 100;
+                
+                $scope.userProfile.ppm94 = (ppm * 94) / 100;
+                $scope.userProfile.ppm99 = (ppm * 99) / 100;
+                
+                $scope.userProfile.ppm100 = (ppm * 100) / 100;
+                $scope.userProfile.ppm102 = (ppm * 102) / 100;
+                
+                $scope.userProfile.ppm103 = (ppm * 103) / 100;
+                $scope.userProfile.ppm106 = (ppm * 106) / 100;
             }
         };
 
@@ -1264,30 +1297,31 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.validatePpm = function () {
-
+            var res = false;
             if ($scope.userProfile.ppm81 > 0 && $scope.userProfile.ppm89 > 0 && $scope.userProfile.ppm90 > 0 && $scope.userProfile.ppm93 > 0
                     && $scope.userProfile.ppm94 > 0 && $scope.userProfile.ppm99 > 0 && $scope.userProfile.ppm100 > 0
                     && $scope.userProfile.ppm102 > 0 && $scope.userProfile.ppm103 > 0 && $scope.userProfile.ppm106 > 0) {
-                return true;
+                res = true;
             } else if ($scope.userProfile.ppm81 == 0 && $scope.userProfile.ppm89 == 0
                     && $scope.userProfile.ppm90 == 0 && $scope.userProfile.ppm93 == 0
                     && $scope.userProfile.ppm94 == 0 && $scope.userProfile.ppm99 == 0
                     && $scope.userProfile.ppm100 == 0 && $scope.userProfile.ppm102 == 0
                     && $scope.userProfile.ppm103 == 0 && $scope.userProfile.ppm106 == 0) {
-                return true;
+                res = true;
             }
-            return false;
+            return res;
         };
 
         $scope.validatePower = function () {
-            if ($scope.userProfile.ftp56 > 0 && $scope.userProfile.ftp75 > 0 && $scope.userProfile.ftp76 > 0 && $scope.userProfile.ftp90 > 0
-                    && $scope.userProfile.ftp91 > 0 && $scope.userProfile.ftp105 > 0 && $scope.userProfile.ftp106 > 0 && $scope.userProfile.ftp120 > 0) {
-                return true;
-            } else if ($scope.userProfile.ftp56 == 0 && $scope.userProfile.ftp75 == 0 && $scope.userProfile.ftp76 == 0 && $scope.userProfile.ftp90 == 0
-                    && $scope.userProfile.ftp91 == 0 && $scope.userProfile.ftp105 == 0 && $scope.userProfile.ftp106 == 0 && $scope.userProfile.ftp120 == 0) {
-                return true;
+                var res = false;
+            if ($scope.userProfile.ftp129 > 0 && $scope.userProfile.ftp114 > 0 && $scope.userProfile.ftp106 > 0 && $scope.userProfile.ftp100 > 0
+                    && $scope.userProfile.ftp97 > 0 && $scope.userProfile.ftp90 > 0) {
+                res =  true;
+            } else if ($scope.userProfile.ftp129 == 0 && $scope.userProfile.ftp114 == 0 && $scope.userProfile.ftp106 == 0 && $scope.userProfile.ftp100 == 0
+                    && $scope.userProfile.ftp97 == 0 && $scope.userProfile.ftp90 == 0) {
+                res = true;
             }
-            return false;
+            return res;
         };
 
         $scope.validateFields = function () {

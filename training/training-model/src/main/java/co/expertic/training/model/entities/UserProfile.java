@@ -61,6 +61,8 @@ public class UserProfile implements Serializable {
     private Integer vo2Ciclismo;
     @Column(name = "power")
     private BigInteger power;
+    @Column(name = "test_distance")
+    private Double testDistance;
     @Column(name = "sports_achievements")
     private String sportsAchievements;
     @Column(name = "about_me")
@@ -244,7 +246,7 @@ public class UserProfile implements Serializable {
     public void setCompetenceDate(Date competenceDate) {
         this.competenceDate = competenceDate;
     }
-   
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -312,6 +314,14 @@ public class UserProfile implements Serializable {
 
     public void setAvailableTime(Integer availableTime) {
         this.availableTime = availableTime;
+    }
+
+    public Double getTestDistance() {
+        return testDistance;
+    }
+
+    public void setTestDistance(Double testDistance) {
+        this.testDistance = testDistance;
     }
       
     

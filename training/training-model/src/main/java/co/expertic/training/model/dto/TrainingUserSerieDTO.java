@@ -19,6 +19,7 @@ public class TrainingUserSerieDTO {
     private Integer numSeries;
     private Double serieTime;
     private Integer numZone;
+    private String description;
 
     @JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
     private Date workDate;
@@ -74,5 +75,15 @@ public class TrainingUserSerieDTO {
     public void setWorkDate(Date workDate) {
         this.workDate = workDate;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
 
 }

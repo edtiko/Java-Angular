@@ -41,6 +41,8 @@ public class UserZone implements Serializable {
     @Basic(optional = false)
     @Column(name = "user_zone_id")
     private Integer userZoneId;
+   @Column(name = "zone_one")
+    private String zoneOne;
     @Column(name = "zone_two")
     private String zoneTwo;
     @Column(name = "zone_three")
@@ -51,6 +53,8 @@ public class UserZone implements Serializable {
     private String zoneFive;
     @Column(name = "zone_six")
     private String zoneSix;
+    @Column(name = "zone_seven")
+    private String zoneSeven;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private User userId;
@@ -120,6 +124,22 @@ public class UserZone implements Serializable {
         this.userId = userId;
     }
 
+    public String getZoneOne() {
+        return zoneOne;
+    }
+
+    public void setZoneOne(String zoneOne) {
+        this.zoneOne = zoneOne;
+    }
+
+    public String getZoneSeven() {
+        return zoneSeven;
+    }
+
+    public void setZoneSeven(String zoneSeven) {
+        this.zoneSeven = zoneSeven;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

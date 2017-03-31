@@ -49,15 +49,18 @@ public class UserProfileDTO implements Serializable {
     private String otherBike;
     private String otherModelBike;
     private Integer bikeType;
-    private BigInteger ftp56;
-    private BigInteger ftp75;
-    private BigInteger ftp76;
-    private BigInteger ftp90;
-    private BigInteger ftp91;
-    private BigInteger ftp105;
+    
+    private BigInteger ftp0;
+    private BigInteger ftp129;
+    private BigInteger ftp114;
     private BigInteger ftp106;
-    private BigInteger ftp120;
+    private BigInteger ftp100;
+    private BigInteger ftp97;
+    private BigInteger ftp90;
+    
+    private BigInteger ppm0;
     private BigInteger ppm81;
+    private BigInteger ppm82;
     private BigInteger ppm89;
     private BigInteger ppm90;
     private BigInteger ppm93;
@@ -72,6 +75,7 @@ public class UserProfileDTO implements Serializable {
     private Integer injuryId;
     private String disease;
     private Integer availableTime;
+    private Double testDistance;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date endDate;
 
@@ -81,7 +85,7 @@ public class UserProfileDTO implements Serializable {
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
             BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys, TrainingLevel objective,
             Modality modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
-            Float weight, Float height, Injury injury, String disease, Integer availableTime, Date competenceDate) {
+            Float weight, Float height, Injury injury, String disease, Integer availableTime, Date competenceDate, Double testDistance) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -110,6 +114,7 @@ public class UserProfileDTO implements Serializable {
         this.injuryId = injury.getInjuryId();
         }
         this.disease = disease;
+        this.testDistance = testDistance;
     }
 
     public Integer getUserProfileId() {
@@ -376,28 +381,44 @@ public class UserProfileDTO implements Serializable {
         this.bikeType = bikeType;
     }
 
-    public BigInteger getFtp56() {
-        return ftp56;
+    public BigInteger getFtp0() {
+        return ftp0;
     }
 
-    public void setFtp56(BigInteger ftp56) {
-        this.ftp56 = ftp56;
+    public void setFtp0(BigInteger ftp0) {
+        this.ftp0 = ftp0;
     }
 
-    public BigInteger getFtp75() {
-        return ftp75;
+    public BigInteger getFtp129() {
+        return ftp129;
     }
 
-    public void setFtp75(BigInteger ftp75) {
-        this.ftp75 = ftp75;
+    public void setFtp129(BigInteger ftp129) {
+        this.ftp129 = ftp129;
     }
 
-    public BigInteger getFtp76() {
-        return ftp76;
+    public BigInteger getFtp114() {
+        return ftp114;
     }
 
-    public void setFtp76(BigInteger ftp76) {
-        this.ftp76 = ftp76;
+    public void setFtp114(BigInteger ftp114) {
+        this.ftp114 = ftp114;
+    }
+
+    public BigInteger getFtp100() {
+        return ftp100;
+    }
+
+    public void setFtp100(BigInteger ftp100) {
+        this.ftp100 = ftp100;
+    }
+
+    public BigInteger getFtp97() {
+        return ftp97;
+    }
+
+    public void setFtp97(BigInteger ftp97) {
+        this.ftp97 = ftp97;
     }
 
     public BigInteger getFtp90() {
@@ -408,36 +429,12 @@ public class UserProfileDTO implements Serializable {
         this.ftp90 = ftp90;
     }
 
-    public BigInteger getFtp91() {
-        return ftp91;
-    }
-
-    public void setFtp91(BigInteger ftp91) {
-        this.ftp91 = ftp91;
-    }
-
-    public BigInteger getFtp105() {
-        return ftp105;
-    }
-
-    public void setFtp105(BigInteger ftp105) {
-        this.ftp105 = ftp105;
-    }
-
     public BigInteger getFtp106() {
         return ftp106;
     }
 
     public void setFtp106(BigInteger ftp106) {
         this.ftp106 = ftp106;
-    }
-
-    public BigInteger getFtp120() {
-        return ftp120;
-    }
-
-    public void setFtp120(BigInteger ftp120) {
-        this.ftp120 = ftp120;
     }
 
     public BigInteger getPpm81() {
@@ -566,6 +563,30 @@ public class UserProfileDTO implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public BigInteger getPpm82() {
+        return ppm82;
+    }
+
+    public void setPpm82(BigInteger ppm82) {
+        this.ppm82 = ppm82;
+    }
+
+    public BigInteger getPpm0() {
+        return ppm0;
+    }
+
+    public void setPpm0(BigInteger ppm0) {
+        this.ppm0 = ppm0;
+    }
+
+    public Double getTestDistance() {
+        return testDistance;
+    }
+
+    public void setTestDistance(Double testDistance) {
+        this.testDistance = testDistance;
     }
     
     

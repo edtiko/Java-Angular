@@ -1181,7 +1181,9 @@ add constraint fk_uprofile_level foreign key (objective_id)
 references training_level(training_level_id)
 on delete restrict on update restrict;
 
-
+/*==============================================================*/
+/* Table: intensity_zone_sesion                                    */
+/*==============================================================*/
 CREATE TABLE intensity_zone_sesion
 (
   intensity_zone_sesion_id serial NOT NULL,
@@ -1196,6 +1198,9 @@ CREATE TABLE intensity_zone_sesion
   CONSTRAINT pk_intensity_zone_sesion PRIMARY KEY(intensity_zone_sesion_id)
 );
 
+/*==============================================================*/
+/* Table: intensity_zone_sesion_dist                            */
+/*==============================================================*/
 CREATE TABLE intensity_zone_sesion_dist
 (
   intensity_zone_sesion_dist_id serial NOT NULL,
@@ -1210,7 +1215,9 @@ add constraint fk_izonesesion_izonedist foreign key (intensity_zone_sesion_id)
 references intensity_zone_sesion(intensity_zone_sesion_id)
 on delete restrict on update restrict;
 
-
+/*==============================================================*/
+/* Table: zone_time_serie                                       */
+/*==============================================================*/
 CREATE TABLE zone_time_serie
 (
   zone_time_serie_id serial NOT NULL,
@@ -1226,7 +1233,9 @@ CREATE TABLE zone_time_serie
   CONSTRAINT pk_zone_time_serie PRIMARY KEY (zone_time_serie_id)
 );
 
-
+/*==============================================================*/
+/* Table: training_user_serie                                   */
+/*==============================================================*/
 CREATE TABLE training_user_serie
 (
   training_user_serie_id serial NOT NULL,
@@ -1241,6 +1250,27 @@ CREATE TABLE training_user_serie
   last_update time without time zone,
   CONSTRAINT pk_training_user_serie PRIMARY KEY (training_user_serie_id)
 );
+
+/*==============================================================*/
+/* Table: user_zone                                             */
+/*==============================================================*/
+CREATE TABLE user_zone
+(
+  user_zone_id integer NOT NULL,
+  user_id integer,
+  zone_one character varying(50),
+  zone_two character varying(50),
+  zone_three character varying(50),
+  zone_four character varying(50),
+  zone_five character varying(50),
+  zone_six character varying(50),
+  zone_seven character varying(50),
+  zone_type character varying(1),
+  CONSTRAINT pk_user_zone PRIMARY KEY (user_zone_id),
+  CONSTRAINT fk_user_zone_user_id FOREIGN KEY (user_id)
+      REFERENCES user_training (user_id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
 
 alter table training_user_serie
 add constraint fk_serieuser_tplanuser foreign key (training_plan_user_id)

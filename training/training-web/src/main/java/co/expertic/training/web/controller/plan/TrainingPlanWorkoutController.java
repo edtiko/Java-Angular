@@ -13,6 +13,7 @@ import co.expertic.training.model.entities.TrainingPlanUser;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.model.entities.TrainingUserSerie;
 import co.expertic.training.model.entities.User;
+import co.expertic.training.model.entities.UserZone;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.plan.TrainingPlanUserService;
 
@@ -420,12 +421,71 @@ public class TrainingPlanWorkoutController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-    
-        @RequestMapping(value = "trainingPlanWorkout/get/serie/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> getWorkoutSerie(@PathVariable("id") Integer id) {
+
+    @RequestMapping(value = "trainingPlanWorkout/get/serie/{id}/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getWorkoutSerie(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
+
+            List<UserZone> listUserZone = userZoneService.findByUserId(userId);
             TrainingUserSerieDTO serie = trainingPlanWorkoutService.getPlanWorkoutById(id);
+            String ppm = "";
+            String pace = "";
+            for (UserZone userZone : listUserZone) {
+                if (userZone.getZoneType().equals("1")) {
+                    switch (serie.getNumZone()) {
+                        case 1:
+                            ppm = userZone.getZoneOne();
+                            break;
+                        case 2:
+                            ppm = userZone.getZoneTwo();
+                            break;
+                        case 3:
+                            ppm = userZone.getZoneThree();
+                            break;
+                        case 4:
+                            ppm = userZone.getZoneFour();
+                            break;
+                        case 5:
+                            ppm = userZone.getZoneFive();
+                            break;
+                        case 6:
+                            ppm = userZone.getZoneSix();
+                            break;
+                        case 7:
+                            ppm = userZone.getZoneSeven();
+                            break;
+                    }
+                } else if (userZone.getZoneType().equals("2")) {
+                    switch (serie.getNumZone()) {
+                        case 1:
+                            pace = userZone.getZoneOne();
+                            break;
+                        case 2:
+                            pace = userZone.getZoneTwo();
+                            break;
+                        case 3:
+                            pace = userZone.getZoneThree();
+                            break;
+                        case 4:
+                            pace = userZone.getZoneFour();
+                            break;
+                        case 5:
+                            pace = userZone.getZoneFive();
+                            break;
+                        case 6:
+                            pace = userZone.getZoneSix();
+                            break;
+                        case 7:
+                            pace = userZone.getZoneSeven();
+                            break;
+                    }
+                }
+            }
+            
+            ppm = ppm+" ppm";
+            pace = pace+" min/km";
+            serie.setDescription(serie.getNumSeries()+" series de "+serie.getSerieTime()+" minutos en z"+serie.getNumZone()+" ("+pace+" o "+ppm+")");
             responseService.setOutput(serie);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

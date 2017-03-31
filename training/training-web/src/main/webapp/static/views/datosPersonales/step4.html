@@ -1,5 +1,5 @@
 <md-content layout-padding>
-         <form name="frm4">
+    <form name="frm4">
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
@@ -82,14 +82,12 @@
                     <input type="number" ng-model="userProfile.ppm" id="ppm" name="ppm"  ng-blur="calculatePpm()" >
                 </md-input-container>
             </div>
-
             <md-button class="md-icon-button launch md-primary" aria-label="ppm" ng-click="showTooltipPpm()">
                 <i class="fa fa-info-circle" aria-hidden="true"></i>
             </md-button>
             <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileppm, 'user_profile', 'ppm')"
                        ng-model="user_profileppm"> {{ 'SHOW' | translate }}</md-switch>
         </div>
-
         <div layout="row">
             <div flex="66">
                 <table md-table md-row-select ng-model="selected">
@@ -101,8 +99,13 @@
                     </thead>
                     <tbody md-body>
                         <tr md-row>
-                            <td md-cell>2</td>
+                            <td md-cell>1</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm0}}" style="width: 60px" ng-model="userProfile.ppm0"></td>
                             <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm81}}" style="width: 60px" ng-model="userProfile.ppm81"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>2</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm82}}" style="width: 60px" ng-model="userProfile.ppm82"></td>
                             <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm89}}" style="width: 60px" ng-model="userProfile.ppm89"></td>
                         </tr>
                         <tr md-row>
@@ -123,6 +126,11 @@
                         <tr md-row>
                             <td md-cell>6</td>
                             <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm103}}" style="width: 60px" ng-model="userProfile.ppm103"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm106}}" style="width: 60px" ng-model="userProfile.ppm106"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>7</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm0}}" style="width: 60px" ng-model="userProfile.ppm0"></td>
                             <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ppm106}}" style="width: 60px" ng-model="userProfile.ppm106"></td>
                         </tr>
                     </tbody>
@@ -194,12 +202,12 @@
 
         </div>
 
-        <div layout="row"> 
+        <div layout="row" ng-if="userProfile.discipline == 1"> <!-- Ciclismo -->
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
                     <label>Potencia
                     </label>
-                    <input type="number"  ng-model="userProfile.power"  id="power" name="power" ng-blur="calculateZone(userProfile)">
+                    <input type="number"  ng-model="userProfile.power"  id="power" name="power" ng-blur="calculateZone()">
                 </md-input-container>
             </div>
 
@@ -211,6 +219,14 @@
 
         </div>
 
+        <div layout="row" ng-if="userProfile.discipline == 3 || userProfile.discipline == 4"> <!-- Running y Natación -->
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder" >
+                    <label>Distancia recorrida (Km)</label>
+                    <input type="number" ng-model="userProfile.testDistance" id="distance" name="distance" ng-blur="calculatePaceZone()">
+                </md-input-container>
+            </div>
+        </div>
 
         <div layout="row">
             <div flex="66">
@@ -223,24 +239,39 @@
                     </thead>
                     <tbody md-body>
                         <tr md-row>
-                            <td md-cell>2 Aer&oacute;bico</td>
-                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp56}}" style="width: 60px" ng-model="userProfile.ftp56"></td>
-                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp75}}" style="width: 60px" ng-model="userProfile.ftp75"></td>
+                            <td md-cell>1</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp0}}" style="width: 60px" ng-model="userProfile.ftp0"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp129}}" style="width: 60px" ng-model="userProfile.ftp129"></td>
                         </tr>
                         <tr md-row>
-                            <td md-cell>3 Tempo</td>
-                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp76}}" style="width: 60px" ng-model="userProfile.ftp76"></td>
+                            <td md-cell>2</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp129}}" style="width: 60px" ng-model="userProfile.ftp129"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp114}}" style="width: 60px" ng-model="userProfile.ftp114"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>3</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp114}}" style="width: 60px" ng-model="userProfile.ftp114"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp106}}" style="width: 60px" ng-model="userProfile.ftp106"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>4</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp106}}" style="width: 60px" ng-model="userProfile.ftp106"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp100}}" style="width: 60px" ng-model="userProfile.ftp100"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>5</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp100}}" style="width: 60px" ng-model="userProfile.ftp100"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp97}}" style="width: 60px" ng-model="userProfile.ftp97"></td>
+                        </tr>
+                        <tr md-row>
+                            <td md-cell>6</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp97}}" style="width: 60px" ng-model="userProfile.ftp97"></td>
                             <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp90}}" style="width: 60px" ng-model="userProfile.ftp90"></td>
                         </tr>
                         <tr md-row>
-                            <td md-cell>4 Umbral</td>
-                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp91}}" style="width: 60px" ng-model="userProfile.ftp91"></td>
-                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp105}}" style="width: 60px" ng-model="userProfile.ftp105"></td>
-                        </tr>
-                        <tr md-row>
-                            <td md-cell>5 VO2 Max</td>
-                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp106}}" style="width: 60px" ng-model="userProfile.ftp106"></td>
-                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp120}}" style="width: 60px" ng-model="userProfile.ftp120"></td>
+                            <td md-cell>7</td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp90}}" style="width: 60px" ng-model="userProfile.ftp106"></td>
+                            <td md-cell><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" placeholder="{{ftp0}}" style="width: 60px" ng-model="userProfile.ftp0"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -378,6 +409,6 @@
             <md-button type="submit" ng-click="submitUserProfile(frm4, false, $event)"  style="background: #1C2127; color:#00E8E8;">Guardar</md-button>
             <md-button ng-disabled="!(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" style="background: #1C2127; color:#00E8E8;" ng-click="submitUserProfile(true, $event)">Generar Plan</md-button>
         </section>-->
-           {{$setValidity(frm4.$valid, 4)}}
-         </form>
-    </md-content>
+        {{$setValidity(frm4.$valid, 4)}}
+    </form>
+</md-content>

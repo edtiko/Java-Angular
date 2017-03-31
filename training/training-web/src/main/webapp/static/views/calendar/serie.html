@@ -19,6 +19,18 @@
 
                         </md-input-container>
                     </div>
+                </div>
+                <div layout="row"> 
+                    <div flex>
+                        <md-input-container class="md-block" >
+
+                            <label>Descripción</label>
+                            <input type="text" ng-model="serie.description" id="description" name="description" />
+
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
                     <div flex>
                         <md-input-container class="md-block" >
                             <label>Número de series</label>
@@ -26,11 +38,9 @@
 
                         </md-input-container>
                     </div>
-                </div>
-                <div layout="row" >
                     <div flex>
                         <md-input-container class="md-block">
-                            <label>Tiempo(minutos)</label>
+                            <label>Tiempo (minutos)</label>
                             <input type="text" ng-model="serie.serieTime" id="serieTime" name="serieTime" />
                         </md-input-container>
                     </div>
@@ -43,14 +53,6 @@
 
                         </md-input-container>
                     </div>
-                </div>
-                <div layout="row">
-                    <md-radio-group ng-model="trainingPow">
-
-                        <md-radio-button ng-model="trainingPow" ng-click="changeTrainingPow(1)" value="1" class="md-primary">Entrenamiento por ppm</md-radio-button>
-                        <md-radio-button ng-model="trainingPow" ng-click="changeTrainingPow(2)" value="2"> Entrenamiento por potencia </md-radio-button>
-
-                    </md-radio-group>
                 </div>
             </div>
         </md-dialog-content>
