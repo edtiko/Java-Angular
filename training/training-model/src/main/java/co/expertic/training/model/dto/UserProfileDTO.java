@@ -27,6 +27,7 @@ public class UserProfileDTO implements Serializable {
     private Integer userId;
     private String indMetricSys;
     private Integer discipline;
+    private String  disciplineName;
     private Integer sport;
     private Integer shoes;
     private Integer bikes;
@@ -76,6 +77,7 @@ public class UserProfileDTO implements Serializable {
     private String disease;
     private Integer availableTime;
     private Double testDistance;
+    private Double testDistanceN;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date endDate;
 
@@ -85,7 +87,7 @@ public class UserProfileDTO implements Serializable {
     public UserProfileDTO(Integer userProfileId, String indPulsometer, String indPower, Integer ageSport, BigInteger ppm,
             BigInteger power, String sportsAchievements, String aboutMe, Integer userId, String indMetricSys, TrainingLevel objective,
             Modality modality, Integer vo2Running, Integer vo2Ciclismo, Integer environmentId, Integer weatherId,
-            Float weight, Float height, Injury injury, String disease, Integer availableTime, Date competenceDate, Double testDistance) {
+            Float weight, Float height, Injury injury, String disease, Integer availableTime, Date competenceDate, Double testDistance, Double testDistanceN) {
         this.userProfileId = userProfileId;
         this.indPulsometer = indPulsometer;
         this.indPower = indPower;
@@ -115,6 +117,7 @@ public class UserProfileDTO implements Serializable {
         }
         this.disease = disease;
         this.testDistance = testDistance;
+        this.testDistanceN = testDistanceN;
     }
 
     public Integer getUserProfileId() {
@@ -587,6 +590,22 @@ public class UserProfileDTO implements Serializable {
 
     public void setTestDistance(Double testDistance) {
         this.testDistance = testDistance;
+    }
+
+    public String getDisciplineName() {
+        return disciplineName;
+    }
+
+    public void setDisciplineName(String disciplineName) {
+        this.disciplineName = disciplineName;
+    }
+
+    public Double getTestDistanceN() {
+        return testDistanceN;
+    }
+
+    public void setTestDistanceN(Double testDistanceN) {
+        this.testDistanceN = testDistanceN;
     }
     
     

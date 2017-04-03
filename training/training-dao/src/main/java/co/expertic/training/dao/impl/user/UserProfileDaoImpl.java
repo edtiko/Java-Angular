@@ -26,7 +26,7 @@ public class UserProfileDaoImpl extends BaseDAOImpl<UserProfile> implements User
         sql.append("SELECT new co.expertic.training.model.dto.UserProfileDTO(u.userProfileId, u.indPulsometer, u.indPower, ");
         sql.append("u.ageSport,u.ppm,u.power,u.sportsAchievements,u.aboutMe,u.userId.userId, u.userId.indMetricSys, ");
         sql.append(" u.objectiveId, u.modalityId, u.vo2Running, u.vo2Ciclismo, u.environmentId.environmentId, u.weatherId.weatherId,");
-        sql.append(" u.userId.weight, u.userId.height, u.injuryId, u.disease, u.availableTime, u.competenceDate, u.testDistance) ");
+        sql.append(" u.userId.weight, u.userId.height, u.injuryId, u.disease, u.availableTime, u.competenceDate, u.testDistance, u.testDistanceN) ");
         sql.append("FROM UserProfile u ");
         //sql.append("LEFT JOIN u.objectiveId o ");
         sql.append("WHERE u.userId.userId = :id ");

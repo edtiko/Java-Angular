@@ -97,6 +97,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             DisciplineUser discipline = disciplineUserDao.findByUserId(id);
             if (discipline != null) {
                 userProfile.setDiscipline(discipline.getDiscipline().getDisciplineId());
+                userProfile.setDisciplineName(discipline.getDiscipline().getName());
             }
             userProfile.setIndMetricSys(user.getIndMetricSys());
             initialAvailability(dtoList);
@@ -217,7 +218,10 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
         }
         DisciplineUser discipline = disciplineUserDao.findByUserId(id);
+        if(discipline != null){
         userProfile.setDiscipline(discipline.getDiscipline().getDisciplineId());
+        userProfile.setDisciplineName(discipline.getDiscipline().getName());
+        }
         return userProfile;
 
     }
@@ -681,6 +685,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setAvailableTime(dto.getAvailableTime());
         userProfile.setCompetenceDate(dto.getEndDate());
         userProfile.setTestDistance(dto.getTestDistance());
+        userProfile.setTestDistanceN(dto.getTestDistanceN());
     }
 
     /**

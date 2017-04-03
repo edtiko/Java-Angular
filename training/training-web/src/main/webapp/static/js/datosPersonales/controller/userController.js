@@ -60,8 +60,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.isImage = false;
         $scope.previousValue = "";
         $scope.maxDate = new Date();
-        $scope.selected1 = [];
-        $scope.selected = [];
         $scope.errorMessages = [];
         self.fetchAllCountries = function () {
             UserService.fetchAllCountries()
@@ -245,6 +243,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             
                             if ($scope.userProfile.endDate != null) {
                                 $scope.competenceDt = $scope.userProfile.endDate;
+                            }
+                            
+                            if($scope.userProfile.disciplineName == 'Triatlon'){
+                                $scope.calculatePaceZoneRunning();
+                                $scope.calculatePaceZoneNatacion();
                             }
 
                         },
@@ -510,6 +513,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             indPower: '',
             availableTime: '',
             testDistance: '',
+            testDistanceN: '',
             ageSport: '',
             ppm: '',
             power: '',
@@ -518,6 +522,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             userId: $scope.user.userId,
             indMetricSys: '-1',
             discipline: '',
+            disciplineName: '',
             sport: '',
             shoes: '',
             bikes: '',
@@ -1027,6 +1032,10 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             if (change) {
                 $scope.userProfile.objective = '';
                 $scope.userProfile.modality = '';
+                if (id == '2') {
+                    $scope.calculatePaceZoneRunning();
+                    $scope.calculatePaceZoneNatacion();
+                }
             }
             ModalityService.getModalitiesByDisciplineId(id).then(
                     function (d) {
@@ -1228,12 +1237,48 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
         };
         
+        $scope.calculatePaceZoneRunning = function () {
+            if ($scope.userProfile.testDistance !== "") {
+                var pace = 20 / $scope.userProfile.testDistance;
+                pace = (pace * 95) / 100;
+                //TODO falta multiplicar la parte decimal por 6
+                $scope.ftp0R = (pace * 0) / 100;
+                $scope.ftp129R = (pace * 129) / 100;
+
+                $scope.ftp114R = (pace * 114) / 100;
+                $scope.ftp106R = (pace * 106) / 100;
+
+                $scope.ftp100R = (pace * 100) / 100;
+                $scope.ftp97R = (pace * 97) / 100;
+
+                $scope.ftp90R = (pace * 90) / 100;
+            }
+        };
+        
+            $scope.calculatePaceZoneNatacion = function () {
+            if ($scope.userProfile.testDistanceN !== "") {
+                var pace = 20 / $scope.userProfile.testDistanceN;
+                pace = (pace * 95)/100; 
+                //TODO falta multiplicar la parte decimal por 6
+                $scope.ftp0N = (pace * 0) / 100;
+                $scope.ftp129N = (pace * 129) / 100;
+
+                $scope.ftp114N = (pace * 114) / 100;
+                $scope.ftp106N = (pace * 106) / 100;
+
+                $scope.ftp100N = (pace * 100) / 100;
+                $scope.ftp97N = (pace * 97) / 100;
+
+                $scope.ftp90N = (pace * 90) / 100;
+            }
+        };
+        
         $scope.calculatePaceZone = function () {
             if ($scope.userProfile.testDistance !== "") {
                 var pace = 20 / $scope.userProfile.testDistance;
                 pace = (pace * 95)/100; 
                 //TODO falta multiplicar la parte decimal por 6
-                //TODO cuando es ciclismo 
+                //TODO cuando es natación 
                 $scope.userProfile.ftp0 = (pace * 0) / 100;
                 $scope.userProfile.ftp129 = (pace * 129) / 100;
 

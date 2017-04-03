@@ -63,6 +63,8 @@ public class UserProfile implements Serializable {
     private BigInteger power;
     @Column(name = "test_distance")
     private Double testDistance;
+    @Column(name = "test_distance_n")
+    private Double testDistanceN;
     @Column(name = "sports_achievements")
     private String sportsAchievements;
     @Column(name = "about_me")
@@ -322,6 +324,14 @@ public class UserProfile implements Serializable {
 
     public void setTestDistance(Double testDistance) {
         this.testDistance = testDistance;
+    }
+
+    public Double getTestDistanceN() {
+        return testDistanceN;
+    }
+
+    public void setTestDistanceN(Double testDistanceN) {
+        this.testDistanceN = testDistanceN;
     }
       
     

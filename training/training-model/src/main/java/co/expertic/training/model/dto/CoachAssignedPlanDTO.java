@@ -76,15 +76,12 @@ public class CoachAssignedPlanDTO{
         }
     }
     
-      public CoachAssignedPlanDTO(Integer id, User starUserId, User coachUserId, User athleteUserId, ConfigurationPlan plan) {
+      public CoachAssignedPlanDTO(Integer id, User starUserId, User coachUserId, User athleteUserId) {
         this.id = id;
         this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
         this.starUserId = UserDTO.mapFromUserEntity(starUserId);
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.external = false;
-        if (plan != null) {
-            this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(plan);
-        }
     }
 
     /* public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {

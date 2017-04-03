@@ -25,7 +25,6 @@
                     <label>Disciplina Deportiva</label>
                     <md-select ng-disabled="(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && (userSession.planActiveId != null && userSession.planActiveId != '0'))"
                                id="discipline" name="discipline" ng-model="userProfile.discipline"  ng-change="getModalitiesByDisciplineId(userProfile.discipline, true)" ng-required="true">
-                        <!--<md-select-label>{{d || 'Seleccione una disciplina'}}</md-select-label>-->
                         <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                             {{d.name}}
                         </md-option>
