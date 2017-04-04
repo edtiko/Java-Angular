@@ -719,3 +719,7 @@ padding-top: 8px;
     color: #FFFFFF !important;
 }
 
+md-input-container label{
+   font-size: 16px !important;  
+}
+

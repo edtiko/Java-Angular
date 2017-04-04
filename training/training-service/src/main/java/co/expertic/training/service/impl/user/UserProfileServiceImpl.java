@@ -181,10 +181,11 @@ public class UserProfileServiceImpl implements UserProfileService {
                         userProfile.setPpm103(new BigInteger(zone[0]));
                         userProfile.setPpm106(new BigInteger(zone[1]));
                     }
-                    if (userZone.getZoneSeven() != null) {
+                    /*if (userZone.getZoneSeven() != null) {
                         zone = userZone.getZoneSeven().split("-");
+                         userProfile.setPpm106(new BigInteger(zone[0]));
                         userProfile.setPpm106(new BigInteger(zone[1]));
-                    }
+                    }*/
                 }
                 if (userZone.getZoneType().equals("2")) {
                     if (userZone.getZoneOne() != null) {
@@ -392,6 +393,8 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setDisease(dto.getDisease());
         userProfile.setAvailableTime(dto.getAvailableTime());
         userProfile.setTestDistance(dto.getTestDistance());
+        userProfile.setTestDistanceN(dto.getTestDistanceN());
+        userProfile.setCompetenceDate(dto.getEndDate());
         User user = userDao.findById(dto.getUserId());
         if (!dto.getIndMetricSys().equals("-1")) {
             user.setIndMetricSys(dto.getIndMetricSys());

@@ -229,21 +229,27 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if ($scope.userProfile.bikeType != "" && $scope.userProfile.bikeType != null) {
                                 $scope.getBikes($scope.userProfile.bikeType);
                             }
-                            if ($scope.userProfile.ftp105 <= 0) {
+                            /*if ($scope.userProfile.ftp105 <= 0) {
                                 $scope.calculateZone();
                             }
                             if ($scope.userProfile.ppm100 <= 0) {
                                 $scope.calculatePpm();
+                            }*/
+                            if ($scope.userProfile.height != null) {
+                                $scope.userProfile.height = parseFloat(Math.round($scope.userProfile.height * 100) / 100).toFixed(2);
                             }
-                            $scope.userProfile.height = parseFloat(Math.round($scope.userProfile.height * 100) / 100).toFixed(2);
-                            $scope.userProfile.weight = parseFloat(Math.round($scope.userProfile.weight * 100) / 100).toFixed(2);
+
+                            if ($scope.userProfile.weight != null) {
+                                $scope.userProfile.weight = parseFloat(Math.round($scope.userProfile.weight * 100) / 100).toFixed(2);
+                            }
+                            
                             if ($scope.userProfile.weight != null && $scope.userProfile.height != null) {
                                 $scope.calculateIMC();
                             }
                             
-                            if ($scope.userProfile.endDate != null) {
+                            /*if ($scope.userProfile.endDate != null) {
                                 $scope.competenceDt = $scope.userProfile.endDate;
-                            }
+                            }*/
                             
                             if($scope.userProfile.disciplineName == 'Triatlon'){
                                 $scope.calculatePaceZoneRunning();
@@ -403,7 +409,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
 
         $scope.getUserSession(function (res) {
-            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             $scope.userSession = user;
             if (user.typeUser === $scope.userSessionTypeUserAtleta && user.indLoginFirstTime == '1' &&
@@ -602,10 +608,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             if ($scope.validateFields()) {
                 if (generatePlan) {
                     if ($scope.userSession.planActiveId == '0') {
+                       
                         $scope.showMessageConfirmation(
                                 "Para generar tu plan debes adquirir un plan de entrenamiento. <br> Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios.<br> Deseas adquirirlo? "
                                 , 'Informaci\u00f3n', urlCompraPlanEntrenamiento);
-                        return;
+                        $scope.createOrMergeUserProfile($scope.userProfile, false);
                     }
                     $scope.confirmDialogGeneratePlan(ev, generatePlan);
                 } else {
@@ -616,7 +623,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     $scope.showMessage($scope.errorMessages, "Alerta", true);
                 }
                 $scope.errorMessages = [];
-                window.scrollTo(0, 2400);
+                //window.scrollTo(0, 2400);
             }
         };
 
@@ -737,7 +744,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
 
         $scope.createOrMergeUserProfile = function (userProfile, generatePlan) {
-            userProfile.endDate = $scope.competenceDt;
+            //userProfile.endDate = $scope.competenceDt;
             
             if (userProfile.userProfileId == null) {
                 userProfile.userId = $scope.user.userId;
@@ -998,35 +1005,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
 
-/*
-        $scope.getObjectivesByDiscipline = function (disciplineId, change) {
-            if (change) {
-                $scope.userProfile.objective = '';
-                $scope.userProfile.modality = '';
-            }
-            ObjectiveService.getObjectivesByDiscipline(disciplineId).then(
-                    function (d) {
-                        $scope.objectives = d.output;
-                    },
-                    function (errResponse) {
-                        console.error('Error while getting objectives');
-                        console.error(errResponse);
-                    }
-            );
-        };
-        this.getObjectives = function () {
-            ObjectiveService.getObjectives().then(
-                    function (d) {
-                        $scope.objectives = d;
-                    },
-                    function (errResponse) {
-                        console.error('Error while objectives');
-                        console.error(errResponse);
-                    }
-            );
-        };
-        
-        */
 
         $scope.getModalitiesByDisciplineId = function (id, change) {
             if (change) {
@@ -1241,93 +1219,100 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             if ($scope.userProfile.testDistance !== "") {
                 var pace = 20 / $scope.userProfile.testDistance;
                 pace = (pace * 95) / 100;
+                
                 //TODO falta multiplicar la parte decimal por 6
-                $scope.ftp0R = (pace * 0) / 100;
-                $scope.ftp129R = (pace * 129) / 100;
+                $scope.ftp0R = Math.round((pace * 0) / 100);
+                $scope.ftp129R =  Math.round((pace * 129) / 100);
 
-                $scope.ftp114R = (pace * 114) / 100;
+                $scope.ftp114R =  Math.round((pace * 114) / 100);
                 $scope.ftp106R = (pace * 106) / 100;
 
-                $scope.ftp100R = (pace * 100) / 100;
-                $scope.ftp97R = (pace * 97) / 100;
+                $scope.ftp100R =  Math.round((pace * 100) / 100);
+                $scope.ftp97R =  Math.round((pace * 97) / 100);
 
-                $scope.ftp90R = (pace * 90) / 100;
+                $scope.ftp90R =  Math.round((pace * 90) / 100);
             }
         };
         
             $scope.calculatePaceZoneNatacion = function () {
             if ($scope.userProfile.testDistanceN !== "") {
-                var pace = 20 / $scope.userProfile.testDistanceN;
+                var pace = 20 / ($scope.userProfile.testDistanceN/100);
                 pace = (pace * 95)/100; 
-                //TODO falta multiplicar la parte decimal por 6
-                $scope.ftp0N = (pace * 0) / 100;
-                $scope.ftp129N = (pace * 129) / 100;
+                
+                $scope.ftp0N =  Math.round((pace * 0) / 100);
+                $scope.ftp129N =  Math.round((pace * 129) / 100);
 
-                $scope.ftp114N = (pace * 114) / 100;
-                $scope.ftp106N = (pace * 106) / 100;
+                $scope.ftp114N =  Math.round((pace * 114) / 100);
+                $scope.ftp106N =  Math.round((pace * 106) / 100);
 
-                $scope.ftp100N = (pace * 100) / 100;
-                $scope.ftp97N = (pace * 97) / 100;
+                $scope.ftp100N =  Math.round((pace * 100) / 100);
+                $scope.ftp97N =  Math.round((pace * 97) / 100);
 
-                $scope.ftp90N = (pace * 90) / 100;
+                $scope.ftp90N =  Math.round((pace * 90) / 100);
             }
         };
         
         $scope.calculatePaceZone = function () {
+            var pace;
             if ($scope.userProfile.testDistance !== "") {
-                var pace = 20 / $scope.userProfile.testDistance;
+                
+                if ($scope.userProfile.discipline == 3) {
+                    pace = 20 / $scope.userProfile.testDistance;
+                } else if ($scope.userProfile.discipline == 4) {
+                    pace = 20 / ($scope.userProfile.testDistance / 100);
+                }
                 pace = (pace * 95)/100; 
                 //TODO falta multiplicar la parte decimal por 6
-                //TODO cuando es natación 
-                $scope.userProfile.ftp0 = (pace * 0) / 100;
-                $scope.userProfile.ftp129 = (pace * 129) / 100;
+                $scope.userProfile.ftp0 =  (pace * 0) / 100;
+                $scope.userProfile.ftp129 =  Math.round((pace * 129) / 100);
 
-                $scope.userProfile.ftp114 = (pace * 114) / 100;
-                $scope.userProfile.ftp106 = (pace * 106) / 100;
+                $scope.userProfile.ftp114 =  Math.round((pace * 114) / 100);
+                $scope.userProfile.ftp106 =  Math.round((pace * 106) / 100);
 
-                $scope.userProfile.ftp100 = (pace * 100) / 100;
-                $scope.userProfile.ftp97 = (pace * 97) / 100;
+                $scope.userProfile.ftp100 =  Math.round((pace * 100) / 100);
+                $scope.userProfile.ftp97 =  Math.round((pace * 97) / 100);
 
-                $scope.userProfile.ftp90 = (pace * 90) / 100;
+                $scope.userProfile.ftp90 =  Math.round((pace * 90) / 100);
             }
         };
 
         $scope.calculateZone = function () {
             if ($scope.userProfile.power !== "") {
                 var power = ($scope.userProfile.power * 95) / 100;
-                $scope.userProfile.ftp0 = (power * 0) / 100;
-                $scope.userProfile.ftp129 = (power * 129) / 100;
 
-                $scope.userProfile.ftp114 = (power * 114) / 100;
-                $scope.userProfile.ftp106 = (power * 106) / 100;
+                $scope.userProfile.ftp0 =  Math.round((power * 0) / 100);
+                $scope.userProfile.ftp129 =  Math.round((power * 129) / 100);
 
-                $scope.userProfile.ftp100 = (power * 100) / 100;
-                $scope.userProfile.ftp97 = (power * 97) / 100;
+                $scope.userProfile.ftp114 =  Math.round((power * 114) / 100);
+                $scope.userProfile.ftp106 =  Math.round((power * 106) / 100);
 
-                $scope.userProfile.ftp90 = (power * 90) / 100;
+                $scope.userProfile.ftp100 =  Math.round((power * 100) / 100);
+                $scope.userProfile.ftp97 =  Math.round((power * 97) / 100);
+
+                $scope.userProfile.ftp90 =  Math.round((power * 90) / 100);
             }
         };
         $scope.calculatePpm = function () {
             if ($scope.userProfile.ppm !== "") {
                 var ppm = ($scope.userProfile.ppm * 95)/100;
                 
-                $scope.userProfile.ppm0 = (ppm * 0) / 100;
-                $scope.userProfile.ppm81 = (ppm * 81) / 100;
+                $scope.userProfile.ppm0 = (ppm * 0) / 100; 
+                $scope.userProfile.ppm81 =  Math.round((ppm * 81) / 100);
                 
-                $scope.userProfile.ppm82 = (ppm * 82) / 100;
-                $scope.userProfile.ppm89 = (ppm * 89) / 100;
+                $scope.userProfile.ppm82 =  Math.round((ppm * 82) / 100);
+                $scope.userProfile.ppm89 =  Math.round((ppm * 89) / 100);
                 
-                $scope.userProfile.ppm90 = (ppm * 90) / 100;
-                $scope.userProfile.ppm93 = (ppm * 93) / 100;
+                $scope.userProfile.ppm90 =  Math.round((ppm * 90) / 100);
+                $scope.userProfile.ppm93 =  Math.round((ppm * 93) / 100);
                 
-                $scope.userProfile.ppm94 = (ppm * 94) / 100;
-                $scope.userProfile.ppm99 = (ppm * 99) / 100;
+                $scope.userProfile.ppm94 =  Math.round((ppm * 94) / 100);
+                $scope.userProfile.ppm99 =  Math.round((ppm * 99) / 100);
                 
-                $scope.userProfile.ppm100 = (ppm * 100) / 100;
-                $scope.userProfile.ppm102 = (ppm * 102) / 100;
+                $scope.userProfile.ppm100 =  Math.round((ppm * 100) / 100);
+                $scope.userProfile.ppm102 =  Math.round((ppm * 102) / 100);
                 
-                $scope.userProfile.ppm103 = (ppm * 103) / 100;
-                $scope.userProfile.ppm106 = (ppm * 106) / 100;
+                $scope.userProfile.ppm103 =  Math.round((ppm * 103) / 100);
+                $scope.userProfile.ppm106 =  Math.round((ppm * 106) / 100);
             }
         };
 
@@ -1412,14 +1397,14 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.errorMessages.push("La disponiblidad de tiempo es obligatoria ");
                 valid = false;
             }
-            if (!$scope.validatePpm()) {
+            /*if (!$scope.validatePpm()) {
                 $scope.errorMessages.push("Debe llenar todas las zonas de potencia ");
                 valid = false;
             }
             if (!$scope.validatePower()) {
                 $scope.errorMessages.push("Debe llenar todas las zonas de ppm ");
                 valid = false;
-            }
+            }*/
             if ($scope.userProfile.height <= 0) {
                 $scope.errorMessages.push("La altura debe ser mayor a cero ");
                 valid = false;
@@ -1469,6 +1454,22 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.showTooltipVo2Ciclismo = function () {
             $scope.showMessage("Volumen m\u00e1ximo de oxigeno que el organismo es capaz de metabolizar por unidad de tiempo determinado.", "VO2 Max Ciclismo");
+        };
+        
+        $scope.showTooltipDistance = function () {
+            if ($scope.userProfile.discipline == 3) {
+                $scope.showMessage("El valor registrado en este campo corresponder\u00e1 a la distancia recorrida en kil\u00f3metros en una prueba de esfuerzo vigente,  por un per\u00edodo de 20 min,  en el que deber\u00e1 desplazarse en plano o loma durante el tiempo indicado, lo m\u00e1s r\u00e1pido posible", "Distancia");
+            } else if ($scope.userProfile.discipline == 4) {
+                $scope.showMessage("El valor registrado en este campo corresponder\u00e1 a la distancia recorrida en metros de una prueba de esfuerzo vigente,  por un per\u00edodo de 20 min ", "Distancia");
+            }
+        };
+        
+         $scope.showTooltipTrainingHour = function(){
+             $scope.showMessage("El valor registrado en este campo corresponder\u00e1 a las horas semanales disponibles para el entrenamiento. ", "Horas de Entrenamiento Semanal");
+        };
+        
+        $scope.showTooltipCompetenceDate = function(){
+             $scope.showMessage("El valor registrado en este campo corresponder\u00e1 a la fecha de competencia o chequeo. ", "Fecha de Competencia");
         };
 
         this.getBikeTypes = function () {

@@ -272,7 +272,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
         $scope.setUserSession = function () {
             AuthService.setUserSession(function (res) {
-                if (res.data.entity.output == null) {
+                if (res.data.output == null) {
                     $scope.showMessage("El usuario no se encuentra logueado");
                     $scope.logout();
                     $("#trainingApp").removeClass("preloader");
@@ -280,17 +280,17 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                 }
 
                 $scope.appReady = true;
-                if (res.data.entity.output.secondName == null || res.data.entity.output.secondName == 'undefined') {
-                    $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.lastName;
+                if (res.data.output.secondName == null || res.data.output.secondName == 'undefined') {
+                    $scope.userLogin = res.data.output.firstName + " " + res.data.output.lastName;
                 } else {
-                    $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
+                    $scope.userLogin = res.data.output.firstName + " " + res.data.output.secondName + " " + res.data.output.lastName;
                 }
                 try {
-                    $scope.userSession = res.data.entity.output;
-                    $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+                    $scope.userSession = res.data.output;
+                    $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
                 } catch (e) {
                     $window.sessionStorage.clear();
-                    $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+                    $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
                 }
                
                $scope.init();
@@ -763,7 +763,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
 
 
         $scope.setAthleteRole = function () {
-            $scope.go('/dashboard-athlete', 1);
+            //$scope.go('/dashboard-athlete', 1);
             $scope.userPanel = $scope.views.athletePanel;
             $scope.getDashBoardByUser($scope.userSession);
             messageService.initialize($scope.userSession.planSelected.id);
@@ -1038,7 +1038,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
                 $window.sessionStorage.setItem("planSelected", null);
                 $window.sessionStorage.setItem("planSelectedStar", null);
                 $window.sessionStorage.setItem("selectedUser", null);
-                $scope.userSession = res.data.entity.output;
+                $scope.userSession = res.data.output;
 
                 if ($scope.userSession != null) {
                     //$scope.getUserById();

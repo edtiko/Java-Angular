@@ -250,7 +250,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
     }
     function ManualActivityController($scope, $mdDialog) {
 
-        $scope.manualActivity = {id: '', sportId: '', name: '', description: '', workoutDate: '', userId: $scope.userId};
+        $scope.manualActivity = {id: '', sportId: '', name: '', description: '', workoutDate: '', userId: $scope.userSession.userId};
 
         $scope.getActivity = function () {
             CalendarService.getActivity($scope.selectedId).then(
@@ -282,7 +282,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                         if(data.status == 'success'){
                         $scope.getManualActivities();
                         if ($scope.selectedDay != null && $scope.selectedId == "") {
-                            var objActivity = {'userId': $scope.userId, 'manualActivityId': data.output, 'activityDate': $scope.selectedDay};
+                            var objActivity = {'userId': $scope.userSession.userId, 'manualActivityId': data.output, 'activityDate': $scope.selectedDay};
                             createActivity(objActivity);
                         }
                         if ($scope.selectedActivityId != "") {

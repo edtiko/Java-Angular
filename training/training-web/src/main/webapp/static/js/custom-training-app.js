@@ -1,5 +1,5 @@
 'use strict';
-var urlCompraPlanEntrenamiento = $wordPressContextPath + 'plan-de-entrenamiento-deporte/';
+var urlCompraPlanEntrenamiento = $wordPressContextPath + 'atletas/';
 //var App = angular.module('myApp',[]);
 
 // create the module and name it trainingApp
@@ -194,6 +194,7 @@ trainingApp.directive('jqdatepicker', function ($parse) {
                 buttonImageOnly: true,
                 changeMonth: true,
                 changeYear: true,
+                minDate: new Date(),
                 onSelect: function (date) {
                     scope.$apply(function (scope) {
                         // Change binded variable

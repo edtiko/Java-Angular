@@ -77,20 +77,29 @@
                 <md-input-container class="md-block md-input-has-placeholder" >
                     <label>Horas de entrenamiento semanal*</label>
                     <input type="number" min="0" id="availableTime" name="availableTime" ng-model="userProfile.availableTime" required="true">
+                     <div class="has-error" ng-messages="frm3.availableTime.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
                 </md-input-container>
             </div>
+             <md-button class="md-icon-button launch md-primary" aria-label="distancia" ng-click="showTooltipTrainingHour()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
         </div>
         <div layout="row">
             <div flex="66">
                 <md-input-container class="md-block" >
-                    <label>Fecha de competencia ó chequeo (dd/mm/yyyy)</label>
-                    <input type="text" id="endDate" readonly="true"  ng-model-options="{updateOn: 'blur'}" name="endDate" ng-model="competenceDt" jqdatepicker  ng-required="true" />
+                    <label>Fecha de competencia ó chequeo (dd/mm/yyyy)*</label>
+                    <input type="text" id="endDate" readonly="true"  ng-model-options="{updateOn: 'blur'}" name="endDate" ng-model="userProfile.endDate" jqdatepicker  ng-required="true" />
                     <div class="has-error" ng-messages="frm3.endDate.$error">
                         <div ng-message="required">Este es un campo requerido</div>
                         <div ng-message="date">Este campo es inv&aacute;lido</div>
                     </div>
                 </md-input-container>
             </div>
+              <md-button class="md-icon-button launch md-primary" aria-label="distancia" ng-click="showTooltipCompetenceDate()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+            </md-button>
         </div>
         <div layout="row"> 
             <label>Disponibilidad: </label>
