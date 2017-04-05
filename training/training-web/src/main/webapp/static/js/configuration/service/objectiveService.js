@@ -21,11 +21,11 @@ trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getObjectiveById: function (id) {
-                return $http.get($contextPath + '/get/objective/by/' + id)
+            getLevelById: function (id) {
+                return $http.get($contextPath + 'level/get/by/' + id)
                         .then(
                                 function (response) {
-                                    return response.data;
+                                    return response.data.output;
                                 },
                                 function (errResponse) {
                                     console.error('Error while fetching objectives');

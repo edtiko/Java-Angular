@@ -217,6 +217,23 @@ public class ObjectiveController {
         }
     }
 
+    
+    @RequestMapping(value = "level/get/by/{levelId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getTrainingLevel(@PathVariable("levelId") Integer levelId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            TrainingLevelDTO level = objectiveService.findById(levelId);
+            responseService.setOutput(level);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ObjectiveController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar los objectives");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
     /**
      * Consulta objective paginado <br>
      * Info. Creación: <br>

@@ -39,7 +39,10 @@
             <main step-container></main>
             <section layout="row" layout-sm="column" layout-align="center" layout-wrap>
                 <md-button ng-disabled="$isFirst()" ng-click="$previousStep()" class="md-raised"><span class="fa fa-chevron-left"></span> ANTERIOR</md-button>
-                <md-button class="md-raised" ng-if="$getActiveIndex() !== 4" ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid)" style="background: #1C2127; color:#AAFD6F;" ng-click="$nextStep()" >SIGUIENTE <span class="fa fa-chevron-right"></span></md-button>
+                
+                <md-button class="md-raised" ng-if="$getActiveIndex() !== 4" style="background: #1C2127; color:#AAFD6F;" ng-click="!validate($getActiveIndex())?return: $nextStep()" >SIGUIENTE <span class="fa fa-chevron-right"></span></md-button>
+                
+                <!--<md-button class="md-raised" ng-if="$getActiveIndex() !== 4 && $getActiveStep().valid" ng-disabled="$isLast()" style="background: #1C2127; color:#AAFD6F;" ng-click="$nextStep()" >SIGUIENTE <span class="fa fa-chevron-right"></span></md-button>-->
                 <!--<md-button class="md-raised" ng-if="$getActiveIndex() === 4" ng-disabled="$isLast() || ($getActiveStep().hasForm && !$getActiveStep().valid) || !(userSession.typeUser === userSessionTypeUserAtleta && userSession.indLoginFirstTime == '1' && userSession.planActiveId != null)" style="background: #1C2127; color:#AAFD6F;" ng-click="submitUserProfile(true, $event)" >GENERAR PLAN <span class="fa fa-chevron-right"></span></md-button>-->
                 <md-button class="md-raised" ng-if="$getActiveIndex() === 4" style="background: #1C2127; color:#AAFD6F;" ng-click="submitUserProfile(true, $event)" >GENERAR PLAN <span class="fa fa-chevron-right"></span></md-button>
             </section>

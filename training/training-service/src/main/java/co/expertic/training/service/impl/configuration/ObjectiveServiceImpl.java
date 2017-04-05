@@ -89,4 +89,9 @@ public class ObjectiveServiceImpl implements ObjectiveService {
         return levelDao.findByModality(modalityId);
     }
 
+    @Override
+    public TrainingLevelDTO findById(Integer levelId) throws Exception {
+        return levelDao.findById(levelId);
+    }
+
 }

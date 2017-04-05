@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface TrainingLevelDao extends BaseDAO<TrainingLevel> {
     
-    public TrainingLevel findById(Integer trainingLevelId) throws Exception;
+    public TrainingLevelDTO findById(Integer trainingLevelId) throws Exception;
     
      public List<TrainingLevelDTO> findByModality(Integer modalityId) throws Exception;
     

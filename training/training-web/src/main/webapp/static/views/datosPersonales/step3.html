@@ -40,8 +40,8 @@
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label>Modalidad *</label>
-                    <md-select  ng-model="userProfile.modality" id="modality" name="modality" ng-change="getLevelsByModality(userProfile.modality)">
+                    <label>Modalidad </label>
+                    <md-select  ng-model="userProfile.modality" id="modality" name="modality" ng-change="getLevelsByModality(userProfile.modality)" ng-required="true">
                         <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
                             {{m.name}}
                         </md-option>
@@ -57,8 +57,8 @@
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label>Nivel *</label>
-                    <md-select id="objective"  name="objective" ng-model="userProfile.objective" >
+                    <label>Nivel </label>
+                    <md-select id="objective"  name="objective" ng-model="userProfile.objective" ng-required="true">
                         <md-option ng-repeat="o in objectives" value="{{o.id}}" >
                             {{o.name}}
                         </md-option>
@@ -75,7 +75,7 @@
         <div layout="row">
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label>Horas de entrenamiento semanal*</label>
+                    <label>Horas de entrenamiento semanal </label>
                     <input type="number" min="0" id="availableTime" name="availableTime" ng-model="userProfile.availableTime" required="true">
                      <div class="has-error" ng-messages="frm3.availableTime.$error">
                         <div ng-message="required">Este es un campo requerido</div>
@@ -89,7 +89,7 @@
         <div layout="row">
             <div flex="66">
                 <md-input-container class="md-block" >
-                    <label>Fecha de competencia ó chequeo (dd/mm/yyyy)*</label>
+                    <label>Fecha de competencia &oacute; chequeo (dd/mm/yyyy) </label>
                     <input type="text" id="endDate" readonly="true"  ng-model-options="{updateOn: 'blur'}" name="endDate" ng-model="userProfile.endDate" jqdatepicker  ng-required="true" />
                     <div class="has-error" ng-messages="frm3.endDate.$error">
                         <div ng-message="required">Este es un campo requerido</div>
@@ -121,9 +121,8 @@
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label>Entorno Geogr&aacute;fico *
-                    </label>
-                    <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" >
+                    <label>Entorno Geogr&aacute;fico </label>
+                    <md-select  ng-model="userProfile.environmentId" id="environment" name="environment" ng-required="true">
                         <md-option ng-repeat="m in entornos" value="{{m.environmentId}}" >
                             {{m.name}}
                         </md-option>
@@ -146,9 +145,8 @@
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
 
-                    <label>Clima *
-                    </label>
-                    <md-select  ng-model="userProfile.weatherId" id="weather" name="weather">
+                    <label>Clima </label>
+                    <md-select  ng-model="userProfile.weatherId" id="weather" name="weather" ng-required="true">
                         <md-option ng-repeat="m in climas" value="{{m.weatherId}}" >
                             {{m.name}}
                         </md-option>

@@ -5,6 +5,7 @@ import co.expertic.training.constant.MessageBundle;
 import co.expertic.training.model.dto.DashboardDTO;
 import co.expertic.training.model.dto.UserProfileDTO;
 import co.expertic.training.model.entities.ResponseService;
+import co.expertic.training.model.entities.UserProfile;
 import co.expertic.training.service.user.UserProfileService;
 import co.expertic.training.web.enums.StatusResponse;
 import javax.ws.rs.core.Response;
@@ -90,14 +91,19 @@ public class UserProfileController {
         StringBuilder strResponse = new StringBuilder();
         ResponseService responseService = new ResponseService();
         try {
+            UserProfile profile = userProfileService.findByUserId(userProfile.getUserId());
 //            if (userProfile == null) {
 //                strResponse.append(MessageUtil.getMessageFromBundle(MessageBundle.GENERAL_PROPERTIES, "nullParameters"));
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
 //                return Response.status(Response.Status.OK).entity(responseService).build();
 //            }
-
+            if(profile == null){
             userProfileService.create(userProfile);
+            }else{
+             userProfile.setUserProfileId(profile.getUserProfileId());
+             userProfileService.merge(userProfile);   
+            }
             UserProfileDTO user = userProfileService.findDTOByUserId(userProfile.getUserId());
             responseService.setOutput(user);
             return Response.status(Response.Status.OK).entity(responseService).build();

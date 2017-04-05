@@ -21,17 +21,19 @@ import org.springframework.stereotype.Repository;
 public class TrainingLevelDaoImpl extends BaseDAOImpl<TrainingLevel> implements TrainingLevelDao {
 
     @Override
-    public TrainingLevel findById(Integer trainingLevelId) throws Exception {
+    public TrainingLevelDTO findById(Integer trainingLevelId) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT t FROM TrainingLevel t ");
+        sql.append("SELECT new co.expertic.training.model.dto.TrainingLevelDTO(t)");
+        sql.append("FROM TrainingLevel t ");
         sql.append("WHERE t.trainingLevelId = :trainingLevelId ");
-        setParameter("trainingLevelId", trainingLevelId);
-        List<TrainingLevel> list = createQuery(sql.toString());
+      
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("trainingLevelId", trainingLevelId);
+        List<TrainingLevelDTO> list = query.getResultList();
 
         if (list != null && !list.isEmpty()) {
             return list.get(0);
         }
-
         return null;
     }
 

@@ -416,30 +416,36 @@ public class UserProfileServiceImpl implements UserProfileService {
             }
         }
 
-        UserZone userZone = new UserZone();
-        userZone.setZoneType("2");
-        userZone.setUserId(user);
-        userZone.setZoneOne(dto.getFtp0() + "-" + dto.getFtp129());
-        userZone.setZoneTwo(dto.getFtp129() + "-" + dto.getFtp114());
-        userZone.setZoneThree(dto.getFtp114() + "-" + dto.getFtp106());
-        userZone.setZoneFour(dto.getFtp106() + "-" + dto.getFtp100());
-        userZone.setZoneFive(dto.getFtp100() + "-" + dto.getFtp97());
-        userZone.setZoneSix(dto.getFtp97() + "-" + dto.getFtp90());
-        userZone.setZoneSeven(dto.getFtp90() + "-" + dto.getFtp0());
-        userZoneDao.create(userZone);
-        userZone = new UserZone();
-        userZone.setZoneType("1");
-        userZone.setUserId(user);
-        userZone.setZoneOne(dto.getPpm0() + "-" + dto.getPpm81());
-        userZone.setZoneTwo(dto.getPpm82() + "-" + dto.getPpm89());
-        userZone.setZoneThree(dto.getPpm90() + "-" + dto.getPpm93());
-        userZone.setZoneFour(dto.getPpm94() + "-" + dto.getPpm99());
-        userZone.setZoneFive(dto.getPpm100() + "-" + dto.getPpm102());
-        userZone.setZoneSix(dto.getPpm103() + "-" + dto.getPpm106());
-        userZone.setZoneSeven(dto.getPpm106() + "-" + dto.getPpm0());
-        userZoneDao.create(userZone);
+        if (userProfile.getPpm() != null) {
+            UserZone userZone = new UserZone();
+            userZone.setZoneType("2");
+            userZone.setUserId(user);
+            userZone.setZoneOne(dto.getFtp0() + "-" + dto.getFtp129());
+            userZone.setZoneTwo(dto.getFtp129() + "-" + dto.getFtp114());
+            userZone.setZoneThree(dto.getFtp114() + "-" + dto.getFtp106());
+            userZone.setZoneFour(dto.getFtp106() + "-" + dto.getFtp100());
+            userZone.setZoneFive(dto.getFtp100() + "-" + dto.getFtp97());
+            userZone.setZoneSix(dto.getFtp97() + "-" + dto.getFtp90());
+            userZone.setZoneSeven(dto.getFtp90() + "-" + dto.getFtp0());
+            userZoneDao.create(userZone);
+        }
+
+        if (userProfile.getPower() != null || userProfile.getTestDistance() != null || userProfile.getTestDistanceN() != null) {
+            UserZone userZone = new UserZone();
+            userZone.setZoneType("1");
+            userZone.setUserId(user);
+            userZone.setZoneOne(dto.getPpm0() + "-" + dto.getPpm81());
+            userZone.setZoneTwo(dto.getPpm82() + "-" + dto.getPpm89());
+            userZone.setZoneThree(dto.getPpm90() + "-" + dto.getPpm93());
+            userZone.setZoneFour(dto.getPpm94() + "-" + dto.getPpm99());
+            userZone.setZoneFive(dto.getPpm100() + "-" + dto.getPpm102());
+            userZone.setZoneSix(dto.getPpm103() + "-" + dto.getPpm106());
+            userZone.setZoneSeven(dto.getPpm106() + "-" + dto.getPpm0());
+            userZoneDao.create(userZone);
+        }
         userSportDao.create(sport);
         userAvailabilityService.create(availability);
+        
     }
 
     @Override
@@ -633,28 +639,33 @@ public class UserProfileServiceImpl implements UserProfileService {
                 }
             }
         } else {
-            UserZone userZone = new UserZone();
-            userZone.setZoneType("2");
-            userZone.setUserId(user);
-            userZone.setZoneOne(dto.getFtp0() + "-" + dto.getFtp129());
-            userZone.setZoneTwo(dto.getFtp129() + "-" + dto.getFtp114());
-            userZone.setZoneThree(dto.getFtp114() + "-" + dto.getFtp106());
-            userZone.setZoneFour(dto.getFtp106() + "-" + dto.getFtp100());
-            userZone.setZoneFive(dto.getFtp100() + "-" + dto.getFtp97());
-            userZone.setZoneSix(dto.getFtp97() + "-" + dto.getFtp90());
-            userZone.setZoneSeven(dto.getFtp90() + "-" + dto.getFtp0());
-            userZoneDao.create(userZone);
-            userZone = new UserZone();
-            userZone.setZoneType("1");
-            userZone.setUserId(user);
-            userZone.setZoneOne(dto.getPpm0() + "-" + dto.getPpm81());
-            userZone.setZoneTwo(dto.getPpm82() + "-" + dto.getPpm89());
-            userZone.setZoneThree(dto.getPpm90() + "-" + dto.getPpm93());
-            userZone.setZoneFour(dto.getPpm94() + "-" + dto.getPpm99());
-            userZone.setZoneFive(dto.getPpm100() + "-" + dto.getPpm102());
-            userZone.setZoneSix(dto.getPpm103() + "-" + dto.getPpm106());
-            userZone.setZoneSeven(dto.getPpm106() + "-" + dto.getPpm0());
-            userZoneDao.create(userZone);
+            if (userProfile.getPower() != null || userProfile.getTestDistance() != null || userProfile.getTestDistanceN() != null) {
+                UserZone userZone = new UserZone();
+                userZone.setZoneType("2");
+                userZone.setUserId(user);
+                userZone.setZoneOne(dto.getFtp0() + "-" + dto.getFtp129());
+                userZone.setZoneTwo(dto.getFtp129() + "-" + dto.getFtp114());
+                userZone.setZoneThree(dto.getFtp114() + "-" + dto.getFtp106());
+                userZone.setZoneFour(dto.getFtp106() + "-" + dto.getFtp100());
+                userZone.setZoneFive(dto.getFtp100() + "-" + dto.getFtp97());
+                userZone.setZoneSix(dto.getFtp97() + "-" + dto.getFtp90());
+                userZone.setZoneSeven(dto.getFtp90() + "-" + dto.getFtp0());
+                userZoneDao.create(userZone);
+            }
+
+            if (userProfile.getPpm() != null) {
+                UserZone userZone = new UserZone();
+                userZone.setZoneType("1");
+                userZone.setUserId(user);
+                userZone.setZoneOne(dto.getPpm0() + "-" + dto.getPpm81());
+                userZone.setZoneTwo(dto.getPpm82() + "-" + dto.getPpm89());
+                userZone.setZoneThree(dto.getPpm90() + "-" + dto.getPpm93());
+                userZone.setZoneFour(dto.getPpm94() + "-" + dto.getPpm99());
+                userZone.setZoneFive(dto.getPpm100() + "-" + dto.getPpm102());
+                userZone.setZoneSix(dto.getPpm103() + "-" + dto.getPpm106());
+                userZone.setZoneSeven(dto.getPpm106() + "-" + dto.getPpm0());
+                userZoneDao.create(userZone);
+            }
         }
 
         userDao.merge(user);

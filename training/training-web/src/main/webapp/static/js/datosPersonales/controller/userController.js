@@ -43,6 +43,125 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             $scope.currentNavItem = index - 1;
             //console.log("el paso activo es:" + index);
         };
+        
+        $scope.validate = function (step) {
+           var res = true;
+            if(step == 1){
+                   if ($scope.user.firstName == null) {
+                    var uname = angular.element(document.querySelector('#uname'));
+                    uname.blur();
+                    window.scrollTo(0, 10);
+                    res = false;
+                }
+                if ($scope.user.secondName == null) {
+                    var secondName = angular.element(document.querySelector('#secondName'));
+                    secondName.blur();
+                    window.scrollTo(0, 10);
+                      res = false;
+                }
+                if ($scope.user.lastName == null) {
+                    var lastName = angular.element(document.querySelector('#lname'));
+                    lastName.blur();
+                    window.scrollTo(0, 10);
+                      res = false;
+                }
+                 if ($scope.user.sex == null) {
+                    var sex = angular.element(document.querySelector('#sex'));
+                    sex.blur();
+                    window.scrollTo(0, 10);
+                      res = false;
+                }
+                 if ($scope.birthdateDt == null) {
+                    var birthDate = angular.element(document.querySelector('#birthDate'));
+                    birthDate.blur();
+                     res = false;
+                    //window.scrollTo(0, 10);
+                }
+            }
+            else if(step == 2){
+                  if ($scope.user.email == null) {
+                    var email = angular.element(document.querySelector('#email'));
+                    email.blur();
+                    window.scrollTo(0, 10);
+                      res = false;
+                }
+
+            }
+            else if (step == 3) {
+                if ($scope.userProfile.modality == null) {
+                    var modality = angular.element(document.querySelector('#modality'));
+                    modality.blur();
+                    window.scrollTo(0, 50);
+                      res = false;
+                }
+                else if ($scope.userProfile.objective == null) {
+                    var objective = angular.element(document.querySelector('#objective'));
+                    objective.blur();
+                    window.scrollTo(0, 50);
+                      res = false;
+                }
+                else if ($scope.userProfile.availableTime == null) {
+                    var availableTime = angular.element(document.querySelector('#availableTime'));
+                    availableTime.blur();
+                    window.scrollTo(0, 100);
+                      res = false;
+                }
+                else if ($scope.userProfile.endDate == null) {
+                    var endDate = angular.element(document.querySelector('#endDate'));
+                    endDate.blur();
+                    window.scrollTo(0, 100);
+                      res = false;
+                }
+				
+                else if ($scope.userProfile.environmentId == null) {
+                    var environment = angular.element(document.querySelector('#environment'));
+                    environment.blur();
+                    window.scrollTo(0, 300);
+                      res = false;
+                }
+
+                else if ($scope.userProfile.weatherId == null) {
+                    var weather = angular.element(document.querySelector('#weather'));
+                    weather.blur();
+                    window.scrollTo(0, 300);
+                      res = false;
+                }
+                else if ($scope.userProfile.weight == null) {
+                    var weight = angular.element(document.querySelector('#weight'));
+                    weight.blur();
+			  res = false;
+                    //window.scrollTo(0, 300);
+                }
+                else if ($scope.userProfile.height == null) {
+                    var height = angular.element(document.querySelector('#height'));
+                    height.blur();
+		      res = false;
+                    //window.scrollTo(0, 300);
+                }
+                if ($scope.userProfile.objective != null) {
+                    var availableTime = angular.element(document.querySelector('#availableTime'));
+                    $scope.getTrainingLevel($scope.userProfile.objective, function (data) {
+                        if ($scope.userProfile.availableTime < data.minHourWeek) {
+                            $scope.showMessage("El nivel " + data.name + " requiere minimo " + data.minHourWeek + " horas semanales", "Advertencia!");
+                            availableTime.focus();
+                            window.scrollTo(0, 100);
+                              res = false;
+                        } else if ($scope.userProfile.availableTime > data.maxHourWeek) {
+                            $scope.showMessage("El nivel " + data.name + " tiene un máximo de " + data.maxHourWeek + " horas semanales");
+                            availableTime.focus();
+                            window.scrollTo(0, 100);
+                              res = false;
+                        }
+
+                    });
+                }
+
+            }
+             return res;
+
+        };
+        
+        
         $scope.userStravaAutorize = true;
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
         $scope.users = [];
@@ -606,15 +725,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.submitUserProfile = function (generatePlan, ev) {
             if ($scope.validateFields()) {
-                if (generatePlan) {
+                if (generatePlan) { 
                     if ($scope.userSession.planActiveId == '0') {
-                       
-                        $scope.showMessageConfirmation(
-                                "Para generar tu plan debes adquirir un plan de entrenamiento. <br> Recuerda que debes seleccionar tu disciplina y tu estrella favorita. Consiguelo y disfruta de tu rutina de ejercicios.<br> Deseas adquirirlo? "
-                                , 'Informaci\u00f3n', urlCompraPlanEntrenamiento);
-                        $scope.createOrMergeUserProfile($scope.userProfile, false);
-                    }
+                        $scope.confirmationBuyPlan();
+                    }else{
                     $scope.confirmDialogGeneratePlan(ev, generatePlan);
+                }
                 } else {
                     $scope.confirmDialogGuardarUserProfile(ev, generatePlan);
                 }
@@ -625,6 +741,26 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 $scope.errorMessages = [];
                 //window.scrollTo(0, 2400);
             }
+        };
+        
+        $scope.goBuyPlan = function () {
+          $scope.createOrMergeUserProfile($scope.userProfile, false);
+          window.location = urlCompraPlanEntrenamiento;
+        };
+        
+        $scope.confirmationBuyPlan = function () {
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/datosPersonales/confirmationBuyPlan.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
         };
 
         $scope.calculateIMC = function () {
@@ -756,7 +892,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                 $scope.validatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Datos Deportivos creados exitosamente.");
+                                //$scope.showMessage("Datos Deportivos creados exitosamente.");
                                 self.getUserById();
                             }
                         },
@@ -775,7 +911,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                  $scope.validatePlan($scope.userProfile);
                             } else {
-                                $scope.showMessage("Datos Deportivos editados exitosamente.");
+                                //$scope.showMessage("Datos Deportivos editados exitosamente.");
                                  self.getUserById();
                             }
 
@@ -1484,6 +1620,17 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             );
         };
         this.getBikeTypes();
+        
+        
+        $scope.getTrainingLevel = function (levelId, fn) {
+            ObjectiveService.getLevelById(levelId).then(
+                    fn,
+                    function (errResponse) {
+                        console.error('Error while getting level');
+                        console.error(errResponse);
+                    }
+            );
+        };
 
         // Survey Controller //
 

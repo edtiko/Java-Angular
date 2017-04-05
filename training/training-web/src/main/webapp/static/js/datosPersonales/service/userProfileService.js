@@ -4,7 +4,11 @@ trainingApp.factory('UserProfileService', ['$http', '$q', function($http, $q){
     return {
             
             createProfile: function(userProfile) {
-                    return $http.post($contextPath+'userProfile/create',userProfile)
+                var date = userProfile.endDate.split("/");
+                var dateFormat = new Date(date[2], date[1] - 1, date[0]);
+                var dto = userProfile;
+                dto.endDate = ("0" + (dateFormat.getDate() + 1)).slice(-2) + "/" + ("0" + (dateFormat.getMonth() + 1)).slice(-2) + "/" + dateFormat.getFullYear();
+                    return $http.post($contextPath+'userProfile/create',dto)
                             .then(
                                     function(response){
                                         return response.data.entity.output;

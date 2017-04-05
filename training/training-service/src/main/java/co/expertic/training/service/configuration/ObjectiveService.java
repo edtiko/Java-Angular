@@ -115,5 +115,7 @@ public interface ObjectiveService {
 
     public List<TrainingLevelDTO> findByModality(Integer modalityId) throws Exception;
 
+    public TrainingLevelDTO findById(Integer levelId) throws Exception;
+
     
 }
