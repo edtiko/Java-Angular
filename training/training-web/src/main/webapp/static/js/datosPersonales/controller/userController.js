@@ -1,11 +1,12 @@
 
 trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$location', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService', '$location', '$mdDialog', 'DcfService', function ($scope, UserService,
+    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService', '$location', '$mdDialog', 'DcfService','$timeout', function ($scope, UserService,
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
-            VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService) {
+            VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService, $timeout) {
         var self = this;
         $scope.currentNavItem = 0;
         $scope.profileImage = $window.sessionStorage.getItem("profileImage");
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.steps = [
             {
                 templateUrl: 'static/views/datosPersonales/step1.html',
@@ -45,9 +46,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         };
         
         $scope.validate = function (step) {
-           var res = true;
-            if(step == 1){
-                   if ($scope.user.firstName == null) {
+            var res = true;
+            if (step == 1) {
+                if ($scope.user.firstName == null) {
                     var uname = angular.element(document.querySelector('#uname'));
                     uname.blur();
                     window.scrollTo(0, 10);
@@ -57,108 +58,144 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     var secondName = angular.element(document.querySelector('#secondName'));
                     secondName.blur();
                     window.scrollTo(0, 10);
-                      res = false;
+                    res = false;
                 }
                 if ($scope.user.lastName == null) {
                     var lastName = angular.element(document.querySelector('#lname'));
                     lastName.blur();
                     window.scrollTo(0, 10);
-                      res = false;
+                    res = false;
                 }
-                 if ($scope.user.sex == null) {
+                if ($scope.user.sex == null) {
                     var sex = angular.element(document.querySelector('#sex'));
                     sex.blur();
                     window.scrollTo(0, 10);
-                      res = false;
+                    res = false;
                 }
-                 if ($scope.birthdateDt == null) {
+                if ($scope.birthdateDt == null) {
                     var birthDate = angular.element(document.querySelector('#birthDate'));
                     birthDate.blur();
-                     res = false;
+                    res = false;
                     //window.scrollTo(0, 10);
                 }
-            }
-            else if(step == 2){
-                  if ($scope.user.email == null) {
+
+            } else if (step == 2) {
+                if ($scope.user.email == null) {
                     var email = angular.element(document.querySelector('#email'));
                     email.blur();
                     window.scrollTo(0, 10);
-                      res = false;
+                    res = false;
                 }
 
-            }
-            else if (step == 3) {
+
+            } else if (step == 3) {
                 if ($scope.userProfile.modality == null) {
                     var modality = angular.element(document.querySelector('#modality'));
                     modality.blur();
                     window.scrollTo(0, 50);
-                      res = false;
-                }
-                else if ($scope.userProfile.objective == null) {
+                    res = false;
+                } else if ($scope.userProfile.objective == null) {
                     var objective = angular.element(document.querySelector('#objective'));
                     objective.blur();
                     window.scrollTo(0, 50);
-                      res = false;
-                }
-                else if ($scope.userProfile.availableTime == null) {
+                    res = false;
+                } else if ($scope.userProfile.availableTime == null) {
                     var availableTime = angular.element(document.querySelector('#availableTime'));
                     availableTime.blur();
                     window.scrollTo(0, 100);
-                      res = false;
-                }
-                else if ($scope.userProfile.endDate == null) {
+                    res = false;
+                } else if ($scope.userProfile.endDate == null) {
                     var endDate = angular.element(document.querySelector('#endDate'));
                     endDate.blur();
                     window.scrollTo(0, 100);
-                      res = false;
-                }
-				
-                else if ($scope.userProfile.environmentId == null) {
+                    res = false;
+                } else if ($scope.userProfile.environmentId == null) {
                     var environment = angular.element(document.querySelector('#environment'));
                     environment.blur();
                     window.scrollTo(0, 300);
-                      res = false;
-                }
-
-                else if ($scope.userProfile.weatherId == null) {
+                    res = false;
+                } else if ($scope.userProfile.weatherId == null) {
                     var weather = angular.element(document.querySelector('#weather'));
                     weather.blur();
                     window.scrollTo(0, 300);
-                      res = false;
-                }
-                else if ($scope.userProfile.weight == null) {
+                    res = false;
+                } else if ($scope.userProfile.weight == null) {
                     var weight = angular.element(document.querySelector('#weight'));
                     weight.blur();
-			  res = false;
+                    res = false;
                     //window.scrollTo(0, 300);
-                }
-                else if ($scope.userProfile.height == null) {
+                } else if ($scope.userProfile.height == null) {
                     var height = angular.element(document.querySelector('#height'));
                     height.blur();
-		      res = false;
+                    res = false;
                     //window.scrollTo(0, 300);
                 }
                 if ($scope.userProfile.objective != null) {
                     var availableTime = angular.element(document.querySelector('#availableTime'));
-                    $scope.getTrainingLevel($scope.userProfile.objective, function (data) {
-                        if ($scope.userProfile.availableTime < data.minHourWeek) {
-                            $scope.showMessage("El nivel " + data.name + " requiere minimo " + data.minHourWeek + " horas semanales", "Advertencia!");
-                            availableTime.focus();
-                            window.scrollTo(0, 100);
-                              res = false;
-                        } else if ($scope.userProfile.availableTime > data.maxHourWeek) {
-                            $scope.showMessage("El nivel " + data.name + " tiene un máximo de " + data.maxHourWeek + " horas semanales");
-                            availableTime.focus();
-                            window.scrollTo(0, 100);
-                              res = false;
-                        }
+                     var competenceDate = angular.element(document.querySelector('#endDate'));
+                    var endDate = $scope.userProfile.endDate.split("/");
+                        endDate = new Date(endDate[2], endDate[1] - 1, endDate[0]);
+                    var now = new Date();    
+                    var weeks = $scope.getWeekNumber(endDate) - $scope.getWeekNumber(now); 
+                    if ($scope.userProfile.availableTime < $scope.level.minHourWeek) {
+                        $scope.showError("El nivel " + $scope.level.name + " requiere minimo " + $scope.level.minHourWeek + " horas semanales");
+                        availableTime.blur();
+                        window.scrollTo(0, 100);
+                        res = false;
+                    } else if ($scope.userProfile.availableTime > $scope.level.maxHourWeek) {
+                        $scope.showError("El nivel " + $scope.level.name + " tiene un m\u00e1ximo de " + $scope.level.maxHourWeek + " horas semanales");
+                        availableTime.blur();
+                        window.scrollTo(0, 100);
+                        res = false;
 
-                    });
+                    }else if (weeks < $scope.level.minWeekPlan) {
+                        $scope.showError("El nivel " + $scope.level.name + " requiere minimo de " + $scope.level.minWeekPlan + " semanas");
+                        competenceDate.blur();
+                        window.scrollTo(0, 100);
+                        res = false;
+                    }else if (weeks > $scope.level.maxWeekPlan) {
+                        $scope.showError("El nivel " + $scope.level.name + " tiene un m\u00e1ximo de " + $scope.level.maxWeekPlan + " semanas");
+                        competenceDate.blur();
+                        window.scrollTo(0, 100);
+                        res = false;
+                    }
+                    else if ($scope.getSessions() < $scope.level.minSesion) {
+                        $scope.showError("El nivel " + $scope.level.name + " requiere minimo de " + $scope.level.minSesion + " sesiones");
+                        availableTime.blur();
+                        window.scrollTo(0, 100);
+                        res = false;
+                    }
+                     else if ($scope.getSessions() > $scope.level.maxSesion) {
+                        $scope.showError("El nivel " + $scope.level.name + " tiene un m\u00e1ximo de " + $scope.level.maxSesion + " sesiones");
+                        availableTime.blur();
+                        window.scrollTo(0, 100);
+                        res = false;
+                    }
+
                 }
 
-            }
-             return res;
 
+
+            }
+            return res;
+
+
+        };
+
+        $scope.showError = function (msg) {
+            $scope.errorMsg = msg;
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/datosPersonales/showError.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
         };
         
         
@@ -334,6 +371,9 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             }
                             if ($scope.userProfile.modality != undefined && $scope.userProfile.modality != "") {
                                 $scope.getLevelsByModality($scope.userProfile.modality);
+                            }
+                            if($scope.userProfile.objective != null){
+                                $scope.getTrainingLevel($scope.userProfile.objective);
                             }
 
                             if ($scope.userProfile.potentiometer != "" && $scope.userProfile.potentiometer != null) {
@@ -578,7 +618,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         self.remove = function (id) {
             console.log('id to be deleted', id);
             if ($scope.user.userId === id) {//clean form if the user to be deleted is shown there.
-                self.resetUser();
+                resetUser();
             }
             self.deleteUser(id);
         };
@@ -725,27 +765,42 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
 
         $scope.submitUserProfile = function (generatePlan, ev) {
             if ($scope.validateFields()) {
-                if (generatePlan) { 
+                if (generatePlan) {
                     if ($scope.userSession.planActiveId == '0') {
                         $scope.confirmationBuyPlan();
-                    }else{
-                    $scope.confirmDialogGeneratePlan(ev, generatePlan);
-                }
+                    } else {
+                        $scope.createOrMergeUserProfile($scope.userProfile, true);
+                    }
                 } else {
-                    $scope.confirmDialogGuardarUserProfile(ev, generatePlan);
+                     $scope.createOrMergeUserProfile($scope.userProfile, false);
                 }
             } else {
                 if ($scope.errorMessages.length != 0) {
                     $scope.showMessage($scope.errorMessages, "Alerta", true);
                 }
                 $scope.errorMessages = [];
-                //window.scrollTo(0, 2400);
             }
         };
         
         $scope.goBuyPlan = function () {
           $scope.createOrMergeUserProfile($scope.userProfile, false);
           window.location = urlCompraPlanEntrenamiento;
+        };
+        
+        $scope.confirmationGeneratePlan = function () {
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/datosPersonales/confirmationPlan.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                        $location.path("/calendar");
+                    };
+                }
+            });
         };
         
         $scope.confirmationBuyPlan = function () {
@@ -850,45 +905,27 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             });
         };
 
-        $scope.getSessions = function (ev, generatePlan) {
-            DcfService.getDcfByModalityIdAndObjectiveId($scope.userProfile.modality, $scope.userProfile.objective)
-                    .then(
-                            function (d) {
-                                if (d.status == 'success') {
-                                    $scope.dcf = (d.output);
-                                    if ($scope.dcf[0] != null) {
-                                        var weeklyDays = Math.floor($scope.dcf[0].sessions / 4);
-                                        var days = 0;
-                                        var length = $scope.userProfile.availability.length;
-                                        for (var i = 0; i < length; i++) {
-                                            if ($scope.userProfile.availability[i].checked) {
-                                                days++;
-                                            }
-                                        }
-                                    }
-                                    var msg = '';
+        $scope.getSessions = function () {
 
-                
-                                } else {
-                                }
-                            },
-                            function (errResponse) {
-                                console.error('Error while creating Dcf.');
-                            }
-                    );
+            var days = 0;
+            var length = $scope.userProfile.availability.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.userProfile.availability[i].checked) {
+                    days++;
+                }
+            }
+            return days;
         };
 
 
         $scope.createOrMergeUserProfile = function (userProfile, generatePlan) {
-            //userProfile.endDate = $scope.competenceDt;
             
             if (userProfile.userProfileId == null) {
                 userProfile.userId = $scope.user.userId;
                 UserProfileService.createProfile(userProfile).then(
                         function (d) {
-                            //$scope.userProfile = d;
-                            //self.getEquipments();
-                            //$scope.calculateIMC();
+                            $scope.userProfile = d;
+  
                             if (generatePlan) {
                                 $scope.validatePlan($scope.userProfile);
                             } else {
@@ -905,9 +942,8 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             } else {
                 UserProfileService.mergeProfile(userProfile).then(
                         function (d) {
-                            //$scope.userProfile = d;
-                            //self.getEquipments();
-                            //$scope.calculateIMC();
+                            $scope.userProfile = d;
+           
                             if (generatePlan) {
                                  $scope.validatePlan($scope.userProfile);
                             } else {
@@ -952,12 +988,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
         };
 
-        $scope.generatePlan = function (userProfile) {
-            UserProfileService.generatePlan(userProfile).then(
+        $scope.generatePlan = function () {
+            UserProfileService.generatePlan($scope.userSession.userId).then(
                     function (d) {
                         if (d.data.detail == null) {
-                            $location.path("/calendar");
-                            $window.location = ("#calendar");
+                             $scope.confirmationGeneratePlan();
                         } else {
 //                            $scope.showMessage("Error al generar el Plan de Entrenamiento. Comunicate con el Administrador ");
                             $scope.showMessage(d.data.detail);
@@ -969,53 +1004,55 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     }
             );       
         };
-        
-        $scope.testValidatePlan = function(){
-              UserProfileService.validatePlan($scope.user.userId).then(
-                    function (d) {
-                        if (d != "") {
-                              var confirm = $mdDialog.confirm()
-                                    .title('Confirmaci\u00f3n')
-                                    .textContent('\u00BFDesea generar su Plan de Entrenamiento?' + d)
-                                    .ariaLabel('Lucky day')
-                                    .ok('Aceptar')
-                                    .cancel('Cancelar');
-
-                            $mdDialog.show(confirm).then(function () {
-                                console.log("confirmado");
-                            }, function () {
-                            });
-                        } 
-                    },
-                    function (errResponse) {
-                        console.error(errResponse);
-                    }  
-                    );
-        }
+       
         
         $scope.validatePlan = function (userProfile) {
             UserProfileService.validatePlan(userProfile.userId).then(
-                    function (d) {
-                        if (d != "") {
-                            var confirm = $mdDialog.confirm()
-                                    .title('Confirmaci\u00f3n')
-                                    .textContent('\u00BFDesea generar su Plan de Entrenamiento? ' + d)
-                                    .ariaLabel('Lucky day')
-                                    .ok('Aceptar')
-                                    .cancel('Cancelar');
-
-                            $mdDialog.show(confirm).then(function () {
-                                $scope.generatePlan(userProfile);
-                            }, function () {
-                            });
+                    function (msg) {
+                        if (msg != "") {
+                            $scope.generatePlanConfirm(msg);
                         } else {
-                            $scope.generatePlan(userProfile);
+                           $scope.generatePlanConfirm();
                         }
                     },
                     function (errResponse) {
                         console.error(errResponse);
                     }
             );
+        };
+        
+
+        
+        $scope.generatePlanConfirm = function (msg) {
+            $scope.msg = msg;
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/datosPersonales/confirmation.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
+        };
+        
+        
+        $scope.getWeekNumber = function(d) {
+            // Copy date so don't modify original
+            d = new Date(+d);
+            d.setHours(0, 0, 0, 0);
+            // Set to nearest Thursday: current date + 4 - current day number
+            // Make Sunday's day number 7
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            // Get first day of year
+            var yearStart = new Date(d.getFullYear(), 0, 1);
+            // Calculate full weeks to nearest Thursday
+            var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            // Return array of year and week number
+            return weekNo; 
         };
 
 
@@ -1622,9 +1659,11 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         this.getBikeTypes();
         
         
-        $scope.getTrainingLevel = function (levelId, fn) {
+        $scope.getTrainingLevel = function (levelId) {
             ObjectiveService.getLevelById(levelId).then(
-                    fn,
+                    function(data){
+                        $scope.level = data;
+                    },
                     function (errResponse) {
                         console.error('Error while getting level');
                         console.error(errResponse);
@@ -1780,7 +1819,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.submitSurvey = function () {
             self.create($scope.survey);
             //console.log($scope.survey);
-            //self.reset();
+            //reset();
         };
 
     }]);

@@ -46,9 +46,7 @@
                 <div flex="66">
                     <md-input-container class="md-block md-input-has-placeholder" >
                         <label  for="sex">Sexo</label>
-
-                        <md-select id="sex" ng-model="user.sex" ng-required="true">
-                            <!--<md-select-label>{{s || 'Seleccione el sexo'}}</md-select-label>-->
+                        <md-select id="sex" name="sex" ng-model="user.sex" ng-required="true">
                             <md-option ng-repeat="s in sexOptions" value="{{s.code}}" >
                                 {{s.sex}}
                             </md-option>

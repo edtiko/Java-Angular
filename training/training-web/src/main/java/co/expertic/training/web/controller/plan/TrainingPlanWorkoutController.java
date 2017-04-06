@@ -130,7 +130,7 @@ public class TrainingPlanWorkoutController {
         try {
             TrainingUserSerie userSerie = trainingPlanWorkoutService.getPlanWorkoutByUser(userId);
             if (userSerie != null) {
-                responseService.setOutput("Ya tiene un plan generado y  se perderá al generar el nuevo.");
+                responseService.setOutput("Ya tienes un plan generado y  se perderá al generar el nuevo.");
             } else {
                 responseService.setOutput("");
             }
@@ -146,8 +146,8 @@ public class TrainingPlanWorkoutController {
         }
     }
 
-    @RequestMapping(value = "trainingPlanWorkout/generate/planWorkout/for/user", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@RequestBody UserProfileDTO userProfile,
+    @RequestMapping(value = "trainingPlanWorkout/generate/planWorkout/for/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> generatePlanWorkoutByUser(@PathVariable("userId") Integer userId,
             HttpSession session) {
         ResponseService responseService = new ResponseService();
         try {
@@ -156,13 +156,13 @@ public class TrainingPlanWorkoutController {
             startCal.setTime(new Date());
             startCal.add(Calendar.DAY_OF_MONTH, 1);
             Date startDate = startCal.getTime();
-            trainingPlanWorkoutService.generatePlan(userProfile.getUserId(), startDate);
+            trainingPlanWorkoutService.generatePlan(userId, startDate);
 
-            UserDTO userDTO = userService.findById(userProfile.getUserId());
+            UserDTO userDTO = userService.findById(userId);
             userDTO.setIndLoginFirstTime(0);
             userService.updateUser(userDTO);
 
-            TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userProfile.getUserId()));
+            TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userId));
 
             if (session.getAttribute("user") != null) {
                 UserDTO userSession = (UserDTO) session.getAttribute("user");
@@ -483,9 +483,20 @@ public class TrainingPlanWorkoutController {
                 }
             }
             
-            ppm = ppm+" ppm";
-            pace = pace+" min/km";
-            serie.setDescription(serie.getNumSeries()+" series de "+serie.getSerieTime()+" minutos en z"+serie.getNumZone()+" ("+pace+" o "+ppm+")");
+            if (ppm != null && pace != null) {
+                ppm = ppm + " ppm";
+                pace = pace + " min/km";
+                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone() + " (" + pace + " o " + ppm + ")");
+            } else if (ppm != null) {
+                ppm = ppm + " ppm";
+                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone() + " (" + ppm + ")");
+            } else if (pace != null) {
+                pace = pace + " min/km";
+                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone() + " (" + pace + ")");
+            } else {
+                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone());
+            }
+         
             responseService.setOutput(serie);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

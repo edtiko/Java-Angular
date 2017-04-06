@@ -646,6 +646,10 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         //Date dtstartdateMin = clstartdate.getTime();
         Calendar clstartdateMin = Calendar.getInstance();
         clstartdateMin.setTime(startDate);
+        clstartdateMin.set(Calendar.HOUR_OF_DAY, 0);
+        clstartdateMin.set(Calendar.MINUTE, 0);
+        clstartdateMin.set(Calendar.SECOND, 0);
+        clstartdateMin.set(Calendar.MILLISECOND, 0);
         clstartdateMin.add(Calendar.WEEK_OF_MONTH, numSemanasMin);
         Date dtPlanFinishMin = clstartdateMin.getTime();
 

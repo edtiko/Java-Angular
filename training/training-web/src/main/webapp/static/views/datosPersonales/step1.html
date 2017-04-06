@@ -93,7 +93,7 @@
                 <md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_trainingage, 'user_training', 'age')"
                            ng-model="user_trainingage"> Mostrar </md-switch>
             </div>
-            {{$setValidity(frm1.$valid, 1)}}
+            {{$setValidity(validate(1), 1)}}
         </form>
     </md-content>
 <script>

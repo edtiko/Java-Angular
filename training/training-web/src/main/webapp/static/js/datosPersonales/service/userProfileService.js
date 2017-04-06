@@ -51,8 +51,8 @@ trainingApp.factory('UserProfileService', ['$http', '$q', function($http, $q){
                             );
             },
          
-            generatePlan: function(userProfile){
-                    return $http.post($contextPath+'trainingPlanWorkout/generate/planWorkout/for/user',userProfile)
+            generatePlan: function(userId){
+                    return $http.get($contextPath+'trainingPlanWorkout/generate/planWorkout/for/user/'+userId)
                             .then(
                                     function(response){
                                         return response;
