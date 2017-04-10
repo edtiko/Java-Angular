@@ -5,9 +5,11 @@
  */
 package co.expertic.training.web.controller.plan;
 
+import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
+import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.PlanMessageDTO;
@@ -21,6 +23,7 @@ import co.expertic.training.service.plan.CoachExtAthleteService;
 import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanMessageService;
 import co.expertic.training.service.plan.PlanVideoService;
+import co.expertic.training.service.user.UserService;
 import co.expertic.training.web.enums.StatusResponse;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoachAssignedPlanController {
 
     private static final Logger LOGGER = Logger.getLogger(CoachAssignedPlanController.class);
+    private static final String PLAN_TYPE_IN = "IN";
+    private static final String PLAN_TYPE_EXT = "EXT";
 
     @Autowired
     CoachAssignedPlanService coachService;
@@ -62,6 +67,9 @@ public class CoachAssignedPlanController {
 
     @Autowired
     PlanMessageService planMessageService;
+    
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "get/athtletes/{coachUserId}", method = RequestMethod.POST)
     public ResponseEntity<ResponseService> getAssignedAthletes(@PathVariable("coachUserId") Integer coachUserId, @RequestBody PaginateDto paginateDto) {
@@ -198,7 +206,12 @@ public class CoachAssignedPlanController {
             CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId);
             CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(athleteUserId);
             if (assignedCoachInternal != null) {
+                CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getUserCoachId(), RoleEnum.ESTRELLA.getId());
+                CommunicationDTO asesorCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getUserCoachId(), RoleEnum.COACH_INTERNO.getId());
+
                 assignedCoachInternal.setExternal(false);
+                assignedCoachInternal.setStarCommunication(starCommunication);
+                assignedCoachInternal.setAsesorCommunication(asesorCommunication);
                 responseService.setOutput(assignedCoachInternal);
             } else if (assignedCoachExternal != null) {
                 assignedCoachExternal.setExternal(true);

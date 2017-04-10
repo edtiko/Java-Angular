@@ -1,16 +1,16 @@
 <md-content ng-controller="MessageAsesorController" ng-cloak style="margin: 2%;">
-    
-    <span class="cpt-title"><img src="static/img/settings.png">  MENSAJES</span>
     <div flex layout="row" layout-align="center">
         <div flex="35">
             <md-card style="min-height:550px">
-                <md-card-content> 
+                <md-card-content>
+                        <span class="cpt-title">MENSAJES DE:</span>
+                        <span style="text-transform: uppercase">{{planSelected.athleteUserId.fullName}}</span>
                     <md-list  flex>
-                        <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getMessagesByRole(userSessionTypeUserCoachEstrella)" >
+                        <md-list-item ng-if="planSelected.starUserId != null" class="md-3-line"  ng-click="getMessagesByRole(userSessionTypeUserCoachEstrella)" >
                             <div class="rectangule1"></div>
                             <img data-ng-src="{{starImage}}"  class="md-avatar">
                             <div class="md-list-item-text">
-                                <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.starUserId.fullName}}</h3>
+                                <h3 style="font-weight: bold; color: #0064F8">{{planSelected.starUserId.fullName}}</h3>
                                 <h3 style="color: #0064F8">Estrella</h3>
                                 <p style="color: #000">Mensajes disponibles {{availableMessageStar}} de {{messageCountStar}}</p>
                             </div>
@@ -20,8 +20,8 @@
                             <div class="rectangule2"></div>
                             <img data-ng-src="{{asesorImage}}"  class="md-avatar">
                             <div class="md-list-item-text">
-                                <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.coachUserId.fullName}}</h3>
-                                <h3 style="color: #0064F8">Supervisor</h3>
+                                <h3 style="font-weight: bold; color: #0064F8">{{planSelected.coachUserId.fullName}}</h3>
+                                <h3 style="color: #0064F8">Asesor</h3>
                                 <p style="color: #000">Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
                             </div>
                             <div ng-if="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>

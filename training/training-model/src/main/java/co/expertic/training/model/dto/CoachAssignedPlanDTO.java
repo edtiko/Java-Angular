@@ -31,6 +31,8 @@ public class CoachAssignedPlanDTO{
     private Integer userCoachId;
     private Integer userAthleteId;
     private Integer userStarId;
+    private CommunicationDTO starCommunication;
+    private CommunicationDTO asesorCommunication;
     
      public CoachAssignedPlanDTO(){
          
@@ -195,6 +197,22 @@ public class CoachAssignedPlanDTO{
 
     public void setUserStarId(Integer userStarId) {
         this.userStarId = userStarId;
+    }
+
+    public CommunicationDTO getStarCommunication() {
+        return starCommunication;
+    }
+
+    public void setStarCommunication(CommunicationDTO starCommunication) {
+        this.starCommunication = starCommunication;
+    }
+
+    public CommunicationDTO getAsesorCommunication() {
+        return asesorCommunication;
+    }
+
+    public void setAsesorCommunication(CommunicationDTO asesorCommunication) {
+        this.asesorCommunication = asesorCommunication;
     }
     
     

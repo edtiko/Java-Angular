@@ -92,7 +92,6 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
-                                   //google.charts.setOnLoadCallback(drawGaugeChart);
                                 }
                             },
                             function (errResponse) {
@@ -100,7 +99,6 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                             }
                     );
         };
-//    $scope.getReportByMetafieldOneWeek($scope.metafield);
 
         $scope.getReportByMetafieldMonthlyOrWeekly = function (metafield, weekly, currentNavItem) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -207,7 +205,6 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                                         var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
-                                    google.charts.setOnLoadCallback(drawGaugeChart);
                                 }
                             },
                             function (errResponse) {

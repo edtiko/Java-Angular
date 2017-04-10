@@ -76,18 +76,19 @@ var calendar;
     };
 
 function initCalendar(isNew) {
-    var user = JSON.parse(sessionStorage.getItem("userInfo"));
-    var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
-    if (planAthleteSelected != null) {
-        if(planAthleteSelected.athleteUserId != undefined) {
-            user.userId = planAthleteSelected.athleteUserId.userId;
+    var userSession = JSON.parse(sessionStorage.getItem("userInfo"));
+    var planSelected = JSON.parse(sessionStorage.getItem("planSelected"));
+    var calendarUserId = userSession.userId;
+    if (planSelected != null && userSession.typeUser == '4' ) { //Si el usuario de sesion es asesor, carga el calendario con el atleta seleccionado
+        if(planSelected.athleteUserId != undefined) {
+            calendarUserId = planSelected.athleteUserId.userId;
         }
     }
      
     "use strict";
     var options = {
         language: 'es-CO',
-        events_source: 'trainingPlanWorkout/get/planWorkout/by/user/' + user.userId,
+        events_source: 'trainingPlanWorkout/get/planWorkout/by/user/' + calendarUserId,
         view: 'month',
         //modal: "#events-modal",
         //modal_type: 'template',
@@ -152,7 +153,7 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var user = JSON.parse(sessionStorage.getItem("userInfo"));
-    var planAthleteSelected = JSON.parse(sessionStorage.getItem("coachAssignedPlanSelected"));
+    var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
     var userId = user.userId;
     if (planAthleteSelected != null) {
         userId = planAthleteSelected.athleteUserId.userId;

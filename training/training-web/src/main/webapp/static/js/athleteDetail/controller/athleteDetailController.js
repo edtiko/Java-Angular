@@ -53,16 +53,42 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
             $scope.getImageProfile($scope.athleteUserId, function (data) {
                 if (data != "") {
                     $scope.athleteImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("athleteImage", $scope.athleteImage);
                 } else {
                     $scope.athleteImage = "static/img/profile-default.png";
                 }
             });
         };
         
-        
-        $scope.getActivePlan = function(){
-            AthleteService.getActivePlan($scope.athleteUserId, function(res){
+
+        $scope.getActivePlan = function () {
+            AthleteService.getActivePlan($scope.athleteUserId, function (res) {
                 $scope.planSelected = res.data.output;
+                $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
+
+                $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
+                $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
+                $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
+                $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
+
+                $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
+                    if (data != "") {
+                        $scope.starImage = "data:image/png;base64," + data;
+                        $window.sessionStorage.setItem("starImage", $scope.starImage);
+                    } else {
+                        $scope.starImage = "static/img/profile-default.png";
+                    }
+                });
+                $scope.getImageProfile($scope.planSelected.coachUserId.userId, function (data) {
+                    if (data != "") {
+                        $scope.asesorImage = "data:image/png;base64," + data;
+                        $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);
+                    } else {
+                        $scope.asesorImage = "static/img/profile-default.png";
+                    }
+
+                });
+
             });
         };
         

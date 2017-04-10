@@ -48,6 +48,9 @@ require.config({
         sharedProperties: "dashboard/service/sharedProperties",
         mainController: "login/controller/mainController",
         dashboardChartController: "chart/controller/dashboardChartController",
+        calendarAsesorController: "athleteDetail/controller/calendarAsesorController",
+        chartAsesorController: "athleteDetail/controller/chartAsesorController",
+        messageAsesorController: "athleteDetail/controller/messageAsesorController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         athleteService: "athletes/service/athleteService",
@@ -187,6 +190,15 @@ require.config({
         dashboardChartController:{
              deps: ['angular', 'trainingApp']
         },
+        calendarAsesorController:{
+            deps: ['angular', 'trainingApp']
+        },
+        chartAsesorController:{
+            deps: ['angular', 'trainingApp']  
+        },
+        messageAsesorController:{
+            deps: ['angular', 'trainingApp'] 
+        },
         dashboardService: {
             deps: ['angular', 'trainingApp']
         },
@@ -318,7 +330,7 @@ require.config({
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
                 'dashboardChartController', 'configurationPlanService', 'membershipService',
                 'marketingReportService', 'paymentReportService', 'saleReportService','accountService',
-                'athleteService'
+                'athleteService', 'calendarAsesorController','chartAsesorController','messageAsesorController'
 
             ]}
     }

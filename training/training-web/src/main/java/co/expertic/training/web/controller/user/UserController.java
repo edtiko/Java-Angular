@@ -430,7 +430,7 @@ public class UserController {
             DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userDto.getUserId());
             userSession.setDashboard(dashboard);
 
-            if (Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId()) || Objects.equals(userDto.getRoleId(), RoleEnum.COACH.getId())) {
+            if (Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId())) {
                 if (userDto.getUserWordpressId() != null) {
                     createOrderFromAuthetication(userDto);
                 }
