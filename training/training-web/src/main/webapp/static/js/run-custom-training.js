@@ -51,6 +51,9 @@ require.config({
         calendarAsesorController: "athleteDetail/controller/calendarAsesorController",
         chartAsesorController: "athleteDetail/controller/chartAsesorController",
         messageAsesorController: "athleteDetail/controller/messageAsesorController",
+        mailAsesorController: "athleteDetail/controller/mailAsesorController",
+        audioAsesorController: "athleteDetail/controller/audioAsesorController",
+        videoAsesorController: "athleteDetail/controller/videoAsesorController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         athleteService: "athletes/service/athleteService",
@@ -199,6 +202,15 @@ require.config({
         messageAsesorController:{
             deps: ['angular', 'trainingApp'] 
         },
+        mailAsesorController:{
+           deps: ['angular', 'trainingApp']  
+        },
+        audioAsesorController:{
+           deps: ['angular', 'trainingApp']  
+        },
+        videoAsesorController:{
+             deps: ['angular', 'trainingApp']  
+        },
         dashboardService: {
             deps: ['angular', 'trainingApp']
         },
@@ -330,7 +342,8 @@ require.config({
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
                 'dashboardChartController', 'configurationPlanService', 'membershipService',
                 'marketingReportService', 'paymentReportService', 'saleReportService','accountService',
-                'athleteService', 'calendarAsesorController','chartAsesorController','messageAsesorController'
+                'athleteService', 'calendarAsesorController','chartAsesorController','messageAsesorController',
+                'mailAsesorController','audioAsesorController','videoAsesorController'
 
             ]}
     }

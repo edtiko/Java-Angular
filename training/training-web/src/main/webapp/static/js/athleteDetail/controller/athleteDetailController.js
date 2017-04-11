@@ -16,7 +16,12 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
 
 
         $scope.goAthleteMenu = function (module, index) {
+            if ($scope.planSelected == null) {
+                $scope.showMessage("No hay un plan activo seleccionado", "Error");
+                return;
+            }
             $scope.moduleSelected = index;
+
             switch (module) {
                 case 'profile':
                     $scope.athletePageSelected = $scope.athleteView.profile;
@@ -62,6 +67,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         
 
         $scope.getActivePlan = function () {
+            //$scope.showLoading(true);
             AthleteService.getActivePlan($scope.athleteUserId, function (res) {
                 $scope.planSelected = res.data.output;
                 $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
@@ -88,8 +94,28 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                     }
 
                 });
+                
+                 //$scope.showLoading(false);
 
             });
+        };
+        
+        $scope.showLoading = function (loading) {
+            if (loading) {
+                $mdDialog.show({
+                    scope: $scope.$new(),
+                    templateUrl: 'static/views/athleteDetail/loading.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: false,
+                    fullscreen: $scope.customFullscreen,
+                    controller: function () {
+                        $mdDialog.cancel();
+                    }
+                });
+            } else {
+
+                $mdDialog.cancel();
+            }
         };
         
         

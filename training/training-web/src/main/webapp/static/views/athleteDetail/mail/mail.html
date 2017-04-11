@@ -1,3 +1,14 @@
-<div ng-controller="MailAsesorController">
-    
-</div>
+<md-content ng-controller="MailAsesorController" ng-cloak style="margin: 2%" > 
+    <span class="cpt-title" ng-if="recibidos">BANDEJA DE ENTRADA</span>
+    <span class="cpt-title" ng-if="enviados">MAILS ENVIADOS</span>
+    <div layout="row" layout-align="center">
+        <div flex="35">
+            <div  ng-include src="'static/views/athleteDetail/mail/mailControl.html'"></div>
+        </div>
+        <div flex="75" layout="column"  layout-align="space-between none" >
+            <div ng-include src="viewMailSelected" id="message-content" class="border" style="height: 600px">
+            </div> 
+        </div>
+
+    </div>
+</md-content>

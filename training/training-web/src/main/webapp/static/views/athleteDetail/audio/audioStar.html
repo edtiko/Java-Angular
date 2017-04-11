@@ -1,0 +1,83 @@
+<meta charset="utf-8">
+<div layout="column">
+    <md-card style="min-height:650px">
+        <md-card-header>
+               <div layout="row" layout-align="space-around center" flex="100">
+                <div>
+                    <img class="circular" data-ng-src="{{starImage}}" style="width: 118px; height: 117px;"/>
+                </div>
+                <div layout="column">
+                    <div>
+                        <span class="sub-title boldText">{{planSelected.starUserId.fullName}}</span>
+                    </div>
+                    <div>
+                        <span class="sub-title">ESTRELLA</span>
+                    </div>
+                    <div>
+                        <span class="disponibles">Audios disponibles <b>{{availableAudioStar}} de {{audioPlanStar}}</b></span>
+                    </div>
+                    <div class="rectangule_audio_aqua"></div>
+                </div>
+            </div>
+            <div layout="row" layout-align="end start">
+                <div ng-click="showStarRecord()" class="circle_black"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
+            </div>
+        </md-card-header>
+        <md-card-content layout="column" layout-align="center">
+            <ang-accordion class="accordion-audio" close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
+                <collapsible-item item-title="RECIBIDOS">
+                    <div layout="column" layout-align="center center" ng-if="!loadingReceivedStar">
+                        <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                        <span>Cargando Audios..</span>
+                    </div>
+                    <md-table-container>
+                        <table md-table>
+                            <thead md-head>
+                                <tr md-row>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
+                                    <th md-column></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row  md-auto-select ng-repeat="vr  in receivedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
+                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td>{{vr.createDate}}</td>
+                                    <td><div class="circle_black42" ng-click="playAudioStar(vr.name, vr.id, 'to')"><img src="static/img/play.png" /></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{receivedStar.length}}"></md-table-pagination>  
+                    <div id="recordedReceivedStar"></div>
+                </collapsible-item>
+                <collapsible-item item-title="ENVIADOS">
+                    <div layout="column" layout-align="center center" ng-if="!loadingSentStar">
+                        <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
+                        <span>Cargando Videos..</span>
+                    </div>
+                          <md-table-container>
+                        <table md-table>
+                            <thead md-head>
+                                <tr md-row>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
+                                    <th md-column></th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row  md-auto-select ng-repeat="vr  in sendedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
+                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td>{{vr.createDate}}</td>
+                                    <td><div class="circle_black42" ng-click="playAudioStar(vr.name, vr.id, 'from')"><img src="static/img/play.png" /></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{sendedStar.length}}"></md-table-pagination>
+                    <div id="recordedStar"></div>
+                </collapsible-item>
+            </ang-accordion>
+        </md-card-content>
+    </md-card>
+</div>
