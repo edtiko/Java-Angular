@@ -1,9 +1,9 @@
 // create the controller and inject Angular's $scope
-trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'messageService', 'MailService',
-    'videoService', 'AudioMessageService', 'VisibleFieldsUserService',
+trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'MessageService', 'MailService',
+    'VideoService', 'AudioMessageService', 'VisibleFieldsUserService',
     'ModuleService', 'ExternalCoachService', 'DashboardService', 'UserService', 'ActivityService',
     '$window', '$mdDialog', '$mdToast', '$location',
-    function ($http, $scope, AuthService, messageService, MailService, videoService, AudioMessageService,
+    function ($http, $scope, AuthService, MessageService, MailService, VideoService, AudioMessageService,
             VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService, UserService, ActivityService, $window,
             $mdDialog, $mdToast, $location) {
 
@@ -766,8 +766,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
             //$scope.go('/dashboard-athlete', 1);
             $scope.userPanel = $scope.views.athletePanel;
             $scope.getDashBoardByUser($scope.userSession);
-            messageService.initialize($scope.userSession.planSelected.id);
-            videoService.initialize($scope.userSession.planSelected.id);
+            MessageService.initialize($scope.userSession.planSelected.id);
+            VideoService.initialize($scope.userSession.planSelected.id);
             AudioMessageService.initialize($scope.userSession.planSelected.id);
             MailService.initialize($scope.userSession.planSelected.id);
             $scope.connectToChatserver($scope.userSession.planSelected.id);
@@ -823,7 +823,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         //notificación mensajes recibidos
-        messageService.receive().then(null, null, function (message) {
+        MessageService.receive().then(null, null, function (message) {
             if ($scope.userSession.userId != message.messageUserId.userId) {
 
                 $scope.messageReceivedCount++;
@@ -833,7 +833,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         });
 
         //notificación videos recibidos
-        videoService.receive().then(null, null, function (video) {
+        VideoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
 
                 $scope.videoReceivedCount++;
@@ -882,7 +882,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.getReceivedVideos = function (planId, fromUserId, toUserId, tipoPlan, roleSelected, fn) {
-            videoService.getVideosReceived(planId, fromUserId, toUserId, tipoPlan, roleSelected).then(
+            VideoService.getVideosReceived(planId, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         //$scope.showMessage(error);
@@ -891,7 +891,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'mes
         };
 
         $scope.getReceivedMessages = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
-            messageService.getMessagesReceived(planId, userId, toUserId, tipoPlan, roleSelected).then(
+            MessageService.getMessagesReceived(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         //$scope.showMessage(error);

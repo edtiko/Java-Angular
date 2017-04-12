@@ -1,5 +1,5 @@
-trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', 'DashboardService', '$window', '$location', '$mdDialog', '$routeParams',
-    function ($scope, AthleteService, DashboardService, $window, $location, $mdDialog, $routeParams) {
+trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', 'DashboardService','MessageService','VideoService', 'AudioMessageService','MailService','$window', '$mdDialog', '$routeParams',
+    function ($scope, AthleteService, DashboardService, MessageService, VideoService, AudioMessageService, MailService, $window, $mdDialog, $routeParams) {
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.athleteUserId = $routeParams.user;
@@ -70,31 +70,43 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
             //$scope.showLoading(true);
             AthleteService.getActivePlan($scope.athleteUserId, function (res) {
                 $scope.planSelected = res.data.output;
-                $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
+                if ($scope.planSelected != null) {
+                    $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
+                    
+                    MessageService.initialize($scope.planSelected.id);
+                    VideoService.initialize($scope.planSelected.id);
+                    AudioMessageService.initialize($scope.planSelected.id);
+                    MailService.initialize($scope.planSelected.id);
+                    $scope.connectToChatserver($scope.planSelected.id);
+                    $scope.connectToAudioWsMovil($scope.planSelected.id);
+                    $scope.connectToVideoWsMovil($scope.planSelected.id);
 
-                $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
-                $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
-                $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
-                $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
+                    $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
+                    $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
+                    $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
+                    $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
 
-                $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
-                    if (data != "") {
-                        $scope.starImage = "data:image/png;base64," + data;
-                        $window.sessionStorage.setItem("starImage", $scope.starImage);
-                    } else {
-                        $scope.starImage = "static/img/profile-default.png";
-                    }
-                });
-                $scope.getImageProfile($scope.planSelected.coachUserId.userId, function (data) {
-                    if (data != "") {
-                        $scope.asesorImage = "data:image/png;base64," + data;
-                        $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);
-                    } else {
-                        $scope.asesorImage = "static/img/profile-default.png";
-                    }
+                    $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
+                        if (data != "") {
+                            $scope.starImage = "data:image/png;base64," + data;
+                            $window.sessionStorage.setItem("starImage", $scope.starImage);
+                        } else {
+                            $scope.starImage = "static/img/profile-default.png";
+                        }
+                    });
+                    $scope.getImageProfile($scope.planSelected.coachUserId.userId, function (data) {
+                        if (data != "") {
+                            $scope.asesorImage = "data:image/png;base64," + data;
+                            $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);
+                        } else {
+                            $scope.asesorImage = "static/img/profile-default.png";
+                        }
 
-                });
-                
+                    });
+                } else {
+                    $scope.showMessage("No hay un plan activo seleccionado", "Error");
+                    return;
+                }
                  //$scope.showLoading(false);
 
             });

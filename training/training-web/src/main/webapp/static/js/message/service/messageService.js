@@ -1,4 +1,4 @@
-trainingApp.service("messageService", ['$q', '$timeout', '$http', '$window', function ($q, $timeout, $http, $window) {
+trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', function ($q, $timeout, $http, $window) {
 
         var service = {}, listener = $q.defer(), socket = {
             client: null,

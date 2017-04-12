@@ -1,5 +1,5 @@
-trainingApp.controller("VideoAsesorController", ['$scope', 'videoService', 'UserService', '$timeout', '$mdDialog', '$window','$http',
-    function ($scope, videoService, UserService, $timeout, $mdDialog, $window, $http) {
+trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'UserService', '$timeout', '$mdDialog', '$window','$http',
+    function ($scope, VideoService, UserService, $timeout, $mdDialog, $window, $http) {
         $scope.isRecordStar = false;
         $scope.isRecordAsesor = false;
         $scope.isVisibleSendVideo = true;
@@ -344,7 +344,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'videoService', 'User
 
         //Obtiene los videos recibidos 
         self.receivedVideos = function (tipoPlan, role, fn) {
-            videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, role).then(
+            VideoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, role).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -354,7 +354,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'videoService', 'User
 
         //Obtiene los videos envíados
         self.sendedVideos = function (tipoPlan, role, fn) {
-            videoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "from", tipoPlan, role).then(
+            VideoService.getVideosByUser($scope.planSelected.id, $scope.userSession.userId, "from", tipoPlan, role).then(
                     fn,
                     function (error) {
                         //$scope.showMessage(error);
@@ -494,7 +494,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'videoService', 'User
                                     $scope.showVideo();
                                     //$scope.playVideoStar(path);
                                     if (fromto == 'to') {
-                                        videoService.readVideo(planVideoId.id).then(
+                                        VideoService.readVideo(planVideoId.id).then(
                                                 function (data) {
                                                     $scope.getReceived();
                                                 },
@@ -530,7 +530,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'videoService', 'User
                                     $scope.showVideo();
                                     //$scope.playVideoAsesor(path);
                                     if (fromto == 'to') {
-                                        videoService.readVideo(planVideoId.id).then(
+                                        VideoService.readVideo(planVideoId.id).then(
                                                 function (data) {
                                                     $scope.getReceived();
                                                 },
@@ -620,7 +620,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'videoService', 'User
 
 
         //lee los videos recibidos en tiempo real
-        videoService.receive().then(null, null, function (video) {
+        VideoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
                 if (video.toStar == 'true') {
                     $scope.receivedStar.push(video);
@@ -701,7 +701,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'videoService', 'User
         
 
         self.getAvailableVideos = function (planId, userId, tipoPlan, roleSelected, fn) {
-            videoService.getAvailableVideos(planId, userId, tipoPlan, roleSelected).then(
+            VideoService.getAvailableVideos(planId, userId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);

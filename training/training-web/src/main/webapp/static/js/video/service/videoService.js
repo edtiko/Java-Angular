@@ -1,4 +1,4 @@
-trainingApp.service("videoService", ['$http', '$q', function ($http, $q) {
+trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
         var service = {}, listener = $q.defer(), socket = {
             client: null,
             stomp: null

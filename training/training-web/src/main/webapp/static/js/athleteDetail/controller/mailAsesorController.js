@@ -38,9 +38,9 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
 
 
         $scope.views = {
-            received: 'static/views/mail/received.html',
-            sent: 'static/views/mail/sent.html',
-            mailSelected: 'static/views/mail/mailSelected.html'
+            received: 'static/views/athleteDetail/mail/received.html',
+            sent: 'static/views/mail/athleteDetail/sent.html',
+            mailSelected: 'static/views/mail/athleteDetail/mailSelected.html'
         };
 
         $scope.dialogEmail = function () {
