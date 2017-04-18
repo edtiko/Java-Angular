@@ -202,7 +202,7 @@
                                 <span style="color: #ffffff;" ng-if="listNotification.length == 0">No hay notificaciones disponibles</span>
                                 <md-list class="md-dense" flex>
                                     <md-list-item ng-repeat="n in listNotification" class="md-3-line"  ng-click="verModulo(n.module)" >
-                                        <img ng-if="n.roleId == userSessionTypeUserCoachInterno" data-ng-src="{{asesorImage}}"  class="md-avatar"> 
+                                        <img ng-if="n.roleId == userSessionTypeUserCoachInterno" data-ng-src="{{asesorImage}}"  class="md-avatar border"> 
                                         <img ng-if="n.roleId == userSessionTypeUserCoachEstrella" data-ng-src="{{starImage}}"  class="md-avatar border">
                                         <div class="md-list-item-text">
                                             <h3 style="color: #ffffff;" ng-if="n.roleId == userSessionTypeUserCoachInterno">{{userSession.planSelected.coachUserId.fullName}}</h3>

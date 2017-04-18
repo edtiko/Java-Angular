@@ -81,6 +81,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                         $scope.mailCommunication.coachExtAthleteId = $scope.userSession.planSelected.id;
                     } else {
                         $scope.mailCommunication.coachAssignedPlanId = $scope.userSession.planSelected.id;
+                        $scope.mailCommunication.roleSelected = $scope.roleSelected;
                     }
                 } else if ($scope.sendingUser != null) {
                     $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;

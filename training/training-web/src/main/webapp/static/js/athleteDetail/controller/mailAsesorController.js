@@ -7,7 +7,7 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
         $scope.sendingUser = JSON.parse($window.sessionStorage.getItem("selectedUser"));
-        $scope.roleSelected = $scope.userSessionTypeUserCoachEstrella;
+        $scope.roleSelected = $scope.userSessionTypeUserCoachInterno;
 
         $scope.mailSelected = '';
         $scope.searchTextReceiverUser = '';
@@ -39,8 +39,8 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
 
         $scope.views = {
             received: 'static/views/athleteDetail/mail/received.html',
-            sent: 'static/views/mail/athleteDetail/sent.html',
-            mailSelected: 'static/views/mail/athleteDetail/mailSelected.html'
+            sent: 'static/views/athleteDetail/mail/sent.html',
+            mailSelected: 'static/views/athleteDetail/mail/mailSelected.html'
         };
 
         $scope.dialogEmail = function () {
@@ -78,7 +78,8 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
                 $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
                 if ($scope.planSelected != null) {
 
-                        $scope.mailCommunication.coachAssignedPlanId = $scope.planSelected.id;
+                    $scope.mailCommunication.coachAssignedPlanId = $scope.planSelected.id;
+                    $scope.mailCommunication.roleSelected = $scope.roleSelected;
                     
                 } else if ($scope.sendingUser != null) {
                     $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
@@ -90,15 +91,27 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
             }
         };
 
-        $scope.verRecibidos = function () {
-            $scope.recibidos = true;
-            $scope.enviados = false;
+        $scope.verRecibidoStar = function () {
+            $scope.recibidostar = true;
+            $scope.enviadostar = false;
+            $scope.viewMailSelected = $scope.views.received;
+        };
+        
+        $scope.verRecibidosAsesor = function () {
+            $scope.recibidoasesor = true;
+            $scope.enviadoasesor = false;
             $scope.viewMailSelected = $scope.views.received;
         };
 
-        $scope.verEnviados = function () {
-            $scope.recibidos = false;
-            $scope.enviados = true;
+        $scope.verEnviadoStar = function () {
+            $scope.recibidostar = false;
+            $scope.enviadostar = true;
+            $scope.viewMailSelected = $scope.views.sent;
+        };
+        
+        $scope.verEnviadosAsesor = function () {
+            $scope.recibidoasesor = false;
+            $scope.enviadoasesor = true;
             $scope.viewMailSelected = $scope.views.sent;
         };
 
@@ -245,6 +258,10 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
             $scope.mailCommunication.subject = '';
             $scope.mailCommunication.message = '';
         };
+        
+        $scope.toggleFn = function(){
+            
+        };
 
         $scope.readEmail = function (id) {
 
@@ -332,7 +349,8 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
 
             if ($scope.userSession != null) {
                 self.getEmailCoach("IN");
-                $scope.verRecibidos();
+                $scope.verRecibidoStar();
+                $scope.verRecibidosAsesor();
             } else {
                 $scope.setUserSession();
             }
@@ -340,5 +358,5 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
         };
 
         $scope.init();
-
+        
     }]);

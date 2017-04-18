@@ -1,29 +1,36 @@
 <meta charset="utf-8">
 <div layout="column">
     <md-card style="min-height:650px">
-        <md-card-header>
-            <div layout="row" layout-align="space-around center" flex="100">
-                <div>
-                    <img class="circular" data-ng-src="{{asesorImage}}" style="width: 118px; height: 117px;"/>
-                </div>
-                <div layout="column">
+        <md-card-content layout="column" layout-align="center">
+            <div layout="column" layout-align="space-around center" flex="100">
+                <div layout="row">
                     <div>
+                        <img class="circular" data-ng-src="{{asesorImage}}" style="width: 118px; height: 117px;"/>
                         <span class="sub-title boldText">{{planSelected.coachUserId.fullName}}</span>
                     </div>
-                    <div>
-                        <span class="sub-title">ASESOR</span>
+                    <div layout="column" layout-align="center center">
+                        <div>
+                            <div  class="circle_black"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
+                        </div>
+                        <br />
+                        <div>
+                            <span class="sub-title boldText">AUDIOS ENTRE</span>
+                        </div>
                     </div>
+                    <div>
+                        <img class="circular" data-ng-src="{{athleteImage}}" style="width: 118px; height: 117px;"/>
+                        <span class="sub-title boldText">{{planSelected.athleteUserId.fullName}}</span>
+                    </div>
+                </div>
+                <br />
+                <div layout="column" layout-align="center center">
                     <div>
                         <span class="disponibles">Audios disponibles <b>{{availableAudioAsesor}} de {{audioPlanAsesor}}</b></span>
                     </div>
-                    <div class="rectangule_h"></div>
+
+                    <md-button ng-click="showAsesorRecord()" style="background: #1C2127; color:#AAFD6F;" class="md-raised">GRABAR UN AUDIO</md-button>
                 </div>
             </div>
-            <div layout="row" layout-align="end start">
-                <div ng-click="showAsesorRecord()" class="circle_black"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
-            </div>
-        </md-card-header>
-        <md-card-content layout="column" layout-align="center">
             <ang-accordion class="accordion-audio" close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
                 <collapsible-item item-title="RECIBIDOS">
                     <div layout="column" layout-align="center center" ng-if="!loadingReceivedAsesor">
@@ -75,7 +82,7 @@
                         </table>
                     </md-table-container>
                     <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{sendedAsesor.length}}"></md-table-pagination>      
-                <div id="recordedAsesor"></div>
+                    <div id="recordedAsesor"></div>
                 </collapsible-item>
             </ang-accordion>
         </md-card-content>
