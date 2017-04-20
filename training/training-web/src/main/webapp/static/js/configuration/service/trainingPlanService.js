@@ -83,6 +83,25 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                         return $q.reject(errResponse);
                                 }
                         );
-                }
+                },
+                
+            createPlanWordPress: function (training) { 
+                
+                return $http({
+                    url: $wordPressContextPathHttps + 'add-plataforma-entrenamiento.php?name=' +
+                            training.name + '&description='+training.description+ '&price='+training.price,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    method: 'POST'
+                })
+                        .then(
+                                function (response) {
+                                    return response;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating createPlanWordPress');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
         };
     }]);
