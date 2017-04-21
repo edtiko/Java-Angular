@@ -64,11 +64,30 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
+                                    $scope.createPlanWordpress(trainingPlan);
                                     $scope.showMessage(d.output);
                                     $scope.resetTrainingPlan();
                                     $scope.getTrainingPlanPaginate();
                                 } else {
                                     $scope.showMessage(d.output);
+                                }
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating TrainingPlan.');
+                            }
+                    );
+        };
+        
+        $scope.createPlanWordpress = function(plan) {
+            TrainingPlanService.createPlanWordPress(plan)
+                    .then(
+                            function (d) {
+                                var response = d.data;
+
+                                if (response.status == 'success') {
+                                    return;
+                                } else {
+                                    $scope.showMessage('Error al integrar plan');
                                 }
                             },
                             function (errResponse) {
