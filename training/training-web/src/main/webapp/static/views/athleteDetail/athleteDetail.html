@@ -24,30 +24,34 @@
                 <h5 style="color: #0064F8; font-weight: bold">GRÁFICOS</h5>
             </div>
             <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAthleteMenu('chat', 4)" ng-class="{selectedBlue: moduleSelected === 4}">
-                <span>
+                <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 4" src="static/img/chat_profile.png">
                     <img ng-if="moduleSelected === 4" src="static/img/chat-selected.png">
+                    <div ng-if="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">MENSAJES</h5>
             </div>
             <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAthleteMenu('mail', 5)" ng-class="{selectedBlue: moduleSelected === 5}">
-                <span>
+                <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 5" src="static/img/mail_profile.png">
                     <img ng-if="moduleSelected === 5" src="static/img/mail-selected.png">
+                    <div ng-if="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">MAIL</h5>
             </div>
             <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAthleteMenu('audio', 6)" ng-class="{selectedBlue: moduleSelected === 6}">
-                <span>
+                <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 6" src="static/img/audio_profile.png">
                     <img ng-if="moduleSelected === 6" src="static/img/audio-selected.png">
+                    <div ng-if="audioReceivedCount > 0" class="circle_notification">{{audioReceivedCount}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">AUDIOS</h5>
             </div>
             <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAthleteMenu('video', 7)" ng-class="{selectedBlue: moduleSelected === 7}">
-                <span>
+                <span  class="asesor_icon">
                     <img ng-if="moduleSelected !== 7" src="static/img/video_profile.png">
                     <img ng-if="moduleSelected === 7" src="static/img/video-selected.png">
+                    <div ng-if="videoReceivedCount > 0" class="circle_notification">{{videoReceivedCount}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">VIDEOS</h5>
             </div>

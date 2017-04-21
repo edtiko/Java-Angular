@@ -122,7 +122,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                     }
 
                     MessageService.send($scope.planMessage);
-                    $scope.wsocket.send(JSON.stringify($scope.planMessage));
+                    //$scope.wsocket.send(JSON.stringify($scope.planMessage));
 
                     $scope.planMessage.message = "";
                     $scope.getMessageCount();

@@ -21,13 +21,13 @@ import org.springframework.stereotype.Repository;
 public class BuildPeakVolumeDaoImpl extends BaseDAOImpl<BuildPeakVolume> implements BuildPeakVolumeDao{
 
     @Override
-    public List<BuildPeakVolume> findByModalityId(Integer modalityId) throws DAOException {
+    public List<BuildPeakVolume> findByLevelId(Integer trainingLevelId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT e ");
         sql.append("FROM BuildPeakVolume e ");
-        sql.append("WHERE e.modalityId.modalityId = :modalityId ");
+        sql.append("WHERE e.trainingLevelId.trainingLevelId = :trainingLevelId ");
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("modalityId", modalityId);
+        query.setParameter("trainingLevelId", trainingLevelId);
         List<BuildPeakVolume> list = query.getResultList();
         
         return list;

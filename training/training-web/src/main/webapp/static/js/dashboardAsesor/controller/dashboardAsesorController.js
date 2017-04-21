@@ -7,7 +7,6 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'D
         $scope.profileImage = "static/img/profile-default.png";
         $scope.profileImageStar = "static/img/profile-default.png";
         $scope.profileImageCoach = "static/img/profile-default.png";
-        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.assignedAthletesList = [];
         $scope.countPlanList = [];
         $scope.count = 0;
@@ -45,6 +44,7 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'D
         };
 
         $scope.$on('userSession', function (event, args) {
+           $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
             self.getCountByPlanAsesor();
             self.getAssignedAthletesPaginate();
         });

@@ -77,14 +77,15 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                     VideoService.initialize($scope.planSelected.id);
                     AudioMessageService.initialize($scope.planSelected.id);
                     MailService.initialize($scope.planSelected.id);
-                    $scope.connectToChatserver($scope.planSelected.id);
-                    $scope.connectToAudioWsMovil($scope.planSelected.id);
-                    $scope.connectToVideoWsMovil($scope.planSelected.id);
+                    //$scope.connectToChatserver($scope.planSelected.id);
+                    //$scope.connectToAudioWsMovil($scope.planSelected.id);
+                    //$scope.connectToVideoWsMovil($scope.planSelected.id);
 
                     $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
                     $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
                     $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
                     $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
+                    $scope.athleteReceivedCount = ($scope.messageReceivedCount + $scope.mailReceivedCount +  $scope.audioReceivedCount + $scope.videoReceivedCount);
 
                     $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
                         if (data != "") {

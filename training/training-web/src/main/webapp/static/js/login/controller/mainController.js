@@ -770,9 +770,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             VideoService.initialize($scope.userSession.planSelected.id);
             AudioMessageService.initialize($scope.userSession.planSelected.id);
             MailService.initialize($scope.userSession.planSelected.id);
-            $scope.connectToChatserver($scope.userSession.planSelected.id);
-            $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
-            $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
+            //$scope.connectToChatserver($scope.userSession.planSelected.id);
+            //$scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
+            //$scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
             $scope.messageReceivedCount = ($scope.userSession.starCommunication.receivedMsg + $scope.userSession.supervisorCommunication.receivedMsg);
             $scope.mailReceivedCount = ($scope.userSession.starCommunication.receivedMail + $scope.userSession.supervisorCommunication.receivedMail);
             $scope.audioReceivedCount = ($scope.userSession.starCommunication.receivedAudio + $scope.userSession.supervisorCommunication.receivedAudio);

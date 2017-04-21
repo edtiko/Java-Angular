@@ -142,14 +142,14 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     }
 
     @Override
-    public WeeklyVolume getWeeklyVolume(Integer modalityId) throws Exception {
+    public WeeklyVolume getWeeklyVolume(Integer trainingLevelId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t ");
         sql.append("FROM WeeklyVolume t ");
-        sql.append("WHERE t.modalityId.modalityId = :modalityId ");
+        sql.append("WHERE t.trainingLevelId.trainingLevelId = :trainingLevelId ");
         sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
-         query.setParameter("modalityId", modalityId);
+         query.setParameter("trainingLevelId", trainingLevelId);
         List<WeeklyVolume> list = query.getResultList();
         if (list != null && !list.isEmpty()) {
             return list.get(0);
@@ -158,14 +158,14 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     }
     
     @Override
-    public MonthlyVolume getMonthlyVolume(Integer modalityId) throws Exception {
+    public MonthlyVolume getMonthlyVolume(Integer trainingLevelId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t ");
         sql.append("FROM MonthlyVolume t ");
-        sql.append("WHERE t.modalityId.modalityId = :modalityId ");
+        sql.append("WHERE t.trainingLevelId.trainingLevelId = :trainingLevelId ");
         sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("modalityId", modalityId);
+        query.setParameter("trainingLevelId", trainingLevelId);
         List<MonthlyVolume> list = query.getResultList();
         if (list != null && !list.isEmpty()) {
             return list.get(0);
@@ -193,14 +193,16 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     }
 
     @Override
-    public List<IntensityZoneSesion> getIntensityZoneSesion(Integer numSesion) throws Exception {
+    public List<IntensityZoneSesion> getIntensityZoneSesion(Integer numSesion, Integer trainingLevelId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT t ");
         sql.append("FROM IntensityZoneSesion t ");
         sql.append("WHERE t.numSesion = :numSesion ");
-        sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
+        sql.append("AND   t.trainingLevelId.trainingLevelId = :trainingLevelId ");
+        sql.append("AND t.stateId = ").append(Status.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("numSesion", numSesion);
+        query.setParameter("trainingLevelId", trainingLevelId);
         List<IntensityZoneSesion> list = query.getResultList();
 
         return list;

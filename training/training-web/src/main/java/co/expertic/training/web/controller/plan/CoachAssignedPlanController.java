@@ -206,8 +206,8 @@ public class CoachAssignedPlanController {
             CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId);
             CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(athleteUserId);
             if (assignedCoachInternal != null) {
-                CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getUserCoachId(), RoleEnum.ESTRELLA.getId());
-                CommunicationDTO asesorCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getUserCoachId(), RoleEnum.COACH_INTERNO.getId());
+                CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getCoachUserId().getUserId(), RoleEnum.ESTRELLA.getId());
+                CommunicationDTO asesorCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId, assignedCoachInternal.getCoachUserId().getUserId(), RoleEnum.COACH_INTERNO.getId());
 
                 assignedCoachInternal.setExternal(false);
                 assignedCoachInternal.setStarCommunication(starCommunication);
