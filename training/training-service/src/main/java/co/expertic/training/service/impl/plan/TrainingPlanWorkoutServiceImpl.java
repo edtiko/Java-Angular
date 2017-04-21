@@ -120,6 +120,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
         WeeklyVolume weekVolume = trainingPlanWorkoutDao.getWeeklyVolume(userProfile.getModalityId().getModalityId());
         MonthlyVolume monthVolume = trainingPlanWorkoutDao.getMonthlyVolume(userProfile.getModalityId().getModalityId());
+        
         Integer numSemanasMin = userProfile.getObjectiveId().getMinWeekPlan();
         Integer numSemanasMax = userProfile.getObjectiveId().getMaxWeekPlan();
         Date toDate = userProfile.getCompetenceDate();
@@ -188,10 +189,9 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     public List<SerieGenerada> getSeries(UserProfile userProfile, WeeklyVolume weekVolume, MonthlyVolume monthVolume, Integer numSesiones, Integer numSemanas) throws Exception {
 
-        //calcula los minutos semanales de acuerdo a las horas de entrenamiento
+
         Integer availableTime = userProfile.getAvailableTime();
-        //Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
-        //Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
+
         Integer trainingLevelId = userProfile.getObjectiveId().getTrainingLevelId();
         Integer min_semanales = availableTime * 60;
 
@@ -205,14 +205,18 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         Integer monthDischarge = 0;
         Integer volMes = 0;
 
-        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones);
+        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones); 
+        
         IntensityZone intesityZoneBase = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BASE.getId());
+        
         Collection<IntensityZoneDist> intensityZoneDistBase = intesityZoneBase.getIntensityZoneDistCollection();
 
         IntensityZone intesityZoneBuild = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BUILD.getId());
+        
         Collection<IntensityZoneDist> intensityZoneDistBuild = intesityZoneBuild.getIntensityZoneDistCollection();
 
         IntensityZone intesityZonePeak = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.PEAK.getId());
+        
         Collection<IntensityZoneDist> intensityZoneDistPeak = intesityZonePeak.getIntensityZoneDistCollection();
 
         List<BuildPeakVolume> buildPeakList = buildPeakVolumeDao.findByModalityId(userProfile.getModalityId().getModalityId());

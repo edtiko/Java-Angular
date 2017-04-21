@@ -2,13 +2,17 @@
 <div layout="column">
     <md-card style="min-height:650px">
         <md-card-content layout="column" layout-align="center">
-            <div layout="column" layout-align="space-around center" flex="100">
-                <div layout="row">
-                    <div>
-                        <img class="circular" data-ng-src="{{asesorImage}}" style="width: 118px; height: 117px;"/>
-                        <span class="sub-title boldText">{{planSelected.coachUserId.fullName}}</span>
+            <div layout="column">
+                <div layout="row" layout-align="space-around center">
+                    <div layout="column" flex>
+                        <div>
+                        <img class="circular" data-ng-src="{{athleteImage}}" style="width: 118px; height: 117px;"/>
+                        </div>
+                        <div>
+                        <span class="sub-title boldText">{{planSelected.athleteUserId.fullName}}</span>
+                        </div>
                     </div>
-                    <div layout="column" layout-align="center center">
+                    <div layout="column" layout-align="center center" flex>
                         <div>
                             <div  class="circle_black"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
                         </div>
@@ -17,9 +21,13 @@
                             <span class="sub-title boldText">AUDIOS ENTRE</span>
                         </div>
                     </div>
-                    <div>
-                        <img class="circular" data-ng-src="{{athleteImage}}" style="width: 118px; height: 117px;"/>
-                        <span class="sub-title boldText">{{planSelected.athleteUserId.fullName}}</span>
+                    <div layout="column" flex>
+                        <div>
+                        <img class="circular" data-ng-src="{{asesorImage}}" style="width: 118px; height: 117px;"/>
+                        </div>
+                        <div>
+                        <span class="sub-title boldText">{{planSelected.coachUserId.fullName}}</span>
+                        </div>
                     </div>
                 </div>
                 <br />

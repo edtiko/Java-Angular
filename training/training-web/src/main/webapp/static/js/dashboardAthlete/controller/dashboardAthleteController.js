@@ -3,7 +3,7 @@
 trainingApp.controller('DashboardAthleteController', ['$scope', 'UserService', 'DashboardService','ActivityService', '$window','$location',
     function ($scope, UserService, DashboardService, ActivityService, $window, $location) {
 
-        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+
         $scope.weekActivities = [];
         
         $scope.getActivitiesByWeek = function () {
@@ -17,8 +17,12 @@ trainingApp.controller('DashboardAthleteController', ['$scope', 'UserService', '
             );
 
         };
-        
-        $scope.getVisibleFieldsUserByUser($scope.userSession);
-        $scope.getActivitiesByWeek();
+
+        $scope.$on('userSession', function (event, args) {
+            $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+            $scope.getVisibleFieldsUserByUser($scope.userSession);
+            $scope.getActivitiesByWeek();
+        });
+
 
     }]);

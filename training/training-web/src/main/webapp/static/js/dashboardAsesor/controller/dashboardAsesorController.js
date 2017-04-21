@@ -1,6 +1,6 @@
 'use strict';
 
-trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'DashboardService', '$window','$location',
+trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'DashboardService', '$window', '$location',
     function ($scope, UserService, DashboardService, $window, $location) {
 
         var self = this;
@@ -37,14 +37,16 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'D
                 }
             }).$promise;
         };
-        
+
         self.getCountByPlanAsesor = function () {
             DashboardService.getCountByPlanAsesor($scope.userSession.userId, function (response) {
                 $scope.countPlanList = success(response);
             });
         };
 
-        self.getCountByPlanAsesor();
-        self.getAssignedAthletesPaginate();
+        $scope.$on('userSession', function (event, args) {
+            self.getCountByPlanAsesor();
+            self.getAssignedAthletesPaginate();
+        });
 
     }]);

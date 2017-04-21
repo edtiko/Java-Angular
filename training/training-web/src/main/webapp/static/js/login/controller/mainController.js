@@ -300,7 +300,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             $http.get($contextPath + '/user/getUserSession')
                     .then(function (res) {
                         //$scope.userSession = res.data.entity.output;
-                        var id = res.data.entity.output;
+                        var id = res.data.output;
                         $scope.userId = id.userId;
                         $scope.roleName = id.roleName;
                         ModuleService.getModuleByUserId(id.userId).then(
@@ -1083,13 +1083,14 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                             $scope.showChat = true;
                             $scope.showCountChat = false;
                             $scope.showScript = false;
-                            $scope.getDashBoardByUser($scope.userSession);
+                            //$scope.getDashBoardByUser($scope.userSession);
                             $scope.dashboardSelected = $scope.views.profile;
-                            self.getSupervisors();
-                            self.getStars();
+                            //self.getSupervisors();
+                            //self.getStars();
                             break;
 
                     }
+                       $scope.$broadcast('userSession');
                 }
 
             });
