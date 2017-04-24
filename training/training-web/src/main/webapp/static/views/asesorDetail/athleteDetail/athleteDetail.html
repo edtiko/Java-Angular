@@ -1,0 +1,25 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding ng-controller="StarAthleteDetailController">
+    <md-nav-bar
+        md-selected-nav-item="currentNavItem"
+        nav-bar-aria-label="navigation links">
+        <md-nav-item md-nav-click="goStarAthleteMenu('profile')" name="page1">
+            PERFIL
+        </md-nav-item>
+        <md-nav-item md-nav-click="goStarAthleteMenu('chat')" name="page2">
+            MENSAJES
+        </md-nav-item>
+        <md-nav-item md-nav-click="goStarAthleteMenu('mail')" name="page3">
+            MAIL
+        </md-nav-item>
+        <md-nav-item md-nav-click="goStarAthleteMenu('audio')" name="page4">
+            AUDIOS
+        </md-nav-item>
+        <md-nav-item md-nav-click="goStarAthleteMenu('video')" name="page5">
+            VIDEOS
+        </md-nav-item>
+    </md-nav-bar>
+    <div ng-include src="athletePageSelected" ></div>
+</div>
+
+

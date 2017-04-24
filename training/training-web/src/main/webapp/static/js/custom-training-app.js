@@ -25,6 +25,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/dashboard-athlete', route.resolve('dashboardAthlete', 'dashboardAthlete/'))
             
                     .when('/dashboard-asesor', route.resolve('dashboardAsesor', 'dashboardAsesor/'))
+            
+                    .when('/dashboard-star', route.resolve('dashboardStar', 'dashboardStar/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
             
@@ -104,7 +106,11 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     
                     .when('/athletes', route.resolve('athletes','athletes/'))
             
-                    .when('/athlete-detail/:user', route.resolve('athleteDetail', 'athleteDetail/'));
+                    .when('/athlete-detail/:user', route.resolve('athleteDetail', 'athleteDetail/'))
+            
+                    .when('/asesores', route.resolve('asesores','asesores/'))
+            
+                    .when('/asesor-detail/:user', route.resolve('asesorDetail', 'asesorDetail/'));
             
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',

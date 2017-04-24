@@ -112,6 +112,43 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
 
             });
         };
+
+        MessageService.receive().then(null, null, function (message) {
+            if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
+                 $scope.messageReceivedCount++;
+            }
+        });
+        
+                //notificación videos recibidos
+        VideoService.receive().then(null, null, function (video) {
+            if (video.toUser.userId == $scope.userSession.userId) {
+
+                $scope.videoReceivedCount++;
+
+            }
+
+        });
+
+        //notificación audios recibidos
+        AudioMessageService.receive().then(null, null, function (audio) {
+            if (audio.toUserId == $scope.userSession.userId) {
+
+            $scope.audioReceivedCount++;
+
+            }
+
+        });
+
+
+        //notificación emails recibidos
+        MailService.receive().then(null, null, function (email) {
+            if (email.receivingUser.userId == $scope.userSession.userId) {
+
+                $scope.mailReceivedCount++;
+
+            }
+
+        });
         
         $scope.showLoading = function (loading) {
             if (loading) {

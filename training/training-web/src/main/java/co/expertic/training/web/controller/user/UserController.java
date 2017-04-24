@@ -44,7 +44,6 @@ import co.expertic.training.service.plan.UserTrainingOrderService;
 import co.expertic.training.service.security.RoleUserService;
 import co.expertic.training.service.user.DisciplineUserService;
 import co.expertic.training.service.user.StravaService;
-import co.expertic.training.service.user.UserAvailabilityService;
 import co.expertic.training.service.user.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -493,7 +492,11 @@ public class UserController {
 
             } else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH_INTERNO.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-asesor");
-            } else{
+                
+            } else if (Objects.equals(userDto.getRoleId(), RoleEnum.ESTRELLA.getId())) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-star");
+                
+            }else{
                 response.sendRedirect(request.getRequestURL() + "/../../..");
             }
             return null;

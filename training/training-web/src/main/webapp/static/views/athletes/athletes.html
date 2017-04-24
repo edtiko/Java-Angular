@@ -20,11 +20,11 @@
                     <div><img class="circular" data-ng-src="{{athlete.srcImage}}" style="width: 117px; height: 117px;  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.13);"/></div>
                     <span style="color: rgb(0, 100, 248); font-weight: bold; text-transform: uppercase">{{athlete.fullName}}</span>  
                     <span style="color: rgb(0, 100, 248); text-transform: uppercase">{{athlete.country}}</span>
-                    <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="go('/athlete-detail/'+athlete.athleteUserId,2)">VER PERFIL</md-button>
+                    <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="go('/athlete-detail/'+athlete.userId,2)">VER PERFIL</md-button>
                     <br />
                     <md-divider></md-divider>
                     <div layout="column">
-                        <div layout="row" layout-align="space-between center">
+                        <div layout="row" layout-align="space-around center" style="width: 200px">
                             <div flex>
                                 <img src="static/img/calendar_29.png" style="width: 29px; height: 29px">
                             </div>
@@ -35,7 +35,7 @@
                                 <img src="static/img/chart_29.png" style="width: 29px; height: 29px"> 
                             </div>
                         </div>
-                        <div layout="row" layout-align="space-between center">
+                        <div layout="row" layout-align="space-around center" style="width: 200px">
                             <div>
                                 <img src="static/img/mail_29.png" style="width: 29px; height: 29px">
                             </div>

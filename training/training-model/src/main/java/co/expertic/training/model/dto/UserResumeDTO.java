@@ -14,9 +14,9 @@ import org.apache.commons.codec.binary.Base64;
  *
  * @author Edwin G
  */
-public class AthleteDTO {
+public class UserResumeDTO {
     
-    private Integer athleteUserId;
+    private Integer userId;
     private String fullName;
     private String srcImage;
     private String country;
@@ -25,8 +25,8 @@ public class AthleteDTO {
     
     
     
-    public AthleteDTO(User user){
-        this.athleteUserId = user.getUserId();
+    public UserResumeDTO(User user){
+        this.userId = user.getUserId();
         this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
         this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
         this.country = user.getCountryId() != null?user.getCountryId().getName():"";
@@ -53,13 +53,14 @@ public class AthleteDTO {
         return base64Encoded;
     }
 
-    public Integer getAthleteUserId() {
-        return athleteUserId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setAthleteUserId(Integer athleteUserId) {
-        this.athleteUserId = athleteUserId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
+
 
     public String getFullName() {
         return fullName;

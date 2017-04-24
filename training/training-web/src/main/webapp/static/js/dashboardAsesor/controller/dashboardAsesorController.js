@@ -29,7 +29,7 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'D
 
         //Obtener atletas asignados 
         self.getAssignedAthletesPaginate = function () {
-            $scope.promise = DashboardService.getAssignedAthletesPaginate($scope.query, $scope.userSession.userId, function (response) {
+            $scope.promise = DashboardService.getAssignedAthletesPaginate($scope.query, $scope.userSession.userId,$scope.userSessionTypeUserCoachInterno, function (response) {
                 $scope.assignedAthletesList = success(response);
                 if ($scope.assignedAthletesList.length > 0) {
                     $scope.count = $scope.assignedAthletesList[0].count;
@@ -38,7 +38,7 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'D
         };
 
         self.getCountByPlanAsesor = function () {
-            DashboardService.getCountByPlanAsesor($scope.userSession.userId, function (response) {
+            DashboardService.getCountByPlanRole($scope.userSession.userId,$scope.userSessionTypeUserCoachInterno, function (response) {
                 $scope.countPlanList = success(response);
             });
         };

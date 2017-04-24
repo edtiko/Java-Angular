@@ -10,14 +10,15 @@ import co.expertic.base.jpa.DAOException;
 import co.expertic.training.dao.plan.CoachAssignedPlanDao;
 import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.enums.StateEnum;
-import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.User;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +30,7 @@ import org.springframework.stereotype.Repository;
 public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> implements CoachAssignedPlanDao {
 
     @Override
-    public List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId, PaginateDto paginateDto) throws DAOException {
+    public List<CoachAssignedPlanDTO> findAthletesByUserRole(Integer userId, Integer roleId, PaginateDto paginateDto) throws DAOException {
         StringBuilder sql = new StringBuilder();
         String order = paginateDto.getOrder();
         int first = paginateDto.getPage();
@@ -39,9 +40,14 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
         }
         sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.trainingPlanUserId.userId, cp, m.trainingPlanUserId.creationDate) ");
         sql.append(" FROM CoachAssignedPlan m, ConfigurationPlan cp ");
-        sql.append(" WHERE m.starTeamId.coachUserId.userId = :userId ");
+        sql.append("WHERE 1=1 ");
+        if (Objects.equals(roleId, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append("AND m.starTeamId.coachUserId.userId = :userId ");
+        } else if (Objects.equals(roleId, RoleEnum.ESTRELLA.getId())) {
+            sql.append("AND m.starTeamId.starUserId.userId = :userId ");
+        }
         sql.append(" AND m.trainingPlanUserId.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
-        sql.append(" AND cp.communicationRoleId.roleId = ").append(RoleEnum.COACH_INTERNO.getId());
+        sql.append(" AND cp.communicationRoleId.roleId = ").append(roleId);
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
 
         sql.append(" order by ");
@@ -137,11 +143,16 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     }
 
     @Override
-    public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception {
+    public List<ReportCountDTO> getCountByPlanRole(Integer userId, Integer roleId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.ReportCountDTO(m.trainingPlanUserId.trainingPlanId.name, count(m.trainingPlanUserId.trainingPlanId.trainingPlanId) ");
         sql.append(") FROM CoachAssignedPlan m ");
-        sql.append("WHERE m.starTeamId.coachUserId.userId = :userId ");
+        sql.append("WHERE 1=1 ");
+        if(Objects.equals(roleId, RoleEnum.COACH_INTERNO.getId())){
+        sql.append("AND m.starTeamId.coachUserId.userId = :userId ");
+        }else if(Objects.equals(roleId, RoleEnum.ESTRELLA.getId())){
+         sql.append("AND m.starTeamId.starUserId.userId = :userId ");   
+        }
         sql.append("AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
         sql.append(" GROUP BY m.trainingPlanUserId.trainingPlanId.name ");
         Query query = getEntityManager().createQuery(sql.toString());
@@ -150,9 +161,9 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     }
 
     @Override
-    public List<AthleteDTO> findAthletesByCoachUserId(Integer coachUserId) throws DAOException {
+    public List<UserResumeDTO> findAthletesByCoachUserId(Integer coachUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new co.expertic.training.model.dto.AthleteDTO(m.trainingPlanUserId.userId) ");
+        sql.append(" SELECT new co.expertic.training.model.dto.UserResumeDTO(m.trainingPlanUserId.userId) ");
         sql.append(" FROM CoachAssignedPlan m ");
         sql.append(" WHERE m.starTeamId.coachUserId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
