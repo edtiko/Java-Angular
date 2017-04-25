@@ -1,0 +1,72 @@
+<div layout="column" id="mailControlAsesor">
+    <md-card style="height: 600px">
+        <md-card-content>
+            <ang-accordion one-at-a-time="true" close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
+                <collapsible-item  id="asesorItem" role-selected="{{userSessionTypeUserCoachInterno}}" item-title="{{planSelected.coachUserId.fullName}}" initially-open="true">
+                    <div flex>
+                        <div layout="row" layout-align="center">
+                            <md-button title="{{ 'CREATE' | translate }}" style="width: 250px; font-weight: bold" class="md-raised" ng-click="dialogEmail()">Escribir mensaje</md-button>
+                        </div>
+                        <md-list flex>
+                            <md-list-item  ng-click="verRecibidosAsesor()" class="md-2-line"  ng-class="{selectedMail: recibidoasesor === true}">
+                                <img src="static/img/inbox.png"/>
+                                <div class="md-list-item-text" >
+                                    <h3>&nbsp; Bandeja de entrada</h3>
+                                </div>
+                                <div ng-if="mailsReceived.length > 0" class="circle_notification">{{mailsReceived.length}}</div>
+                            </md-list-item>
+                            <md-list-item ng-click="verEnviadosAsesor()" class="md-2-line" ng-class="{selectedMail: enviadoasesor === true}">
+                                <img src="static/img/send_email.png"/>
+                                <div class="md-list-item-text">
+                                    <h3>&nbsp; Mails enviados</h3>
+
+                                </div>
+                                <div ng-if="mailsSent.length > 0" class="circle_notification">{{mailsSent.length}}</div>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </collapsible-item>
+                <collapsible-item role-selected="{{userSessionTypeUserCoachEstrella}}" item-title="{{planSelected.starUserId.fullName}}">
+                    <div flex>
+                        <div layout="row" layout-align="center">
+                            <md-button title="{{ 'CREATE' | translate }}" style="width: 250px; font-weight: bold" class="md-raised" ng-click="dialogEmail()">Escribir mensaje</md-button>
+                        </div>
+                        <md-list flex>
+                            <md-list-item  ng-click="verRecibidoStar()" class="md-2-line"  ng-class="{selectedMail: recibidostar === true}">
+                                <img src="static/img/inbox.png"/>
+                                <div class="md-list-item-text" >
+                                    <h3>&nbsp; Bandeja de entrada</h3>
+                                </div>
+                                <div ng-if="mailsReceived.length > 0" class="circle_notification">{{mailsReceived.length}}</div>
+                            </md-list-item>
+                            <md-list-item ng-click="verEnviadoStar()" class="md-2-line" ng-class="{selectedMail: enviadostar === true}">
+                                <img src="static/img/send_email.png"/>
+                                <div class="md-list-item-text">
+                                    <h3>&nbsp; Mails enviados</h3>
+
+                                </div>
+                                <div ng-if="mailsSent.length > 0" class="circle_notification">{{mailsSent.length}}</div>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </collapsible-item>
+            </ang-accordion>
+        </md-card-content>
+    </md-card>
+</div>
+<script>
+    function itemStar() {
+        var scope = angular.element($("#mailAsesorContent")).scope();
+
+        scope.getEmailByRole(scope.userSessionTypeUserCoachEstrella);
+
+    }
+
+    function itemAsesor() {
+        var scope = angular.element($("#mailAsesorContent")).scope();
+
+        scope.getEmailByRole(scope.userSessionTypeUserCoachInterno);
+
+    }
+
+</script>

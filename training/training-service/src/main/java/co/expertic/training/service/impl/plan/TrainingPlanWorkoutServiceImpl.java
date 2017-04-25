@@ -118,8 +118,9 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             throw new Exception("No se puede generar plan, no existe fecha de competencia registrada.");
         }
 
-        WeeklyVolume weekVolume = trainingPlanWorkoutDao.getWeeklyVolume(userProfile.getModalityId().getModalityId());
-        MonthlyVolume monthVolume = trainingPlanWorkoutDao.getMonthlyVolume(userProfile.getModalityId().getModalityId());
+        WeeklyVolume weekVolume = trainingPlanWorkoutDao.getWeeklyVolume(userProfile.getObjectiveId().getTrainingLevelId());
+        MonthlyVolume monthVolume = trainingPlanWorkoutDao.getMonthlyVolume(userProfile.getObjectiveId().getTrainingLevelId());
+        
         Integer numSemanasMin = userProfile.getObjectiveId().getMinWeekPlan();
         Integer numSemanasMax = userProfile.getObjectiveId().getMaxWeekPlan();
         Date toDate = userProfile.getCompetenceDate();
@@ -157,6 +158,10 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         }
 
         List<SerieGenerada> result = getSeries(userProfile, weekVolume, monthVolume, numSesiones, numSemanas);
+        
+        if(result == null && result.isEmpty()){
+            throw new Exception("No se generó el plan, hacen faltan datos de configuración.");
+        }
 
         // determina la cantidad de sesiones semanales
         int weeklySession = numSesiones;
@@ -188,10 +193,9 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     public List<SerieGenerada> getSeries(UserProfile userProfile, WeeklyVolume weekVolume, MonthlyVolume monthVolume, Integer numSesiones, Integer numSemanas) throws Exception {
 
-        //calcula los minutos semanales de acuerdo a las horas de entrenamiento
+
         Integer availableTime = userProfile.getAvailableTime();
-        //Integer numSesiones = userProfile.getObjectiveId().getMaxSesion();
-        //Integer numSemanas = userProfile.getObjectiveId().getMaxWeekPlan();
+
         Integer trainingLevelId = userProfile.getObjectiveId().getTrainingLevelId();
         Integer min_semanales = availableTime * 60;
 
@@ -205,17 +209,21 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         Integer monthDischarge = 0;
         Integer volMes = 0;
 
-        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones);
+        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones, userProfile.getObjectiveId().getTrainingLevelId()); 
+        
         IntensityZone intesityZoneBase = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BASE.getId());
+        
         Collection<IntensityZoneDist> intensityZoneDistBase = intesityZoneBase.getIntensityZoneDistCollection();
 
         IntensityZone intesityZoneBuild = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BUILD.getId());
+        
         Collection<IntensityZoneDist> intensityZoneDistBuild = intesityZoneBuild.getIntensityZoneDistCollection();
 
         IntensityZone intesityZonePeak = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.PEAK.getId());
+        
         Collection<IntensityZoneDist> intensityZoneDistPeak = intesityZonePeak.getIntensityZoneDistCollection();
 
-        List<BuildPeakVolume> buildPeakList = buildPeakVolumeDao.findByModalityId(userProfile.getModalityId().getModalityId());
+        List<BuildPeakVolume> buildPeakList = buildPeakVolumeDao.findByLevelId(userProfile.getObjectiveId().getTrainingLevelId());
         int weekBuildPeakStart = 0;
         int weekBuildPeak = 1;
         if (buildPeakList != null && !buildPeakList.isEmpty() && numSemanas > buildPeakList.size()) {
@@ -362,11 +370,11 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
 
             if (w % 4 == 0) {
-                volMes = volMes + iMes;
+                volMes = volMes + (volMes * iMes)/100;
                 volSemana = volInicialSemana;
             } else {
 
-                volSemana = volSemana + iSemana;
+                volSemana = volSemana + (volSemana * iSemana)/100;
             }
 
         }

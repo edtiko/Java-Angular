@@ -4,7 +4,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
         $scope.audioDuration = 0;
-        $scope.toUserId = $scope.planSelected.coachUserId.userId;
+        $scope.toUserId = $scope.planSelected.athleteUserId.userId;
         $scope.timeLimitStar = $scope.planSelected.starCommunication.audioDuration;
         $scope.timeLimitAsesor = $scope.planSelected.asesorCommunication.audioDuration;
         $scope.availableAudioStar = $scope.planSelected.starCommunication.availableAudio;
@@ -51,7 +51,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             var mm = date.getMinutes();
             var ss = date.getSeconds();
             $scope.dateString = "" + day + month + year + hh + mm + ss;
-            var url = $contextPath + "audio/upload/" + $scope.toUserId + "/" + $scope.planSelected.athleteUserId.userId + "/" + $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + "/" + role;
+            var url = $contextPath + "audio/upload/" + $scope.toUserId + "/" + $scope.userSession.userId + "/" + $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + "/" + role;
             return url;
         };
 
@@ -71,7 +71,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                 }).done(function (data) {
                     if (data.status == 'success') {
                         $scope.showMessage(data.message);
-                        $scope.getAudiosStar();
+                        self.getAudiosStar();
                         if (data.output != null) {
                             $scope.wsAudioMobile.send(JSON.stringify(data.output));
                         }
@@ -105,7 +105,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                 }).done(function (data) {
                     if (data.status == 'success') {
                         $scope.showMessage(data.message);
-                        $scope.getAudiosAsesor();
+                        self.getAudiosAsesor();
                         if (data.output != null) {
                             $scope.wsAudioMobile.send(data.output);
                         }

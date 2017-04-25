@@ -58,9 +58,9 @@ public class MonthlyVolume implements Serializable {
     private Date lastUpdate;
     @Column(name = "state_id")
     private Short stateId;
-    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
+    @JoinColumn(name = "training_level_id", referencedColumnName = "training_level_id")
     @ManyToOne
-    private Modality modalityId;
+    private TrainingLevel trainingLevelId;
 
     public MonthlyVolume() {
     }
@@ -139,12 +139,12 @@ public class MonthlyVolume implements Serializable {
         this.stateId = stateId;
     }
 
-    public Modality getModalityId() {
-        return modalityId;
+    public TrainingLevel getTrainingLevelId() {
+        return trainingLevelId;
     }
 
-    public void setModalityId(Modality modalityId) {
-        this.modalityId = modalityId;
+    public void setTrainingLevelId(TrainingLevel trainingLevelId) {
+        this.trainingLevelId = trainingLevelId;
     }
 
     public int getDischarge() {

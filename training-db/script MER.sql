@@ -1063,7 +1063,7 @@ CREATE TABLE weekly_volume
   initial_value integer NOT NULL,
   increase integer NOT NULL,
   discharge integer NOT NULL,
-  modality_id integer,
+  training_level_id integer,
   user_create integer,
   user_update integer,
   creation_date  timestamp without time zone,
@@ -1078,7 +1078,7 @@ CREATE TABLE monthly_volume
   initial_value integer NOT NULL,
   increase integer NOT NULL,
   discharge integer NOT NULL,
-  modality_id integer,
+  training_level_id integer,
   user_create integer,
   user_update integer,
   creation_date  timestamp without time zone,
@@ -1088,13 +1088,13 @@ CREATE TABLE monthly_volume
 );
 
 alter table weekly_volume
-add constraint fk_weekly_volume_modality foreign key (modality_id)
-references modality(modality_id)
+add constraint fk_weekly_volume_tlevel foreign key (training_level_id)
+references training_level(training_level_id)
 on delete restrict on update restrict;
 
 alter table monthly_volume
-add constraint fk_monthly_volume_modality foreign key (modality_id)
-references modality(modality_id)
+add constraint fk_monthly_volume_tlevel foreign key (training_level_id)
+references training_level(training_level_id)
 on delete restrict on update restrict;
 
 CREATE TABLE training_load_type
@@ -1143,7 +1143,7 @@ CREATE TABLE intensity_zone_dist
 /*==============================================================*/
 create table build_peak_volume (
    build_peak_volume_id serial               not null,
-   modality_id              integer          not null,
+   training_level_id        integer          not null,
    week                     integer          not null,
    volume                   integer          not null,
    training_load_type_id    integer          not null,
@@ -1162,8 +1162,8 @@ on delete restrict on update restrict;
 
 
 alter table build_peak_volume
-add constraint fk_buildpeak_modality foreign key (modality_id)
-references modality(modality_id)
+add constraint fk_buildpeak_tlevel foreign key (training_level_id)
+references training_level(training_level_id)
 on delete restrict on update restrict;
 
 alter table intensity_zone_dist
@@ -1173,6 +1173,11 @@ on delete restrict on update restrict;
 
 alter table intensity_zone
 add constraint fk_izone_level foreign key (training_level_id)
+references training_level(training_level_id)
+on delete restrict on update restrict;
+
+alter table intensity_zone_sesion
+add constraint fk_intensity_zone_sesion_tlevel foreign key (training_level_id)
 references training_level(training_level_id)
 on delete restrict on update restrict;
 

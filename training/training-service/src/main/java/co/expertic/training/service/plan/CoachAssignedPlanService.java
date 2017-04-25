@@ -5,12 +5,12 @@
  */
 package co.expertic.training.service.plan;
 
-import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface CoachAssignedPlanService {
     
-    List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId, PaginateDto paginateDto) throws Exception;
+    List<CoachAssignedPlanDTO> findAthletesByUserRole(Integer userId, Integer roleId, PaginateDto paginateDto) throws Exception;
     CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws Exception;
     
     
@@ -52,8 +52,8 @@ public interface CoachAssignedPlanService {
     
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
     
-    public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception; 
+    public List<ReportCountDTO> getCountByPlanRole(Integer userId, Integer roleId) throws Exception; 
 
-    public List<AthleteDTO> findAthletesByCoachUserId(Integer coachUserId) throws Exception;
-    
+    public List<UserResumeDTO> findAthletesByCoachUserId(Integer coachUserId) throws Exception;
+
 }

@@ -475,23 +475,23 @@ public class UserServiceImpl implements UserService {
         if (planType.equals(PLAN_TYPE_IN)) {
             ConfigurationPlan configuration = ConfigurationPlanDao.findByAthleteUserId(userId, roleSelected);
             communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, toUserId, userId, roleSelected));
+            communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, userId, toUserId, roleSelected));
             communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, userId, roleSelected));
             communication.setPlanMsg(configuration.getMessageCount());
 
             communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, toUserId, roleSelected));
+            communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, userId, roleSelected));
             communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, userId, roleSelected));
             communication.setPlanAudio(configuration.getAudioCount());
             communication.setAudioDuration(configuration.getAudioDuration());
 
             communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, toUserId, userId, roleSelected));
+            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
             communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
             communication.setPlanMail(configuration.getEmailCount());
 
             communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, toUserId, userId, roleSelected));
+            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, userId, toUserId , roleSelected));
             communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
             communication.setPlanVideo(configuration.getVideoCount());
             communication.setVideoDuration(configuration.getVideoDuration());

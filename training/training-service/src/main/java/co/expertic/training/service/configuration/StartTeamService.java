@@ -1,6 +1,7 @@
 package co.expertic.training.service.configuration;
 
 import co.expertic.training.model.dto.StarTeamDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.StarTeam;
 import java.util.List;
 
@@ -98,6 +99,8 @@ public interface StartTeamService {
     public List<StarTeam> findByFiltro(StarTeam startTeam) throws Exception; 
 
     public StarTeam findBySupervisor(Integer supervisorUserId) throws Exception; 
+    
+    public List<UserResumeDTO> findAsesoresByStarUserId(Integer starUserId)throws Exception;
 
 
 

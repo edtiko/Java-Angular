@@ -7,7 +7,6 @@ package co.expertic.training.service.impl.plan;
 
 import co.expertic.training.dao.plan.CoachAssignedPlanDao;
 import co.expertic.training.dao.user.UserDao;
-import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PaginateDto;
@@ -15,14 +14,13 @@ import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.ColourIndicator;
 import co.expertic.training.service.configuration.ColourIndicatorService;
 import co.expertic.training.service.plan.CoachAssignedPlanService;
 import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanMessageService;
-import co.expertic.training.service.plan.PlanVideoService;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +51,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
     PlanMessageService planMessageService;
 
     @Override
-    public List<CoachAssignedPlanDTO> findByCoachUserId(Integer userId, PaginateDto paginateDto) throws Exception {
-        return dao.findByCoachUserId(userId, paginateDto);
+    public List<CoachAssignedPlanDTO> findAthletesByUserRole(Integer userId, Integer roleId, PaginateDto paginateDto) throws Exception {
+        return dao.findAthletesByUserRole(userId, roleId, paginateDto);
     }
 
     @Override
@@ -88,13 +86,13 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
     }
 
     @Override
-    public List<ReportCountDTO> getCountByPlanCoach(Integer userId) throws Exception {
-        return dao.getCountByPlanCoach(userId);
+    public List<ReportCountDTO> getCountByPlanRole(Integer userId, Integer roleId) throws Exception {
+        return dao.getCountByPlanRole(userId, roleId);
     }
 
     @Override
-    public List<AthleteDTO> findAthletesByCoachUserId(Integer coachUserId) throws Exception {
-        List<AthleteDTO> list = dao.findAthletesByCoachUserId(coachUserId);
+    public List<UserResumeDTO> findAthletesByCoachUserId(Integer coachUserId) throws Exception {
+        List<UserResumeDTO> list = dao.findAthletesByCoachUserId(coachUserId);
         List<ColourIndicator> colours = colourIndicatorService.findAll();
 
         int firstOrder = 0;
@@ -115,14 +113,14 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
                 thirdColour = colour.getColour();
             }
         }
-        for (AthleteDTO athlete : list) {
-            athlete.setNotificationList(userDao.getUserCountNotification(athlete.getAthleteUserId()));
+        for (UserResumeDTO athlete : list) {
+            athlete.setNotificationList(userDao.getUserCountNotification(athlete.getUserId()));
             int countFirstColour = 0;
             int countSecondColour = 0;
             int countThirdColour = 0;
-            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getAthleteUserId());
+            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getUserId());
 
-            List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId());
+            List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getUserId());
 
             for (MailCommunicationDTO mail : mails) {
                 if (!mail.getRead()) {

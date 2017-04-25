@@ -243,8 +243,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                 $scope.getReportByMetafieldMonthlyOrWeekly($scope.metafield, weekly, $scope.currentNavItem);
             }
         };
-        $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
-
+     
         $scope.parseDateToJavascriptDate = function (date) {
             var dateParts = date.split("-");
             return new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);
@@ -294,6 +293,8 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
             return monthNames[date.getMonth()];
         }
         
-       
+        $scope.$on('userSession', function (event, args) {
+            $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
+        });
 
     }]);

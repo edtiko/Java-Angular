@@ -146,7 +146,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
         };
 
         $scope.getUserSession(function (res) {
-            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
+            $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             $scope.userSession = user;
 

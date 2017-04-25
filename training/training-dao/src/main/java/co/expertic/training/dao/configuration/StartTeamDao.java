@@ -1,7 +1,9 @@
 package co.expertic.training.dao.configuration;
 
 import co.expertic.base.jpa.BaseDAO;
+import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.StarTeamDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.StarTeam;
 import java.util.List;
 
@@ -70,5 +72,7 @@ public interface StartTeamDao extends BaseDAO<StarTeam> {
     public List<StarTeam> findByFiltro(StarTeam startTeam) throws Exception; 
 
     public StarTeam findBySupervisor(Integer supervisorUserId)throws Exception; 
+
+    public List<UserResumeDTO> findAsesoresByStarUserId(Integer starUserId) throws DAOException;
 
 }

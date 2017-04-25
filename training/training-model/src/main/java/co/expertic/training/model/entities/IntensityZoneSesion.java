@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -56,6 +58,9 @@ public class IntensityZoneSesion implements Serializable {
     private Date lastUpdate;
     @Column(name = "state_id")
     private Short stateId;
+    @JoinColumn(name = "training_level_id", referencedColumnName = "training_level_id")
+    @ManyToOne
+    private TrainingLevel trainingLevelId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "intensityZoneSesionId")
     private Collection<IntensityZoneSesionDist> intensityZoneSesionDistCollection;
 
@@ -134,6 +139,14 @@ public class IntensityZoneSesion implements Serializable {
         return stateId;
     }
 
+    public TrainingLevel getTrainingLevelId() {
+        return trainingLevelId;
+    }
+
+    public void setTrainingLevelId(TrainingLevel trainingLevelId) {
+        this.trainingLevelId = trainingLevelId;
+    }
+    
     public void setStateId(Short stateId) {
         this.stateId = stateId;
     }

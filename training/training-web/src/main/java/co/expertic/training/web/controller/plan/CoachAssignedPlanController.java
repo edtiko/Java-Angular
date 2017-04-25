@@ -6,7 +6,6 @@
 package co.expertic.training.web.controller.plan;
 
 import co.expertic.training.enums.RoleEnum;
-import co.expertic.training.model.dto.AthleteDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
@@ -15,6 +14,7 @@ import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.ColourIndicator;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.configuration.ColourIndicatorService;
@@ -71,13 +71,13 @@ public class CoachAssignedPlanController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "get/athtletes/{coachUserId}", method = RequestMethod.POST)
-    public ResponseEntity<ResponseService> getAssignedAthletes(@PathVariable("coachUserId") Integer coachUserId, @RequestBody PaginateDto paginateDto) {
+    @RequestMapping(value = "get/athtletes/{userId}/{roleId}", method = RequestMethod.POST)
+    public ResponseEntity<ResponseService> getAssignedAthletes(@PathVariable("userId") Integer userId, @PathVariable("roleId") Integer roleId, @RequestBody PaginateDto paginateDto) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
-            List<CoachAssignedPlanDTO> athletes = coachService.findByCoachUserId(coachUserId, paginateDto);
+            List<CoachAssignedPlanDTO> athletes = coachService.findAthletesByUserRole(userId, roleId, paginateDto);
             List<ColourIndicator> colours = colourIndicatorService.findAll();
 
             int firstOrder = 0;
@@ -105,9 +105,9 @@ public class CoachAssignedPlanController {
                 int countFirstColour = 0;
                 int countSecondColour = 0;
                 int countThirdColour = 0;
-                List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
+                List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(userId, athlete.getAthleteUserId().getUserId());
 
-                List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getAthleteUserId().getUserId());
+                List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(userId, athlete.getAthleteUserId().getUserId());
 //                planVideoService.getVideosByUser(coachUserId, coachUserId, fromto, tipoPlan);
 
                 for (MailCommunicationDTO mail : mails) {
@@ -162,7 +162,7 @@ public class CoachAssignedPlanController {
         StringBuilder strResponse = new StringBuilder();
         try {
 
-            List<AthleteDTO> athletes = coachService.findAthletesByCoachUserId(coachUserId);
+            List<UserResumeDTO> athletes = coachService.findAthletesByCoachUserId(coachUserId);
 
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);
@@ -176,7 +176,7 @@ public class CoachAssignedPlanController {
         }
 
     }
-
+    
     @RequestMapping(value = "get/star/{coachUserId}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAssignedStar(@PathVariable("coachUserId") Integer coachUserId) {
@@ -206,8 +206,8 @@ public class CoachAssignedPlanController {
             CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId);
             CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(athleteUserId);
             if (assignedCoachInternal != null) {
-                CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getUserCoachId(), RoleEnum.ESTRELLA.getId());
-                CommunicationDTO asesorCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getUserCoachId(), RoleEnum.COACH_INTERNO.getId());
+                CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getCoachUserId().getUserId(), RoleEnum.ESTRELLA.getId());
+                CommunicationDTO asesorCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId, assignedCoachInternal.getCoachUserId().getUserId(), RoleEnum.COACH_INTERNO.getId());
 
                 assignedCoachInternal.setExternal(false);
                 assignedCoachInternal.setStarCommunication(starCommunication);
@@ -255,11 +255,11 @@ public class CoachAssignedPlanController {
 
     }
 
-    @RequestMapping(value = "get/count/plan/{coachUserId}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseService> getCountPlanByCoach(@PathVariable("coachUserId") Integer coachUserId) {
+    @RequestMapping(value = "get/count/plan/{userId}/{roleId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getCountPlanByRole(@PathVariable("userId") Integer userId, @PathVariable("roleId") Integer roleId) {
         ResponseService responseService = new ResponseService();
         try {
-            List<ReportCountDTO> list = coachService.getCountByPlanCoach(coachUserId);
+            List<ReportCountDTO> list = coachService.getCountByPlanRole(userId, roleId);
             responseService.setOutput(list);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

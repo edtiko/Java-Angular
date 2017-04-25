@@ -31,6 +31,7 @@ import co.expertic.training.model.entities.UserTrainingOrder;
 import co.expertic.training.model.entities.VisibleFieldsUser;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.configuration.StartTeamService;
+import co.expertic.training.service.configuration.StorageService;
 import co.expertic.training.service.configuration.TrainingPlanService;
 import co.expertic.training.service.plan.CoachAssignedPlanService;
 import co.expertic.training.service.plan.CoachExtAthleteService;
@@ -43,7 +44,6 @@ import co.expertic.training.service.plan.UserTrainingOrderService;
 import co.expertic.training.service.security.RoleUserService;
 import co.expertic.training.service.user.DisciplineUserService;
 import co.expertic.training.service.user.StravaService;
-import co.expertic.training.service.user.UserAvailabilityService;
 import co.expertic.training.service.user.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -85,6 +85,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Locale;
 import java.util.Objects;
 import org.apache.log4j.Priority;
+import org.springframework.core.io.Resource;
 
 @RestController
 public class UserController {
@@ -154,9 +155,14 @@ public class UserController {
 
     @Autowired
     UserProfileService userProfileService;
+    
+    private final StorageService storageService;
 
+    
     @Autowired
-    private UserAvailabilityService userAvailabilityService;
+    public UserController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     /**
      * Upload single file using Spring Controller
@@ -486,6 +492,12 @@ public class UserController {
 
             } else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH_INTERNO.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-asesor");
+                
+            } else if (Objects.equals(userDto.getRoleId(), RoleEnum.ESTRELLA.getId())) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-star");
+                
+            }else{
+                response.sendRedirect(request.getRequestURL() + "/../../..");
             }
             return null;
         } catch (Exception ex) {
@@ -1337,5 +1349,16 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
+    }
+    
+       @RequestMapping(value = "/files/{path}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String path) {
+
+        Resource file = storageService.loadAsResource(path);
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
     }
 }

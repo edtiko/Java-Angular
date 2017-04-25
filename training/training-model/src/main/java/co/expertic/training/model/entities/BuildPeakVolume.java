@@ -58,9 +58,9 @@ public class BuildPeakVolume implements Serializable {
     private Date lastUpdate;
     @Column(name = "state_id")
     private Integer stateId;
-    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
-    @ManyToOne(optional = false)
-    private Modality modalityId;
+    @JoinColumn(name = "training_level_id", referencedColumnName = "training_level_id")
+    @ManyToOne
+    private TrainingLevel trainingLevelId;
     @JoinColumn(name = "training_load_type_id", referencedColumnName = "training_load_type_id")
     @ManyToOne(optional = false)
     private TrainingLoadType trainingLoadTypeId;
@@ -143,12 +143,12 @@ public class BuildPeakVolume implements Serializable {
         this.stateId = stateId;
     }
 
-    public Modality getModalityId() {
-        return modalityId;
+    public TrainingLevel getTrainingLevelId() {
+        return trainingLevelId;
     }
 
-    public void setModalityId(Modality modalityId) {
-        this.modalityId = modalityId;
+    public void setTrainingLevelId(TrainingLevel trainingLevelId) {
+        this.trainingLevelId = trainingLevelId;
     }
 
     public TrainingLoadType getTrainingLoadTypeId() {

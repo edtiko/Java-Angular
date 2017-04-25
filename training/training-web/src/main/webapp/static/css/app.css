@@ -289,7 +289,7 @@ md-dialog {
 }
 
 label{
-   color: #0064F8 !important;
+    color: #0064F8 !important;
 }
 
 .blue{
@@ -299,11 +299,11 @@ label{
 
 
 #progressbar {
-  text-align: justify;
-  position: relative;
-  overflow: hidden;
-  -webkit-padding-start: 0px;
-  margin: 0px;
+    text-align: justify;
+    position: relative;
+    overflow: hidden;
+    -webkit-padding-start: 0px;
+    margin: 0px;
 }
 #ul-titles {
     margin: -35px 0px 0px 0px;
@@ -323,57 +323,57 @@ label{
     width: 22px; 
 }
 #progressbar:before, #progressbar .active:after {
-  content: '';
-  width: 100%;
-  border: 1px solid #666666;
-  position: absolute;
-  top: 1em;
-  /*margin-top: -2px;*/
+    content: '';
+    width: 100%;
+    border: 1px solid #666666;
+    position: absolute;
+    top: 1em;
+    /*margin-top: -2px;*/
 }
 #progressbar .active:after {
-  border-color: #666666;
-  z-index:-1;
+    border-color: #666666;
+    z-index:-1;
 }
 #progressbar:after {
-  content: "";
-  display: inline-block;
-  width: 100%;
+    content: "";
+    display: inline-block;
+    width: 100%;
 }
 #progressbar li {
-  width: 2em;
-  height: 2em;
-  text-align: center;
-  line-height: 1.8em;
-  border-radius: 1em;
-  -webkit-border-radius:1em;
-  -moz-border-radius:1em;
-  background: #0064F8;
-  /*margin: 0 1em;*/
-  display: inline-block;
-  position: relative;
-  /*border: 2px solid #00E8E8;*/
-  background-repeat: no-repeat;
-  border: 2px solid #00E8E8;
-  box-sizing: border-box;
-  background: linear-gradient(#00E8E8, #0064F8);
-  font-weight: bold;
-  color: white;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    line-height: 1.8em;
+    border-radius: 1em;
+    -webkit-border-radius:1em;
+    -moz-border-radius:1em;
+    background: #0064F8;
+    /*margin: 0 1em;*/
+    display: inline-block;
+    position: relative;
+    /*border: 2px solid #00E8E8;*/
+    background-repeat: no-repeat;
+    border: 2px solid #00E8E8;
+    box-sizing: border-box;
+    background: linear-gradient(#00E8E8, #0064F8);
+    font-weight: bold;
+    color: white;
 }
 
 #progressbar li::before{
-  content: '';
-  position: absolute;
-  top: .9em;
-  left: -4em;
-  width: 4em;
-  height: .0em;
-  background: #666666;
-  color: #0064F8;
+    content: '';
+    position: absolute;
+    top: .9em;
+    left: -4em;
+    width: 4em;
+    height: .0em;
+    background: #666666;
+    color: #0064F8;
 }
 
 
 #progressbar li:first-child::before {
-  display: none;
+    display: none;
 }
 
 /*#progressbar .active {
@@ -381,7 +381,7 @@ label{
 }*/
 
 #progressbar .active ~ li {
-  background: white;
+    background: white;
 }
 
 #progressbar .active ~ li::before {
@@ -399,7 +399,7 @@ label{
 }
 
 .my-radio .md-off{
-     background-color: #1C2127 !important;
+    background-color: #1C2127 !important;
 }
 
 
@@ -427,7 +427,7 @@ md-checkbox.md-checked .md-icon{
     background: #00E8E8 !important;
 }
 h5{
-   color: #0064F8 !important;
+    color: #0064F8 !important;
 }
 
 .number_dash{
@@ -445,27 +445,27 @@ h5{
 
 
 .material-icons {
-  font-weight: normal;
-  font-style: normal;
-  font-size: 14px !important;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px !important;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
 
-  /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
 
-  /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
 
-  /* Support for IE. */
-  font-feature-settings: 'liga';
+    /* Support for IE. */
+    font-feature-settings: 'liga';
 }
 .md-raised{
     min-width: 200px;
@@ -490,17 +490,17 @@ h5{
 
 md-list {
     display: block;
-     padding: 0px;
+    padding: 0px;
 }
 
 .accordion .body .content{
-  overflow-y: scroll;
-  height: 200px;
+    overflow-y: scroll;
+    height: 200px;
 }
 
 .accordion-audio .body .content{
-  overflow-y: hidden;
-  height: auto;
+    overflow-y: hidden;
+    height: auto;
 }
 
 #calendar{
@@ -515,27 +515,27 @@ md-list {
 }
 
 .welcome{
-  font-size: 16px;
-  font-family: "Raleway";
-  color: rgb(0, 125, 253);
-  text-transform: uppercase;
-  line-height: 0.938;
+    font-size: 16px;
+    font-family: "Raleway";
+    color: rgb(0, 125, 253);
+    text-transform: uppercase;
+    line-height: 0.938;
 }
 
 md-menu-item>.md-button{
-     font-size: 12px !important; 
+    font-size: 12px !important; 
 }
 
 .rectangule1{
-  background-color: rgb(0, 232, 232);
-  width: 11px;
-  height: 66px;
+    background-color: rgb(0, 232, 232);
+    width: 11px;
+    height: 66px;
 }
 
 .rectangule2{
-  background-color: rgb(170, 253, 111);
-  width: 11px;
-  height: 66px;
+    background-color: rgb(170, 253, 111);
+    width: 11px;
+    height: 66px;
 }
 
 .circle_notification{
@@ -568,33 +568,33 @@ md-menu-item>.md-button{
 }
 
 .circle_blue {
-  border-radius: 50%;
-  background-color: rgb(0, 100, 248);
-  width: 50px;
-  height: 50px;
-  text-align: center;
+    border-radius: 50%;
+    background-color: rgb(0, 100, 248);
+    width: 50px;
+    height: 50px;
+    text-align: center;
 }
 
 .circle_blue img{
-padding-top: 8px;
+    padding-top: 8px;
 }
 
 .circle_video_modal {
-  border-radius: 50%;
-  background-color: rgb(0, 100, 248);
-  box-shadow: 0px 7px 14.55px 0.45px rgba(0, 0, 0, 0.16);
-  width: 54px;
-  height: 52px;
-  text-align: center;
+    border-radius: 50%;
+    background-color: rgb(0, 100, 248);
+    box-shadow: 0px 7px 14.55px 0.45px rgba(0, 0, 0, 0.16);
+    width: 54px;
+    height: 52px;
+    text-align: center;
 }
 
 .circle_video_modal_white {
-  border-radius: 50%;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 7px 14.55px 0.45px rgba(0, 0, 0, 0.16);
-  width: 53px;
-  height: 52px;
-  text-align: center;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 7px 14.55px 0.45px rgba(0, 0, 0, 0.16);
+    width: 53px;
+    height: 52px;
+    text-align: center;
 }
 
 .circle_black {
@@ -612,103 +612,103 @@ padding-top: 8px;
 }
 
 .circle_black42 {
-  border-radius: 50%;
-  background-color: rgb(28, 33, 39);
-  box-shadow: 0px 6px 7.76px 0.24px rgba(0, 0, 0, 0.24);
-  width: 42px;
-  height: 42px;
-  text-align: center;
+    border-radius: 50%;
+    background-color: rgb(28, 33, 39);
+    box-shadow: 0px 6px 7.76px 0.24px rgba(0, 0, 0, 0.24);
+    width: 42px;
+    height: 42px;
+    text-align: center;
 }
 
 .circle_black42 img{
-  box-sizing: initial !important;
+    box-sizing: initial !important;
     padding-top: 8px;
 }
 
 
 .cpt-title {
-  font-size: 24px;
-  font-family: "Raleway";
-  color: rgb(0, 100, 248);
-  font-weight: bold;
-  text-transform: uppercase;
-  line-height: 1.333
+    font-size: 24px;
+    font-family: "Raleway";
+    color: rgb(0, 100, 248);
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1.333
 }
 
 
 .sub-title{
-  font-size: 18px;
-  font-family: "Raleway";
-  color: rgb(0, 100, 248);
-  text-transform: uppercase;
-  line-height: 0.834;
-  -moz-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
-  -webkit-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
-  -ms-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
+    font-size: 18px;
+    font-family: "Raleway";
+    color: rgb(0, 100, 248);
+    text-transform: uppercase;
+    line-height: 0.834;
+    -moz-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
+    -webkit-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
+    -ms-transform: matrix( 1.00137733458212,0,0,1.00103893391854,0,0);
 }
 
 .disponibles {
-  font-size: 16px;
-  font-family: "Raleway";
-  color: rgb(28, 33, 39);
-  line-height: 0.938;
+    font-size: 16px;
+    font-family: "Raleway";
+    color: rgb(28, 33, 39);
+    line-height: 0.938;
 }
 
 .rectangule_h {
-  background-color: rgb(170, 253, 111);
-  width: 50px;
-  height: 5px;
+    background-color: rgb(170, 253, 111);
+    width: 50px;
+    height: 5px;
 }
 
 .rectangule_audio_aqua {
-  background-color: #00E8E8;
-  width: 50px;
-  height: 5px;
+    background-color: #00E8E8;
+    width: 50px;
+    height: 5px;
 }
 
 .circle_audio_record {
-  border-width: 5px;
-  border-color: rgb(255, 255, 255);
-  border-style: solid;
-  border-radius: 50%;
-  background-color: rgb(0, 100, 248);
-  box-shadow: 0px 12px 21.34px 0.66px rgba(0, 0, 0, 0.16);
-  width: 110px;
-  height: 110px;
-  text-align: center;
+    border-width: 5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    border-radius: 50%;
+    background-color: rgb(0, 100, 248);
+    box-shadow: 0px 12px 21.34px 0.66px rgba(0, 0, 0, 0.16);
+    width: 110px;
+    height: 110px;
+    text-align: center;
 }
 
 .circle_audio_record img{
-  box-sizing: initial !important;
+    box-sizing: initial !important;
     padding-top: 18px;
 }
 
 .cpt-info {
-  font-size: 16px;
-  font-family: "Raleway";
-  color: rgb(28, 33, 39);
-  line-height: 0.938;
+    font-size: 16px;
+    font-family: "Raleway";
+    color: rgb(28, 33, 39);
+    line-height: 0.938;
 }
 
 .circle_pause{
-  border-width: 5px;
-  border-color: rgb(237, 237, 237);
-  border-style: solid;
-  border-radius: 50%;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 12px 21.34px 0.66px rgba(0, 0, 0, 0.16);
-  width: 110px;
-  height: 110px;
-  text-align: center;
+    border-width: 5px;
+    border-color: rgb(237, 237, 237);
+    border-style: solid;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 12px 21.34px 0.66px rgba(0, 0, 0, 0.16);
+    width: 110px;
+    height: 110px;
+    text-align: center;
 }
 
 .circle_pause img{
-  box-sizing: initial !important;
-  padding-top: 28px;
+    box-sizing: initial !important;
+    padding-top: 28px;
 }
 
 .selectedLetter{
-   color: #0064F8 !important;
+    color: #0064F8 !important;
 }
 
 .selectedBlue{
@@ -720,6 +720,16 @@ padding-top: 8px;
 }
 
 md-input-container label{
-   font-size: 16px !important;  
+    font-size: 16px !important;  
+}
+
+.asesor_icon .circle_notification{
+    display: block;
+    position: absolute;
+    text-align: center;
+    line-height: 18px;
+    padding-top: 0px;
+    margin-left: 50px;
+    margin-top: -40px;
 }
 

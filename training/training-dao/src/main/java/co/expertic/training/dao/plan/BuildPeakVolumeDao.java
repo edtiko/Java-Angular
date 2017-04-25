@@ -17,6 +17,6 @@ import java.util.List;
 public interface BuildPeakVolumeDao extends BaseDAO<BuildPeakVolume>{
     
     
-    public List<BuildPeakVolume> findByModalityId(Integer modalityId) throws DAOException;
+    public List<BuildPeakVolume> findByLevelId(Integer trainingLevelId) throws DAOException;
     
 }

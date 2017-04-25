@@ -57,6 +57,11 @@ require.config({
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         athleteService: "athletes/service/athleteService",
+        asesorService: "asesores/service/asesorService",
+        starAthleteController: "asesorDetail/controller/starAthleteController",
+        mailStarController: "asesorDetail/controller/mailStarController",
+        messageStarController: "asesorDetail/controller/messageStarController", 
+        starAthleteDetailController: "asesorDetail/controller/athleteDetail/starAthleteDetailController",
         app: "routeResolver",
         sockjs: "lib/sockjs.min",
         moment: "lib/moment.min",
@@ -211,6 +216,18 @@ require.config({
         videoAsesorController:{
              deps: ['angular', 'trainingApp']  
         },
+        starAthleteController: {
+            deps: ['angular', 'trainingApp']
+        },
+        mailStarController: {
+            deps: ['angular', 'trainingApp']
+        },
+        messageStarController: {
+            deps: ['angular', 'trainingApp']
+        },
+        starAthleteDetailController:{
+             deps: ['angular', 'trainingApp']
+        },
         dashboardService: {
             deps: ['angular', 'trainingApp']
         },
@@ -328,6 +345,9 @@ require.config({
         athleteService:{
              deps: ['angular', 'trainingApp']
         },
+        asesorService:{
+             deps: ['angular', 'trainingApp']
+        },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
                 'modalityService', 'objectiveService', 'sportEquipmentService',
@@ -343,7 +363,8 @@ require.config({
                 'dashboardChartController', 'configurationPlanService', 'membershipService',
                 'marketingReportService', 'paymentReportService', 'saleReportService','accountService',
                 'athleteService', 'calendarAsesorController','chartAsesorController','messageAsesorController',
-                'mailAsesorController','audioAsesorController','videoAsesorController'
+                'mailAsesorController','audioAsesorController','videoAsesorController', 'asesorService','starAthleteController',
+                'mailStarController', 'messageStarController', 'starAthleteDetailController'
 
             ]}
     }

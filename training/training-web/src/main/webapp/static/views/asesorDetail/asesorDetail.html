@@ -1,0 +1,40 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding>
+    <md-card>
+        <div layout="row" layout-align="space-around center">
+            <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAsesorMenu('profile', 1)" ng-class="{selectedBlue: moduleSelected === 1}">
+                <span>
+                    <img ng-if="moduleSelected !== 1" src="static/img/profile.png">
+                    <img ng-if="moduleSelected === 1" src="static/img/profile-selected.png">
+                </span>
+                <h5 style="color: #0064F8; font-weight: bold;">PERFIL</h5>
+            </div>
+            <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAsesorMenu('athletes', 2)" ng-class="{selectedBlue: moduleSelected === 2}">
+                <span>
+                    <img ng-if="moduleSelected !== 2" src="static/img/athletes.png">
+                    <img ng-if="moduleSelected === 2" src="static/img/athletes-selected.png">
+                </span>
+                <h5 style="color: #0064F8; font-weight: bold">ATLETAS</h5>
+            </div>
+            <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAsesorMenu('chat', 4)" ng-class="{selectedBlue: moduleSelected === 4}">
+                <span class="asesor_icon">
+                    <img ng-if="moduleSelected !== 4" src="static/img/chat_profile.png">
+                    <img ng-if="moduleSelected === 4" src="static/img/chat-selected.png">
+                    <div ng-if="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
+                </span>
+                <h5 style="color: #0064F8; font-weight: bold">MENSAJES</h5>
+            </div>
+            <div  layout="column" style="width: 133px; height: 130px;" layout-align="center center" ng-click="goAsesorMenu('mail', 5)" ng-class="{selectedBlue: moduleSelected === 5}">
+                <span class="asesor_icon">
+                    <img ng-if="moduleSelected !== 5" src="static/img/mail_profile.png">
+                    <img ng-if="moduleSelected === 5" src="static/img/mail-selected.png">
+                    <div ng-if="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
+                </span>
+                <h5 style="color: #0064F8; font-weight: bold">MAIL</h5>
+            </div>
+        </div>
+    </md-card>
+    <div ng-include src="asesorPageSelected" ></div>
+</div>
+
+

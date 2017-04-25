@@ -80,7 +80,7 @@ public interface TrainingPlanWorkoutDao extends BaseDAO<TrainingPlanWorkout> {
 
     public MonthlyVolume getMonthlyVolume(Integer modalityId) throws Exception;
 
-    public List<IntensityZoneSesion> getIntensityZoneSesion(Integer numSesion) throws Exception;
+    public List<IntensityZoneSesion> getIntensityZoneSesion(Integer numSesion, Integer trainingLevelId) throws Exception;
 
     public IntensityZone getIntensityZone(Integer trainingLevelId, Integer typeLoadId) throws Exception;
 

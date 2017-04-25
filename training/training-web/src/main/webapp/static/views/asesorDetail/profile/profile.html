@@ -1,0 +1,84 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding>
+    <div layout="row">
+        <div flex>
+            <span class="cpt-title">DATOS PERSONALES</span>
+            <br />
+            <div layout="row" layout-padding>
+                <div flex="30">
+                    <img data-ng-src="{{asesorImage}}" class="circular" style="height: 130px; width: 131px;">
+                </div>
+                <div layout="column" layout-padding>
+                    <div>
+                        <span class="sub-title" style="text-transform: uppercase; font-weight: bold">{{userProfile.fullName}}</span>
+                    </div>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">Sexo:</span>
+                    </div>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">Fecha de nacimiento:</span>
+                    </div>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">Edad:</span>
+                    </div>
+                </div>
+                <div layout="column" layout-padding>
+                    <div>
+                        <span>&nbsp;</span>
+                    </div>
+                    <div>
+                        <span>{{userProfile.sex ==='f'?'Femenino':'Masculino' }}</span>
+                    </div>
+                    <div>
+                        <span>{{userProfile.birthDate}}</span>
+                    </div>
+                    <div>
+                        <span>{{userProfile.age}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div flex>
+            <span class="cpt-title">DATOS DE CONTACTO</span>
+            <br />
+            <div layout="row" layout-padding>
+                <div layout="column" layout-padding>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">Correo electrónico:</span>
+                    </div>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">Celular:</span>
+                    </div>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">País de residencia:</span>
+                    </div>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">Ciudad:</span>
+                    </div>
+                    <div>
+                        <span style="color: #0064F8; font-weight: bold">Código postal:</span>
+                    </div>
+                </div>
+                <div layout="column" layout-padding>
+                    <div>
+                        <span>{{userProfile.email}}</span>
+                    </div>
+                    <div>
+                        <span>{{userProfile.cellphone}}</span>
+                    </div>
+                    <div>
+                        <span>{{userProfile.country}}</span>
+                    </div>
+                    <div>
+                        <span>{{userProfile.city}}</span>
+                    </div>
+                    <div>
+                        <span>{{userProfile.postalCode}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <md-divider></md-divider>
+</div>

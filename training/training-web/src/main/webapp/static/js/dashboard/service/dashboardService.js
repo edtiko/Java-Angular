@@ -11,8 +11,8 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getAssignedAthletesPaginate: function (query, coachUserId, res) {
-                return $http.post($contextPath + 'get/athtletes/' + coachUserId, query)
+            getAssignedAthletesPaginate: function (query, userId, role, res) {
+                return $http.post($contextPath + 'get/athtletes/' + userId+'/'+role, query)
                         .then(
                                 res,
                                 function (errResponse) {
@@ -72,8 +72,8 @@ trainingApp.service('DashboardService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getCountByPlanAsesor: function (coachUserId, fn) {
-                return $http.get($contextPath + 'get/count/plan/' + coachUserId)
+            getCountByPlanRole: function (userId,roleId, fn) {
+                return $http.get($contextPath + 'get/count/plan/' + userId+'/'+roleId)
                         .then(
                                 fn,
                                 function (errResponse) {

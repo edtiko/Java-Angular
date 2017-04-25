@@ -30,7 +30,7 @@
 
                 <md-list flex>
                     <md-list-item ng-if="userSession.planSelected.starUserId != null" class="md-3-line"  ng-click="getEmailByRole(userSessionTypeUserCoachEstrella)">
-                        <div class="rectangule1"></div>
+                        <div class="rectangule1" ng-if="roleSelected == userSessionTypeUserCoachEstrella"></div>
                         <img data-ng-src="{{starImage}}"  class="md-avatar">
                         <div class="md-list-item-text">
                             <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.starUserId.fullName}}</h3>
@@ -39,7 +39,7 @@
                         </div>
                     </md-list-item>
                     <md-list-item class="md-3-line" ng-click="getEmailByRole(userSessionTypeUserCoachInterno)">
-                        <div class="rectangule2"></div>
+                        <div class="rectangule2" ng-if="roleSelected == userSessionTypeUserCoachInterno"></div>
                         <img data-ng-src="{{asesorImage}}"  class="md-avatar">
                         <div class="md-list-item-text">
                             <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.coachUserId.fullName}}</h3>

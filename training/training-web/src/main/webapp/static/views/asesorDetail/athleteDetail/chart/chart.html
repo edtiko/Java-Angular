@@ -1,0 +1,122 @@
+<meta charset="utf-8"> 
+<md-content ng-controller="ChartAsesorController" ng-cloak>
+<div layout="column" layout-padding>
+    <h4 style="color: #0064F8"> GRÁFICOS</h4>
+    <div layout="row" layout-align="space-around center">
+        <div layout="column" layout-align="center center">
+            <span style="color: #0064F8">ACTIVIDAD</span>
+            <div  class="c100 p70 small">
+                <span class="number_dash">5.5 hrs</span>
+                <div class="slice">
+                    <div class="bar"></div>
+                    <div class="fill"></div>
+                </div>
+            </div>
+            <span style="color: #0064F8">META 10 hrs</span>
+        </div>
+        <div layout="column" layout-align="center center">
+            <span style="color: #0064F8">CALOR&Iacute;AS</span>
+            <div  class="c100 p25 small">
+                <span class="number_dash">450 kcal</span>
+                <div class="slice">
+                    <div class="bar"></div>
+                    <div class="fill"></div>
+                </div>
+            </div>
+            <span style="color: #0064F8">META: 950 KCAL</span>
+        </div>
+        <div layout="column" layout-align="center center">
+            <span style="color: #0064F8">DISTANCIA</span>
+            <div  class="c100 p25 small">
+                <span class="number_dash">8.9 km</span>
+                <div class="slice">
+                    <div class="bar"></div>
+                    <div class="fill"></div>
+                </div>
+            </div>
+            <span style="color: #0064F8">META: 150 KM</span>
+        </div>
+        <div layout="column" layout-align="center center">
+            <span style="color: #0064F8">VELOCIDAD MEDIA</span>
+            <div  class="c100 p50 small">
+                <span class="number_dash">80 km/h</span>
+                <div class="slice">
+                    <div class="bar"></div>
+                    <div class="fill"></div>
+                </div>
+            </div>
+            <span style="color: #0064F8">META: 85 KM/H</span>
+        </div>
+    </div>
+    <br /><br />
+</div>
+<div layout="row" layout-padding>
+    <div>
+        <md-card>
+            <md-card-content>
+                <md-list class="md-dense" flex>
+                    <md-list-item class="md-2-line" ng-click="getReport(1, null, false, currentNavItem)" ng-class="{itemSelected: metafield == 1}">
+                        <div class="md-list-item-text">
+                            <span>{{ 'ACTIVITIES' | translate }}</span>
+                        </div>
+
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="getReport(2, null, false, currentNavItem)" ng-class="{itemSelected: metafield == 2}">
+                        <div class="md-list-item-text">
+                            <span>{{ 'TOTAL_CALORIES' | translate }}</span>
+                        </div>
+
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="getReport(3, null, false, currentNavItem)" ng-class="{itemSelected: metafield == 3}">
+                        <div class="md-list-item-text">
+                            <span>{{ 'TOTAL_DISTANCE' | translate }}</span>
+                        </div>
+
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="getReport(4, null, false, currentNavItem)" ng-class="{itemSelected: metafield == 4}">
+                        <div class="md-list-item-text">
+                            <span>{{ 'MAX_HEART_RATE' | translate }}</span>
+                        </div>
+
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="getReport(5, null, false, currentNavItem)" ng-class="{itemSelected: metafield == 5}">
+                        <div class="md-list-item-text">
+                            <span>{{ 'AVERAGE_HEART_RATE' | translate }}</span>
+                        </div>
+
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="getReport(6, null, false, currentNavItem)" ng-class="{itemSelected: metafield == 6}">
+                        <div class="md-list-item-text">
+                            <span>{{ 'AVERAGE_PACE' | translate }}</span>
+                        </div>
+
+                    </md-list-item>
+                    <md-list-item class="md-2-line" ng-click="getReport(7, null, false, currentNavItem)" ng-class="{itemSelected: metafield == 7}">
+                        <div class="md-list-item-text">
+                            <span>{{ 'POTENCIA_MAXIMA' | translate }}</span>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                <md-button ng-click="go('/progress', 3)" style="background: #1C2127; color:#AAFD6F;">RESUMEN DE MI PROGRESO</md-button>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div layout="column" flex>
+        <div>
+            <div layout="row" style="color: #0064F8">
+                <md-subheader>Filtros&nbsp;></md-subheader>
+                <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+                    <md-nav-item md-nav-click="getReport(null,7,false)" name="day">7 dias</md-nav-item>
+                    <md-nav-item md-nav-click="getReport(null,28,true)" name="week">4 semanas</md-nav-item>
+                    <md-nav-item md-nav-click="getReport(null,168,false)" name="sixmonths">6 meses</md-nav-item>
+                    <md-nav-item md-nav-click="getReport(null,365,false)" name="twelvemonths">12 meses</md-nav-item>
+                </md-nav-bar>
+            </div>
+        </div>   
+        <center><h3></h3></center>
+        <div id="chart_div" class="chart">
+        </div>
+
+    </div>
+</div>
+</md-content>
