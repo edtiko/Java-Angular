@@ -94,6 +94,16 @@ trainingApp.service('CharacteristicService', ['$http', '$q', function ($http, $q
                                     return $q.reject(errResponse);
                                 }
                         );
-            }
+            },
+            getCharacteristicAll: function (response) {
+                return $http.get($contextPath + '/characteristic/get/all')
+                        .then(
+                                response,
+                                function (errResponse) {
+                                    console.error('Error while fetching characteristics');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
         };
     }]);

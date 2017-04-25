@@ -103,5 +103,18 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                 }
                         );
             },
+            
+            getAll: function(){
+                    return $http.get($contextPath+'/trainingPlan/get/all')
+                            .then(
+                                    function (response) {
+                                    return response;
+                                },
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
         };
     }]);

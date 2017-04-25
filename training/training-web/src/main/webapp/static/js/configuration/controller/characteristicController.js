@@ -176,7 +176,6 @@ trainingApp.controller('CharacteristicController', ['$scope', 'CharacteristicSer
             } else {
                 form.$setSubmitted();
             }
-
         };
 
         $scope.createPlanCharacteristic = function (planCharacteristic) {

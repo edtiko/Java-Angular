@@ -1085,7 +1085,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                             $scope.showScript = false;
                             $scope.getDashBoardByUser($scope.userSession);
                             $scope.dashboardSelected = $scope.views.profile;
-                            self.getSupervisors();
+//                            self.getSupervisors();
                             self.getStars();
                             break;
 

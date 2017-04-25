@@ -1,7 +1,7 @@
 <div class="demo-md-panel md-padding">
     <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
         <div class="md-toolbar-tools">
-            <span>Lista de TrainingPlan</span>
+            <span>Lista de {{tipoPlanText}}</span>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list"
                        ng-style="{'font-size':'20px', 'height':'20px', 'min-width': '35px'}">
@@ -52,6 +52,8 @@
                     <md-button ng-show="trainingPlan.stateId == 1" type="button" ng-click="inactivateTrainingPlan(trainingPlan.trainingPlanId)"  ng-style="{color: 'yellow', 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
                     <md-button type="button" ng-click="deleteTrainingPlan(trainingPlan.trainingPlanId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
                     <md-button type="button" ng-click="showDetail(trainingPlan.trainingPlanId)" class="md-raised md-primary" title="Configurar" ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-cogs" aria-hidden="true"></i></md-button>
+                    
+                    <md-button type="button" ng-click="showCharac(trainingPlan.trainingPlanId)" class="md-raised md-primary" title="Configurar" ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-cogs" aria-hidden="true"></i></md-button>
 
                 </td>
                     <td md-cell>{{trainingPlan.name}}</td>

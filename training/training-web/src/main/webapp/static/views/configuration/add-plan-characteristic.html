@@ -1,4 +1,4 @@
-<md-dialog aria-label="{{ 'ADD_PLAN_CHARACTERISTIC_MODALITY' | translate }}" style="width: 600px;height: 600px;">
+<md-dialog aria-label="{{ 'ADD_PLAN_CHARACTERISTIC_MODALITY' | translate }}" style="width: 80%;height: 650px;">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>{{ 'ADD_PLAN_CHARACTERISTIC_MODALITY' | translate }}</h2>
@@ -19,9 +19,9 @@
                 <div layout="row"> 
                     <div flex="66">
                         <md-input-container class="md-block" >
-                            <label>Plan</label>
-                            <md-select id="plan" ng-model="planCharacteristic.trainingPlanId.trainingPlanId" required>
-                                <md-option ng-repeat="d in planList" value="{{d.trainingPlanId}}" >
+                            <label>Caracter&iacute;stica</label>
+                            <md-select ng-change="validateValueTypeVisible()" ng-model="planCharacteristic.characteristicId.characteristicId" required>
+                                <md-option ng-repeat="d in characteristicList" value="{{d.characteristicId}}" >
                                     {{d.name}}
                                 </md-option>
                             </md-select>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
 
-                <div layout="row" ng-show="validateValueTypeVisible()">
+                <div layout="row" ng-show="visibleCharact">
                     <div flex="66">
                         <md-input-container class="md-block" >
                             <md-input-container class="md-block">
