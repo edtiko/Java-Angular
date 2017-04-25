@@ -48,4 +48,6 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     public List<ReportCountDTO> getCountByPlanRole(Integer userId, Integer roleId) throws Exception; 
 
     public List<UserResumeDTO> findAthletesByCoachUserId(Integer coachUserId) throws DAOException;
+
+    public CoachAssignedPlanDTO findByStarAthleteUserId(Integer athleteUserId, Integer starUserId) throws DAOException;
 }

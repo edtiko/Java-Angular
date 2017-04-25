@@ -31,6 +31,7 @@ public class CoachAssignedPlanDTO{
     private Integer userCoachId;
     private Integer userAthleteId;
     private Integer userStarId;
+    private Boolean starManageMessages;
     private CommunicationDTO starCommunication;
     private CommunicationDTO asesorCommunication;
     
@@ -85,6 +86,16 @@ public class CoachAssignedPlanDTO{
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.external = false;
     }
+      
+    public CoachAssignedPlanDTO(Integer id, User starUserId, User coachUserId, User athleteUserId, Boolean starManageMessages) {
+        this.id = id;
+        this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
+        this.starUserId = UserDTO.mapFromUserEntity(starUserId);
+        this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
+        this.external = false;
+        this.starManageMessages = starManageMessages;
+    }
+
 
     /* public static CoachAssignedPlanDTO mapFromCoachAssignedPlanEntity(CoachAssignedPlan e) {
         if (e != null) {
@@ -213,6 +224,14 @@ public class CoachAssignedPlanDTO{
 
     public void setAsesorCommunication(CommunicationDTO asesorCommunication) {
         this.asesorCommunication = asesorCommunication;
+    }
+
+    public Boolean getStarManageMessages() {
+        return starManageMessages;
+    }
+
+    public void setStarManageMessages(Boolean starManageMessages) {
+        this.starManageMessages = starManageMessages;
     }
     
     

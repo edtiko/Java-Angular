@@ -28,7 +28,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                             $scope.messages = data.output;
                             $scope.loading = false;
 
-                            self.readMessages(tipoPlan, $scope.roleSelected, $scope.planSelected.athleteUserId.userId, $scope.userSession.userId);
+                            self.readMessages(tipoPlan, $scope.roleSelected, $scope.userSession.userId, $scope.planSelected.coachUserId.userId);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -36,6 +36,17 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                         });
             }
 
+        };
+        
+        $scope.setStarManageMessage = function () {
+            MessageService.setStarManageMessage($scope.planSelected.id).then(
+                    function (data) {
+
+                    },
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
         };
 
 
@@ -58,8 +69,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                     $scope.planMessage.coachAssignedPlanId.coachUserId.userId = $scope.planSelected.coachUserId.userId;
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     $scope.planMessage.roleSelected = $scope.roleSelected;
-
-                        $scope.planMessage.receivingUserId.userId = $scope.planSelected.athleteUserId.userId;
+                    $scope.planMessage.receivingUserId.userId = $scope.planSelected.coachUserId.userId;
              
 
                     MessageService.send($scope.planMessage);
@@ -113,14 +123,8 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
 
         $scope.getMessageCount = function () {
             var tipoPlan = "IN";
-            if ($scope.planSelected.external) {
-                tipoPlan = "EXT";
-            }
              self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function(data){
                  $scope.availableMessageStar = data;
-             });
-             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function(data){
-                 $scope.availableMessageSup = data;
              });
              
         };
@@ -130,10 +134,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                 $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
                 $scope.availableMessageStar = $scope.planSelected.starCommunication.availableMsg;
                 $scope.messageCountStar = $scope.planSelected.starCommunication.planMsg;
-                $scope.availableMessageSup = $scope.planSelected.asesorCommunication.availableMsg;
-                $scope.messageCountSup = $scope.planSelected.asesorCommunication.planMsg;
                 $scope.receivedMessageStar = $scope.planSelected.starCommunication.receivedMsg;
-                $scope.receivedMessageSup = $scope.planSelected.asesorCommunication.receivedMsg;
                 self.getChat("IN");
 
             } else {
@@ -145,14 +146,9 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
         $scope.getMessagesByRole = function (role) {
             $scope.messages = [];
             $scope.roleSelected = role;
-            if (role == $scope.userSessionTypeUserCoachEstrella) {
-                $scope.userMsgSelected = $scope.planSelected.starUserId.fullName;
-            } else {
-                $scope.userMsgSelected = $scope.planSelected.coachUserId.fullName;
-            }
-     
-                self.getChat("IN");
-            
+            $scope.userMsgSelected = $scope.planSelected.athleteUserId.fullName;
+            self.getChat("IN");
+
         };
 
 

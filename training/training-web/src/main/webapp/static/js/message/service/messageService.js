@@ -128,6 +128,19 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
+        
+        service.setStarManageMessage = function (planId) {
+            return $http.get($contextPath + 'set/star/manage/message/'+planId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while set/star/manage/message/');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
 
         var reconnect = function () {
             $timeout(function () {

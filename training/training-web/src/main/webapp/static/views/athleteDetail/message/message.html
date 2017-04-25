@@ -1,6 +1,6 @@
 <md-content ng-controller="MessageAsesorController" ng-cloak style="margin: 2%;">
     <div flex layout="row" layout-align="center">
-        <div flex="35">
+        <div layout="column" flex="35">
             <md-card style="min-height:550px">
                 <md-card-content>
                     <div layout="column">
@@ -9,8 +9,11 @@
                     </div>  
                     <br />
                     <md-divider></md-divider>
-                    <br />
+                    <br /> 
                     <md-list  flex>
+                        
+                    <span class="sub-title">RESPONDER COMO</span>
+                    <br /> 
                         <md-list-item ng-if="planSelected.starUserId != null" class="md-3-line"  ng-click="getMessagesByRole(userSessionTypeUserCoachEstrella)" >
                             <div class="rectangule1" ng-if="roleSelected == userSessionTypeUserCoachEstrella"></div>
                             <img data-ng-src="{{starImage}}"  class="md-avatar">
@@ -31,7 +34,7 @@
                             </div>
                             <div ng-if="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>
                         </md-list-item>
-                    </md-list>
+                    </md-list> 
                 </md-card-content>
             </md-card>
         </div>
@@ -40,7 +43,9 @@
                 <h3 style="text-transform: capitalize">{{userMsgSelected==null?'Mensajes':userMsgSelected}} 
                     <img src="static/img/circle_chat.png" style="width: 12px; height: 12px;"></h3>
             </div>
-            <div layout="column" style="min-height:390px" flex>
+            <md-divider></md-divider>
+            <br />
+            <div layout="column" style="max-height:420px" flex>
                 <md-content style="overflow-x: hidden;" scroll-glue="glued">
                     <div layout="column" layout-align="center center" flex ng-if="loading">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
@@ -51,7 +56,10 @@
                             <p ng-class="{self: message.self}">
                                 {{message.message}}
                             </p>
-                            <span class="msgTime md-caption">{{message.creationDate}}</span>
+                            <span class="msgTime md-caption">{{message.creationDate}}
+                             <md-checkbox ng-if="userSession.userId != message.messageUserId.userId " ng-checked="exists(message.id, msgStar)" ng-click="toggle(message.id, msgStar)"></md-checkbox>
+                            </span>
+                           
                         </div>
                     </div>
                 </md-content>
@@ -59,7 +67,7 @@
             <md-divider></md-divider>
             <br />
             <div flex layout="column" >
-                <form ng-submit="addMessage()" name="messageForm">
+                <form ng-submit="addMessage()" name="messageForm" ng-if="!planSelected.starManageMessages">
                     <section layout="row" style="background: #FFFFFF" layout-sm="column" layout-wrap>
                         <div flex>
                             <md-input-container class="md-block" >
@@ -73,6 +81,16 @@
                         </md-button>
                     </section>
                 </form>
+                <div layout="row" layout-padding layout-align="center center" style="background: #FFFFFF; height: 71px;" layout-sm="column" layout-wrap ng-if="planSelected.starManageMessages">
+                    <div flex>
+                        <md-checkbox  ng-checked="isChecked()" ng-click="toggleAll()" ng-model="setResendMsg">Seleccionar todos los mensajes</md-checkbox>
+                    </div>
+                    <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="resendStar()" >
+                        <md-icon md-menu-origin>
+                            <img src="static/img/send_chat.png">
+                        </md-icon>
+                    </md-button>
+                </div>
             </div>
         </div>
     </div>

@@ -233,6 +233,39 @@ public class CoachAssignedPlanController {
         }
 
     }
+    
+        @RequestMapping(value = "get/assigned/plan/star/athlete/{athleteUserId}/{starUserId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getAssignedPlanStarAthlete(@PathVariable("athleteUserId") Integer athleteUserId, @PathVariable("starUserId") Integer starUserId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            CoachAssignedPlanDTO plan = coachService.findByStarAthleteUserId(athleteUserId, starUserId);
+            
+            if (plan != null) {
+                CommunicationDTO starCommunication = userService.getCommunicationStarAthlete(plan);
+
+                plan.setExternal(false);
+                plan.setStarCommunication(starCommunication);
+                responseService.setOutput(plan);
+    
+                
+            } else {
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                strResponse.append("El usuario no tiene asociado un plan activo.");
+                responseService.setOutput(strResponse);
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(e.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
 
     @RequestMapping(value = "get/supervisors/by/star/{starUserId}", method = RequestMethod.GET)
     public @ResponseBody

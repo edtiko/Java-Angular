@@ -6,7 +6,6 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
         $scope.athletes = [];
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-        $scope.sendingUser = JSON.parse($window.sessionStorage.getItem("selectedUser"));
         $scope.roleSelected = $scope.userSessionTypeUserCoachInterno;
 
         $scope.mailSelected = '';
@@ -14,10 +13,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
         $scope.selectedItemReceiverUser = null;
         $scope.availableMailStar = $scope.planSelected.starCommunication.availableMail;
         $scope.mailCountStar = $scope.planSelected.starCommunication.planMail;
-        $scope.availableMailSup = $scope.planSelected.asesorCommunication.availableMail;
-        $scope.mailCountSup = $scope.planSelected.asesorCommunication.planMail;
         $scope.receivedMailStar = $scope.planSelected.starCommunication.receivedMail;
-        $scope.receivedMailSup = $scope.planSelected.asesorCommunication.receivedMail;
 
         $scope.mailCommunication = {
             id: '',
@@ -81,10 +77,8 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
                     $scope.mailCommunication.coachAssignedPlanId = $scope.planSelected.id;
                     $scope.mailCommunication.roleSelected = $scope.roleSelected;
                     
-                } else if ($scope.sendingUser != null) {
-                    $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
-                    $scope.mailCommunication.receivingUser.userId = $scope.sendingUser.userId;
-                }
+                } 
+                
 
 
                 $scope.createMailCommunication($scope.mailCommunication);
@@ -191,12 +185,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
 
         });
 
-        $scope.selectedItemChange = function (item) {
-            if (item != undefined) {
-                $scope.receivingUserSelected = item;
-            }
 
-        };
 
         $scope.querySearchUsers = function (query, users, value) {
             var results = users;
@@ -259,9 +248,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
             $scope.mailCommunication.message = '';
         };
         
-        $scope.toggleFn = function(){
-            
-        };
+
 
         $scope.readEmail = function (id) {
 

@@ -51,6 +51,8 @@ public class CoachAssignedPlan implements Serializable {
     @JoinColumn(name = "training_plan_user_id", referencedColumnName = "training_plan_user_id")
     @ManyToOne(optional = false)
     private TrainingPlanUser trainingPlanUserId;
+    @Column(name = "star_manage_messages")
+    private Boolean starManageMessages;
 
     public CoachAssignedPlan() {
     }
@@ -99,6 +101,14 @@ public class CoachAssignedPlan implements Serializable {
         this.trainingPlanUserId = trainingPlanUserId;
     }
 
+    public Boolean getStarManageMessages() {
+        return starManageMessages;
+    }
+
+    public void setStarManageMessages(Boolean starManageMessages) {
+        this.starManageMessages = starManageMessages;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

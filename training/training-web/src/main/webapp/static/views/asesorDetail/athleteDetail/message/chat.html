@@ -1,35 +1,33 @@
-<md-content ng-controller="MessageAsesorController" ng-cloak style="margin: 2%;">
+<meta charset="utf-8">
+<md-content ng-controller="MessageStarAthleteController" ng-cloak style="margin: 2%;">
     <div flex layout="row" layout-align="center">
-        <div flex="35">
+        <div flex="40">
+            <div layout="row">
+                <div  flex>
+                    <md-checkbox  ng-model="planSelected.starManageMessages" ng-click="setStarManageMessage()">
+                        Gestionar mensajes personalmente
+                    </md-checkbox>
+                </div>
+
+                <img src="static/img/info-icon-cpt.png" style="width: 15px; height: 15px">
+            </div>  
             <md-card style="min-height:550px">
                 <md-card-content>
                     <div layout="column">
-                        <span class="cpt-title">MENSAJES DE:</span>
-                        <span class="sub-title" style="text-transform: uppercase">{{planSelected.athleteUserId.fullName}}</span>
+                        <span class="cpt-title">MENSAJES</span>
                     </div>  
                     <br />
                     <md-divider></md-divider>
                     <br />
                     <md-list  flex>
-                        <md-list-item ng-if="planSelected.starUserId != null" class="md-3-line"  ng-click="getMessagesByRole(userSessionTypeUserCoachEstrella)" >
-                            <div class="rectangule1" ng-if="roleSelected == userSessionTypeUserCoachEstrella"></div>
-                            <img data-ng-src="{{starImage}}"  class="md-avatar">
+                        <md-list-item  class="md-3-line"  >
+                            <div class="rectangule1"></div>
+                            <img data-ng-src="{{athleteImage}}"  class="md-avatar">
                             <div class="md-list-item-text">
-                                <h3 style="font-weight: bold; color: #0064F8">{{planSelected.starUserId.fullName}}</h3>
-                                <h3 style="color: #0064F8">Estrella</h3>
+                                <h3 style="font-weight: bold; color: #0064F8">{{userProfile.fullName}}/Atleta</h3>
                                 <p style="color: #000">Mensajes disponibles {{availableMessageStar}} de {{messageCountStar}}</p>
                             </div>
                             <div ng-if="receivedMessageStar > 0" class="circle_notification">{{receivedMessageStar}}</div>
-                        </md-list-item>
-                        <md-list-item class="md-3-line" ng-click="getMessagesByRole(userSessionTypeUserCoachInterno)" >
-                            <div class="rectangule2" ng-if="roleSelected == userSessionTypeUserCoachInterno"></div>
-                            <img data-ng-src="{{asesorImage}}"  class="md-avatar">
-                            <div class="md-list-item-text">
-                                <h3 style="font-weight: bold; color: #0064F8">{{planSelected.coachUserId.fullName}}</h3>
-                                <h3 style="color: #0064F8">Asesor</h3>
-                                <p style="color: #000">Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
-                            </div>
-                            <div ng-if="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>
                         </md-list-item>
                     </md-list>
                 </md-card-content>
@@ -40,7 +38,9 @@
                 <h3 style="text-transform: capitalize">{{userMsgSelected==null?'Mensajes':userMsgSelected}} 
                     <img src="static/img/circle_chat.png" style="width: 12px; height: 12px;"></h3>
             </div>
-            <div layout="column" style="min-height:390px" flex>
+            <md-divider></md-divider>
+            <br />
+            <div layout="column" style="max-height:420px" flex>
                 <md-content style="overflow-x: hidden;" scroll-glue="glued">
                     <div layout="column" layout-align="center center" flex ng-if="loading">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
@@ -59,7 +59,7 @@
             <md-divider></md-divider>
             <br />
             <div flex layout="column" >
-                <form ng-submit="addMessage()" name="messageForm">
+                <form ng-submit="addMessage()" name="messageForm" ng-if="planSelected.starManageMessages">
                     <section layout="row" style="background: #FFFFFF" layout-sm="column" layout-wrap>
                         <div flex>
                             <md-input-container class="md-block" >
@@ -73,6 +73,16 @@
                         </md-button>
                     </section>
                 </form>
+                <div ng-if="!planSelected.starManageMessages" style="
+                     border-width: 1px;
+                     border-color: rgb(229, 229, 229);
+                     border-style: solid;
+                     background-color: rgb(220, 220, 220);
+                     box-shadow: 0px 15px 24px 0px rgba(0, 0, 0, 0.06);
+                      height: 71px;
+                     ">
+                    <span>La opción <strong>"Gestionar mensajes personalmente"</strong> está desactivada, para poder responder estos mensajes debes activar esta opción.</span>
+                </div> 
             </div>
         </div>
     </div>

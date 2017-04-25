@@ -68,7 +68,7 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     @Override
     public CoachAssignedPlanDTO findByAthleteUserId(Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.starTeamId.starUserId, m.starTeamId.coachUserId, m.trainingPlanUserId.userId) ");
+        sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.starTeamId.starUserId, m.starTeamId.coachUserId, m.trainingPlanUserId.userId, m.starManageMessages) ");
         //sql.append(" FROM CoachAssignedPlan  m, ConfigurationPlan cp ");
         sql.append(" FROM CoachAssignedPlan  m ");
         sql.append(" WHERE m.trainingPlanUserId.userId.userId = :userId ");
@@ -171,6 +171,21 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", coachUserId);
         return query.getResultList();
+    }
+
+    @Override
+    public CoachAssignedPlanDTO findByStarAthleteUserId(Integer athleteUserId, Integer starUserId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.starTeamId.starUserId, m.starTeamId.coachUserId, m.trainingPlanUserId.userId, m.starManageMessages) ");
+        sql.append(" FROM CoachAssignedPlan  m ");
+        sql.append(" WHERE m.trainingPlanUserId.userId.userId = :athleteUserId ");
+        sql.append(" AND m.starTeamId.starUserId.userId = :starUserId ");
+        sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("athleteUserId", athleteUserId);
+        query.setParameter("starUserId", starUserId);
+        List<CoachAssignedPlanDTO> list = query.getResultList();
+        return (list == null || list.isEmpty()) ? null : list.get(0);
     }
 
 }

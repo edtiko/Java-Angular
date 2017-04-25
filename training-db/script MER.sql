@@ -792,6 +792,7 @@ create table coach_assigned_plan (
    coach_assigned_plan_id     serial             not null,
    star_team_id              integer            not null,
    training_plan_user_id      integer            not null,
+   star_manage_messages       boolean           default false, 
    state_id                   integer            null,
    creation_date              date               null,
    constraint pk_coach_assigned_plan primary key (coach_assigned_plan_id)

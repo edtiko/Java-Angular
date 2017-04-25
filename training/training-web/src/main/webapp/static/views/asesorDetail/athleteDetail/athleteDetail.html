@@ -2,7 +2,10 @@
 <div layout="column" layout-padding ng-controller="StarAthleteDetailController">
     <md-nav-bar
         md-selected-nav-item="currentNavItem"
-        nav-bar-aria-label="navigation links">
+        nav-bar-aria-label="navigation links" style="background: #003eff; color: #FFFFFF" id="navAthlete">
+        <md-nav-item md-nav-click="null" ng-disabled="true"  name="title">
+            OPCIONES DEL ATLETA
+        </md-nav-item>
         <md-nav-item md-nav-click="goStarAthleteMenu('profile')" name="page1">
             PERFIL
         </md-nav-item>
@@ -21,5 +24,5 @@
     </md-nav-bar>
     <div ng-include src="athletePageSelected" ></div>
 </div>
-
+ 
 

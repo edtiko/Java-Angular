@@ -41,7 +41,9 @@ import co.expertic.training.model.entities.VideoUser;
 import co.expertic.training.service.user.UserService;
 import co.expertic.training.dao.user.VideoUserDao;
 import co.expertic.training.dao.user.VisibleFieldsUserDao;
+import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.model.dto.AccountDTO;
+import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.DisciplineDTO;
@@ -608,5 +610,39 @@ public class UserServiceImpl implements UserService {
                 + "&second_name=" + account.getSecondName() + "&last_name=" + account.getLastName()
                 + "&password=" + account.getNewPassword() + "&action=edit_account_user";
         return sendPostWordpress(UrlProperties.URL_PORTAL + "training-controller.php", postData);
+    }
+
+    @Override
+    public CommunicationDTO getCommunicationStarAthlete(CoachAssignedPlanDTO plan) throws Exception {
+        CommunicationDTO communication = new CommunicationDTO();
+        Integer roleSelected = RoleEnum.ESTRELLA.getId();
+        Integer athleteUserId = plan.getAthleteUserId().getUserId();
+        Integer starUserId = plan.getStarUserId().getUserId();
+        Integer coachUserId = plan.getCoachUserId().getUserId();
+
+        ConfigurationPlan configuration = ConfigurationPlanDao.findByAthleteUserId(athleteUserId, roleSelected);
+        communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(plan.getId(), starUserId, coachUserId, roleSelected));
+        communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(plan.getId(), starUserId, roleSelected));
+        communication.setPlanMsg(configuration.getMessageCount());
+
+        communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(plan.getId(), starUserId, roleSelected));
+        communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setPlanAudio(configuration.getAudioCount());
+        communication.setAudioDuration(configuration.getAudioDuration());
+
+        communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(plan.getId(), starUserId, coachUserId, roleSelected));
+        communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setPlanMail(configuration.getEmailCount());
+
+        communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(plan.getId(), starUserId, coachUserId, roleSelected));
+        communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(plan.getId(), starUserId, roleSelected));
+        communication.setPlanVideo(configuration.getVideoCount());
+        communication.setVideoDuration(configuration.getVideoDuration());
+
+        return communication;
     }
 }

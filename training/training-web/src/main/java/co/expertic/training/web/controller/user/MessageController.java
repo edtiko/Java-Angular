@@ -3,6 +3,7 @@ package co.expertic.training.web.controller.user;
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.util.ResponseService;
+import co.expertic.training.service.plan.CoachAssignedPlanService;
 import co.expertic.training.service.plan.PlanMessageService;
 import co.expertic.training.web.enums.StatusResponse;
 import java.util.List;
@@ -33,6 +34,9 @@ public class MessageController {
 
     @Autowired
     private PlanMessageService planMessageService;
+    
+    @Autowired
+    private CoachAssignedPlanService coachAssignedPlanService;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -241,6 +245,25 @@ public class MessageController {
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+        }
+    }
+    
+    @RequestMapping(value = "set/star/manage/message/{planId}", method = RequestMethod.GET)
+    public @ResponseBody
+     ResponseEntity<ResponseService>  setStarManageMessages(@PathVariable("planId") Integer planId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            coachAssignedPlanService.setStarManageMessages(planId); 
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 

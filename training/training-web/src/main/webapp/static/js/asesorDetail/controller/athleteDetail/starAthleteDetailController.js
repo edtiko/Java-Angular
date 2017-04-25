@@ -11,7 +11,7 @@ trainingApp.controller('StarAthleteDetailController', ['$scope', 'AthleteService
             audio: 'static/views/asesorDetail/athleteDetail/audio/audio.html',
             video: 'static/views/asesorDetail/athleteDetail/video/video.html'
         };
-
+        $scope.currentNavItem = 1;
 
         $scope.goStarAthleteMenu = function (module, index) {
             if ($scope.planSelected == null) {
@@ -60,7 +60,7 @@ trainingApp.controller('StarAthleteDetailController', ['$scope', 'AthleteService
 
         $scope.getActivePlan = function () {
             //$scope.showLoading(true);
-            AthleteService.getActivePlan($scope.athleteUserId, function (res) {
+            AthleteService.getActivePlanStarAthlete($scope.athleteUserId, $scope.userSession.userId, function (res) {
                 $scope.planSelected = res.data.output;
                 if ($scope.planSelected != null) {
                     $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
@@ -73,29 +73,12 @@ trainingApp.controller('StarAthleteDetailController', ['$scope', 'AthleteService
                     //$scope.connectToAudioWsMovil($scope.planSelected.id);
                     //$scope.connectToVideoWsMovil($scope.planSelected.id);
 
-                    $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
-                    $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
-                    $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
-                    $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
-                    $scope.athleteReceivedCount = ($scope.messageReceivedCount + $scope.mailReceivedCount +  $scope.audioReceivedCount + $scope.videoReceivedCount);
+                    $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg);
+                    $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail);
+                    $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio);
+                    $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo);
 
-                    $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
-                        if (data != "") {
-                            $scope.starImage = "data:image/png;base64," + data;
-                            $window.sessionStorage.setItem("starImage", $scope.starImage);
-                        } else {
-                            $scope.starImage = "static/img/profile-default.png";
-                        }
-                    });
-                    $scope.getImageProfile($scope.planSelected.coachUserId.userId, function (data) {
-                        if (data != "") {
-                            $scope.asesorImage = "data:image/png;base64," + data;
-                            $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);
-                        } else {
-                            $scope.asesorImage = "static/img/profile-default.png";
-                        }
-
-                    });
+       
                 } else {
                     $scope.showMessage("No hay un plan activo seleccionado", "Error");
                     return;

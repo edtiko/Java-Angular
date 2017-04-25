@@ -2,6 +2,7 @@ package co.expertic.training.service.user;
 
 import co.expertic.training.model.dto.AccountDTO;
 import co.expertic.training.model.dto.CityDTO;
+import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.FederalStateDTO;
 import co.expertic.training.model.dto.NotificationDTO;
@@ -164,5 +165,7 @@ public interface UserService {
     public String editAddressUser(String addressUserJson)throws Exception;
 
     public String editAccountUser(AccountDTO account) throws Exception;
+
+    public CommunicationDTO getCommunicationStarAthlete(CoachAssignedPlanDTO plan)  throws Exception;
    
 }

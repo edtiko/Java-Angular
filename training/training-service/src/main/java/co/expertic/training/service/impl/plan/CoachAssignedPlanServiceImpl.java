@@ -163,4 +163,16 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
         return hoursSpent;
     }
 
+    @Override
+    public CoachAssignedPlanDTO findByStarAthleteUserId(Integer athleteUserId, Integer starUserId) throws Exception {
+        return dao.findByStarAthleteUserId(athleteUserId, starUserId);
+    }
+
+    @Override
+    public void setStarManageMessages(Integer planId) throws Exception {
+        CoachAssignedPlan plan =  dao.findById(planId);
+        plan.setStarManageMessages(!plan.getStarManageMessages());
+        dao.merge(plan);
+    }
+
 }

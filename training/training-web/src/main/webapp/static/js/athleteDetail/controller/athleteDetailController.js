@@ -6,7 +6,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         $scope.moduleSelected = 1;
         $scope.athleteView = {
             profile: 'static/views/athleteDetail/profile/profile.html',
-            chat: 'static/views/athleteDetail/message/chat.html',
+            chat: 'static/views/athleteDetail/message/message.html',
             mail: 'static/views/athleteDetail/mail/mail.html',
             audio: 'static/views/athleteDetail/audio/audio.html',
             video: 'static/views/athleteDetail/video/video.html',

@@ -60,8 +60,12 @@ require.config({
         asesorService: "asesores/service/asesorService",
         starAthleteController: "asesorDetail/controller/starAthleteController",
         mailStarController: "asesorDetail/controller/mailStarController",
-        messageStarController: "asesorDetail/controller/messageStarController", 
+       // messageStarController: "asesorDetail/controller/messageStarController",
         starAthleteDetailController: "asesorDetail/controller/athleteDetail/starAthleteDetailController",
+        messageStarAthleteController: "asesorDetail/controller/athleteDetail/messageStarAthleteController",
+        mailStarAthleteController: "asesorDetail/controller/athleteDetail/mailStarAthleteController",
+        audioStarAthleteController: "asesorDetail/controller/athleteDetail/audioStarAthletController",
+        videoStarAthleteController: "asesorDetail/controller/athleteDetail/videoStarAthleteController",
         app: "routeResolver",
         sockjs: "lib/sockjs.min",
         moment: "lib/moment.min",
@@ -180,8 +184,8 @@ require.config({
         userProfileService: {
             deps: ['angular', 'trainingApp']
         },
-        accountService:{
-           deps: ['angular', 'trainingApp'] 
+        accountService: {
+            deps: ['angular', 'trainingApp']
         },
         authService: {
             deps: ['angular', 'trainingApp']
@@ -189,32 +193,32 @@ require.config({
         calendarService: {
             deps: ['angular', 'trainingApp']
         },
-        sharedProperties:{
+        sharedProperties: {
             deps: ['angular', 'trainingApp']
         },
         mainController: {
             deps: ['angular', 'trainingApp']
         },
-        dashboardChartController:{
-             deps: ['angular', 'trainingApp']
-        },
-        calendarAsesorController:{
+        dashboardChartController: {
             deps: ['angular', 'trainingApp']
         },
-        chartAsesorController:{
-            deps: ['angular', 'trainingApp']  
+        calendarAsesorController: {
+            deps: ['angular', 'trainingApp']
         },
-        messageAsesorController:{
-            deps: ['angular', 'trainingApp'] 
+        chartAsesorController: {
+            deps: ['angular', 'trainingApp']
         },
-        mailAsesorController:{
-           deps: ['angular', 'trainingApp']  
+        messageAsesorController: {
+            deps: ['angular', 'trainingApp']
         },
-        audioAsesorController:{
-           deps: ['angular', 'trainingApp']  
+        mailAsesorController: {
+            deps: ['angular', 'trainingApp']
         },
-        videoAsesorController:{
-             deps: ['angular', 'trainingApp']  
+        audioAsesorController: {
+            deps: ['angular', 'trainingApp']
+        },
+        videoAsesorController: {
+            deps: ['angular', 'trainingApp']
         },
         starAthleteController: {
             deps: ['angular', 'trainingApp']
@@ -222,11 +226,23 @@ require.config({
         mailStarController: {
             deps: ['angular', 'trainingApp']
         },
-        messageStarController: {
+       /* messageStarController: {
+            deps: ['angular', 'trainingApp']
+        },*/
+        starAthleteDetailController: {
             deps: ['angular', 'trainingApp']
         },
-        starAthleteDetailController:{
-             deps: ['angular', 'trainingApp']
+        messageStarAthleteController: {
+            deps: ['angular', 'trainingApp']
+        },
+        mailStarAthleteController: {
+            deps: ['angular', 'trainingApp']
+        },
+        audioStarAthleteController: {
+            deps: ['angular', 'trainingApp']
+        },
+        videoStarAthleteController: {
+            deps: ['angular', 'trainingApp']
         },
         dashboardService: {
             deps: ['angular', 'trainingApp']
@@ -254,7 +270,7 @@ require.config({
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate', 'angularAria', 'angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification', 'angularSanitize',
                 'scrollGlue', 'angularFilter', 'ngCamRecorder', 'recorder', 'whammy', 'viRecorder', 'angularPickList', 'angularAudioRecorder',
-                'wavesurfer', 'adapter', 'moment', 'jqueryui', 'multiStepForm', 'loader','accordion'
+                'wavesurfer', 'adapter', 'moment', 'jqueryui', 'multiStepForm', 'loader', 'accordion'
 
             ]
         },
@@ -342,11 +358,11 @@ require.config({
         saleReportService: {
             deps: ['angular', 'trainingApp']
         },
-        athleteService:{
-             deps: ['angular', 'trainingApp']
+        athleteService: {
+            deps: ['angular', 'trainingApp']
         },
-        asesorService:{
-             deps: ['angular', 'trainingApp']
+        asesorService: {
+            deps: ['angular', 'trainingApp']
         },
         app: {
             deps: ['trainingApp', 'userService', 'disciplineService',
@@ -361,10 +377,11 @@ require.config({
                 'mailService', 'supervStarCoachService', 'userActivityPerformanceService',
                 'externalCoachService', 'audioMessageService', 'scriptService', 'informeService',
                 'dashboardChartController', 'configurationPlanService', 'membershipService',
-                'marketingReportService', 'paymentReportService', 'saleReportService','accountService',
-                'athleteService', 'calendarAsesorController','chartAsesorController','messageAsesorController',
-                'mailAsesorController','audioAsesorController','videoAsesorController', 'asesorService','starAthleteController',
-                'mailStarController', 'messageStarController', 'starAthleteDetailController'
+                'marketingReportService', 'paymentReportService', 'saleReportService', 'accountService',
+                'athleteService', 'calendarAsesorController', 'chartAsesorController', 'messageAsesorController',
+                'mailAsesorController', 'audioAsesorController', 'videoAsesorController', 'asesorService', 'starAthleteController',
+                'mailStarController', 'starAthleteDetailController','messageStarAthleteController',
+                'mailStarAthleteController','audioStarAthleteController','videoStarAthleteController'
 
             ]}
     }
