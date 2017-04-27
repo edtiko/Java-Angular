@@ -57,24 +57,38 @@ public class TrainingPlanCharactDaoImpl extends BaseDAOImpl<TrainingPlanCharact>
         
         if(trainingPlanCharact.getValue() != null && !trainingPlanCharact.getValue().trim().isEmpty()) {
             builder.append("AND lower(a.value) like lower(:value) ");
-            setParameter("value", "%" + trainingPlanCharact.getValue() + "%");
         }
         
         if(trainingPlanCharact.getTrainingPlanId()!= null && trainingPlanCharact.getTrainingPlanId().getTrainingPlanId() != null) {
             builder.append("AND a.trainingPlanId.trainingPlanId = :plan ");
-            setParameter("plan", trainingPlanCharact.getTrainingPlanId().getTrainingPlanId());
         }
         
         if(trainingPlanCharact.getMembershipId()!= null && trainingPlanCharact.getMembershipId().getMembershipId() != null) {
             builder.append("AND a.membershipId.membershipId = :membershipId ");
-            setParameter("membershipId", trainingPlanCharact.getMembershipId().getMembershipId());
         }
         
         if(trainingPlanCharact.getCharacteristicId()!= null && trainingPlanCharact.getCharacteristicId().getCharacteristicId() != null) {
             builder.append("AND a.characteristicId.characteristicId = :charac ");
-            setParameter("charac", trainingPlanCharact.getCharacteristicId().getCharacteristicId());
         }
-        return createQuery(builder.toString());
+        
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        if(trainingPlanCharact.getValue() != null && !trainingPlanCharact.getValue().trim().isEmpty()) {
+            query.setParameter("value", "%" + trainingPlanCharact.getValue() + "%");
+        }
+        
+        if(trainingPlanCharact.getTrainingPlanId()!= null && trainingPlanCharact.getTrainingPlanId().getTrainingPlanId() != null) {
+            query.setParameter("plan", trainingPlanCharact.getTrainingPlanId().getTrainingPlanId());
+        }
+        
+        if(trainingPlanCharact.getMembershipId()!= null && trainingPlanCharact.getMembershipId().getMembershipId() != null) {
+            query.setParameter("membershipId", trainingPlanCharact.getMembershipId().getMembershipId());
+        }
+        
+        if(trainingPlanCharact.getCharacteristicId()!= null && trainingPlanCharact.getCharacteristicId().getCharacteristicId() != null) {
+            query.setParameter("charac", trainingPlanCharact.getCharacteristicId().getCharacteristicId());
+        }
+        
+        return query.getResultList();
     }
 
 }
