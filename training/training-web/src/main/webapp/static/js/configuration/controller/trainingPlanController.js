@@ -487,6 +487,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                                         alert(d.output);
                                         $scope.resetConfigurationPlan();
                                         $scope.getConfigurationPlanPaginate();
+                                        $scope.getPlanCharacteristicPaginate($scope.trainingPlan.trainingPlanId);
                                     } else {
                                         alert(d.output);
                                     }
@@ -581,12 +582,12 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                         
                 for(var i = 0;i < $scope.configurationPlanList.length;i ++) {
                     //2 coach, 1 atleta
-                    if($scope.configurationPlanList[i].communicationRoleId.roleId == 2) {
+                    if($scope.configurationPlanList[i].communicationRoleId.roleId == 4) {
                         plan.role = 'coach';
                         $scope.createPlanWordpress(plan);
                     }
                     //5 coach, 1 atleta
-                    if($scope.configurationPlanList[i].communicationRoleId.roleId == 1) {
+                    if($scope.configurationPlanList[i].communicationRoleId.roleId == 5) {
                         plan.role = 'atleta';
                         $scope.createPlanWordpress(plan);
                     }
