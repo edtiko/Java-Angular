@@ -382,7 +382,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
             for (IntensityZoneSesionDTO d : dist) {
                 if (d.getTime() != null) {
-                    SerieGenerada res = getSerieTime(d.getTime(), d.getZone());
+                    SerieGenerada res = getSerieTime(d.getTime(), d.getZone(), trainingLevelId);
                     if (res != null && res.getNumSesiones() > 0 && res.getTiempo() != null) {
                         resultado.add(new SerieGenerada(w, d.getZone(), d.getSesion(), res.getTiempo(), res.getNumSesiones()));
                     }
@@ -406,13 +406,17 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     }
 
-    public SerieGenerada getSerieTime(Double tiempo, Integer zona) throws Exception {
+    public SerieGenerada getSerieTime(Double tiempo, Integer zona, Integer trainingLevelId) throws Exception {
 
         //1. semana 1 escogemos el que tenga más series, segundo el intermedio, y el tercero el más alto, cuarta cualquiera
-        ZoneTimeSerie serie = trainingPlanWorkoutDao.getZoneTimeSerie(zona);
+        ZoneTimeSerie serie = trainingPlanWorkoutDao.getZoneTimeSerie(zona, trainingLevelId);
 
         if (serie == null) {
             throw new Exception("No se puede generar plan, no existe zone_time_serie para la zona: " + zona);
+        }
+        
+        if(zona == 2){
+            return new SerieGenerada(tiempo, 1l);
         }
 
         List<IntervaloTiempo> list = new ArrayList<>();

@@ -1231,6 +1231,7 @@ CREATE TABLE zone_time_serie
   num_interval double precision,
   num_min integer,
   num_max integer,
+  training_level_id integer,
   user_create integer,
   user_update integer,
   creation_date time without time zone,
@@ -1238,6 +1239,11 @@ CREATE TABLE zone_time_serie
   state_id smallint,
   CONSTRAINT pk_zone_time_serie PRIMARY KEY (zone_time_serie_id)
 );
+
+alter table zone_time_serie
+add constraint fk_zone_time_serie_tlevel foreign key (training_level_id)
+references training_level(training_level_id)
+on delete restrict on update restrict;
 
 /*==============================================================*/
 /* Table: training_user_serie                                   */
