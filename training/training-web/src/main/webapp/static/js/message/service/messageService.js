@@ -51,8 +51,8 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
-        service.getMessages = function (planId, tipoPlan, roleSelected ) {
-            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan+'/'+roleSelected)
+        service.getMessages = function (planId, userSessionId, tipoPlan, roleSelected ) {
+            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan+'/'+roleSelected+'/'+userSessionId)
                     .then(
                             function (response) {
                                 return response.data;
@@ -137,6 +137,19 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
                             },
                             function (errResponse) {
                                 console.error('Error while set/star/manage/message/');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+        service.resendMessageStar = function (planId, starMessages){
+                  return $http.post($contextPath + 'resend/star/messages/'+planId,JSON.stringify({starMessages: starMessages}))
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while resend/star/messages');
                                 return $q.reject(errResponse);
                             }
                     );

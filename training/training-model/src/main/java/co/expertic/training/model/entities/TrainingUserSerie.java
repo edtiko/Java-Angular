@@ -34,7 +34,8 @@ public class TrainingUserSerie implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)@SequenceGenerator(name = "training_user_serie_training_user_serie_id_seq", sequenceName = "training_user_serie_training_user_serie_id_seq", allocationSize = 1)
+    @Basic(optional = false)
+    @SequenceGenerator(name = "training_user_serie_training_user_serie_id_seq", sequenceName = "training_user_serie_training_user_serie_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_user_serie_training_user_serie_id_seq")
     @Column(name = "training_user_serie_id")
     private Integer trainingUserSerieId;
@@ -52,14 +53,18 @@ public class TrainingUserSerie implements Serializable {
     @Column(name = "user_update")
     private Integer userUpdate;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.DATE)
     private Date creationDate;
     @Column(name = "last_update")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.DATE)
     private Date lastUpdate;
     @JoinColumn(name = "training_plan_user_id", referencedColumnName = "training_plan_user_id")
     @ManyToOne
     private TrainingPlanUser trainingPlanUserId;
+    @Column(name = "sesion")
+    private Integer sesion;
+     @Column(name = "week")
+    private Integer week;
 
     public TrainingUserSerie() {
     }
@@ -147,6 +152,22 @@ public class TrainingUserSerie implements Serializable {
     public void setNumZona(Integer numZona) {
         this.numZona = numZona;
     }
+
+    public Integer getSesion() {
+        return sesion;
+    }
+
+    public void setSesion(Integer sesion) {
+        this.sesion = sesion;
+    }
+
+    public Integer getWeek() {
+        return week;
+    }
+
+    public void setWeek(Integer week) {
+        this.week = week;
+    }
     
 
     @Override
@@ -173,5 +194,5 @@ public class TrainingUserSerie implements Serializable {
     public String toString() {
         return "co.expertic.training.model.entities.TrainingUserSerie[ trainingUserSerieId=" + trainingUserSerieId + " ]";
     }
-    
+
 }

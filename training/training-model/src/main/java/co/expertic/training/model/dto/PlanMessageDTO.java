@@ -5,6 +5,7 @@ import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,7 @@ public class PlanMessageDTO {
     private Boolean toStar;
     private Integer roleSelected;
     private boolean mobile;
+    private List<Integer> starMessages;
 
     public PlanMessageDTO() {
 
@@ -164,6 +166,14 @@ public class PlanMessageDTO {
 
     public void setMobile(boolean mobile) {
         this.mobile = mobile;
+    }
+
+    public List<Integer> getStarMessages() {
+        return starMessages;
+    }
+
+    public void setStarMessages(List<Integer> starMessages) {
+        this.starMessages = starMessages;
     }
 
 

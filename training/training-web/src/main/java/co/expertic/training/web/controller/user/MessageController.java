@@ -16,6 +16,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -67,13 +68,14 @@ public class MessageController {
         simpMessagingTemplate.convertAndSend("/queue/message/" + sessionId, msg);
     }
 
-    @RequestMapping(value = "get/messages/{planId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/messages/{planId}/{tipoPlan}/{roleSelected}/{userSessionId}", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<ResponseService> getMessages(@PathVariable("planId") Integer planId, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+    ResponseEntity<ResponseService> getMessages(@PathVariable("planId") Integer planId, @PathVariable("tipoPlan") String tipoPlan, 
+                                               @PathVariable("roleSelected") Integer roleSelected, @PathVariable("userSessionId") Integer userId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(planId, tipoPlan, roleSelected);
+            List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(planId, tipoPlan, roleSelected, userId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -265,6 +267,26 @@ public class MessageController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
+    }
+     
+    @RequestMapping(value = "resend/star/messages/{planId}", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<ResponseService> resendStarMessages(@PathVariable("planId") Integer planId, @RequestBody PlanMessageDTO messages) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            planMessageService.resendStarMessages(planId, messages.getStarMessages());
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(messages);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
     }
 
 

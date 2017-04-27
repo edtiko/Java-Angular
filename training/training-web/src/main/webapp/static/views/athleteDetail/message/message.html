@@ -57,7 +57,7 @@
                                 {{message.message}}
                             </p>
                             <span class="msgTime md-caption">{{message.creationDate}}
-                             <md-checkbox ng-if="userSession.userId != message.messageUserId.userId " ng-checked="exists(message.id, msgStar)" ng-click="toggle(message.id, msgStar)"></md-checkbox>
+                             <md-checkbox ng-if="userSession.userId != message.messageUserId.userId && roleSelected == userSessionTypeUserCoachEstrella" ng-checked="exists(message.id, msgStar)" ng-click="toggle(message.id, msgStar)"></md-checkbox>
                             </span>
                            
                         </div>
@@ -67,7 +67,7 @@
             <md-divider></md-divider>
             <br />
             <div flex layout="column" >
-                <form ng-submit="addMessage()" name="messageForm" ng-if="!planSelected.starManageMessages">
+                <form ng-submit="addMessage()" name="messageForm" ng-if="!planSelected.starManageMessages || roleSelected == userSessionTypeUserCoachInterno">
                     <section layout="row" style="background: #FFFFFF" layout-sm="column" layout-wrap>
                         <div flex>
                             <md-input-container class="md-block" >
@@ -81,11 +81,11 @@
                         </md-button>
                     </section>
                 </form>
-                <div layout="row" layout-padding layout-align="center center" style="background: #FFFFFF; height: 71px;" layout-sm="column" layout-wrap ng-if="planSelected.starManageMessages">
+                <div layout="row" layout-padding layout-align="center center" style="background: #FFFFFF; height: 71px;" layout-sm="column" layout-wrap ng-if="planSelected.starManageMessages && roleSelected == userSessionTypeUserCoachEstrella">
                     <div flex>
                         <md-checkbox  ng-checked="isChecked()" ng-click="toggleAll()" ng-model="setResendMsg">Seleccionar todos los mensajes</md-checkbox>
                     </div>
-                    <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="resendStar()" >
+                    <md-button aria-label="Open demo menu" class="md-icon-button" ng-disabled="msgStar.length === 0" ng-click="resendStar()" >
                         <md-icon md-menu-origin>
                             <img src="static/img/send_chat.png">
                         </md-icon>

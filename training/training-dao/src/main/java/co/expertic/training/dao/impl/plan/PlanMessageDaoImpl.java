@@ -33,7 +33,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     private UserDao userDao;
 
     @Override
-    public List<PlanMessageDTO> getMessagesByPlan(Integer planId, String tipoPlan, Integer roleSelected) throws DAOException {
+    public List<PlanMessageDTO> getMessagesByPlan(Integer planId, String tipoPlan, Integer roleSelected, Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate) ");        
         sql.append("FROM PlanMessage m ");
@@ -47,6 +47,9 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
             sql.append(" and  m.toStar =  ").append(Boolean.TRUE);
         }
+        sql.append(" and (m.messageUserId.userId = ").append(userId);
+        sql.append(" or m.receivingUserId.userId = ").append(userId).append(")");
+        
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("planId", planId);
         return query.getResultList();
@@ -356,5 +359,17 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         List<Number> count = (List<Number>) query.getResultList();
 
         return count.size() > 0 ? count.get(0).intValue() : 0;
+    }
+
+    @Override
+    public PlanMessage findById(Integer planMessageId) throws DAOException {
+       try {
+            String qlString = "SELECT m FROM PlanMessage m WHERE m.planMessageId = :planMessageId";
+            setParameter("planMessageId", planMessageId);
+            List<PlanMessage> query = createQuery(qlString);
+            return query.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

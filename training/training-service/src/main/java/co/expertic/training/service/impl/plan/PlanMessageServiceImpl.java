@@ -18,6 +18,7 @@ import co.expertic.training.model.entities.User;
 import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanMessageService;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -49,8 +50,8 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     private MailCommunicationService mailCommunicationService;
 
     @Override
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected) throws Exception, TrainingException {
-        return planMessageDao.getMessagesByPlan(coachAssignedPlanId, tipoPlan, roleSelected);
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected, Integer userId) throws Exception, TrainingException {
+        return planMessageDao.getMessagesByPlan(coachAssignedPlanId, tipoPlan, roleSelected, userId);
     }
 
     @Override
@@ -210,6 +211,27 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     @Override
     public Integer getCountMessagesEmergencyExt(Integer coachAssignedPlanId, Integer userId) throws Exception {
            return planMessageDao.getCountMessageEmergencyExt(coachAssignedPlanId, userId);
+    }
+
+    @Override
+    public void resendStarMessages(Integer planId, List<Integer> messages) throws Exception {
+        
+        CoachAssignedPlan plan = coachAssignedPlanDao.findById(planId);
+        Integer starUserId = null;
+        if (plan.getStarTeamId() != null && plan.getStarTeamId().getStarUserId() != null) {
+            starUserId = plan.getStarTeamId().getStarUserId().getUserId();
+        } else {
+            throw new Exception("No existe una estrella asignada, comuniquese con el administrador.");
+        }
+        
+        for (Integer planMessageId : messages) {
+            PlanMessage planMessage = planMessageDao.findById(planMessageId);
+            planMessage.setReceivingUserId(new User(starUserId));
+            planMessage.setToStar(Boolean.TRUE);
+            planMessage.setCreationDate(Calendar.getInstance().getTime());
+            planMessageDao.merge(planMessage);
+        }
+        
     }
     
 }

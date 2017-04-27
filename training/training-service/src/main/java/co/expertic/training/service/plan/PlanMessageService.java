@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface PlanMessageService {
 
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected)throws  Exception, TrainingException;
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected, Integer userId)throws  Exception, TrainingException;
 
     public PlanMessageDTO saveMessage(PlanMessageDTO message)throws  Exception, TrainingException;
 
@@ -85,4 +85,6 @@ public interface PlanMessageService {
     public Integer getCountMessagesEmergency(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception;
 
     public Integer getCountMessagesEmergencyExt(Integer coachAssignedPlanId, Integer userId)throws  Exception;
+
+    public void resendStarMessages(Integer planId, List<Integer> messages)throws  Exception;
 }

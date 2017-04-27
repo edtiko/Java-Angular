@@ -25,14 +25,19 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.planSelected != null) {
-                MessageService.getMessages($scope.planSelected.id, tipoPlan, $scope.roleSelected).then(
+                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId ,tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
 
                             self.readMessages(tipoPlan, $scope.roleSelected, $scope.planSelected.athleteUserId.userId, $scope.userSession.userId);
-                            $scope.items = $scope.messages.filter(function (m) {
-                                return  m.messageUserId.userId != $scope.userSession.userId
+                             
+                            $scope.messages.filter(function (m) {
+                                return  $scope.userSession.userId != m.messageUserId.userId
+                            }).forEach(function (v) {
+                                if ($scope.items.indexOf(v.id) === -1)
+                                    $scope.items.push(v.id);
+
                             });
                         },
                         function (error) {
@@ -148,7 +153,14 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         };
 
         $scope.resendStar = function () {
-            console.log($scope.msgStar);
+            MessageService.resendMessageStar($scope.planSelected.id, $scope.msgStar).then(
+                    function (data) {
+                      $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
         };
 
         $scope.exists = function (item, list) {
@@ -171,7 +183,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
             if ($scope.msgStar.length === $scope.items.length) {
                 $scope.msgStar = [];
             } else if ($scope.msgStar.length === 0 || $scope.msgStar.length > 0) {
-                $scope.msgStar = $scope.items.slice(0);
+                $scope.msgStar = $scope.items;
             }
         };
 
