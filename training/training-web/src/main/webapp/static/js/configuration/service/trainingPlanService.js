@@ -89,7 +89,9 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                 
                 return $http({
                     url: $wordPressContextPathHttps + 'add-plataforma-entrenamiento.php?name=' +
-                            training.name + '&description='+training.description+ '&price='+training.price,
+                            training.name + '&description='+training.description+ '&price='+training.price +
+                            '&characteristic=' + training.characteristic + 
+                            '&role='+training.role ,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'POST'
                 })
@@ -115,6 +117,94 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                         return $q.reject(errResponse);
                                     }
                             );
+            },
+            getPlanCharacteristicPaginateByPlan: function(planId, res){
+                    return $http.get($contextPath+'characteristic/trainingPlanCharact/get/by/plan/'+planId)
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
+            createPlanCharacteristic: function (characteristic) {
+                return $http.post($contextPath + '/characteristic/trainingPlanCharact/create', characteristic)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating characteristic');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getCharacteristicAll: function (response) {
+                return $http.get($contextPath + '/characteristic/get/all')
+                        .then(
+                                response,
+                                function (errResponse) {
+                                    console.error('Error while fetching characteristics');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            createConfigurationPlan: function (configurationPlan) {
+                return $http.post($contextPath + '/configurationPlan/create', configurationPlan)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while creating configurationPlan');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            mergeConfigurationPlan: function (configurationPlan) {
+                return $http.post($contextPath + '/configurationPlan/update', configurationPlan)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while updating configurationPlan');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            deleteConfigurationPlan: function (configurationPlan) {
+                return $http.post($contextPath + '/configurationPlan/delete', configurationPlan)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting configurationPlan');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getPaginateConfiguration :function (query, planId, res) {
+                return $http.post($contextPath + 'configurationPlan/paginated/'+planId, query)
+                        .then(
+                                res,
+                                function (errResponse) {
+                                    console.error('Error while getting service ' + errResponse);
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getCommunicationRole: function (res) {
+                return $http.get($contextPath + 'role/get/all')
+                        .then(
+                                res,
+                                function (errResponse) {
+                                    console.error('Error while getting service ' + errResponse);
+                                    return $q.reject(errResponse);
+                                }
+                        );
             },
         };
     }]);

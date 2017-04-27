@@ -60,6 +60,7 @@ trainingApp.controller('ConfigurationPlanController', ['$scope', 'ConfigurationP
                 }
             }).$promise;
         };
+        
         $scope.trainingPlanList = [];
         $scope.getTrainingPlanList = function () {
             ConfigurationPlanService.getTrainingPlan(function (response) {

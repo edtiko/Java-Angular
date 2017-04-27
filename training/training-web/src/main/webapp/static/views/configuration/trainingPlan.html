@@ -1,4 +1,4 @@
-<div class="demo-md-panel md-padding">
+<div class="demo-md-panel md-padding" style="margin-left:-10%">
     <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
         <div class="md-toolbar-tools">
             <span>Lista de {{tipoPlanText}}</span>
@@ -33,7 +33,9 @@
         <table md-table ng-model="selected" md-progress="promise">
             <thead md-head md-order="query.order" md-on-reorder="getTrainingPlanPaginate">
                 <tr md-row>
-                    <th md-column class="md-column">Opciones</th>
+                    <th md-column class="md-column" style="    width: 140px;
+    display: -webkit-inline-box;
+    margin-bottom: -30px;">Opciones</th>
                     <th md-column md-order-by="name" class="md-column">Nombre</th>
                     <th md-column md-order-by="description" class="md-column">Descripci&oacute;n</th>
                     <th md-column md-order-by="duration" class="md-column">Duraci&oacute;n</th>
@@ -46,14 +48,12 @@
             </thead>
             <tbody md-body>
                 <tr md-row md-select="trainingPlan" md-select-id="name" md-auto-select ng-repeat="trainingPlan in trainingPlanList| filter: filter.search">
-                <td>
+                <td md-cell>
                     <md-button type="button" ng-click="editTrainingPlan(trainingPlan.trainingPlanId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
                     <md-button ng-show="trainingPlan.stateId == 0" type="button" ng-click="activateTrainingPlan(trainingPlan.trainingPlanId)"  ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised  md-primary" title="{{ 'ACTIVATE' | translate }}"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
                     <md-button ng-show="trainingPlan.stateId == 1" type="button" ng-click="inactivateTrainingPlan(trainingPlan.trainingPlanId)"  ng-style="{color: 'yellow', 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}" class="md-raised md-primary" title="{{ 'INACTIVATE' | translate }}" ><i class="fa fa-lightbulb-o" aria-hidden="true"></i></md-button>
                     <md-button type="button" ng-click="deleteTrainingPlan(trainingPlan.trainingPlanId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
-                    <md-button type="button" ng-click="showDetail(trainingPlan.trainingPlanId)" class="md-raised md-primary" title="Configurar" ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-cogs" aria-hidden="true"></i></md-button>
-                    
-                    <md-button type="button" ng-click="showCharac(trainingPlan.trainingPlanId)" class="md-raised md-primary" title="Configurar" ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-cogs" aria-hidden="true"></i></md-button>
+                    <md-button type="button" ng-click="showCharac($event, trainingPlan)" class="md-raised md-primary" title="Configurar" ng-style="{ 'margin':'0px 0px','font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-cogs" aria-hidden="true"></i></md-button>
 
                 </td>
                     <td md-cell>{{trainingPlan.name}}</td>

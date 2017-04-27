@@ -105,5 +105,15 @@ trainingApp.service('CharacteristicService', ['$http', '$q', function ($http, $q
                                 }
                         );
             },
+            getPlanCharacteristicPaginateByPlan: function(planId, res){
+                    return $http.get($contextPath+'characteristic/trainingPlanCharact/get/by/plan/'+planId)
+                            .then(
+                                    res, 
+                                    function(errResponse){
+                                        console.error('Error while getting service ' + errResponse);
+                                        return $q.reject(errResponse);
+                                    }
+                            );
+            },
         };
     }]);
