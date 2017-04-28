@@ -16,6 +16,7 @@ public class SerieGenerada {
     private Double tiempo;
     private Integer numSesiones;
     private Integer semana;
+    private Double tiempoDescanso;
     
     public SerieGenerada(Integer semana, Integer zona, Integer sesion, Double tiempo, Integer numSesiones) {
         this.zona = zona;
@@ -74,8 +75,14 @@ public class SerieGenerada {
     public void setSemana(Integer semana) {
         this.semana = semana;
     }
+
+    public Double getTiempoDescanso() {
+        return tiempoDescanso;
+    }
+
+    public void setTiempoDescanso(Double tiempoDescanso) {
+        this.tiempoDescanso = tiempoDescanso;
+    }
     
-    
-    
-    
+      
 }

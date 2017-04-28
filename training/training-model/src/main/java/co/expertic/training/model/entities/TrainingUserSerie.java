@@ -63,8 +63,10 @@ public class TrainingUserSerie implements Serializable {
     private TrainingPlanUser trainingPlanUserId;
     @Column(name = "sesion")
     private Integer sesion;
-     @Column(name = "week")
+    @Column(name = "week")
     private Integer week;
+    @Column(name = "rest_time")
+    private Integer restTime;
 
     public TrainingUserSerie() {
     }
@@ -168,8 +170,15 @@ public class TrainingUserSerie implements Serializable {
     public void setWeek(Integer week) {
         this.week = week;
     }
-    
 
+    public Integer getRestTime() {
+        return restTime;
+    }
+
+    public void setRestTime(Integer restTime) {
+        this.restTime = restTime;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

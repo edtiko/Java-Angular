@@ -60,6 +60,12 @@ public class ZoneTimeSerie implements Serializable {
     @JoinColumn(name = "training_level_id", referencedColumnName = "training_level_id")
     @ManyToOne
     private TrainingLevel trainingLevelId;
+    @Column(name = "rest_time_percentaje")
+    private Integer restTime;
+    @Column(name = "pull_down_time")
+    private Integer pullDownTime;
+    @Column(name = "warm_up_time")
+    private Integer warmUpTime;
 
     public ZoneTimeSerie() {
     }
@@ -152,6 +158,30 @@ public class ZoneTimeSerie implements Serializable {
         return trainingLevelId;
     }
 
+    public Integer getRestTime() {
+        return restTime;
+    }
+
+    public void setRestTime(Integer restTime) {
+        this.restTime = restTime;
+    }
+
+    public Integer getPullDownTime() {
+        return pullDownTime;
+    }
+
+    public void setPullDownTime(Integer pullDownTime) {
+        this.pullDownTime = pullDownTime;
+    }
+
+    public Integer getWarmUpTime() {
+        return warmUpTime;
+    }
+
+    public void setWarmUpTime(Integer warmUpTime) {
+        this.warmUpTime = warmUpTime;
+    }
+
     public void setTrainingLevelId(TrainingLevel trainingLevelId) {
         this.trainingLevelId = trainingLevelId;
     }
@@ -180,5 +210,5 @@ public class ZoneTimeSerie implements Serializable {
     public String toString() {
         return "co.expertic.training.model.entities.ZoneTimeSerie[ zoneTimeSerieId=" + zoneTimeSerieId + " ]";
     }
-    
+
 }

@@ -19,6 +19,7 @@ public class TrainingUserSerieDTO {
     private Integer numSeries;
     private Double serieTime;
     private Integer numZone;
+    private Integer restTime;
     private String description;
 
     @JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
@@ -34,6 +35,7 @@ public class TrainingUserSerieDTO {
         this.numZone = serie.getNumZona();
         this.serieTime = serie.getSerieTime();
         this.workDate = serie.getWorkDate();
+        this.restTime = serie.getRestTime();
     }
 
     public Integer getId() {
@@ -82,6 +84,14 @@ public class TrainingUserSerieDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getRestTime() {
+        return restTime;
+    }
+
+    public void setRestTime(Integer restTime) {
+        this.restTime = restTime;
     }
     
     

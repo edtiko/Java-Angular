@@ -1211,7 +1211,7 @@ CREATE TABLE intensity_zone_sesion_dist
 (
   intensity_zone_sesion_dist_id serial NOT NULL,
   intensity_zone_sesion_id integer not null,
-  num_zone integer,
+  num_zone integer, 
   zone_percentaje double precision,
   CONSTRAINT pk_intensity_zone_sesion_dist PRIMARY KEY(intensity_zone_sesion_dist_id)
 );
@@ -1231,6 +1231,9 @@ CREATE TABLE zone_time_serie
   num_interval double precision,
   num_min integer,
   num_max integer,
+  rest_time_percentaje integer,
+  pull_down_time integer,
+  warm_up_time   integer, 
   training_level_id integer,
   user_create integer,
   user_update integer,
@@ -1239,7 +1242,10 @@ CREATE TABLE zone_time_serie
   state_id smallint,
   CONSTRAINT pk_zone_time_serie PRIMARY KEY (zone_time_serie_id)
 );
-
+ 
+ zona mas alta para calentamiento
+ zona descanso 
+ 
 alter table zone_time_serie
 add constraint fk_zone_time_serie_tlevel foreign key (training_level_id)
 references training_level(training_level_id)
@@ -1255,6 +1261,9 @@ CREATE TABLE training_user_serie
   work_date date,
   num_series integer,
   num_zona   integer,
+  sesion   integer,
+  week     integer,
+  rest_time integer,
   serie_time decimal(10,2),
   user_create integer,
   user_update integer,

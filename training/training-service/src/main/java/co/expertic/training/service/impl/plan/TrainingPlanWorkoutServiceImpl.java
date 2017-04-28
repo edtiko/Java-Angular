@@ -208,7 +208,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         Double monthDischarge = 0.0;
         Double volMes = 0.0;
 
-        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones, userProfile.getObjectiveId().getTrainingLevelId());
+        List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones, trainingLevelId);
 
         IntensityZone intesityZoneBase = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BASE.getId());
 
@@ -222,7 +222,10 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
         Collection<IntensityZoneDist> intensityZoneDistPeak = intesityZonePeak.getIntensityZoneDistCollection();
 
-        List<BuildPeakVolume> buildPeakList = buildPeakVolumeDao.findByLevelId(userProfile.getObjectiveId().getTrainingLevelId());
+        List<BuildPeakVolume> buildPeakList = buildPeakVolumeDao.findByLevelId(trainingLevelId);
+        
+        List<ZoneTimeSerie> zoneTimes = trainingPlanWorkoutDao.getZoneTimesByLevel(trainingLevelId);
+                
         int weekBuildPeakStart = 0;
         int weekBuildPeak = 1;
         if (buildPeakList != null && !buildPeakList.isEmpty() && numSemanas > buildPeakList.size()) {
@@ -250,9 +253,14 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 dist.add(new IntensityZoneSesionDTO(izone.getSesion(), izonedist.getNumZone(), izonedist.getZonePercentaje()));
             }
         });
+        
+        //saludar a miguel en media hora 10:10am - 10:40 pm 
         distInicial.addAll(dist);
         Map<Integer, Double> dist_int_tiempo_sesion = new HashMap<>();
         List<SerieGenerada> resultado = new ArrayList<>();
+        Integer mayorZona = dist.stream().mapToInt(d-> d.getZone()).max().getAsInt();
+        Integer timeWarmUp = zoneTimes.stream().filter(t->Objects.equals(mayorZona, t.getNumZone())).mapToInt(t->t.getWarmUpTime()).findFirst().getAsInt();
+        Integer timePullDown = zoneTimes.stream().filter(t->Objects.equals(mayorZona, t.getNumZone())).mapToInt(t->t.getPullDownTime()).findFirst().getAsInt();
 
         for (int w = 1; w <= numSemanas; w++) {
 
@@ -270,6 +278,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
             intesityZoneSesionDist.stream().forEach((izonesesion) -> {
                 double min_x_sesion = (min_x_dia * izonesesion.getDailyPercentaje()) / 100;
+                min_x_sesion = min_x_sesion - (timeWarmUp + timePullDown);
                 dist_int_tiempo_sesion.put(izonesesion.getSesion(), min_x_sesion);
             });
 
@@ -351,7 +360,6 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             List<IntensityZoneSesionDTO> zone2timeList = new ArrayList<>();
             boolean exist = false;
             for (Map.Entry<Integer, Double> entry : dist_int_tiempo_sesion.entrySet()) {
-                //dist_int_tiempo_sesion.keySet().stream().forEach((Integer s) -> {
                 Integer s = entry.getKey();
                 for (IntensityZoneSesionDTO intensityZoneDist : dist) {
                     if (Objects.equals(intensityZoneDist.getSesion(), s)) {
@@ -399,9 +407,23 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
                 volSemana = volSemana + (volSemana * iSemana) / 100;
             }
-
+            
+        }
+        
+        double timeRest = 0;
+        double timeSesion = 0;
+        for (SerieGenerada serie : resultado) {
+            if (serie.getSesion() < numSesiones) {
+                timeRest = zoneTimes.stream().filter(t -> Objects.equals(t.getNumZone(), serie.getZona())).mapToInt(t -> t.getRestTime()).findFirst().getAsInt();
+                timeRest = (timeRest * serie.getTiempo()) / 100;
+                timeSesion = serie.getTiempo() - timeRest;
+                serie.setTiempo(timeSesion);
+                serie.setTiempoDescanso(timeRest);
+            }
         }
 
+
+    
         return resultado;
 
     }
@@ -415,10 +437,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             throw new Exception("No se puede generar plan, no existe zone_time_serie para la zona: " + zona);
         }
         
-        if(zona == 2){
-            return new SerieGenerada(tiempo, 1l);
-        }
-
+        
         List<IntervaloTiempo> list = new ArrayList<>();
 
         for (double i = serie.getNumMin(); i <= serie.getNumMax(); i += serie.getNumInterval()) {
@@ -427,10 +446,15 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             }
         }
 
+        if (zona == 2) {
+            Double time = list.stream().filter((intervalo) -> (tiempo.compareTo(intervalo.getTiempo()) == 1)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMax();
+            return new SerieGenerada(time, 1l);
+        }
+        
         Double res = 0.0;
         Long numSeries = 0l;
 
-        Double min = list.stream().filter(i -> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMin();
+        Double min = list.stream().collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMin();
         //Double max = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMax();
         //Double average = list.stream().filter(i-> Objects.equals(i.getZona(), zona)).collect(Collectors.averagingDouble(IntervaloTiempo::getTiempo));
         Random randomGenerator = new Random();
@@ -618,6 +642,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         workout.setSesion(serie.getSesion());
         workout.setWeek(serie.getSemana());
         workout.setWorkDate(date);
+        workout.setRestTime(serie.getTiempoDescanso()!=null?serie.getTiempoDescanso().intValue():null);
         workout.setCreationDate(Calendar.getInstance().getTime());
         return workout;
     }
