@@ -417,8 +417,10 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
                 timeRest = zoneTimes.stream().filter(t -> Objects.equals(t.getNumZone(), serie.getZona())).mapToInt(t -> t.getRestTime()).findFirst().getAsInt();
                 timeRest = (timeRest * serie.getTiempo()) / 100;
                 timeSesion = serie.getTiempo() - timeRest;
+                if(timeSesion > 0.0){
                 serie.setTiempo(timeSesion);
                 serie.setTiempoDescanso(timeRest);
+                }
             }
         }
 
