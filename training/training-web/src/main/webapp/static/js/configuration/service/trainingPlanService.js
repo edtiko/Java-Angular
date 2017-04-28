@@ -206,5 +206,17 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                 }
                         );
             },
+            deletePlanCharacteristic: function (characteristic) {
+                return $http.post($contextPath + '/characteristic/trainingPlanCharact/delete',characteristic)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting characteristic');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
         };
     }]);

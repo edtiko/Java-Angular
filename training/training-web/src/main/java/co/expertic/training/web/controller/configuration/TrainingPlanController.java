@@ -136,7 +136,7 @@ public class TrainingPlanController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(TrainingPlanController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al eliminar registro");
+            responseService.setOutput("El plan tiene configuración asociada, por favor elimínela y vuelva a intentarlo");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
