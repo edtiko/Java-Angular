@@ -342,12 +342,12 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
         function CharacteristicController($scope, $mdDialog,
                 trainingPlan) {
             $scope.trainingPlan = trainingPlan;
-            $scope.visibleCharact = false;
+            $scope.visibleCharact = '';
             $scope.characteristicList = [];
             $scope.planCharacteristic = {
                 trainingPlanCharactId: null,
                 value: '',
-                characteristicId: {characteristicId: null, name: ''},
+                characteristicId: {characteristicId: null, name: '', valueType: ''},
                 trainingPlanId: trainingPlan
             };
 
@@ -384,6 +384,24 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                 };
             };
 
+            $scope.deletePlanCharacteristic = function (planCharacteristic) {
+                TrainingPlanService.deletePlanCharacteristic(planCharacteristic)
+                        .then(
+                                function (d) {
+                                    if (d.status == 'success') {
+                                        alert(d.output);
+                                        $scope.resetPlanCharacteristic();
+                                        $scope.getPlanCharacteristicPaginate(trainingPlan.trainingPlanId);
+                                    } else {
+                                        alert(d.output);
+                                    }
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting Characteristic.');
+                                }
+                        );
+            };
+
             $scope.createPlanCharacteristic = function (planCharacteristic) {
                 if ($scope.appReady) {
                     var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -412,7 +430,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                     $scope.communicationRoleList = success(response);
                 });
             };
-            
+
             $scope.submitPlanCharacteristic = function (form) {
                 if (form.$valid) {
                     var isValid = true;
@@ -450,13 +468,19 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                 }).$promise;
             };
 
-            $scope.validateValueTypeVisible = function () {
-                if ($scope.characteristic.valueType == 1) {
-                    $scope.visibleCharact = false;
-                } else {
-                    $scope.visibleCharact = true;
+            $scope.validateValueTypeVisible = function (characteristic) {
+
+                for (var i = 0; i < $scope.characteristicList.length; i++) {
+                    if ($scope.characteristicList[i].characteristicId == characteristic.characteristicId) {
+                        if ($scope.characteristicList[i].valueType == 1) {
+                            $scope.visibleCharact = false;
+                        } else {
+                            $scope.visibleCharact = true;
+                        }
+                        break;
+                    }
                 }
-            }
+            };
 
             $scope.queryconf = {
                 filter: '',
@@ -535,16 +559,18 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                     videoCount: '',
                     userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
             };
-            
-            $scope.deleteConfigurationPlan = function (configurationPlan) {
-                var confirm = $mdDialog.confirm()
-                        .title('Confirmaci\u00f3n')
-                        .textContent('\u00BFDesea eliminar el registro?')
-                        .ariaLabel('Lucky day')
-                        .ok('Aceptar')
-                        .cancel('Cancelar');
-                $mdDialog.show(confirm).then(function () {
 
+            $scope.deleteConfigurationPlan = function (configurationPlan) {
+                var confirm = $window.confirm('\u00BFDesea eliminar el registro?');
+
+//                var confirm = $mdDialog.confirm()
+//                        .title('Confirmaci\u00f3n')
+//                        .textContent('\u00BFDesea eliminar el registro?')
+//                        .ariaLabel('Lucky day')
+//                        .ok('Aceptar')
+//                        .cancel('Cancelar');
+//                $mdDialog.show(confirm).then(function () {
+                if (confirm) {
                     TrainingPlanService.deleteConfigurationPlan(configurationPlan)
                             .then(
                                     function (d) {
@@ -560,35 +586,55 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                                         console.error('Error while deleting ConfigurationPlan.');
                                     }
                             );
-                }, function () {
-                });
+                }
+
+//                }, function () {
+//                });
             };
-            
-            $scope.sincronizar = function() {
-                
+
+            $scope.sincronizar = function () {
+
                 var role = '';
                 var characteristic = '';
-                
-                for(var i = 0;i < $scope.planCharacteristicList.length;i ++) {
-                    characteristic+= '<li>'+$scope.planCharacteristicList[i].characteristicId.name +
-                            ' ' + $scope.planCharacteristicList[i].value+'</li>';
+
+                for (var i = 0; i < $scope.planCharacteristicList.length; i++) {
+                    characteristic += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                            ' ' + $scope.planCharacteristicList[i].value + '</li>';
                 }
-                
+
                 var plan = {
-                    description: trainingPlan.description, price: trainingPlan.price, 
+                    description: trainingPlan.description, price: trainingPlan.price,
                     name: trainingPlan.name, characteristic: characteristic,
                     role: $scope.configurationPlanList
-                        };
-                        
-                for(var i = 0;i < $scope.configurationPlanList.length;i ++) {
+                };
+//if ($scope.typePlan == '1') {
+//            $scope.tipoPlanText = 'Plan de Entrenamiento';
+//        } else {
+//            $scope.tipoPlanText = 'Plan de Plataforma';
+//        }
+                for (var i = 0; i < $scope.configurationPlanList.length; i++) {
                     //2 coach, 1 atleta
-                    if($scope.configurationPlanList[i].communicationRoleId.roleId == 4) {
+                    if ($scope.configurationPlanList[i].communicationRoleId.roleId == 4) {
                         plan.role = 'coach';
+                        plan.type = $scope.typePlan;
                         $scope.createPlanWordpress(plan);
                     }
                     //5 coach, 1 atleta
-                    if($scope.configurationPlanList[i].communicationRoleId.roleId == 5) {
+                    if ($scope.configurationPlanList[i].communicationRoleId.roleId == 5) {
                         plan.role = 'atleta';
+                        plan.type = $scope.typePlan;
+                        $scope.createPlanWordpress(plan);
+                    }
+                    
+                    if ($scope.configurationPlanList[i].communicationRoleId.roleId == 1) {
+                        plan.role = 'atleta';
+                        plan.type = $scope.typePlan;
+                        $scope.createPlanWordpress(plan);
+                    }
+                    //2 coach, 1 atleta
+                    if ($scope.configurationPlanList[i].communicationRoleId.roleId == 2) {
+                        plan.role = 'coach';
+                        plan.type = $scope.typePlan;
                         $scope.createPlanWordpress(plan);
                     }
                 }

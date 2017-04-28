@@ -112,7 +112,7 @@
                     <div flex="66">
                         <md-input-container class="md-block" >
                             <label>Caracter&iacute;stica</label>
-                            <md-select ng-change="validateValueTypeVisible()" ng-model="planCharacteristic.characteristicId.characteristicId">
+                            <md-select ng-change="validateValueTypeVisible(planCharacteristic.characteristicId)" ng-model="planCharacteristic.characteristicId.characteristicId">
                                 <md-option ng-repeat="d in characteristicList" value="{{d.characteristicId}}" >
                                     {{d.name}}
                                 </md-option>
@@ -131,6 +131,21 @@
                                     <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
                                 </div>
                             </md-input-container>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row" ng-show="!visibleCharact">
+                    <div flex="66">
+                        <md-input-container class="md-block" >
+                            <md-select ng-model="planCharacteristic.value" placeholder="{{ 'VALUE' | translate }}">
+                                <md-option value="{{'1'}}" >
+                                    {{'SI'}}
+                                </md-option>
+                                <md-option value="{{'2'}}" >
+                                    {{'NO'}}
+                                </md-option>
+                            </md-select>
                         </md-input-container>
                     </div>
                 </div>
@@ -163,10 +178,10 @@
                 <th md-column md-order-by="videoEmergency" class="md-column">Emerg. Video</th>
                 <th md-column md-order-by="videoCount" class="md-column">Cant. Video</th>
                 <th md-column md-order-by="athletesCount" class="md-column">Cant. Atletas</th>
-<!--                <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
-                <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
-                <th md-column md-order-by="userUpdate">{{ 'USER_UPDATE' | translate }}</th>
-                <th md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>-->
+                <!--                <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
+                                <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
+                                <th md-column md-order-by="userUpdate">{{ 'USER_UPDATE' | translate }}</th>
+                                <th md-column md-order-by="lastUpdate">{{ 'LAST_UPDATE' | translate }}</th>-->
             </tr>
         </thead>
         <tbody md-body>
@@ -188,10 +203,10 @@
         <td md-cell>{{configurationPlan.videoEmergency}}</td>
         <td md-cell>{{configurationPlan.videoCount}}</td>
         <td md-cell>{{configurationPlan.athletesCount}}</td>
-<!--        <td md-cell>{{configurationPlan.userCreateName}}</td>
-        <td md-cell>{{configurationPlan.creationDate}}</td>
-        <td md-cell>{{configurationPlan.userUpdateName}}</td>
-        <td md-cell>{{configurationPlan.lastUpdate}}</td>-->
+        <!--        <td md-cell>{{configurationPlan.userCreateName}}</td>
+                <td md-cell>{{configurationPlan.creationDate}}</td>
+                <td md-cell>{{configurationPlan.userUpdateName}}</td>
+                <td md-cell>{{configurationPlan.lastUpdate}}</td>-->
         </tr>
         </tbody>
     </table>

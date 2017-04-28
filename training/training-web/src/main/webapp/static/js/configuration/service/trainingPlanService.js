@@ -91,7 +91,7 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                     url: $wordPressContextPathHttps + 'add-plataforma-entrenamiento.php?name=' +
                             training.name + '&description='+training.description+ '&price='+training.price +
                             '&characteristic=' + training.characteristic + 
-                            '&role='+training.role ,
+                            '&role='+training.role+'&type='+training.type ,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'POST'
                 })
@@ -202,6 +202,18 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                                 res,
                                 function (errResponse) {
                                     console.error('Error while getting service ' + errResponse);
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            deletePlanCharacteristic: function (characteristic) {
+                return $http.post($contextPath + '/characteristic/trainingPlanCharact/delete',characteristic)
+                        .then(
+                                function (response) {
+                                    return response.data;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while deleting characteristic');
                                     return $q.reject(errResponse);
                                 }
                         );

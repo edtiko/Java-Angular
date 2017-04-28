@@ -168,8 +168,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT new co.expertic.training.model.dto.UserDTO(u.userId, u.login, u.name, u.secondName, u.lastName, ");
         builder.append("u.email,u.sex,u.phone,du.discipline.disciplineId,u.stateId, r.roleId.roleId, u.countryId.countryId, u.profilePhoto, ");
-        builder.append(" (SELECT v.url FROM VideoUser v WHERE v.userId.userId = u.userId ), ");
-        builder.append(" (SELECT p.aboutMe FROM UserProfile p WHERE p.userId.userId = u.userId ), ");
+        builder.append(" (SELECT MAX(v.url) FROM VideoUser v WHERE v.userId.userId = u.userId ), ");
+        builder.append(" (SELECT MAX(p.aboutMe) FROM UserProfile p WHERE p.userId.userId = u.userId ), ");
         builder.append(" u.creationDate, u.lastUpdate, ");
         builder.append("(select a.login FROM User a WHERE u.userCreate = a.userId),  ");
         builder.append("(select a.login FROM User a WHERE u.userUpdate = a.userId),  ");

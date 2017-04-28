@@ -61,7 +61,11 @@ public class ConfigurationPlanController {
             configurationPlanService.create(configurationPlan);
 
             if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH_INTERNO.getId()) || 
-                    configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())) {
+                    configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())
+                    
+                    ||configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId()) || 
+                    configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH.getId())
+                    ) {
                 TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
                 trainingPlanCharact.setCharacteristicId(new Characteristic(13));
                 trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
