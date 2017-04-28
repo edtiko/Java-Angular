@@ -91,7 +91,7 @@ trainingApp.service('TrainingPlanService', ['$http', '$q', function ($http, $q) 
                     url: $wordPressContextPathHttps + 'add-plataforma-entrenamiento.php?name=' +
                             training.name + '&description='+training.description+ '&price='+training.price +
                             '&characteristic=' + training.characteristic + 
-                            '&role='+training.role ,
+                            '&role='+training.role+'&type='+training.type ,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                     method: 'POST'
                 })

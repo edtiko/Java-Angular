@@ -342,12 +342,12 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
         function CharacteristicController($scope, $mdDialog,
                 trainingPlan) {
             $scope.trainingPlan = trainingPlan;
-            $scope.visibleCharact = false;
+            $scope.visibleCharact = '';
             $scope.characteristicList = [];
             $scope.planCharacteristic = {
                 trainingPlanCharactId: null,
                 value: '',
-                characteristicId: {characteristicId: null, name: ''},
+                characteristicId: {characteristicId: null, name: '', valueType: ''},
                 trainingPlanId: trainingPlan
             };
 
@@ -468,13 +468,19 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                 }).$promise;
             };
 
-            $scope.validateValueTypeVisible = function () {
-                if ($scope.characteristic.valueType == 1) {
-                    $scope.visibleCharact = false;
-                } else {
-                    $scope.visibleCharact = true;
+            $scope.validateValueTypeVisible = function (characteristic) {
+
+                for (var i = 0; i < $scope.characteristicList.length; i++) {
+                    if ($scope.characteristicList[i].characteristicId == characteristic.characteristicId) {
+                        if ($scope.characteristicList[i].valueType == 1) {
+                            $scope.visibleCharact = false;
+                        } else {
+                            $scope.visibleCharact = true;
+                        }
+                        break;
+                    }
                 }
-            }
+            };
 
             $scope.queryconf = {
                 filter: '',
@@ -601,16 +607,22 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                     name: trainingPlan.name, characteristic: characteristic,
                     role: $scope.configurationPlanList
                 };
-
+//if ($scope.typePlan == '1') {
+//            $scope.tipoPlanText = 'Plan de Entrenamiento';
+//        } else {
+//            $scope.tipoPlanText = 'Plan de Plataforma';
+//        }
                 for (var i = 0; i < $scope.configurationPlanList.length; i++) {
                     //2 coach, 1 atleta
                     if ($scope.configurationPlanList[i].communicationRoleId.roleId == 4) {
                         plan.role = 'coach';
+                        plan.type = $scope.typePlan;
                         $scope.createPlanWordpress(plan);
                     }
                     //5 coach, 1 atleta
                     if ($scope.configurationPlanList[i].communicationRoleId.roleId == 5) {
                         plan.role = 'atleta';
+                        plan.type = $scope.typePlan;
                         $scope.createPlanWordpress(plan);
                     }
                 }
