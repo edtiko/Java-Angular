@@ -625,6 +625,18 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                         plan.type = $scope.typePlan;
                         $scope.createPlanWordpress(plan);
                     }
+                    
+                    if ($scope.configurationPlanList[i].communicationRoleId.roleId == 1) {
+                        plan.role = 'atleta';
+                        plan.type = $scope.typePlan;
+                        $scope.createPlanWordpress(plan);
+                    }
+                    //2 coach, 1 atleta
+                    if ($scope.configurationPlanList[i].communicationRoleId.roleId == 2) {
+                        plan.role = 'coach';
+                        plan.type = $scope.typePlan;
+                        $scope.createPlanWordpress(plan);
+                    }
                 }
             };
 
