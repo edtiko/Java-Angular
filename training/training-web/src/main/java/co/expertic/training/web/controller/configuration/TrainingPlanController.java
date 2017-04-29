@@ -48,16 +48,6 @@ public class TrainingPlanController {
     public ResponseEntity<ResponseService> createTrainingPlan(@RequestBody TrainingPlan trainingPlan) {
             ResponseService responseService = new ResponseService();
         try {  
-            TrainingPlan trainingPlanName = new TrainingPlan();
-            trainingPlanName.setName(trainingPlan.getName());
-            List<TrainingPlan> listTrainingPlanName = trainingPlanService.findByName(trainingPlanName);
-            
-            if(listTrainingPlanName != null && !listTrainingPlanName.isEmpty()) {
-                responseService.setOutput(MessageUtil.getMessageFromBundle("co.expertic.training.i18n.trainingplan", "msgNombreExiste"));
-                responseService.setStatus(StatusResponse.FAIL.getName());
-                return new ResponseEntity<>(responseService, HttpStatus.OK);
-            }
-            
             trainingPlan.setStateId(Short.valueOf(Status.ACTIVE.getId()));
             trainingPlan.setCreationDate(new Date());
             trainingPlanService.create(trainingPlan);
