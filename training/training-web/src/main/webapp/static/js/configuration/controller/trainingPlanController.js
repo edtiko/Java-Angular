@@ -385,6 +385,12 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
             };
 
             $scope.deletePlanCharacteristic = function (planCharacteristic) {
+                var confirm = $window.confirm('\u00BFDesea eliminar el registro?');
+
+                if (!confirm) {
+                    return;
+                }
+
                 TrainingPlanService.deletePlanCharacteristic(planCharacteristic)
                         .then(
                                 function (d) {
@@ -560,6 +566,15 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                     userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
             };
 
+            $scope.editConfigurationPlan = function (id) {
+                for (var i = 0; i < $scope.configurationPlanList.length; i++) {
+                    if ($scope.configurationPlanList[i].configurationPlanId === id) {
+                        $scope.configurationPlan = angular.copy($scope.configurationPlanList[i]);
+                        break;
+                    }
+                }
+            };
+
             $scope.deleteConfigurationPlan = function (configurationPlan) {
                 var confirm = $window.confirm('\u00BFDesea eliminar el registro?');
 
@@ -625,7 +640,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                         plan.type = $scope.typePlan;
                         $scope.createPlanWordpress(plan);
                     }
-                    
+
                     if ($scope.configurationPlanList[i].communicationRoleId.roleId == 1) {
                         plan.role = 'atleta';
                         plan.type = $scope.typePlan;
