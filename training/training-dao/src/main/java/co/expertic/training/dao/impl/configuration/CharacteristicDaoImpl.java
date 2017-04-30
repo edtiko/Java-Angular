@@ -25,7 +25,7 @@ public class CharacteristicDaoImpl extends BaseDAOImpl<Characteristic> implement
     public List<Characteristic> findAll() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Characteristic a ");
-        builder.append("order by a.characteristicId desc ");
+        builder.append("order by a.name asc ");
         Query query = this.getEntityManager().createQuery(builder.toString());
         return query.getResultList();
     }
@@ -36,7 +36,7 @@ public class CharacteristicDaoImpl extends BaseDAOImpl<Characteristic> implement
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Characteristic a ");
         builder.append("WHERE a.stateId = :active ");
-
+        builder.append("order by a.name asc ");
         setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         return createQuery(builder.toString());
     }
