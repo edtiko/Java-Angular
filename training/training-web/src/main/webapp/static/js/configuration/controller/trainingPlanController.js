@@ -468,6 +468,12 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
 
 
                         if ($scope.planCharacteristic.characteristicId.characteristicId != null) {
+                            
+                            if($scope.planCharacteristic.value == '') {
+                                alert('Debe ingresar el valor de la caracter\u00edstica');
+                                return;
+                            }
+                            
                             if ($scope.configurationPlan.communicationRoleId.roleId == 1) {
                                 $scope.planCharacteristic.userType = 'Atleta';
                             }
@@ -646,8 +652,15 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                 var characteristicCoach = '';
 
                 for (var i = 0; i < $scope.planCharacteristicList.length; i++) {
-                    characteristic += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                    
+                    if($scope.planCharacteristicList[i].characteristicId.valueType == '1') {
+                        characteristic += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                            '</li>';
+                    } else {
+                        characteristic += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
                             ' ' + $scope.planCharacteristicList[i].value + '</li>';
+                    }
+                    
                 }
 
                 var plan = {
@@ -676,14 +689,25 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                         }
 
                         if ($scope.planCharacteristicList[i].userType == 'Atleta') {
-                            characteristicAtleta += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                            
+                            if($scope.planCharacteristicList[i].characteristicId.valueType == '1') {
+                                characteristicAtleta += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                                    '</li>';
+                            } else {
+                                characteristicAtleta += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
                                     ' ' + $scope.planCharacteristicList[i].value + '</li>';
-
+                            }
                         }
                         
                         if ($scope.planCharacteristicList[i].userType == 'Coach Externo') {
-                            characteristicCoach += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                            
+                            if($scope.planCharacteristicList[i].characteristicId.valueType == '1') {
+                                characteristicCoach += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                                     '</li>';
+                            } else {
+                                characteristicCoach += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
                                     ' ' + $scope.planCharacteristicList[i].value + '</li>';
+                            }
 
                         }
                     }
