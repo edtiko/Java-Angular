@@ -447,18 +447,18 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
 
                     if (isValid) {
 
-                        if ($scope.configurationPlan.audioCount > 0 && 
-                            $scope.configurationPlan.audioDuration > 0 && 
-                            $scope.configurationPlan.audioEmergency > 0 && 
-                            $scope.configurationPlan.emailCount > 0 && 
-                            $scope.configurationPlan.emailEmergency > 0 && 
-                            $scope.configurationPlan.messageCount > 0 && 
-                            $scope.configurationPlan.messageEmergency > 0 && 
-                            $scope.configurationPlan.videoCount > 0 && 
-                            $scope.configurationPlan.videoDuration > 0 && 
-                            $scope.configurationPlan.videoEmergency > 0 && 
-                            $scope.configurationPlan.athletesCount > 0
-                            ) {
+                        if ($scope.configurationPlan.audioCount > 0 ||
+                                $scope.configurationPlan.audioDuration > 0 ||
+                                $scope.configurationPlan.audioEmergency > 0 ||
+                                $scope.configurationPlan.emailCount > 0 ||
+                                $scope.configurationPlan.emailEmergency > 0 ||
+                                $scope.configurationPlan.messageCount > 0 ||
+                                $scope.configurationPlan.messageEmergency > 0 ||
+                                $scope.configurationPlan.videoCount > 0 ||
+                                $scope.configurationPlan.videoDuration > 0 ||
+                                $scope.configurationPlan.videoEmergency > 0 ||
+                                $scope.configurationPlan.athletesCount > 0
+                                ) {
                             if ($scope.configurationPlan.configurationPlanId === null) {
                                 $scope.createConfigurationPlan($scope.configurationPlan);
                             } else {
@@ -642,6 +642,8 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
             $scope.sincronizar = function () {
 
                 var characteristic = '';
+                var characteristicAtleta = '';
+                var characteristicCoach = '';
 
                 for (var i = 0; i < $scope.planCharacteristicList.length; i++) {
                     characteristic += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
@@ -653,6 +655,64 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                     name: trainingPlan.name, characteristic: characteristic,
                     role: $scope.configurationPlanList
                 };
+
+                if ($scope.configurationPlanList.length <= 0) {
+                    for (var i = 0; i < $scope.planCharacteristicList.length; i++) {
+
+                        if ($scope.configurationPlan.communicationRoleId.roleId == 1) {
+                            $scope.planCharacteristic.userType = 'Atleta';
+                        }
+
+                        if ($scope.configurationPlan.communicationRoleId.roleId == 2) {
+                            $scope.planCharacteristic.userType = 'Coach Externo';
+                        }
+
+                        if ($scope.configurationPlan.communicationRoleId.roleId == 5) {
+                            $scope.planCharacteristic.userType = 'Coach Estrella';
+                        }
+
+                        if ($scope.configurationPlan.communicationRoleId.roleId == 4) {
+                            $scope.planCharacteristic.userType = 'Asesor';
+                        }
+
+                        if ($scope.planCharacteristicList[i].userType == 'Atleta') {
+                            characteristicAtleta += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                                    ' ' + $scope.planCharacteristicList[i].value + '</li>';
+
+                        }
+                        
+                        if ($scope.planCharacteristicList[i].userType == 'Coach Externo') {
+                            characteristicCoach += '<li>' + $scope.planCharacteristicList[i].characteristicId.name +
+                                    ' ' + $scope.planCharacteristicList[i].value + '</li>';
+
+                        }
+                    }
+
+                    if (characteristicAtleta != '') {
+                        plan = {
+                            description: trainingPlan.description, price: trainingPlan.price,
+                            name: trainingPlan.name, characteristic: characteristicAtleta,
+                            role: $scope.configurationPlanList
+                        };
+                        plan.role = 'atleta';
+                        plan.type = $scope.typePlan;
+                        $scope.createPlanWordpress(plan);
+                    }
+                    
+                    if (characteristicCoach != '') {
+                        plan = {
+                            description: trainingPlan.description, price: trainingPlan.price,
+                            name: trainingPlan.name, characteristic: characteristicCoach,
+                            role: $scope.configurationPlanList
+                        };
+                        plan.role = 'coach';
+                        plan.type = $scope.typePlan;
+                        $scope.createPlanWordpress(plan);
+                    }
+
+
+                    return;
+                }
 
                 for (var i = 0; i < $scope.configurationPlanList.length; i++) {
                     //2 coach, 1 atleta

@@ -71,6 +71,10 @@ public class TrainingPlanCharactDaoImpl extends BaseDAOImpl<TrainingPlanCharact>
             builder.append("AND a.characteristicId.characteristicId = :charac ");
         }
         
+        if(trainingPlanCharact.getUserType() != null && !trainingPlanCharact.getUserType().trim().isEmpty()) {
+            builder.append("AND lower(a.value) = lower(:usertype) ");
+        }
+        
         Query query = this.getEntityManager().createQuery(builder.toString());
         if(trainingPlanCharact.getValue() != null && !trainingPlanCharact.getValue().trim().isEmpty()) {
             query.setParameter("value", "%" + trainingPlanCharact.getValue() + "%");
@@ -86,6 +90,10 @@ public class TrainingPlanCharactDaoImpl extends BaseDAOImpl<TrainingPlanCharact>
         
         if(trainingPlanCharact.getCharacteristicId()!= null && trainingPlanCharact.getCharacteristicId().getCharacteristicId() != null) {
             query.setParameter("charac", trainingPlanCharact.getCharacteristicId().getCharacteristicId());
+        }
+        
+        if(trainingPlanCharact.getUserType() != null && !trainingPlanCharact.getUserType().trim().isEmpty()) {
+            query.setParameter("usertype", trainingPlanCharact.getUserType());
         }
         
         return query.getResultList();
