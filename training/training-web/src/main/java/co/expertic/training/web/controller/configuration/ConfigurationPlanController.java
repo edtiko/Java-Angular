@@ -81,7 +81,7 @@ public class ConfigurationPlanController {
                     trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
                     trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
                     trainingPlanCharact.setCreationDate(new Date());
-                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharact.setValue(configurationPlan.getAudioCount() + "");
                     trainingPlanCharactService.create(trainingPlanCharact);
                 }
 
@@ -92,7 +92,7 @@ public class ConfigurationPlanController {
                     trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
                     trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
                     trainingPlanCharact.setCreationDate(new Date());
-                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharact.setValue(configurationPlan.getMessageCount() + "");
                     trainingPlanCharactService.create(trainingPlanCharact);
                 }
 
@@ -103,7 +103,7 @@ public class ConfigurationPlanController {
                     trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
                     trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
                     trainingPlanCharact.setCreationDate(new Date());
-                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharact.setValue(configurationPlan.getVideoCount() + "");
                     trainingPlanCharactService.create(trainingPlanCharact);
                 }
             }
@@ -128,7 +128,7 @@ public class ConfigurationPlanController {
                     trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
                     trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
                     trainingPlanCharact.setCreationDate(new Date());
-                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharact.setValue(configurationPlan.getAudioCount() + "");
                     trainingPlanCharactService.create(trainingPlanCharact);
                 }
 
@@ -139,7 +139,7 @@ public class ConfigurationPlanController {
                     trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
                     trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
                     trainingPlanCharact.setCreationDate(new Date());
-                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharact.setValue(configurationPlan.getMessageCount() + "");
                     trainingPlanCharactService.create(trainingPlanCharact);
                 }
 
@@ -150,7 +150,7 @@ public class ConfigurationPlanController {
                     trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
                     trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
                     trainingPlanCharact.setCreationDate(new Date());
-                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharact.setValue(configurationPlan.getVideoCount() + "");
                     trainingPlanCharactService.create(trainingPlanCharact);
                 }
             }

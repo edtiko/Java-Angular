@@ -25,7 +25,7 @@ public class RoleDaoImpl extends BaseDAOImpl<Role> implements RoleDao {
     public List<Role> findAll() throws Exception {
         StringBuilder builder = new StringBuilder();
         builder.append("select a from Role a ");
-        builder.append("order by a.roleId desc ");
+        builder.append("order by a.name asc ");
         Query query = this.getEntityManager().createQuery(builder.toString());
         return query.getResultList();
     }
