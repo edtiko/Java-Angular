@@ -214,6 +214,7 @@ public class CharacteristicController {
             TrainingPlanCharact characteristicName = new TrainingPlanCharact();
             characteristicName.setTrainingPlanId(trainingPlanCharact.getTrainingPlanId());
             characteristicName.setCharacteristicId(trainingPlanCharact.getCharacteristicId());
+            characteristicName.setUserType(trainingPlanCharact.getUserType());
             List<TrainingPlanCharact> listCharacteristicName = trainingPlanCharactService.findByFiltro(characteristicName);
             
             if(listCharacteristicName != null && !listCharacteristicName.isEmpty()) {

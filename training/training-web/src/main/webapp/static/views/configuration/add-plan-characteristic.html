@@ -20,7 +20,7 @@
                     <div flex="33">
                         <md-input-container class="md-block" >
                             <label>Rol *</label>
-                            <md-select id="communicationRole" ng-model="configurationPlan.communicationRoleId.roleId">
+                            <md-select id="communicationRole" ng-model="configurationPlan.communicationRoleId.roleId" required>
                                 <md-option ng-repeat="d in communicationRoleList" value="{{d.roleId}}" >
                                     {{d.name}}
                                 </md-option>
@@ -41,7 +41,7 @@
                 <div layout="row"> 
                     <div flex="33">
                         <md-input-container class="md-block">
-                            <input type="number" class="form-control input-sm" placeholder="Duraci&oacute;n del audio" style=" display: inline" ng-model="configurationPlan.audioDuration">
+                            <input type="number" class="form-control input-sm" placeholder="Duraci&oacute;n del audio (segundos)" style=" display: inline" ng-model="configurationPlan.audioDuration">
                         </md-input-container>
                     </div>
 
@@ -89,7 +89,7 @@
 
                     <div flex="33">
                         <md-input-container class="md-block">
-                            <input type="number" class="form-control input-sm" placeholder="Duraci&oacute;n de video" style=" display: inline" ng-model="configurationPlan.videoDuration">
+                            <input type="number" class="form-control input-sm" placeholder="Duraci&oacute;n de video (segundos)" style=" display: inline" ng-model="configurationPlan.videoDuration">
                         </md-input-container>
                     </div>
                 </div>
@@ -161,22 +161,22 @@
     </div>
 
 
-    <table md-table ng-model="selected" md-progress="promise">
+    <table md-table ng-model="selected" md-progress="promise" style="margin:10px">
         <thead md-head md-order="queryconf.order" md-on-reorder="getConfigurationPlanPaginate">
             <tr md-row>
                 <th md-column class="md-column">Opciones</th>
                 <th md-column md-order-by="trainingPlanId.name" class="md-column">Plan</th>
                 <th md-column md-order-by="communicationRoleId.name" class="md-column">Rol</th>
+                <th md-column md-order-by="audioCount" class="md-column">Cant. Audio</th>
                 <th md-column md-order-by="audioDuration" class="md-column">Dur. Audio</th>
                 <th md-column md-order-by="audioEmergency" class="md-column">Emerg. Audio</th>
-                <th md-column md-order-by="audioCount" class="md-column">Cant. Audio</th>
-                <th md-column md-order-by="emailEmergency" class="md-column">Emerg. Email</th>
                 <th md-column md-order-by="emailCount" class="md-column">Cant. Email</th>
-                <th md-column md-order-by="messageEmergency" class="md-column">Emerg. Mensaje</th>
+                <th md-column md-order-by="emailEmergency" class="md-column">Emerg. Email</th>
                 <th md-column md-order-by="messageCount" class="md-column">Cant. Mensaje</th>
+                <th md-column md-order-by="messageEmergency" class="md-column">Emerg. Mensaje</th>
+                <th md-column md-order-by="videoCount" class="md-column">Cant. Video</th>
                 <th md-column md-order-by="videoDuration" class="md-column">Dur. Video</th>
                 <th md-column md-order-by="videoEmergency" class="md-column">Emerg. Video</th>
-                <th md-column md-order-by="videoCount" class="md-column">Cant. Video</th>
                 <th md-column md-order-by="athletesCount" class="md-column">Cant. Atletas</th>
                 <!--                <th md-column md-order-by="userCreate">{{ 'USER_CREATE' | translate }}</th>
                                 <th md-column md-order-by="creationDate">{{ 'CREATION_DATE' | translate }}</th>
@@ -187,21 +187,21 @@
         <tbody md-body>
             <tr md-row md-select="configurationPlan" md-select-id="trainingPlanId.name" md-auto-select ng-repeat="configurationPlan in configurationPlanList">
                 <td>
-        <md-button type="button" ng-click="editConfigurationPlan(configurationPlan.configurationPlanId, $event)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
+        <md-button type="button" ng-click="editConfigurationPlan(configurationPlan.configurationPlanId)" class="md-raised md-primary" title="{{ 'EDIT' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-pencil" aria-hidden="true"></i></md-button>  
         <md-button type="button" ng-click="deleteConfigurationPlan(configurationPlan.configurationPlanId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'margin':'0px 0px', 'font-size':'15px', 'height':'10px', 'min-width': '10px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
         </td>
         <td md-cell>{{configurationPlan.trainingPlanId.name}}</td>
         <td md-cell>{{configurationPlan.communicationRoleId.name}}</td>
+        <td md-cell>{{configurationPlan.audioCount}}</td>
         <td md-cell>{{configurationPlan.audioDuration}}</td>
         <td md-cell>{{configurationPlan.audioEmergency}}</td>
-        <td md-cell>{{configurationPlan.audioCount}}</td>
-        <td md-cell>{{configurationPlan.emailEmergency}}</td>
         <td md-cell>{{configurationPlan.emailCount}}</td>
-        <td md-cell>{{configurationPlan.messageEmergency}}</td>
+        <td md-cell>{{configurationPlan.emailEmergency}}</td>
         <td md-cell>{{configurationPlan.messageCount}}</td>
-        <td md-cell>{{configurationPlan.videoDuration}}</td>
-        <td md-cell>{{configurationPlan.videoEmergency}}</td>
+        <td md-cell>{{configurationPlan.messageEmergency}}</td>
         <td md-cell>{{configurationPlan.videoCount}}</td>
+        <td md-cell>{{configurationPlan.videoDuration}}</td>
+        <td md-cell>{{configurationPlan.videoEmergency}}</td>        
         <td md-cell>{{configurationPlan.athletesCount}}</td>
         <!--        <td md-cell>{{configurationPlan.userCreateName}}</td>
                 <td md-cell>{{configurationPlan.creationDate}}</td>
@@ -211,20 +211,22 @@
         </tbody>
     </table>
 
-    <table md-table ng-model="selectedPlan" md-progress="promise">
+    <table md-table ng-model="selectedPlan" md-progress="promise" style="margin:10px">
         <thead md-head> 
             <tr md-row>
                 <th md-column class="md-column">{{ 'OPTIONS' | translate }}</th>
+                <th md-column class="md-column">Role</th>
                 <th md-column class="md-column">{{ 'CHARACTERISTIC' | translate }}</th>
                 <th md-column class="md-column">{{ 'VALUE' | translate }}</th>
             </tr>
         </thead>
         <tbody md-body>
             <tr md-row md-select="trainingPlanCharactId"  md-select-id="trainingPlanId.name" md-auto-select ng-repeat="trainingPlanCharactId in planCharacteristicList">
-                <td>
-        <md-button type="button" ng-click="deletePlanCharacteristic(trainingPlanCharactId.trainingPlanCharactId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
+        <td width="200">
+            <md-button type="button" ng-click="deletePlanCharacteristic(trainingPlanCharactId.trainingPlanCharactId)" class="md-raised md-warn" title="{{ 'DELETE' | translate }}" ng-style="{ 'font-size':'20px', 'height':'20px', 'min-width': '35px'}"><i class="fa fa-trash" aria-hidden="true"></i></md-button>
         </td>
-        <td md-cell>{{trainingPlanCharactId.characteristicId.name}}</td>    
+        <td md-cell>{{trainingPlanCharactId.userType}}</td>
+        <td md-cell>{{trainingPlanCharactId.characteristicId.name}}</td>
         <td md-cell>{{trainingPlanCharactId.value}}</td>
         </tr>
         </tbody>

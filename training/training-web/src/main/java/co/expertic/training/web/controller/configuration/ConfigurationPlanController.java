@@ -60,43 +60,99 @@ public class ConfigurationPlanController {
             configurationPlan.setCreationDate(new Date());
             configurationPlanService.create(configurationPlan);
 
-            if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH_INTERNO.getId()) || 
-                    configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())
-                    
-                    ||configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId()) || 
-                    configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH.getId())
-                    ) {
-                TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
-                trainingPlanCharact.setCharacteristicId(new Characteristic(13));
-                trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
-                trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
-                trainingPlanCharact.setCreationDate(new Date());
-                trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
-                trainingPlanCharactService.create(trainingPlanCharact);
+            if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH_INTERNO.getId())
+                    || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH.getId())
+                    || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+                if (configurationPlan.getEmailCount() > 0) {
+                    //Correos coach
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(2));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
 
-                trainingPlanCharact = new TrainingPlanCharact();
-                trainingPlanCharact.setCharacteristicId(new Characteristic(14));
-                trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
-                trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
-                trainingPlanCharact.setCreationDate(new Date());
-                trainingPlanCharact.setValue(configurationPlan.getMessageCount() + "");
-                trainingPlanCharactService.create(trainingPlanCharact);
+                if (configurationPlan.getAudioCount() > 0) {
+                    //audio coach
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(1));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getAudioCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
 
-                trainingPlanCharact = new TrainingPlanCharact();
-                trainingPlanCharact.setCharacteristicId(new Characteristic(15));
-                trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
-                trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
-                trainingPlanCharact.setCreationDate(new Date());
-                trainingPlanCharact.setValue(configurationPlan.getVideoCount() + "");
-                trainingPlanCharactService.create(trainingPlanCharact);
+                if (configurationPlan.getMessageCount() > 0) {
+                    //mensaje chat coach
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(3));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getMessageCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
 
-                trainingPlanCharact = new TrainingPlanCharact();
-                trainingPlanCharact.setCharacteristicId(new Characteristic(16));
-                trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
-                trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
-                trainingPlanCharact.setValue(configurationPlan.getAudioCount() + "");
-                trainingPlanCharact.setCreationDate(new Date());
-                trainingPlanCharactService.create(trainingPlanCharact);
+                if (configurationPlan.getVideoCount() > 0) {
+                    //video coach
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(4));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getVideoCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
+            }
+
+            if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())
+                    || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+                if (configurationPlan.getEmailCount() > 0) {
+                    //Correos estrella
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(6));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getEmailCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
+
+                if (configurationPlan.getAudioCount() > 0) {
+                    //audio estrella
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(5));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getAudioCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
+
+                if (configurationPlan.getMessageCount() > 0) {
+                    //mensaje chat estrella
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(7));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getMessageCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
+
+                if (configurationPlan.getVideoCount() > 0) {
+                    //video estrella
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setCharacteristicId(new Characteristic(8));
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    trainingPlanCharact.setStateId(Short.valueOf(Status.ACTIVE.getId()));
+                    trainingPlanCharact.setCreationDate(new Date());
+                    trainingPlanCharact.setValue(configurationPlan.getVideoCount() + "");
+                    trainingPlanCharactService.create(trainingPlanCharact);
+                }
             }
 
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.expertic.training.i18n.configurationplan", "msgRegistroCreado"));
@@ -148,10 +204,111 @@ public class ConfigurationPlanController {
      * @return
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> deleteConfigurationPlan(@RequestBody ConfigurationPlan configurationPlan) {
+    public ResponseEntity<ResponseService> deleteConfigurationPlan(@RequestBody ConfigurationPlan objConfigurationPlan) {
         ResponseService responseService = new ResponseService();
         try {
-            configurationPlanService.remove(configurationPlan);
+            List<ConfigurationPlan> confList = configurationPlanService.findByConfigurationPlan(objConfigurationPlan);
+
+            if (confList != null && !confList.isEmpty()) {
+                ConfigurationPlan configurationPlan = confList.get(0);
+
+                if (configurationPlan.getEmailCount() > 0) {
+
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(6));
+                    }
+
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH_INTERNO.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(2));
+                    }
+
+                    List<TrainingPlanCharact> trainingPlanCharactList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
+
+                    if (trainingPlanCharactList != null && !trainingPlanCharactList.isEmpty()) {
+                        trainingPlanCharactService.remove(trainingPlanCharactList.get(0));
+                    }
+                }
+
+                if (configurationPlan.getAudioCount() > 0) {
+
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(5));
+                    }
+
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH_INTERNO.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(1));
+                    }
+
+                    List<TrainingPlanCharact> trainingPlanCharactList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
+
+                    if (trainingPlanCharactList != null && !trainingPlanCharactList.isEmpty()) {
+                        trainingPlanCharactService.remove(trainingPlanCharactList.get(0));
+                    }
+                }
+
+                if (configurationPlan.getMessageCount() > 0) {
+
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(7));
+                    }
+
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH_INTERNO.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(3));
+                    }
+
+                    List<TrainingPlanCharact> trainingPlanCharactList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
+
+                    if (trainingPlanCharactList != null && !trainingPlanCharactList.isEmpty()) {
+                        trainingPlanCharactService.remove(trainingPlanCharactList.get(0));
+                    }
+                }
+
+                if (configurationPlan.getVideoCount() > 0) {
+                    TrainingPlanCharact trainingPlanCharact = new TrainingPlanCharact();
+                    trainingPlanCharact.setTrainingPlanId(configurationPlan.getTrainingPlanId());
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ESTRELLA.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(8));
+                    }
+
+                    if (configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH_INTERNO.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.COACH.getId())
+                            || configurationPlan.getCommunicationRoleId().getRoleId().equals(RoleEnum.ATLETA.getId())) {
+
+                        trainingPlanCharact.setCharacteristicId(new Characteristic(4));
+                    }
+
+                    List<TrainingPlanCharact> trainingPlanCharactList = trainingPlanCharactService.findByFiltro(trainingPlanCharact);
+
+                    if (trainingPlanCharactList != null && !trainingPlanCharactList.isEmpty()) {
+                        trainingPlanCharactService.remove(trainingPlanCharactList.get(0));
+                    }
+                }
+            }
+
+            configurationPlanService.remove(objConfigurationPlan);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.expertic.training.i18n.configurationplan", "msgRegistroEliminado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
