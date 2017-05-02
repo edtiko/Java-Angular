@@ -86,8 +86,8 @@ trainingApp.service('CalendarService', ['$http', '$q', function ($http, $q) {
                                 }
                         );  
            }, 
-           getSerie: function(id, userId){
-              return $http.get($contextPath + 'trainingPlanWorkout/get/serie/'+id+'/'+userId)
+           getSerie: function(sesion, week, userId){
+              return $http.get($contextPath + 'trainingPlanWorkout/get/serie/'+sesion+'/'+week+'/'+userId)
                         .then(
                                 function (response) {
                                     return response.data;

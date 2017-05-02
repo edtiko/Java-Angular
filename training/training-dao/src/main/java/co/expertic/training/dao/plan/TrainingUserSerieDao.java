@@ -29,5 +29,7 @@ public interface TrainingUserSerieDao extends BaseDAO<TrainingUserSerie> {
   public TrainingUserSerieDTO getPlanWorkoutById(Integer id) throws Exception;
 
   public void deleteSeriesByTrainingPlanUserId(Integer trainingPlanUserId) throws Exception;
+
+    public List<TrainingUserSerieDTO> getSerieBySesionWeekUser(Integer userId, Integer sesion, Integer week)throws Exception;
     
 }

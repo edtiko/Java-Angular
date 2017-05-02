@@ -81,5 +81,7 @@ public interface TrainingPlanWorkoutService {
 
     public boolean isApproved(Integer trainingPlanUserId, Date fromDate, Date toDate, Integer objectiveId)throws Exception; 
 
+    public List<TrainingUserSerieDTO> getSerieBySesionWeekUser(Integer userId, Integer sesion, Integer week)throws Exception; 
+
  
 }

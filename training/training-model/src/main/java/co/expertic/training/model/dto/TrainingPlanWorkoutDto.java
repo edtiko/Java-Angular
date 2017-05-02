@@ -47,6 +47,10 @@ public class TrainingPlanWorkoutDto {
     @JsonSerialize(using = JsonDateSerializer.class)
     private Date lastUpdateStrava;
     private String urlIcon;
+    private Integer week;
+    private Integer sesion;
+    private Integer numSeries;
+    private Integer zone;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -97,12 +101,25 @@ public class TrainingPlanWorkoutDto {
         this.userId = userId;
     }
     
-    public TrainingPlanWorkoutDto(Integer trainingUserSerieId, Date workDate, Integer numSeries, Double timeSerie, Integer numZone, Discipline discipline) {
+    public TrainingPlanWorkoutDto(Integer trainingUserSerieId, Date workDate, Integer numSeries, Double timeSerie, 
+            Integer week, Integer sesion, Integer numZone, Discipline discipline) {
         this.id = trainingUserSerieId;
         this.workoutDate = workDate;
         this.isDrag = false;
-        this.title = numSeries + " series de " + timeSerie + " min. en z" + numZone;
-        this.activityDescription = numSeries + " series de " + timeSerie + " min. en z" + numZone;
+        this.numSeries = numSeries;
+        this.zone = numZone;
+        this.week = week;
+        this.sesion = sesion;
+        long iPart = timeSerie.longValue();
+        double fPart = timeSerie - iPart;
+        Integer seconds = (int) Math.round(fPart * 60);
+        String secondstr = seconds.toString();
+        if(seconds == 0){
+            secondstr = "00";
+        }
+        
+        this.title = numSeries + " series de " +iPart+":"+secondstr+" min. en z" + numZone;
+        this.activityDescription = numSeries + " series de " +iPart+":"+secondstr+" min. en z" + numZone;
         if (discipline != null) {
             this.discipline = discipline.getName();
         }
@@ -314,6 +331,38 @@ public class TrainingPlanWorkoutDto {
 
     public void setUrlIcon(String urlIcon) {
         this.urlIcon = urlIcon;
+    }
+
+    public Integer getWeek() {
+        return week;
+    }
+
+    public void setWeek(Integer week) {
+        this.week = week;
+    }
+
+    public Integer getSesion() {
+        return sesion;
+    }
+
+    public void setSesion(Integer sesion) {
+        this.sesion = sesion;
+    }
+
+    public Integer getNumSeries() {
+        return numSeries;
+    }
+
+    public void setNumSeries(Integer numSeries) {
+        this.numSeries = numSeries;
+    }
+
+    public Integer getZone() {
+        return zone;
+    }
+
+    public void setZone(Integer zone) {
+        this.zone = zone;
     }
     
 

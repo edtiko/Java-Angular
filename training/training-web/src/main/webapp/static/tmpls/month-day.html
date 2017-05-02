@@ -31,19 +31,19 @@
             </span>
         </div>-->
         
-        <a id="cal_<%= event.id %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.id %>, <%= event.manualActivity %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
+<a id="cal_<%= event.id %>" data-event-sesion="cal_<%= event.sesion %>" data-event-week="cal_<%= event.week %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.sesion %>, <%= event.week %>, <%= event.manualActivity %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
            class="pull-left event-back event " style="<%= style %>" data-toggle="tooltip"
-           title="<%= event.title %>">
+           title="Sesi&oacute;n <%= event.sesion %> y Semana <%= event.week %>">
 
 
 
-            <div data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" style="width: 22px">
+            <div data-event-sesion="cal_<%= event.sesion %>" data-event-week="cal_<%= event.week %>" data-event-date="<%= data_day %>" style="width: 40px; height: 50px">
                 <img style="height: 20px; width: 25px" src="<%= icon %>" alt="<%= event['className'] %>"/>
                 
                 
             </div>
             <font id="calf_<%= event.id %>" data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" class="event-font"><%= event.title %></font>
-        </a>
+        </a 
 
         <% }); %>
     </div>

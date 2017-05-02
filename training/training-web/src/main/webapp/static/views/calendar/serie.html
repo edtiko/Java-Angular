@@ -1,5 +1,5 @@
 <meta charset="utf-8">
-<md-dialog aria-label="Detalle Serie" style="width: 500px">
+<md-dialog aria-label="Detalle Serie" style="width: 550px">
     <form name="formActivity" novalidate>
         <div class="md-toolbar-tools">
             <h2 style="color: #0064F8; font-weight: bold">Detalle Serie</h2>
@@ -15,51 +15,30 @@
                         <md-input-container class="md-block" >
 
                             <label>Fecha</label>
-                            <input type="text" ng-model="serie.workDate" id="workoutDate" name="workoutDate" />
+                            <input type="text" ng-model="series[0].workDate" id="workoutDate" name="workoutDate" />
 
                         </md-input-container>
                     </div>
                 </div>
                 <div layout="row"> 
                     <div flex>
-                        <md-input-container class="md-block" >
-
                             <label>Descripción</label>
-                            <input type="text" ng-model="serie.description" id="description" name="description" />
-
-                        </md-input-container>
+                            <md-input-container ng-repeat="serie in series" class="md-block" >
+                                <span>{{serie.description}}</span>
+                            </md-input-container>
                     </div>
                 </div>
                 <div layout="row"> 
                     <div flex>
                         <md-input-container class="md-block" >
-                            <label>Número de series</label>
-                            <input type="text" ng-model="serie.numSeries" id="numSeries" name="numSeries" />
+
+                            <label>Descanso</label>
+                            <input type="text" ng-model="series[0].workDate" id="workoutDate" name="workoutDate" />
 
                         </md-input-container>
                     </div>
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Tiempo (minutos)</label>
-                            <input type="text" ng-model="serie.serieTime" id="serieTime" name="serieTime" />
-                        </md-input-container>
-                    </div>
                 </div>
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Zona</label>
-                            <input type="text" ng-model="serie.numZone" id="numZone" name="numZone" />
-
-                        </md-input-container>
-                    </div>
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Tiempo de descanso (minutos)</label>
-                            <input type="text" ng-model="serie.restTime" id="serieTime" name="restTime" />
-                        </md-input-container>
-                    </div>
-                </div>
+              
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">  

@@ -111,8 +111,10 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                 });
     };
 
-    $scope.showModalActivity = function (id, isManual) {
-        $scope.selectedId = id;
+    $scope.showModalActivity = function (sesion, week, isManual) {
+        $scope.selectedSesion = sesion;
+        $scope.selectedWeek = week;
+        
         if (isManual) {
             $scope.manualActivityTitle = "Editar Actividad Manual";
 
@@ -183,9 +185,9 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.getActivity = function () {
             //Consulta type zona igual a PPM por defecto
             $scope.trainingPow = 1;
-            CalendarService.getSerie($scope.selectedId, $scope.userSession.userId).then(
+            CalendarService.getSerie($scope.selectedSesion, $scope.selectedWeek, $scope.userSession.userId).then(
                     function (data) {
-                        $scope.serie = angular.copy(data.output);
+                        $scope.series = angular.copy(data.output);
                     },
                     function (error) {
 

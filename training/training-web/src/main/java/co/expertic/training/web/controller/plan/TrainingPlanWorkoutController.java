@@ -4,9 +4,9 @@ import co.expertic.base.util.MessageUtil;
 import co.expertic.training.model.dto.CalendarEventDto;
 import co.expertic.training.model.dto.PlanWorkoutDTO;
 import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
+import co.expertic.training.model.dto.TrainingSesionDTO;
 import co.expertic.training.model.dto.TrainingUserSerieDTO;
 import co.expertic.training.model.dto.UserDTO;
-import co.expertic.training.model.dto.UserProfileDTO;
 import co.expertic.training.model.entities.Activity;
 import co.expertic.training.model.entities.ManualActivity;
 import co.expertic.training.model.entities.TrainingPlanUser;
@@ -35,8 +35,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -87,7 +89,7 @@ public class TrainingPlanWorkoutController {
             calendar.setTimeInMillis(to);
             Date toDate = calendar.getTime();
 
-            List<TrainingPlanWorkoutDto> list = getTrainingPlanWorkoutByIntervalDateUserId(user, fromDate, toDate);
+            List<TrainingSesionDTO> list = getTrainingPlanWorkoutByIntervalDateUserId(user, fromDate, toDate);
             calendarEventDto.setSuccess(1);
             calendarEventDto.setResult(list);
             return calendarEventDto;
@@ -107,21 +109,31 @@ public class TrainingPlanWorkoutController {
      * @return
      * @throws Exception
      */
-    private List<TrainingPlanWorkoutDto> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
+    private List<TrainingSesionDTO> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
             Date fromDate, Date toDate) throws Exception {
         List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(user, fromDate, toDate);
+        Map<Date, List<TrainingPlanWorkoutDto>> filtered = list.stream().collect(Collectors.groupingBy(TrainingPlanWorkoutDto::getWorkoutDate));
+        List<TrainingSesionDTO> result = new ArrayList<>();
 
-        for (TrainingPlanWorkoutDto trainingPlanWorkoutDto : list) {
-            trainingPlanWorkoutDto.setStart(trainingPlanWorkoutDto.getWorkoutDate().getTime());
-            trainingPlanWorkoutDto.setEnd(trainingPlanWorkoutDto.getWorkoutDate().getTime());
-            trainingPlanWorkoutDto.setClassName(trainingPlanWorkoutDto.getSportIcon());
+        for (Map.Entry<Date, List<TrainingPlanWorkoutDto>> entry : filtered.entrySet()) {
+            Date workoutDate = entry.getKey();
+            List<TrainingPlanWorkoutDto> series = entry.getValue();
+            TrainingSesionDTO sesionDTO = new TrainingSesionDTO();
+            StringBuilder title = new StringBuilder();
+            for (TrainingPlanWorkoutDto serie : series) {
+                title.append(serie.getNumSeries() + " series en z" + serie.getZone() + " \n");
+            }
+            sesionDTO.setSesion(series.get(0).getSesion());
+            sesionDTO.setWeek(series.get(0).getWeek());
+            sesionDTO.setStart(workoutDate.getTime());
+            sesionDTO.setEnd(workoutDate.getTime());
+            sesionDTO.setClassName(series.get(0).getSportIcon());
+            sesionDTO.setDiscipline(series.get(0).getDiscipline());
+            sesionDTO.setTitle(title.toString());
+            result.add(sesionDTO);
         }
 
-        if (list == null) {
-            list = new ArrayList();
-        }
-
-        return list;
+        return result;
     }
 
     @RequestMapping(value = "trainingPlanWorkout/validate/planWorkout/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -422,15 +434,18 @@ public class TrainingPlanWorkoutController {
         }
     }
 
-    @RequestMapping(value = "trainingPlanWorkout/get/serie/{id}/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> getWorkoutSerie(@PathVariable("id") Integer id, @PathVariable("userId") Integer userId) {
+    @RequestMapping(value = "trainingPlanWorkout/get/serie/{sesion}/{week}/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getWorkoutSerie(@PathVariable("sesion") Integer sesion, @PathVariable("week") Integer week, @PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
 
             List<UserZone> listUserZone = userZoneService.findByUserId(userId);
-            TrainingUserSerieDTO serie = trainingPlanWorkoutService.getPlanWorkoutById(id);
+            List<TrainingUserSerieDTO> series = trainingPlanWorkoutService.getSerieBySesionWeekUser(userId, sesion, week);
             String ppm = "";
             String pace = "";
+            for (TrainingUserSerieDTO serie : series) {
+                
+            
             for (UserZone userZone : listUserZone) {
                 if (userZone.getZoneType().equals("1")) {
                     switch (serie.getNumZone()) {
@@ -483,21 +498,28 @@ public class TrainingPlanWorkoutController {
                 }
             }
             
+            long iPart = serie.getSerieTime().longValue();
+            double fPart = serie.getSerieTime() - iPart;
+            Integer seconds = (int) Math.round(fPart * 60);
+            String secondstr = seconds.toString();
+            if (seconds == 0) {
+                secondstr = "00";
+            }
             if (ppm != null && pace != null) {
                 ppm = ppm + " ppm";
                 pace = pace + " min/km";
-                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone() + " (" + pace + " o " + ppm + ")");
+                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone() + " (" + pace + " o " + ppm + ")");
             } else if (ppm != null) {
                 ppm = ppm + " ppm";
-                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone() + " (" + ppm + ")");
+                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone() + " (" + ppm + ")");
             } else if (pace != null) {
                 pace = pace + " min/km";
-                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone() + " (" + pace + ")");
+                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone() + " (" + pace + ")");
             } else {
-                serie.setDescription(serie.getNumSeries() + " series de " + serie.getSerieTime() + " minutos en z" + serie.getNumZone());
+                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone());
             }
-         
-            responseService.setOutput(serie);
+            }
+            responseService.setOutput(series);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

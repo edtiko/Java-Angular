@@ -942,4 +942,9 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
 
     }
 
+    @Override
+    public List<TrainingUserSerieDTO> getSerieBySesionWeekUser(Integer userId, Integer sesion, Integer week) throws Exception {
+        return trainingUserSerieDao.getSerieBySesionWeekUser(userId, sesion, week);
+    }
+
 }
