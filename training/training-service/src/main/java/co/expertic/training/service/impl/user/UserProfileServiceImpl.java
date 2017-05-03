@@ -159,27 +159,39 @@ public class UserProfileServiceImpl implements UserProfileService {
                 if (userZone.getZoneType().equals("1")) {
                     if (userZone.getZoneOne() != null) {
                         zone = userZone.getZoneOne().split("-");
-                        userProfile.setPpm0(new BigInteger(zone[0]));
-                        userProfile.setPpm81(new BigInteger(zone[1]));
+                        userProfile.setPpm0("-");
+                        if (zone.length > 1 && !"".equals(zone[2])) {
+                            userProfile.setPpm81(new BigInteger(zone[2]));
+                        }
                     }
                     if (userZone.getZoneTwo() != null) {
                         zone = userZone.getZoneTwo().split("-");
                         userProfile.setPpm82(new BigInteger(zone[0]));
-                        userProfile.setPpm89(new BigInteger(zone[1]));
+                       if (zone.length > 1 && !"".equals(zone[1])) {
+                            userProfile.setPpm89(new BigInteger(zone[1]));
+                        }
                     }
                     zone = userZone.getZoneThree().split("-");
                     userProfile.setPpm90(new BigInteger(zone[0]));
-                    userProfile.setPpm93(new BigInteger(zone[1]));
+                     if (zone.length > 1 && !"".equals(zone[1])) {
+                        userProfile.setPpm93(new BigInteger(zone[1]));
+                    }
                     zone = userZone.getZoneFour().split("-");
                     userProfile.setPpm94(new BigInteger(zone[0]));
-                    userProfile.setPpm99(new BigInteger(zone[1]));
+                     if (zone.length > 1 && !"".equals(zone[1])) {
+                        userProfile.setPpm99(new BigInteger(zone[1]));
+                    }
                     zone = userZone.getZoneFive().split("-");
                     userProfile.setPpm100(new BigInteger(zone[0]));
-                    userProfile.setPpm102(new BigInteger(zone[1]));
+                     if (zone.length > 1 && !"".equals(zone[1])) {
+                        userProfile.setPpm102(new BigInteger(zone[1]));
+                    }
                     if (userZone.getZoneSix() != null) {
                         zone = userZone.getZoneSix().split("-");
                         userProfile.setPpm103(new BigInteger(zone[0]));
-                        userProfile.setPpm106(new BigInteger(zone[1]));
+                         if (zone.length > 1 && !"".equals(zone[1])) {
+                            userProfile.setPpm106(new BigInteger(zone[1]));
+                        }
                     }
                     /*if (userZone.getZoneSeven() != null) {
                         zone = userZone.getZoneSeven().split("-");
@@ -190,38 +202,54 @@ public class UserProfileServiceImpl implements UserProfileService {
                 if (userZone.getZoneType().equals("2")) {
                     if (userZone.getZoneOne() != null) {
                         zone = userZone.getZoneOne().split("-");
-                        userProfile.setFtp0(new BigInteger(zone[0]));
-                        userProfile.setFtp129(new BigInteger(zone[1]));
+                        userProfile.setFtp0("-");
+                         if (zone.length > 1 && !"".equals(zone[1])) {
+                            userProfile.setFtp129(zone[1]);
+                        }
                     }
                     zone = userZone.getZoneTwo().split("-");
-                    userProfile.setFtp129(new BigInteger(zone[0]));
-                    userProfile.setFtp114(new BigInteger(zone[1]));
+                    userProfile.setFtp129(zone[0]);
+                     if (zone.length > 1 && !"".equals(zone[1])) {
+                        userProfile.setFtp114(zone[1]);
+                    }
                     zone = userZone.getZoneThree().split("-");
-                    userProfile.setFtp114(new BigInteger(zone[0]));
-                    userProfile.setFtp106(new BigInteger(zone[1]));
+                    userProfile.setFtp114(zone[0]);
+                     if (zone.length > 1 && !"".equals(zone[1])) {
+                        userProfile.setFtp106(zone[1]);
+                    }
                     zone = userZone.getZoneFour().split("-");
-                    userProfile.setFtp106(new BigInteger(zone[0]));
-                    userProfile.setFtp100(new BigInteger(zone[1]));
+                    userProfile.setFtp106(zone[0]);
+                     if (zone.length > 1 && !"".equals(zone[1])) {
+                        userProfile.setFtp100(zone[1]);
+                    }
                     zone = userZone.getZoneFive().split("-");
-                    userProfile.setFtp100(new BigInteger(zone[0]));
-                    userProfile.setFtp97(new BigInteger(zone[1]));
+                    userProfile.setFtp100(zone[0]);
+                     if (zone.length > 1 && !"".equals(zone[1])) {
+                        userProfile.setFtp97(zone[1]);
+                    }
                     if (userZone.getZoneSix() != null) {
                         zone = userZone.getZoneSix().split("-");
-                        userProfile.setFtp97(new BigInteger(zone[0]));
-                        userProfile.setFtp90(new BigInteger(zone[1]));
+                        userProfile.setFtp97(zone[0]);
+                         if (zone.length > 1 && !"".equals(zone[1])) {
+                            userProfile.setFtp90(zone[1]);
+                        }
                     }
                     if (userZone.getZoneSeven() != null) {
                         zone = userZone.getZoneSeven().split("-");
-                        userProfile.setFtp90(new BigInteger(zone[0]));
-                        userProfile.setFtp0(new BigInteger(zone[1]));
+                        if (zone[0] != null) {
+                            userProfile.setFtp90(zone[0]);
+                        }
+
+                        userProfile.setFtp0("-");
+
                     }
                 }
             }
         }
         DisciplineUser discipline = disciplineUserDao.findByUserId(id);
-        if(discipline != null){
-        userProfile.setDiscipline(discipline.getDiscipline().getDisciplineId());
-        userProfile.setDisciplineName(discipline.getDiscipline().getName());
+        if (discipline != null) {
+            userProfile.setDiscipline(discipline.getDiscipline().getDisciplineId());
+            userProfile.setDisciplineName(discipline.getDiscipline().getName());
         }
         return userProfile;
 
@@ -445,7 +473,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         userSportDao.create(sport);
         userAvailabilityService.create(availability);
-        
+
     }
 
     @Override

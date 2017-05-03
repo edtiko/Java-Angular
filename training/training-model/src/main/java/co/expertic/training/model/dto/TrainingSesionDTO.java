@@ -19,7 +19,10 @@ public class TrainingSesionDTO {
     private String sportIcon;
     private Integer sesion;
     private Integer week;
-    private String restTime;
+    private Integer restTime;
+    private Integer pullDown;
+    private Integer warmUp;
+    private Integer zone;
     private long start;
     private long end;
     private String className;
@@ -110,8 +113,38 @@ public class TrainingSesionDTO {
     public void setDiscipline(String discipline) {
         this.discipline = discipline;
     }
-    
-    
+
+    public Integer getRestTime() {
+        return restTime;
+    }
+
+    public void setRestTime(Integer restTime) {
+        this.restTime = restTime;
+    }
+
+    public Integer getPullDown() {
+        return pullDown;
+    }
+
+    public void setPullDown(Integer pullDown) {
+        this.pullDown = pullDown;
+    }
+
+    public Integer getWarmUp() {
+        return warmUp;
+    }
+
+    public void setWarmUp(Integer warmUp) {
+        this.warmUp = warmUp;
+    }
+
+    public Integer getZone() {
+        return zone;
+    }
+
+    public void setZone(Integer zone) {
+        this.zone = zone;
+    }
     
     
 }

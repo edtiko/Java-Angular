@@ -48,11 +48,12 @@ public class TrainingUserSerieDaoImpl extends BaseDAOImpl<TrainingUserSerie> imp
 
         StringBuilder sql2 = new StringBuilder();
         sql2.append("SELECT DISTINCT new co.expertic.training.model.dto.TrainingPlanWorkoutDto(t.trainingUserSerieId,");
-        sql2.append("t.workDate, t.numSeries, t.serieTime, t.week, t.sesion, t.numZona, du.discipline ) ");
+        sql2.append("t.workDate, t.numSeries, t.serieTime, t.week, t.sesion, t.restTime, t.numZona, du.discipline ) ");
         sql2.append(" FROM TrainingUserSerie t, DisciplineUser du ");
         sql2.append("WHERE t.trainingPlanUserId.userId.userId = :userId ");
         sql2.append("AND du.userId.userId = :userId ");
         sql2.append("AND t.workDate BETWEEN :fromDate AND :toDate ");
+        sql2.append(" ORDER BY t.numZona DESC ");
         query = getEntityManager().createQuery(sql2.toString());
         query.setParameter("userId", userId);
         query.setParameter("fromDate", fromDate, TemporalType.DATE);
@@ -150,6 +151,7 @@ public class TrainingUserSerieDaoImpl extends BaseDAOImpl<TrainingUserSerie> imp
         sql.append("WHERE e.trainingPlanUserId.userId.userId = :userId ");
         sql.append("AND e.sesion = :sesion ");
         sql.append("AND e.week = :week ");
+        sql.append(" ORDER BY e.numZona DESC ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         query.setParameter("sesion", sesion);

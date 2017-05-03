@@ -14,6 +14,7 @@ import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.model.entities.TrainingUserSerie;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.entities.UserZone;
+import co.expertic.training.model.entities.ZoneTimeSerie;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.plan.TrainingPlanUserService;
 
@@ -111,10 +112,11 @@ public class TrainingPlanWorkoutController {
      */
     private List<TrainingSesionDTO> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
             Date fromDate, Date toDate) throws Exception {
+        
         List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(user, fromDate, toDate);
         Map<Date, List<TrainingPlanWorkoutDto>> filtered = list.stream().collect(Collectors.groupingBy(TrainingPlanWorkoutDto::getWorkoutDate));
         List<TrainingSesionDTO> result = new ArrayList<>();
-
+          
         for (Map.Entry<Date, List<TrainingPlanWorkoutDto>> entry : filtered.entrySet()) {
             Date workoutDate = entry.getKey();
             List<TrainingPlanWorkoutDto> series = entry.getValue();
@@ -441,6 +443,7 @@ public class TrainingPlanWorkoutController {
 
             List<UserZone> listUserZone = userZoneService.findByUserId(userId);
             List<TrainingUserSerieDTO> series = trainingPlanWorkoutService.getSerieBySesionWeekUser(userId, sesion, week);
+             ZoneTimeSerie times = trainingPlanWorkoutService.getZoneTimesByUser(userId);
             String ppm = "";
             String pace = "";
             for (TrainingUserSerieDTO serie : series) {
@@ -496,6 +499,13 @@ public class TrainingPlanWorkoutController {
                             break;
                     }
                 }
+            }
+            
+            
+            
+            if(times != null){
+                serie.setWarmUpTime(times.getWarmUpTime());
+                serie.setPullDownTime(times.getPullDownTime());
             }
             
             long iPart = serie.getSerieTime().longValue();

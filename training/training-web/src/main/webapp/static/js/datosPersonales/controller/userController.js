@@ -1394,16 +1394,16 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 pace = (pace * 95) / 100;
                 
                 //TODO falta multiplicar la parte decimal por 6
-                $scope.ftp0R = Math.round((pace * 0) / 100);
-                $scope.ftp129R =  Math.round((pace * 129) / 100);
+                $scope.ftp0R = "-";
+                $scope.ftp129R =  ((pace * 129) / 100) * 60 ;
 
-                $scope.ftp114R =  Math.round((pace * 114) / 100);
-                $scope.ftp106R = (pace * 106) / 100;
+                $scope.ftp114R = ((pace * 114) / 100) * 60;
+                $scope.ftp106R = (pace * 106) / 100 * 60;
 
-                $scope.ftp100R =  Math.round((pace * 100) / 100);
-                $scope.ftp97R =  Math.round((pace * 97) / 100);
+                $scope.ftp100R = ((pace * 100) / 100) * 60;
+                $scope.ftp97R =  ((pace * 97) / 100) * 60;
 
-                $scope.ftp90R =  Math.round((pace * 90) / 100);
+                $scope.ftp90R =  ((pace * 90) / 100) * 60;
             }
         };
         
@@ -1412,7 +1412,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 var pace = 20 / ($scope.userProfile.testDistanceN/100);
                 pace = (pace * 95)/100; 
                 
-                $scope.ftp0N =  Math.round((pace * 0) / 100);
+                $scope.ftp0N =  "-";
                 $scope.ftp129N =  Math.round((pace * 129) / 100);
 
                 $scope.ftp114N =  Math.round((pace * 114) / 100);
@@ -1428,24 +1428,39 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         $scope.calculatePaceZone = function () {
             var pace;
             if ($scope.userProfile.testDistance !== "") {
-                
+
                 if ($scope.userProfile.discipline == 3) {
                     pace = 20 / $scope.userProfile.testDistance;
                 } else if ($scope.userProfile.discipline == 4) {
                     pace = 20 / ($scope.userProfile.testDistance / 100);
                 }
-                pace = (pace * 95)/100; 
+                pace = (pace * 95) / 100;
                 //TODO falta multiplicar la parte decimal por 6
-                $scope.userProfile.ftp0 =  (pace * 0) / 100;
-                $scope.userProfile.ftp129 =  Math.round((pace * 129) / 100);
-
-                $scope.userProfile.ftp114 =  Math.round((pace * 114) / 100);
-                $scope.userProfile.ftp106 =  Math.round((pace * 106) / 100);
-
-                $scope.userProfile.ftp100 =  Math.round((pace * 100) / 100);
-                $scope.userProfile.ftp97 =  Math.round((pace * 97) / 100);
-
-                $scope.userProfile.ftp90 =  Math.round((pace * 90) / 100);
+                $scope.userProfile.ftp0 = "-";
+                $scope.userProfile.ftp129 = ((pace * 129) / 100);
+                var seconds = Math.round($scope.userProfile.ftp129) - $scope.userProfile.ftp129;
+                seconds = Math.round(Math.abs(seconds * 60));
+                $scope.userProfile.ftp129 = Math.round($scope.userProfile.ftp129) + ":" + seconds;
+                $scope.userProfile.ftp114 = ((pace * 114) / 100);
+                var seconds = Math.round($scope.userProfile.ftp114) - $scope.userProfile.ftp114;
+                seconds = Math.round(Math.abs(seconds * 60));
+                $scope.userProfile.ftp114 = Math.round($scope.userProfile.ftp114) + ":" + seconds;
+                $scope.userProfile.ftp106 = ((pace * 106) / 100);
+                var seconds = Math.round($scope.userProfile.ftp106) - $scope.userProfile.ftp106;
+                seconds = Math.round(Math.abs(seconds * 60));
+                $scope.userProfile.ftp106 = Math.round($scope.userProfile.ftp106) + ":" + seconds;
+                $scope.userProfile.ftp100 = ((pace * 100) / 100);
+                var seconds = Math.round($scope.userProfile.ftp100) - $scope.userProfile.ftp100;
+                seconds = Math.round(Math.abs(seconds * 60));
+                $scope.userProfile.ftp100 = Math.round($scope.userProfile.ftp100) + ":" + seconds;
+                $scope.userProfile.ftp97 = ((pace * 97) / 100);
+                var seconds = Math.round($scope.userProfile.ftp97) - $scope.userProfile.ftp97;
+                seconds = Math.round(Math.abs(seconds * 60));
+                $scope.userProfile.ftp97 = Math.round($scope.userProfile.ftp97) + ":" + seconds;
+                $scope.userProfile.ftp90 = ((pace * 90) / 100);
+                var seconds = Math.round($scope.userProfile.ftp90) - $scope.userProfile.ftp90;
+                seconds = Math.round(Math.abs(seconds * 60));
+                $scope.userProfile.ftp90 = Math.round($scope.userProfile.ftp90) + ":" + seconds;
             }
         };
 
@@ -1453,7 +1468,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             if ($scope.userProfile.power !== "") {
                 var power = ($scope.userProfile.power * 95) / 100;
 
-                $scope.userProfile.ftp0 =  Math.round((power * 0) / 100);
+                $scope.userProfile.ftp0 =  "-";
                 $scope.userProfile.ftp129 =  Math.round((power * 129) / 100);
 
                 $scope.userProfile.ftp114 =  Math.round((power * 114) / 100);
@@ -1469,22 +1484,22 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             if ($scope.userProfile.ppm !== "") {
                 var ppm = ($scope.userProfile.ppm * 95)/100;
                 
-                $scope.userProfile.ppm0 = (ppm * 0) / 100; 
+                $scope.userProfile.ppm0 = "-"; 
                 $scope.userProfile.ppm81 =  Math.round((ppm * 81) / 100);
                 
-                $scope.userProfile.ppm82 =  Math.round((ppm * 82) / 100);
+                $scope.userProfile.ppm82 =  $scope.userProfile.ppm81 + 1;
                 $scope.userProfile.ppm89 =  Math.round((ppm * 89) / 100);
                 
-                $scope.userProfile.ppm90 =  Math.round((ppm * 90) / 100);
+                $scope.userProfile.ppm90 =  $scope.userProfile.ppm89 + 1;
                 $scope.userProfile.ppm93 =  Math.round((ppm * 93) / 100);
                 
-                $scope.userProfile.ppm94 =  Math.round((ppm * 94) / 100);
+                $scope.userProfile.ppm94 =  $scope.userProfile.ppm93 + 1;
                 $scope.userProfile.ppm99 =  Math.round((ppm * 99) / 100);
                 
-                $scope.userProfile.ppm100 =  Math.round((ppm * 100) / 100);
+                $scope.userProfile.ppm100 =  $scope.userProfile.ppm99 + 1;
                 $scope.userProfile.ppm102 =  Math.round((ppm * 102) / 100);
                 
-                $scope.userProfile.ppm103 =  Math.round((ppm * 103) / 100);
+                $scope.userProfile.ppm103 =  $scope.userProfile.ppm102 + 1;
                 $scope.userProfile.ppm106 =  Math.round((ppm * 106) / 100);
             }
         };

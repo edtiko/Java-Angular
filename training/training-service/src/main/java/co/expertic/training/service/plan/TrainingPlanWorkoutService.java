@@ -5,6 +5,7 @@ import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
 import co.expertic.training.model.dto.TrainingUserSerieDTO;
 import co.expertic.training.model.entities.TrainingPlanWorkout;
 import co.expertic.training.model.entities.TrainingUserSerie;
+import co.expertic.training.model.entities.ZoneTimeSerie;
 import java.util.Date;
 import java.util.List;
 
@@ -83,5 +84,6 @@ public interface TrainingPlanWorkoutService {
 
     public List<TrainingUserSerieDTO> getSerieBySesionWeekUser(Integer userId, Integer sesion, Integer week)throws Exception; 
 
+    public ZoneTimeSerie getZoneTimesByUser(Integer userId) throws Exception;
  
 }

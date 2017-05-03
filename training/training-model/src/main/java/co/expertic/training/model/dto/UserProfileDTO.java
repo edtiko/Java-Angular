@@ -51,15 +51,15 @@ public class UserProfileDTO implements Serializable {
     private String otherModelBike;
     private Integer bikeType;
     
-    private BigInteger ftp0;
-    private BigInteger ftp129;
-    private BigInteger ftp114;
-    private BigInteger ftp106;
-    private BigInteger ftp100;
-    private BigInteger ftp97;
-    private BigInteger ftp90;
+    private String ftp0;
+    private String ftp129;
+    private String ftp114;
+    private String ftp106;
+    private String ftp100;
+    private String ftp97;
+    private String ftp90;
     
-    private BigInteger ppm0;
+    private String ppm0;
     private BigInteger ppm81;
     private BigInteger ppm82;
     private BigInteger ppm89;
@@ -384,60 +384,60 @@ public class UserProfileDTO implements Serializable {
         this.bikeType = bikeType;
     }
 
-    public BigInteger getFtp0() {
+    public String getFtp0() {
         return ftp0;
     }
 
-    public void setFtp0(BigInteger ftp0) {
-        this.ftp0 = ftp0;
-    }
-
-    public BigInteger getFtp129() {
+    public String getFtp129() {
         return ftp129;
     }
 
-    public void setFtp129(BigInteger ftp129) {
+    public void setFtp0(String ftp0) {
+        this.ftp0 = ftp0;
+    }
+
+    public void setFtp129(String ftp129) {
         this.ftp129 = ftp129;
     }
 
-    public BigInteger getFtp114() {
+    public String getFtp114() {
         return ftp114;
     }
 
-    public void setFtp114(BigInteger ftp114) {
+    public void setFtp114(String ftp114) {
         this.ftp114 = ftp114;
     }
 
-    public BigInteger getFtp100() {
-        return ftp100;
-    }
-
-    public void setFtp100(BigInteger ftp100) {
-        this.ftp100 = ftp100;
-    }
-
-    public BigInteger getFtp97() {
-        return ftp97;
-    }
-
-    public void setFtp97(BigInteger ftp97) {
-        this.ftp97 = ftp97;
-    }
-
-    public BigInteger getFtp90() {
-        return ftp90;
-    }
-
-    public void setFtp90(BigInteger ftp90) {
-        this.ftp90 = ftp90;
-    }
-
-    public BigInteger getFtp106() {
+    public String getFtp106() {
         return ftp106;
     }
 
-    public void setFtp106(BigInteger ftp106) {
+    public void setFtp106(String ftp106) {
         this.ftp106 = ftp106;
+    }
+
+    public String getFtp100() {
+        return ftp100;
+    }
+
+    public void setFtp100(String ftp100) {
+        this.ftp100 = ftp100;
+    }
+
+    public String getFtp97() {
+        return ftp97;
+    }
+
+    public void setFtp97(String ftp97) {
+        this.ftp97 = ftp97;
+    }
+
+    public String getFtp90() {
+        return ftp90;
+    }
+
+    public void setFtp90(String ftp90) {
+        this.ftp90 = ftp90;
     }
 
     public BigInteger getPpm81() {
@@ -576,11 +576,11 @@ public class UserProfileDTO implements Serializable {
         this.ppm82 = ppm82;
     }
 
-    public BigInteger getPpm0() {
+    public String getPpm0() {
         return ppm0;
     }
 
-    public void setPpm0(BigInteger ppm0) {
+    public void setPpm0(String ppm0) {
         this.ppm0 = ppm0;
     }
 

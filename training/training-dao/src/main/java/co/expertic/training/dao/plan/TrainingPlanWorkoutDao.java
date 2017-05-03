@@ -87,4 +87,6 @@ public interface TrainingPlanWorkoutDao extends BaseDAO<TrainingPlanWorkout> {
     public ZoneTimeSerie getZoneTimeSerie(Integer zone, Integer trainingLevelId) throws Exception;
 
     public List<ZoneTimeSerie> getZoneTimesByLevel(Integer trainingLevelId) throws Exception;
+    
+    public ZoneTimeSerie getZoneTimesByUser(Integer userId) throws Exception; 
 }

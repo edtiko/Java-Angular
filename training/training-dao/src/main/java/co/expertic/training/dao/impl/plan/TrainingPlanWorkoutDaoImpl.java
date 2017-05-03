@@ -241,4 +241,22 @@ public class TrainingPlanWorkoutDaoImpl extends BaseDAOImpl<TrainingPlanWorkout>
     
         return list;
     }
+    
+    @Override
+    public ZoneTimeSerie getZoneTimesByUser(Integer userId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT DISTINCT t ");
+        sql.append("FROM ZoneTimeSerie t, UserProfile up ");
+        sql.append(" WHERE up.objectiveId.trainingLevelId = t.trainingLevelId.trainingLevelId ");
+        sql.append(" AND up.userId.userId = :userId ");
+        sql.append(" And t.stateId = ").append(Status.ACTIVE.getId());
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<ZoneTimeSerie> list = query.getResultList();
+
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
 }

@@ -51,6 +51,7 @@ public class TrainingPlanWorkoutDto {
     private Integer sesion;
     private Integer numSeries;
     private Integer zone;
+    private Integer restTime;
 
     public TrainingPlanWorkoutDto() {
     }
@@ -102,7 +103,7 @@ public class TrainingPlanWorkoutDto {
     }
     
     public TrainingPlanWorkoutDto(Integer trainingUserSerieId, Date workDate, Integer numSeries, Double timeSerie, 
-            Integer week, Integer sesion, Integer numZone, Discipline discipline) {
+            Integer week, Integer sesion, Integer restTime, Integer numZone, Discipline discipline) {
         this.id = trainingUserSerieId;
         this.workoutDate = workDate;
         this.isDrag = false;
@@ -110,6 +111,7 @@ public class TrainingPlanWorkoutDto {
         this.zone = numZone;
         this.week = week;
         this.sesion = sesion;
+        this.restTime = restTime;
         long iPart = timeSerie.longValue();
         double fPart = timeSerie - iPart;
         Integer seconds = (int) Math.round(fPart * 60);
@@ -363,6 +365,14 @@ public class TrainingPlanWorkoutDto {
 
     public void setZone(Integer zone) {
         this.zone = zone;
+    }
+
+    public Integer getRestTime() {
+        return restTime;
+    }
+
+    public void setRestTime(Integer restTime) {
+        this.restTime = restTime;
     }
     
 

@@ -21,6 +21,8 @@ public class TrainingUserSerieDTO {
     private Integer numZone;
     private Integer restTime;
     private String description;
+    private Integer warmUpTime;
+    private Integer pullDownTime;
 
     @JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
     private Date workDate;
@@ -92,6 +94,22 @@ public class TrainingUserSerieDTO {
 
     public void setRestTime(Integer restTime) {
         this.restTime = restTime;
+    }
+
+    public Integer getWarmUpTime() {
+        return warmUpTime;
+    }
+
+    public void setWarmUpTime(Integer warmUpTime) {
+        this.warmUpTime = warmUpTime;
+    }
+
+    public Integer getPullDownTime() {
+        return pullDownTime;
+    }
+
+    public void setPullDownTime(Integer pullDownTime) {
+        this.pullDownTime = pullDownTime;
     }
     
     

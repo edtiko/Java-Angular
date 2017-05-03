@@ -12,33 +12,40 @@
             <div class="md-dialog-content">
                 <div layout="row"> 
                     <div flex>
-                        <md-input-container class="md-block" >
-
                             <label>Fecha</label>
-                            <input type="text" ng-model="series[0].workDate" id="workoutDate" name="workoutDate" />
-
-                        </md-input-container>
-                    </div>
-                </div>
-                <div layout="row"> 
-                    <div flex>
-                            <label>Descripción</label>
-                            <md-input-container ng-repeat="serie in series" class="md-block" >
-                                <span>{{serie.description}}</span>
-                            </md-input-container>
-                    </div>
-                </div>
-                <div layout="row"> 
-                    <div flex>
                         <md-input-container class="md-block" >
 
-                            <label>Descanso</label>
-                            <input type="text" ng-model="series[0].workDate" id="workoutDate" name="workoutDate" />
+                            <span>{{series[0].workDate}}</span>
 
                         </md-input-container>
                     </div>
                 </div>
-              
+                <div layout="row"> 
+                    <div flex>
+                        <label>Descripción</label>
+                        <md-input-container ng-repeat="serie in series" class="md-block" >
+                            <span>{{serie.description}}</span>
+                            <span> Descanso de {{serie.restTime==null?0:serie.restTime}}:00 minutos</span>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex>
+                        <label>Tiempo de Calentamiento</label>
+                        <md-input-container class="md-block" >
+                            <span>{{series[0].warmUpTime}}:00 minutos</span>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex>
+                        <label>Tiempo de Enfriamiento</label>
+                        <md-input-container class="md-block" >
+                            <span>{{series[0].pullDownTime}}:00 minutos</span>
+                        </md-input-container>
+                    </div>
+                </div>
+
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">  
