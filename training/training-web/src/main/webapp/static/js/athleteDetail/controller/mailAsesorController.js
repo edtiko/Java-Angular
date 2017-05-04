@@ -70,6 +70,17 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
 
 
         }
+        
+        $scope.resendEmail = function (mailId) {
+            MailService.resendEmail(mailId, $scope.planSelected.id).then(
+                    function (data) {
+                        $scope.getEmailByRole($scope.userSessionTypeUserCoachEstrella);
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
 
         $scope.addMail = function () {
             if ($scope.userSession != null && $scope.mailCommunication.message != ""

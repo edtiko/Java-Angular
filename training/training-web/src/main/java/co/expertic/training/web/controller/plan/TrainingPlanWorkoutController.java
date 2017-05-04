@@ -512,21 +512,38 @@ public class TrainingPlanWorkoutController {
             double fPart = serie.getSerieTime() - iPart;
             Integer seconds = (int) Math.round(fPart * 60);
             String secondstr = seconds.toString();
+            
+            if(serie.getRestTime() != null && serie.getRestTime() > 0){
+                serie.setRestSerieDescription(" con "+serie.getRestTime()+":00min de recuperación entre serie");
+            }
             if (seconds == 0) {
                 secondstr = "00";
             }
+             
             if (ppm != null && pace != null) {
                 ppm = ppm + " ppm";
                 pace = pace + " min/km";
-                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone() + " (" + pace + " o " + ppm + ")");
+                StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
+                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", "+pace + " o aprox. " + ppm + ")");
+        
+                serie.setDescription(description.toString());
             } else if (ppm != null) {
                 ppm = ppm + " ppm";
-                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone() + " (" + ppm + ")");
+                 StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
+                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", aprox. " + ppm + ")");
+                  serie.setDescription(description.toString());
             } else if (pace != null) {
                 pace = pace + " min/km";
-                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone() + " (" + pace + ")");
+                      StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
+                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", "+pace + ")");
+                serie.setDescription(description.toString());
             } else {
-                serie.setDescription(serie.getNumSeries() + " series de " + iPart + ":" + secondstr + " minutos en z" + serie.getNumZone());
+                StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
+                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                serie.setDescription(description.toString());
             }
             }
             responseService.setOutput(series);

@@ -111,7 +111,7 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                 });
     };
 
-    $scope.showModalActivity = function (sesion, week, isManual) {
+    $scope.showModalActivity = function (sesion, week, isManual = false) {
         $scope.selectedSesion = sesion;
         $scope.selectedWeek = week;
         
@@ -188,60 +188,18 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             CalendarService.getSerie($scope.selectedSesion, $scope.selectedWeek, $scope.userSession.userId).then(
                     function (data) {
                         $scope.series = angular.copy(data.output);
+                        $scope.series.forEach(function (v) {
+                            $scope.totalTimeSesion =+ (v.timeSerie + v.restTime + v.warmUpTime + v.pullDownTime);
+                        });
                     },
                     function (error) {
 
                     }
             );
         };
-        
+
         $scope.getActivity();
-        
-       /* $scope.getActivityReplace = function () {
-            CalendarService.getActivityReplace($scope.selectedId).then(
-                    function (data) {
-                        $scope.activityReplaceList = angular.copy(data.output);
-                    },
-                    function (error) {
-                        console.debug(error);
-                    }
-            );
-        };
-        
-        $scope.changeTrainingPow = function (trainingPow) {
-            $scope.trainingPow = trainingPow;
-            CalendarService.getActivityPpm($scope.selectedId, trainingPow).then(
-                    function (data) {
-                        $scope.activity = angular.copy(data.output);
-                    },
-                    function (error) {
 
-                    }
-            );
-        };
-        if ($scope.selectedId != "") {
-            $scope.getActivity();
-            $scope.getActivityReplace();
-        }
-        
-
-        $scope.updateActivity = function () {
-            CalendarService.updateWorkout($scope.activity).then(
-                    function (data) {
-                        if (data.status == 'success') {
-                            $scope.showMessage(data.output);
-                            $mdDialog.hide();
-                        } else {
-                            $scope.showMessage(data.output, "Error");
-                        }
-                    },
-                    function (error) {
-
-                    }
-
-
-            );
-        };*/
 
         $scope.hide = function () {
             $mdDialog.hide();

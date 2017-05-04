@@ -31,7 +31,7 @@
             </span>
         </div>-->
         
-<a id="cal_<%= event.id %>" data-event-sesion="cal_<%= event.sesion %>" data-event-week="cal_<%= event.week %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.sesion %>, <%= event.week %>, <%= event.manualActivity %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
+<a id="cal_<%= event.id %>" data-event-sesion="cal_<%= event.sesion %>" data-event-week="cal_<%= event.week %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.sesion %>, <%= event.week %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
            class="pull-left event-back event " style="<%= style %>" data-toggle="tooltip"
            title="Sesi&oacute;n <%= event.sesion %> y Semana <%= event.week %>">
 
@@ -43,7 +43,7 @@
                 
             </div>
             <font id="calf_<%= event.id %>" data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" class="event-font"><%= event.title %></font>
-        </a 
+</a> 
 
         <% }); %>
     </div>

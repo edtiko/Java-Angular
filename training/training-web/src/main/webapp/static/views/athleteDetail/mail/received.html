@@ -1,19 +1,23 @@
 
 <md-content style="overflow-x: hidden;" scroll-glue="glued">
     <md-list>
-        <md-list-item class="md-3-line" ng-repeat="mail in mailsReceived| orderBy:'creationDate':true"
-                      ng-click="selectReceivedMail(mail.mailCommunicationId)">
+        <md-list-item class="md-3-line" ng-repeat="mail in mailsReceived| orderBy:'creationDate':true" ng-click="">
             <div  ng-style="{{mail.colour}}" class="colour" ></div>
 
             <div class="md-list-item-text" style="margin-left: 1%" ng-if="mail.read">
-
-                <h3 style="color: #0064F8; text-transform: capitalize">{{mail.sendingUser.fullName}}</h3>
+                <a href="javascript:void(0)" ng-click="selectReceivedMail(mail.mailCommunicationId)">
+                    <h3 style="color: #0064F8; text-transform: capitalize">{{mail.sendingUser.fullName}}</h3>
+                </a>
             </div>
             <div class="md-list-item-text" style="margin-left: 1%;font-weight: bold" ng-if="mail.read == false">
-
-                <h3 style="font-weight: bold; color: #0064F8; text-transform: capitalize" > {{mail.sendingUser.fullName}}</h3>
+                <a href="javascript:void(0)" ng-click="selectReceivedMail(mail.mailCommunicationId)">
+                    <h3 style="font-weight: bold; color: #0064F8; text-transform: capitalize" > {{mail.sendingUser.fullName}}</h3>
+                </a>
             </div>
             <span>{{mail.subject}}</span>
+            &nbsp;
+            <a  href="javascript:void(0)" ng-click="resendEmail(mail.mailCommunicationId)" ng-if="roleSelected == userSessionTypeUserCoachEstrella">reenviar</a>
+            &nbsp;
             <md-subheader>{{mail.creationDate}}</md-subheader>
 
             <md-divider></md-divider>

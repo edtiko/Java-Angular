@@ -309,6 +309,23 @@ public class MailController {
         }
     }
     
+    @RequestMapping(value = "mailCommunication/resend/{id}/{planId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> resendEmail(@PathVariable("id") Integer id, @PathVariable("planId") Integer planId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            mailCommunicationService.resendEmail(id, planId);
+            responseService.setOutput(MessageUtil.getMessageFromBundle("co.expertic.training.i18n.trainingplan", "msgRegistroEditado"));
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(MailController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al modificar registro");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+
     /**
      * Consulta los mail por destinatario <br>
      * Info. Creacion: <br>

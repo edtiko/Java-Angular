@@ -172,6 +172,19 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                                         return $q.reject(errResponse);
                                     }
                             );
+                },
+                
+                service.resendEmail  = function (id, planId) {
+                    return $http.get($contextPath + '/mailCommunication/resend/'+id+'/'+planId)
+                            .then(
+                                    function (response) {
+                                        return response.data;
+                                    },
+                                    function (errResponse) {
+                                        console.error('Error while resend mail communication');
+                                        return $q.reject(errResponse);
+                                    }
+                            );
                 }
 
         return service;

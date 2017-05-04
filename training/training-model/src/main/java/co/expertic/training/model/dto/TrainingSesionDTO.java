@@ -28,6 +28,7 @@ public class TrainingSesionDTO {
     private String className;
     private String title;
     private String discipline;
+    private Double timeSerie;
     
     
     public TrainingSesionDTO(){
@@ -144,6 +145,14 @@ public class TrainingSesionDTO {
 
     public void setZone(Integer zone) {
         this.zone = zone;
+    }
+
+    public Double getTimeSerie() {
+        return timeSerie;
+    }
+
+    public void setTimeSerie(Double timeSerie) {
+        this.timeSerie = timeSerie;
     }
     
     

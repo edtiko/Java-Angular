@@ -2,7 +2,7 @@
 <md-dialog aria-label="Detalle Serie" style="width: 550px">
     <form name="formActivity" novalidate>
         <div class="md-toolbar-tools">
-            <h2 style="color: #0064F8; font-weight: bold">Detalle Serie</h2>
+            <h2 style="color: #0064F8; font-weight: bold">Descripción del Entrenamiento</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="cancel()">
                 <i style="color: #AAFD6F" class="fa fa-times" aria-hidden="true"></i>
@@ -20,18 +20,9 @@
                         </md-input-container>
                     </div>
                 </div>
-                <div layout="row"> 
+                    <div layout="row"> 
                     <div flex>
-                        <label>Descripción</label>
-                        <md-input-container ng-repeat="serie in series" class="md-block" >
-                            <span>{{serie.description}}</span>
-                            <span> Descanso de {{serie.restTime==null?0:serie.restTime}}:00 minutos</span>
-                        </md-input-container>
-                    </div>
-                </div>
-                <div layout="row"> 
-                    <div flex>
-                        <label>Tiempo de Calentamiento</label>
+                        <label>Activación Neuromuscular</label>
                         <md-input-container class="md-block" >
                             <span>{{series[0].warmUpTime}}:00 minutos</span>
                         </md-input-container>
@@ -39,9 +30,27 @@
                 </div>
                 <div layout="row"> 
                     <div flex>
-                        <label>Tiempo de Enfriamiento</label>
+                        <label>Bloque Principal</label>
+                        <md-input-container ng-repeat="serie in series" class="md-block" >
+                            <span>{{serie.description}}<span style="font-size: 12px">{{serie.ppmPaceDescription}}</span></span>
+                            <span>{{serie.restSerieDescription}}</span>
+                        </md-input-container>
+                    </div>
+                </div>
+            
+                <div layout="row"> 
+                    <div flex>
+                        <label>Vuelta a la Cama</label>
                         <md-input-container class="md-block" >
                             <span>{{series[0].pullDownTime}}:00 minutos</span>
+                        </md-input-container>
+                    </div>
+                </div>
+                  <div layout="row"> 
+                    <div flex>
+                        <label>Tiempo Total de la Sesión</label>
+                        <md-input-container class="md-block" >
+                            <span>{{totalTimeSesion}}:00 minutos</span>
                         </md-input-container>
                     </div>
                 </div>

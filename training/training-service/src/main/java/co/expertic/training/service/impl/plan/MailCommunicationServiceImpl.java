@@ -22,6 +22,7 @@ import co.expertic.training.service.plan.PlanMessageService;
 import co.expertic.training.service.plan.PlanVideoService;
 import co.expertic.training.service.plan.SupervStarCoachService;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -340,5 +341,20 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     @Override
     public Integer getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws Exception {
         return mailCommunicationDao.getMailsEmergencyByPlanExt(planId, fromUserId);
+    }
+
+    @Override
+    public void resendEmail(Integer id, Integer planId) throws Exception {
+        CoachAssignedPlan plan = coachAssignedPlanDao.findById(id);
+        MailCommunication mail = mailCommunicationDao.findById(planId);
+        User starUser = null;
+        if(plan != null && plan.getStarTeamId() != null & plan.getStarTeamId().getStarUserId() != null){
+          starUser = plan.getStarTeamId().getStarUserId();
+        }else{
+            throw new Exception("No existe una estrella asignada, comuniquese con el administrador.");
+        }
+        mail.setReceivingUser(starUser);
+        mail.setCreationDate(Calendar.getInstance().getTime());
+        mailCommunicationDao.merge(mail);
     }
 }

@@ -23,6 +23,9 @@ public class TrainingUserSerieDTO {
     private String description;
     private Integer warmUpTime;
     private Integer pullDownTime;
+    private Double timeSerie;
+    private String ppmPaceDescription;
+    private String restSerieDescription;
 
     @JsonFormat(pattern = "yyyy/MM/dd", timezone = "CET")
     private Date workDate;
@@ -38,6 +41,7 @@ public class TrainingUserSerieDTO {
         this.serieTime = serie.getSerieTime();
         this.workDate = serie.getWorkDate();
         this.restTime = serie.getRestTime();
+        this.timeSerie = serie.getSerieTime();
     }
 
     public Integer getId() {
@@ -113,5 +117,29 @@ public class TrainingUserSerieDTO {
     }
     
     
+    public Double getTimeSerie() {
+        return timeSerie;
+    }
 
+    public void setTimeSerie(Double timeSerie) {
+        this.timeSerie = timeSerie;
+    }
+
+    public String getPpmPaceDescription() {
+        return ppmPaceDescription;
+    }
+
+    public void setPpmPaceDescription(String ppmPaceDescription) {
+        this.ppmPaceDescription = ppmPaceDescription;
+    }
+
+    public String getRestSerieDescription() {
+        return restSerieDescription;
+    }
+
+    public void setRestSerieDescription(String restSerieDescription) {
+        this.restSerieDescription = restSerieDescription;
+    }
+    
+    
 }
