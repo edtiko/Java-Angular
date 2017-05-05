@@ -43,10 +43,15 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'UserService', 'D
             });
         };
 
-        $scope.$on('userSession', function (event, args) {
-           $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        if ($scope.userSession == null) {
+            $scope.$on('userSession', function (event, args) {
+                $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+                self.getCountByPlanAsesor();
+                self.getAssignedAthletesPaginate();
+            });
+        } else {
             self.getCountByPlanAsesor();
             self.getAssignedAthletesPaginate();
-        });
+        }
 
     }]);

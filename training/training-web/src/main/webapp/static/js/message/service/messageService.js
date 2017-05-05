@@ -51,8 +51,8 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
                             }
                     );
         };
-        service.getMessages = function (planId, userSessionId, tipoPlan, roleSelected ) {
-            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan+'/'+roleSelected+'/'+userSessionId)
+        service.getMessages = function (planId, userSessionId, receivingUserId, tipoPlan, roleSelected ) {
+            return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan+'/'+roleSelected+'/'+userSessionId+'/'+receivingUserId)
                     .then(
                             function (response) {
                                 return response.data;

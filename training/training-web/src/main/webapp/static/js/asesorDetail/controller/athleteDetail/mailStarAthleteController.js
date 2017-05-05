@@ -6,7 +6,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
         $scope.athletes = [];
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
-        $scope.roleSelected = $scope.userSessionTypeUserCoachInterno;
+        $scope.roleSelected = $scope.userSessionTypeUserCoachEstrella;
 
         $scope.mailSelected = '';
         $scope.searchTextReceiverUser = '';
@@ -24,19 +24,17 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
             coachAssignedPlanId: '',
             message: '',
             subject: '',
-            roleSelected: $scope.roleSelected
+            roleSelected: $scope.userSessionTypeUserCoachEstrella
         };
 
         $scope.receivingUserSelected = {};
         $scope.searchText = '';
         $scope.received = false;
 
-
-
-        $scope.views = {
-            received: 'static/views/athleteDetail/mail/received.html',
-            sent: 'static/views/athleteDetail/mail/sent.html',
-            mailSelected: 'static/views/athleteDetail/mail/mailSelected.html'
+        $scope.viewsStarAthlete = {
+            received: 'static/views/asesorDetail/athleteDetail/mail/received.html',
+            sent: 'static/views/asesorDetail/athleteDetail/mail/sent.html',
+            mailSelected: 'static/views/asesorDetail/athleteDetail/mail/mailSelected.html'
         };
 
         $scope.dialogEmail = function () {
@@ -79,38 +77,25 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
                     
                 } 
                 
-
-
                 $scope.createMailCommunication($scope.mailCommunication);
             }
         };
 
-        $scope.verRecibidoStar = function () {
-            $scope.recibidostar = true;
-            $scope.enviadostar = false;
-            $scope.viewMailSelected = $scope.views.received;
+        $scope.verRecibidos = function () {
+            $scope.recibidos = true;
+            $scope.enviados = false;
+            $scope.viewMailSelected = $scope.viewsStarAthlete.received;
         };
         
-        $scope.verRecibidosAsesor = function () {
-            $scope.recibidoasesor = true;
-            $scope.enviadoasesor = false;
-            $scope.viewMailSelected = $scope.views.received;
+        $scope.verEnviados = function () {
+            $scope.recibidos = false;
+            $scope.enviados = true;
+            $scope.viewMailSelected = $scope.viewsStarAthlete.sent;
         };
+       
 
-        $scope.verEnviadoStar = function () {
-            $scope.recibidostar = false;
-            $scope.enviadostar = true;
-            $scope.viewMailSelected = $scope.views.sent;
-        };
-        
-        $scope.verEnviadosAsesor = function () {
-            $scope.recibidoasesor = false;
-            $scope.enviadoasesor = true;
-            $scope.viewMailSelected = $scope.views.sent;
-        };
-
-        $scope.getReceivedMailsByPlan = function (tipoPlan, userId, planId, roleSelected) {
-            MailService.getMailsByPlan(tipoPlan, userId, planId, roleSelected).then(
+        $scope.getReceivedMailsByPlan = function (tipoPlan, sendingUserId, receivingUserId, planId, roleSelected) {
+            MailService.getMailsByPlan(tipoPlan, sendingUserId, receivingUserId, planId, roleSelected, "to").then(
                     function (data) {
                         $scope.mailsReceived = data.entity.output;
                     },
@@ -120,8 +105,8 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
                     });
         };
 
-        $scope.getSentMailsByPlan = function (tipoPlan, userId, planId, roleSelected) {
-            MailService.getMailsByPlan(tipoPlan, userId, planId, roleSelected).then(
+        $scope.getSentMailsByPlan = function (tipoPlan, sendingUserId, receivingUserId, planId, roleSelected) {
+            MailService.getMailsByPlan(tipoPlan, sendingUserId, receivingUserId, planId, roleSelected, "from").then(
                     function (data) {
                         $scope.mailsSent = data.entity.output;
   
@@ -269,10 +254,10 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
 
 
 
-        self.getEmailCoach = function (tipoPlan) {
+        self.getEmails = function (tipoPlan) {
             if ($scope.planSelected != null) {
-                $scope.getSentMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.id, $scope.roleSelected);
-                $scope.getReceivedMailsByPlan(tipoPlan, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
+                $scope.getSentMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
+                $scope.getReceivedMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
                 $scope.mailCommunication.mailto = $scope.planSelected.athleteUserId.fullName;
                 $scope.mailCommunication.receivingUser.userId = $scope.planSelected.athleteUserId.userId;
             } else if ($scope.sendingUser != null) {
@@ -335,9 +320,8 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
         $scope.init = function () {
 
             if ($scope.userSession != null) {
-                self.getEmailCoach("IN");
-                $scope.verRecibidoStar();
-                $scope.verRecibidosAsesor();
+                self.getEmails("IN");
+                $scope.verRecibidos();
             } else {
                 $scope.setUserSession();
             }

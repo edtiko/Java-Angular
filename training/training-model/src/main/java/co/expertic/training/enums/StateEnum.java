@@ -7,7 +7,7 @@ package co.expertic.training.enums;
 * @author Angela Ramírez
 **/
 public enum StateEnum {
-    INACTIVE(0), ACTIVE(1),PENDING(2), RETIRED(3), REJECTED(4);
+    INACTIVE(0), ACTIVE(1),PENDING(2), RETIRED(3), REJECTED(4), APPROVED(5);
     private Integer id;
     
     private StateEnum(Integer id) {

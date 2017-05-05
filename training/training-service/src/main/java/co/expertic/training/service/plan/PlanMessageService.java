@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface PlanMessageService {
 
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected, Integer userId)throws  Exception, TrainingException;
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected, Integer userId, Integer receivingUserId)throws  Exception, TrainingException;
 
     public PlanMessageDTO saveMessage(PlanMessageDTO message)throws  Exception, TrainingException;
 

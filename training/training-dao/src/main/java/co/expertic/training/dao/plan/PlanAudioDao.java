@@ -14,7 +14,7 @@ public interface PlanAudioDao extends BaseDAO<PlanAudio> {
 
     public PlanAudio getByAudioPath(String fileName) throws DAOException;
 
-    public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, String fromto, String tipoPlan, Integer roleSelected) throws DAOException;
+    public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, Integer receivingUserId,String fromto, String tipoPlan, Integer roleSelected) throws DAOException;
 
     public PlanAudio getAudioById(Integer id) throws DAOException;
 

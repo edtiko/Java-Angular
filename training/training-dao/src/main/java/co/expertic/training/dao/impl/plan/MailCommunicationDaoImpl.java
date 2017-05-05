@@ -220,8 +220,8 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" And c.coach_assigned_plan_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        if(roleSelected != -1){
-           sql.append(" And cp.communication_role_id = ").append(roleSelected); 
+        if (roleSelected != -1) {
+            sql.append(" And cp.communication_role_id = ").append(roleSelected);
         }
 
         sql.append(" Group by cp.email_count ");
@@ -240,8 +240,8 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" FROM mail_communication m ");
         sql.append(" Where m.sending_user = ").append(sendingUserId);
         sql.append(" And m.receiving_user = ").append(receiveUserId);
-        if(planId != -1){
-        sql.append(" And m.coach_assigned_plan_id = ").append(planId);
+        if (planId != -1) {
+            sql.append(" And m.coach_assigned_plan_id = ").append(planId);
         }
         sql.append(" And m.read = false");
         if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
@@ -270,7 +270,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append(" And c.coach_ext_athlete_id = ").append(planId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
-        sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId()); 
+        sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId());
         sql.append(" Group by cp.email_count ");
         Query query = getEntityManager().createNativeQuery(sql.toString());
 
@@ -349,25 +349,31 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
     }
 
     @Override
-    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected) throws DAOException {
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer sendingUserId, Integer receivingUserId, Integer planId, Integer roleSelected, String fromto) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.MailCommunicationDTO(m.mailCommunicationId, m.subject,m.message, m.stateId, ");
         sql.append("m.creationDate, m.read,m.receivingUser,m.sendingUser ) ");
         sql.append("FROM MailCommunication m ");
-        sql.append("Where m.sendingUser.userId = :sendingUser ");
+        if (fromto.equals("from")) {
+            sql.append("Where m.sendingUser.userId = :sendingUser ");
+            sql.append("And m.receivingUser.userId = :receivingUserId ");
+        } else {
+            sql.append("Where m.receivingUser.userId = :sendingUser ");
+            sql.append("And m.sendingUser.userId = :receivingUserId ");
+        }
         if (tipoPlan.equals("EXT")) {
             sql.append("And m.coachExtAthleteId.coachExtAthleteId = :planId ");
         } else {
             sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
         }
-       if(roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())){
-           sql.append(" And m.toStar = ").append(Boolean.FALSE); 
-        }
-        else if(roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())){
-            sql.append(" And m.toStar = ").append(Boolean.TRUE);  
+        if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
+            sql.append(" And m.toStar = ").append(Boolean.FALSE);
+        } else if (roleSelected != 1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
+            sql.append(" And m.toStar = ").append(Boolean.TRUE);
         }
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("sendingUser", userId);
+        query.setParameter("sendingUser", sendingUserId);
+        query.setParameter("receivingUserId", receivingUserId);
         query.setParameter("planId", planId);
         return query.getResultList();
     }

@@ -33,7 +33,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     private UserDao userDao;
 
     @Override
-    public List<PlanMessageDTO> getMessagesByPlan(Integer planId, String tipoPlan, Integer roleSelected, Integer userId) throws DAOException {
+    public List<PlanMessageDTO> getMessagesByPlan(Integer planId, String tipoPlan, Integer roleSelected, Integer userId, Integer receivingUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate) ");        
         sql.append("FROM PlanMessage m ");
@@ -47,8 +47,10 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         } else if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.ESTRELLA.getId())) {
             sql.append(" and  m.toStar =  ").append(Boolean.TRUE);
         }
-        sql.append(" and (m.messageUserId.userId = ").append(userId);
-        sql.append(" or m.receivingUserId.userId = ").append(userId).append(")");
+        sql.append(" and ((m.messageUserId.userId = ").append(userId);
+        sql.append(" and m.receivingUserId.userId = ").append(receivingUserId).append(")");
+           sql.append(" or (m.messageUserId.userId = ").append(receivingUserId);
+        sql.append(" and m.receivingUserId.userId = ").append(userId).append("))");
         
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("planId", planId);

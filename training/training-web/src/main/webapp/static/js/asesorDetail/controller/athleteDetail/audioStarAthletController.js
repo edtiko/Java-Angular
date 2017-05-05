@@ -6,11 +6,8 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
         $scope.audioDuration = 0;
         $scope.toUserId = $scope.planSelected.athleteUserId.userId;
         $scope.timeLimitStar = $scope.planSelected.starCommunication.audioDuration;
-        $scope.timeLimitAsesor = $scope.planSelected.asesorCommunication.audioDuration;
         $scope.availableAudioStar = $scope.planSelected.starCommunication.availableAudio;
         $scope.audioPlanStar = $scope.planSelected.starCommunication.planAudio;
-        $scope.availableAudioAsesor = $scope.planSelected.asesorCommunication.availableAudio;
-        $scope.audioPlanAsesor = $scope.planSelected.asesorCommunication.planAudio;
         $scope.selectedIndex = 0;
         $scope.starImage = $window.sessionStorage.getItem("starImage");
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
@@ -20,9 +17,9 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
             page: 1
         };
 
-        self.receivedAudios = function (tipoPlan, role, fn) {
+        self.receivedAudios = function (tipoPlan, role, userId ,toUserId, fn) {
 
-            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, role).then(
+            AudioMessageService.getAudiosByUser($scope.planSelected.id, userId ,toUserId, "to", tipoPlan, role).then(
                     fn,
                     function (error) {
                         $scope.showMessage(error);
@@ -30,9 +27,9 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
                     });
         };
 
-        self.sendedAudios = function (tipoPlan, role, fn) {
+        self.sendedAudios = function (tipoPlan, role,userId ,toUserId, fn) {
 
-            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.userSession.userId, "from", tipoPlan, role).then(
+            AudioMessageService.getAudiosByUser($scope.planSelected.id, userId ,toUserId, "from", tipoPlan, role).then(
                     fn,
                     function (error) {
                         $scope.showMessage(error);
@@ -89,66 +86,6 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
 
         };
 
-        $scope.uploadRecordAsesor = function (audioBlob) {
-            var audio = audioBlob;
-            var fd = new FormData();
-            var url = self.getUrl($scope.userSessionTypeUserCoachInterno);
-            //fd.append('filename', 'test.wav');
-            if (audio != undefined && audio != null) {
-                fd.append('fileToUpload', audio);
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: fd,
-                    processData: false,
-                    contentType: false
-                }).done(function (data) {
-                    if (data.status == 'success') {
-                        $scope.showMessage(data.message);
-                        self.getAudiosAsesor();
-                        if (data.output != null) {
-                            $scope.wsAudioMobile.send(data.output);
-                        }
-                    } else {
-                        $scope.showMessage(data.message);
-                    }
-                    console.log(data);
-                }).error(function (error) {
-                    $scope.showMessage("Ha ocurrido un error.");
-                    console.log(error);
-                });
-            } else {
-                $scope.showMessage("Ha ocurrido un error obteniendo el audio, comuniquese con el Administrador.");
-            }
-
-        };
-
-        $scope.playAudioAsesor = function (path, planAudioId, fromto) {
-
-            $scope.selectedIndex = 1;
-            var audioPath = path;
-            var audioDiv = angular.element("#recordedAsesor");
-
-            //marcar video como visto
-            if (fromto == 'to') {
-                audioDiv = angular.element("#recordedReceivedAsesor");
-                AudioMessageService.readAudio(planAudioId).then(
-                        function (data) {
-                            $scope.getReceived();
-                            console.log(data.entity.output);
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
-
-            }
-            var htmlVideo = '<audio id="myaudio" controls width="800" height="475" style="width:500px">';
-            htmlVideo += '<source src="' + audioPath + '" type="audio/wav"/></audio>';
-
-            audioDiv.html(htmlVideo);
-
-        };
 
         $scope.playAudioStar = function (path, planAudioId, fromto) {
 
@@ -211,27 +148,7 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
 
         }
 
-        $scope.showAsesorRecord = function () {
-            $mdDialog.show({
-                controller: asesorRecordController,
-                scope: $scope.$new(),
-                templateUrl: 'static/views/audioMessage/recordAsesorModal.html',
-                parent: angular.element(document.body),
-                clickOutsideToClose: false,
-                fullscreen: $scope.customFullscreen
-            });
-        };
 
-        function asesorRecordController($scope, $mdDialog) {
-
-            $scope.hide = function () {
-                $mdDialog.hide();
-            };
-            $scope.cancel = function () {
-                $mdDialog.cancel();
-            };
-
-        }
         self.getAvailableAudios = function (planId, userId, tipoPlan, roleSelected, fn) {
             AudioMessageService.getAvailableAudios(planId, userId, tipoPlan, roleSelected).then(
                     fn,
@@ -242,12 +159,14 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
 
         self.getAudiosStar = function () {
             var tipoPlan = "IN";
-            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+             var userId = $scope.userSession.userId;
+            var toUserId = $scope.planSelected.athleteUserId.userId;
+            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, toUserId, function (data) {
                 $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;
 
             });
-            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella,  userId, toUserId,  function (data) {
                 $scope.sendedStar = data.output;
                 $scope.loadingSentStar = true;
 
@@ -259,31 +178,10 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
                     });
         };
 
-        self.getAudiosAsesor = function () {
-            var tipoPlan = "IN";
-            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
-                $scope.receivedAsesor = data.output;
-                $scope.loadingReceivedAsesor = true;
-
-            });
-
-            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
-                $scope.sendedAsesor = data.output;
-                $scope.loadingSentAsesor = true;
-
-            });
-
-
-            self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
-                    function (data) {
-                        $scope.availableAudioAsesor = data.entity.output;
-                    });
-        };
 
         self.init = function () {
             if ($scope.userSession != null) {
                 self.getAudiosStar();
-                self.getAudiosAsesor();
             }
         };
 

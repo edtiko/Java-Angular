@@ -862,6 +862,7 @@ create table plan_audio (
    readed                    boolean not null DEFAULT false,
    creation_date             timestamp without time zone,
    to_star                   boolean default false,
+   state_id                  smallint,
    constraint pk_plan_audio primary key (plan_audio_id)
 );
 

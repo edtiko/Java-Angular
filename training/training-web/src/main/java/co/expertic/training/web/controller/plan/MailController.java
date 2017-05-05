@@ -154,19 +154,22 @@ public class MailController {
      *
      * @author Edwin Gomez
      * @param tipoPlan
-     * @param userId
+     * @param sendingUserId
+     * @param receivingUserId
      * @param planId
      * @param roleSelected
+     * @param fromto
      * @return
      */
-    @RequestMapping(value = "/get/mails/by/plan/{tipoPlan}/{userId}/{planId}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/mails/by/plan/{tipoPlan}/{sendingUserId}/{receivingUserId}/{planId}/{roleSelected}/{fromto}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMailsByPlan(@PathVariable("tipoPlan") String tipoPlan, @PathVariable("userId") Integer userId, 
-                            @PathVariable("planId") Integer planId, @PathVariable("roleSelected") Integer roleSelected ) {
+    Response getMailsByPlan(@PathVariable("tipoPlan") String tipoPlan, @PathVariable("sendingUserId") Integer sendingUserId, 
+                            @PathVariable("receivingUserId") Integer receivingUserId, @PathVariable("planId") Integer planId, 
+                            @PathVariable("roleSelected") Integer roleSelected, @PathVariable("fromto") String fromto ) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByPlan(tipoPlan, userId, planId,roleSelected);
+            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByPlan(tipoPlan, sendingUserId, receivingUserId, planId,roleSelected, fromto);
             List<ColourIndicator> colours = colourIndicatorService.findAll();
             
             int firstOrder = 0;

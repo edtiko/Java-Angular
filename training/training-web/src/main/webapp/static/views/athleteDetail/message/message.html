@@ -83,7 +83,7 @@
                 </form>
                 <div layout="row" layout-padding layout-align="center center" style="background: #FFFFFF; height: 71px;" layout-sm="column" layout-wrap ng-if="planSelected.starManageMessages && roleSelected == userSessionTypeUserCoachEstrella">
                     <div flex>
-                        <md-checkbox ng-disabled="msgStar.length === 0" ng-checked="isChecked()" ng-click="toggleAll()" ng-model="setResendMsg">Seleccionar todos los mensajes</md-checkbox>
+                        <md-checkbox ng-disabled="items.length === 0" ng-checked="isChecked()" ng-click="toggleAll()" ng-model="setResendMsg">Seleccionar todos los mensajes</md-checkbox>
                     </div>
                     <md-button aria-label="Open demo menu" class="md-icon-button" ng-disabled="msgStar.length === 0" ng-click="resendStar()" >
                         <md-icon md-menu-origin>

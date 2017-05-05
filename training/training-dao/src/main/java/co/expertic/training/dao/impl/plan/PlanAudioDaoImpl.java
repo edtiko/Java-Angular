@@ -31,14 +31,16 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     }
 
     @Override
-    public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, String fromto, String tipoPlan, Integer roleSelected) throws DAOException {
+    public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, Integer receivingUserId, String fromto, String tipoPlan, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.expertic.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.creationDate, m.toUserId.userId, m.toStar) ");
+        sql.append("SELECT new co.expertic.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.creationDate, m.toUserId.userId, m.toStar, m.stateId) ");
         sql.append("FROM PlanAudio m ");
         if (fromto.equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");
+            sql.append("And m.toUserId.userId = :receiveUserId ");
         } else {
             sql.append("Where m.toUserId.userId = :userId ");
+            sql.append("And m.fromUserId.userId = :receiveUserId ");
         }
         if (tipoPlan.equals("IN")) {
             sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
@@ -52,6 +54,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         }
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
+        query.setParameter("receiveUserId", receivingUserId);
         query.setParameter("planId", planId);
         return query.getResultList();
     }

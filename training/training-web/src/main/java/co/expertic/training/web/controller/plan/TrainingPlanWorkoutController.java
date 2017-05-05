@@ -519,29 +519,26 @@ public class TrainingPlanWorkoutController {
             if (seconds == 0) {
                 secondstr = "00";
             }
-             
+             StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") Series de ");
             if (ppm != null && pace != null) {
                 ppm = ppm + " ppm";
                 pace = pace + " min/km";
-                StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
+                
                 description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
                 serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", "+pace + " o aprox. " + ppm + ")");
         
                 serie.setDescription(description.toString());
             } else if (ppm != null) {
                 ppm = ppm + " ppm";
-                 StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
                 description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
                 serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", aprox. " + ppm + ")");
                   serie.setDescription(description.toString());
             } else if (pace != null) {
                 pace = pace + " min/km";
-                      StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
                 description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
                 serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", "+pace + ")");
                 serie.setDescription(description.toString());
             } else {
-                StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") series de ");
                 description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
                 serie.setDescription(description.toString());
             }

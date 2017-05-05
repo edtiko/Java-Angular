@@ -53,9 +53,6 @@ public class AudioMessageController {
     private PlanAudioService planAudioService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     public AudioMessageController(StorageService storageService) {
         this.storageService = storageService;
     }
@@ -158,14 +155,16 @@ public class AudioMessageController {
         }
     }
 
-    @RequestMapping(value = "/get/audios/{planId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/audios/{planId}/{userId}/{receivingUserId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getAudiosByUser(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
-            @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+            @PathVariable("receivingUserId") Integer receivingUserId, @PathVariable("fromto") String fromto,
+            @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+        
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(planId, userId, fromto, tipoPlan, roleSelected);
+            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(planId, userId, receivingUserId, fromto, tipoPlan, roleSelected);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(audios);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -280,6 +279,46 @@ public class AudioMessageController {
             planAudioService.readAudio(planAudioId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Audio Leido Correctamente.");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "/approve/{planAudioId}/{planId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> approveAudio(@PathVariable("planAudioId") Integer planAudioId, @PathVariable("planId") Integer planId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            planAudioService.approveAudio(planAudioId, planId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Audio aprobado correctamente.");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+
+    @RequestMapping(value = "/reject/{planAudioId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> rejectAudio(@PathVariable("planAudioId") Integer planAudioId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            planAudioService.rejectAudio(planAudioId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Audio rechazado correctamente.");
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

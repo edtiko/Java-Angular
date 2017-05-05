@@ -193,7 +193,7 @@ public interface MailCommunicationService {
 
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws  Exception;
 
-    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected)throws  Exception;
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer sendingUserId, Integer receivingUserId, Integer planId, Integer roleSelected, String fromto)throws  Exception;
     
     public Integer getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception;
 

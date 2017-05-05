@@ -2,6 +2,7 @@
 package co.expertic.training.model.dto;
 
 import co.expertic.training.constant.UrlProperties;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.entities.PlanAudio;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.CustomerDateAndTimeDeserialize;
@@ -33,6 +34,7 @@ public class PlanAudioDTO {
     private Boolean toStar;
     private Integer roleSelected;
     private boolean mobile;
+    private String state;
     
     public PlanAudioDTO(){
         
@@ -47,12 +49,16 @@ public class PlanAudioDTO {
         
     }
     
-    public PlanAudioDTO(Integer planAudioId, String name, Date createDate, Integer toUserId, Boolean toStar) {
+    // used by public List<PlanAudioDTO> getAudiosByUser
+    public PlanAudioDTO(Integer planAudioId, String name, Date createDate, Integer toUserId, Boolean toStar, Short stateId) {
         this.id = planAudioId;
         this.name = name;
         this.createDate = createDate;
         this.toUserId =  toUserId;
         this.toStar = toStar;
+        if(stateId != null){
+        this.state = StateEnum.values()[stateId.intValue()].name();
+        }
     }
     
       public PlanAudioDTO(Integer planAudioId, String name, User fromUserId, User toUserId, Date createDate, Boolean toStar){
@@ -73,7 +79,7 @@ public class PlanAudioDTO {
     
       public static PlanAudioDTO mapFromPlanAudioEntity(PlanAudio audio) {
         if (audio != null) {
-            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getCreationDate(), audio.getToUserId().getUserId(), audio.getToStar());
+            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getCreationDate(), audio.getToUserId().getUserId(), audio.getToStar(), audio.getStateId());
         }
         return null;
     }
@@ -196,6 +202,14 @@ public class PlanAudioDTO {
 
     public void setMobile(boolean mobile) {
         this.mobile = mobile;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
     
       

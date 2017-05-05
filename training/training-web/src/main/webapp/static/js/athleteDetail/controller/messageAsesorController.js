@@ -25,7 +25,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.planSelected != null) {
-                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId ,tipoPlan, $scope.roleSelected).then(
+                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId ,tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;

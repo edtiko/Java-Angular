@@ -60,7 +60,7 @@ require.config({
         asesorService: "asesores/service/asesorService",
         starAthleteController: "asesorDetail/controller/starAthleteController",
         mailStarController: "asesorDetail/controller/mailStarController",
-       // messageStarController: "asesorDetail/controller/messageStarController",
+        messageStarController: "asesorDetail/controller/messageStarController",
         starAthleteDetailController: "asesorDetail/controller/athleteDetail/starAthleteDetailController",
         messageStarAthleteController: "asesorDetail/controller/athleteDetail/messageStarAthleteController",
         mailStarAthleteController: "asesorDetail/controller/athleteDetail/mailStarAthleteController",
@@ -226,9 +226,9 @@ require.config({
         mailStarController: {
             deps: ['angular', 'trainingApp']
         },
-       /* messageStarController: {
+        messageStarController: {
             deps: ['angular', 'trainingApp']
-        },*/
+        },
         starAthleteDetailController: {
             deps: ['angular', 'trainingApp']
         },

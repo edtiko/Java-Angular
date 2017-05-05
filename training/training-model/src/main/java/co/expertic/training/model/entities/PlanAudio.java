@@ -64,6 +64,8 @@ public class PlanAudio implements Serializable {
     private User toUserId;
     @Column(name = "to_star")
     private Boolean toStar;
+    @Column(name = "state_id")
+    private Short stateId;
 
     public PlanAudio() {
     }
@@ -148,8 +150,15 @@ public class PlanAudio implements Serializable {
     public void setToStar(Boolean toStar) {
         this.toStar = toStar;
     }
-    
 
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -174,5 +183,5 @@ public class PlanAudio implements Serializable {
     public String toString() {
         return "co.com.expertla.training.model.entities.PlanAudio[ planAudioId=" + planAudioId + " ]";
     }
-    
+
 }

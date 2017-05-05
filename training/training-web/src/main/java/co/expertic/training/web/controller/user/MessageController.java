@@ -68,14 +68,15 @@ public class MessageController {
         simpMessagingTemplate.convertAndSend("/queue/message/" + sessionId, msg);
     }
 
-    @RequestMapping(value = "get/messages/{planId}/{tipoPlan}/{roleSelected}/{userSessionId}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/messages/{planId}/{tipoPlan}/{roleSelected}/{userSessionId}/{receivingUserId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getMessages(@PathVariable("planId") Integer planId, @PathVariable("tipoPlan") String tipoPlan, 
-                                               @PathVariable("roleSelected") Integer roleSelected, @PathVariable("userSessionId") Integer userId) {
+                                               @PathVariable("roleSelected") Integer roleSelected, @PathVariable("userSessionId") Integer userId,
+                                               @PathVariable("receivingUserId") Integer receivingUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(planId, tipoPlan, roleSelected, userId);
+            List<PlanMessageDTO> messages = planMessageService.getMessagesByPlan(planId, tipoPlan, roleSelected, userId, receivingUserId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
             return new ResponseEntity<>(responseService, HttpStatus.OK);

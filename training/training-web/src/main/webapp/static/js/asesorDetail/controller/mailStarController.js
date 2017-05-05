@@ -1,4 +1,4 @@
-trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$window', '$mdDialog',
+trainingApp.controller("MailStarController", ['$scope', 'MailService', '$window', '$mdDialog',
     function ($scope, MailService, $window, $mdDialog) {
         var self = this;
         $scope.mailsReceived = [];

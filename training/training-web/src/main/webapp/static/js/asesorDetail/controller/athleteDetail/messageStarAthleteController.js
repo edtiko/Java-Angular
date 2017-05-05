@@ -23,12 +23,12 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.planSelected != null) {
-                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected).then(
+                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
 
-                            self.readMessages(tipoPlan, $scope.roleSelected, $scope.userSession.userId, $scope.planSelected.coachUserId.userId);
+                            self.readMessages(tipoPlan, $scope.roleSelected, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -69,9 +69,8 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                     $scope.planMessage.coachAssignedPlanId.coachUserId.userId = $scope.planSelected.coachUserId.userId;
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     $scope.planMessage.roleSelected = $scope.roleSelected;
-                    $scope.planMessage.receivingUserId.userId = $scope.planSelected.coachUserId.userId;
+                    $scope.planMessage.receivingUserId.userId = $scope.planSelected.athleteUserId.userId;
              
-
                     MessageService.send($scope.planMessage);
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
 

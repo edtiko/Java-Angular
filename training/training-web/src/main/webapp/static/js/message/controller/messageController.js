@@ -24,7 +24,11 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.userSession.planSelected != null) {
-                MessageService.getMessages($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected).then(
+                var userMessage = $scope.userSession.planSelected.coachUserId.userId;
+                if ($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                    userMessage = $scope.userSession.planSelected.starUserId.userId;
+                }
+                MessageService.getMessages($scope.userSession.planSelected.id, $scope.userSession.userId, userMessage, tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;

@@ -19,7 +19,7 @@ public interface PlanAudioService {
 
     public PlanAudioDTO getByAudioPath(String fileName) throws Exception;
 
-    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, String fromto, String tipoPlan, Integer roleSelected) throws Exception;
+    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, Integer receivingUserId, String fromto, String tipoPlan, Integer roleSelected) throws Exception;
 
     public PlanAudioDTO getAudioById(Integer id) throws Exception;
 
@@ -40,5 +40,9 @@ public interface PlanAudioService {
     public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected)throws Exception;
 
     public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId)throws Exception;
+
+    public void approveAudio(Integer planAudioId, Integer planId)throws Exception;
+
+    public void rejectAudio(Integer planAudioId)throws Exception;
 
 }

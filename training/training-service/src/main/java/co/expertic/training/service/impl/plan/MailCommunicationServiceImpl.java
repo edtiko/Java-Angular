@@ -15,7 +15,6 @@ import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import co.expertic.training.model.entities.MailCommunication;
-import co.expertic.training.model.entities.SupervStarCoach;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanMessageService;
@@ -44,8 +43,6 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     private MailCommunicationDao mailCommunicationDao;
     @Autowired
     private CoachAssignedPlanDao coachAssignedPlanDao;
-    @Autowired
-    private SupervStarCoachDao supervStarCoachDao;
     @Autowired
     private SupervStarCoachService supervStarCoachService;
     @Autowired
@@ -329,8 +326,8 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
 
     @Override
-    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer userId, Integer planId, Integer roleSelected) throws Exception {
-        return mailCommunicationDao.getMailsByPlan(tipoPlan, userId, planId,roleSelected);
+    public List<MailCommunicationDTO> getMailsByPlan(String tipoPlan, Integer sendingUserId, Integer receivingUserId, Integer planId, Integer roleSelected, String fromto) throws Exception {
+        return mailCommunicationDao.getMailsByPlan(tipoPlan, sendingUserId, receivingUserId, planId,roleSelected, fromto);
     }
 
     @Override
@@ -345,8 +342,8 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
 
     @Override
     public void resendEmail(Integer id, Integer planId) throws Exception {
-        CoachAssignedPlan plan = coachAssignedPlanDao.findById(id);
-        MailCommunication mail = mailCommunicationDao.findById(planId);
+        CoachAssignedPlan plan = coachAssignedPlanDao.findById(planId);
+        MailCommunication mail = mailCommunicationDao.findById(id);
         User starUser = null;
         if(plan != null && plan.getStarTeamId() != null & plan.getStarTeamId().getStarUserId() != null){
           starUser = plan.getStarTeamId().getStarUserId();

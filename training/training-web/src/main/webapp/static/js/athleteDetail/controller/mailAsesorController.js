@@ -126,8 +126,8 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
             $scope.viewMailSelected = $scope.views.sent;
         };
 
-        $scope.getReceivedMailsByPlan = function (tipoPlan, userId, planId, roleSelected) {
-            MailService.getMailsByPlan(tipoPlan, userId, planId, roleSelected).then(
+        $scope.getReceivedMailsByPlan = function (tipoPlan, sendingUserId, receivingUserId, planId, roleSelected) {
+            MailService.getMailsByPlan(tipoPlan, sendingUserId, receivingUserId, planId, roleSelected, "to").then(
                     function (data) {
                         $scope.mailsReceived = data.entity.output;
                     },
@@ -137,8 +137,8 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
                     });
         };
 
-        $scope.getSentMailsByPlan = function (tipoPlan, userId, planId, roleSelected) {
-            MailService.getMailsByPlan(tipoPlan, userId, planId, roleSelected).then(
+        $scope.getSentMailsByPlan = function (tipoPlan, sendingUserId, receivingUserId, planId, roleSelected) {
+            MailService.getMailsByPlan(tipoPlan, sendingUserId, receivingUserId, planId, roleSelected, "from").then(
                     function (data) {
                         $scope.mailsSent = data.entity.output;
   
@@ -295,8 +295,8 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
 
         self.getEmailCoach = function (tipoPlan) {
             if ($scope.planSelected != null) {
-                $scope.getSentMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.id, $scope.roleSelected);
-                $scope.getReceivedMailsByPlan(tipoPlan, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
+                $scope.getSentMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
+                $scope.getReceivedMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, $scope.planSelected.id, $scope.roleSelected);
                 $scope.mailCommunication.mailto = $scope.planSelected.athleteUserId.fullName;
                 $scope.mailCommunication.receivingUser.userId = $scope.planSelected.athleteUserId.userId;
             } else if ($scope.sendingUser != null) {

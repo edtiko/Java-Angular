@@ -20,9 +20,9 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             page: 1
         };
 
-        self.receivedAudios = function (tipoPlan, role, fn) {
+        self.receivedAudios = function (tipoPlan, role, userId ,toUserId ,fn) {
 
-            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.userSession.userId, "to", tipoPlan, role).then(
+            AudioMessageService.getAudiosByUser($scope.planSelected.id, userId, toUserId, "to", tipoPlan, role).then(
                     fn,
                     function (error) {
                         $scope.showMessage(error);
@@ -30,9 +30,9 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                     });
         };
 
-        self.sendedAudios = function (tipoPlan, role, fn) {
+        self.sendedAudios = function (tipoPlan, role, userId, toUserId, fn) {
 
-            AudioMessageService.getAudiosByUser($scope.planSelected.id, $scope.userSession.userId, "from", tipoPlan, role).then(
+            AudioMessageService.getAudiosByUser($scope.planSelected.id, userId ,toUserId, "from", tipoPlan, role).then(
                     fn,
                     function (error) {
                         $scope.showMessage(error);
@@ -53,6 +53,28 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             $scope.dateString = "" + day + month + year + hh + mm + ss;
             var url = $contextPath + "audio/upload/" + $scope.toUserId + "/" + $scope.userSession.userId + "/" + $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + "/" + role;
             return url;
+        };
+
+        $scope.aprobarAudio = function (id) {
+            AudioMessageService.aprobarAudio(id, $scope.planSelected.id).then(
+                    function (data) {
+                        self.getAudiosStar();
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
+
+        $scope.rechazarAudio = function (id) {
+            AudioMessageService.rechazarAudio(id).then(
+                    function (data) {
+                        self.getAudiosStar();
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
         };
 
         $scope.uploadRecordStar = function (audioBlob) {
@@ -242,12 +264,14 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
 
         self.getAudiosStar = function () {
             var tipoPlan = "IN";
-            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+            var userId = $scope.userSession.userId;
+            var toUserId = $scope.planSelected.athleteUserId.userId;
+            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, toUserId, function (data) {
                 $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;
 
             });
-            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella,$scope.planSelected.athleteUserId.userId, $scope.planSelected.starUserId.userId, function (data) {
                 $scope.sendedStar = data.output;
                 $scope.loadingSentStar = true;
 
@@ -261,13 +285,15 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
 
         self.getAudiosAsesor = function () {
             var tipoPlan = "IN";
-            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
+            var userSessionId = $scope.userSession.userId;
+            var toUserId = $scope.planSelected.athleteUserId.userId;
+            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno,userSessionId, toUserId,  function (data) {
                 $scope.receivedAsesor = data.output;
                 $scope.loadingReceivedAsesor = true;
 
             });
 
-            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
+            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, userSessionId, toUserId, function (data) {
                 $scope.sendedAsesor = data.output;
                 $scope.loadingSentAsesor = true;
 

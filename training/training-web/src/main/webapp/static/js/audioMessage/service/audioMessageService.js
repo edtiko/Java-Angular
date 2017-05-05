@@ -49,8 +49,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                 socket.stomp.onclose = reconnect;
             }
         };
-        service.getAudiosByUser = function (planId, userId, fromto, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'audio/get/audios/'+planId +"/"+ userId + "/" + fromto+"/"+tipoPlan+'/'+roleSelected)
+        service.getAudiosByUser = function (planId, userId, receivingUserId, fromto, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'audio/get/audios/'+planId +"/"+ userId +'/'+receivingUserId+"/" + fromto+"/"+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -127,8 +127,32 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                     );
         };
         
-         service.readAudio = function (planVideoId) {
-            return $http.get($contextPath + 'audio/read/' + planVideoId)
+         service.readAudio = function (planAudioId) {
+            return $http.get($contextPath + 'audio/read/' + planAudioId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while reading message');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+          service.aprobarAudio = function (planAudioId, planId) {
+            return $http.get($contextPath + 'audio/approve/' + planAudioId+'/'+planId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while reading message');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+          service.rechazarAudio = function (planAudioId) {
+            return $http.get($contextPath + 'audio/reject/' + planAudioId)
                     .then(
                             function (response) {
                                 return response.data;

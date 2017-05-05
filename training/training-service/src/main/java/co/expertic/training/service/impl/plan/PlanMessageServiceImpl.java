@@ -50,8 +50,8 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     private MailCommunicationService mailCommunicationService;
 
     @Override
-    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected, Integer userId) throws Exception, TrainingException {
-        return planMessageDao.getMessagesByPlan(coachAssignedPlanId, tipoPlan, roleSelected, userId);
+    public List<PlanMessageDTO> getMessagesByPlan(Integer coachAssignedPlanId, String tipoPlan, Integer roleSelected, Integer userId, Integer receivingUserId) throws Exception, TrainingException {
+        return planMessageDao.getMessagesByPlan(coachAssignedPlanId, tipoPlan, roleSelected, userId, receivingUserId);
     }
 
     @Override

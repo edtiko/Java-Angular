@@ -137,8 +137,8 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                                     }
                             );
                 },
-                  service.getMailsByPlan = function (tipoPlan, userId, planId, roleSelected) {
-                    return $http.get($contextPath + '/get/mails/by/plan/' + tipoPlan + '/' + userId + '/' +planId+'/'+roleSelected)
+                  service.getMailsByPlan = function (tipoPlan, sendingUserId, receivingUserId, planId, roleSelected, fromto) {
+                    return $http.get($contextPath + '/get/mails/by/plan/' + tipoPlan + '/' + sendingUserId +'/'+ receivingUserId+'/' +planId+'/'+roleSelected+'/'+fromto)
                             .then(
                                     function (response) {
                                         return response.data;
