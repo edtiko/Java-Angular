@@ -30,13 +30,13 @@
                         </div>
                     </div>
                 </div>
-                <br />
-                <div layout="column" layout-align="center center">
+                <br /> <br /> <br /> <br />
+                <!--<div layout="column" layout-align="center center">
                     <div>
                         <span class="disponibles">Videos disponibles <b>{{availableVideoStar}} de {{videoPlanStar}}</b></span>
                     </div>
                     <md-button ng-click="showStarRecord()" style="background: #1C2127; color:#AAFD6F;" class="md-raised">GRABAR UN VIDEO</md-button>
-                </div>
+                </div>-->
             </div>
 
             <ang-accordion class="accordion-audio" close-icon-class="fa fa-chevron-down" open-icon-class="fa fa-chevron-up">
@@ -52,13 +52,17 @@
                                     <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
                                     <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
                                     <th md-column></th>
+                                    <th md-column></th>
+                                    <th md-column></th>
                                 </tr>
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in receivedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
                                     <td>Rutina número {{$index + 1}}</td>
                                     <td>{{vr.createDate}}</td>
-                                    <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr, 'to', $index)"><img src="static/img/play.png" /></div></td>
+                                    <td><div class="circle_black42"  ng-click="verVideoStar(vr.name, vr, 'to', $index)"><img src="static/img/play.png" /></div></td>
+                                    <td><a href="javascript:void(0)" ng-click="showScript(vr.id)"> Aprobar</a></td>
+                                    <td><a href="javascript:void(0)" ng-click="rejectVideo(vr.id)">Rechazar</a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -77,6 +81,7 @@
                                 <tr md-row>
                                     <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
                                     <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Estado</span></th>
                                     <th md-column></th>
                                 </tr>
                             </thead>
@@ -84,6 +89,7 @@
                                 <tr md-row  md-auto-select ng-repeat="vr  in sendedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
                                     <td>Rutina número {{$index + 1}}</td>
                                     <td>{{vr.createDate}}</td>
+                                    <td><span style="text-transform: lowercase">{{vr.indRejected=='1'?'Rechazado':'Aprobado'}}</span></td>
                                     <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr, 'from', $index)"><img src="static/img/play.png" /></div></td>
                                 </tr>
                             </tbody>

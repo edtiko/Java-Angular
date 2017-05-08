@@ -3,7 +3,9 @@ package co.expertic.training.dao.impl.plan;
 import co.expertic.base.jpa.BaseDAOImpl;
 import co.expertic.training.dao.plan.ScriptVideoDao;
 import co.expertic.training.dao.user.UserDao;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.ScriptVideo;
 import java.util.ArrayList;
@@ -15,20 +17,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
-* ScriptVideo Dao Impl <br>
-* Info. Creación: <br>
-* fecha 11/10/2016 <br>
-* @author Andres Felipe Lopez Rodriguez
-**/
+ * ScriptVideo Dao Impl <br>
+ * Info. Creación: <br>
+ * fecha 11/10/2016 <br>
+ *
+ * @author Andres Felipe Lopez Rodriguez
+*
+ */
 @Repository
 public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements ScriptVideoDao {
-    
+
     @Autowired
     private UserDao userDao;
 
     public ScriptVideoDaoImpl() {
     }
-    
+
     @Override
     public List<ScriptVideo> findAll() throws Exception {
         StringBuilder builder = new StringBuilder();
@@ -37,7 +41,6 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
         Query query = this.getEntityManager().createQuery(builder.toString());
         return query.getResultList();
     }
-
 
     @Override
     public List<ScriptVideo> findByScriptVideo(ScriptVideo scriptVideo) throws Exception {
@@ -53,11 +56,10 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
         StringBuilder builder = new StringBuilder();
         builder.append("select a from ScriptVideo a ");
         builder.append("WHERE 1=1 ");
-        
 
         return createQuery(builder.toString());
     }
-    
+
     @Override
     public List<ScriptVideo> getScriptVideoToStarId(Integer userId) throws Exception {
         StringBuilder builder = new StringBuilder();
@@ -68,7 +70,7 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
 
         return createQuery(builder.toString());
     }
-    
+
     @Override
     public List<ScriptVideo> getScriptVideoByStarId(Integer userId) throws Exception {
         StringBuilder builder = new StringBuilder();
@@ -79,15 +81,15 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
 
         return createQuery(builder.toString());
     }
-    
+
     @Override
-    public List<PlanMessageDTO> getResponseTimeScripts(Integer userId, List<UserDTO> users)throws  Exception {
-        
-            HashMap<Integer,UserDTO> mapUsers = new HashMap<>();
+    public List<PlanMessageDTO> getResponseTimeScripts(Integer userId, List<UserDTO> users) throws Exception {
+
+        HashMap<Integer, UserDTO> mapUsers = new HashMap<>();
         for (UserDTO user : users) {
-            mapUsers.put(user.getUserId(),user);
+            mapUsers.put(user.getUserId(), user);
         }
-        
+
         UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(userId));
         mapUsers.put(userId, user);
         StringBuilder builder = new StringBuilder();
@@ -104,43 +106,43 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
             obj = new PlanMessageDTO();
             obj.setMessageUserId(mapUsers.get((Integer) result[4]));
             obj.setReceivingUserId(mapUsers.get((Integer) result[5]));
-            obj.setCreationDate((Date)result[6]);
-            Double seconds = (Double)result[14];
-            obj.setReadableTime(getTime(seconds,obj.getCreationDate()));
+            obj.setCreationDate((Date) result[6]);
+            Double seconds = (Double) result[14];
+            obj.setReadableTime(getTime(seconds, obj.getCreationDate()));
             messageList.add(obj);
         }
         return messageList;
-    
+
     }
-    
-    private String getTime(Double seconds, Date creationDate ){
+
+    private String getTime(Double seconds, Date creationDate) {
         Double time;
-        if(seconds == null) {
+        if (seconds == null) {
             Date now = new Date();
             Long diff = now.getTime() - creationDate.getTime();
-            diff = diff /1000;
+            diff = diff / 1000;
             time = diff.doubleValue();
         } else {
             time = seconds;
         }
-         if(time > 60) {
-             int mins = time.intValue() / 60;
-             if(mins > 60) {
-                 mins = mins /60;
-                 return mins + " hrs";
-             } else {
-                 return mins + " mins";
-             }
-         } else {
-             return seconds + " segs";
-         }
+        if (time > 60) {
+            int mins = time.intValue() / 60;
+            if (mins > 60) {
+                mins = mins / 60;
+                return mins + " hrs";
+            } else {
+                return mins + " mins";
+            }
+        } else {
+            return seconds + " segs";
+        }
     }
-    
+
     @Override
-    public List<PlanMessageDTO> getResponseCountScripts(Integer userId,List<UserDTO> users) throws Exception {
-        HashMap<Integer,UserDTO> mapUsers = new HashMap<>();
+    public List<PlanMessageDTO> getResponseCountScripts(Integer userId, List<UserDTO> users) throws Exception {
+        HashMap<Integer, UserDTO> mapUsers = new HashMap<>();
         for (UserDTO user : users) {
-            mapUsers.put(user.getUserId(),user);
+            mapUsers.put(user.getUserId(), user);
         }
         UserDTO user = UserDTO.mapFromUserEntity(userDao.findById(userId));
         mapUsers.put(userId, user);
@@ -158,19 +160,50 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
             obj = new PlanMessageDTO();
             obj.setMessageUserId(mapUsers.get((Integer) result[1]));
             obj.setReceivingUserId(mapUsers.get((Integer) result[2]));
-            obj.setCreationDate((Date)result[6]);
-            obj.setHours( result[9] == null ? getHours(obj.getCreationDate()) : (Double) result[9]);
+            obj.setCreationDate((Date) result[6]);
+            obj.setHours(result[9] == null ? getHours(obj.getCreationDate()) : (Double) result[9]);
             messageList.add(obj);
         }
         return messageList;
     }
-    
-    private Double getHours(Date creationDate ){
-          Date now = new Date();
-            Long diff = now.getTime() - creationDate.getTime();
-            diff = diff /1000;
-            diff = diff / 3600;
-            return diff.doubleValue();
+
+    private Double getHours(Date creationDate) {
+        Date now = new Date();
+        Long diff = now.getTime() - creationDate.getTime();
+        diff = diff / 1000;
+        diff = diff / 3600;
+        return diff.doubleValue();
+    }
+
+    @Override
+    public List<PlanVideoDTO> getByPlan(Integer planId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.expertic.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, ");
+        sql.append("m.fromUserId.userId, m.toUserId.userId, m.creationDate, s.guion) ");
+        sql.append("FROM PlanVideo m, ScriptVideo s ");
+        sql.append("WHERE m.planVideoId = s.planVideoId.planVideoId ");
+
+        sql.append("And m.coachAssignedPlanId.coachAssignedPlanId = :planId ");
+        sql.append("AND s.stateId.stateId = :pending ");
+        sql.append(" Order by m.creationDate desc ");
+
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("planId", planId);
+        query.setParameter("pending", StateEnum.PENDING.getId());
+
+        return query.getResultList();
+    }
+
+    @Override
+    public ScriptVideo findByPlanVideoId(Integer id) throws Exception {
+               try {
+            String qlString = "SELECT v FROM ScriptVideo v WHERE v.planVideoId.planVideoId = :planVideoId ";
+            setParameter("planVideoId", id);
+            List<ScriptVideo> query = createQuery(qlString);
+            return query.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

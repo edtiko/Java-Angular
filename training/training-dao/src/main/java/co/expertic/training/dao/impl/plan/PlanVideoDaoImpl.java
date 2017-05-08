@@ -53,8 +53,10 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append("FROM PlanVideo m ");
         if (param.get("fromto").equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");
+            sql.append("And m.toUserId.userId = :toUserId ");
         } else {
             sql.append("Where m.toUserId.userId = :userId ");
+            sql.append("And m.fromUserId.userId = :toUserId ");
         }
 
         if ((int) param.get("planId") != -1) {
@@ -77,10 +79,11 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
 
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", (int) param.get("userId"));
+        query.setParameter("toUserId", (int) param.get("toUserId"));
         if ((int) param.get("planId") != -1) {
             query.setParameter("planId", (int) param.get("planId"));
         }
-
+        
         return query.getResultList();
     }
 
@@ -98,7 +101,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
 
     @Override
-    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer fromUserId, Integer roleSelected) throws DAOException {
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer fromUserId,Integer toUserId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
         sql.append(" WHEN (cp.video_count  - count(m.plan_video_id)) >= 0 THEN (cp.video_count  - count(m.plan_video_id)) ");
@@ -106,6 +109,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_video m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
+        sql.append(" And m.to_user_id =  ").append(toUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         
         if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())){
@@ -173,7 +177,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     }
     
     @Override
-    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException {  
+    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer toUserId, Integer roleSelected) throws DAOException {  
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
         sql.append(" WHEN ((cp.video_count + cp.video_emergency)  - count(m.plan_video_id)) > 0 THEN ((cp.video_count + cp.video_emergency) - count(m.plan_video_id)) ");
@@ -186,6 +190,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
             sql.append(" And m.to_star = ").append(Boolean.TRUE);
         }
         sql.append(" And m.from_user_id = ").append(fromUserId);
+        sql.append(" And m.to_user_id =  ").append(toUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(planId);
         sql.append(" Where c.training_plan_user_id  = tu.training_plan_user_id  ");
         sql.append(" And c.coach_assigned_plan_id = ").append(planId);

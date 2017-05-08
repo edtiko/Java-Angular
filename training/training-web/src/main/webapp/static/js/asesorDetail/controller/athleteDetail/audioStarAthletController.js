@@ -119,8 +119,6 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
             if (audio.toUser.userId == $scope.userSession.userId) {
                 if (audio.toStar == 'true') {
                     $scope.receivedStar.push(audio);
-                } else {
-                    $scope.receivedAsesor.push(audio);
                 }
             }
 

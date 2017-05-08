@@ -14,7 +14,6 @@ trainingApp.service('ScriptService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            
             getScriptVideoStarByCoach: function (userId) {
 
                 return $http.get($contextPath + '/script/get/getScriptVideoStarByStar/' + userId)
@@ -28,6 +27,19 @@ trainingApp.service('ScriptService', ['$http', '$q', function ($http, $q) {
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            receivedScripts: function (planId) {
+                return $http.get($contextPath + '/script/get/by/plan/' + planId)
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while getting');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+
             }
         };
     }]);

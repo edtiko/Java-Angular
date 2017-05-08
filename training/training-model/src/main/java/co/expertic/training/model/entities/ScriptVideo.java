@@ -57,6 +57,10 @@ public class ScriptVideo implements Serializable {
     @JoinColumn(name = "from_plan_video_id", referencedColumnName = "plan_video_id")
     @ManyToOne(optional = false)
     private PlanVideo fromPlanVideoId;
+    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
+    @ManyToOne(optional = false)
+    private State stateId;
+    
 
     public ScriptVideo() {
     }
@@ -111,6 +115,14 @@ public class ScriptVideo implements Serializable {
         this.planVideoId = planVideoId;
     }
 
+    public State getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(State stateId) {
+        this.stateId = stateId;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -25,7 +25,7 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
 
     public PlanVideo getVideoById(Integer id) throws DAOException;
 
-    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException;
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws DAOException;
     
     public Integer getCountVideoByPlanExt(Integer planId, Integer userId) throws DAOException;
     
@@ -51,6 +51,7 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
      * fecha 13/10/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param userId
+     * @param users
      * @return 
      * @throws Exception 
      */
@@ -69,7 +70,7 @@ public interface PlanVideoDao extends BaseDAO<PlanVideo> {
      */
     public List<PlanVideoDTO> getResponseTimeVideos(Integer userId, List<UserDTO> users)throws  Exception;
 
-    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException;
+    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer toUserId, Integer roleSelected) throws DAOException;
 
     public int getCountVideoEmergencyExt(Integer planId, Integer fromUserId) throws DAOException;
 }

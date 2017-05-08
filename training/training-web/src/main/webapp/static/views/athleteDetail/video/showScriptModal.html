@@ -1,0 +1,29 @@
+<meta charset="utf-8">
+<md-dialog draggable layout-padding  style="width: 600px;">
+    <div class="md-toolbar-tools">
+        <div>
+            <span></span>
+        </div>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <md-dialog-content> 
+        <div class="md-dialog-content" layout="column" layout-align="center center">
+            <img src="static/img/info.png">
+            <br />
+            <span style="color: #0064F8; text-transform: uppercase; text-align: center;">ESCRIBE UN GUIÓN DE MÁXIMO 500 CARACTERES 
+                QUE AYUDE A TU <strong>ESTRELLA A RESPONDER ESTE VIDEO</strong></span>
+            <br />
+            <md-input-container class="md-block" >
+                <textarea md-maxlength="500" style="height: 200px" id="guion" name="guion" ng-model="guion" md-select-on-focus></textarea>
+            </md-input-container>
+
+            <md-dialog-actions layout="row" layout-align="center">  
+                <md-button ng-click="cancel()" class="md-raised">DESCARTAR</md-button>
+                <md-button style="background: #1C2127; color:#AAFD6F;" ng-disabled="guion == null" ng-click="approveVideo(guion)" class="md-raised">{{ 'SEND' | translate }}</md-button>          
+            </md-dialog-actions>
+        </div>
+    </md-dialog-content>
+</md-dialog>

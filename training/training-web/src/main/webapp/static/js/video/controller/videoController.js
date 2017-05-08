@@ -342,8 +342,8 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
         };
 
         //Obtiene los videos recibidos 
-        self.receivedVideos = function (tipoPlan, role, fn) {
-            VideoService.getVideosByUser($scope.userSession.planSelected.id, $scope.userSession.userId, "to", tipoPlan, role).then(
+        self.receivedVideos = function (tipoPlan, role,userId, toUserId, fn) {
+            VideoService.getVideosByUser($scope.userSession.planSelected.id, userId, toUserId, "to", tipoPlan, role).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -352,8 +352,8 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
         };
 
         //Obtiene los videos envíados
-        self.sendedVideos = function (tipoPlan, role, fn) {
-            VideoService.getVideosByUser($scope.userSession.planSelected.id, $scope.userSession.userId, "from", tipoPlan, role).then(
+        self.sendedVideos = function (tipoPlan, role,userId, toUserId, fn) {
+            VideoService.getVideosByUser($scope.userSession.planSelected.id, userId, toUserId, "from", tipoPlan, role).then(
                     fn,
                     function (error) {
                         //$scope.showMessage(error);
@@ -699,8 +699,8 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
         }
         
 
-        self.getAvailableVideos = function (planId, userId, tipoPlan, roleSelected, fn) {
-            VideoService.getAvailableVideos(planId, userId, tipoPlan, roleSelected).then(
+        self.getAvailableVideos = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
+            VideoService.getAvailableVideos(planId, userId,toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -709,18 +709,20 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
 
         self.getVideosStar = function () {
             var tipoPlan = "IN";
-            self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+            var userId = $scope.userSession.userId;
+            var toUserId = $scope.userSession.planSelected.starUserId.userId;
+            self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella,userId, toUserId, function (data) {
                 $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;
 
             });
-            self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+            self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella,userId, toUserId, function (data) {
                 $scope.sendedStar = data.output;
                 $scope.loadingSentStar = true;
 
             });
 
-            self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
+            self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, $scope.userSession.planSelected.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
                     function (data) {
                         $scope.availableVideoStar = data.entity.output;
                     });
@@ -728,13 +730,15 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
 
         self.getVideosAsesor = function () {
             var tipoPlan = "IN";
-            self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
+            var userId = $scope.userSession.userId;
+            var toUserId = $scope.userSession.planSelected.coachUserId.userId;
+            self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachInterno,userId, toUserId, function (data) {
                 $scope.receivedAsesor = data.output;
                 $scope.loadingReceivedAsesor = true;
 
             });
 
-            self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
+            self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachInterno, userId, toUserId, function (data) {
                 $scope.sendedAsesor = data.output;
                 $scope.loadingSentAsesor = true;
 

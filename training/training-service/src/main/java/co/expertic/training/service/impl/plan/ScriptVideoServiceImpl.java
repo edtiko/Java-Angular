@@ -3,6 +3,7 @@ package co.expertic.training.service.impl.plan;
 import co.expertic.training.dao.plan.ScriptVideoDao;
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.ScriptVideo;
 import co.expertic.training.service.plan.MailCommunicationService;
@@ -133,6 +134,22 @@ public class ScriptVideoServiceImpl implements ScriptVideoService {
         } else {
             return "yellow";
         }
+    }
+
+    @Override
+    public List<PlanVideoDTO> getByPlan(Integer planId) throws Exception {
+        return scriptVideoDao.getByPlan(planId);
+    }
+
+    @Override
+    public ScriptVideo findByPlanVideoId(Integer id) throws Exception {
+       
+        return scriptVideoDao.findByPlanVideoId(id);
+    }
+
+    @Override
+    public void update(ScriptVideo script) throws Exception {
+       scriptVideoDao.merge(script);
     }
 
 }

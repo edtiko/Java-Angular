@@ -2,6 +2,7 @@ package co.expertic.training.service.plan;
 
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.entities.ScriptVideo;
 import java.util.List;
 
@@ -121,6 +122,12 @@ public interface ScriptVideoService {
      * @throws Exception 
      */
     public List<ChartReportDTO> getResponseCountScripts(Integer userId,Integer roleId) throws Exception;
+
+    public List<PlanVideoDTO> getByPlan(Integer planId)throws Exception;
+
+    public ScriptVideo findByPlanVideoId(Integer id)throws Exception;
+
+    public void update(ScriptVideo script)throws Exception;
     
 
 

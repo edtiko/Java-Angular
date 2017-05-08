@@ -2,6 +2,7 @@ package co.expertic.training.dao.plan;
 
 import co.expertic.base.jpa.BaseDAO;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.ScriptVideo;
 import java.util.List;
@@ -94,4 +95,8 @@ public interface ScriptVideoDao extends BaseDAO<ScriptVideo> {
      * @throws Exception 
      */
     public List<PlanMessageDTO> getResponseCountScripts(Integer userId,List<UserDTO> users) throws Exception;
+
+    public List<PlanVideoDTO> getByPlan(Integer planId) throws Exception;
+
+    public ScriptVideo findByPlanVideoId(Integer id)throws Exception;
 }

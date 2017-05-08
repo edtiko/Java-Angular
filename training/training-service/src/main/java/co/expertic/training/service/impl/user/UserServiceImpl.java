@@ -461,13 +461,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getStarFromAtlethe(Integer userId) throws Exception {
-        List<User> userList = userDao.getStarFromAtlethe(userId);
-
-        if (userList != null && !userList.isEmpty()) {
-            return userList.get(0);
-        }
-
-        return null;
+        return userDao.getStarFromAtlethe(userId);
     }
 
     @Override
@@ -492,9 +486,9 @@ public class UserServiceImpl implements UserService {
             communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
             communication.setPlanMail(configuration.getEmailCount());
 
-            communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
+            communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, userId, toUserId, roleSelected));
             communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, userId, toUserId , roleSelected));
-            communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, toUserId, roleSelected));
+            communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, userId,toUserId, roleSelected));
             communication.setPlanVideo(configuration.getVideoCount());
             communication.setVideoDuration(configuration.getVideoDuration());
 
@@ -637,9 +631,9 @@ public class UserServiceImpl implements UserService {
         communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(plan.getId(), starUserId, roleSelected));
         communication.setPlanMail(configuration.getEmailCount());
 
-        communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(plan.getId(), starUserId, roleSelected));
-        communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(plan.getId(), starUserId, coachUserId, roleSelected));
-        communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(plan.getId(), starUserId, roleSelected));
+        communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(plan.getId(), starUserId, athleteUserId, roleSelected));
+        communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(plan.getId(), starUserId, athleteUserId, roleSelected));
+        communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(plan.getId(), starUserId, athleteUserId, roleSelected));
         communication.setPlanVideo(configuration.getVideoCount());
         communication.setVideoDuration(configuration.getVideoDuration());
 

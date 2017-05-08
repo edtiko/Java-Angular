@@ -201,7 +201,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     }
 
     @Override
-    public List<User> getStarFromAtlethe(Integer userId) throws Exception {
+    public User getStarFromAtlethe(Integer userId) throws Exception {
         StringBuilder string = new StringBuilder();
         string.append("SELECT s.starUserId FROM CoachAssignedPlan c, TrainingPlanUser tp, StarTeam s ");
         string.append("WHERE c.trainingPlanUserId.trainingPlanUserId = tp.trainingPlanUserId ");
@@ -210,8 +210,12 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         string.append("AND tp.stateId = :active ");
         setParameter("userId", userId);
         setParameter("active", 1);
-        List<User> query = createQuery(string.toString());
-        return query;
+        List<User> list = createQuery(string.toString());
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
     }
 
     @Override

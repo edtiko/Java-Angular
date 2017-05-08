@@ -23,7 +23,7 @@
                     </div>
                     <div layout="column" flex>
                         <div>
-                            <img class="circular" data-ng-src="{{starImage}}" style="width: 118px; height: 117px;"/>
+                            <img class="circular" data-ng-src="{{profileImage}}" style="width: 118px; height: 117px;"/>
                         </div>
                         <div>
                             <span class="sub-title boldText">{{planSelected.starUserId.fullName}}</span>
@@ -52,6 +52,7 @@
                                     <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
                                     <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
                                     <th md-column></th>
+                                    <th md-column></th>
                                 </tr>
                             </thead>
                             <tbody md-body>
@@ -59,6 +60,7 @@
                                     <td>Rutina número {{$index + 1}}</td>
                                     <td>{{vr.createDate}}</td>
                                     <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr, 'to', $index)"><img src="static/img/play.png" /></div></td>
+                                    <td><a href="javascript:void(0)" ng-click="showStarRecord(vr)">Responder</a></td>
                                 </tr>
                             </tbody>
                         </table>

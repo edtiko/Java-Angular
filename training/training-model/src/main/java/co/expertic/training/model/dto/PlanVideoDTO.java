@@ -36,6 +36,7 @@ public class PlanVideoDTO {
     private Boolean toStar;
     private Integer roleSelected;
     private boolean mobile;
+    private String guion;
     
     public PlanVideoDTO(){
         
@@ -74,6 +75,15 @@ public class PlanVideoDTO {
             this.coachExtAthleteId = coachExtAthleteId.getCoachExtAthleteId();
         }
         
+    }
+    
+    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate, String guion) {
+        this.id = planVideoId;
+        this.name = name;
+        this.fromUserId = fromUserId;
+        this.toUserId = toUserId;
+        this.createDate = createDate;
+        this.guion = guion;
     }
     
     public static PlanVideoDTO mapFromPlanVideoEntityShort(PlanVideo video) {
@@ -226,6 +236,14 @@ public class PlanVideoDTO {
 
     public void setMobile(boolean mobile) {
         this.mobile = mobile;
+    }
+
+    public String getGuion() {
+        return guion;
+    }
+
+    public void setGuion(String guion) {
+        this.guion = guion;
     }
 
       

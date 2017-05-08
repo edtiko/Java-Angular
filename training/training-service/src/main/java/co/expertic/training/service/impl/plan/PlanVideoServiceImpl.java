@@ -1,13 +1,20 @@
 package co.expertic.training.service.impl.plan;
 
 import co.expertic.training.dao.plan.PlanVideoDao;
+import co.expertic.training.dao.user.UserDao;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.entities.PlanVideo;
+import co.expertic.training.model.entities.ScriptVideo;
+import co.expertic.training.model.entities.State;
+import co.expertic.training.model.entities.User;
 import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanVideoService;
+import co.expertic.training.service.plan.ScriptVideoService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +31,12 @@ public class PlanVideoServiceImpl implements PlanVideoService {
 
     @Autowired
     PlanVideoDao planVideoDao;
+    
+     @Autowired
+    UserDao userDao;
+    
+    @Autowired
+    private ScriptVideoService scriptVideoService;
     
     @Autowired
     private MailCommunicationService mailCommunicationService;
@@ -49,8 +62,8 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
-        return planVideoDao.getCountVideoByPlan(coachAssignedPlanId, userId, roleSelected);
+    public Integer getCountVideoByPlan(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideoByPlan(coachAssignedPlanId, userId, toUserId, roleSelected);
     }
 
     @Override
@@ -175,12 +188,28 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
-        return planVideoDao.getCountVideoEmergencyIn(planId, fromUserId, roleSelected);
+    public int getCountVideoEmergencyIn(Integer planId, Integer fromUserId, Integer toUserId, Integer roleSelected) throws Exception {
+        return planVideoDao.getCountVideoEmergencyIn(planId, fromUserId, toUserId, roleSelected);
     }
 
     @Override
     public int getCountVideoEmergencyExt(Integer planId, Integer fromUserId) throws Exception {
         return planVideoDao.getCountVideoEmergencyExt(planId, fromUserId);
+    }
+
+    @Override
+    public void approveVideo(Integer planVideoId, Integer userId, String guion) throws Exception {
+        PlanVideo video = planVideoDao.getVideoById(planVideoId);
+        User starId = userDao.getStarFromAtlethe(userId);
+        video.setToUserId(starId);
+        video.setIndRejected(0);
+        planVideoDao.merge(video);
+        ScriptVideo script = new ScriptVideo();
+        script.setGuion(guion);
+        script.setCreationDate(new Date());
+        script.setPlanVideoId(video);
+        script.setFromPlanVideoId(new PlanVideo(planVideoId));
+        script.setStateId(new State(StateEnum.PENDING.getId()));
+        scriptVideoService.create(script);
     }
 }

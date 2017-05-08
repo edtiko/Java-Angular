@@ -2,19 +2,20 @@ package co.expertic.training.web.controller.plan;
 
 import co.expertic.base.util.DateUtil;
 import co.expertic.training.enums.RoleEnum;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import co.expertic.training.model.entities.PlanVideo;
 import co.expertic.training.model.entities.ScriptVideo;
+import co.expertic.training.model.entities.State;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.configuration.StorageService;
 import co.expertic.training.service.plan.CoachExtAthleteService;
 import co.expertic.training.service.plan.PlanVideoService;
 import co.expertic.training.service.plan.ScriptVideoService;
-import co.expertic.training.service.user.UserService;
 import co.expertic.training.web.enums.StatusResponse;
 import java.io.File;
 import java.nio.file.Files;
@@ -66,8 +67,6 @@ public class PlanVideoController {
     @Autowired
     private ScriptVideoService scriptVideoService;
 
-    @Autowired
-    private UserService userService;
 
     @Autowired
     public PlanVideoController(StorageService storageService) {
@@ -103,8 +102,8 @@ public class PlanVideoController {
         if (!file.isEmpty()) {
             try {
                 if (tipoPlan.equals(COACH_INTERNO)) {
-                    availableVideos = planVideoService.getCountVideoByPlan(planId, fromUserId, roleSelected);
-                    emergencyVideos = planVideoService.getCountVideoEmergencyIn(planId, fromUserId, roleSelected);
+                    availableVideos = planVideoService.getCountVideoByPlan(planId, fromUserId,toUserId, roleSelected);
+                    emergencyVideos = planVideoService.getCountVideoEmergencyIn(planId, fromUserId,toUserId, roleSelected);
                 } else if (tipoPlan.equals(COACH_EXTERNO)) {
                     availableVideos = planVideoService.getCountVideoByPlanExt(planId, fromUserId);
                     emergencyVideos = planVideoService.getCountVideoEmergencyExt(planId, fromUserId);
@@ -150,6 +149,83 @@ public class PlanVideoController {
                     dto = planVideoService.create(video);
                     dto.setFromUserId(fromUserId);
                     dto.setRoleSelected(roleSelected);
+                    responseService.setOutput(dto);
+                    simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
+                }
+
+                responseService.setStatus(StatusResponse.SUCCESS.getName());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                responseService.setOutput(strResponse);
+                responseService.setStatus(StatusResponse.FAIL.getName());
+                responseService.setDetail(e.getMessage());
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
+        } else {
+            responseService.setMessage("Video cargado esta vacio.");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    
+     @RequestMapping(value = "/upload/star/to/athlete/{toUserId}/{fromUserId}/{planId}/{dateString}/{planVideoId}", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<ResponseService> uploadVideoStarToAthlete(@RequestParam("fileToUpload") MultipartFile file, @PathVariable Integer toUserId,
+            @PathVariable Integer fromUserId, @PathVariable Integer planId,
+            @PathVariable String dateString, @PathVariable Integer planVideoId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        int availableVideos = 0;
+        int emergencyVideos = 0;
+        if (!file.isEmpty()) {
+            try {
+             Integer roleSelected = RoleEnum.ESTRELLA.getId();
+                    availableVideos = planVideoService.getCountVideoByPlan(planId, fromUserId, toUserId, roleSelected);
+                    emergencyVideos = planVideoService.getCountVideoEmergencyIn(planId, fromUserId, toUserId,  roleSelected);
+              
+                if (availableVideos == 0 && emergencyVideos > 0) {
+                    responseService.setMessage("Video cargado correctamente, se estan consumiendo los videos de emergencia (" + emergencyVideos + ")");
+                } else if (availableVideos == 0 && emergencyVideos == 0) {
+                    responseService.setMessage("Ya consumió el limite de videos permitidos para su plan.");
+                    responseService.setStatus(StatusResponse.FAIL.getName());
+                    return new ResponseEntity<>(responseService, HttpStatus.OK);
+                } else {
+                    responseService.setMessage("Video mensaje cargado correctamente.");
+                }
+                String fileName = dateString + "_" + fromUserId + "_" + toUserId;
+                File directory = new File(ROOT);
+                File archivo = new File(ROOT + fileName);
+                if (!directory.exists()) {
+                    if (directory.mkdir()) {
+                        Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                    }
+                } else if (!archivo.exists()) {
+                    Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
+                }
+
+                PlanVideoDTO dto = planVideoService.getByVideoPath(fileName);
+                if (dto == null) {
+                    PlanVideo video = new PlanVideo();
+                    video.setFromUserId(new User(fromUserId));
+                    video.setName(fileName);
+                    video.setToUserId(new User(toUserId));
+                    video.setCreationDate(Calendar.getInstance().getTime());
+                    video.setVideoPath(fileName);
+                    video.setToStar(Boolean.TRUE);
+                    video.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
+
+                    dto = planVideoService.create(video);
+                    dto.setFromUserId(fromUserId);
+                    dto.setRoleSelected(roleSelected);
+                    
+                    if (planVideoId != null) {
+                        ScriptVideo script = scriptVideoService.findByPlanVideoId(planVideoId);
+                        script.setStateId(new State(StateEnum.RESPONDIDO.getId()));
+                        scriptVideoService.update(script);
+                    }
+                    
                     responseService.setOutput(dto);
                     simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
                 }
@@ -342,16 +418,18 @@ public class PlanVideoController {
         }
     }
 
-    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/videos/{coachAssignedPlanId}/{userId}/{toUserId}/{fromto}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getVideosByUser(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
-                             @PathVariable("fromto") String fromto, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+                              @PathVariable("toUserId") Integer toUserId, @PathVariable("fromto") String fromto, 
+                              @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("planId", coachAssignedPlanId);
             parameters.put("userId", userId);
+            parameters.put("toUserId", toUserId);
             parameters.put("fromto", fromto);
             parameters.put("tipoPlan", tipoPlan);
             parameters.put("roleSelected", roleSelected);
@@ -382,18 +460,19 @@ public class PlanVideoController {
                 .body(file);
     }
 
-    @RequestMapping(value = "/get/count/available/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/available/{coachAssignedPlanId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
-                                  @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+    Response getAvailableVideos(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+                                  @PathVariable("toUserId") Integer toUserId,  @PathVariable("tipoPlan") String tipoPlan, 
+                                  @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         Integer emergency = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planVideoService.getCountVideoByPlan(coachAssignedPlanId, userId, roleSelected);
-                emergency = planVideoService.getCountVideoEmergencyIn(userId, userId, roleSelected);
+                count = planVideoService.getCountVideoByPlan(coachAssignedPlanId, userId, toUserId, roleSelected);
+                emergency = planVideoService.getCountVideoEmergencyIn(userId, userId, toUserId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planVideoService.getCountVideoByPlanExt(coachAssignedPlanId, userId);
                 emergency = planVideoService.getCountVideoEmergencyExt(coachAssignedPlanId, userId);
@@ -550,8 +629,8 @@ public class PlanVideoController {
                 + ", Su video ha sido rechazado ";
             boolean envio = coachExtAthleteService.sendEmail(message, user.getEmail());
             
-            System.out.println("envio " + envio);
-            System.out.println("message " + message + " email " + user.getEmail());
+            //System.out.println("envio " + envio);
+            //System.out.println("message " + message + " email " + user.getEmail());
             
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Video rechazado exitosamente");
@@ -565,29 +644,14 @@ public class PlanVideoController {
         }
     }
 
-    @RequestMapping(value = "/send/video/atlethe/to/star/{planVideoId}/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/approve/{planVideoId}/{userId}", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<ResponseService> sendVideoAtletheToStar(@PathVariable("planVideoId") Integer planVideoId,
+    ResponseEntity<ResponseService> approveVideo(@PathVariable("planVideoId") Integer planVideoId,
             @PathVariable("userId") Integer userId, @RequestParam("guion") String guion) {
         ResponseService responseService = new ResponseService();
         try {
-            PlanVideoDTO video = planVideoService.getVideoById(planVideoId);
-            User starId = userService.getStarFromAtlethe(video.getFromUser().getUserId());
-            PlanVideo planVideo = new PlanVideo();
-            planVideo.setFromUserId(new User(userId));
-            planVideo.setVideoPath(video.getName());
-            planVideo.setName(video.getName());
-            planVideo.setToUserId(starId);
-            planVideo.setCoachAssignedPlanId(new CoachAssignedPlan(video.getCoachAssignedPlanId()));
-            planVideo.setToStar(Boolean.TRUE);
-            planVideo.setCreationDate(new Date());
-            planVideoService.create(planVideo);
-            ScriptVideo script = new ScriptVideo();
-            script.setGuion(guion);
-            script.setCreationDate(new Date());
-            script.setPlanVideoId(planVideo);
-            script.setFromPlanVideoId(new PlanVideo(planVideoId));
-            scriptVideoService.create(script);
+            planVideoService.approveVideo(planVideoId, userId, guion);
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Video enviado exitosamente");
             return new ResponseEntity<>(responseService, HttpStatus.OK);

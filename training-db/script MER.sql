@@ -834,19 +834,38 @@ create table manual_activity (
 /* Table: plan_video                                          */
 /*==============================================================*/
 create table plan_video (
-   plan_video_id             serial  not null,
-   name                      varchar(500) not null,
-   duration                  integer,
-   video_path                varchar(1000) not null,
-   from_user_id              integer not null,
-   to_user_id                integer not null,    
-   coach_assigned_plan_id    integer null,   
-   coach_ext_athlete_id      integer, 
-   readed                    boolean DEFAULT false,
-   creation_date             timestamp without time zone,
-   to_star                   boolean default false,
+  plan_video_id serial NOT NULL,
+  name character varying(500) NOT NULL,
+  duration integer,
+  video_path character varying(1000) NOT NULL,
+  from_user_id integer NOT NULL,
+  to_user_id integer NOT NULL,
+  creation_date timestamp without time zone NOT NULL,
+  coach_assigned_plan_id integer,
+  readed boolean NOT NULL DEFAULT false,
+  coach_ext_athlete_id integer,
+  ind_rejected integer,
+  from_plan_video_id integer,
+  to_star boolean,
    constraint pk_plan_video primary key (plan_video_id)
 );
+
+CREATE TABLE script_video
+(
+  script_video_id integer NOT NULL DEFAULT nextval('script_video_script_video_id_seq1'::regclass),
+  plan_video_id integer NOT NULL,
+  guion text NOT NULL,
+  creation_date timestamp without time zone NOT NULL,
+  from_plan_video_id integer,
+  state_id    smallint, 
+  CONSTRAINT pk_script_video PRIMARY KEY (script_video_id),
+  CONSTRAINT fk_script_v_reference_plan_vid FOREIGN KEY (plan_video_id)
+      REFERENCES public.plan_video (plan_video_id) MATCH SIMPLE
+      ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+alter table script_video
+add  CONSTRAINT fk_script_v_reference_state FOREIGN KEY (state_id)
+REFERENCES state (state_id) on delete restrict on update restrict;
 
 
 /*==============================================================*/

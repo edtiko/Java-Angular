@@ -86,7 +86,7 @@ public interface UserDao extends BaseDAO<User> {
      * @return 
      * @throws Exception 
      */
-    public List<User> getStarFromAtlethe(Integer userId)throws  Exception;
+    public User getStarFromAtlethe(Integer userId)throws  Exception;
     
     public Integer getCountNotification(Integer userId)throws  Exception;
     
