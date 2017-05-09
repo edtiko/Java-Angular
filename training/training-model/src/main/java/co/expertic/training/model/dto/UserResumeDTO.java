@@ -5,6 +5,7 @@
  */
 package co.expertic.training.model.dto;
 
+import co.expertic.training.model.entities.Role;
 import co.expertic.training.model.entities.User;
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +22,10 @@ public class UserResumeDTO {
     private String srcImage;
     private String country;
     private String color;
+    private String discipline;
+    private String role;
     private List<NotificationDTO> notificationList;
+    private Integer msgReceivedCount;
     
     
     
@@ -30,6 +34,24 @@ public class UserResumeDTO {
         this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
         this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
         this.country = user.getCountryId() != null?user.getCountryId().getName():"";
+        
+    }
+    
+      public UserResumeDTO(User user, String discipline){
+        this.userId = user.getUserId();
+        this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
+        this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
+        this.country = user.getCountryId() != null?user.getCountryId().getName():"";
+        this.discipline = discipline;
+        
+    }
+      
+     public UserResumeDTO(User user, Role role){
+        this.userId = user.getUserId();
+        this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
+        this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
+        this.country = user.getCountryId() != null?user.getCountryId().getName():"";
+        this.role = role.getName();
         
     }
     
@@ -100,6 +122,30 @@ public class UserResumeDTO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(String discipline) {
+        this.discipline = discipline;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Integer getMsgReceivedCount() {
+        return msgReceivedCount;
+    }
+
+    public void setMsgReceivedCount(Integer msgReceivedCount) {
+        this.msgReceivedCount = msgReceivedCount;
     }
     
     

@@ -117,11 +117,12 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
     }
 
     @Override
-    public List<User> findStarByCoachUserId(Integer userId) throws Exception {
+    public List<UserResumeDTO> findStarByCoachUserId(Integer userId) throws Exception {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT DISTINCT m.starUserId ");
-        sql.append("FROM StarTeam m ");
+        sql.append("SELECT DISTINCT  new co.expertic.training.model.dto.UserResumeDTO(m.starUserId, d.discipline.name) ");
+        sql.append("FROM StarTeam m, DisciplineUser d ");
         sql.append("WHERE m.coachUserId.userId = :userId ");
+        sql.append("AND m.starUserId.userId = d.userId.userId ");
         sql.append("AND m.starUserId is not null ");
         sql.append("AND m.stateId = ").append(StateEnum.ACTIVE.getId());
         Query query = getEntityManager().createQuery(sql.toString());

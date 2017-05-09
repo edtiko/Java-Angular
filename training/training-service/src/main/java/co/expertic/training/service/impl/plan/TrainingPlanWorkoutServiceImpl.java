@@ -209,13 +209,21 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         Double volMes = 0.0;
 
         List<IntensityZoneSesion> intesityZoneSesionDist = trainingPlanWorkoutDao.getIntensityZoneSesion(numSesiones, trainingLevelId);
+        
+        if (intesityZoneSesionDist == null || intesityZoneSesionDist.isEmpty()) {
+            throw new Exception("No se generó el plan, hacen faltan datos de configuración.");
+        }
 
         IntensityZone intesityZoneBase = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BASE.getId());
+
+        if (intesityZoneBase == null) {
+            throw new Exception("No se generó el plan, hacen faltan datos de configuración.");
+        }
 
         Collection<IntensityZoneDist> intensityZoneDistBase = intesityZoneBase.getIntensityZoneDistCollection();
 
         IntensityZone intesityZoneBuild = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.BUILD.getId());
-
+        
         Collection<IntensityZoneDist> intensityZoneDistBuild = intesityZoneBuild.getIntensityZoneDistCollection();
 
         IntensityZone intesityZonePeak = trainingPlanWorkoutDao.getIntensityZone(trainingLevelId, LoadTypeEnum.PEAK.getId());

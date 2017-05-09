@@ -68,7 +68,7 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
             return $http.get($contextPath + '/get/messages/by/receivingUser/sendingUser/' + receivingUser +'/'+sendingUser)
                     .then(
                             function (response) {
-                                return response.data;
+                                return response.data.output;
                             },
                             function (errResponse) {
                                 console.error('Error while fetching messages');
@@ -150,6 +150,19 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
                             },
                             function (errResponse) {
                                 console.error('Error while resend/star/messages');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
+        
+        service.getUsersMessages = function (userId){ 
+                  return $http.get($contextPath + 'get/user/messages/'+userId)
+                    .then(
+                            function (response) {
+                                return response.data.output;
+                            },
+                            function (errResponse) {
+                                console.error('Error while get/user/messages');
                                 return $q.reject(errResponse);
                             }
                     );

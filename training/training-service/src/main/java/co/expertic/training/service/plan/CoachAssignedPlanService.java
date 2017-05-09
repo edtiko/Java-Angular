@@ -48,7 +48,7 @@ public interface CoachAssignedPlanService {
     
     public List<UserDTO> findCoachByStarUserId(Integer userId) throws Exception;
     
-    public List<UserDTO> findStarByCoachUserId(Integer userId) throws Exception;
+    public List<UserResumeDTO> findStarByCoachUserId(Integer userId) throws Exception;
     
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
     

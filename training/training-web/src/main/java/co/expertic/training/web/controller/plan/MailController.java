@@ -6,6 +6,7 @@ import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.MailCommunicationMovilDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.ColourIndicator;
 import co.expertic.training.model.entities.MailCommunication;
 import co.expertic.training.model.entities.RoleUser;
@@ -95,7 +96,7 @@ public class MailController {
      */
     @RequestMapping(value = "/get/mails/by/receivingUser/from/sendingUser/{receivingUser}/{sendingUser}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMailsBySendingUser(@PathVariable("receivingUser") Integer receivingUser, @PathVariable("sendingUser") Integer sendingUser) {
+    ResponseEntity<ResponseService> getMailsBySendingUser(@PathVariable("receivingUser") Integer receivingUser, @PathVariable("sendingUser") Integer sendingUser) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -136,13 +137,13 @@ public class MailController {
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(mails);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
@@ -713,5 +714,25 @@ public class MailController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
+    }
+    
+        @RequestMapping(value = "get/user/mails/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getUserMails(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<UserResumeDTO> userMessages = mailCommunicationService.getMailsUsersByUserId(userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(userMessages);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
     }
 }

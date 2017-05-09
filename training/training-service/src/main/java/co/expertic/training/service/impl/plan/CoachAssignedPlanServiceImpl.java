@@ -76,8 +76,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
     }
 
     @Override
-    public List<UserDTO> findStarByCoachUserId(Integer userId) throws Exception {
-        return UserDTO.mapFromUsersEntities(dao.findStarByCoachUserId(userId));
+    public List<UserResumeDTO> findStarByCoachUserId(Integer userId) throws Exception {
+        return dao.findStarByCoachUserId(userId);
     }
 
     @Override

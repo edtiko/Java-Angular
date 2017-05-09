@@ -1,0 +1,23 @@
+<div layout="column" layout-align="center" layout-padding>
+    <div layout="row">
+        <md-input-container md-no-float class="md-block" >
+            <input type="text" ng-model="search" placeholder="Buscar"/>
+            <md-icon><i style="color: #0064F8" class="fa fa-search" aria-hidden="true"></i></md-icon>
+        </md-input-container>
+        <div layout="row" layout-align="space-around center" flex>
+            <div ng-repeat="letter in letters">
+                <span style="font-weight: bold; color: #666666" ng-class="{selectedLetter: filt === letter}" ng-click="setFilter(letter)"> {{letter}} </span>
+            </div>
+        </div>
+    </div>
+
+    <div ng-repeat="star in starsFiltered| filter:startsWith | orderBy: 'fullName'">
+        <md-card layout="column" layout-align="center center" style="width: 303px; height: 320px;">
+            <div><img class="circular" data-ng-src="{{star.srcImage}}" style="width: 117px; height: 117px;  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.13);"/></div>
+            <span style="color: rgb(0, 100, 248); font-weight: bold; text-transform: uppercase">{{star.fullName}}</span>  
+            <span style="color: rgb(0, 100, 248); text-transform: uppercase">{{star.discipline}}</span>
+            <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" href="http://181.143.227.220:4321/cpt/estrellas-del-ciclismo/">VER PERFIL</md-button>
+        </md-card>
+    </div>
+</div>
+

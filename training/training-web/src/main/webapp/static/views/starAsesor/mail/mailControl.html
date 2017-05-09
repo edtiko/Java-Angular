@@ -1,0 +1,44 @@
+<div layout="column">
+    <md-card style="height: 600px">
+        <md-card-content>
+            <div flex>
+                <div layout="row" layout-align="center">
+                    <md-button title="{{ 'CREATE' | translate }}" style="width: 250px; font-weight: bold" class="md-raised" ng-click="dialogEmail()">Escribir mensaje</md-button>
+                </div>
+                <md-list flex>
+                    <md-list-item  ng-click="verRecibidos()" class="md-2-line"  ng-class="{selectedMail: recibidos === true}">
+                        <img src="static/img/inbox.png"/>
+                        <div class="md-list-item-text" >
+                            <h3>&nbsp; Bandeja de entrada</h3>
+                        </div>
+                        <div ng-if="mailsReceived.length > 0" class="circle_notification">{{mailsReceived.length}}</div>
+                    </md-list-item>
+                    <md-list-item ng-click="verEnviados()" class="md-2-line" ng-class="{selectedMail: enviados === true}">
+                        <img src="static/img/send_email.png"/>
+                        <div class="md-list-item-text">
+                            <h3>&nbsp; Mails enviados</h3>
+
+                        </div>
+                        <div ng-if="mailsSent.length > 0" class="circle_notification">{{mailsSent.length}}</div>
+                    </md-list-item>
+                </md-list>
+            </div>
+            <div flex >
+                <h4 style="color: #0064F8; padding: 18px">
+                    <span>CONTACTOS</span>
+                </h4>
+
+                <md-list flex>
+                    <md-list-item ng-repeat="userMail in userMails" class="md-3-line" ng-click="getEmailByUser(userMail)">
+                        <div class="rectangule2" ></div>
+                        <img data-ng-src="{{userMail.srcImage}}"  class="md-avatar">
+                        <div class="md-list-item-text">
+                            <h3 style="font-weight: bold; color: #0064F8">{{userMail.fullName}}</h3>
+                        </div>
+                    </md-list-item>
+                </md-list>
+
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

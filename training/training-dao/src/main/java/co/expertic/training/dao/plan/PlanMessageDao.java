@@ -9,6 +9,7 @@ import co.expertic.base.jpa.BaseDAO;
 import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.PlanMessage;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -91,5 +92,7 @@ public interface PlanMessageDao extends BaseDAO<PlanMessage> {
     public int getCountMessageEmergencyExt(Integer planId, Integer fromUserId) throws DAOException;
 
     public PlanMessage findById(Integer planMessageId)throws DAOException;
+    
+     public List<UserResumeDTO> getMessageUsersByUserId(Integer userId) throws DAOException; 
 
 }

@@ -129,7 +129,7 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                     return $http.get($contextPath + '/get/mails/by/receivingUser/from/sendingUser/' + receivingUserId + '/' + sendingUserId)
                             .then(
                                     function (response) {
-                                        return response.data;
+                                        return response.data.output;
                                     },
                                     function (errResponse) {
                                         console.error('Error while fetching mails');
@@ -185,7 +185,20 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
                                         return $q.reject(errResponse);
                                     }
                             );
-                }
+                },
+                
+                   service.getUsersMails = function (userId){ 
+                  return $http.get($contextPath + 'get/user/mails/'+userId)
+                    .then(
+                            function (response) {
+                                return response.data.output;
+                            },
+                            function (errResponse) {
+                                console.error('Error while get/user/mails/');
+                                return $q.reject(errResponse);
+                            }
+                    );
+                  };
 
         return service;
 

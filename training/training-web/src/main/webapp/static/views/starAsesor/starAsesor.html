@@ -1,0 +1,32 @@
+<meta charset="utf-8">
+<div layout="column" layout-padding>
+    <md-card>
+        <div layout="row" layout-align="center center">
+            <div  layout="column" style="width: 133px; height: 130px; text-align: center" layout-align="center center" ng-click="goStarAsesorMenu('stars', 1)" ng-class="{selectedBlue: moduleSelected === 1}">
+                <span>
+                    <img ng-if="moduleSelected !== 1" src="static/img/star.png">
+                    <img ng-if="moduleSelected === 1" src="static/img/star-selected.png">
+                </span>
+                <h5 style="color: #0064F8; font-weight: bold;"><strong>TODAS MIS ESTRELLAS</strong></h5>
+            </div>           
+            <div  layout="column" style="width: 133px; height: 130px; text-align: center " layout-align="center center" ng-click="goStarAsesorMenu('chat', 2)" ng-class="{selectedBlue: moduleSelected === 2}">
+                <span class="asesor_icon">
+                    <img ng-if="moduleSelected !== 2" src="static/img/chat_profile.png">
+                    <img ng-if="moduleSelected === 2" src="static/img/chat-selected.png">
+                    <div ng-if="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
+                </span>
+                <h5 style="color: #0064F8; font-weight: bold">TODOS LOS MENSAJES</h5>
+            </div>
+            <div  layout="column" style="width: 133px; height: 130px; text-align: center" layout-align="center center" ng-click="goStarAsesorMenu('mail', 3)" ng-class="{selectedBlue: moduleSelected === 3}">
+                <span class="asesor_icon">
+                    <img ng-if="moduleSelected !== 3" src="static/img/mail_profile.png">
+                    <img ng-if="moduleSelected === 3" src="static/img/mail-selected.png">
+                    <div ng-if="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
+                </span>
+                <h5 style="color: #0064F8; font-weight: bold">TODOS LOS MAIL</h5>
+            </div>
+        </div>
+    </md-card>
+    <div ng-include src="starPageSelected" ></div>
+</div>
+

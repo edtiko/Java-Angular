@@ -12,6 +12,7 @@ import co.expertic.training.dao.user.UserDao;
 import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.PlanMessage;
 import java.util.ArrayList;
 import java.util.Date;
@@ -373,5 +374,22 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    
+    @Override
+    public List<UserResumeDTO> getMessageUsersByUserId(Integer userId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.expertic.training.model.dto.UserResumeDTO(m.messageUserId, r.roleId) ");
+        sql.append("FROM PlanMessage m, RoleUser r ");
+        sql.append("WHERE m.receivingUserId.userId = :userId ");
+        sql.append("AND m.messageUserId.userId = r.userId.userId ");
+        sql.append("AND m.coachAssignedPlanId is null ");
+        sql.append("AND m.coachExtAthleteId is null ");
+        sql.append("GROUP BY m.messageUserId, r.roleId ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<UserResumeDTO> list = query.getResultList();
+        return list;
     }
 }

@@ -10,6 +10,7 @@ import co.expertic.training.exception.TrainingException;
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import co.expertic.training.model.entities.PlanMessage;
@@ -232,6 +233,18 @@ public class PlanMessageServiceImpl implements PlanMessageService{
             planMessageDao.merge(planMessage);
         }
         
+    }
+
+    @Override
+    public List<UserResumeDTO> getMessageUsersByUserId(Integer userId) throws Exception {
+        List<UserResumeDTO> list = planMessageDao.getMessageUsersByUserId(userId);
+        
+        for (UserResumeDTO userResumeDTO : list) {
+            userResumeDTO.setMsgReceivedCount(planMessageDao.getCountMessagesReceived(-1, userResumeDTO.getUserId(), userId, -1));
+        }
+        
+        
+        return list;
     }
     
 }

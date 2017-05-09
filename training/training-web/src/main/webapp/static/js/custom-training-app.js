@@ -19,7 +19,6 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                 $controllerProvider.register(name, constructor);
             };
 
-
             $routeProvider
 
                     .when('/dashboard-athlete', route.resolve('dashboardAthlete', 'dashboardAthlete/'))
@@ -110,7 +109,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             
                     .when('/asesores', route.resolve('asesores','asesores/'))
             
-                    .when('/asesor-detail/:user', route.resolve('asesorDetail', 'asesorDetail/'));
+                    .when('/asesor-detail/:user', route.resolve('asesorDetail', 'asesorDetail/'))
+            
+                    .when('/stars', route.resolve('starAsesor','starAsesor/'));
             
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',

@@ -2,6 +2,7 @@ package co.expertic.training.web.controller.user;
 
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.plan.CoachAssignedPlanService;
 import co.expertic.training.service.plan.PlanMessageService;
@@ -195,20 +196,20 @@ public class MessageController {
     
     @RequestMapping(value = "get/messages/by/receivingUser/sendingUser/{recevingUserId}/{sendingUserId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessagesByReceivingUserAndSendingUser(@PathVariable("recevingUserId") Integer recevingUserId,@PathVariable("sendingUserId") Integer sendingUserId ) {
+    ResponseEntity<ResponseService> getMessagesByReceivingUserAndSendingUser(@PathVariable("recevingUserId") Integer recevingUserId,@PathVariable("sendingUserId") Integer sendingUserId ) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             List<PlanMessageDTO> messages = planMessageService.getMessagesByReceivingUserAndSendingUser(recevingUserId,sendingUserId);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
@@ -279,6 +280,26 @@ public class MessageController {
             planMessageService.resendStarMessages(planId, messages.getStarMessages());
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+    
+    @RequestMapping(value = "get/user/messages/{userId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> getUserMessages(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+            List<UserResumeDTO> userMessages = planMessageService.getMessageUsersByUserId(userId);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(userMessages);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

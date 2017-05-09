@@ -5,6 +5,7 @@ import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.MailCommunication;
 import java.util.List;
 
@@ -200,4 +201,6 @@ public interface MailCommunicationService {
     public Integer getMailsEmergencyByPlanExt(Integer sessionId, Integer userId)throws Exception;
 
     public void resendEmail(Integer id, Integer planId)throws Exception;
+
+    public List<UserResumeDTO> getMailsUsersByUserId(Integer userId)throws Exception;
 }

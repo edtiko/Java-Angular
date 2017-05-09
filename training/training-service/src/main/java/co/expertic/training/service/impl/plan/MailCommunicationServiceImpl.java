@@ -12,6 +12,7 @@ import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import co.expertic.training.model.entities.MailCommunication;
@@ -353,5 +354,17 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         mail.setReceivingUser(starUser);
         mail.setCreationDate(Calendar.getInstance().getTime());
         mailCommunicationDao.merge(mail);
+    }
+
+    @Override
+    public List<UserResumeDTO> getMailsUsersByUserId(Integer userId) throws Exception {
+             List<UserResumeDTO> list = mailCommunicationDao.getMailsUsersByUserId(userId);
+        
+        for (UserResumeDTO userResumeDTO : list) {
+            userResumeDTO.setMsgReceivedCount(mailCommunicationDao.getCountMailsReceived(-1, userResumeDTO.getUserId(), userId, -1));
+        }
+        
+        
+        return list;
     }
 }

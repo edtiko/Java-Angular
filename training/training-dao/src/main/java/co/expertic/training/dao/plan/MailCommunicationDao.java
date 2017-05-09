@@ -5,6 +5,7 @@ import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.MailCommunication;
 import java.util.List;
 
@@ -126,4 +127,6 @@ public interface MailCommunicationDao extends BaseDAO<MailCommunication>{
     public int getMailsEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws DAOException;
 
     public int getMailsEmergencyByPlanExt(Integer planId, Integer fromUserId) throws DAOException;
+
+    public List<UserResumeDTO> getMailsUsersByUserId(Integer userId)throws DAOException;
 }

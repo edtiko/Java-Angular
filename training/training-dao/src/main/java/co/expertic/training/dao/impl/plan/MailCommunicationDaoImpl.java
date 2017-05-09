@@ -8,6 +8,7 @@ import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.MailCommunication;
 import java.util.ArrayList;
 import java.util.Date;
@@ -376,5 +377,21 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         query.setParameter("receivingUserId", receivingUserId);
         query.setParameter("planId", planId);
         return query.getResultList();
+    }
+
+    @Override
+    public List<UserResumeDTO> getMailsUsersByUserId(Integer userId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.expertic.training.model.dto.UserResumeDTO(m.sendingUser, r.roleId) ");
+        sql.append("FROM MailCommunication m, RoleUser r ");
+        sql.append("WHERE m.receivingUser.userId = :userId ");
+        sql.append("AND m.sendingUser.userId = r.userId.userId ");
+        sql.append("AND m.coachAssignedPlanId is null ");
+        sql.append("AND m.coachExtAthleteId is null ");
+        sql.append("GROUP BY m.sendingUser, r.roleId ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<UserResumeDTO> list = query.getResultList();
+        return list;
     }
 }

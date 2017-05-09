@@ -41,7 +41,7 @@ public interface CoachAssignedPlanDao extends BaseDAO<CoachAssignedPlan>{
     
     public List<User> findCoachByStarUserId(Integer userId) throws Exception;
     
-    public List<User> findStarByCoachUserId(Integer userId) throws Exception;
+    public List<UserResumeDTO> findStarByCoachUserId(Integer userId) throws Exception;
     
     public List<SemaforoDTO> findSemaforoByUserId(Integer userId) throws Exception;
     

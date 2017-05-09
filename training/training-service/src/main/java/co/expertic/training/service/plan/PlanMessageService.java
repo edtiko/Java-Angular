@@ -8,6 +8,7 @@ package co.expertic.training.service.plan;
 import co.expertic.training.exception.TrainingException;
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import java.util.List;
 
 /**
@@ -87,4 +88,6 @@ public interface PlanMessageService {
     public Integer getCountMessagesEmergencyExt(Integer coachAssignedPlanId, Integer userId)throws  Exception;
 
     public void resendStarMessages(Integer planId, List<Integer> messages)throws  Exception;
+
+    public List<UserResumeDTO> getMessageUsersByUserId(Integer userId)throws  Exception;
 }
