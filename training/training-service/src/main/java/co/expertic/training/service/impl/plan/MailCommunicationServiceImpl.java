@@ -367,4 +367,9 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         
         return list;
     }
+
+    @Override
+    public Integer getCountMailsReceivedByUser(Integer receiveUserId) throws Exception {
+        return mailCommunicationDao.getCountMailsReceivedByUser(receiveUserId);
+    }
 }

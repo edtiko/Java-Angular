@@ -5,6 +5,7 @@
  */
 package co.expertic.training.service.plan;
 
+import co.expertic.base.jpa.DAOException;
 import co.expertic.training.exception.TrainingException;
 import co.expertic.training.model.dto.ChartReportDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
@@ -24,6 +25,8 @@ public interface PlanMessageService {
     public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected)throws  Exception, TrainingException;
     
     public Integer getCountMessagesReceived(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected)throws  Exception;
+    
+    public Integer getCountMessagesReceivedByUser(Integer receivingUserId) throws Exception; 
 
     public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws  Exception;
     

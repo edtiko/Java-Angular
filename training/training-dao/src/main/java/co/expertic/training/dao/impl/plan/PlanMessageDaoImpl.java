@@ -109,6 +109,22 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
 
         return count.get(0).intValue();
     } 
+    
+    @Override
+    public Integer getCountMessagesReceivedByUser(Integer receivingUserId) throws DAOException {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(m.plan_message_id) ");
+        sql.append(" FROM plan_message m ");
+        sql.append(" WHERE m.receiving_user_id = ").append(receivingUserId);
+        sql.append(" And m.readed = false");
+
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.get(0).intValue();
+    }
 
     @Override
     public void readMessages(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws DAOException {
@@ -194,7 +210,9 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append("SELECT new co.expertic.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate, m.receivingUserId) ");        
         sql.append("FROM PlanMessage m ");
         sql.append("Where m.messageUserId.userId in :ids ");
-        sql.append("AND m.receivingUserId.userId in :ids");
+        sql.append("AND m.receivingUserId.userId in :ids ");
+        sql.append("AND m.coachAssignedPlanId is null ");
+        sql.append("AND m.coachExtAthleteId is null ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("ids", ids);
         return query.getResultList();

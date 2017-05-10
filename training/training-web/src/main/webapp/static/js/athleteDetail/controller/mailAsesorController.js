@@ -270,10 +270,6 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
             $scope.mailCommunication.message = '';
         };
         
-        $scope.toggleFn = function(){
-            
-        };
-
         $scope.readEmail = function (id) {
 
             MailService.readEmail(id)

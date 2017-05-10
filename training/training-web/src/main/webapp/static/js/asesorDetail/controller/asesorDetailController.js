@@ -1,5 +1,5 @@
-trainingApp.controller('AsesorDetailController', ['$scope', 'AsesorService', 'DashboardService','MessageService','VideoService', 'AudioMessageService','MailService','$window', '$mdDialog', '$routeParams',
-    function ($scope, AthleteService, DashboardService, MessageService, VideoService, AudioMessageService, MailService, $window, $mdDialog, $routeParams) {
+trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 'MessageService', 'MailService', '$window', '$mdDialog', '$routeParams',
+    function ($scope, DashboardService, MessageService, MailService, $window, $mdDialog, $routeParams) {
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.asesorUserId = $routeParams.user;
@@ -33,17 +33,17 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'AsesorService', 'Da
             }
 
         };
-        
-        $scope.goStarAthleteDetail = function(athleteUserId){
-           $scope.starAthleteUserId = athleteUserId; 
-           $scope.asesorPageSelected = $scope.asesorView.athleteDetail;
-           
+
+        $scope.goStarAthleteDetail = function (athleteUserId) {
+            $scope.starAthleteUserId = athleteUserId;
+            $scope.asesorPageSelected = $scope.asesorView.athleteDetail;
+
         };
 
         $scope.getProfile = function () {
-          $scope.asesorPageSelected = $scope.asesorView.profile;
-            DashboardService.getDashboard($scope.asesorUserId, function(res){
-                  $scope.userProfile = angular.copy(res.data.output);
+            $scope.asesorPageSelected = $scope.asesorView.profile;
+            DashboardService.getDashboard($scope.asesorUserId, function (res) {
+                $scope.userProfile = angular.copy(res.data.output);
             });
 
             $scope.getImageProfile($scope.asesorUserId, function (data) {
@@ -55,58 +55,11 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'AsesorService', 'Da
                 }
             });
         };
-        
 
-        $scope.getActivePlan = function () {
-            //$scope.showLoading(true);
-            AthleteService.getActivePlan($scope.asesorUserId, function (res) {
-                $scope.planSelected = res.data.output;
-                if ($scope.planSelected != null) {
-                    $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
-                    
-                    MessageService.initialize($scope.planSelected.id);
-                    VideoService.initialize($scope.planSelected.id);
-                    AudioMessageService.initialize($scope.planSelected.id);
-                    MailService.initialize($scope.planSelected.id);
-                    //$scope.connectToChatserver($scope.planSelected.id);
-                    //$scope.connectToAudioWsMovil($scope.planSelected.id);
-                    //$scope.connectToVideoWsMovil($scope.planSelected.id);
-
-                    $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
-                    $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
-                    $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
-                    $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
-                    $scope.athleteReceivedCount = ($scope.messageReceivedCount + $scope.mailReceivedCount +  $scope.audioReceivedCount + $scope.videoReceivedCount);
-
-                    $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
-                        if (data != "") {
-                            $scope.starImage = "data:image/png;base64," + data;
-                            $window.sessionStorage.setItem("starImage", $scope.starImage);
-                        } else {
-                            $scope.starImage = "static/img/profile-default.png";
-                        }
-                    });
-                    $scope.getImageProfile($scope.planSelected.coachUserId.userId, function (data) {
-                        if (data != "") {
-                            $scope.asesorImage = "data:image/png;base64," + data;
-                            $window.sessionStorage.setItem("asesorImage", $scope.asesorImage);
-                        } else {
-                            $scope.asesorImage = "static/img/profile-default.png";
-                        }
-
-                    });
-                } else {
-                    $scope.showMessage("No hay un plan activo seleccionado", "Error");
-                    return;
-                }
-                 //$scope.showLoading(false);
-
-            });
-        };
 
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                 $scope.messageReceivedCount++;
+                $scope.messageReceivedCount++;
             }
         });
 
@@ -120,31 +73,41 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'AsesorService', 'Da
             }
 
         });
-        
-        $scope.showLoading = function (loading) {
-            if (loading) {
-                $mdDialog.show({
-                    scope: $scope.$new(),
-                    templateUrl: 'static/views/athleteDetail/loading.html',
-                    parent: angular.element(document.body),
-                    clickOutsideToClose: false,
-                    fullscreen: $scope.customFullscreen,
-                    controller: function () {
-                        $mdDialog.cancel();
-                    }
-                });
-            } else {
 
-                $mdDialog.cancel();
+        self.getMessagesReceivedCount = function () {
+            MessageService.getMessagesReceived(-1, $scope.asesorUserId, $scope.userSession.userId, -1, -1).then(
+                    function (data) {
+                        $scope.messageReceivedCount = data.output;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
+
+        self.getMailReceivedCount = function () {
+            MailService.getReceivedMails(-1, $scope.asesorUserId, $scope.userSession.userId, -1, -1).then(
+                    function (data) {
+                        $scope.mailReceivedCount = data.output;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
+
+        self.init = function () {
+            if ($scope.userSession.userId != null && $scope.asesorUserId != null) {
+                $scope.getProfile();
+                MessageService.initialize($scope.userSession.userId + $scope.asesorUserId);
+                MailService.initialize($scope.userSession.userId + $scope.asesorUserId);
+                self.getMessagesReceivedCount();
+                self.getMailReceivedCount();
+            } else {
+                $scope.setUserSession();
             }
         };
-        
-        
-        self.init = function () {
-            $scope.getProfile();
-            //$scope.getActivePlan();
-        };
-        
+
         self.init();
 
     }]);

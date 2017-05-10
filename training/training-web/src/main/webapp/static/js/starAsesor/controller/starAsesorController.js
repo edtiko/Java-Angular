@@ -10,6 +10,8 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         $scope.messagesAsesor = [];
         $scope.userMails = [];
         $scope.mailsAsesor = [];
+        $scope.mailsReceived = [];
+        $scope.mailsSent = [];
 
         $scope.filt = 'A';
 
@@ -26,8 +28,26 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             message: '',
             messageUserId: {userId: ''},
             receivingUserId: {userId: ''},
-            roleSelected: $scope.roleSelected,
+            roleSelected: -1,
             mobile: false
+        };
+
+        $scope.mailCommunication = {
+            id: '',
+            mailto: '',
+            receivingUser: {userId: ''},
+            sendingUser: {userId: ''},
+            coachExtAthleteId: '',
+            coachAssignedPlanId: '',
+            message: '',
+            subject: '',
+            roleSelected: -1
+        };
+
+        $scope.viewsMail = {
+            received: 'static/views/starAsesor/mail/received.html',
+            sent: 'static/views/starAsesor/mail/sent.html',
+            mailSelected: 'static/views/starAsesor/mail/mailSelected.html'
         };
 
         $scope.setFilter = function (letter) {
@@ -56,6 +76,10 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             MessageService.getUsersMessages($scope.userSession.userId).then(
                     function (data) {
                         $scope.userMessages = data;
+                        data.forEach(function (v) {
+                            MessageService.initialize(v.userId + $scope.userSession.userId);
+                            MailService.initialize(v.userId + $scope.userSession.userId);
+                        });
                     },
                     function (error) {
                         console.log(error);
@@ -88,14 +112,120 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
 
         $scope.getEmailByUser = function (user) {
             $scope.userMsgSelected = user;
+            $scope.mailCommunication.mailto = user.fullName;
+            $scope.mailCommunication.receivingUser.userId = user.userId;
             MailService.getMailsByReceivingUserFromSendingUser($scope.userSession.userId, user.userId).then(
                     function (data) {
-                        $scope.mailsAsesor = data;
+                        $scope.mailsReceived = data;
                     },
                     function (error) {
                         console.log(error);
                     }
             );
+
+            MailService.getMailsByReceivingUserFromSendingUser(user.userId, $scope.userSession.userId).then(
+                    function (data) {
+                        $scope.mailsSent = data;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
+
+        $scope.addMail = function () {
+            if ($scope.userSession != null && $scope.mailCommunication.message != ""
+                    && $scope.mailCommunication.subject != "") {
+
+                $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
+                $scope.mailCommunication.receivingUser.userId = $scope.userMsgSelected.userId;
+
+                $scope.createMailCommunication($scope.mailCommunication);
+            }
+        };
+
+
+        $scope.createMailCommunication = function (mail) {
+            MailService.createMailCommunication(mail)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    $scope.showMessage(d.output);
+                                    $scope.resetMailDialog();
+                                    //$scope.getEmailCount();
+                                } else {
+                                    $scope.showMessage(d.output);
+                                }
+
+                                $scope.init();
+                            },
+                            function (errResponse) {
+                                console.error('Error while creating mail communication.');
+                            }
+                    );
+        };
+
+
+        $scope.dialogEmail = function () {
+            $scope.resetMailDialog();
+            $mdDialog.show({
+                controller: sendEmailController,
+                scope: $scope.$new(),
+                templateUrl: 'static/views/mail/mailTemplate.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose: false,
+                fullscreen: $scope.customFullscreen
+            });
+        };
+
+        $scope.resetMailDialog = function () {
+            $scope.mailCommunication.subject = '';
+            $scope.mailCommunication.message = '';
+        };
+
+
+        function sendEmailController($scope, $mdDialog) {
+
+            $scope.sendMail = function () {
+                $scope.addMail();
+            };
+
+            $scope.hide = function () {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+        }
+
+        $scope.verRecibidos = function () {
+            $scope.recibidos = true;
+            $scope.enviados = false;
+            $scope.viewMailSelected = $scope.viewsMail.received;
+        };
+
+
+        $scope.verEnviados = function () {
+            $scope.recibidos = false;
+            $scope.enviados = true;
+            $scope.viewMailSelected = $scope.viewsMail.sent;
+        };
+
+        $scope.readEmail = function (id) {
+
+            MailService.readEmail(id)
+                    .then(
+                            function (d) {
+                                if (d.status == 'success') {
+                                    //$scope.getReceived();
+                                } else {
+                                    console.log(d.output);
+                                }
+                            },
+                            function (error) {
+                                console.error('Error while updating mail communication.' + error);
+                            }
+                    );
         };
 
         $scope.sendMessage = function () {
@@ -195,13 +325,36 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             }
         };
 
+        self.getMessagesReceivedCount = function () {
+            MessageService.getMessagesReceived(-1, $scope.userSession.userId, -1, -1, -1).then(
+                    function (data) {
+                        $scope.messageReceivedCount = data.output;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
+
+        self.getMailReceivedCount = function () {
+            MailService.getReceivedMails(-1, $scope.userSession.userId, -1, -1, -1).then(
+                    function (data) {
+                        $scope.mailReceivedCount = data.output;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
+
 
         self.init = function () {
+            self.getMessagesReceivedCount();
+            self.getMailReceivedCount();
             self.getStars();
             self.getUsersMessagesByUser();
-            self.self.getUsersMailsByUser();
-            MessageService.initialize($scope.userSession.userId);
-            MailService.initialize($scope.userSession.userId);
+            self.getUsersMailsByUser();
+
         };
 
         self.init();

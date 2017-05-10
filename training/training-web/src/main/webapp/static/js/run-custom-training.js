@@ -380,7 +380,7 @@ require.config({
                 'marketingReportService', 'paymentReportService', 'saleReportService', 'accountService',
                 'athleteService', 'calendarAsesorController', 'chartAsesorController', 'messageAsesorController',
                 'mailAsesorController', 'audioAsesorController', 'videoAsesorController', 'asesorService', 'starAthleteController',
-                'mailStarController', 'starAthleteDetailController','messageStarAthleteController',
+                'mailStarController', 'messageStarController', 'starAthleteDetailController','messageStarAthleteController',
                 'mailStarAthleteController','audioStarAthleteController','videoStarAthleteController'
 
             ]}

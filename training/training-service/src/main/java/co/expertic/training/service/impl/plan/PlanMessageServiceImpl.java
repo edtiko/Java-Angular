@@ -246,5 +246,10 @@ public class PlanMessageServiceImpl implements PlanMessageService{
         
         return list;
     }
+
+    @Override
+    public Integer getCountMessagesReceivedByUser(Integer receivingUserId) throws Exception {
+       return planMessageDao.getCountMessagesReceivedByUser(receivingUserId);
+    }
     
 }

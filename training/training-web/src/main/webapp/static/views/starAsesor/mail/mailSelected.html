@@ -1,0 +1,57 @@
+<md-content style="overflow-x: hidden; margin: 3%" scroll-glue="glued">
+
+    <section layout="row" layout-sm="column" layout-wrap>
+        <div flex="90"  ng-hide="received == false" ng-show="received">
+          <img  data-ng-src="{{mailSelected.sendingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
+            <md-input-container class="md-block" >
+                {{ 'DATE' | translate }}: {{mailSelected.creationDate}} <br>
+                {{ 'FROM' | translate }}: {{mailSelected.sendingUser.fullName}} <br>
+                {{ 'SUBJECT' | translate }}: {{mailSelected.subject}} <br>
+
+            </md-input-container>
+            <md-input-container>
+                {{mailSelected.message}}
+            </md-input-container>
+        </div>
+    </section>
+
+    <section layout="row" layout-sm="column" layout-wrap>
+        <div flex="90"  ng-hide="received" ng-show="!received">
+             <img  data-ng-src="{{mailSelected.sendingUser.profilePhotoBase64}}" style="height: 60px; width: 60px;" >
+            <md-input-container class="md-block" >
+                {{ 'DATE' | translate }}: {{mailSelected.creationDate}} <br>
+                {{ 'TO' | translate }}: {{mailSelected.receivingUser.fullName}}<br>
+                {{ 'SUBJECT' | translate }}: {{mailSelected.subject}} <br>
+
+            </md-input-container>
+            <md-input-container>
+                {{mailSelected.message}}
+            </md-input-container>
+        </div>
+    </section>
+
+    <md-divider></md-divider>
+    <div flex layout="column">
+        <form ng-submit="addMail()" name="mailForm">
+            <!-- Destinatario atletas cuando user == Coach Ext - Int-->
+            <md-input-container  md-no-float class="md-block" >
+                <label>{{ 'RECEIVER_USER' | translate }}</label>
+
+                <input type="text" ng-model="mailCommunication.mailto" readonly="true"/>
+
+            </md-input-container>
+
+            <md-input-container class="md-block" >
+                <input type="text" placeholder="{{ 'SUBJECT' | translate }}" ng-model="mailCommunication.subject" />
+            </md-input-container>
+            <md-input-container class="md-block" >
+                <textarea placeholder="{{ 'WRITE_HERE' | translate }}" style="width: 100%;max-height: 150px;overflow-y: scroll"  rows="3" md-maxlength="1500" ng-model="mailCommunication.message" md-select-on-focus></textarea>
+            </md-input-container>
+
+        </form>
+        <div>
+            <md-button ng-click="addMail()" ng-disabled="mailCommunication.message.length === 0" class="md-raised md-primary">{{ 'SEND' | translate }}</md-button>
+        </div>
+
+    </div>
+</md-content>

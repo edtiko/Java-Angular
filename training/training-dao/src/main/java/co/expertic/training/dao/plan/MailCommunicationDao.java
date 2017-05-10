@@ -119,6 +119,8 @@ public interface MailCommunicationDao extends BaseDAO<MailCommunication>{
     public Integer getCountMailsByPlanExt(Integer planId, Integer userId)throws DAOException;
 
     public Integer getCountMailsReceived(Integer planId, Integer userId, Integer receiveUserId, Integer roleSelected)throws DAOException;
+    
+    public Integer getCountMailsReceivedByUser(Integer receiveUserId) throws DAOException; 
 
     public Integer getCountMailsReceivedExt(Integer planId, Integer userId)throws DAOException;
 

@@ -123,7 +123,7 @@ public class MessageController {
 
     @RequestMapping(value = "get/count/received/messages/{coachAssignedPlanId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
+    ResponseEntity<ResponseService> getMessagesReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
                                  @PathVariable("toUserId") Integer toUserId,
                                  @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
@@ -134,16 +134,20 @@ public class MessageController {
                 count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId, toUserId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planMessageService.getCountMessagesReceivedExt(coachAssignedPlanId, userId);
+            }else if(userId != -1 && toUserId == -1){
+                count = planMessageService.getCountMessagesReceivedByUser(userId);
+            }else if(userId != -1 && toUserId != -1){
+                count = planMessageService.getCountMessagesReceived(coachAssignedPlanId, userId, toUserId, roleSelected);  
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+              return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+              return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
@@ -160,6 +164,8 @@ public class MessageController {
                 planMessageService.readMessages(coachAssignedPlanId, userId,toUserId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 planMessageService.readMessagesExt(coachAssignedPlanId, userId);
+            }else{
+                 planMessageService.readMessages(coachAssignedPlanId, userId,toUserId, roleSelected);
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Mensajes Leidos Correctamente.");

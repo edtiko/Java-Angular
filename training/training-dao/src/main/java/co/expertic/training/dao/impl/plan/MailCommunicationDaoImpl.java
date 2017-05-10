@@ -256,6 +256,22 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
 
         return count.get(0).intValue();
     }
+    
+    @Override
+    public Integer getCountMailsReceivedByUser(Integer receiveUserId) throws DAOException {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT COUNT(m.mail_communication_id) ");
+        sql.append(" FROM mail_communication m ");
+        sql.append(" WHERE m.receiving_user = ").append(receiveUserId);
+        sql.append(" And m.read = false");
+
+        Query query = getEntityManager().createNativeQuery(sql.toString());
+
+        List<Number> count = (List<Number>) query.getResultList();
+
+        return count.get(0).intValue();
+    }
 
     @Override
     public Integer getCountMailsByPlanExt(Integer planId, Integer userId) throws DAOException {
