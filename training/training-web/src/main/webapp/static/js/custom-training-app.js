@@ -1,7 +1,5 @@
 'use strict';
 var urlCompraPlanEntrenamiento = $wordPressContextPath + 'atletas/';
-//var App = angular.module('myApp',[]);
-
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
     'ngMessages', 'ngMaterial', 'pascalprecht.translate', 'angular-notification-icons', 'md.data.table', 'ngSanitize', 'luegg.directives', 'angular.filter', 'ngCamRecorder', 'angularAudioRecorder', 'multiStepForm', 'angAccordion'])
@@ -22,13 +20,15 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             $routeProvider
 
                     .when('/dashboard-athlete', route.resolve('dashboardAthlete', 'dashboardAthlete/'))
-            
+
                     .when('/dashboard-asesor', route.resolve('dashboardAsesor', 'dashboardAsesor/'))
-            
+
                     .when('/dashboard-star', route.resolve('dashboardStar', 'dashboardStar/'))
+            
+                    .when('/dashboard-coach', route.resolve('dashboardCoach', 'dashboardCoach/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
-            
+
                     .when('/asesor-profile', route.resolve('asesorProfile', 'asesorProfile/'))
 
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
@@ -96,23 +96,23 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-pay-method', route.resolve('createPayMethod', 'createPayMethod/'))
 
                     .when('/address', route.resolve('address', 'address/'))
-            
+
                     .when('/edit-address', route.resolve('editAddress', 'editAddress/'))
-            
+
                     .when('/edit-account', route.resolve('editAccount', 'editAccount/'))
 
                     .when('/create-configuration-plan/:typePlan', route.resolve('configurationPlan', 'configuration/'))
-                    
-                    .when('/athletes', route.resolve('athletes','athletes/'))
-            
+
+                    .when('/athletes', route.resolve('athletes', 'athletes/'))
+
                     .when('/athlete-detail/:user', route.resolve('athleteDetail', 'athleteDetail/'))
-            
-                    .when('/asesores', route.resolve('asesores','asesores/'))
-            
+
+                    .when('/asesores', route.resolve('asesores', 'asesores/'))
+
                     .when('/asesor-detail/:user', route.resolve('asesorDetail', 'asesorDetail/'))
-            
-                    .when('/stars', route.resolve('starAsesor','starAsesor/'));
-            
+
+                    .when('/stars', route.resolve('starAsesor', 'starAsesor/'));
+
             $translateProvider.useStaticFilesLoader({
                 prefix: 'static/languages/',
                 suffix: '.json'
@@ -155,6 +155,12 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
         });
 
+trainingApp.config(function ($mdAriaProvider) {
+    // Globally disables all ARIA warnings.
+    $mdAriaProvider.disableWarnings();
+});
+
+
 trainingApp.directive('fileModel', ['$parse', function ($parse) {
         return {
             restrict: 'A',
@@ -170,23 +176,6 @@ trainingApp.directive('fileModel', ['$parse', function ($parse) {
             }
         };
     }]);
-
-function putObject(path, object, value) {
-    var modelPath = path.split(".");
-
-    function fill(object, elements, depth, value) {
-        var hasNext = ((depth + 1) < elements.length);
-        if (depth < elements.length && hasNext) {
-            if (!object.hasOwnProperty(modelPath[depth])) {
-                object[modelPath[depth]] = {};
-            }
-            fill(object[modelPath[depth]], elements, ++depth, value);
-        } else {
-            object[modelPath[depth]] = value;
-        }
-    }
-    fill(object, modelPath, 0, value);
-}
 
 trainingApp.directive('jqdatepicker', function ($parse) {
     return {
@@ -260,6 +249,34 @@ trainingApp.directive('dynController', ['$compile', '$parse', function ($compile
 
     }]);
 
+trainingApp.directive('stringToNumber', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModel) {
+            ngModel.$parsers.push(function (value) {
+                return '' + value;
+            });
+            ngModel.$formatters.push(function (value) {
+                return parseFloat(value);
+            });
+        }
+    };
+});
+trainingApp.directive('schrollBottom', function () {
+    return {
+        scope: {
+            schrollBottom: "="
+        },
+        link: function (scope, element) {
+            scope.$watchCollection('schrollBottom', function (newValue) {
+                if (newValue)
+                {
+                    $(element).scrollTop($(element)[0].scrollHeight);
+                }
+            });
+        }
+    };
+});
 
 /**
  * 
@@ -278,7 +295,19 @@ function compileAngularElement(element) {
         }]);
 }
 
-trainingApp.config(function ($mdAriaProvider) {
-    // Globally disables all ARIA warnings.
-    $mdAriaProvider.disableWarnings();
-});
+function putObject(path, object, value) {
+    var modelPath = path.split(".");
+
+    function fill(object, elements, depth, value) {
+        var hasNext = ((depth + 1) < elements.length);
+        if (depth < elements.length && hasNext) {
+            if (!object.hasOwnProperty(modelPath[depth])) {
+                object[modelPath[depth]] = {};
+            }
+            fill(object[modelPath[depth]], elements, ++depth, value);
+        } else {
+            object[modelPath[depth]] = value;
+        }
+    }
+    fill(object, modelPath, 0, value);
+}

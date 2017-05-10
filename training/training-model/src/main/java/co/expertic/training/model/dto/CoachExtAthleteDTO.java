@@ -28,6 +28,7 @@ public class CoachExtAthleteDTO {
     @JsonSerialize(using = JsonDateTimeSerializer.class)
     private Date creationDate;
     private boolean external;
+    private int count;
 
     public CoachExtAthleteDTO() {
 
@@ -129,4 +130,13 @@ public class CoachExtAthleteDTO {
         this.external = external;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    
 }

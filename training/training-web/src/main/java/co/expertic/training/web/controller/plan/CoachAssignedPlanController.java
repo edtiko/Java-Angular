@@ -108,7 +108,7 @@ public class CoachAssignedPlanController {
                 List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(userId, athlete.getAthleteUserId().getUserId());
 
                 List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(userId, athlete.getAthleteUserId().getUserId());
-//                planVideoService.getVideosByUser(coachUserId, coachUserId, fromto, tipoPlan);
+
 
                 for (MailCommunicationDTO mail : mails) {
                     if (!mail.getRead()) {

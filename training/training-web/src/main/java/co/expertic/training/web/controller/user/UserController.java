@@ -496,7 +496,11 @@ public class UserController {
             } else if (Objects.equals(userDto.getRoleId(), RoleEnum.ESTRELLA.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-star");
                 
-            }else{
+            }else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH.getId())) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-coach");
+                
+            }
+            else{
                 response.sendRedirect(request.getRequestURL() + "/../../..");
             }
             return null;

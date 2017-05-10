@@ -1,10 +1,10 @@
 // create the controller and inject Angular's $scope
 trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'MessageService', 'MailService',
     'VideoService', 'AudioMessageService', 'VisibleFieldsUserService',
-    'ModuleService', 'ExternalCoachService', 'DashboardService', 'UserService', 'ActivityService',
+    'ModuleService', 'ExternalCoachService', 'DashboardService', 'UserService',
     '$window', '$mdDialog', '$mdToast', '$location',
     function ($http, $scope, AuthService, MessageService, MailService, VideoService, AudioMessageService,
-            VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService, UserService, ActivityService, $window,
+            VisibleFieldsUserService, ModuleService, ExternalCoachService, DashboardService, UserService, $window,
             $mdDialog, $mdToast, $location) {
 
         var self = this;
@@ -17,8 +17,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.userSessionTypeUserAtleta = "1";//Atleta
         $scope.userSessionTypeUserCoach = "2";//Coach
         $scope.userSessionTypeUserAdmin = "3";//Admin
-        $scope.userSessionTypeUserCoachInterno = "4";//CoachInterno
-        $scope.userSessionTypeUserCoachEstrella = "5";//CoachEstrella
+        $scope.userSessionTypeUserCoachInterno = "4";//Asesor
+        $scope.userSessionTypeUserCoachEstrella = "5";//Estrella
         $scope.userSessionTypeUserSupervisor = "6";//Supervisor
         $scope.typePlanTraining = 1;
         $scope.typePlanPlatform = 2;
@@ -30,7 +30,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.audioReceivedCount = 0;
         $scope.videoReceivedCount = 0;
         $scope.selectedIndex = 1;
-        $scope.roleSelected = -1; //-1 No aplica | 5 CoachEstrella | 4 CoachInterno 
+        $scope.roleSelected = -1; //-1 No aplica | 5 Estrella | 4 Asesor 
         $scope.wsocket;
         $scope.wsAudioMobile;
         $scope.wsVideoMobile;
@@ -55,7 +55,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             videoSupervisor:  'static/views/video/videoSupervisor.html',
             athletePanel :    'static/views/dashboard/userPanel.html',
             asesorPanel:      'static/views/dashboard/asesorPanel.html',
-            starPanel:        'static/views/dashboard/starPanel.html'
+            starPanel:        'static/views/dashboard/starPanel.html',
+            coachPanel:       'static/views/dashboard/coachPanel.html'
         };
 
         $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -460,253 +461,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         };
 
 
-
-        var mediaSource = new MediaSource();
-        mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
-        var mediaRecorder;
-        var recordedBlobs;
-        var sourceBuffer;
-        $scope.mediaModel = null;
-
-        var constraints = {
-            audio: true,
-            video: true
-        };
-
-        function handleSuccess(stream) {
-            console.log('getUserMedia() got stream: ', stream);
-            window.stream = stream;
-            if (window.URL) {
-                $scope.gumVideo.src = window.URL.createObjectURL(stream);
-            } else {
-                $scope.gumVideo.src = stream;
-            }
-        }
-
-        function handleError(error) {
-            console.log('navigator.getUserMedia error: ', error);
-        }
-
-        function handleSourceOpen(event) {
-            console.log('MediaSource opened');
-            sourceBuffer = mediaSource.addSourceBuffer('video/webm; codecs="vp8"');
-            console.log('Source buffer: ', sourceBuffer);
-        }
-
-
-
-        function handleDataAvailable(event) {
-            if (event.data && event.data.size > 0) {
-                recordedBlobs.push(event.data);
-                $scope.mediaModel = event.data;
-            }
-        }
-
-        function handleStop(event) {
-            console.log('Recorder stopped: ', event);
-        }
-
-        $scope.recordedVideo = '';
-        $scope.gumVideo = '';
-        $scope.mediaRecorder = '';
-
-        $scope.initVideo = function (recordedVideo, gumVideo) {
-            if (gumVideo != undefined && gumVideo != '') {
-                $scope.gumVideo = document.querySelector('video#' + gumVideo);
-            }
-
-            $scope.recordedVideo = document.querySelector('video#' + recordedVideo);
-            navigator.mediaDevices.getUserMedia(constraints).
-                    then(handleSuccess).catch(handleError);
-
-            $scope.recordedVideo.addEventListener('error', function (ev) {
-                console.error('MediaRecording.recordedMedia.error()');
-                alert('Error al reproducir video');
-                console.error('Your browser can not play\n\n' + $scope.recordedVideo.src
-                        + '\n\n media clip. event: ' + JSON.stringify(ev));
-            }, true);
-        };
-        // The nested try blocks will be simplified when Chrome 47 moves to Stable
-        $scope.startRecordingVideo = function () {
-            $scope.mediaRecorder = '';
-            if ($scope.mediaRecorder.state == undefined) {
-                $scope.gumVideo.controls = false;
-                recordedBlobs = [];
-                var options = {mimeType: 'video/webm;codecs=vp9'};
-                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                    console.log(options.mimeType + ' is not Supported');
-                    options = {mimeType: 'video/webm;codecs=vp8'};
-                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                        console.log(options.mimeType + ' is not Supported');
-                        options = {mimeType: 'video/webm'};
-                        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
-                            console.log(options.mimeType + ' is not Supported');
-                            options = {mimeType: ''};
-                        }
-                    }
-                }
-                try {
-                    $scope.mediaRecorder = new MediaRecorder(window.stream, options);
-                } catch (e) {
-                    console.error('Exception while creating MediaRecorder: ' + e);
-                    alert('Exception while creating MediaRecorder: '
-                            + e + '. mimeType: ' + options.mimeType);
-                    return;
-                }
-                $scope.mediaRecorder.currentTime = 0;
-                $scope.mediaRecorder.onstop = handleStop;
-                $scope.mediaRecorder.ondataavailable = handleDataAvailable;
-                $scope.mediaRecorder.start(0); // collect 10ms of data
-            } else {
-                $scope.mediaRecorder.start();
-            }
-
-        };
-
-        $scope.stopRecordingVideo = function () {
-            if ($scope.mediaRecorder.state != 'inactive' && $scope.mediaRecorder.state != undefined) {
-                $scope.gumVideo.controls = false;
-                $scope.mediaRecorder.stop();
-            } else {
-                $scope.recordedVideo.pause();
-            }
-        };
-
-        $scope.cleanVideo = function () {
-            $scope.gumVideo = document.querySelector('video#gumVideo');
-            document.getElementById('gumVideo').currentTime = 0;
-            //$scope.gumVideo.controls = false;
-            $scope.gumVideo.src = '';
-            window.stream = null;
-            $scope.mediaModel = null;
-            navigator.mediaDevices.getUserMedia(constraints).
-                    then(handleSuccess).catch(handleError);
-
-        };
-
-        $scope.playVideo = function (path) {
-            $scope.recordedVideo.controls = true;
-            $scope.recordedVideo.src = $contextPath + "video/files/" + path;
-        };
-
-        $scope.playVideoLocal = function () {
-            var superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
-            $scope.recordedVideo.controls = true;
-            $scope.recordedVideo.src = window.URL.createObjectURL(superBuffer);
-        };
-
-        $scope.playVideoRecorded = function () {
-            $scope.recordedVideo.play();
-        };
-
-        $scope.savePlanVideo = function (url, fnResponse) {
-            $scope.gumVideo.controls = false;
-            if ($scope.mediaRecorder.state != 'inactive') {
-                $scope.mediaRecorder.stop();
-            }
-
-            var blob = new Blob(recordedBlobs, {type: 'video/webm'});
-            var fd = new FormData();
-            fd.append("fileToUpload", blob);
-
-            $http.post(url, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            })
-                    .then(
-                            fnResponse,
-                            function (errResponse) {
-                                console.error('Error while getting ' + errResponse);
-                            }
-                    );
-        };
-
-        //Traer el plan asociado al Usuario Atleta
-        $scope.getAssignedPlan = function () {
-            var userId = $scope.userSession.userId;
-            DashboardService.getAssignedPlan(userId).then(
-                    function (data) {
-                        var res = data.entity.output;
-                        $window.sessionStorage.setItem("planSelected", JSON.stringify(res));
-                        $scope.planSelected = res;
-                        if (data.entity.status == 'success') {
-                            $scope.initCommunication(res);
-                        } else {
-                            $scope.showMessage(res, "Alerta");
-                        }
-
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-        $scope.getConfigurationPlanByUser = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
-            DashboardService.getConfigurationPlanByUser(planId, userId, toUserId, tipoPlan, roleSelected).then(
-                    fn,
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-        $scope.initCommunication = function (plan) {
-            var tipoPlan = "IN";
-
-            if (plan.external) {
-                tipoPlan = "EXT";
-            }
-            //ATLETA
-            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-
-
-                $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (res) {
-                    $scope.communicationStar = angular.copy(res);
-                });
-
-                $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (res) {
-                    $scope.communicationSup = angular.copy(res);
-                });
-
-            }
-            //SUPERVISOR
-            else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
-
-                if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
-                    $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (res) {
-                        $scope.audioReceivedCount = res.receivedAudio;
-                        $scope.videoReceivedCount = res.receivedMail;
-                        $scope.emailReceivedCount = res.receivedAudio;
-                        $scope.messagesReceivedCount = res.receivedMsg;
-                        $scope.videoDurationSup = res.videoDuration;
-                        $scope.audioDurationSup = res.audioDuration;
-                    });
-                } else if ($scope.roleSelected == userSessionTypeUserCoachEstrella) {
-                    $scope.getConfigurationPlanByUser(plan.id, $scope.userSession.userId, plan.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (res) {
-                        $scope.audioReceivedCount = res.receivedAudio;
-                        $scope.videoReceivedCount = res.receivedMail;
-                        $scope.emailReceivedCount = res.receivedAudio;
-                        $scope.messagesReceivedCount = res.receivedMsg;
-                        $scope.videoDurationStar = res.videoDuration;
-                        $scope.audioDurationStar = res.audioDuration;
-                    });
-                }
-
-            }
-            //ESTRELLA
-            else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
-                $scope.audioReceivedCount = 0;
-                $scope.videoReceivedCount = 0;
-                $scope.emailReceivedCount = 0;
-                $scope.messagesReceivedCount = 0;
-            }
-
-            $window.sessionStorage.setItem("planSelected", null);
-            $window.sessionStorage.setItem("planSelected", JSON.stringify($scope.planSelected));
-
-        };
-
         $scope.onMessageReceived = function (data) {
             console.log(data);
         };
@@ -829,6 +583,22 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
             $scope.getUserNotification($scope.userSession.userId);
         };
+        
+        
+        $scope.setCoachRole = function () {
+            $scope.userPanel = $scope.views.coachPanel;
+            $scope.getImageProfile($scope.userSession.userId, function (data) {
+                if (data != "") {
+                    $scope.profileImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("profileImage", $scope.profileImage);
+                } else {
+                    $scope.profileImage = "static/img/profile-default.png";
+                }
+            });
+
+            $scope.getUserNotification($scope.userSession.userId);
+        };
+        
 
         $scope.getUserNotification = function (userId) {
             UserService.getUserNotification(userId).then(
@@ -940,17 +710,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
         };
 
-        $scope.getActivitiesByWeek = function () {
-            ActivityService.getActivitiesByWeek($scope.userSession.userId).then(
-                    function (data) {
-                        $scope.weekActivities = data;
-                    },
-                    function (error) {
-                        console.log(error);
-                    }
-            );
-
-        };
 
         //Consulta si existen notificaciones internas pendientes por leer 
         self.getNotificationInternal = function (userSessionId) {
@@ -973,66 +732,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             );
         };
 
-        self.getNotificationStar = function (communicationPlanId, athleteUserId, userId, planType, roleSelected) {
-            UserService.notificationRole(communicationPlanId, athleteUserId, userId, planType, roleSelected).then(
-                    function (d) {
-                        if (d.status == 'success') {
-                            var res = d.output;
-                            if (res) {
-                                $scope.starNotification = true;
-                            } else {
-                                $scope.starNotification = false;
-                            }
-                        } else {
-                            $scope.showMessage(d.output);
-                        }
-                    },
-                    function (errResponse) {
-                        console.error('Error while getting notification: ' + errResponse);
-                    }
-            );
-        };
-
-        self.getNotificationSupervisor = function (communicationPlanId, athleteUserId, userId, planType, roleSelected) {
-            UserService.notificationRole(communicationPlanId, athleteUserId, userId, planType, roleSelected).then(
-                    function (d) {
-                        if (d.status == 'success') {
-                            var res = d.output;
-                            if (res) {
-                                $scope.supNotification = true;
-                            } else {
-                                $scope.supNotification = false;
-                            }
-                        } else {
-                            $scope.showMessage(d.output);
-                        }
-                    },
-                    function (errResponse) {
-                        console.error('Error while getting notification: ' + errResponse);
-                    }
-            );
-        };
-
-
-        self.getAssignedStar = function () {
-            DashboardService.getAssignedStarByCoach($scope.userSession.userId).then(
-                    function (data) {
-                        $scope.starsByCoach = data.entity.output;
-                        //inicializa websockets con las estrellas
-                        /*angular.forEach($scope.starsByCoach, function (value, key) {
-                         messageService.initialize(value.userId + $scope.userSession.userId);
-                         MailService.initialize(value.userId + $scope.userSession.userId);
-                         });*/
-                        self.getNotificationInternal($scope.userSession.userId);
-                        if ($scope.starsByCoach == null) {
-                            $scope.showMessage("No tiene estrellas asignados.");
-                        }
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
 
         //Obtener atletas de Coach Interno  
         self.getAssignedAthletes = function () {
@@ -1060,16 +759,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     //$scope.getUserById();
                     switch ($scope.userSession.typeUser) {
                         case $scope.userSessionTypeUserCoach:
-                            $scope.showControl = true;
-                            $scope.showControlAthlete = true;
-                            $scope.showVideo = true;
-                            $scope.showCountVideo = true;
-                            $scope.showEmail = true;
-                            $scope.showCountEmail = true;
-                            $scope.showAudioMessage = true;
-                            $scope.showCountAudio = true;
-                            $scope.showChat = true;
-                            $scope.showCountChat = true;
+                             $scope.setCoachRole(); 
                             self.getAthletesCoachExternal();
                             break;
                         case $scope.userSessionTypeUserCoachInterno:
@@ -1083,23 +773,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                             break;
                         case $scope.userSessionTypeUserAdmin:
                             $scope.getMenuByUser();
-                            $scope.showControl = true;
-                            $scope.showInternalControl = true;
-                            $scope.showControlAthlete = false;
-                            $scope.showProfileImage = true;
-                            $scope.showVideo = false;
-                            $scope.showCountVideo = false;
-                            $scope.showEmail = true;
-                            $scope.showCountEmail = false;
-                            $scope.showAudioMessage = false;
-                            $scope.showCountAudio = false;
-                            $scope.showChat = true;
-                            $scope.showCountChat = false;
-                            $scope.showScript = false;
-                            //$scope.getDashBoardByUser($scope.userSession);
-                            $scope.dashboardSelected = $scope.views.profile;
-                            //self.getSupervisors();
-                            //self.getStars();
                             break;
 
                     }
@@ -1107,42 +780,12 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
 
             });
-            // $("#trainingApp").removeClass("preloader");
         };
 
-      
-        //$scope.getMenuByUser();
         $scope.setUserSession();
 
     }]);
-trainingApp.directive('stringToNumber', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, element, attrs, ngModel) {
-            ngModel.$parsers.push(function (value) {
-                return '' + value;
-            });
-            ngModel.$formatters.push(function (value) {
-                return parseFloat(value);
-            });
-        }
-    };
-});
-trainingApp.directive('schrollBottom', function () {
-    return {
-        scope: {
-            schrollBottom: "="
-        },
-        link: function (scope, element) {
-            scope.$watchCollection('schrollBottom', function (newValue) {
-                if (newValue)
-                {
-                    $(element).scrollTop($(element)[0].scrollHeight);
-                }
-            });
-        }
-    };
-});
+
 function getDate() {
     var d = new Date();
     var ano = d.getFullYear();
