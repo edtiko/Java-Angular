@@ -760,7 +760,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     switch ($scope.userSession.typeUser) {
                         case $scope.userSessionTypeUserCoach:
                              $scope.setCoachRole(); 
-                            self.getAthletesCoachExternal();
                             break;
                         case $scope.userSessionTypeUserCoachInterno:
                             $scope.setAsesorRole();

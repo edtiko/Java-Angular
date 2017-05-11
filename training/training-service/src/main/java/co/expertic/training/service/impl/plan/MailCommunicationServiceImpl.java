@@ -3,7 +3,6 @@ package co.expertic.training.service.impl.plan;
 import co.expertic.base.jpa.DAOException;
 import co.expertic.training.dao.plan.CoachAssignedPlanDao;
 import co.expertic.training.dao.plan.MailCommunicationDao;
-import co.expertic.training.dao.plan.SupervStarCoachDao;
 import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.dto.ChartReportDTO;

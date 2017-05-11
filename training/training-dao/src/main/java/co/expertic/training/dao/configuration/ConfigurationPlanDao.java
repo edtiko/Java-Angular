@@ -97,5 +97,7 @@ public interface ConfigurationPlanDao extends BaseDAO<ConfigurationPlan> {
      * @throws co.expertic.base.jpa.DAOException 
      */
      public ConfigurationPlan findByAthleteUserId(Integer userId, Integer roleSelected) throws DAOException;
+     
+     public ConfigurationPlan findByUserRole(Integer userId, Integer roleId) throws DAOException; 
 
 }

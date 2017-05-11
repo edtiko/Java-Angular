@@ -10,6 +10,7 @@ import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import java.util.List;
 
@@ -19,9 +20,9 @@ import java.util.List;
  */
 public interface CoachExtAthleteDao extends BaseDAO<CoachExtAthlete>{
     
-     public List<CoachExtAthleteDTO> findAthletesByUserPaginate(Integer userId, PaginateDto paginateDto) throws DAOException;
+     public List<UserResumeDTO> findAthletesByUserPaginate(Integer userId, PaginateDto paginateDto) throws DAOException;
 
-    public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state) throws DAOException;
+    public List<UserResumeDTO> getAthletes(Integer userId, String state) throws DAOException;
 
     public CoachExtAthlete findById(Integer coachExtAthleteId) throws DAOException;
 

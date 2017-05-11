@@ -244,5 +244,20 @@ public class ConfigurationPlanDaoImpl extends BaseDAOImpl<ConfigurationPlan> imp
         List<ConfigurationPlan> list = query.getResultList();
         return (list == null || list.isEmpty()) ? null : list.get(0);
     }
+    
+    @Override
+    public ConfigurationPlan findByUserRole(Integer userId, Integer roleId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT cp ");
+        sql.append(" FROM TrainingPlanUser  m , ConfigurationPlan cp ");
+        sql.append(" WHERE m.userId.userId = :userId ");
+        sql.append(" AND  m.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
+        sql.append(" AND m.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append(" AND cp.communicationRoleId.roleId = ").append(roleId);
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<ConfigurationPlan> list = query.getResultList();
+        return (list == null || list.isEmpty()) ? null : list.get(0);
+    }
 
 }

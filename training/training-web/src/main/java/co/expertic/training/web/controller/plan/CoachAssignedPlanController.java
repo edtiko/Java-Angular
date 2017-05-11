@@ -213,6 +213,8 @@ public class CoachAssignedPlanController {
                 assignedCoachInternal.setAsesorCommunication(asesorCommunication);
                 responseService.setOutput(assignedCoachInternal);
             } else if (assignedCoachExternal != null) {
+                CommunicationDTO coachCommunication = userService.getCommunicationUser(PLAN_TYPE_EXT, assignedCoachExternal.getId(), athleteUserId, assignedCoachExternal.getCoachUserId().getUserId(), RoleEnum.COACH.getId());
+                assignedCoachExternal.setCoachCommunication(coachCommunication);
                 assignedCoachExternal.setExternal(true);
                 responseService.setOutput(assignedCoachExternal);
             } else {

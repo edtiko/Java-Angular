@@ -17,13 +17,20 @@ public class UtilDate {
      * @param format
      * @return 
      */
-    public String dateToStringByFormat(Date date,String format) {
-        if(date != null){
+    public String dateToStringByFormat(Date date, String format) {
+        if (date != null) {
             SimpleDateFormat dateFormatter = new SimpleDateFormat(format);
             String formatDate = dateFormatter.format(date);
             return formatDate;
         } else {
             return null;
         }
+    }
+
+    public static long calculateHourDifference(Date creationDate) {
+        Date now = new Date();
+        long diff = now.getTime() - creationDate.getTime();
+        long hoursSpent = diff / (60 * 60 * 1000);
+        return hoursSpent;
     }
 }

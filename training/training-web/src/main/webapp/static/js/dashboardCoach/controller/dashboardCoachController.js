@@ -1,7 +1,7 @@
 'use strict';
 
-trainingApp.controller('DashboardCoachController', ['$scope', 'DashboardService', '$window',
-    function ($scope, DashboardService, $window) {
+trainingApp.controller('DashboardCoachController', ['$scope','ExternalCoachService', '$window',
+    function ($scope, ExternalCoachService, $window) {
 
         var self = this;
         $scope.profileImage = "static/img/profile-default.png";
@@ -12,7 +12,7 @@ trainingApp.controller('DashboardCoachController', ['$scope', 'DashboardService'
         $scope.count = 0;
         $scope.query = {
             filter: '',
-            order: "concat(m.trainingPlanUserId.userId.name, m.trainingPlanUserId.userId.secondName,m.trainingPlanUserId.userId.lastName)",
+            order: "concat(m.userTrainingId.name, m.userTrainingId.secondName, m.userTrainingId.lastName)",
             limit: 10,
             page: 1
         };
@@ -29,7 +29,7 @@ trainingApp.controller('DashboardCoachController', ['$scope', 'DashboardService'
 
         //Obtener atletas asignados 
         self.getAssignedAthletesPaginate = function () {
-            $scope.promise = DashboardService.getAssignedAthletesPaginate($scope.query, $scope.userSession.userId,$scope.userSessionTypeUserCoachInterno, function (response) {
+            $scope.promise = ExternalCoachService.getAssignedAthletesPaginate($scope.query, $scope.userSession.userId, function (response) {
                 $scope.assignedAthletesList = success(response);
                 if ($scope.assignedAthletesList.length > 0) {
                     $scope.count = $scope.assignedAthletesList[0].count;
@@ -37,20 +37,13 @@ trainingApp.controller('DashboardCoachController', ['$scope', 'DashboardService'
             }).$promise;
         };
 
-        self.getCountByPlanAsesor = function () {
-            DashboardService.getCountByPlanRole($scope.userSession.userId,$scope.userSessionTypeUserCoachInterno, function (response) {
-                $scope.countPlanList = success(response);
-            });
-        };
 
         if ($scope.userSession == null) {
             $scope.$on('userSession', function (event, args) {
                 $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-                self.getCountByPlanAsesor();
                 self.getAssignedAthletesPaginate();
             });
         } else {
-            self.getCountByPlanAsesor();
             self.getAssignedAthletesPaginate();
         }
 

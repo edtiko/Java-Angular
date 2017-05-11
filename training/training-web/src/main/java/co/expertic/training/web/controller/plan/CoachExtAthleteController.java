@@ -6,7 +6,9 @@
 package co.expertic.training.web.controller.plan;
 
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
+import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.plan.CoachExtAthleteService;
 import co.expertic.training.web.enums.StatusResponse;
@@ -27,15 +29,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/externalCoach")
 public class CoachExtAthleteController {
-    
+
     private static final Logger LOGGER = Logger.getLogger(CoachExtAthleteController.class);
-    
+
     @Autowired
     CoachExtAthleteService coachExtAthleteService;
-    
+
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-    
+
     @RequestMapping(value = "/create/athlete", method = RequestMethod.POST)
     public @ResponseBody
     Response create(@RequestBody CoachExtAthleteDTO dto) {
@@ -66,7 +68,7 @@ public class CoachExtAthleteController {
         }
 
     }
-    
+
     @RequestMapping(value = "/sendInvitation", method = RequestMethod.POST)
     public @ResponseBody
     Response sendInvitation(@RequestBody CoachExtAthleteDTO dto) {
@@ -88,21 +90,35 @@ public class CoachExtAthleteController {
         }
 
     }
-    
-    @RequestMapping(value = "/get/athletes/{trainingPlanUserId}/{state}", method = RequestMethod.GET)
-    public ResponseEntity<List<CoachExtAthleteDTO>> getAthletes(@PathVariable("trainingPlanUserId") Integer trainingPlanUserId, @PathVariable("state") String state) {
+
+    @RequestMapping(value = "/get/athletes/{userId}/{state}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getAthletes(@PathVariable("userId") Integer userId, @PathVariable("state") String state) {
+        ResponseService responseService = new ResponseService();
         try {
-            List<CoachExtAthleteDTO> athletes = coachExtAthleteService.getAthletes(trainingPlanUserId, state);
-            if (athletes.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-            }
-            return new ResponseEntity<>(athletes, HttpStatus.OK);
+            List<UserResumeDTO> athletes = coachExtAthleteService.getAthletes(userId, state);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(athletes);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
-             LOGGER.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    @RequestMapping(value = "/get/athletes/paginate/{userId}", method = RequestMethod.POST)
+    public ResponseEntity<ResponseService> getAthletesPaginate(@PathVariable("userId") Integer userId, @RequestBody PaginateDto paginateDto) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserResumeDTO> athletes = coachExtAthleteService.findAthletesByUserPaginate(userId, paginateDto);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(athletes);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "/get/user/athletes/{query}", method = RequestMethod.GET)
     public ResponseEntity<List<UserDTO>> getUserAthletes(@PathVariable("query") String query) {
         try {
@@ -112,12 +128,11 @@ public class CoachExtAthleteController {
             }
             return new ResponseEntity<>(athletes, HttpStatus.OK);
         } catch (Exception e) {
-             LOGGER.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
-    
+
     @RequestMapping(value = "/delete/athlete/{coachExtAthleteId}", method = RequestMethod.GET)
     public @ResponseBody
     Response removeAthleteCoach(@PathVariable("coachExtAthleteId") Integer coachExtAthleteId) {
@@ -138,8 +153,8 @@ public class CoachExtAthleteController {
         }
 
     }
-    
-     @RequestMapping(value = "/get/invitation/{userId}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/get/invitation/{userId}", method = RequestMethod.GET)
     public ResponseEntity<CoachExtAthleteDTO> getInvitation(@PathVariable("userId") Integer userId) {
         try {
             CoachExtAthleteDTO invitation = coachExtAthleteService.getInvitation(userId);
@@ -148,11 +163,11 @@ public class CoachExtAthleteController {
             }
             return new ResponseEntity<>(invitation, HttpStatus.OK);
         } catch (Exception e) {
-             LOGGER.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @RequestMapping(value = "/accept/invitation/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Response acceptInvitation(@PathVariable("id") Integer coachExtAthleteId) {
@@ -174,15 +189,15 @@ public class CoachExtAthleteController {
         }
 
     }
-    
+
     @RequestMapping(value = "/reject/invitation/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Response rejectInvitation(@PathVariable("id") Integer coachExtAthleteId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-             Integer trainingPlanUserId =  coachExtAthleteService.rejectInvitation(coachExtAthleteId);
-             simpMessagingTemplate.convertAndSend("/queue/invitation/" + trainingPlanUserId, "");
+            Integer trainingPlanUserId = coachExtAthleteService.rejectInvitation(coachExtAthleteId);
+            simpMessagingTemplate.convertAndSend("/queue/invitation/" + trainingPlanUserId, "");
             strResponse.append("Invitación rechazada éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -196,5 +211,5 @@ public class CoachExtAthleteController {
         }
 
     }
-    
+
 }

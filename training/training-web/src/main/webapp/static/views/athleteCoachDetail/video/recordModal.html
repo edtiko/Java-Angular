@@ -1,0 +1,50 @@
+<meta charset="utf-8">
+<md-dialog draggable style="width: 825px; padding-top: 25px; ">
+    <div class="md-toolbar-tools" layout-align="space-around start">
+        <div layout="column">
+            <span class="cpt-title">GRABAR UN VIDEO</span>
+            <span class="cpt-info">Presiona el botón para comenzar a grabar</span>
+        </div>
+        <div layout="row" layout-padding layout-align="space-around center" flex="30">
+            <div layout="column" layout-align="center">
+                <div class="circle_video_modal" ng-disabled="!isRecordable" ng-click="inicioGrabarVideo()"><img style="padding-top: 15px" src="static/img/record_video_white.png"></div>
+                <span class="cpt-info">Grabar</span>
+            </div>
+            <div layout="column" layout-align="center">
+                <div class="circle_video_modal_white" ng-disabled="!isRecord" aria-label="stop" 
+                     ng-click="stopVideo()"><img style="padding-top: 15px" src="static/img/pause_video_modal.png"></div>
+                <span class="cpt-info">Pausar</span>
+            </div>
+            <div layout="column" layout-align="center"> 
+                <div class="circle_video_modal_white" ng-disabled="!isRecord" aria-label="stop" 
+                     ng-click="stopVideo()"><img style="padding-top: 15px" src="static/img/stop.png"></div>
+                <span class="cpt-info">Parar</span>
+            </div>
+            <div layout="column" layout-align="center">
+                <div class="circle_video_modal_white" ng-disabled="isRecord || mediaModel == null" ng-click="verVideoGrabado()"><img style="padding-top: 15px" src="static/img/play_blue.png"></div>
+                <span class="cpt-info">Reproducir</span>
+            </div>
+        </div>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F" class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <md-dialog-content> 
+        <div class="md-dialog-content" >
+            <md-content flex layout="column" layout-align="center center">
+                <video id="gumVideo" ng-show="isRecord" style="background-color: #000;border: 2px solid #fff; width: 566px; height: 315px;" autoplay  muted></video>
+                <video id="recordedVideo" ng-show="!isRecord" style="background-color: #000;border: 2px solid #fff;width: 566px; height: 315px;" autoplay   controls></video>
+                <!--<md-subheader class="md-no-sticky">Recuerde que todo contenido de video que se env&iacute;e ser&aacute; revisado de manera previa por CPT para garantizar que no contenga material que involucre desnudez, contenidos o palabras inadecuadas. Con el env&iacute;o del mensaje usted autoriza a CPT a realizar esta revisi&oacute;n.</md-subheader>-->
+
+                <br /><br />
+                <div layout="row" layout-align="center">                
+                    <md-button ng-disabled="isRecord || mediaModel == null" ng-click="eliminarVideoGrabado()" class="md-raised">ELIMINAR</md-button>
+                    <md-button ng-disabled="isRecord || mediaModel == null" ng-click="enviarVideo()" style="background: #1C2127; color:#AAFD6F;" class="md-raised">{{ 'SEND' | translate }}</md-button>
+                </div>
+            </md-content>
+        </div>
+    </md-dialog-content>
+</md-dialog>
+<script>
+    angular.element(document.getElementById('videoCoachContent')).scope().initVideo('recordedVideo', 'gumVideo');
+</script>

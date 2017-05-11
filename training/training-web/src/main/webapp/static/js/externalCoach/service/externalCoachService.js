@@ -63,8 +63,8 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                             }
                     );
         },
-                service.fetchAthletes = function (trainingPlanUserId, state) {
-                    return $http.get($contextPath + 'externalCoach/get/athletes/' + trainingPlanUserId + "/" + state)
+                service.fetchAthletes = function (userId, state) {
+                    return $http.get($contextPath + 'externalCoach/get/athletes/' + userId + "/" + state)
                             .then(
                                     function (response) {
                                         return response.data;
@@ -146,7 +146,19 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                                         return $q.reject(errResponse);
                                     }
                             );
-                };
+                },
+                
+                service.getAssignedAthletesPaginate = function (query, userId, res) {
+                return $http.post($contextPath + 'externalCoach/get/athletes/paginate/' + userId, query)
+                        .then(
+                                res,
+                                function (errResponse) {
+                                    console.error('Error while fetching athletes');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+
+            };
 
         return service;
 

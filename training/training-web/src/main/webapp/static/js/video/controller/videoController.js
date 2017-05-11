@@ -724,7 +724,7 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
 
             self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, $scope.userSession.planSelected.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
                     function (data) {
-                        $scope.availableVideoStar = data.entity.output;
+                        $scope.availableVideoStar = data.output;
                     });
         };
 

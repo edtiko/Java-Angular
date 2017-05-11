@@ -7,7 +7,10 @@ package co.expertic.training.model.dto;
 
 import co.expertic.training.model.entities.Role;
 import co.expertic.training.model.entities.User;
+import co.expertic.training.model.util.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.codec.binary.Base64;
 
@@ -26,6 +29,13 @@ public class UserResumeDTO {
     private String role;
     private List<NotificationDTO> notificationList;
     private Integer msgReceivedCount;
+    private Integer mailReceivedCount;
+    private Integer videoReceivedCount;
+    private Integer audioReceivedCount;
+    private int count;
+   @JsonSerialize(using = JsonDateSerializer.class)
+    private Date creationDate;
+   private Integer coachExtAthleteId;
     
     
     
@@ -35,6 +45,12 @@ public class UserResumeDTO {
         this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
         this.country = user.getCountryId() != null?user.getCountryId().getName():"";
         
+    }
+    
+    public UserResumeDTO(User user, Date creationDate) {
+        this.userId =  user.getUserId();
+        this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
+        this.creationDate = creationDate;
     }
     
       public UserResumeDTO(User user, String discipline){
@@ -53,6 +69,14 @@ public class UserResumeDTO {
         this.country = user.getCountryId() != null?user.getCountryId().getName():"";
         this.role = role.getName();
         
+     }
+             
+     public UserResumeDTO(Integer coachExtAthleteId, User user){
+         this.coachExtAthleteId = coachExtAthleteId;
+        this.userId = user.getUserId();
+        this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
+        this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
+        this.country = user.getCountryId() != null?user.getCountryId().getName():"";
     }
     
     public static String getProfilePhotoBase64(byte[] profilePhoto) {
@@ -147,8 +171,54 @@ public class UserResumeDTO {
     public void setMsgReceivedCount(Integer msgReceivedCount) {
         this.msgReceivedCount = msgReceivedCount;
     }
-    
-    
-    
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Integer getMailReceivedCount() {
+        return mailReceivedCount;
+    }
+
+    public void setMailReceivedCount(Integer mailReceivedCount) {
+        this.mailReceivedCount = mailReceivedCount;
+    }
+
+    public Integer getVideoReceivedCount() {
+        return videoReceivedCount;
+    }
+
+    public void setVideoReceivedCount(Integer videoReceivedCount) {
+        this.videoReceivedCount = videoReceivedCount;
+    }
+
+    public Integer getAudioReceivedCount() {
+        return audioReceivedCount;
+    }
+
+    public void setAudioReceivedCount(Integer audioReceivedCount) {
+        this.audioReceivedCount = audioReceivedCount;
+    }
+
+    public Integer getCoachExtAthleteId() {
+        return coachExtAthleteId;
+    }
+
+    public void setCoachExtAthleteId(Integer coachExtAthleteId) {
+        this.coachExtAthleteId = coachExtAthleteId;
+    }
+        
     
 }

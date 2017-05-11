@@ -469,7 +469,7 @@ public class UserServiceImpl implements UserService {
 
         CommunicationDTO communication = new CommunicationDTO();
         if (planType.equals(PLAN_TYPE_IN)) {
-            ConfigurationPlan configuration = ConfigurationPlanDao.findByAthleteUserId(userId, roleSelected);
+            ConfigurationPlan configuration = ConfigurationPlanDao.findByUserRole(toUserId, roleSelected);
             communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
             communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, userId, toUserId, roleSelected));
             communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, userId, roleSelected));
@@ -494,9 +494,29 @@ public class UserServiceImpl implements UserService {
 
         } else if (planType.equals(PLAN_TYPE_EXT)) {
 
-            CoachExtAthleteDTO assigned = coachExtDao.findByAthleteUserId(userId);
-            //communication.setAvailableMail(PlanVideoService.getCountVideoByPlan(communicatePlanId, userId, roleSelected));
+            ConfigurationPlan configuration = ConfigurationPlanDao.findByUserRole(toUserId, RoleEnum.COACH.getId());
+            
+            communication.setAvailableMsg(planMessageDao.getCountMessagesByPlanExt(communicatePlanId, userId));
+            communication.setReceivedMsg(planMessageDao.getCountMessagesReceivedExt(communicatePlanId, userId));
+            communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyExt(communicatePlanId, userId));
+            communication.setPlanMsg(configuration.getMessageCount());
 
+            communication.setAvailableAudio(planAudioDao.getCountAudioByPlanExt(communicatePlanId, userId));
+            communication.setReceivedAudio(planAudioDao.getCountAudiosReceivedExt(communicatePlanId, userId));
+            communication.setEmergencyAudio(planAudioDao.getCountAudioByEmergencyPlanExt(communicatePlanId, userId));
+            communication.setPlanAudio(configuration.getAudioCount());
+            communication.setAudioDuration(configuration.getAudioDuration());
+
+            communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlanExt(communicatePlanId, userId));
+            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceivedExt(communicatePlanId, userId));
+            communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlanExt(communicatePlanId, userId));
+            communication.setPlanMail(configuration.getEmailCount());
+
+            communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlanExt(communicatePlanId, userId));
+            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceivedExt(communicatePlanId, userId));
+            communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyExt(communicatePlanId, userId));
+            communication.setPlanVideo(configuration.getVideoCount());
+            communication.setVideoDuration(configuration.getVideoDuration());
         }
 
         return communication;

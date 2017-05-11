@@ -11,14 +11,14 @@
             </md-toolbar>
             <md-content class="border" style="height: 600px">
                 <section>
-                    <md-list ng-repeat="a  in athletes| orderBy:'creationDate':false">
+                    <md-list ng-repeat="athlete  in athletes">
                         <md-list-item ng-click="null" class="md-3-line">
-                            <img data-ng-src="{{a.athleteUserId.profilePhotoBase64}}"  alt="{{a.athleteUserId.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
+                            <img data-ng-src="{{athlete.srcImage}}"  alt="{{athlete.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                             <div class="md-list-item-text">
-                                <p>{{a.athleteUserId.fullName}}</p>
+                                <p>{{athlete.fullName}}</p>
                             </div>
-                            <md-subheader class="md-no-sticky"><strong>{{a.state}}</strong></md-subheader>
-                            <md-button ng-show="a.stateId != retired" class=" md-mini md-icon-button" ng-click="showRemoveAthleteCoach(a.id, a.athleteUserId.fullName)" aria-label="remove">
+                            <md-subheader class="md-no-sticky"><strong>{{athlete.state}}</strong></md-subheader>
+                            <md-button ng-show="athlete.stateId != retired" class=" md-mini md-icon-button" ng-click="showRemoveAthleteCoach(athlete.id, athlete.fullName)" aria-label="remove">
                                 <md-icon>
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </md-icon>

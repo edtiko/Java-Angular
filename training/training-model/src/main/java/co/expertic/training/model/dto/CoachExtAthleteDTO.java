@@ -5,12 +5,15 @@
  */
 package co.expertic.training.model.dto;
 
+import static co.expertic.training.model.dto.UserResumeDTO.getProfilePhotoBase64;
 import co.expertic.training.model.entities.ConfigurationPlan;
 import co.expertic.training.model.entities.State;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.io.IOException;
 import java.util.Date;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -29,6 +32,13 @@ public class CoachExtAthleteDTO {
     private Date creationDate;
     private boolean external;
     private int count;
+    private Integer msgReceivedCount;
+    private Integer mailReceivedCount;
+    private Integer videoReceivedCount;
+    private Integer audioReceivedCount;
+    private String color;
+    private String srcImage;
+    private CommunicationDTO coachCommunication;
 
     public CoachExtAthleteDTO() {
 
@@ -45,17 +55,16 @@ public class CoachExtAthleteDTO {
         this.external = true;
         this.trainingPlanId = TrainingPlanDTO.mapFromTrainingPlanEntity(cplan);
     }
-    
-    
-     public CoachExtAthleteDTO(Integer id, User athleteUserId, User coachUserId, Date creationDate, State stateId) {
+
+    public CoachExtAthleteDTO(Integer id, User athleteUserId, User coachUserId, Date creationDate, State stateId) {
         this.id = id;
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
         this.coachUserId = UserDTO.mapFromUserEntity(coachUserId);
         this.creationDate = creationDate;
-        //this.trainingPlanUserId = trainingPlanUserId;
         this.stateId = stateId.getStateId();
         this.state = stateId.getName();
         this.external = true;
+        this.srcImage = getProfilePhotoBase64(athleteUserId.getProfilePhoto());
     }
 
     public Integer getId() {
@@ -138,5 +147,80 @@ public class CoachExtAthleteDTO {
         this.count = count;
     }
 
-    
+    public Integer getMsgReceivedCount() {
+        return msgReceivedCount;
+    }
+
+    public void setMsgReceivedCount(Integer msgReceivedCount) {
+        this.msgReceivedCount = msgReceivedCount;
+    }
+
+    public Integer getMailReceivedCount() {
+        return mailReceivedCount;
+    }
+
+    public void setMailReceivedCount(Integer mailReceivedCount) {
+        this.mailReceivedCount = mailReceivedCount;
+    }
+
+    public Integer getVideoReceivedCount() {
+        return videoReceivedCount;
+    }
+
+    public void setVideoReceivedCount(Integer videoReceivedCount) {
+        this.videoReceivedCount = videoReceivedCount;
+    }
+
+    public Integer getAudioReceivedCount() {
+        return audioReceivedCount;
+    }
+
+    public void setAudioReceivedCount(Integer audioReceivedCount) {
+        this.audioReceivedCount = audioReceivedCount;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getSrcImage() {
+        return srcImage;
+    }
+
+    public void setSrcImage(String srcImage) {
+        this.srcImage = srcImage;
+    }
+
+    public CommunicationDTO getCoachCommunication() {
+        return coachCommunication;
+    }
+
+    public void setCoachCommunication(CommunicationDTO coachCommunication) {
+        this.coachCommunication = coachCommunication;
+    }
+
+    public static String getProfilePhotoBase64(byte[] profilePhoto) {
+        String base64Encoded = "";
+
+        if (profilePhoto != null) {
+            try {
+                byte[] encodeBase64 = Base64.encodeBase64(profilePhoto);
+                base64Encoded = new String(encodeBase64, "UTF-8");
+            } catch (IOException e) {
+                return null;
+            }
+        }
+        if (!"".equals(base64Encoded)) {
+            base64Encoded = "data:image/png;base64," + base64Encoded;
+        } else {
+            base64Encoded = "static/img/profile-default.png";
+        }
+
+        return base64Encoded;
+    }
+
 }

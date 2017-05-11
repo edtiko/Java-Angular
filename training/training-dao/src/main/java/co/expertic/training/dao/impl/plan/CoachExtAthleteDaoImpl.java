@@ -10,13 +10,12 @@ import co.expertic.base.jpa.DAOException;
 import co.expertic.training.dao.plan.CoachExtAthleteDao;
 import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.enums.StateEnum;
-import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +29,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     
     
    @Override
-    public List<CoachExtAthleteDTO> findAthletesByUserPaginate(Integer userId, PaginateDto paginateDto) throws DAOException {
+    public List<UserResumeDTO> findAthletesByUserPaginate(Integer userId, PaginateDto paginateDto) throws DAOException {
         StringBuilder sql = new StringBuilder();
         String order = paginateDto.getOrder();
         int first = paginateDto.getPage();
@@ -38,19 +37,18 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         if (order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }
-        sql.append(" SELECT new co.expertic.training.model.dto.CoachExtAthleteDTO(m.coachAssignedPlanId, m.trainingPlanUserId.userId, cp, m.trainingPlanUserId.creationDate) ");
+        sql.append(" SELECT new co.expertic.training.model.dto.UserResumeDTO(m.userTrainingId, m.creationDate) ");
         sql.append(" FROM CoachExtAthlete m ");
-        sql.append("WHERE 1=1 ");
+        sql.append(" WHERE 1=1 ");
         sql.append(" AND m.trainingPlanUserId.userId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
-
         sql.append(" order by ");
         sql.append(order);
         Query query = this.getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         query.setFirstResult(first);
         query.setMaxResults(max);
-        List<CoachExtAthleteDTO> list = query.getResultList();
+        List<UserResumeDTO> list = query.getResultList();
 
         if (list != null && !list.isEmpty()) {
             list.get(0).setCount(list.size());
@@ -60,19 +58,17 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     }
     
     @Override
-    public List<CoachExtAthleteDTO> getAthletes(Integer trainingPlanUserId, String state) throws DAOException {
+    public List<UserResumeDTO> getAthletes(Integer userId, String state) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.expertic.training.model.dto.CoachExtAthleteDTO(m.coachExtAthleteId, m.userTrainingId, m.trainingPlanUserId.userId, cp, m.creationDate, m.stateId )  ");
-        sql.append("FROM CoachExtAthlete m, ConfigurationPlan cp  ");
-        sql.append("Where m.trainingPlanUserId.trainingPlanUserId = :trainingPlanUserId ");
-        sql.append(" AND m.trainingPlanUserId.trainingPlanId.trainingPlanId = cp.trainingPlanId.trainingPlanId ");
-        sql.append(" AND cp.communicationRoleId.roleId = ").append(RoleEnum.COACH.getId());
+        sql.append("SELECT new co.expertic.training.model.dto.UserResumeDTO(m.coachExtAthleteId, m.userTrainingId )  ");
+        sql.append("FROM CoachExtAthlete m ");
+        sql.append("Where m.trainingPlanUserId.userId.userId = :userId ");
         if (!state.equals("ALL")) {
             sql.append(" And m.stateId.stateId = :stateId ");
         }
         sql.append(" Order by m.creationDate desc");
         Query query = getEntityManager().createQuery(sql.toString());
-        query.setParameter("trainingPlanUserId", trainingPlanUserId);
+        query.setParameter("userId", userId);
         if (!state.equals("ALL")) {
             query.setParameter("stateId", StateEnum.valueOf(state).getId());
         }

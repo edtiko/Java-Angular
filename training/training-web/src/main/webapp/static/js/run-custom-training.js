@@ -54,6 +54,11 @@ require.config({
         mailAsesorController: "athleteDetail/controller/mailAsesorController",
         audioAsesorController: "athleteDetail/controller/audioAsesorController",
         videoAsesorController: "athleteDetail/controller/videoAsesorController",
+        calendarCoachController: "athleteCoachDetail/controller/calendarCoachController",
+        messageCoachController: "athleteCoachDetail/controller/messageCoachController",
+        mailCoachController: "athleteCoachDetail/controller/mailCoachController",
+        audioCoachController: "athleteCoachDetail/controller/audioCoachController",
+        videoCoachController: "athleteCoachDetail/controller/videoCoachController",
         dashboardService: "dashboard/service/dashboardService",
         visibleFieldsUserService: "datosPersonales/service/visibleFieldsUserService",
         athleteService: "athletes/service/athleteService",
@@ -220,6 +225,21 @@ require.config({
         videoAsesorController: {
             deps: ['angular', 'trainingApp']
         },
+        calendarCoachController: {
+            deps: ['angular', 'trainingApp']
+        },
+        messageCoachController: {
+            deps: ['angular', 'trainingApp']
+        },
+        mailCoachController: {
+            deps: ['angular', 'trainingApp']
+        },
+        audioCoachController: {
+            deps: ['angular', 'trainingApp']
+        },
+        videoCoachController: {
+            deps: ['angular', 'trainingApp']
+        },
         starAthleteController: {
             deps: ['angular', 'trainingApp']
         },
@@ -381,7 +401,8 @@ require.config({
                 'athleteService', 'calendarAsesorController', 'chartAsesorController', 'messageAsesorController',
                 'mailAsesorController', 'audioAsesorController', 'videoAsesorController', 'asesorService', 'starAthleteController',
                 'mailStarController', 'messageStarController', 'starAthleteDetailController','messageStarAthleteController',
-                'mailStarAthleteController','audioStarAthleteController','videoStarAthleteController'
+                'mailStarAthleteController','audioStarAthleteController','videoStarAthleteController', 'calendarCoachController', 'messageCoachController',
+                'mailCoachController', 'audioCoachController', 'videoCoachController'
 
             ]}
     }
