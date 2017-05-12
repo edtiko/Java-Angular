@@ -27,6 +27,8 @@ public class UserResumeDTO {
     private String color;
     private String discipline;
     private String role;
+    private String email;
+    private String login;
     private List<NotificationDTO> notificationList;
     private Integer msgReceivedCount;
     private Integer mailReceivedCount;
@@ -36,6 +38,7 @@ public class UserResumeDTO {
    @JsonSerialize(using = JsonDateSerializer.class)
     private Date creationDate;
    private Integer coachExtAthleteId;
+   private String state;
     
     
     
@@ -44,6 +47,8 @@ public class UserResumeDTO {
         this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
         this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
         this.country = user.getCountryId() != null?user.getCountryId().getName():"";
+        this.email = user.getEmail();
+        this.login = user.getLogin();
         
     }
     
@@ -70,13 +75,14 @@ public class UserResumeDTO {
         this.role = role.getName();
         
      }
-             
-     public UserResumeDTO(Integer coachExtAthleteId, User user){
-         this.coachExtAthleteId = coachExtAthleteId;
+
+    public UserResumeDTO(Integer coachExtAthleteId, User user, String state) {
+        this.coachExtAthleteId = coachExtAthleteId;
         this.userId = user.getUserId();
-        this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();
+        this.fullName = user.getName() + " " + user.getSecondName() + " " + user.getLastName();
         this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
-        this.country = user.getCountryId() != null?user.getCountryId().getName():"";
+        this.country = user.getCountryId() != null ? user.getCountryId().getName() : "";
+        this.state = state;
     }
     
     public static String getProfilePhotoBase64(byte[] profilePhoto) {
@@ -218,6 +224,30 @@ public class UserResumeDTO {
 
     public void setCoachExtAthleteId(Integer coachExtAthleteId) {
         this.coachExtAthleteId = coachExtAthleteId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
         
     

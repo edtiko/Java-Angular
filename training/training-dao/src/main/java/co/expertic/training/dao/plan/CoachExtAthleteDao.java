@@ -9,7 +9,6 @@ import co.expertic.base.jpa.BaseDAO;
 import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.PaginateDto;
-import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.entities.CoachExtAthlete;
 import java.util.List;
@@ -28,7 +27,7 @@ public interface CoachExtAthleteDao extends BaseDAO<CoachExtAthlete>{
 
     public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId) throws DAOException;
 
-    public List<UserDTO> getUserAthletes(String query) throws DAOException;
+    public List<UserResumeDTO> getUserAthletes(String query) throws DAOException;
 
     public CoachExtAthleteDTO getInvitation(Integer userId)throws DAOException;
 

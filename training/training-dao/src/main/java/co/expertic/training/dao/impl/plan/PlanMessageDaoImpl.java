@@ -181,7 +181,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.plan_message_id) ");     
         sql.append(" FROM plan_message m ");
-        sql.append(" Where m.message_user_id = ").append(userId);
+        sql.append(" Where m.receiving_user_id = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" And m.readed = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());

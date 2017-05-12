@@ -1,0 +1,18 @@
+<meta charset="utf-8">
+<md-dialog style="width: 600px;">
+        <div class="md-toolbar-tools">
+            <span class="cpt-title">RUTINA NÚMERO {{numVideo+1}}</span>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+                <i style="color: #AAFD6F" class="fa fa-times fa-lg" aria-hidden="true"></i>
+            </md-button>
+        </div>
+    <md-dialog-content layout-align="center"> 
+        <div class="md-dialog-content">
+            <video id="recordedVideo" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;" autoplay   controls="controls"></video>
+        </div>
+    </md-dialog-content>
+</md-dialog>
+<script>
+     angular.element(document.getElementById('videoCoachContent')).scope().playVideoModal();
+</script>

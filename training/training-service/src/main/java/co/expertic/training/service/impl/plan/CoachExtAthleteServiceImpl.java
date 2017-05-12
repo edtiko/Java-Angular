@@ -27,6 +27,7 @@ import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanAudioService;
 import co.expertic.training.service.plan.PlanMessageService;
 import co.expertic.training.service.plan.PlanVideoService;
+import co.expertic.training.service.plan.TrainingPlanUserService;
 import co.expertic.training.service.user.UserService;
 import java.util.Calendar;
 import java.util.List;
@@ -82,6 +83,9 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService {
 
     @Autowired
     PlanAudioService planAudioService;
+    
+    @Autowired
+    TrainingPlanUserService trainingPlanUserService;
 
     @Override
     public void create(CoachExtAthleteDTO dto) throws Exception {
@@ -90,9 +94,9 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService {
         User user = userService.createInternalUser(dto.getAthleteUserId());
 
         UserDTO coach = userService.findById(dto.getCoachUserId().getUserId());
-
+       TrainingPlanUser tplanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(coach.getUserId()));
         CoachExtAthlete entity = new CoachExtAthlete();
-        entity.setTrainingPlanUserId(new TrainingPlanUser(dto.getTrainingPlanUserId()));
+        entity.setTrainingPlanUserId(tplanUser);
         entity.setUserTrainingId(user);
         entity.setStateId(new State(StateEnum.ACTIVE.getId()));
         entity.setCreationDate(Calendar.getInstance().getTime());
@@ -194,7 +198,7 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService {
     }
 
     @Override
-    public List<UserDTO> getUserAthletes(String query) throws Exception {
+    public List<UserResumeDTO> getUserAthletes(String query) throws Exception {
         return coachExtAthleteDao.getUserAthletes(query);
     }
 
@@ -203,8 +207,9 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService {
 
         UserDTO user = userService.findById(dto.getAthleteUserId().getUserId());
         UserDTO coach = userService.findById(dto.getCoachUserId().getUserId());
+        TrainingPlanUser tplanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(coach.getUserId()));
         CoachExtAthlete entity = new CoachExtAthlete();
-        entity.setTrainingPlanUserId(new TrainingPlanUser(dto.getTrainingPlanUserId()));
+        entity.setTrainingPlanUserId(tplanUser);
         entity.setUserTrainingId(new User(dto.getAthleteUserId().getUserId()));
         entity.setStateId(new State(StateEnum.PENDING.getId()));
         entity.setCreationDate(Calendar.getInstance().getTime());
@@ -254,8 +259,8 @@ public class CoachExtAthleteServiceImpl implements CoachExtAthleteService {
     }
 
     @Override
-    public Integer getCountAthletesAvailable(Integer trainingPlanUserId) throws Exception {
-        return coachExtAthleteDao.getCountAthletesAvailable(trainingPlanUserId);
+    public Integer getCountAthletesAvailable(Integer userId) throws Exception {
+        return coachExtAthleteDao.getCountAthletesAvailable(userId);
     }
 
     @Override

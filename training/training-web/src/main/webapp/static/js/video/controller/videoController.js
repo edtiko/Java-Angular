@@ -15,12 +15,12 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
         $scope.isRecordableAsesor = true;
         $scope.selectedIndex = 0;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-        $scope.videoDurationStar = $scope.userSession.starCommunication.videoDuration;
-        $scope.videoDurationAsesor = $scope.userSession.supervisorCommunication.videoDuration;
-        $scope.availableVideoStar = $scope.userSession.starCommunication.availableVideo;
-        $scope.videoPlanStar = $scope.userSession.starCommunication.planVideo;
-        $scope.availableVideoAsesor = $scope.userSession.supervisorCommunication.availableVideo;
-        $scope.videoPlanAsesor = $scope.userSession.supervisorCommunication.planVideo;
+        $scope.videoDurationStar = $scope.userSession.planSelected.starCommunication.videoDuration;
+        $scope.availableVideoStar = $scope.userSession.planSelected.starCommunication.availableVideo;
+        $scope.videoPlanStar = $scope.userSession.planSelected.starCommunication.planVideo;
+        $scope.videoDurationAsesor = $scope.userSession.planSelected.asesorCommunication.videoDuration;
+        $scope.availableVideoAsesor = $scope.userSession.planSelected.asesorCommunication.availableVideo;
+        $scope.videoPlanAsesor = $scope.userSession.planSelected.asesorCommunication.planVideo;
         var self = this;
         var mediaSource = new MediaSource();
         mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
@@ -745,9 +745,9 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
             });
 
 
-            self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
+            self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, toUserId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
                     function (data) {
-                        $scope.availableVideoAsesor = data.entity.output;
+                        $scope.availableVideoAsesor = data.output;
                     });
         };
 

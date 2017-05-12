@@ -60,6 +60,8 @@ import java.net.URL;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.net.URLEncoder;
+import java.util.Objects;
+import org.apache.commons.codec.binary.Base64;
 
 @Service("usuarioService")
 @Transactional
@@ -465,36 +467,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CommunicationDTO getCommunicationUser(String planType, Integer communicatePlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception {
+    public CommunicationDTO getCommunicationUser(String planType, Integer communicatePlanId, Integer atheteUserId, Integer coachUserId, Integer roleSelected) throws Exception {
 
         CommunicationDTO communication = new CommunicationDTO();
         if (planType.equals(PLAN_TYPE_IN)) {
-            ConfigurationPlan configuration = ConfigurationPlanDao.findByUserRole(toUserId, roleSelected);
-            communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, userId, toUserId, roleSelected));
-            communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, userId, roleSelected));
+            ConfigurationPlan configuration = ConfigurationPlanDao.findByUserRole(atheteUserId, roleSelected);
+            communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, atheteUserId, roleSelected));
+            communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, atheteUserId, coachUserId, roleSelected));
+            communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, atheteUserId, roleSelected));
             communication.setPlanMsg(configuration.getMessageCount());
 
-            communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, userId, roleSelected));
-            communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, userId, roleSelected));
+            communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, atheteUserId, roleSelected));
+            communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, atheteUserId, roleSelected));
+            communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, atheteUserId, roleSelected));
             communication.setPlanAudio(configuration.getAudioCount());
             communication.setAudioDuration(configuration.getAudioDuration());
 
-            communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, userId, roleSelected));
-            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, userId, toUserId, roleSelected));
-            communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, userId, roleSelected));
+            communication.setAvailableMail(mailCommunicationDao.getCountMailsByPlan(communicatePlanId, atheteUserId, roleSelected));
+            communication.setReceivedMail(mailCommunicationDao.getCountMailsReceived(communicatePlanId, atheteUserId, coachUserId, roleSelected));
+            communication.setEmergencyMail(mailCommunicationDao.getMailsEmergencyByPlan(communicatePlanId, atheteUserId, roleSelected));
             communication.setPlanMail(configuration.getEmailCount());
 
-            communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, userId, toUserId, roleSelected));
-            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, userId, toUserId , roleSelected));
-            communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, userId,toUserId, roleSelected));
+            communication.setAvailableVideo(PlanVideoDao.getCountVideoByPlan(communicatePlanId, atheteUserId, coachUserId, roleSelected));
+            communication.setReceivedVideo(PlanVideoDao.getCountVideosReceived(communicatePlanId, atheteUserId, coachUserId , roleSelected));
+            communication.setEmergencyVideo(PlanVideoDao.getCountVideoEmergencyIn(communicatePlanId, atheteUserId,coachUserId, roleSelected));
             communication.setPlanVideo(configuration.getVideoCount());
             communication.setVideoDuration(configuration.getVideoDuration());
 
         } else if (planType.equals(PLAN_TYPE_EXT)) {
 
-            ConfigurationPlan configuration = ConfigurationPlanDao.findByUserRole(toUserId, RoleEnum.COACH.getId());
+            ConfigurationPlan configuration = ConfigurationPlanDao.findByUserRole(coachUserId, RoleEnum.COACH.getId());
+            Integer userId = atheteUserId;
+            if(Objects.equals(roleSelected, RoleEnum.COACH.getId())){
+                    userId = coachUserId;
+            }
             
             communication.setAvailableMsg(planMessageDao.getCountMessagesByPlanExt(communicatePlanId, userId));
             communication.setReceivedMsg(planMessageDao.getCountMessagesReceivedExt(communicatePlanId, userId));
@@ -575,7 +581,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception {
-        return userDao.getUserNotification(userSessionId);
+        List<NotificationDTO> list = userDao.getUserNotification(userSessionId);
+        
+        for (NotificationDTO not : list) {
+            User user = userDao.findById(not.getFromUserId());
+            not.setSrcImage(getProfilePhotoBase64(user.getProfilePhoto()));
+            not.setFromUser(user.getName()+" "+user.getSecondName()+" "+user.getLastName());
+        }
+        
+        return list;
     }
 
     @Override
@@ -658,5 +672,25 @@ public class UserServiceImpl implements UserService {
         communication.setVideoDuration(configuration.getVideoDuration());
 
         return communication;
+    }
+    
+        public static String getProfilePhotoBase64(byte[] profilePhoto) {
+        String base64Encoded = "";
+
+        if (profilePhoto != null) {
+            try {
+                byte[] encodeBase64 = Base64.encodeBase64(profilePhoto);
+                base64Encoded = new String(encodeBase64, "UTF-8");
+            } catch (IOException e) {
+                return null;
+            }
+        }
+        if(!"".equals(base64Encoded)){
+        base64Encoded = "data:image/png;base64," + base64Encoded; 
+        }else{
+            base64Encoded = "static/img/profile-default.png";
+        }
+        
+        return base64Encoded;
     }
 }

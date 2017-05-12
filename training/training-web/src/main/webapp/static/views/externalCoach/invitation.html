@@ -1,28 +1,21 @@
-<md-dialog aria-label="Invitación" style="width: 350px">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2>Invitaci&oacute;n</h2>
-            <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </md-button>
-        </div>
-    </md-toolbar>
-    <md-dialog-content>
-        <div class="md-dialog-content">
-            <div ng-show="invitation != null">
-                <p>El coach {{invitation.coachUserId.fullName}} te invito a ser parte de su equipo.</p>
+<meta charset="utf-8">
+<md-dialog  style="  width:698px; height: 398px;">
+    <div class="md-toolbar-tools">
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <div class="md-dialog-content" style="height: 150px">
+        <div layout="column" layout-align="center center">
+            <img src="static/img/info.png">
+            <br />
+            <span style="color: #0064F8; text-transform: uppercase; text-align: center;"> <strong>Â¡EL COACH {{invitation.coachUserId.fullName}} TE INVIT&Oacute; A SER PARTE DE SU EQUIPO!</strong></span>
+            <br /><br /><br />
+            <div layout="row"  layout-align="center">  
+                <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="acceptInvitation()">ACEPTAR</md-button>
+                <md-button class="md-raised" ng-click="rejectInvitation()">RECHAZAR</md-button>
             </div>
-            <div ng-show="invitation == null">
-                <p>No tiene invitaciones pendientes.</p>
-            </div>
-            <md-dialog-actions layout="row" ng-show="invitation != null">
-                <md-button class="md-primary md-raised" ng-click="acceptInvitation()">Aceptar</md-button>
-                <md-button class="md-raised" ng-click="rejectInvitation()">Rechazar</md-button>
-            </md-dialog-actions>
-            <md-dialog-actions layout="row" ng-show="invitation == null">  
-                <md-button class="md-raised" ng-click="cancel()">Aceptar</md-button>
-            </md-dialog-actions>
-        </div>
-    </md-dialog-content>
+        </div>      
+    </div>
 </md-dialog>

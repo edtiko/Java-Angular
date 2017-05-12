@@ -158,7 +158,7 @@ trainingApp.controller("AudioCoachController", ['$scope', 'AudioMessageService',
             var tipoPlan = "EXT";
             var userId = $scope.userSession.userId;
             var toUserId = $scope.planSelected.athleteUserId.userId;
-            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, toUserId, function (data) {
+            self.receivedAudios(tipoPlan, $scope.roleSelected, userId, toUserId, function (data) {
                 $scope.received = data.output;
                 $scope.loadingReceived = true;
 

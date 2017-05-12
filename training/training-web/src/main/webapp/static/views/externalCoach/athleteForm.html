@@ -75,9 +75,9 @@
                             {{country.name}}
                         </md-option>
                     </md-select>
-                      <div class="has-error" ng-messages="myFormUser.country.$error">
-                            <div ng-message="required">Este es un campo requerido</div>
-                        </div>
+                    <div class="has-error" ng-messages="myFormUser.country.$error">
+                        <div ng-message="required">Este es un campo requerido</div>
+                    </div>
                 </md-input-container>
             </div>
         </div>
@@ -93,15 +93,12 @@
             </div>
             <div flex="35"></div>
         </div>
-        <div layout="row" layout-align="space-around">
-            <div flex="35">
-                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
-                    <md-button ng-click="submitAthlete()" ng-disabled="myFormUser.$invalid" class="md-raised md-primary">Guardar</md-button>
-                    <md-button  ng-click="resetAthlete()" class="md-raised md-primary">Cancelar</md-button>
-                </section>
-            </div>
-            <div flex="35"></div>
-        </div>
+
+        <section layout="row" layout-align="center" layout-wrap>
+            <md-button ng-click="submitAthlete()" style="background: #1C2127; color:#AAFD6F;" ng-disabled="myFormUser.$invalid" class="md-raised">Guardar</md-button>
+            <md-button  ng-click="resetAthlete()" class="md-raised">Cancelar</md-button>
+        </section>
+
 
     </form>
 </md-content>

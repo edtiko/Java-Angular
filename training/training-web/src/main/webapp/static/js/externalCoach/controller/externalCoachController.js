@@ -19,19 +19,19 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
                             function (response) {
                                 $scope.countries = response;
                             },
-                            function (errResponse) {
-                                console.error('Error while fetching Currencies');
+                            function (error) {
+                                console.error('Error while fetching Currencies'+error);
                             }
                     );
         };
         self.fetchAthletes = function () {
             ExternalCoachService.fetchAthletes($scope.userSession.userId, "ALL")
                     .then(
-                            function (response) {
-                                $scope.athletes = response;
+                            function (data) {
+                                $scope.athletes = data.output;
                             },
-                            function (errResponse) {
-                                console.error('Error while fetching athletes');
+                            function (error) {
+                                console.error('Error while fetching athletes'+error);
                             }
                     );
         };
@@ -40,19 +40,19 @@ trainingApp.controller("ExternalCoachController", ['$scope', 'ExternalCoachServi
             ExternalCoachService.createAthlete(coachExtAthlete)
                     .then(
                             function (response) {
-                                var json_error = JSON.parse(response.entity.output);
-                                if (response.entity.status == 'success') {
+                                var json_error = JSON.parse(response.output);
+                                if (response.status == 'success') {
                                     $scope.resetAthlete();
                                     self.fetchAthletes();
-                                    $scope.showMessage(response.entity.output);
+                                    $scope.showMessage(response.output);
                                 }else if(json_error.email_exists){
                                     $scope.showMessage("Esa dirección de correo electrónico ya está registrada. Por favor, elige otra.", "Alerta");
                                 }else {
-                                    $scope.showMessage(response.entity.output, "Alerta");
+                                    $scope.showMessage(response.output, "Alerta");
                                 }
                             },
-                            function (errResponse) {
-                                console.error('Error while creating User.');
+                            function (error) {
+                                console.error('Error while creating User.'+error);
                             }
                     );
 

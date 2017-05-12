@@ -7,7 +7,6 @@ package co.expertic.training.service.plan;
 
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.PaginateDto;
-import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserResumeDTO;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public interface CoachExtAthleteService {
 
     public CoachExtAthleteDTO findByAthleteUserId(Integer athleteUserId)throws Exception;
 
-    public List<UserDTO> getUserAthletes(String query)throws Exception;
+    public List<UserResumeDTO> getUserAthletes(String query)throws Exception;
 
     public void sendInvitation(CoachExtAthleteDTO dto)throws Exception;
 

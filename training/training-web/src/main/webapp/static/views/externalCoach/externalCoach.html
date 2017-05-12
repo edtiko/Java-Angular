@@ -1,23 +1,22 @@
 <md-content class="md-padding">
     <div layout="row" layout-align="space-around">
-
-        <div flex="25">
-            <md-toolbar class="md-hue-2">
+     
+        <div flex="35">
+               <md-card>
                 <div class="md-toolbar-tools">
                     <h2>
-                        <span>Atletas Asignados</span>
+                        <span class="sub-title">Atletas Asignados</span>
                     </h2>
                 </div>
-            </md-toolbar>
             <md-content class="border" style="height: 600px">
                 <section>
                     <md-list ng-repeat="athlete  in athletes">
                         <md-list-item ng-click="null" class="md-3-line">
                             <img data-ng-src="{{athlete.srcImage}}"  alt="{{athlete.fullName}}" class="md-avatar" style=" border: 1px solid #e1e1e1;">
                             <div class="md-list-item-text">
-                                <p>{{athlete.fullName}}</p>
+                                <p style="text-transform: capitalize" class="blue">{{athlete.fullName}}</p>
                             </div>
-                            <md-subheader class="md-no-sticky"><strong>{{athlete.state}}</strong></md-subheader>
+                            <span class="blue">{{athlete.state}}</span>
                             <md-button ng-show="athlete.stateId != retired" class=" md-mini md-icon-button" ng-click="showRemoveAthleteCoach(athlete.id, athlete.fullName)" aria-label="remove">
                                 <md-icon>
                                     <i class="fa fa-times" aria-hidden="true"></i>
@@ -29,11 +28,12 @@
                 </section>
 
             </md-content>
+        </md-card>
         </div>
         <div flex="65">
             <md-content>
                 <md-tabs md-dynamic-height md-selected="selectedIndex" md-border-bottom>
-                    <md-tab label="Crear Atleta">
+                    <md-tab label="Crear Atleta" >
                         <div ng-include src="'static/views/externalCoach/athleteForm.html'"></div>
                     </md-tab>
                     <md-tab label="Vincular Atleta">
@@ -43,7 +43,8 @@
                             <md-subheader class="md-no-sticky">Cargando Atletas..</md-subheader>
                                </div>
                             <form ng-submit="$event.preventDefault()" ng-show="repos.length > 0">
-                                <p>Atletas Existentes</p>
+                                <span class="blue"><strong>Atletas Existentes</strong></span>
+                                <br /> 
                                 <md-autocomplete
                                     md-selected-item="userSelected"
                                     md-search-text-change="searchTextChange(searchText)"
@@ -57,8 +58,8 @@
                                     md-menu-class="autocomplete-custom-template">
                                     <md-item-template>
                                         <span class="item-title">
-                                            <img data-ng-src="{{item.profilePhotoBase64}}"  alt="{{item.login}}" class="circular" style="height: 30px; width: 30px">
-                                            <span> {{item.fullName}} </span>
+                                            <img data-ng-src="{{item.srcImage}}"  alt="{{item.login}}" class="circular" style="height: 30px; width: 30px">
+                                            <span style="text-transform: capitalize"> {{item.fullName}} </span>
                                         </span>
                                         <span class="item-metadata">
                                             <span class="item-metastat">
@@ -70,7 +71,7 @@
                                         </span>
                                     </md-item-template>
                                 </md-autocomplete>
-                                <md-button class="md-raised md-primary" ng-show="userSelected != null" ng-click="sendInvitation()">Enviar Invitaci&oacute;n</md-button>
+                                <md-button class="md-raised" style="background: #1C2127; color:#AAFD6F;" ng-show="userSelected != null" ng-click="sendInvitation()">Enviar Invitaci&oacute;n</md-button>
                             </form>
                         </md-content>
                     </md-tab>

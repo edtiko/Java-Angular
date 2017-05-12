@@ -42,6 +42,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" WHERE 1=1 ");
         sql.append(" AND m.trainingPlanUserId.userId.userId = :userId ");
         sql.append(" AND m.trainingPlanUserId.stateId = ").append(StateEnum.ACTIVE.getId());
+        sql.append(" And m.stateId.stateId = ").append(StateEnum.ACTIVE.getId());
         sql.append(" order by ");
         sql.append(order);
         Query query = this.getEntityManager().createQuery(sql.toString());
@@ -60,7 +61,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     @Override
     public List<UserResumeDTO> getAthletes(Integer userId, String state) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.expertic.training.model.dto.UserResumeDTO(m.coachExtAthleteId, m.userTrainingId )  ");
+        sql.append("SELECT new co.expertic.training.model.dto.UserResumeDTO(m.coachExtAthleteId, m.userTrainingId, m.stateId.name )  ");
         sql.append("FROM CoachExtAthlete m ");
         sql.append("Where m.trainingPlanUserId.userId.userId = :userId ");
         if (!state.equals("ALL")) {
@@ -104,9 +105,9 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     }
 
     @Override
-    public List<UserDTO> getUserAthletes(String search) throws DAOException {
+    public List<UserResumeDTO> getUserAthletes(String search) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT new co.expertic.training.model.dto.UserDTO(u.userId, u.name, u.secondName, u.lastName, u.email, u.login, u.profilePhoto) ");
+        sql.append(" SELECT new co.expertic.training.model.dto.UserResumeDTO(u) ");
         sql.append(" FROM User u, RoleUser ru ");
         sql.append(" WHERE not exists (select 1 from CoachExtAthlete   c where u.userId = c.userTrainingId.userId and c.stateId.stateId = :stateId ) ");
         sql.append(" And   not exists (select 1 from CoachAssignedPlan c where u.userId = c.trainingPlanUserId.userId.userId )");
@@ -122,7 +123,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
           if(search != null && !search.trim().equals("ALL")){
               query.setParameter("search", "%"+search+"%");
           }
-        List<UserDTO> list = query.getResultList();
+        List<UserResumeDTO> list = query.getResultList();
 
         return list;
     }
@@ -143,7 +144,7 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
     }
 
     @Override
-    public Integer getCountAthletesAvailable(Integer trainingPlanUserId) throws DAOException {
+    public Integer getCountAthletesAvailable(Integer userId) throws DAOException {
 
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
@@ -151,8 +152,8 @@ public class CoachExtAthleteDaoImpl extends BaseDAOImpl<CoachExtAthlete> impleme
         sql.append(" ELSE 0 END ");
         sql.append(" FROM training_plan t, configuration_plan cp, training_plan_user tu ");
         sql.append(" LEFT JOIN coach_ext_athlete m ON m.training_plan_user_id = tu.training_plan_user_id ");
-        sql.append(" And m.training_plan_user_id = ").append(trainingPlanUserId);
-        sql.append(" Where tu.training_plan_user_id = ").append(trainingPlanUserId);
+        //sql.append(" And m.training_plan_user_id = ");
+        sql.append(" Where tu.user_id = ").append(userId);
         sql.append(" And tu.training_plan_id = t.training_plan_id ");
         sql.append(" And t.training_plan_id = cp.training_plan_id ");
         sql.append(" And cp.communication_role_id = ").append(RoleEnum.COACH.getId());

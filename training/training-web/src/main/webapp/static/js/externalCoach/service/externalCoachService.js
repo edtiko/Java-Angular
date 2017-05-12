@@ -91,7 +91,7 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                     return $http.get($contextPath + 'externalCoach/get/user/athletes/' + query)
                             .then(
                                     function (response) {
-                                        return response.data;
+                                        return response.data.output;
                                     },
                                     function (errResponse) {
                                         console.error('Error while fetching athletes');
@@ -115,7 +115,7 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
                     return $http.get($contextPath + 'externalCoach/get/invitation/' + userId)
                             .then(
                                     function (response) {
-                                        return response.data;
+                                        return response.data.output;
                                     },
                                     function (errResponse) {
                                         console.error('Error while fetching invitation');

@@ -89,75 +89,74 @@ import org.springframework.core.io.Resource;
 
 @RestController
 public class UserController {
-
+    
     private static final Logger LOGGER = Logger.getLogger(UserController.class);
-
+    
     private static final String apiKey = "45634832";
     private static final String apiSecret = "547b77a30287725ef942607913540d1eef48a161";
     private static OpenTok opentok;
-
+    
     private static final String PLAN_TYPE_IN = "IN";
     private static final String PLAN_TYPE_EXT = "EXT";
-
+    
     @Autowired
     UserService userService;
-
+    
     @Autowired
     DisciplineUserService disciplineUserService;
-
+    
     @Autowired
     RoleUserService roleUserService;
-
+    
     @Autowired
     TrainingPlanUserService trainingPlanUserService;
-
+    
     @Autowired
     TrainingPlanService trainingPlanService;
-
+    
     @Autowired
     CountryService countryService;
-
+    
     @Autowired
     UserTrainingOrderService userTrainingOrderService;
-
+    
     @Autowired
     CoachAssignedPlanService coachAssignedPlanService;
-
+    
     @Autowired
     CoachExtAthleteService coachExtAthleteService;
-
+    
     @Autowired
     StartTeamService startTeamService;
-
+    
     @Autowired
     StravaService stravaService;
-
+    
     @Autowired
     PlanMessageService planMessageService;
-
+    
     @Autowired
     PlanAudioService planAudioService;
-
+    
     @Autowired
     PlanVideoService PlanVideoService;
-
+    
     @Autowired
     MailCommunicationService mailCommunicationService;
-
+    
     @Autowired
     CoachAssignedPlanService coachService;
-
+    
     @Autowired
     CoachExtAthleteService coachExtService;
-
+    
     @Autowired
     VisibleFieldsUserService visibleFieldsUserService;
-
+    
     @Autowired
     UserProfileService userProfileService;
     
     private final StorageService storageService;
-
     
     @Autowired
     public UserController(StorageService storageService) {
@@ -198,7 +197,7 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+    
     @RequestMapping(value = "/getImageProfile/{userId}", method = RequestMethod.GET)
     public ResponseEntity<String> getImageProfile(@PathVariable("userId") Integer userId,
             HttpServletResponse response) {
@@ -283,29 +282,29 @@ public class UserController {
         user.setPassword(userDTO.getPassword());
         user.setEmail(userDTO.getEmail());
         user.setIndMetricSys(userDTO.getIndMetricSys());
-
+        
         if (userDTO.getIndMetricSys() == null || userDTO.getIndMetricSys().isEmpty()) {
             user.setIndMetricSys("1");
         }
-
+        
         user.setPhone(userDTO.getPhone());
         user.setLastName(userDTO.getLastName());
         user.setSex(userDTO.getSex());
         user.setStateId(StateEnum.ACTIVE.getId().shortValue());
         user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
         user.setUserWordpressId(userDTO.getUserWordpressId());
-
+        
         if (userDTO.getCountryId() != null) {
             user.setCountryId(new Country(userDTO.getCountryId()));
         }
-
+        
         user.setCreationDate(new Date());
         Integer userId = userService.saveUser(user);
         DisciplineUser disciplineUser = new DisciplineUser();
         disciplineUser.setUserId(new User(userId));
         disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
         disciplineUserService.create(disciplineUser);
-
+        
         if (userDTO.getTypeUser() != null) {
             Role role = new Role();
             if (userDTO.getTypeUser().equals("atleta")) {
@@ -315,7 +314,7 @@ public class UserController {
             } else {
                 role.setRoleId(3);
             }
-
+            
             RoleUser roleUser = new RoleUser();
             roleUser.setRoleId(role);
             roleUser.setUserId(user);
@@ -329,17 +328,17 @@ public class UserController {
             visibleDefault.setUserId(userId);
             visibleFieldsUserService.create(visibleDefault);
         }
-
+        
         TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
         trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
         trainingPlanUser.setUserId(user);
         trainingPlanUser.setTrainingPlanId(new TrainingPlan(0));//Plan basico por defecto
         trainingPlanUserService.create(trainingPlanUser);
-
+        
         responseService.setStatus(StatusResponse.SUCCESS.getName());
         return responseService;
     }
-
+    
     private UserMovilDTO createUserPlanMovil(UserDTO userDTO) throws Exception {
         User user = new User();
         user.setLogin(userDTO.getLogin());
@@ -348,29 +347,29 @@ public class UserController {
         user.setPassword(userDTO.getPassword());
         user.setEmail(userDTO.getEmail());
         user.setIndMetricSys(userDTO.getIndMetricSys());
-
+        
         if (userDTO.getIndMetricSys() == null || userDTO.getIndMetricSys().isEmpty()) {
             user.setIndMetricSys("1");
         }
-
+        
         user.setPhone(userDTO.getPhone());
         user.setLastName(userDTO.getLastName());
         user.setSex(userDTO.getSex());
         user.setStateId(StateEnum.ACTIVE.getId().shortValue());
         user.setIndLoginFirstTime(userDTO.getIndLoginFirstTime());
         user.setUserWordpressId(userDTO.getUserWordpressId());
-
+        
         if (userDTO.getCountryId() != null) {
             user.setCountryId(new Country(userDTO.getCountryId()));
         }
-
+        
         user.setCreationDate(new Date());
         UserMovilDTO dto = userService.saveUserMovil(user);
         DisciplineUser disciplineUser = new DisciplineUser();
         disciplineUser.setUserId(new User(dto.getUserId()));
         disciplineUser.setDiscipline(new Discipline(userDTO.getDisciplineId()));
         disciplineUserService.create(disciplineUser);
-
+        
         if (userDTO.getTypeUser() != null) {
             Role role = new Role();
             if (userDTO.getTypeUser().equals("atleta")) {
@@ -380,7 +379,7 @@ public class UserController {
             } else {
                 role.setRoleId(3);
             }
-
+            
             RoleUser roleUser = new RoleUser();
             roleUser.setRoleId(role);
             roleUser.setUserId(user);
@@ -394,20 +393,20 @@ public class UserController {
             visibleDefault.setUserId(dto.getUserId());
             visibleFieldsUserService.create(visibleDefault);
         }
-
+        
         TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
         trainingPlanUser.setStateId(StateEnum.ACTIVE.getId());
         trainingPlanUser.setUserId(user);
         trainingPlanUser.setTrainingPlanId(new TrainingPlan(0));//Plan basico por defecto
         trainingPlanUserService.create(trainingPlanUser);
-
+        
         return dto;
     }
-
+    
     @RequestMapping(value = "user/authenticate/{login}", method = RequestMethod.GET)
     public Response autenticateUser(@PathVariable("login") String login, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         ResponseService responseService = new ResponseService();
-
+        
         try {
             session.removeAttribute("user");
             UserDTO userDto = userService.findUserByUsername(login);
@@ -416,7 +415,7 @@ public class UserController {
                 response.sendRedirect(UrlProperties.URL_PORTAL + "mi-cuenta/");
                 return null;
             }
-
+            
             UserDTO userSession = new UserDTO();
             userSession.setUserId(userDto.getUserId());
             userSession.setFirstName(userDto.getFirstName());
@@ -435,34 +434,39 @@ public class UserController {
             userSession.setEmail(userDto.getEmail());
             DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userDto.getUserId());
             userSession.setDashboard(dashboard);
-
+            
             if (Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId())) {
                 if (userDto.getUserWordpressId() != null) {
                     createOrderFromAuthetication(userDto);
                 }
-
+                
                 TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
                 if (trainingPlanUser != null) {
                     userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
                     userSession.setTrainingPlanUserId(trainingPlanUser.getTrainingPlanUserId());
-
+                    
                     CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(userDto.getUserId());
                     CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(userDto.getUserId());
                     if (assignedCoachInternal != null) {
                         assignedCoachInternal.setExternal(false);
                         Integer toUserId = assignedCoachInternal.getUserCoachId();
                         CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.ESTRELLA.getId());
-                        CommunicationDTO supCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.COACH_INTERNO.getId());
-                        userSession.setStarCommunication(starCommunication);
-                        userSession.setSupervisorCommunication(supCommunication);
+                        CommunicationDTO asesorCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), userDto.getUserId(), toUserId, RoleEnum.COACH_INTERNO.getId());
+                        assignedCoachInternal.setStarCommunication(starCommunication);
+                        assignedCoachInternal.setAsesorCommunication(asesorCommunication);
                         userSession.setPlanSelected(assignedCoachInternal);
                     } else if (assignedCoachExternal != null) {
+                        Integer toUserId = assignedCoachExternal.getCoachUserId().getUserId();
+                        CommunicationDTO coachCommunication = userService.getCommunicationUser(PLAN_TYPE_EXT, assignedCoachExternal.getId(), userDto.getUserId(), toUserId, RoleEnum.ATLETA.getId());
                         assignedCoachExternal.setExternal(true);
+                        assignedCoachExternal.setCoachCommunication(coachCommunication);
                         userSession.setPlanSelected(assignedCoachExternal);
+                    } else{
+                        userSession.setPlanSelected(0);
                     }
-
+                    
                 }
-
+                
             }
             session.setAttribute("user", userSession);
             Locale locale = new Locale("es", "CO");
@@ -481,26 +485,25 @@ public class UserController {
                 };
                 new Thread(task2).start();
             }
-
+            
             if (userDto.getIndLoginFirstTime() != null && userDto.getIndLoginFirstTime() == 1 && Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/data-person");
                 return null;
             }
-
+            
             if (Objects.equals(userDto.getRoleId(), RoleEnum.ATLETA.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-athlete");
-
+                
             } else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH_INTERNO.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-asesor");
                 
             } else if (Objects.equals(userDto.getRoleId(), RoleEnum.ESTRELLA.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-star");
                 
-            }else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH.getId())) {
+            } else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-coach");
                 
-            }
-            else{
+            } else {
                 response.sendRedirect(request.getRequestURL() + "/../../..");
             }
             return null;
@@ -512,7 +515,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
+    
     @RequestMapping(value = "user/getUserSession", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> getUserSession(HttpSession session, HttpServletResponse response) {
         ResponseService responseService = new ResponseService();
@@ -533,16 +536,16 @@ public class UserController {
     public ResponseEntity<UserDTO> updateUser(@PathVariable("userId") Integer userId, @RequestBody UserDTO user) {
         try {
             System.out.println("Updating User " + userId);
-
+            
             UserDTO currentUser = userService.findById(userId);
-
+            
             if (currentUser == null) {
                 System.out.println("User with id " + userId + " not found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
+            
             userService.updateUser(user);
-
+            
             String postData = "id=" + user.getUserWordpressId() + "&discipline_id=" + user.getDisciplineId()
                     + "&country_id=" + user.getCountryId();
             String url = UrlProperties.URL_PORTAL + "update_user.php";
@@ -551,13 +554,13 @@ public class UserController {
                 JsonParser jsonParser = new JsonParser();
                 JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
                 String statusRes = jo.get("status").getAsString();
-
+                
                 if (statusRes.equals("fail")) {
                     java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, jo.get("output").getAsString());
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
-
+            
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
@@ -570,13 +573,13 @@ public class UserController {
     public ResponseEntity<UserDTO> deleteUser(@PathVariable("userId") Integer userId) {
         try {
             System.out.println("Fetching & Deleting User with id " + userId);
-
+            
             UserDTO user = userService.findById(userId);
             if (user == null) {
                 System.out.println("Unable to delete. User with id " + userId + " not found");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
+            
             userService.deleteUserById(userId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception ex) {
@@ -589,7 +592,7 @@ public class UserController {
     @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
     public ResponseEntity<UserDTO> deleteAllUsers() {
         System.out.println("Deleting All Users");
-
+        
         userService.deleteAllUsers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -644,13 +647,13 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> errorHandler(Exception exc) {
         LOGGER.error(exc.getMessage(), exc);
         return new ResponseEntity<>(exc.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
+    
     @RequestMapping(value = "/session/opentok", method = RequestMethod.GET)
     public @ResponseBody
     Response getSessionOpenTok(HttpSession session, HttpServletResponse response) {
@@ -671,9 +674,9 @@ public class UserController {
             responseService.setDetail(e.getMessage());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
         }
-
+        
     }
-
+    
     @RequestMapping(value = "user/get/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response findUsersWithDiscipline() {
         ResponseService responseService = new ResponseService();
@@ -690,23 +693,23 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
+    
     @RequestMapping(value = "user/getDiscipline/by/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response findUsersWithDiscipline(@PathVariable("userId") Integer userId) {
         ResponseService responseService = new ResponseService();
         try {
             List<UserDTO> list = userService.findUserWithDisciplineById(userId);
-
+            
             if (list != null || !list.isEmpty()) {
                 responseService.setOutput(list.get(0));
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-
+            
             responseService.setOutput(null);
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
-
+            
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al crear usuario");
@@ -715,7 +718,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
+    
     @RequestMapping(value = "user/create/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response createInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -732,7 +735,7 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
+    
     @RequestMapping(value = "user/merge/internal", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response mergeInternalUser(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -775,7 +778,7 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+    
     @RequestMapping(value = "user/authenticate/movil", method = RequestMethod.POST)
     public ResponseEntity<ResponseService> autenticateUserMovil(@RequestBody UserDTO user, HttpServletRequest request) {
         ResponseService responseService = new ResponseService();
@@ -793,7 +796,7 @@ public class UserController {
                 JsonParser jsonParser = new JsonParser();
                 JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
                 String statusRes = jo.get("status").getAsString();
-
+                
                 if (statusRes.equals("fail")) {
                     java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, jo.get("output").getAsString());
                     responseService.setOutput("Usuario o contraseña invalidos");
@@ -801,7 +804,7 @@ public class UserController {
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }
             }
-
+            
             UserMovilDTO userSession = new UserMovilDTO();
             userSession.setUserId(userDto.getUserId());
             userSession.setLogin(userDto.getLogin());
@@ -828,15 +831,15 @@ public class UserController {
             }
             userSession.setBirthDate(userDto.getBirthDate());
             userSession.setSex(userDto.getSex());
-
+            
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
             }
-
+            
             if (userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
                 CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId());
                 CoachExtAthleteDTO coachExtAthleteDTO = coachExtAthleteService.findByAthleteUserId(userDto.getUserId());
-
+                
                 if (coachAssignedPlanDTO != null) {
                     userSession.setPlanType(PLAN_TYPE_IN);
                     userSession.setCommunicationPlanId(coachAssignedPlanDTO.getId());
@@ -856,10 +859,10 @@ public class UserController {
                         userCoach.setEmail(coachUserDTO.getEmail());
                         userCoach.setSex(coachUserDTO.getSex());
                         userCoach.setBirthDate(coachUserDTO.getBirthDate());
-
+                        
                         userSession.setCoachUser(userCoach);
                     }
-
+                    
                     if (coachAssignedPlanDTO.getStarUserId() != null) {
                         UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
                         UserBasicMovilDTO userStar = new UserBasicMovilDTO();
@@ -882,7 +885,7 @@ public class UserController {
                 } else if (coachExtAthleteDTO != null) {
                     userSession.setPlanType(PLAN_TYPE_EXT);
                     userSession.setCommunicationPlanId(coachExtAthleteDTO.getId());
-
+                    
                 }
                 //obtiene los datos de perfil ó datos deportivos del usuario
                 /* UserProfileMovilDTO up = UserProfileMovilDTO.mapFromUserEntity(userProfileService.findByUserId(userDto.getUserId()));
@@ -893,7 +896,7 @@ public class UserController {
                 }
                 userSession.setUserProfile(up);*/
             }
-
+            
             TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
             if (trainingPlanUser != null) {
                 userSession.setPlanActiveId(trainingPlanUser.getTrainingPlanId().getTrainingPlanId());
@@ -911,11 +914,11 @@ public class UserController {
                 };
                 new Thread(task2).start();
             }
-
+            
             responseService.setOutput(userSession);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
-
+            
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error interno");
@@ -924,17 +927,17 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+    
     @RequestMapping(value = "/user/download/photo/{userId}", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity downloadPhotoByUser(@PathVariable("userId") Integer userId, HttpServletRequest request) {
         try {
             UserDTO userDto = userService.findById(userId);
             HttpHeaders responseHeaders = new HttpHeaders();
-
+            
             if (userDto != null) {
                 responseHeaders.add("content-disposition", "inline; filename=user" + userId + ".jpg");
-
+                
                 if (userDto.getProfilePhoto() != null) {
                     return new ResponseEntity(userDto.getProfilePhoto(), responseHeaders, HttpStatus.OK);
                 }
@@ -953,14 +956,14 @@ public class UserController {
                 byte[] response = out.toByteArray();
                 return new ResponseEntity(response, responseHeaders, HttpStatus.OK);
             }
-
+            
             return new ResponseEntity("El usuario no existe", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(OptionController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    
     @RequestMapping(value = "user/register/movil", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ResponseService> registerUserMovil(@RequestBody UserDTO userDTO) {
         ResponseService responseService = new ResponseService();
@@ -971,28 +974,28 @@ public class UserController {
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             String jsonResponse = userService.wordpressIntegrationUserRegistration(userDTO);
-
+            
             if (jsonResponse != null && !jsonResponse.isEmpty()) {
                 JsonParser jsonParser = new JsonParser();
                 JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
                 String statusRes = jo.get("status").getAsString();
-
+                
                 if (statusRes.equals("fail")) {
                     responseService.setOutput(jo.get("output").getAsJsonObject().get("errors").toString());
                     responseService.setDetail(null);
                     responseService.setStatus(StatusResponse.FAIL.getName());
                     return new ResponseEntity<>(responseService, HttpStatus.OK);
                 }
-
+                
                 UserMovilDTO userDto = createUserPlanMovil(userDTO);
-
+                
                 if (userDto != null) {
                     responseService.setOutput(userDto);
                 }
-
+                
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
-
+            
             responseService.setOutput("Error al crear usuario");
             responseService.setDetail(null);
             responseService.setStatus(StatusResponse.FAIL.getName());
@@ -1005,19 +1008,19 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
-
+    
     @RequestMapping(value = "/user/update/personal/data", method = RequestMethod.POST)
     public ResponseEntity<ResponseService> updateUserPersonal(@RequestBody UserDTO user) {
         ResponseService responseService = new ResponseService();
         try {
             UserDTO currentUser = userService.findById(user.getUserId());
-
+            
             if (currentUser == null) {
                 responseService.setOutput("El usuario no existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
-
+            
             userService.updateUser(user);
             responseService.setOutput("Usuario editado exitosamente");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -1041,28 +1044,28 @@ public class UserController {
         objUserTrainingOrder.setUserId(userDto.getUserWordpressId());
         objUserTrainingOrder.setStatus("pending");
         List<UserTrainingOrder> userTrainingOrderList = userTrainingOrderService.findByFiltro(objUserTrainingOrder);
-
+        
         for (UserTrainingOrder userTrainingOrder : userTrainingOrderList) {
             String jsonResponse = userTrainingOrderService.getPlanIdByOrder(userTrainingOrder);
             if (jsonResponse != null && !jsonResponse.isEmpty()) {
                 JsonParser jsonParser = new JsonParser();
                 JsonObject jo = (JsonObject) jsonParser.parse(jsonResponse);
                 String statusRes = jo.get("status").getAsString();
-
+                
                 if (statusRes.equals("success")) {
-
+                    
                     if (jo.get("planId") != null && !jo.get("planId").isJsonNull()
                             && !jo.get("planId").getAsString().trim().isEmpty()) {
                         Integer trainingPlanId = jo.get("planId").getAsInt();
                         List<TrainingPlan> trainingPlan = trainingPlanService.findByTrainingPlan(new TrainingPlan(trainingPlanId));
-
+                        
                         TrainingPlanUser trainingPlanUserOld = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
-
+                        
                         if (trainingPlanUserOld != null) {
                             trainingPlanUserOld.setStateId(StateEnum.INACTIVE.getId());
                             trainingPlanUserService.store(trainingPlanUserOld);
                         }
-
+                        
                         TrainingPlanUser trainingPlanUser = new TrainingPlanUser();
                         User userId = new User();
                         userId.setUserId(userDto.getUserId());
@@ -1071,7 +1074,7 @@ public class UserController {
                         trainingPlanUser.setTrainingPlanId(new TrainingPlan(trainingPlanId));
                         trainingPlanUser.setCreationDate(Calendar.getInstance().getTime());
                         trainingPlanUserService.create(trainingPlanUser);
-
+                        
                         if (jo.get("starTeamId") != null
                                 && !jo.get("starTeamId").getAsString().trim().isEmpty()) {
                             userDto.setIndLoginFirstTime(1);
@@ -1084,20 +1087,20 @@ public class UserController {
                             coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
                             coachAssignedPlanService.create(coachAssignedPlan);
                             List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
-
+                            
                             if (starTeamList != null && !starTeamList.isEmpty()) {
                                 StarTeam starTeam = starTeamList.get(0);
                                 Integer starUserId = starTeam.getStarUserId().getUserId();
                                 DisciplineUser disciplineUserStar = disciplineUserService.findByUserId(starUserId);
                                 DisciplineUser disciplineUser = disciplineUserService.findByUserId(userDto.getUserId());
-
+                                
                                 if (disciplineUser != null && disciplineUserStar != null) {
                                     if (!disciplineUser.getDisciplineUserId().equals(disciplineUserStar.getDisciplineUserId())) {
                                         disciplineUser.setDiscipline(disciplineUserStar.getDiscipline());
                                         disciplineUserService.store(disciplineUser);
                                     }
                                 }
-
+                                
                             }
                         } else if (jo.get("membershipId") != null && !jo.get("membershipId").getAsString().trim().isEmpty()) {
                             userDto.setIndLoginFirstTime(1);
@@ -1132,7 +1135,7 @@ public class UserController {
 
                             }*/
                         }
-
+                        
                         userTrainingOrder.setStatus("integrated");
                         userTrainingOrderService.store(userTrainingOrder);
                     } else {
@@ -1143,23 +1146,23 @@ public class UserController {
             }
         }
     }
-
+    
     @RequestMapping(value = "user/get/coaches", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getCoaches() {
         ResponseService responseService = new ResponseService();
         try {
             List<UserDTO> list = UserDTO.mapFromUsersEntities(userService.findUserByRole(RoleEnum.COACH_INTERNO.getId()));
-
+            
             if (list != null || !list.isEmpty()) {
                 responseService.setOutput(list);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-
+            
             responseService.setOutput(null);
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
-
+            
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al obtener coaches");
@@ -1168,23 +1171,23 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
+    
     @RequestMapping(value = "user/get/stars", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getStars() {
         ResponseService responseService = new ResponseService();
         try {
             List<UserDTO> list = UserDTO.mapFromUsersEntities(userService.findUserByRole(RoleEnum.ESTRELLA.getId()));
-
+            
             if (list != null || !list.isEmpty()) {
                 responseService.setOutput(list);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-
+            
             responseService.setOutput(null);
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
-
+            
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al obtener estrellas");
@@ -1193,23 +1196,23 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
+    
     @RequestMapping(value = "user/get/supervisors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Response getSupervisors() {
         ResponseService responseService = new ResponseService();
         try {
             List<UserDTO> list = UserDTO.mapFromUsersEntities(userService.findUserByRole(RoleEnum.SUPERVISOR.getId()));
-
+            
             if (list != null || !list.isEmpty()) {
                 responseService.setOutput(list);
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 return Response.status(Response.Status.OK).entity(responseService).build();
             }
-
+            
             responseService.setOutput(null);
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();
-
+            
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al obtener supervisores");
@@ -1218,13 +1221,13 @@ public class UserController {
             return Response.status(Response.Status.OK).entity(responseService).build();
         }
     }
-
+    
     @RequestMapping(value = "/user/update/strava/autorize/{userId}/{stravaAutorize}", method = RequestMethod.PUT)
     public ResponseEntity<ResponseService> updateUserStrava(@PathVariable("userId") Integer userId, @PathVariable("stravaAutorize") String stravaAutorize) {
         ResponseService responseService = new ResponseService();
         try {
             UserDTO currentUser = userService.findById(userId);
-
+            
             if (currentUser == null) {
                 responseService.setOutput("El usuario no existe");
                 responseService.setStatus(StatusResponse.FAIL.getName());
@@ -1243,7 +1246,7 @@ public class UserController {
             return new ResponseEntity(responseService, HttpStatus.OK);
         }
     }
-
+    
     @RequestMapping(value = "get/count/communication/{communicatePlanId}/{userId}/{toUserId}/{planType}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getCountCommunication(@PathVariable("communicatePlanId") Integer communicatePlanId, @PathVariable("userId") Integer userId,
@@ -1251,10 +1254,10 @@ public class UserController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         CommunicationDTO communication = new CommunicationDTO();
-
+        
         try {
             communication = userService.getCommunicationUser(planType, communicatePlanId, userId, toUserId, roleSelected);
-
+            
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(communication);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -1265,9 +1268,9 @@ public class UserController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-
+        
     }
-
+    
     @RequestMapping(value = "get/notification/{communicatePlanId}/{athleteUserId}/{userId}/{planType}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> notificationRoleCommunication(@PathVariable("communicatePlanId") Integer communicatePlanId, @PathVariable("athleteUserId") Integer athleteUserId,
@@ -1275,10 +1278,10 @@ public class UserController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Boolean res = false;
-
+        
         try {
             res = userService.notificationRoleCommunication(planType, communicatePlanId, userId, athleteUserId, roleSelected);
-
+            
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(res);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -1289,19 +1292,19 @@ public class UserController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-
+        
     }
-
+    
     @RequestMapping(value = "get/notification/internal/{userSessionId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> notificationInternal(@PathVariable("userSessionId") Integer userSessionId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Boolean res = false;
-
+        
         try {
             res = userService.notificationInternal(userSessionId);
-
+            
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(res);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -1312,9 +1315,9 @@ public class UserController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-
+        
     }
-
+    
     @RequestMapping(value = "get/user/ages", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getUserAges() {
@@ -1332,9 +1335,9 @@ public class UserController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-
+        
     }
-
+    
     @RequestMapping(value = "get/user/notification/{userSessionId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getUserNotification(@PathVariable("userSessionId") Integer userSessionId) {
@@ -1352,13 +1355,13 @@ public class UserController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-
+        
     }
     
-       @RequestMapping(value = "/files/{path}", method = RequestMethod.GET)
+    @RequestMapping(value = "/files/{path}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String path) {
-
+        
         Resource file = storageService.loadAsResource(path);
         return ResponseEntity
                 .ok()

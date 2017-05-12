@@ -7,7 +7,6 @@ package co.expertic.training.web.controller.plan;
 
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.PaginateDto;
-import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.plan.CoachExtAthleteService;
@@ -40,31 +39,31 @@ public class CoachExtAthleteController {
 
     @RequestMapping(value = "/create/athlete", method = RequestMethod.POST)
     public @ResponseBody
-    Response create(@RequestBody CoachExtAthleteDTO dto) {
+    ResponseEntity<ResponseService> create(@RequestBody CoachExtAthleteDTO dto) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         try {
-            /*count = coachExtAthleteService.getCountAthletesAvailable(dto.getTrainingPlanUserId());
+            count = coachExtAthleteService.getCountAthletesAvailable(dto.getCoachUserId().getUserId());
 
             if (count == 0) {
                 strResponse.append("Ya consumió el limite de atletas permitidos.");
                 responseService.setOutput(strResponse);
                 responseService.setStatus(StatusResponse.FAIL.getName());
-                return Response.status(Response.Status.OK).entity(responseService).build();
-            }*/
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
+            }
             coachExtAthleteService.create(dto);
             simpMessagingTemplate.convertAndSend("/queue/invitation/" + dto.getAthleteUserId().getUserId(), dto);
             strResponse.append("Atleta creado éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(e.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
@@ -120,16 +119,16 @@ public class CoachExtAthleteController {
     }
 
     @RequestMapping(value = "/get/user/athletes/{query}", method = RequestMethod.GET)
-    public ResponseEntity<List<UserDTO>> getUserAthletes(@PathVariable("query") String query) {
+    public ResponseEntity<ResponseService> getUserAthletes(@PathVariable("query") String query) {
+              ResponseService responseService = new ResponseService();
         try {
-            List<UserDTO> athletes = coachExtAthleteService.getUserAthletes(query);
-            if (athletes.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-            }
-            return new ResponseEntity<>(athletes, HttpStatus.OK);
+            List<UserResumeDTO> athletes = coachExtAthleteService.getUserAthletes(query);
+           responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(athletes);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 
@@ -155,22 +154,22 @@ public class CoachExtAthleteController {
     }
 
     @RequestMapping(value = "/get/invitation/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<CoachExtAthleteDTO> getInvitation(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<ResponseService> getInvitation(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
         try {
             CoachExtAthleteDTO invitation = coachExtAthleteService.getInvitation(userId);
-            if (invitation == null) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-            }
-            return new ResponseEntity<>(invitation, HttpStatus.OK);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(invitation);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 
     @RequestMapping(value = "/accept/invitation/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Response acceptInvitation(@PathVariable("id") Integer coachExtAthleteId) {
+    ResponseEntity<ResponseService> acceptInvitation(@PathVariable("id") Integer coachExtAthleteId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -179,20 +178,20 @@ public class CoachExtAthleteController {
             strResponse.append("Invitación aceptada éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
 
     @RequestMapping(value = "/reject/invitation/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Response rejectInvitation(@PathVariable("id") Integer coachExtAthleteId) {
+    ResponseEntity<ResponseService> rejectInvitation(@PathVariable("id") Integer coachExtAthleteId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -201,13 +200,13 @@ public class CoachExtAthleteController {
             strResponse.append("Invitación rechazada éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }

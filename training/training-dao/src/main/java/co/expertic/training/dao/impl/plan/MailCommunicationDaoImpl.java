@@ -301,7 +301,7 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.mail_communication_id) ");
         sql.append(" FROM mail_communication m ");
-        sql.append(" Where m.sending_user = ").append(userId);
+        sql.append(" Where m.receiving_user = ").append(userId);
         sql.append(" And m.coach_ext_athlete_id = ").append(planId);
         sql.append(" And m.read = false");
         Query query = getEntityManager().createNativeQuery(sql.toString());

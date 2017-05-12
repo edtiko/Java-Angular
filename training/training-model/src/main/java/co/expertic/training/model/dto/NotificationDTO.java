@@ -17,6 +17,8 @@ public class NotificationDTO {
     
     private Integer id;
     private Integer fromUserId;
+    private String fromUser;
+    private String srcImage;
     private String userName;
     @JsonSerialize(using=JsonDateTimeSerializer.class)
     private Date creationDate;
@@ -98,7 +100,21 @@ public class NotificationDTO {
     public void setCount(Long count) {
         this.count = count;
     }
-    
-    
-    
+
+    public String getSrcImage() {
+        return srcImage;
+    }
+
+    public void setSrcImage(String srcImage) {
+        this.srcImage = srcImage;
+    }
+
+    public String getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
+    }
+        
 }

@@ -14,7 +14,7 @@
                             <img data-ng-src="{{athleteImage}}"  class="md-avatar">
                             <div class="md-list-item-text">
                                 <h3 style="font-weight: bold; color: #0064F8">{{planSelected.athleteUserId.fullName}}</h3>
-                                <h3 style="color: #0064F8">Estrella</h3>
+                                <h3 style="color: #0064F8">Atleta</h3>
                                 <p style="color: #000">Mensajes disponibles {{availableMessage}} de {{messageCount}}</p>
                             </div>
                             <div ng-if="receivedMessage > 0" class="circle_notification">{{receivedMessage}}</div>
@@ -30,7 +30,7 @@
             </div>
             <md-divider></md-divider>
             <br />
-            <div layout="column" style="max-height:420px; min-height: 420px" flex>
+            <div layout="column" style="max-height:420px; min-height: 400px" flex>
                 <md-content style="overflow-x: hidden;" scroll-glue="glued">
                     <div layout="column" layout-align="center center" flex ng-if="loading">
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>

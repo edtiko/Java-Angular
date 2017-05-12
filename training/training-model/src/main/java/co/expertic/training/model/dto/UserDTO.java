@@ -73,7 +73,8 @@ public class UserDTO {
     private DashboardDTO dashboard;
     private Object planSelected;
     private CommunicationDTO starCommunication;
-    private CommunicationDTO supervisorCommunication;
+    private CommunicationDTO asesorCommunication;
+    private CommunicationDTO coachCommunication;
     
     public UserDTO() {
     }
@@ -703,13 +704,22 @@ public class UserDTO {
         this.starCommunication = starCommunication;
     }
 
-    public CommunicationDTO getSupervisorCommunication() {
-        return supervisorCommunication;
+    public CommunicationDTO getAsesorCommunication() {
+        return asesorCommunication;
     }
 
-    public void setSupervisorCommunication(CommunicationDTO supervisorCommunication) {
-        this.supervisorCommunication = supervisorCommunication;
+    public void setAsesorCommunication(CommunicationDTO asesorCommunication) {
+        this.asesorCommunication = asesorCommunication;
     }
+
+    public CommunicationDTO getCoachCommunication() {
+        return coachCommunication;
+    }
+
+    public void setCoachCommunication(CommunicationDTO coachCommunication) {
+        this.coachCommunication = coachCommunication;
+    }
+
     
     
 }

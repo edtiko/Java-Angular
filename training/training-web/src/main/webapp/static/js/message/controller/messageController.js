@@ -254,12 +254,15 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
 
         if ($scope.userSession != null && $scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
             $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
-            $scope.availableMessageStar = $scope.userSession.starCommunication.availableMsg;
-            $scope.messageCountStar = $scope.userSession.starCommunication.planMsg;
-            $scope.availableMessageSup = $scope.userSession.supervisorCommunication.availableMsg;
-            $scope.messageCountSup = $scope.userSession.supervisorCommunication.planMsg;
-            $scope.receivedMessageStar = $scope.userSession.starCommunication.receivedMsg;
-            $scope.receivedMessageSup = $scope.userSession.supervisorCommunication.receivedMsg;
+            
+            $scope.availableMessageStar =  $scope.userSession.planSelected.starCommunication.availableMsg;
+            $scope.messageCountStar =      $scope.userSession.planSelected.starCommunication.planMsg;
+            $scope.receivedMessageStar =   $scope.userSession.planSelected.starCommunication.receivedMsg;
+            
+            $scope.availableMessageSup =   $scope.userSession.planSelected.asesorCommunication.availableMsg;
+            $scope.messageCountSup =       $scope.userSession.planSelected.asesorCommunication.planMsg;
+            $scope.receivedMessageSup =    $scope.userSession.planSelected.asesorCommunication.receivedMsg;
+            
         } else {
             self.init();
         }

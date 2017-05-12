@@ -24,7 +24,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/dashboard-asesor', route.resolve('dashboardAsesor', 'dashboardAsesor/'))
 
                     .when('/dashboard-star', route.resolve('dashboardStar', 'dashboardStar/'))
-            
+
                     .when('/dashboard-coach', route.resolve('dashboardCoach', 'dashboardCoach/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
@@ -36,6 +36,14 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/create-user', route.resolve('registerUser', 'security/'))
 
                     .when('/message', route.resolve('message', 'message/'))
+
+                    .when('/message-coach', route.resolve('messageAthleteCoach', 'athleteCoach/message/'))
+
+                    .when('/mail-coach', route.resolve('mailAthleteCoach', 'athleteCoach/mail/'))
+
+                    .when('/audio-coach', route.resolve('audioAthleteCoach', 'athleteCoach/audio/'))
+            
+                    .when('/video-coach', route.resolve('videoAthleteCoach', 'athleteCoach/video/'))
 
                     .when('/calendar', route.resolve('calendar', 'calendar/'))
 
@@ -110,9 +118,9 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/asesores', route.resolve('asesores', 'asesores/'))
 
                     .when('/asesor-detail/:user', route.resolve('asesorDetail', 'asesorDetail/'))
-            
-                     .when('/athlete-coach-detail/:user', route.resolve('athleteCoachDetail', 'athleteCoachDetail/'))
-            
+
+                    .when('/athlete-coach-detail/:user', route.resolve('athleteCoachDetail', 'athleteCoachDetail/'))
+
                     .when('/athletes-coach', route.resolve('athletesCoach', 'athletesCoach/'))
 
                     .when('/stars', route.resolve('starAsesor', 'starAsesor/'));

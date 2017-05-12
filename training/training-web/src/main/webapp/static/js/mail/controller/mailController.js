@@ -11,12 +11,12 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
         $scope.mailSelected = '';
         $scope.searchTextReceiverUser = '';
         $scope.selectedItemReceiverUser = null;
-        $scope.availableMailStar = $scope.userSession.starCommunication.availableMail;
-        $scope.mailCountStar = $scope.userSession.starCommunication.planMail;
-        $scope.availableMailSup = $scope.userSession.supervisorCommunication.availableMail;
-        $scope.mailCountSup = $scope.userSession.supervisorCommunication.planMail;
-        $scope.receivedMailStar = $scope.userSession.starCommunication.receivedMail;
-        $scope.receivedMailSup = $scope.userSession.supervisorCommunication.receivedMail;
+        $scope.availableMailStar = $scope.userSession.planSelected.starCommunication.availableMail;
+        $scope.mailCountStar = $scope.userSession.planSelected.starCommunication.planMail;
+        $scope.receivedMailStar = $scope.userSession.planSelected.starCommunication.receivedMail;
+        $scope.availableMailSup = $scope.userSession.planSelected.asesorCommunication.availableMail;
+        $scope.mailCountSup = $scope.userSession.planSelected.asesorCommunication.planMail;
+        $scope.receivedMailSup = $scope.userSession.planSelected.asesorCommunication.receivedMail;
         
         $scope.mailCommunication = {
             id: '',
