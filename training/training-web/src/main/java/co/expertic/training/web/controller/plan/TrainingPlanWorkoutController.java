@@ -114,7 +114,8 @@ public class TrainingPlanWorkoutController {
             Date fromDate, Date toDate) throws Exception {
         
         List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(user, fromDate, toDate);
-        Map<Date, List<TrainingPlanWorkoutDto>> filtered = list.stream().collect(Collectors.groupingBy(TrainingPlanWorkoutDto::getWorkoutDate));
+        Map<Date, List<TrainingPlanWorkoutDto>> filtered = list.stream().filter(t-> !t.isManualActivity()).collect(Collectors.groupingBy(TrainingPlanWorkoutDto::getWorkoutDate));
+         List<TrainingPlanWorkoutDto> listManual = list.stream().filter(t-> t.isManualActivity()).collect(Collectors.toList());
         List<TrainingSesionDTO> result = new ArrayList<>();
           
         for (Map.Entry<Date, List<TrainingPlanWorkoutDto>> entry : filtered.entrySet()) {
@@ -132,6 +133,18 @@ public class TrainingPlanWorkoutController {
             sesionDTO.setClassName(series.get(0).getSportIcon());
             sesionDTO.setDiscipline(series.get(0).getDiscipline());
             sesionDTO.setTitle(title.toString());
+            result.add(sesionDTO);
+        }
+        
+        for (TrainingPlanWorkoutDto manual : listManual) {
+            
+             TrainingSesionDTO sesionDTO = new TrainingSesionDTO();
+            sesionDTO.setManualActivityId(manual.getActivityId());
+            sesionDTO.setStart(manual.getWorkoutDate().getTime());
+            sesionDTO.setEnd(manual.getWorkoutDate().getTime());
+            sesionDTO.setClassName(manual.getSportIcon());
+            sesionDTO.setDiscipline(manual.getDiscipline());
+            sesionDTO.setTitle(manual.getTitle());
             result.add(sesionDTO);
         }
 

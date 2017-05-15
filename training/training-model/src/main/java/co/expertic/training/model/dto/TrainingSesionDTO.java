@@ -15,6 +15,7 @@ public class TrainingSesionDTO {
     
     
     private List<SerieGenerada> series;
+    private Integer manualActivityId;
     private String description;
     private String sportIcon;
     private Integer sesion;
@@ -153,6 +154,14 @@ public class TrainingSesionDTO {
 
     public void setTimeSerie(Double timeSerie) {
         this.timeSerie = timeSerie;
+    }
+
+    public Integer getManualActivityId() {
+        return manualActivityId;
+    }
+
+    public void setManualActivityId(Integer manualActivityId) {
+        this.manualActivityId = manualActivityId;
     }
     
     

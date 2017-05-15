@@ -21,7 +21,7 @@
                     <div class="fill"></div>
                 </div>
             </div>
-           <span>&nbsp;</span>
+            <span>&nbsp;</span>
             <!--<span style="color: #0064F8">META: 950 KCAL</span>-->
         </div>
         <div layout="column" layout-align="center center">
@@ -63,8 +63,10 @@
     <center><h3></h3></center>
 </div>
 <div layout="column" >
-    <div flex id="chart_div" class="chart">
+    <!--<div flex id="chart_div" class="chart">
 
+    </div>-->
+    <div id="chartContainer" style="height: 300px; width: 100%;">
     </div>
     <!--<md-radio-group ng-model="chartSelected" md-no-ink >
         <div layout="row" layout-align="space-between center">
@@ -96,5 +98,10 @@
 
 </div>
 <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart']});
+ var options = angular.element(document.getElementById('chartContent')).scope().getChart();
+ var chart = new CanvasJS.Chart("chartContainer", options);
+  chart.render();  
 </script>
+<!--<script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart']});
+</script>--> 

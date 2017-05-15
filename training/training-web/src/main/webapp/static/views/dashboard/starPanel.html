@@ -6,8 +6,10 @@
             </a>
         </div>
         <div layout="column" layout-margin layout-align="space-around center" flex>
-            <a  href="#asesor-profile" >
+          
                 <img class="circular" data-ng-src="{{profileImage}}" style="height: 130px; width: 131px;">
+                <a  href="#data-person" id="config-icon">
+                <img src="static/img/config.png" >
                 <md-tooltip md-direction="right">
                     Ver Perfil
                 </md-tooltip>
@@ -18,8 +20,8 @@
         <md-divider></md-divider>
         <md-list class="md-dense" flex>
             <md-list-item class="md-2-line" ng-click="go('/dashboard-star', 1)" >
-                <div flex="25" ng-class="{selectedIndex: selectedIndex === 1}">
-                    <md-icon><img src="static/img/init.png"></md-icon>
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 1}">
+                    <md-icon class="icon-panel"><img src="static/img/init.png"></md-icon>
                 </div>
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">INICIO</span>
@@ -27,8 +29,8 @@
                 <md-divider></md-divider>
             </md-list-item>
             <md-list-item class="md-2-line" ng-click="go('/asesores', 2)" >
-                <div flex="25" ng-class="{selectedIndex: selectedIndex === 2}">
-                    <md-icon><img src="static/img/person.png"></md-icon>
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 2}">
+                    <md-icon class="icon-panel"><img src="static/img/person.png"></md-icon>
                 </div> 
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">MIS ASESORES</span>

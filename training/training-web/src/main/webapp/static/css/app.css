@@ -328,7 +328,7 @@ label{
     border: 1px solid #666666;
     position: absolute;
     top: 1em;
-    /*margin-top: -2px;*/
+    margin-top: -2px;
 }
 #progressbar .active:after {
     border-color: #666666;
@@ -745,5 +745,17 @@ md-input-container label{
 #navAthlete .md-button._md-nav-button.md-unselected{
    color: rgb(255, 255, 255);
    font-weight: normal;
+}
+
+.icon-panel{
+    margin: 8px 5px 10px 0px; 
+}
+
+#config-icon{
+    position: absolute;
+    text-align: center;
+    line-height: 18px;
+    padding-top: 40px;
+    margin-left: 60px;
 }
 

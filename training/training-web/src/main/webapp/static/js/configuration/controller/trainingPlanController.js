@@ -5,7 +5,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
             name: '',
             description: '',
             duration: '',
-            price: '',
+            price: 1,
             supervisorUserId: '',
             userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
         $scope.trainingPlanList = [];
@@ -252,7 +252,7 @@ trainingApp.controller('TrainingPlanController', ['$scope', 'TrainingPlanService
                 name: '',
                 description: '',
                 duration: '',
-                price: '',
+                price: 1,
                 supervisorUserId: '',
                 userCreate: '', userUpdate: '', userCreateName: '', userUpdateName: ''};
             $scope.showCreateTrainingPlan(ev);

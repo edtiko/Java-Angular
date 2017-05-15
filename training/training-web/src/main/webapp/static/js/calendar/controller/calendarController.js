@@ -111,13 +111,13 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
                 });
     };
 
-    $scope.showModalActivity = function (sesion, week, isManual = false) {
+    $scope.showModalActivity = function (sesion, week, manualActivityId) {
         $scope.selectedSesion = sesion;
         $scope.selectedWeek = week;
         
-        if (isManual) {
+        if (manualActivityId != 0) {
             $scope.manualActivityTitle = "Editar Actividad Manual";
-
+            $scope.selectedId = manualActivityId;
             $mdDialog.show({
                 controller: ManualActivityController,
                 scope: $scope.$new(),
@@ -215,10 +215,10 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
         $scope.getActivity = function () {
             CalendarService.getActivity($scope.selectedId).then(
                     function (data) {
-                        $scope.manualActivity.id = data.output.activityId;
+                        $scope.manualActivity.id = data.output.id;
                         $scope.manualActivity.sportId = data.output.sportId;
-                        $scope.manualActivity.name = data.output.title;
-                        $scope.manualActivity.description = data.output.activityDescription;
+                        $scope.manualActivity.name = data.output.name;
+                        $scope.manualActivity.description = data.output.description;
                         $scope.manualActivity.workoutDate = data.output.workoutDate;
                     },
                     function (error) {

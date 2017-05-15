@@ -302,52 +302,8 @@ public class ActivityController {
     public ResponseEntity<ResponseService> getActivity(@PathVariable("trainingPlanWorkoutId") Integer trainingPlanWorkoutId) {
         ResponseService responseService = new ResponseService();
         try {
-            TrainingPlanWorkoutDto trainingPlanWorkoutDto = null;
-            List<UserZone> listUserZone = userZoneService.findByUserId(trainingPlanWorkoutDto.getUserId());
-            Integer percentage = trainingPlanWorkoutDto.getPercentageWeather();
-            String activity = trainingPlanWorkoutDto.getActivityDescription();
-
-            if (percentage != null && percentage > 0) {
-                while (activity.contains("#")) {
-                    Pattern p = Pattern.compile("[^#]*#\\s*([0-9]+)");
-                    Matcher m = p.matcher(activity);
-                    String found = "";
-                    while (m.find()) {
-                        found = m.group(1);
-                    }
-                    int indexIni = activity.indexOf("#") + 1;
-                    //int indexFin = activity.indexOf(" ", indexIni);
-                    if (!"".equals(found)) {
-                        try {
-                            int time = Integer.parseInt(found);
-                            double timePercentage = (time * ((double) percentage / 100));
-                            int timeActivity = time - ((int) timePercentage);
-                            activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(activity.lastIndexOf(found) + found.length());
-                            //activity = activity.substring(0, (indexIni - 1)) + timeActivity + activity.substring(indexFin);
-                        } catch (NumberFormatException n) {
-                            activity = activity.replaceAll("#", "");
-                        }
-                    }
-
-                }
-                trainingPlanWorkoutDto.setActivityDescription(activity);
-            }
-
-            if (listUserZone != null && !listUserZone.isEmpty()) {
-                activity = activity.replaceAll("(?i)zona 2", "en " + listUserZone.get(0).getZoneTwo());
-                activity = activity.replaceAll("(?i)zona 3", "en " + listUserZone.get(0).getZoneThree());
-                activity = activity.replaceAll("(?i)zona 4", "en " + listUserZone.get(0).getZoneFour());
-                activity = activity.replaceAll("(?i)zona 5", "en " + listUserZone.get(0).getZoneFive());
-                activity = activity.replaceAll("(?i)zona 6", "en " + listUserZone.get(0).getZoneSix());
-                activity = activity.replaceAll("(?i)zona2", "en " + listUserZone.get(0).getZoneTwo());
-                activity = activity.replaceAll("(?i)zona3", "en " + listUserZone.get(0).getZoneThree());
-                activity = activity.replaceAll("(?i)zona4", "en " + listUserZone.get(0).getZoneFour());
-                activity = activity.replaceAll("(?i)zona5", "en " + listUserZone.get(0).getZoneFive());
-                activity = activity.replaceAll("(?i)zona6", "en " + listUserZone.get(0).getZoneSix());
-                trainingPlanWorkoutDto.setActivityDescription(activity);
-            }
-
-            responseService.setOutput(trainingPlanWorkoutDto);
+             ActivityCalendarDTO manualActivity = activityService.findByManualActivityId(trainingPlanWorkoutId);
+            responseService.setOutput(manualActivity);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

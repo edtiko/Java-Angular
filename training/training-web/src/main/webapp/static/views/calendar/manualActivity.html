@@ -15,7 +15,7 @@
 
                             <label>Deporte
                             </label>
-                            <md-select  ng-model="manualActivity.sportId" id="sport" name="sport" required>
+                            <md-select  ng-model="manualActivity.sportId" id="sport" name="sport" ng-required="true">
                                 <md-option ng-repeat="s in sports" value="{{s.sportId}}" >
                                     {{s.name}}
                                 </md-option>
@@ -45,42 +45,7 @@
                         </md-input-container>
                     </div>
                 </div>
-                <div class="border" ng-show="selectedId != ''">
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Tiempo</label>
-                            <input type="text"  id="time" name="time" />
-                        </md-input-container>
-                    </div>
-                </div>
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Distancia</label>
-                            <input type="text"  id="distance" name="distance" />
-                        </md-input-container>
-                    </div>
-                </div>
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Calor&iacute;as</label>
-                            <input type="text"  id="calories" name="calories" />
-                        </md-input-container>
-                    </div>
-                </div>
-                <div layout="row" >
-                    <div flex>
-                        <md-input-container class="md-block">
-                            <label>Descripci&oacute;n</label>
-                            <textarea id="desc" name="desc" ></textarea>
 
-                        </md-input-container>
-                    </div>
-
-                </div>
-                </div>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">  

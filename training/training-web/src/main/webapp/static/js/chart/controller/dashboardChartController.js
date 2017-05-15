@@ -11,7 +11,8 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         $scope.metafield = 1;
         $scope.weekly = false;
         $scope.currentNavItem = 'day';
-
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        
         $scope.getReportByMetafieldOneWeek = function (metafield) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
@@ -19,8 +20,8 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                     .then(
                             function (response) {
                                 $scope.userActivityPerformanceList = response.output;
-                          
-                                google.charts.load('current', {packages: ['corechart', 'gauge']});
+
+                                //google.charts.load('current', {packages: ['corechart', 'gauge']});
                                 google.charts.setOnLoadCallback(drawChart);
                                 function drawChart() {
 
@@ -110,7 +111,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                                 function drawChart() {
 
                                     var title = '';
-                                    if(google ==  null){
+                                    if (google == null) {
                                         google.charts.load('current', {packages: ['corechart', 'gauge']});
                                     }
                                     var data = new google.visualization.DataTable();
@@ -144,7 +145,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                                     var rows = new Array();
                                     var index = 0;
                                     if (weekly) {
-                                        for (var i = 0; i < $scope.userActivityPerformanceList.length-1; i++) {
+                                        for (var i = 0; i < $scope.userActivityPerformanceList.length - 1; i++) {
 
                                             if ($scope.userActivityPerformanceList[i].executedDate != undefined) {
                                                 rows[index] = [];
@@ -243,7 +244,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                 $scope.getReportByMetafieldMonthlyOrWeekly($scope.metafield, weekly, $scope.currentNavItem);
             }
         };
-     
+
         $scope.parseDateToJavascriptDate = function (date) {
             var dateParts = date.split("-");
             return new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);
@@ -263,11 +264,11 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
             var sFecha = fecha || (Fecha.getDate() + "/" + (Fecha.getMonth() + 1) + "/" + Fecha.getFullYear());
             var sep = sFecha.indexOf('/') != -1 ? '/' : '-';
             var aFecha = sFecha.split(sep);
-            var fecha = aFecha[2] + '-' + (aFecha[1]-1) + '-' + aFecha[0];
-            fecha = new Date(aFecha[0], (aFecha[1]-1), aFecha[2]);
-            fecha.setDate(fecha.getDate() + parseInt(d-1));
+            var fecha = aFecha[2] + '-' + (aFecha[1] - 1) + '-' + aFecha[0];
+            fecha = new Date(aFecha[0], (aFecha[1] - 1), aFecha[2]);
+            fecha.setDate(fecha.getDate() + parseInt(d - 1));
             var anno = fecha.getFullYear();
-            var mes = fecha.getMonth()+1;
+            var mes = fecha.getMonth() + 1;
             var dia = fecha.getDate();
             mes = (mes < 10) ? ("0" + mes) : mes;
             dia = (dia < 10) ? ("0" + dia) : dia;
@@ -293,8 +294,108 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
             return monthNames[date.getMonth()];
         }
         
-        $scope.$on('userSession', function (event, args) {
-            $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
-        });
+        $scope.getChart = function(){
+          
+           var chart =
+            {
+                animationEnabled: true,
+                data: [
+                    {
+                        type: "splineArea",
+                        color: "rgba(0,100,248,.7)",
+                        markerType: "none",
+                        showInLegend: true,
+                        legendText: "Calorias",
+                        markerSize: 15,
+                        axisX: {
+                            valueFormatString: "MMM",
+                            interval: 1,
+                            intervalType: "month"
+
+                        },
+                        dataPoints: [
+                            {y: 1},
+                            {y: 28},
+                            {y: 38},
+                            {y: 28},
+                            {y: 31},
+                            {y: 14},
+                            {y: 26},
+                            {y: 19},
+                            {y: 8},
+                            {y: 15},
+                            {y: 7},
+                            {y: 1}
+                        ]
+                    },
+                    {
+                        type: "splineArea",
+                        color: "rgba(0,232,232,.7)",
+                        markerType: "none",
+                        showInLegend: true,
+                        legendText: "Actividades",
+                        axisX: {
+                            valueFormatString: "MMM",
+                            interval: 1,
+                            intervalType: "month"
+
+                        },
+                        dataPoints: [
+                            {y: 1},
+                            {y: 8},
+                            {y: 18},
+                            {y: 28},
+                            {y: 31},
+                            {y: 14},
+                            {y: 26},
+                            {y: 9},
+                            {y: 18},
+                            {y: 11},
+                            {y: 7},
+                            {y: 1}
+                        ]
+                    },
+                    {
+                        type: "splineArea",
+                        color: "rgba(170,253,111,.7)",
+                        markerType: "none",
+                        showInLegend: true,
+                        legendText: "Distancia",
+                        axisX: {
+                            valueFormatString: "MMM",
+                            interval: 1,
+                            intervalType: "month"
+
+                        },
+                        dataPoints: [
+                            {y: 0},
+                            {y: 23},
+                            {y: 21},
+                            {y: 16},
+                            {y: 12},
+                            {y: 14},
+                            {y: 18},
+                            {y: 14},
+                            {y: 18},
+                            {y: 12},
+                            {y: 17},
+                            {y: 14}
+                        ]
+                    }
+
+                ]
+            };
+         return chart;
+        };
+
+        if ($scope.userSession == null) {
+            $scope.$on('userSession', function (event, args) {
+                //$scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
+                $scope.getChart();
+            });
+        } else {
+             $scope.getChart();
+            //$scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
+        }
 
     }]);
