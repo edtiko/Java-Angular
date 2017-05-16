@@ -36,7 +36,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         ];
         $scope.onStepChange = function (index, event) {
 
-            if (index == 3) {
+            if (index == 2 || index == 3) {
                 $scope.submitUser();
             }else if(index == 5){
                 $scope.submitUserProfile(true, event);
@@ -524,13 +524,12 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             userUpdate.profilePhotoBase64 = '';
             UserService.updateUser(user, id)
                     .then(
-                            function (msg) {
+                            function (msg) { 
                                 $scope.getVisibleFieldsUserByUser();
                                 if (file !== undefined && file != null) {
                                     $scope.uploadFile(file);
                                 }
-                                //$scope.showMessage("Usuario editado correctamente.");
-
+                                $scope.getUserSessionInfo();
                             },
                             function (errResponse) {
                                 console.error('Error while updating User.');
@@ -581,22 +580,13 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
         });
 
         $scope.submitUser = function (form, file) {
-            //var user = $scope.user;
-            //if (form.$valid) {
+    
                 if ($scope.user.userId === null) {
                     self.createUser($scope.user, file);
                 } else {
                     self.updateUser($scope.user, $scope.user.userId, file);
                 }
-           /* } else {
-                $scope.showMessage("Faltan campos por diligenciar", "Alerta");
-                if ($scope.errorMessages.length > 0) {
-                    $scope.showMessage($scope.errorMessages, "Alerta", true);
-                }
-                $scope.user = user;
-                $scope.errorMessages = [];
-                window.scrollTo(0, 200);
-            }*/
+
         };
 
         self.edit = function (id) {
@@ -661,6 +651,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 function (msg) {
                                     $scope.showMessage("Imagen cargada correctamente.");
                                     $scope.getImageProfile($scope.user.userId);
+                                    $scope.getUserSessionInfo();
                                 },
                                 function (errResponse) {
                                     console.error('Error while upload image user.');

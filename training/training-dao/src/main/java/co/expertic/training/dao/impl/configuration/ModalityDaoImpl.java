@@ -136,7 +136,7 @@ public class ModalityDaoImpl extends BaseDAOImpl<Modality> implements ModalityDa
         sql.append("SELECT new co.expertic.training.model.dto.ModalityDTO(m.modalityId,m.name) ");
         sql.append("FROM Modality m ");
         sql.append("WHERE m.disciplineId.disciplineId = :id ");
-        sql.append("order by m.name ");
+        sql.append("order by m.modalityId ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("id", id);
         return query.getResultList();

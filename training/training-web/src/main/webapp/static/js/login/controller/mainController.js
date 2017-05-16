@@ -408,7 +408,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             if (birthday != null) {
                 var ageDifMs = Date.now() - birthday.getTime();
                 var ageDate = new Date(ageDifMs); // miliseconds from epoch
-                return Math.abs(ageDate.getUTCFullYear() - 1970);
+                return Math.abs(ageDate.getUTCFullYear() - 1970)+1;
             }
         };
         $scope.logout = function () {
@@ -621,6 +621,14 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         self.setAthletePlatform = function () {
             $scope.userPanel = $scope.views.athletePlatformPanel;
             $scope.viewInvitations($scope.userSession.userId);
+            $scope.getImageProfile($scope.userSession.userId, function (data) {
+                if (data != "") {
+                    $scope.profileImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("profileImage", $scope.profileImage);
+                } else {
+                    $scope.profileImage = "static/img/profile-default.png";
+                }
+            });
         };
 
         $scope.setAthleteRole = function () {
@@ -634,6 +642,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     self.setAthletePlatform();
                 }
 
+            } else {
+                self.setAthletePlatform();
             }
         };
 
@@ -831,6 +841,40 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                         console.error(error);
                     });
         };
+        
+        $scope.getUserSessionInfo = function () {
+            $scope.getUserSession(function (res) {
+                $scope.userSession = res.data.output;
+                $scope.getLocation();
+                $scope.getImageProfile($scope.userSession.userId, function (data) {
+                    if (data != "") {
+                        $scope.profileImage = "data:image/png;base64," + data;
+                        $window.sessionStorage.setItem("profileImage", $scope.profileImage);
+                    } else {
+                        $scope.profileImage = "static/img/profile-default.png";
+                    }
+                });
+            });
+        }; 
+        
+        $scope.getLocation = function(){
+            var location = "";
+            if ($scope.userSession != null && $scope.userSession.dashboard != null) {
+
+                if ($scope.userSession.dashboard.federalState != null) {
+                    location += $scope.userSession.dashboard.federalState + ",";
+                }
+                if ($scope.userSession.dashboard.city != null) {
+                    location += $scope.userSession.dashboard.city + ",";
+                }
+                if ($scope.userSession.dashboard.country != null) {
+                    location += $scope.userSession.dashboard.country;
+                }
+
+            }
+          
+          $scope.location = location;
+        };
 
         $scope.init = function () {
             $scope.getUserSession(function (res) {
@@ -840,7 +884,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 $scope.userSession = res.data.output;
 
                 if ($scope.userSession != null) {
-                    //$scope.getUserById();
+                      $scope.getLocation();
                     switch ($scope.userSession.typeUser) {
                         case $scope.userSessionTypeUserCoach:
                             $scope.setCoachRole();

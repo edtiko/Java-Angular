@@ -228,6 +228,7 @@ trainingApp.directive('jqdatepickerbirthday', function ($parse) {
                 buttonImageOnly: true,
                 changeMonth: true,
                 changeYear: true,
+                defaultDate: new Date(1927, 1 - 1, 1),
                 yearRange: '-90:-18',
                 onSelect: function (date) {
                     //scope.date = date;

@@ -520,7 +520,15 @@ public class UserController {
     public ResponseEntity<ResponseService> getUserSession(HttpSession session, HttpServletResponse response) {
         ResponseService responseService = new ResponseService();
         try {
-            responseService.setOutput(session.getAttribute("user"));
+            UserDTO userSession = (UserDTO) session.getAttribute("user");
+            if (userSession != null) {
+                DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userSession.getUserId());
+                UserDTO user = userService.findById(userSession.getUserId());
+                userSession.setFullName(user.getFullName());
+                userSession.setDashboard(dashboard);
+                session.setAttribute("user", userSession);
+            }
+            responseService.setOutput(userSession);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);

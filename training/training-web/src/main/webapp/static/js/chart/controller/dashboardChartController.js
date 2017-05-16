@@ -388,7 +388,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
          return chart;
         };
 
-        if ($scope.userSession == null) {
+       /* if ($scope.userSession == null) {
             $scope.$on('userSession', function (event, args) {
                 //$scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
                 $scope.getChart();
@@ -396,6 +396,6 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         } else {
              $scope.getChart();
             //$scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
-        }
+        }*/
 
     }]);
