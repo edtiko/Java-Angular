@@ -53,11 +53,13 @@ trainingApp.controller('CalendarAsesorController', function ($scope, CalendarSer
                 });
     };
 
-    $scope.showModalActivity = function (id, isManual) {
-        $scope.selectedId = id;
-        if (isManual) {
+    $scope.showModalActivity = function (sesion, week, manualActivityId) {
+        $scope.selectedSesion = sesion;
+        $scope.selectedWeek = week;
+        
+        if (manualActivityId != 0) {
             $scope.manualActivityTitle = "Editar Actividad Manual";
-
+            $scope.selectedId = manualActivityId;
             $mdDialog.show({
                 controller: ManualActivityController,
                 scope: $scope.$new(),
@@ -83,21 +85,25 @@ trainingApp.controller('CalendarAsesorController', function ($scope, CalendarSer
 
     function ActivityController($scope, $mdDialog) {
 
+        //$scope.activity = {id: '', activityId: '', modality: '', executedTime:'', executedDistance:'', title: '', indStrava:'', lastUpdateStrava:'', activityDescription: '', workoutDate: '', userId: $scope.userId};
         $scope.getActivity = function () {
             //Consulta type zona igual a PPM por defecto
             $scope.trainingPow = 1;
-            CalendarService.getSerie($scope.selectedId, $scope.userSession.userId).then(
+            CalendarService.getSerie($scope.selectedSesion, $scope.selectedWeek, $scope.planSelected.athleteUserId.userId).then(
                     function (data) {
-                        $scope.serie = angular.copy(data.output);
+                        $scope.series = angular.copy(data.output);
+                        $scope.series.forEach(function (v) {
+                            $scope.totalTimeSesion =+ (v.timeSerie + v.restTime + v.warmUpTime + v.pullDownTime);
+                        });
                     },
                     function (error) {
 
                     }
             );
         };
-        
+
         $scope.getActivity();
-        
+
 
         $scope.hide = function () {
             $mdDialog.hide();
@@ -108,7 +114,7 @@ trainingApp.controller('CalendarAsesorController', function ($scope, CalendarSer
     }
     function ManualActivityController($scope, $mdDialog) {
 
-        $scope.manualActivity = {id: '', sportId: '', name: '', description: '', workoutDate: '', userId: $scope.userSession.userId};
+        $scope.manualActivity = {id: '', sportId: '', name: '', description: '', workoutDate: '', userId: $scope.planSelected.athleteUserId.userId};
 
         $scope.getActivity = function () {
             CalendarService.getActivity($scope.selectedId).then(
