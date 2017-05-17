@@ -112,12 +112,12 @@ public class TrainingPlanWorkoutController {
      */
     private List<TrainingSesionDTO> getTrainingPlanWorkoutByIntervalDateUserId(Integer user,
             Date fromDate, Date toDate) throws Exception {
-        
+
         List<TrainingPlanWorkoutDto> list = trainingPlanWorkoutService.getPlanWorkoutByUser(user, fromDate, toDate);
-        Map<Date, List<TrainingPlanWorkoutDto>> filtered = list.stream().filter(t-> !t.isManualActivity()).collect(Collectors.groupingBy(TrainingPlanWorkoutDto::getWorkoutDate));
-         List<TrainingPlanWorkoutDto> listManual = list.stream().filter(t-> t.isManualActivity()).collect(Collectors.toList());
+        Map<Date, List<TrainingPlanWorkoutDto>> filtered = list.stream().filter(t -> !t.isManualActivity()).collect(Collectors.groupingBy(TrainingPlanWorkoutDto::getWorkoutDate));
+        List<TrainingPlanWorkoutDto> listManual = list.stream().filter(t -> t.isManualActivity()).collect(Collectors.toList());
         List<TrainingSesionDTO> result = new ArrayList<>();
-          
+
         for (Map.Entry<Date, List<TrainingPlanWorkoutDto>> entry : filtered.entrySet()) {
             Date workoutDate = entry.getKey();
             List<TrainingPlanWorkoutDto> series = entry.getValue();
@@ -135,10 +135,11 @@ public class TrainingPlanWorkoutController {
             sesionDTO.setTitle(title.toString());
             result.add(sesionDTO);
         }
-        
+
         for (TrainingPlanWorkoutDto manual : listManual) {
-            
-             TrainingSesionDTO sesionDTO = new TrainingSesionDTO();
+
+            TrainingSesionDTO sesionDTO = new TrainingSesionDTO();
+            sesionDTO.setId(manual.getId());
             sesionDTO.setManualActivityId(manual.getActivityId());
             sesionDTO.setStart(manual.getWorkoutDate().getTime());
             sesionDTO.setEnd(manual.getWorkoutDate().getTime());
@@ -217,25 +218,22 @@ public class TrainingPlanWorkoutController {
     public ResponseEntity<ResponseService> createActivityPlanWorkout(@RequestBody PlanWorkoutDTO planWorkoutDTO) {
         ResponseService responseService = new ResponseService();
         try {
-            List<TrainingPlanUser> listTrainingPlanUser = trainingPlanUserService.getPlanWorkoutByUser(planWorkoutDTO.getUserId());
 
-            if (listTrainingPlanUser != null && !listTrainingPlanUser.isEmpty()) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date activityDate = dateFormat.parse(planWorkoutDTO.getActivityDate());
-                responseService.setOutput("actividad creada en el plan exitosamente");
-                responseService.setStatus(StatusResponse.SUCCESS.getName());
-                TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
-                if (planWorkoutDTO.getActivityId() != null) {
-                    planWorkout.setActivityId(new Activity(planWorkoutDTO.getActivityId()));
-                    planWorkout.isDrag(Boolean.TRUE);
-                } else if (planWorkoutDTO.getManualActivityId() != null) {
-                    planWorkout.setManualActivityId(new ManualActivity(planWorkoutDTO.getManualActivityId()));
-                    planWorkout.isDrag(Boolean.FALSE);
-                }
-                planWorkout.setTrainingPlanUserId(listTrainingPlanUser.get(0));
-                planWorkout.setWorkoutDate(activityDate);
-                trainingPlanWorkoutService.create(planWorkout);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date activityDate = dateFormat.parse(planWorkoutDTO.getActivityDate());
+            responseService.setOutput("actividad creada en el plan exitosamente");
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            TrainingPlanWorkout planWorkout = new TrainingPlanWorkout();
+            if (planWorkoutDTO.getActivityId() != null) {
+                planWorkout.setActivityId(new Activity(planWorkoutDTO.getActivityId()));
+                planWorkout.isDrag(Boolean.TRUE);
+            } else if (planWorkoutDTO.getManualActivityId() != null) {
+                planWorkout.setManualActivityId(new ManualActivity(planWorkoutDTO.getManualActivityId()));
+                planWorkout.isDrag(Boolean.FALSE);
             }
+            planWorkout.setUserId(new User(planWorkoutDTO.getUserId()));
+            planWorkout.setWorkoutDate(activityDate);
+            trainingPlanWorkoutService.create(planWorkout);
 
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
@@ -266,8 +264,9 @@ public class TrainingPlanWorkoutController {
                 } else if (listTrainingPlanUser.get(0).getManualActivityId() != null) {
                     planWorkout.setManualActivityId(listTrainingPlanUser.get(0).getManualActivityId());
                 }
-                planWorkout.setTrainingPlanUserId(listTrainingPlanUser.get(0).getTrainingPlanUserId());
+                planWorkout.setUserId(listTrainingPlanUser.get(0).getUserId());
                 planWorkout.setWorkoutDate(activityDate);
+                planWorkout.setIsDrag(Boolean.FALSE);
                 trainingPlanWorkoutService.create(planWorkout);
             }
 
@@ -456,105 +455,102 @@ public class TrainingPlanWorkoutController {
 
             List<UserZone> listUserZone = userZoneService.findByUserId(userId);
             List<TrainingUserSerieDTO> series = trainingPlanWorkoutService.getSerieBySesionWeekUser(userId, sesion, week);
-             ZoneTimeSerie times = trainingPlanWorkoutService.getZoneTimesByUser(userId);
+            ZoneTimeSerie times = trainingPlanWorkoutService.getZoneTimesByUser(userId);
             String ppm = "";
             String pace = "";
             for (TrainingUserSerieDTO serie : series) {
-                
-            
-            for (UserZone userZone : listUserZone) {
-                if (userZone.getZoneType().equals("1")) {
-                    switch (serie.getNumZone()) {
-                        case 1:
-                            ppm = userZone.getZoneOne();
-                            break;
-                        case 2:
-                            ppm = userZone.getZoneTwo();
-                            break;
-                        case 3:
-                            ppm = userZone.getZoneThree();
-                            break;
-                        case 4:
-                            ppm = userZone.getZoneFour();
-                            break;
-                        case 5:
-                            ppm = userZone.getZoneFive();
-                            break;
-                        case 6:
-                            ppm = userZone.getZoneSix();
-                            break;
-                        case 7:
-                            ppm = userZone.getZoneSeven();
-                            break;
-                    }
-                } else if (userZone.getZoneType().equals("2")) {
-                    switch (serie.getNumZone()) {
-                        case 1:
-                            pace = userZone.getZoneOne();
-                            break;
-                        case 2:
-                            pace = userZone.getZoneTwo();
-                            break;
-                        case 3:
-                            pace = userZone.getZoneThree();
-                            break;
-                        case 4:
-                            pace = userZone.getZoneFour();
-                            break;
-                        case 5:
-                            pace = userZone.getZoneFive();
-                            break;
-                        case 6:
-                            pace = userZone.getZoneSix();
-                            break;
-                        case 7:
-                            pace = userZone.getZoneSeven();
-                            break;
+
+                for (UserZone userZone : listUserZone) {
+                    if (userZone.getZoneType().equals("1")) {
+                        switch (serie.getNumZone()) {
+                            case 1:
+                                ppm = userZone.getZoneOne();
+                                break;
+                            case 2:
+                                ppm = userZone.getZoneTwo();
+                                break;
+                            case 3:
+                                ppm = userZone.getZoneThree();
+                                break;
+                            case 4:
+                                ppm = userZone.getZoneFour();
+                                break;
+                            case 5:
+                                ppm = userZone.getZoneFive();
+                                break;
+                            case 6:
+                                ppm = userZone.getZoneSix();
+                                break;
+                            case 7:
+                                ppm = userZone.getZoneSeven();
+                                break;
+                        }
+                    } else if (userZone.getZoneType().equals("2")) {
+                        switch (serie.getNumZone()) {
+                            case 1:
+                                pace = userZone.getZoneOne();
+                                break;
+                            case 2:
+                                pace = userZone.getZoneTwo();
+                                break;
+                            case 3:
+                                pace = userZone.getZoneThree();
+                                break;
+                            case 4:
+                                pace = userZone.getZoneFour();
+                                break;
+                            case 5:
+                                pace = userZone.getZoneFive();
+                                break;
+                            case 6:
+                                pace = userZone.getZoneSix();
+                                break;
+                            case 7:
+                                pace = userZone.getZoneSeven();
+                                break;
+                        }
                     }
                 }
-            }
-            
-            
-            
-            if(times != null){
-                serie.setWarmUpTime(times.getWarmUpTime());
-                serie.setPullDownTime(times.getPullDownTime());
-            }
-            
-            long iPart = serie.getSerieTime().longValue();
-            double fPart = serie.getSerieTime() - iPart;
-            Integer seconds = (int) Math.round(fPart * 60);
-            String secondstr = seconds.toString();
-            
-            if(serie.getRestTime() != null && serie.getRestTime() > 0){
-                serie.setRestSerieDescription(" con "+serie.getRestTime()+":00min de recuperación entre serie");
-            }
-            if (seconds == 0) {
-                secondstr = "00";
-            }
-             StringBuilder description = new StringBuilder("("+serie.getNumSeries() + ") Series de ");
-            if (ppm != null && pace != null) {
-                ppm = ppm + " ppm";
-                pace = pace + " min/km";
-                
-                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
-                serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", "+pace + " o aprox. " + ppm + ")");
-        
-                serie.setDescription(description.toString());
-            } else if (ppm != null) {
-                ppm = ppm + " ppm";
-                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
-                serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", aprox. " + ppm + ")");
-                  serie.setDescription(description.toString());
-            } else if (pace != null) {
-                pace = pace + " min/km";
-                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
-                serie.setPpmPaceDescription(" (z" +serie.getNumZone()+", "+pace + ")");
-                serie.setDescription(description.toString());
-            } else {
-                description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
-                serie.setDescription(description.toString());
-            }
+
+                if (times != null) {
+                    serie.setWarmUpTime(times.getWarmUpTime());
+                    serie.setPullDownTime(times.getPullDownTime());
+                }
+
+                long iPart = serie.getSerieTime().longValue();
+                double fPart = serie.getSerieTime() - iPart;
+                Integer seconds = (int) Math.round(fPart * 60);
+                String secondstr = seconds.toString();
+
+                if (serie.getRestTime() != null && serie.getRestTime() > 0) {
+                    serie.setRestSerieDescription(" con " + serie.getRestTime() + ":00min de recuperación entre serie");
+                }
+                if (seconds == 0) {
+                    secondstr = "00";
+                }
+                StringBuilder description = new StringBuilder("(" + serie.getNumSeries() + ") Series de ");
+                if (ppm != null && !"".equals(ppm) && pace != null && !"".equals(pace)) {
+                    ppm = ppm + " ppm";
+                    pace = pace + " min/km";
+
+                    description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                    serie.setPpmPaceDescription(" (z" + serie.getNumZone() + ", " + pace + " o aprox. " + ppm + ")");
+
+                    serie.setDescription(description.toString());
+                } else if (ppm != null && !"".equals(ppm)) {
+                    ppm = ppm + " ppm";
+                    description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                    serie.setPpmPaceDescription(" (z" + serie.getNumZone() + ", aprox. " + ppm + ")");
+                    serie.setDescription(description.toString());
+                } else if (pace != null && !"".equals(pace)) {
+                    pace = pace + " min/km";
+                    description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                    serie.setPpmPaceDescription(" (z" + serie.getNumZone() + ", " + pace + ")");
+                    serie.setDescription(description.toString());
+                } else {
+                    description.append(iPart + ":" + secondstr + "min en Zona " + serie.getNumZone());
+                    serie.setDescription(description.toString());
+                }
             }
             responseService.setOutput(series);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

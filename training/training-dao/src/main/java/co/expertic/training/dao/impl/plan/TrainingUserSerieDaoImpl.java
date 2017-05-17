@@ -32,18 +32,16 @@ public class TrainingUserSerieDaoImpl extends BaseDAOImpl<TrainingUserSerie> imp
         StringBuilder sql = new StringBuilder();
         List<TrainingPlanWorkoutDto> list = new ArrayList<>();
         sql.append("SELECT new co.expertic.training.model.dto.TrainingPlanWorkoutDto(t.trainingPlanWorkoutId,");
-        sql.append("t.workoutDate, t.manualActivityId,  u.userId.userId, t.isDrag ");
-        sql.append(") FROM TrainingPlanWorkout t, TrainingPlanUser u ");
-        sql.append("WHERE u.trainingPlanUserId = t.trainingPlanUserId.trainingPlanUserId ");
-        sql.append("AND u.userId.userId = :userId ");
+        sql.append("t.workoutDate, t.manualActivityId,  t.userId.userId, t.isDrag ");
+        sql.append(") FROM TrainingPlanWorkout t ");
+        sql.append("WHERE 1=1 ");
+        sql.append("AND t.userId.userId = :userId ");
         sql.append("AND t.workoutDate BETWEEN :fromDate AND :toDate ");
         sql.append("AND t.manualActivityId is not null ");
-        sql.append("AND u.stateId = :active ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         query.setParameter("fromDate", fromDate, TemporalType.DATE);
         query.setParameter("toDate", toDate, TemporalType.DATE);
-        query.setParameter("active", Short.valueOf(Status.ACTIVE.getId()));
         List<TrainingPlanWorkoutDto> manualList = query.getResultList();
 
         StringBuilder sql2 = new StringBuilder();

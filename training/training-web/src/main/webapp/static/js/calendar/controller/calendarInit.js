@@ -85,7 +85,7 @@ function initCalendar(isNew) {
         }
     }
      
-    "use strict";
+    //"use strict";
     var options = {
         language: 'es-CO',
         events_source: 'trainingPlanWorkout/get/planWorkout/by/user/' + calendarUserId,
@@ -148,6 +148,7 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
+    //ev.dataTransfer.setData("manualActivityId", $(ev.target).attr("data-manual-activity"));
 }
 
 function drop(ev) {
@@ -160,6 +161,8 @@ function drop(ev) {
     }
     
     var data = ev.dataTransfer.getData("text");
+    //var manualActivityId = ev.dataTransfer.getData("manualActivityId");
+
     if(data != undefined && (data.indexOf('cal') !== -1 || data.indexOf('act') !== -1 || data.indexOf('ma') !== -1)) {
         var rcData = data.split('_');
          var activityId = '';
@@ -172,13 +175,14 @@ function drop(ev) {
         }
         var date = $(ev.target).attr("data-event-date");
         var objActivity = {'userId' : userId, 'activityId' : activityId, 'manualActivityId':manualActivityId, 'activityDate' : date};
-        
+      
         if(data.indexOf('act') !== -1 || data.indexOf('ma') !== -1) {
             createActivity(objActivity);
         } else if(data.indexOf('cal') !== -1) {
             var date = $(ev.target).attr("data-event-date");
             objActivity = {'userId' : userId, 'trainingPlanWorkoutId' : rcData[1], 'activityDate' : date};
             var dataEventId = $(ev.target).attr("data-event-id");
+             console.log("aqui"+dataEventId);
             if(dataEventId != undefined && dataEventId.indexOf('cal') !== -1) {
                 createPlan(objActivity, true);
             } else {
@@ -209,6 +213,7 @@ function createPlan(objActivity, isDetelePlan) {
             data: JSON.stringify(objActivity)
         }).success(function (html) {
             if(isDetelePlan) {
+                //console.log("-->"+objActivity['manualActivityId'])
                 deletePlan(objActivity);
             } else {
                 initCalendar(false);
@@ -229,4 +234,42 @@ function deletePlan(objActivity) {
         }).error(function (html) {
             console.debug(html);
         });
+}
+
+function getManualActivity(id){
+    
+        $.ajax({
+        url: $contextPath + 'get/activity/id/' + id,
+        contentType: "application/json; charset=utf-8",
+        type: 'GET',
+    }).success(function (data) {
+         createManualActivity(data);
+    }).error(function (html) {
+        console.debug(html);
+    });
+}
+
+function createManualActivity(objActivity) {
+    $.ajax({
+            url: $contextPath + 'create/manual/activity',
+            contentType: "application/json; charset=utf-8",
+            type: 'POST',
+            data: JSON.stringify(objActivity)
+        }).success(function (html) {
+            initCalendar(false);
+        }).error(function (html) {
+            console.debug(html);
+        });
+}
+
+function deleteManualActivity(id) {
+    $.ajax({
+        url: $contextPath + 'delete/manual/activity/' + id,
+        contentType: "application/json; charset=utf-8",
+        type: 'GET',
+    }).success(function (html) {
+        initCalendar(false);
+    }).error(function (html) {
+        console.debug(html);
+    });
 }

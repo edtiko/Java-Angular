@@ -523,8 +523,9 @@ public class UserController {
             UserDTO userSession = (UserDTO) session.getAttribute("user");
             if (userSession != null) {
                 DashboardDTO dashboard = userProfileService.findDashboardDTOByUserId(userSession.getUserId());
-                UserDTO user = userService.findById(userSession.getUserId());
-                userSession.setFullName(user.getFullName());
+                userSession.setFirstName(dashboard.getName());
+                userSession.setSecondName(dashboard.getSecondName());
+                userSession.setLastName(dashboard.getLastName());
                 userSession.setDashboard(dashboard);
                 session.setAttribute("user", userSession);
             }

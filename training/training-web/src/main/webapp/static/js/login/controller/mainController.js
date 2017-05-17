@@ -12,7 +12,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.fields = [];
         $scope.visibleFields = [];
         $scope.appReady = true;
-        $scope.userLogin = "";
         $scope.moduleList = [];
         $scope.userSessionTypeUserAtleta = "1";//Atleta
         $scope.userSessionTypeUserCoach = "2";//Coach
@@ -308,11 +307,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             }
 
             $scope.appReady = true;
-            if (res.data.entity.output.secondName == null || res.data.entity.output.secondName == 'undefined') {
-                $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.lastName;
-            } else {
-                $scope.userLogin = res.data.entity.output.firstName + " " + res.data.entity.output.secondName + " " + res.data.entity.output.lastName;
-            }
             //$window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
             //$scope.userSession = res.data.entity.output;
             return JSON.parse(sessionStorage.getItem("userInfo"));
@@ -327,11 +321,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
 
                 $scope.appReady = true;
-                if (res.data.output.secondName == null || res.data.output.secondName == 'undefined') {
-                    $scope.userLogin = res.data.output.firstName + " " + res.data.output.lastName;
-                } else {
-                    $scope.userLogin = res.data.output.firstName + " " + res.data.output.secondName + " " + res.data.output.lastName;
-                }
                 try {
                     $scope.userSession = res.data.output;
                     $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
@@ -845,6 +834,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.getUserSessionInfo = function () {
             $scope.getUserSession(function (res) {
                 $scope.userSession = res.data.output;
+                 $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
                 $scope.getLocation();
                 $scope.getImageProfile($scope.userSession.userId, function (data) {
                     if (data != "") {

@@ -5,7 +5,7 @@
  *
  * User: Sergey Romanov <serg4172@mail.ru>
  */
-"use strict";
+//"use strict";
 
 Date.prototype.getWeek = function (iso8601) {
     if (iso8601) {

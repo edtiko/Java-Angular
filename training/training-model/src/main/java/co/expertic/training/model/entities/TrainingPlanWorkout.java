@@ -47,7 +47,7 @@ public class TrainingPlanWorkout implements Serializable {
     @ManyToOne(optional = false)
     private Activity activityId;
     @JoinColumn(name = "training_plan_user_id", referencedColumnName = "training_plan_user_id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private TrainingPlanUser trainingPlanUserId;
     @Column(name = "is_drag")
     private Boolean isDrag;
@@ -63,6 +63,10 @@ public class TrainingPlanWorkout implements Serializable {
     @Column(name = "last_update_user")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdateUser;
+    
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne
+    User userId;
 
     public TrainingPlanWorkout() {
     }
@@ -196,6 +200,14 @@ public class TrainingPlanWorkout implements Serializable {
 
     public void setLastUpdateUser(Date lastUpdateUser) {
         this.lastUpdateUser = lastUpdateUser;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     

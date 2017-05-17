@@ -1,4 +1,4 @@
-<td  ondragstart="drag(event)" data-event-id="cal_<%= event.id %>" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)" data-event-date="<%= data_day %>" class="calendar-td cal-month-day <%= cls %> cal-cell1 cal-cell ui-droppable" data-cal-row="-day<%= day %>">
+<td  ondragstart="drag(event)" data-event-id="cal_<%= event.manualActivityId %>" ondrop="drop(event)" draggable="true" ondragover="allowDrop(event)" data-event-date="<%= data_day %>" class="calendar-td cal-month-day <%= cls %> cal-cell1 cal-cell ui-droppable" data-cal-row="-day<%= day %>">
     <!--cal-month-day  <%= cls %> cal-cell1 cal-cell ui-droppable-->        
     <span class="add-left" onClick="manualActivity(event)" data-event-id="cal_<%= event.id %>" data-event-date="<%= data_day %>" data-toggle="tooltip" title="<%= tooltip %>">+</span>
 
@@ -34,7 +34,7 @@
             </span>
         </div>-->
         
-<a id="cal_<%= event.id %>" data-event-sesion="cal_<%= event.sesion %>" data-event-week="cal_<%= event.week %>" data-manual-activity="<%= event.manualActivity %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" 
+<a id="cal_<%= event.id %>" data-event-sesion="cal_<%= event.sesion %>" data-event-week="cal_<%= event.week %>" data-manual-activity="<%= manualId %>"  data-activity-id="<%= event.activityId %>" data-event-id="<%= event.id %>" data-event-date="<%= data_day %>" 
    href="javascript:angular.element(document.getElementById('calendar')).scope().showModalActivity(<%= event.sesion %>, <%= event.week %>, <%= manualId %>);" data-event-id="<%= event.id %>" data-event-class="<%= event['className'] %>"
            class="pull-left event-back event " style="<%= style %>" data-toggle="tooltip"
            title="<%= event.title %>">

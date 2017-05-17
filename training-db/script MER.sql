@@ -603,20 +603,26 @@ create table training_plan_user (
 /* Table: training_plan_workout                                 */
 /*==============================================================*/
 create table training_plan_workout (
-   training_plan_workout_id serial               not null,
-   training_plan_id     integer              not null,
-   activity_id          integer              null,
-   manual_activity_id   integer              null,
-   workout_date         date                 not null,
-   executed_time        decimal(10,2)        null,
-   executed_distance    decimal(10,2)        null,  
-   is_drag              boolean              not null default false,
-   ind_strava           smallint NOT NULL DEFAULT 0,
-   last_update_strava   timestamp without time zone,    
-   last_update_user     timestamp without time zone,    
+    training_plan_workout_id integer NOT NULL,
+  training_plan_user_id integer,
+  user_id   integer,
+  activity_id integer,
+  workout_date date NOT NULL,
+  manual_activity_id integer,
+  is_drag boolean NOT NULL DEFAULT false,
+  executed_time numeric(10,2),
+  executed_distance numeric(10,2),
+  ind_strava smallint NOT NULL DEFAULT 0,
+  last_update_strava timestamp with time zone,
+  last_update_user timestamp with time zone,   
    constraint pk_training_plan_workout primary key (training_plan_workout_id)
 );
 
+
+alter table training_plan_workout
+add constraint fk_training_planw_ref_user foreign key (user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
 /*==============================================================*/
 /* Table: user_availability                                     */
 /*==============================================================*/

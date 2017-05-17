@@ -15,6 +15,7 @@ public class TrainingSesionDTO {
     
     
     private List<SerieGenerada> series;
+    private Integer id;
     private Integer manualActivityId;
     private String description;
     private String sportIcon;
@@ -162,6 +163,14 @@ public class TrainingSesionDTO {
 
     public void setManualActivityId(Integer manualActivityId) {
         this.manualActivityId = manualActivityId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     

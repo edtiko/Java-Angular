@@ -11,7 +11,7 @@
             <a  href="#data-person" id="config-icon">
                 <img src="static/img/config.png" >
                 <md-tooltip md-direction="right">
-                    Ver Perfil
+                     Configuraci&oacute;n de Perfil
                 </md-tooltip>
             </a>
             <span style="color: #FFFFFF; text-transform: uppercase">{{userSession.fullName}}</span>
@@ -34,6 +34,52 @@
                 </div>
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">CALENDARIO</span>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="null" >
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 3}">
+                     <md-icon class="icon-panel"><img src="static/img/chart.png"></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <span style="color: #00E8E8">GR&Aacute;FICOS</span>
+                </div>
+                <md-divider ></md-divider>
+            </md-list-item>
+
+            <md-list-item class="md-2-line" ng-click="null" >
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 5}">
+                    <md-icon class="icon-panel"><img src="static/img/chat.png"></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <span style="color: #00E8E8">MENSAJES</span>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="null">
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 6}">
+                    <md-icon class="icon-panel"><img src="static/img/mail.png"></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <span style="color: #00E8E8">MAIL</span>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="null">
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 7}">
+                    <md-icon class="icon-panel"><img src="static/img/audio.png"></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <span style="color: #00E8E8">AUDIOS</span>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-click="null" >
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 8}">
+                    <md-icon class="icon-panel"><img src="static/img/video.png"></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <span style="color: #00E8E8">VIDEOS</span>
                 </div>
                 <md-divider></md-divider>
             </md-list-item>

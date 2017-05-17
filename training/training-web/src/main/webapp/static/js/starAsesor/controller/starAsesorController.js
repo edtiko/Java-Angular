@@ -13,7 +13,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         $scope.mailsReceived = [];
         $scope.mailsSent = [];
 
-        $scope.filt = 'A';
+        //$scope.filt = 'A';
 
         $scope.starAsesorView = {
             stars: 'static/views/starAsesor/stars/stars.html',
@@ -57,9 +57,13 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         $scope.startsWith = function (star) {
             var lowerStr = (star.fullName + "").toLowerCase();
             var letter = $scope.filt;
-            return lowerStr.indexOf(letter.toLowerCase()) === 0;
+            if (letter != undefined) {
+                return lowerStr.indexOf(letter.toLowerCase()) === 0;
+            }else{
+                $scope.starsFiltered = null;
+            }
         };
-
+        
         self.getStars = function () {
             DashboardService.getAssignedStarByCoach($scope.userSession.userId).then(
                     function (data) {
@@ -236,7 +240,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                 $scope.planMessage.message = "";
             }
         };
-
+        
         $scope.ignoreAccents = function (item) {
             if (!$scope.search)
                 return true;
