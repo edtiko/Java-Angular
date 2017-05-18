@@ -399,7 +399,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             for (IntensityZoneSesionDTO d : dist) {
                 if (d.getTime() != null) {
                     SerieGenerada res = getSerieTime(d.getTime(), d.getZone(), trainingLevelId);
-                    if (res != null && res.getNumSesiones() > 0 && res.getTiempo() != null) {
+                    if (res != null && res.getNumSesiones() > 0 && res.getTiempo() != null && res.getTiempo().compareTo(0.0) == 1) {
                         resultado.add(new SerieGenerada(w, d.getZone(), d.getSesion(), res.getTiempo(), res.getNumSesiones()));
                     }
                 }
@@ -418,16 +418,16 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             
         }
         
-        double timeRest = 0;
-        double timeSesion = 0;
+        double timeRest = 0d;
+        Double timeSesion = 0d;
         for (SerieGenerada serie : resultado) {
             if (serie.getSesion() < numSesiones) {
                 timeRest = zoneTimes.stream().filter(t -> Objects.equals(t.getNumZone(), serie.getZona())).mapToInt(t -> t.getRestTime()).findFirst().getAsInt();
                 timeRest = (timeRest * serie.getTiempo()) / 100;
                 timeSesion = serie.getTiempo() - timeRest;
-                if(timeSesion > 0.0){
-                serie.setTiempo(timeSesion);
-                serie.setTiempoDescanso(timeRest);
+                if (timeSesion.compareTo(0.0) == 1) {
+                    serie.setTiempo(timeSesion);
+                    serie.setTiempoDescanso(timeRest);
                 }
             }
         }
@@ -457,7 +457,11 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         }
 
         if (zona == 2) {
-            Double time = list.stream().filter((intervalo) -> (tiempo.compareTo(intervalo.getTiempo()) == 1)).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMax();
+            long tiempol = Math.round(tiempo);
+            Double time = list.stream().filter((intervalo) -> (tiempol > intervalo.getTiempo()) || tiempol == intervalo.getTiempo()).collect(Collectors.summarizingDouble(IntervaloTiempo::getTiempo)).getMax();
+            if(Double.isInfinite(time)){
+                time = (double)tiempol;
+            }
             return new SerieGenerada(time, 1l);
         }
         

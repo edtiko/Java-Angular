@@ -13,7 +13,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         $scope.currentNavItem = 'day';
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         
-        $scope.getReportByMetafieldOneWeek = function (metafield) {
+       /* $scope.getReportByMetafieldOneWeek = function (metafield) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
 
             UserActivityPerformanceService.getByRangeDateAndUserAndVariable(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield)
@@ -96,7 +96,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         };
 //    $scope.getReportByMetafieldOneWeek($scope.metafield);
 
-        $scope.getReportByMetafieldMonthlyOrWeekly = function (metafield, weekly, currentNavItem) {
+       /* $scope.getReportByMetafieldMonthlyOrWeekly = function (metafield, weekly, currentNavItem) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
             var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
             if (planAthleteSelected != null) {
@@ -207,7 +207,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                                 console.error('Error while fetching activity performance');
                             }
                     );
-        };
+        };*/
 
         $scope.getReport = function (metafield, days, weekly, currentNavItem) {
             if (currentNavItem != 'undefined' && currentNavItem == 'day') {
@@ -295,7 +295,65 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         }
         
         $scope.getChart = function(){
+          $scope.days = 365;
+          var metafieldActivities  = 1;
+          var metafieldCalories = 2;
+          var metafieldDistance  = 3;
+          var weekly = false;
+          var activities = [];
+          var calories = [];
+          var distance = [];
           
+          //GET ACTIVITIES
+            UserActivityPerformanceService.getByRangeDateAndUserAndVariable($scope.userSession.userId, substractDays(getDate(), $scope.days), getDate(), metafieldActivities)
+                    .then(
+                            function (response) {
+                                $scope.userActivityPerformanceList = response.output;
+                                $scope.userActivityPerformanceList.forEach(function(v){
+                                    var date = v.executedDate.split("-");
+                                    var executedDate = new Date(date[0], date[1], date[2]);
+                                    activities.push({x: executedDate, y: Number(v.value)});
+                                });
+
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching activity performance');
+                            }
+                    );
+            
+            //GET CALORIES
+            UserActivityPerformanceService.getByRangeDateAndUserAndVariable($scope.userSession.userId, substractDays(getDate(), $scope.days), getDate(), metafieldCalories)
+                    .then(
+                            function (response) {
+                                var data = response.output;
+                                data.forEach(function(v){
+                                    var date = v.executedDate.split("-");
+                                    var executedDate = new Date(date[0], date[1], date[2]);
+                                    calories.push({x: executedDate, y: Number(v.value)});
+                                });
+
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching activity performance');
+                            }
+                    );
+            
+             //GET DISTANCE
+            UserActivityPerformanceService.getByRangeDateAndUserAndVariable($scope.userSession.userId, substractDays(getDate(), $scope.days), getDate(), metafieldDistance)
+                    .then(
+                            function (response) {
+                                var data = response.output;
+                                data.forEach(function(v){
+                                    var date = v.executedDate.split("-");
+                                    var executedDate = new Date(date[0], date[1], date[2]);
+                                    distance.push({x: executedDate, y: Number((v.value))});
+                                });
+
+                            },
+                            function (errResponse) {
+                                console.error('Error while fetching activity performance');
+                            }
+                    );
            var chart =
             {
                 animationEnabled: true,
@@ -305,7 +363,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                         color: "rgba(0,100,248,.7)",
                         markerType: "none",
                         showInLegend: true,
-                        legendText: "Calorias",
+                        legendText: "Actividades",
                         markerSize: 15,
                         axisX: {
                             valueFormatString: "MMM",
@@ -313,47 +371,21 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                             intervalType: "month"
 
                         },
-                        dataPoints: [
-                            {y: 1},
-                            {y: 28},
-                            {y: 38},
-                            {y: 28},
-                            {y: 31},
-                            {y: 14},
-                            {y: 26},
-                            {y: 19},
-                            {y: 8},
-                            {y: 15},
-                            {y: 7},
-                            {y: 1}
-                        ]
+                        dataPoints: activities
                     },
                     {
                         type: "splineArea",
                         color: "rgba(0,232,232,.7)",
                         markerType: "none",
                         showInLegend: true,
-                        legendText: "Actividades",
+                        legendText: "Calorias",
                         axisX: {
                             valueFormatString: "MMM",
                             interval: 1,
                             intervalType: "month"
 
                         },
-                        dataPoints: [
-                            {y: 1},
-                            {y: 8},
-                            {y: 18},
-                            {y: 28},
-                            {y: 31},
-                            {y: 14},
-                            {y: 26},
-                            {y: 9},
-                            {y: 18},
-                            {y: 11},
-                            {y: 7},
-                            {y: 1}
-                        ]
+                        dataPoints: calories
                     },
                     {
                         type: "splineArea",
@@ -367,20 +399,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                             intervalType: "month"
 
                         },
-                        dataPoints: [
-                            {y: 0},
-                            {y: 23},
-                            {y: 21},
-                            {y: 16},
-                            {y: 12},
-                            {y: 14},
-                            {y: 18},
-                            {y: 14},
-                            {y: 18},
-                            {y: 12},
-                            {y: 17},
-                            {y: 14}
-                        ]
+                        dataPoints: distance
                     }
 
                 ]

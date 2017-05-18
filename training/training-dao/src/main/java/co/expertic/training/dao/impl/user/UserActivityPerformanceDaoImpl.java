@@ -196,12 +196,36 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
                 chartList.add(obj);
             }
             return chartList;
-        } else {
+        }else if(metafieldId.equals(3)){ //distance
             StringBuilder builder = new StringBuilder();
             builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
             builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date from generate_series(0,6,1) as offs ) d ");
             builder.append(" LEFT   JOIN (");
             builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,cast(sum(CAST(coalesce(value, '0') AS numeric)) as numeric) AS value  ");
+            builder.append("FROM   user_activity_performance where user_id = ").append(userId).append(" AND executed_date >= date '").append(fromDate).append("' ");
+            builder.append("AND executed_date <= date '").append(toDate).append("'");
+            builder.append(" AND activity_performance_metafield_id = ").append(metafieldId);
+            builder.append(" GROUP  BY 1");
+            builder.append(") t USING (executed_date) ORDER  BY executed_date");
+            builder.append(" ) v group by executed_date ");
+            Query query = this.getEntityManager().createNativeQuery(builder.toString());
+            List<Object[]> list = query.getResultList();
+            List<ChartDTO> chartList = new ArrayList<>();
+            ChartDTO obj = new ChartDTO();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            for (Object[] result : list) {
+                obj = new ChartDTO();
+                obj.setExecutedDate(sdf.parse(result[0].toString()));
+                obj.setValue(result[1] == null ? new BigDecimal(BigInteger.ZERO) : (BigDecimal) result[1]);
+                chartList.add(obj);
+            }
+            return chartList;
+        }else {
+            StringBuilder builder = new StringBuilder();
+            builder.append("SELECT executed_date, sum(value) as value  FROM ( SELECT * FROM  (");
+            builder.append("select distinct date_trunc('day', (current_date - offs)) as executed_date from generate_series(0,6,1) as offs ) d ");
+            builder.append(" LEFT   JOIN (");
+            builder.append(" SELECT date_trunc('day', executed_date)::date AS executed_date ,cast((sum(CAST(coalesce(value, '0') AS numeric)/1000)) as numeric) AS value  ");
             builder.append("FROM   user_activity_performance where user_id = ").append(userId).append(" AND executed_date >= date '").append(fromDate).append("' ");
             builder.append("AND executed_date <= date '").append(toDate).append("'");
             builder.append(" AND activity_performance_metafield_id = ").append(metafieldId);

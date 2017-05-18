@@ -75,21 +75,21 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                                     // Instantiate and draw our chart, passing in some options.
 
                                     if (metafield == 1) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 2) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 3) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 4) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 5) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 6) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 7) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 8) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
                                 }
@@ -188,23 +188,23 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
 
                                     // Instantiate and draw our chart, passing in some options.
                                     if (metafield == 1) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 2) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 3) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 4) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 5) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 6) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 7) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 8) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     }
-                                    chart.draw(data, options);
+                                    chart.draw(data, options); 
                                 }
                             },
                             function (errResponse) {

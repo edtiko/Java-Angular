@@ -170,8 +170,12 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
 
     @Override
     public void setStarManageMessages(Integer planId) throws Exception {
-        CoachAssignedPlan plan =  dao.findById(planId);
-        plan.setStarManageMessages(!plan.getStarManageMessages());
+        CoachAssignedPlan plan = dao.findById(planId);
+        if (plan.getStarManageMessages() != null) {
+            plan.setStarManageMessages(!plan.getStarManageMessages());
+        } else {
+            plan.setStarManageMessages(Boolean.TRUE);
+        }
         dao.merge(plan);
     }
 

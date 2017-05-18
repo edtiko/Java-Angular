@@ -188,9 +188,20 @@ trainingApp.controller('CalendarController', function ($scope, CalendarService, 
             CalendarService.getSerie($scope.selectedSesion, $scope.selectedWeek, $scope.userSession.userId).then(
                     function (data) {
                         $scope.series = angular.copy(data.output);
+                        var warmUpTime = 0;
+                        var pullDownTime = 0;
+                        $scope.totalTimeSesion = 0.0;
                         $scope.series.forEach(function (v) {
-                            $scope.totalTimeSesion =+ (v.timeSerie + v.restTime + v.warmUpTime + v.pullDownTime);
+                            warmUpTime = v.warmUpTime;
+                            pullDownTime = v.pullDownTime;
+                            $scope.totalTimeSesion = $scope.totalTimeSesion + (v.timeSerie + v.restTime);
                         });
+                        $scope.totalTimeSesion = $scope.totalTimeSesion + (warmUpTime + pullDownTime);
+                        var seconds = Math.round(Math.abs(($scope.totalTimeSesion - Math.round($scope.totalTimeSesion))*60));
+                        if(seconds === 0){ 
+                            seconds = "00";
+                        }
+                        $scope.totalTimeSesion = Math.round($scope.totalTimeSesion)+":"+seconds;
                     },
                     function (error) {
 

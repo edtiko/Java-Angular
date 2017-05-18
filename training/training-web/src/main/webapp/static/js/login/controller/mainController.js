@@ -160,6 +160,25 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             );
         };
 
+        $scope.alertBuyPlan = function () {
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/datosPersonales/buyPlan.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
+        };
+
+        $scope.goBuyPlan = function () {
+            window.location = urlCompraPlanEntrenamiento;
+        };
+
         $scope.getImageProfile = function (userId, fn) {
             if (userId != null) {
                 UserService.getImageProfile(userId)
@@ -393,12 +412,21 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             }
             return false;
         };
-        $scope.calculateAge = function (birthday) { // birthday is a date
-            if (birthday != null) {
-                var ageDifMs = Date.now() - birthday.getTime();
-                var ageDate = new Date(ageDifMs); // miliseconds from epoch
-                return Math.abs(ageDate.getUTCFullYear() - 1970)+1;
+        $scope.calculateAge = function (birthDate) { // birthday is a date
+            if(birthDate != null){
+            var today = new Date();
+            /*var ageDifMs = Date.now() - birthday.getTime();
+             var ageDate = new Date(ageDifMs); // miliseconds from epoch
+             return Math.abs(ageDate.getUTCFullYear() - 1970)+1;*/
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = (today.getMonth()+1) - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+            {
+                age--;
             }
+            return age;
+        }
+
         };
         $scope.logout = function () {
             window.location = $wordPressContextPath + 'mi-cuenta/customer-logout/';
