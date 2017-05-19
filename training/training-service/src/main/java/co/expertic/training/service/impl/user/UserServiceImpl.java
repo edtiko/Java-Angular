@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
             user.setTypeUser(roleUser != null ? roleUser.getRoleId().getRoleId().toString() : "");
             user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId() : null);
             List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
-            if (disciplineUser != null) {
+            if (disciplineUser != null && !disciplineUser.isEmpty()) {
                 user.setDisciplineId(disciplineUser.get(0).getDisciplineId());
                 user.setDisciplineName(disciplineUser.get(0).getName());
             }
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
             user.setRoleId(roleUser != null ? roleUser.getRoleId().getRoleId() : null);
             user.setRoleName(roleUser != null ? roleUser.getRoleId().getName() : "");
             List<DisciplineDTO> disciplineUser = disciplineDao.findByUserId(user.getUserId());
-            if (disciplineUser != null) {
+            if (disciplineUser != null && !disciplineUser.isEmpty()) {
                 user.setDisciplineId(disciplineUser.get(0).getDisciplineId());
                 user.setDisciplineName(disciplineUser.get(0).getName());
             }

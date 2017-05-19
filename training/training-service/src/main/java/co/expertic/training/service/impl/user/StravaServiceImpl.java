@@ -121,6 +121,7 @@ public class StravaServiceImpl implements StravaService {
             String distance = jo.get("distance").getAsString();
             String elapsedTime = jo.get("elapsed_time").getAsString();
             String startDate = jo.get("start_date_local").getAsString();
+            String averageSpeed = jo.get("average_speed").getAsString();
             String type = jo.get("type").getAsString();
             SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -210,6 +211,16 @@ public class StravaServiceImpl implements StravaService {
             activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(RITMO_MEDIO_META));
             activityPerformance.setCreationDate(new Date());
             activityPerformance.setValue(elapsedTime.replaceAll("'", ""));
+            activityPerformance.setExecutedDate(executionDate);
+            activityPerformance.setActivityExternalId(activityId);
+            activityPerformance.setType(type);
+            listActivityPerformance.add(activityPerformance);
+            
+            activityPerformance = new UserActivityPerformance();
+            activityPerformance.setUserId(new User(userId));
+            activityPerformance.setActivityPerformanceMetafieldId(new ActivityPerformanceMetafield(VELOCIDAD_MEDIA));
+            activityPerformance.setCreationDate(new Date());
+            activityPerformance.setValue(averageSpeed.replaceAll("'", ""));
             activityPerformance.setExecutedDate(executionDate);
             activityPerformance.setActivityExternalId(activityId);
             activityPerformance.setType(type);

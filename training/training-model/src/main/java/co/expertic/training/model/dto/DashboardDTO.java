@@ -4,6 +4,7 @@ import co.expertic.training.model.entities.City;
 import co.expertic.training.model.entities.Country;
 import co.expertic.training.model.entities.Environment;
 import co.expertic.training.model.entities.Injury;
+import co.expertic.training.model.entities.TrainingLevel;
 import co.expertic.training.model.entities.Weather;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigInteger;
@@ -64,6 +65,9 @@ public class DashboardDTO {
     private Integer countSupervisor;
     private Integer countStar;
     private Integer imc;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date competenceDate;
+    private Integer availableTime;
 
 
     public DashboardDTO() {
@@ -74,7 +78,8 @@ public class DashboardDTO {
             String phone, String cellphone, String address, String postalCode, byte[] profilePhoto, String facebookPage,
             String indMetricSys, City city, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
             String sportsAchievements, String aboutMe, String modality, String twitterPage, String instagramPage, 
-            String webPage, Integer vo2Running, Integer vo2Ciclismo, Injury injury, String disease, Environment environment, Weather weather) {
+            String webPage, Integer vo2Running, Integer vo2Ciclismo, Injury injury, String disease, Environment environment, 
+            Weather weather, TrainingLevel level, Date competenceDate, Integer availableTime) {
         this.userId = userId;
         this.name = name;
         this.secondName = secondName;
@@ -118,7 +123,13 @@ public class DashboardDTO {
          if(weather != null){
             this.weather = weather.getName();
         }
+         
+         if(level != null){
+             this.objective = level.getDescription();
+         }
         this.disease = disease;
+        this.competenceDate = competenceDate;
+        this.availableTime = availableTime;
         
     }
     
@@ -556,5 +567,23 @@ public class DashboardDTO {
     public String getFullName(){
         return this.name+" "+this.secondName+" "+this.lastName;
     }
+
+    public Date getCompetenceDate() {
+        return competenceDate;
+    }
+
+    public void setCompetenceDate(Date competenceDate) {
+        this.competenceDate = competenceDate;
+    }
+
+    public Integer getAvailableTime() {
+        return availableTime;
+    }
+
+    public void setAvailableTime(Integer availableTime) {
+        this.availableTime = availableTime;
+    }
+    
+    
 
 }

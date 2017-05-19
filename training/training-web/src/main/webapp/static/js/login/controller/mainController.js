@@ -70,6 +70,18 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '',
             injury: '', disease: '', weather: ''
         };
+        
+        $scope.rotate = 1;
+        
+        $scope.next = function () {
+            if ($scope.rotate < 2)
+                $scope.rotate++;
+        };
+        
+        $scope.previous = function () {
+            if ($scope.rotate > 1)
+                $scope.rotate--;
+        };
 
         $scope.verModulo = function (module, userId) {
             var chat = "";

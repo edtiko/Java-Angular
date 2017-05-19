@@ -26,6 +26,7 @@ public interface StravaService {
     public static final Integer RITMO_MEDIO_META = 6;
     public static final Integer POTENCIA_MAXIMA_META = 7;
     public static final Integer POTENCIA_MEDIA_META = 8;
+    public static final Integer VELOCIDAD_MEDIA = 10;
     public static final Integer RIDE = 1;
     public static final Integer RUN = 3;
     

@@ -2,7 +2,7 @@
 
     <span class="cpt-title"><img src="static/img/settings.png">  MENSAJES</span>
     <div flex layout="row" layout-align="center">
-        <div flex="35" ng-if="userSession.typeUser == userSessionTypeUserAtleta">
+        <div flex="35">
             <md-card style="min-height:550px">
                 <md-card-content> 
                     <md-list  flex>
@@ -21,7 +21,7 @@
                             <img data-ng-src="{{asesorImage}}"  class="md-avatar">
                             <div class="md-list-item-text">
                                 <h3 style="font-weight: bold; color: #0064F8">{{userSession.planSelected.coachUserId.fullName}}</h3>
-                                <h3 style="color: #0064F8">Supervisor</h3>
+                                <h3 style="color: #0064F8">Asesor</h3>
                                 <p style="color: #000">Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
                             </div>
                             <div ng-if="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>
@@ -41,7 +41,7 @@
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                         <span>Cargando mensajes..</span>
                     </div>
-                    <div layout="column" ng-repeat="message in messages| orderBy:'creationDate':false" >
+                    <div layout="column" ng-repeat="message in messages| orderBy:'creationDate':true" >
                         <div ng-class="userSession.userId == message.messageUserId.userId ? 'bubble you' : 'bubble me'">
                             <p ng-class="{self: message.self}">
                                 {{message.message}}
@@ -54,14 +54,14 @@
             <md-divider></md-divider>
             <br />
             <div flex layout="column" >
-                <form ng-submit="addMessage()" name="messageForm">
+                <form ng-submit="sendMessage()" name="messageForm">
                     <section layout="row" style="background: #FFFFFF" layout-sm="column" layout-wrap>
                         <div flex>
                             <md-input-container class="md-block" >
                                 <input type="text" placeholder="Escribe un mensaje" ng-model="planMessage.message" />
                             </md-input-container>
                         </div>
-                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="addMessage()" ng-disabled="planMessage.message.length === 0">
+                        <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="sendMessage()" ng-disabled="planMessage.message.length === 0">
                             <md-icon md-menu-origin>
                                 <img src="static/img/send_chat.png">
                             </md-icon>

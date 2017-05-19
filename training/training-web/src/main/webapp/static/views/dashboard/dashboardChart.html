@@ -4,18 +4,18 @@
         <div layout="column" layout-align="center center">
             <span style="color: #0064F8">ACTIVIDAD</span>
             <div  class="c100 p70 small">
-                <span class="number_dash">5.5 hrs</span>
+                <span class="number_dash">{{numActivities}}</span>
                 <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
                 </div>
             </div>
-            <span style="color: #0064F8">META 10 hrs</span>
+            <span style="color: #0064F8">META {{numSessions}}</span>
         </div>
         <div layout="column" layout-align="center center">
             <span style="color: #0064F8">CALOR&Iacute;AS</span>
             <div  class="c100 p25 small">
-                <span class="number_dash">450 kcal</span>
+                <span class="number_dash">{{numCalories}} kcal</span>
                 <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
@@ -27,18 +27,18 @@
         <div layout="column" layout-align="center center">
             <span style="color: #0064F8">DISTANCIA</span>
             <div  class="c100 p25 small">
-                <span class="number_dash">8.9 km</span>
+                <span class="number_dash">{{distance}} km</span>
                 <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
                 </div>
             </div>
-            <span style="color: #0064F8">META: 150 KM</span>
+            <span>&nbsp;</span>
         </div>
         <div layout="column" layout-align="center center">
             <span style="color: #0064F8">VELOCIDAD MEDIA</span>
             <div  class="c100 p50 small">
-                <span class="number_dash">80 km/h</span>
+                <span class="number_dash">{{speedAverage}} km/h</span>
                 <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
@@ -49,23 +49,20 @@
         </div>
     </div>
     <br /><br />
-    <!--<div>
+    <div>
         <div layout="row" style="color: #0064F8">
             <md-subheader>Filtros&nbsp;></md-subheader>
             <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-                <md-nav-item md-nav-click="getReport(null,7,false)" name="day">7 dias</md-nav-item>
-                <md-nav-item md-nav-click="getReport(null,28,true)" name="week">4 semanas</md-nav-item>
-                <md-nav-item md-nav-click="getReport(null,168,false)" name="sixmonths">6 meses</md-nav-item>
-                <md-nav-item md-nav-click="getReport(null,365,false)" name="twelvemonths">12 meses</md-nav-item>
+                <md-nav-item md-nav-click="getChart(7,false)" name="day">7 dias</md-nav-item>
+                <md-nav-item md-nav-click="getChart(28,true)" name="week">4 semanas</md-nav-item>
+                <md-nav-item md-nav-click="getChart(168,false)" name="sixmonths">6 meses</md-nav-item>
+                <md-nav-item md-nav-click="getChart(365,false)" name="twelvemonths">12 meses</md-nav-item>
             </md-nav-bar>
         </div>
     </div>   
-    <center><h3></h3></center>-->
+    <center><h3></h3></center>
 </div>
-<div layout="column" >
-    <!--<div flex id="chart_div" class="chart">
-
-    </div>-->
+<div layout="column" ng-cloak>
     <div id="chartContainer" style="height: 300px; width: 100%;">
     </div>
     <!--<md-radio-group ng-model="chartSelected" md-no-ink >
@@ -97,11 +94,3 @@
     </md-radio-group>-->
 
 </div>
-<script type="text/javascript">
- var options = angular.element(document.getElementById('chartContent')).scope().getChart();
- var chart = new CanvasJS.Chart("chartContainer", options);
-  chart.render();  
-</script>
-<!--<script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart']});
-</script>--> 

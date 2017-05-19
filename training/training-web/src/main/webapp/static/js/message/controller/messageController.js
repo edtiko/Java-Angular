@@ -24,106 +24,56 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.userSession.planSelected != null) {
-                var userMessage = $scope.userSession.planSelected.coachUserId.userId;
-                if ($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                    userMessage = $scope.userSession.planSelected.starUserId.userId;
-                }
-                MessageService.getMessages($scope.userSession.planSelected.id, $scope.userSession.userId, userMessage, tipoPlan, $scope.roleSelected).then(
+                var coach = $scope.userSession.planSelected.coachUserId.userId;
+
+                var star = $scope.userSession.planSelected.starUserId.userId;
+
+                MessageService.getMessages($scope.userSession.planSelected.id, $scope.userSession.userId, coach, tipoPlan, $scope.roleSelected).then(
                         function (data) {
-                            $scope.messages = data.output;
+                            data.output.forEach(function (m) {
+
+                                $scope.messages.push(m);
+                            });
                             $scope.loading = false;
 
-                            self.readMessages($scope.userSession.planSelected, tipoPlan, $scope.roleSelected, $scope.userSession.planSelected.athleteUserId.userId, $scope.userSession.userId);
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
-            } else if ($scope.selectedUser != null) {
-
-                MessageService.getMessagesByReceivingUserSendingUser($scope.selectedUser.userId, $scope.userSession.userId).then(
-                        function (data) {
-                            $scope.messages = data.entity.output;
-                            /*if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                             $scope.messages.forEach(function (value, index) {
-                             if (value.messageUserId.userId != $scope.userSession.userId) {
-                             value.messageUserId = $scope.userSession.planSelected.starUserId;
-                             }
-                             });
-                             }*/
-                            $scope.loading = false;
-                            self.readMessages(-1, tipoPlan, -1, $scope.selectedUser.userId, $scope.userSession.userId);
+                            self.readMessages();
                         },
                         function (error) {
                             //$scope.showMessage(error);
                             console.error(error);
                         });
 
+                MessageService.getMessages($scope.userSession.planSelected.id, $scope.userSession.userId, star, tipoPlan, $scope.roleSelected).then(
+                        function (data) {
+                            data.output.forEach(function (m) {
+
+                                $scope.messages.push(m);
+                            });
+                            $scope.loading = false;
+
+                            self.readMessages();
+                        },
+                        function (error) {
+                            //$scope.showMessage(error);
+                            console.error(error);
+                        });
             }
 
         };
 
-
-        //Envia mensaje
-        $scope.addMessage = function () {
-
-            if ($scope.userSession.planSelected != null && $scope.userSession.planSelected.external) {
-                self.sendMessageExt();
-            } else if ($scope.userSession.planSelected != null && !$scope.userSession.planSelected.external) {
-                self.sendMessageIn();
-            } else if ($scope.selectedUser != null) {
-                self.sendMessage();
-
-            }
-        };
-
-        self.sendMessage = function () {
-            if ($scope.userSession != null && $scope.planMessage.message != "") {
-                $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
-                $scope.planMessage.receivingUserId.userId = $scope.selectedUser.userId;
-                MessageService.send($scope.planMessage);
-                $scope.planMessage.message = "";
-            }
-        };
-
-        //Envia mensaje para planes Coach Externo
-        self.sendMessageExt = function () {
-            self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, "EXT", -1, function (data) {
-                $scope.availableMessage = data;
-                if ($scope.userSession != null && $scope.userSession.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
-                    $scope.planMessage.coachExtAthleteId.id = $scope.userSession.planSelected.id;
-                    $scope.planMessage.coachExtAthleteId.athleteUserId.userId = $scope.userSession.planSelected.athleteUserId.userId;
-                    $scope.planMessage.coachExtAthleteId.coachUserId.userId = $scope.userSession.planSelected.coachUserId.userId;
-                    $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
-                    if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoach) {
-                        $scope.planMessage.receivingUserId.userId = $scope.userSession.planSelected.athleteUserId.userId;
-                    } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-                        $scope.planMessage.receivingUserId.userId = $scope.userSession.planSelected.coachUserId.userId;
-                    }
-                    MessageService.send($scope.planMessage);
-                    $scope.planMessage.message = "";
-                    $scope.getMessageCount();
-                } else if ($scope.availableMessage == 0) {
-                    $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
-                }
-            });
-        };
 
         //Envia mensaje para planes Coach Interno
-        self.sendMessageIn = function () {
+        $scope.sendMessage = function () {
             self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, "IN", $scope.roleSelected, function (data) {
-                 $scope.availableMessage = data;
+                $scope.availableMessage = data;
                 if ($scope.userSession != null && $scope.userSession.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachAssignedPlanId.id = $scope.userSession.planSelected.id;
                     $scope.planMessage.coachAssignedPlanId.athleteUserId.userId = $scope.userSession.planSelected.athleteUserId.userId;
                     $scope.planMessage.coachAssignedPlanId.coachUserId.userId = $scope.userSession.planSelected.coachUserId.userId;
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     $scope.planMessage.roleSelected = $scope.roleSelected;
-                    if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
-                        $scope.planMessage.receivingUserId.userId = $scope.userSession.planSelected.athleteUserId.userId;
-                    } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-                        $scope.planMessage.receivingUserId.userId = $scope.userSession.planSelected.coachUserId.userId;
-                    }
+                    $scope.planMessage.receivingUserId.userId = $scope.userSession.planSelected.coachUserId.userId;
+                    
 
                     MessageService.send($scope.planMessage);
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
@@ -148,15 +98,12 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                             console.error(error);
                         });
 
-                if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && !$scope.userSession.planSelected.external) {
                     if (message.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                         $scope.receivedMessageStar++;
                     } else if (message.roleSelected == $scope.userSessionTypeUserCoachInterno) {
                         $scope.receivedMessageSup++;
                     }
-                } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno) {
-
-                }
+             
             }
             $scope.messages.push(message);
         });
@@ -172,20 +119,13 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
         };
 
         //Leer mensajes
-        self.readMessages = function (planSelected, tipoPlan, roleSelected, fromUserId, toUserId) {
-            var userId = null;
-            var planId = planSelected.id;
-            if (planSelected != -1) {
-                if ($scope.userSession.typeUser === $scope.userSessionTypeUserCoach || $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
-                    userId = planSelected.athleteUserId.userId;
-                } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
-                    userId = planSelected.coachUserId.userId;
-                }
-            } else {
-                planId = -1;
-                userId = fromUserId;
-            }
-            MessageService.readMessages(planId, userId, toUserId, tipoPlan, roleSelected).then(
+        self.readMessages = function () {
+
+            var planId = $scope.userSession.planSelected.id;
+            var  userId = $scope.userSession.userId;
+            var toUserId = $scope.userSession.planSelected.coachUserId.userId;
+       
+            MessageService.readMessages(planId, userId, toUserId, "IN", $scope.roleSelected).then(
                     function (data) {
                         $scope.getReceived();
                         console.log(data.output);
@@ -198,43 +138,15 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
 
         $scope.getMessageCount = function () {
             var tipoPlan = "IN";
-            if ($scope.userSession.planSelected.external) {
-                tipoPlan = "EXT";
-            }
-             self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function(data){
-                 $scope.availableMessageStar = data;
-             });
-             self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function(data){
-                 $scope.availableMessageSup = data;
-             });
-             
-             //$scope.getMessagesByRole($scope.roleSelected);
-        };
 
-        self.init = function () {
-            if ($scope.selectedUser != null) {
+            self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+                $scope.availableMessageStar = data;
+            });
+            self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
+                $scope.availableMessageSup = data;
+            });
 
-                self.getChat("IN");
-            } else if ($scope.userSession != null) {
-
-                if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoach) {
-
-                    self.getChat("EXT");
-                } else if ($scope.userSession != null && $scope.userSession.typeUser === $scope.userSessionTypeUserCoachInterno) {
-
-                    self.getChat("IN");
-                } else if ($scope.userSession.typeUser === $scope.userSessionTypeUserAtleta) {
-
-                    if ($scope.userSession.planSelected.external) {
-                        self.getChat("EXT");
-                    } else {
-                        self.getChat("IN");
-                    }
-                }
-            } else {
-                $scope.showMessage("El usuario no se encuentra logueado");
-                $scope.logout();
-            }
+            //$scope.getMessagesByRole($scope.roleSelected);
         };
 
         $scope.getMessagesByRole = function (role) {
@@ -245,26 +157,28 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
             } else {
                 $scope.userMsgSelected = $scope.userSession.planSelected.coachUserId.fullName;
             }
-            if ($scope.userSession.planSelected.external) {
-                self.getChat("EXT");
+            self.getChat("IN");
+
+        };
+
+
+        self.init = function () {
+            if ($scope.userSession != null) {
+                $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
+                $scope.availableMessageStar = $scope.userSession.planSelected.starCommunication.availableMsg;
+                $scope.messageCountStar = $scope.userSession.planSelected.starCommunication.planMsg;
+                $scope.receivedMessageStar = $scope.userSession.planSelected.starCommunication.receivedMsg;
+
+                $scope.availableMessageSup = $scope.userSession.planSelected.asesorCommunication.availableMsg;
+                $scope.messageCountSup = $scope.userSession.planSelected.asesorCommunication.planMsg;
+                $scope.receivedMessageSup = $scope.userSession.planSelected.asesorCommunication.receivedMsg;
+
             } else {
-                self.getChat("IN");
+                $scope.setUserSession();
             }
         };
 
-        if ($scope.userSession != null && $scope.userSession.typeUser == $scope.userSessionTypeUserAtleta) {
-            $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
-            
-            $scope.availableMessageStar =  $scope.userSession.planSelected.starCommunication.availableMsg;
-            $scope.messageCountStar =      $scope.userSession.planSelected.starCommunication.planMsg;
-            $scope.receivedMessageStar =   $scope.userSession.planSelected.starCommunication.receivedMsg;
-            
-            $scope.availableMessageSup =   $scope.userSession.planSelected.asesorCommunication.availableMsg;
-            $scope.messageCountSup =       $scope.userSession.planSelected.asesorCommunication.planMsg;
-            $scope.receivedMessageSup =    $scope.userSession.planSelected.asesorCommunication.receivedMsg;
-            
-        } else {
-            self.init();
-        }
+        self.init();
+
 
     }]);

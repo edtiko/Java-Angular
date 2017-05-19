@@ -4,6 +4,7 @@ import co.expertic.training.dao.user.UserActivityPerformanceDao;
 import co.expertic.training.model.dto.ChartDTO;
 import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
+import co.expertic.training.model.dto.WeeklyGoalsDTO;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import co.expertic.training.service.user.UserActivityPerformanceService;
 import java.util.Date;
@@ -93,5 +94,16 @@ public class UserActivityPerformanceServiceImpl implements UserActivityPerforman
     @Override
     public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId)throws Exception  {
         return userActivityPerformanceDao.getProgressReport(date, activity, userId);
+    }
+
+    @Override
+    public WeeklyGoalsDTO getWeeklyGoals(Integer userId) throws Exception {
+        WeeklyGoalsDTO result = new WeeklyGoalsDTO();
+        Date fromDate = null;
+        Date toDate  = null;
+        result.setNumActivities(userActivityPerformanceDao.getNumActivities( fromDate,  toDate, userId ));
+        result.setNumSessions(Integer.SIZE);
+        
+        return result;
     }
 }

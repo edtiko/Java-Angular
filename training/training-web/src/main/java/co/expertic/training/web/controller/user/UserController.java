@@ -1094,6 +1094,7 @@ public class UserController {
                             coachAssignedPlan.setStarTeamId(new StarTeam(starTeamId));
                             coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
                             coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                            coachAssignedPlan.setStarManageMessages(Boolean.FALSE);
                             coachAssignedPlanService.create(coachAssignedPlan);
                             List<StarTeam> starTeamList = startTeamService.findByStartTeam(new StarTeam(starTeamId));
                             
@@ -1122,6 +1123,7 @@ public class UserController {
                                 coachAssignedPlan.setStarTeamId(starTeam);
                                 coachAssignedPlan.setStateId(StateEnum.ACTIVE.getId().shortValue());
                                 coachAssignedPlan.setTrainingPlanUserId(trainingPlanUser);
+                                coachAssignedPlan.setStarManageMessages(Boolean.FALSE);
                                 coachAssignedPlanService.create(coachAssignedPlan);
                             } else {
                                 userTrainingOrder.setStatus("error membership");

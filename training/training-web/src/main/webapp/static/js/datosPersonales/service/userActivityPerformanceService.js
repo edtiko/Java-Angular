@@ -122,6 +122,18 @@ trainingApp.service('UserActivityPerformanceService', ['$http', '$q', function (
                                     return $q.reject(errResponse);
                                 }
                         );
+            },
+            getWeeklyGoals: function(userId){
+                     return $http.get($contextPath + '/get/weekly/goals/'+userId)
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while fetching /get/weekly/goals/');
+                                    return $q.reject(errResponse);
+                                }
+                        );  
             }
         };
     }]);

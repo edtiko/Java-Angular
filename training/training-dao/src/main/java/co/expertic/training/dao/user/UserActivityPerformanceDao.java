@@ -133,4 +133,6 @@ public interface UserActivityPerformanceDao extends BaseDAO<UserActivityPerforma
     public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
 
     public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId) throws DAOException;
+
+    public Integer getNumActivities(Date fromDate, Date toDate, Integer userId) throws DAOException;
 }

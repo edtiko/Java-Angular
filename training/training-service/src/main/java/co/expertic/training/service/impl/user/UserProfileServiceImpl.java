@@ -973,7 +973,9 @@ public class UserProfileServiceImpl implements UserProfileService {
             dashboard.setSport("");
         }
         DisciplineUser discipline = disciplineUserDao.findByUserId(id);
+        if(discipline != null){
         dashboard.setDiscipline(discipline.getDiscipline().getName());
+        }
 
         return dashboard;
     }

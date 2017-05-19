@@ -3,6 +3,7 @@ package co.expertic.training.service.user;
 import co.expertic.training.model.dto.ChartDTO;
 import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
+import co.expertic.training.model.dto.WeeklyGoalsDTO;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import java.util.Date;
 import java.util.List;
@@ -160,5 +161,7 @@ public interface UserActivityPerformanceService {
     public List<UserActivityPerformanceDTO> findConsolidationByDateRangeAndUserId( Date fromDate, Date toDate, Integer userId) throws Exception;
 
     public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId) throws Exception;
+
+    public WeeklyGoalsDTO getWeeklyGoals(Integer userId)throws Exception;
     
 }

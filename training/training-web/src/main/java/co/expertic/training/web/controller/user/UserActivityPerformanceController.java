@@ -6,6 +6,7 @@ import co.expertic.training.model.dto.ChartDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.ProgressReportDTO;
 import co.expertic.training.model.dto.UserActivityPerformanceDTO;
+import co.expertic.training.model.dto.WeeklyGoalsDTO;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import java.util.List;
 import co.expertic.training.model.util.ResponseService;
@@ -452,6 +453,23 @@ public class UserActivityPerformanceController {
         try {
             List<ProgressReportDTO> userActivityPerformanceList = userActivityPerformanceService.getProgressReport(date, activity, userId);
             responseService.setOutput(userActivityPerformanceList);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserActivityPerformanceController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al consultar");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+        @RequestMapping(value = "get/weekly/goals/{userId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getWeeklyGoals(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            WeeklyGoalsDTO weeklyGoals = userActivityPerformanceService.getWeeklyGoals( userId);
+            responseService.setOutput(weeklyGoals);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {

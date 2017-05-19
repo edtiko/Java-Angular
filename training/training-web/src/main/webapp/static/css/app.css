@@ -437,6 +437,14 @@ h5{
     -webkit-text-fill-color: transparent;
 }
 
+.text_dash{
+    font-size: 30px;
+    height: 48px;
+    background: -webkit-linear-gradient(#00E8E8, #0064F8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 #apps_icon{
     color: #00E8E8;
     margin-right: 20px;
