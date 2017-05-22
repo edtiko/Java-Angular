@@ -44,7 +44,6 @@ import co.expertic.training.dao.user.VisibleFieldsUserDao;
 import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.model.dto.AccountDTO;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
-import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.DisciplineDTO;
 import co.expertic.training.model.dto.NotificationDTO;
@@ -472,12 +471,12 @@ public class UserServiceImpl implements UserService {
         CommunicationDTO communication = new CommunicationDTO();
         if (planType.equals(PLAN_TYPE_IN)) {
             ConfigurationPlan configuration = ConfigurationPlanDao.findByUserRole(atheteUserId, roleSelected);
-            communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, atheteUserId, roleSelected));
+            communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(communicatePlanId, atheteUserId, coachUserId, roleSelected));
             communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(communicatePlanId, atheteUserId, coachUserId, roleSelected));
             communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(communicatePlanId, atheteUserId, roleSelected));
             communication.setPlanMsg(configuration.getMessageCount());
 
-            communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, atheteUserId, roleSelected));
+            communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, atheteUserId, coachUserId, roleSelected));
             communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, atheteUserId, roleSelected));
             communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, atheteUserId, roleSelected));
             communication.setPlanAudio(configuration.getAudioCount());
@@ -649,12 +648,12 @@ public class UserServiceImpl implements UserService {
         Integer coachUserId = plan.getCoachUserId().getUserId();
 
         ConfigurationPlan configuration = ConfigurationPlanDao.findByAthleteUserId(athleteUserId, roleSelected);
-        communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setAvailableMsg(planMessageDao.getCountMessagesByPlan(plan.getId(), starUserId, athleteUserId, roleSelected));
         communication.setReceivedMsg(planMessageDao.getCountMessagesReceived(plan.getId(), starUserId, coachUserId, roleSelected));
         communication.setEmergencyMsg(planMessageDao.getCountMessageEmergencyIn(plan.getId(), starUserId, roleSelected));
         communication.setPlanMsg(configuration.getMessageCount());
 
-        communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(plan.getId(), starUserId, roleSelected));
+        communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(plan.getId(), starUserId, athleteUserId, roleSelected));
         communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(plan.getId(), starUserId, roleSelected));
         communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(plan.getId(), starUserId, roleSelected));
         communication.setPlanAudio(configuration.getAudioCount());

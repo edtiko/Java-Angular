@@ -77,8 +77,8 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
 
-        service.getAvailableMessages = function (planId, userId, tipoPlan,roleSelected) {
-            return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
+        service.getAvailableMessages = function (planId, userId, toUserId, tipoPlan,roleSelected) {
+            return $http.get($contextPath + 'get/count/available/messages/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data.output;
@@ -90,7 +90,7 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
                     );
         };
         
-         service.getMessagesReceived = function (planId, userId,toUserId, tipoPlan, roleSelected) {
+         service.getMessagesReceived = function (planId, userId, toUserId, tipoPlan, roleSelected) {
             return $http.get($contextPath + 'get/count/received/messages/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {

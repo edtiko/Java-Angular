@@ -18,7 +18,7 @@ public interface PlanAudioDao extends BaseDAO<PlanAudio> {
 
     public PlanAudio getAudioById(Integer id) throws DAOException;
 
-    public Integer getCountAudioByPlan(Integer planId, Integer userId, Integer roleSelected) throws DAOException;
+    public Integer getCountAudioByPlan(Integer planId, Integer userId, Integer toUserId, Integer roleSelected) throws DAOException;
     
     public Integer getCountAudioByPlanExt(Integer planId, Integer userId) throws DAOException;
     

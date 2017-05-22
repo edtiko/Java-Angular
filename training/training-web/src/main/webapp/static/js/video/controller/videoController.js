@@ -626,6 +626,7 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
                 } else {
                     $scope.receivedAsesor.push(video);
                 }
+                  $scope.getReceived();
             }
 
         });

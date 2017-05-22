@@ -73,7 +73,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     }
 
     @Override
-    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer fromUserId, Integer roleSelected) throws DAOException {
+    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer fromUserId, Integer toUserId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");
         sql.append(" WHEN (cp.audio_count  - count(m.plan_audio_id)) > 0 THEN (cp.audio_count - count(m.plan_audio_id)) ");
@@ -81,6 +81,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_audio m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.from_user_id = ").append(fromUserId);
+        sql.append(" And m.to_user_id = ").append(toUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             sql.append(" And m.to_star = false ");

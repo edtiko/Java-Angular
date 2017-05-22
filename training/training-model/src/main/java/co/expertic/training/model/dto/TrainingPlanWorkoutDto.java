@@ -101,6 +101,7 @@ public class TrainingPlanWorkoutDto {
         this.sportIcon = manualActivityId.getSportId().getIcon();
         this.sportId = manualActivityId.getSportId().getSportId();
         this.userId = userId;
+        this.discipline = manualActivityId.getSportId().getName();
     }
     
     public TrainingPlanWorkoutDto(Integer trainingUserSerieId, Date workDate, Integer numSeries, Double timeSerie, 

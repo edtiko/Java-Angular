@@ -85,7 +85,7 @@ public class AudioMessageController {
         if (!file.isEmpty()) {
             try {
                 if (tipoPlan.equals(COACH_INTERNO)) {
-                    availableAudios = planAudioService.getCountAudioByPlan(planId, fromUserId, roleSelected);
+                    availableAudios = planAudioService.getCountAudioByPlan(planId, fromUserId, toUserId, roleSelected);
                     emergencyAudios = planAudioService.getCountAudioEmergencyByPlan(planId, fromUserId, roleSelected);
                 } else if (tipoPlan.equals(COACH_EXTERNO)) {
                     availableAudios = planAudioService.getCountAudioByPlanExt(planId, fromUserId);
@@ -189,9 +189,10 @@ public class AudioMessageController {
                 .body(file);
     }
 
-    @RequestMapping(value = "/get/count/available/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/available/{planId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAvailableAudios(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
+            @PathVariable("toUserId") Integer toUserId,
             @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -199,7 +200,7 @@ public class AudioMessageController {
         Integer emergency = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planAudioService.getCountAudioByPlan(planId, userId, roleSelected);
+                count = planAudioService.getCountAudioByPlan(planId, userId, toUserId, roleSelected);
                 emergency = planAudioService.getCountAudioEmergencyByPlan(planId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planAudioService.getCountAudioByPlanExt(planId, userId);

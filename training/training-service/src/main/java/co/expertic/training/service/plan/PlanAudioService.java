@@ -23,7 +23,7 @@ public interface PlanAudioService {
 
     public PlanAudioDTO getAudioById(Integer id) throws Exception;
 
-    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
+    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId,Integer toUserId, Integer roleSelected) throws Exception;
 
     public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 

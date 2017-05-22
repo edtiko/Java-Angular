@@ -29,7 +29,7 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
 
-                    .when('/asesor-profile', route.resolve('asesorProfile', 'asesorProfile/'))
+                    .when('/data-profile', route.resolve('asesorProfile', 'asesorProfile/'))
 
                     .when('/encuesta', route.resolve('survey', 'questionnaire/'))
 

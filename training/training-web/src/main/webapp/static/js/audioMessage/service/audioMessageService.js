@@ -88,8 +88,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                     );
         };
         
-        service.getAvailableAudios = function (planId, userId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'audio/get/count/available/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
+        service.getAvailableAudios = function (planId, userId, toUserId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'audio/get/count/available/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

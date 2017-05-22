@@ -2,7 +2,12 @@
 <div>
     <div layout="row" layout-align="space-around center">
         <div layout="column" layout-align="center center">
-            <span style="color: #0064F8">ACTIVIDAD</span>
+            
+            <div layout="row" layout-align="center center">
+                <div class="circle_aqua"></div>
+                &nbsp;
+                <span style="color: #0064F8">ACTIVIDAD</span>
+            </div>
             <div  class="c100 p70 small">
                 <span class="number_dash">{{numActivities}}</span>
                 <div class="slice">
@@ -10,10 +15,14 @@
                     <div class="fill"></div>
                 </div>
             </div>
-            <span style="color: #0064F8">META {{numSessions}}</span>
+            <span style="color: #0064F8">META {{weekActivities.length}}</span>
         </div>
         <div layout="column" layout-align="center center">
+            <div layout="row" layout-align="center center">
+                <div class="circle_aqua"></div>
+                &nbsp;
             <span style="color: #0064F8">CALOR&Iacute;AS</span>
+            </div>
             <div  class="c100 p25 small">
                 <span class="number_dash">{{numCalories}} kcal</span>
                 <div class="slice">
@@ -25,9 +34,13 @@
             <!--<span style="color: #0064F8">META: 950 KCAL</span>-->
         </div>
         <div layout="column" layout-align="center center">
+            <div layout="row" layout-align="center center">
+                <div class="circle_aqua"></div>
+                &nbsp;
             <span style="color: #0064F8">DISTANCIA</span>
+            </div>
             <div  class="c100 p25 small">
-                <span class="number_dash">{{distance}} km</span>
+                <span class="number_dash">{{numDistance}} km</span>
                 <div class="slice">
                     <div class="bar"></div>
                     <div class="fill"></div>
@@ -36,7 +49,11 @@
             <span>&nbsp;</span>
         </div>
         <div layout="column" layout-align="center center">
+            <div layout="row" layout-align="center center">
+                <div class="circle_aqua"></div>
+                &nbsp;
             <span style="color: #0064F8">VELOCIDAD MEDIA</span>
+            </div>
             <div  class="c100 p50 small">
                 <span class="number_dash">{{speedAverage}} km/h</span>
                 <div class="slice">
@@ -53,10 +70,10 @@
         <div layout="row" style="color: #0064F8">
             <md-subheader>Filtros&nbsp;></md-subheader>
             <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
-                <md-nav-item md-nav-click="getChart(7,false)" name="day">7 dias</md-nav-item>
-                <md-nav-item md-nav-click="getChart(28,true)" name="week">4 semanas</md-nav-item>
-                <md-nav-item md-nav-click="getChart(168,false)" name="sixmonths">6 meses</md-nav-item>
-                <md-nav-item md-nav-click="getChart(365,false)" name="twelvemonths">12 meses</md-nav-item>
+                <md-nav-item md-nav-click="getChart(1,false)" name="day">Día</md-nav-item>
+                <md-nav-item md-nav-click="getChart(7,true)" name="week">Semana</md-nav-item>
+                <md-nav-item md-nav-click="getChart(30,false)" name="sixmonths">Mes</md-nav-item>
+                <md-nav-item md-nav-click="getChart(365,false)" name="twelvemonths">Año</md-nav-item>
             </md-nav-bar>
         </div>
     </div>   

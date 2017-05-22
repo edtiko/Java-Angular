@@ -3,6 +3,7 @@ package co.expertic.training.dao.impl.user;
 import co.expertic.base.jpa.BaseDAOImpl;
 import co.expertic.base.jpa.DAOException;
 import co.expertic.training.dao.user.UserActivityPerformanceDao;
+import co.expertic.training.enums.MetafieldEnum;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.ChartDTO;
 import co.expertic.training.model.dto.ProgressReportDTO;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Repository;
  * fecha Sep 15, 2016 <br>
  *
  * @author Andres Felipe Lopez Rodriguez
-*
+ *
  */
 @Repository
 public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerformance> implements UserActivityPerformanceDao {
@@ -552,18 +553,71 @@ public class UserActivityPerformanceDaoImpl extends BaseDAOImpl<UserActivityPerf
     }
 
     @Override
-    public Integer getNumActivities(Date fromDate, Date toDate, Integer userId) throws DAOException {
+    public Integer getNumActivities(Integer userId, Date fromDate, Date toDate) throws DAOException {
         StringBuilder builder = new StringBuilder();
-        builder.append("select count(*) as numActivities ");
+        builder.append("select count(a) as numActivities ");
         builder.append(" from UserActivityPerformance a ");
         builder.append(" where a.userId.userId = :userId ");
         builder.append(" and a.executedDate BETWEEN :fromDate AND :toDate ");
+        builder.append(" and a.activityPerformanceMetafieldId.activityPerformanceMetafieldId = :metafield ");
         Query query = this.getEntityManager().createQuery(builder.toString());
         query.setParameter("userId", userId);
         query.setParameter("fromDate", fromDate);
         query.setParameter("toDate", toDate);
-        Integer count = (Integer) query.getSingleResult();
-        return count;
+        query.setParameter("metafield", MetafieldEnum.ACTIVIDAD_META.getId());
+        Long count = (Long) query.getSingleResult();
+        return count!= null?count.intValue():0;
+    }
+
+    @Override
+    public Integer getSpeedAverage(Integer userId, Date fromDate, Date toDate) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select avg(CAST(coalesce(a.value, '0') AS numeric)) as speedAverage ");
+        builder.append(" from UserActivityPerformance a ");
+        builder.append(" where a.userId.userId = :userId ");
+        builder.append(" and a.executedDate BETWEEN :fromDate AND :toDate ");
+        builder.append(" and a.activityPerformanceMetafieldId.activityPerformanceMetafieldId = :metafield ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", userId);
+        query.setParameter("fromDate", fromDate);
+        query.setParameter("toDate", toDate);
+        query.setParameter("metafield", MetafieldEnum.VELOCIDAD_MEDIA.getId());
+        Long count = (Long) query.getSingleResult();
+        return count!= null?count.intValue():0;
+    }
+
+    @Override
+    public Integer getDistance(Integer userId, Date fromDate, Date toDate) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select sum(CAST(coalesce(a.value, '0') AS numeric)) as distance ");
+        builder.append(" from UserActivityPerformance a ");
+        builder.append(" where a.userId.userId = :userId ");
+        builder.append(" and a.executedDate BETWEEN :fromDate AND :toDate ");
+        builder.append(" and a.activityPerformanceMetafieldId.activityPerformanceMetafieldId = :metafield ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", userId);
+        query.setParameter("fromDate", fromDate);
+        query.setParameter("toDate", toDate);
+        query.setParameter("metafield", MetafieldEnum.DISTANCIA_TOTAL_META.getId());
+        Long count = (Long) query.getSingleResult();
+        return count!= null?count.intValue():0;
+    }
+
+    @Override
+    public Integer getCalories(Integer userId, Date fromDate, Date toDate) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select sum(CAST(coalesce(a.value, '0') AS numeric)) as calories ");
+        builder.append(" from UserActivityPerformance a ");
+        builder.append(" where a.userId.userId = :userId ");
+        builder.append(" and a.executedDate BETWEEN :fromDate AND :toDate ");
+        builder.append(" and a.activityPerformanceMetafieldId.activityPerformanceMetafieldId = :metafield ");
+        Query query = this.getEntityManager().createQuery(builder.toString());
+        query.setParameter("userId", userId);
+        query.setParameter("fromDate", fromDate);
+        query.setParameter("toDate", toDate);
+        query.setParameter("metafield", MetafieldEnum.CALORIAS_META.getId());
+        Long count = (Long) query.getSingleResult();
+        return count!= null?count.intValue():0;
     }
 
 }

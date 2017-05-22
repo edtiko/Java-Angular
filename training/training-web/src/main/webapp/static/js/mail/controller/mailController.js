@@ -5,12 +5,9 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
         $scope.mailsSent = [];
         $scope.athletes = [];
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-        $scope.sendingUser = JSON.parse($window.sessionStorage.getItem("selectedUser"));
         $scope.roleSelected = $scope.userSessionTypeUserCoachEstrella;
 
         $scope.mailSelected = '';
-        $scope.searchTextReceiverUser = '';
-        $scope.selectedItemReceiverUser = null;
         $scope.availableMailStar = $scope.userSession.planSelected.starCommunication.availableMail;
         $scope.mailCountStar = $scope.userSession.planSelected.starCommunication.planMail;
         $scope.receivedMailStar = $scope.userSession.planSelected.starCommunication.receivedMail;
@@ -30,8 +27,6 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
             roleSelected: $scope.roleSelected
         };
 
-        $scope.receivingUserSelected = {};
-        $scope.searchText = '';
         $scope.received = false;
 
 
@@ -48,7 +43,6 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                 controller: sendEmailController,
                 scope: $scope.$new(),
                 templateUrl: 'static/views/mail/mailTemplate.html',
-                //parent: angular.element(document.querySelector('#dashboard-container')),
                 parent: angular.element(document.body),
                 clickOutsideToClose: false,
                 fullscreen: $scope.customFullscreen
@@ -76,18 +70,8 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                     && $scope.mailCommunication.subject != "") {
 
                 $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
-                if ($scope.userSession.planSelected != null) {
-                    if ($scope.userSession.planSelected.external) {
-                        $scope.mailCommunication.coachExtAthleteId = $scope.userSession.planSelected.id;
-                    } else {
-                        $scope.mailCommunication.coachAssignedPlanId = $scope.userSession.planSelected.id;
-                        $scope.mailCommunication.roleSelected = $scope.roleSelected;
-                    }
-                } else if ($scope.sendingUser != null) {
-                    $scope.mailCommunication.sendingUser.userId = $scope.userSession.userId;
-                    $scope.mailCommunication.receivingUser.userId = $scope.sendingUser.userId;
-                }
-
+                $scope.mailCommunication.coachAssignedPlanId = $scope.userSession.planSelected.id;
+                $scope.mailCommunication.roleSelected = $scope.roleSelected;
 
                 $scope.createMailCommunication($scope.mailCommunication);
             }
@@ -143,71 +127,14 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
 
 
 
-        $scope.getReceivedMails = function () {
-            MailService.getMailsByReceivingUserFromSendingUser($scope.userSession.userId, $scope.sendingUser.userId).then(
-                    function (data) {
-                        $scope.mailsReceived = data.entity.output;
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-        $scope.getSentMails = function () {
-            MailService.getMailsByReceivingUserFromSendingUser($scope.sendingUser.userId, $scope.userSession.userId).then(
-                    function (data) {
-                        $scope.mailsSent = data.entity.output;
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
-        $scope.getMails = function () {
-            MailService.getMails($scope.userSession.userId).then(
-                    function (data) {
-                        $scope.mailsReceived = data.entity.output;
-                    },
-                    function (error) {
-                        console.error(error);
-                    });
-        };
-
-        $scope.getSentMailsByUserLogged = function () {
-            MailService.getSentMails($scope.userSession.userId).then(
-                    function (data) {
-                        $scope.mailsSent = data.entity.output;
-                    },
-                    function (error) {
-                        //$scope.showMessage(error);
-                        console.error(error);
-                    });
-        };
-
              //notificación emails recibidos
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
-                $scope.init();
+                self.init();
+                $scope.getReceived();
             }
 
         });
-
-        $scope.selectedItemChange = function (item) {
-            if (item != undefined) {
-                $scope.receivingUserSelected = item;
-            }
-
-        };
-
-        $scope.querySearchUsers = function (query, users, value) {
-            var results = users;
-            if (query != null) {
-                results = users.filter(createFilterFor(query, value));
-            }
-            return results;
-        };
 
 
         $scope.selectReceivedMail = function (id) {
@@ -244,7 +171,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                                 if (d.status == 'success') {
                                     $scope.showMessage(d.output);
                                     $scope.reset();
-                                    $scope.getEmailCount();
+                                    self.getEmailCount();
                                 } else {
                                     $scope.showMessage(d.output);
                                 }
@@ -281,31 +208,14 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
 
        
 
-        self.getEmailCoach = function (tipoPlan) {
-            if ($scope.userSession.planSelected != null) {
-                $scope.getSentMailsByPlan(tipoPlan, $scope.userSession.userId, $scope.userSession.planSelected.athleteUserId.userId, $scope.userSession.planSelected.id, $scope.roleSelected);
-                $scope.getReceivedMailsByPlan(tipoPlan,$scope.userSession.userId, $scope.userSession.planSelected.athleteUserId.userId,  $scope.userSession.planSelected.id, $scope.roleSelected);
-                $scope.mailCommunication.mailto = $scope.userSession.planSelected.athleteUserId.fullName;
-                $scope.mailCommunication.receivingUser.userId = $scope.userSession.planSelected.athleteUserId.userId;
-            }else if($scope.sendingUser != null){
-                self.getEmailUser();
-            }
-        };
-
         self.getEmailAthlete = function () {
             if ($scope.userSession.planSelected != null) {
-                if ($scope.userSession.planSelected.external) {
-                    $scope.getSentMailsByPlan("EXT", $scope.userSession.userId, $scope.userSession.planSelected.id, -1);
-                    $scope.getReceivedMailsByPlan("EXT", $scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, -1);
 
-                } else {
-                    var toUser = $scope.userSession.planSelected.coachUserId.userId;
-                    if($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella){
-                        toUser = $scope.userSession.planSelected.starUserId.userId;
-                    }
-                    $scope.getSentMailsByPlan("IN", $scope.userSession.userId, $scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, $scope.roleSelected);
-                    $scope.getReceivedMailsByPlan("IN", $scope.userSession.userId, toUser, $scope.userSession.planSelected.id, $scope.roleSelected);
-                }
+                var toUser = $scope.userSession.planSelected.coachUserId.userId;
+
+                $scope.getSentMailsByPlan("IN", $scope.userSession.userId, $scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, $scope.roleSelected);
+                $scope.getReceivedMailsByPlan("IN", $scope.userSession.userId, toUser, $scope.userSession.planSelected.id, $scope.roleSelected);
+
                 if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
                     $scope.mailCommunication.mailto = $scope.userSession.planSelected.coachUserId.fullName;
                 } else if ($scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
@@ -314,7 +224,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                     $scope.mailCommunication.mailto = $scope.userSession.planSelected.coachUserId.fullName;
                 }
                 $scope.mailCommunication.receivingUser.userId = $scope.userSession.planSelected.coachUserId.userId;
-                
+
             }
         };
 
@@ -336,25 +246,13 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
             $scope.mailCommunication.mailto = $scope.sendingUser.fullName;
         };
 
-        $scope.init = function () {
+        self.init = function () {
 
-            switch ($scope.userSession.typeUser) {
-                case $scope.userSessionTypeUserCoach:
-                    self.getEmailCoach("EXT");
-                    break;
-                case $scope.userSessionTypeUserCoachInterno:
-                    self.getEmailCoach("IN");
-                    break;
-                case $scope.userSessionTypeUserAtleta:
+            if ($scope.userSession != null) {
+
                     self.getEmailAthlete();
-                    break;
-                case $scope.userSessionTypeUserCoachEstrella:
-                    self.getEmailUser();
-                    break;
-                case $scope.userSessionTypeUserAdmin:
-                    self.getEmailUser();
-                    break;
-                default :
+                    self.getEmailCount();
+                }else{
                     $scope.setUserSession();
 
             }
@@ -365,11 +263,14 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
         
         $scope.getEmailByRole = function (role) {
             $scope.roleSelected = role;
-            $scope.init();
+            self.init();
         };
         
-        $scope.getEmailCount = function () {
+        self.getEmailCount = function () {
             var tipoPlan = "IN";
+            var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
+            var starUserId = $scope.userSession.planSelected.starUserId.userId;
+
             $scope.getAvailableMail($scope.userSession.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
                     function (data) {
                         $scope.availableMailStar = data.entity.output;
@@ -378,23 +279,24 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                     function (data) {
                         $scope.availableMailSup = data.entity.output;
                     });
+
+            $scope.getReceivedMails($scope.userSession.planSelected.id, coachUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
+                    function (data) {
+                        $scope.receivedMailStar = data.output;
+                        $scope.getReceivedMails($scope.userSession.planSelected.id, starUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
+                                function (data) {
+                                    $scope.receivedMailStar =  $scope.receivedMailStar + data.output;
+                                });
+                    });
+            $scope.getReceivedMails($scope.userSession.planSelected.id, coachUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
+                    function (data) {
+                        $scope.receivedMailSup = data.output;
+
+                    });
         };
 
-        /**
-         * Create filter function for a query string
-         * @param {type} query
-         * @returns {Function}
-         */
-        function createFilterFor(query, value) {
-            var lowercaseQuery = angular.lowercase(query);
 
-            return function filterFn(athletes) {
-                var a = eval('athletes' + '.' + value);
-                return (angular.lowercase(a).indexOf(lowercaseQuery) >= 0);
-            };
 
-        }
-
-        $scope.init();
+        self.init();
 
     }]);

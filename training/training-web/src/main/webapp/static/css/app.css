@@ -583,6 +583,14 @@ md-menu-item>.md-button{
     text-align: center;
 }
 
+.circle_aqua {
+    border-radius: 50%;
+    background-color: #00E8E8;
+    width: 10px;
+    height: 10px;
+    text-align: center;
+}
+
 .circle_blue img{
     padding-top: 8px;
 }

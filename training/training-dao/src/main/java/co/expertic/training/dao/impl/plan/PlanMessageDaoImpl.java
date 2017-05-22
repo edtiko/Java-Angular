@@ -59,7 +59,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
     }
 
     @Override
-    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws DAOException {
+    public Integer getCountMessagesByPlan(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT CASE  ");     
         sql.append(" WHEN (cp.message_count  - count(m.plan_message_id)) > 0 THEN (cp.message_count   - count(m.plan_message_id)) ");
@@ -67,6 +67,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         sql.append(" FROM training_plan_user tu, training_plan t, configuration_plan cp, coach_assigned_plan c ");
         sql.append(" LEFT JOIN plan_message m ON m.coach_assigned_plan_id = c.coach_assigned_plan_id");
         sql.append(" And m.message_user_id = ").append(userId);
+        sql.append(" And m.receiving_user_id = ").append(toUserId);
         sql.append(" And m.coach_assigned_plan_id = ").append(coachAssignedPlanId);
         if (roleSelected != -1 && Objects.equals(roleSelected, RoleEnum.COACH_INTERNO.getId())) {
             sql.append(" and  m.to_star = false ");

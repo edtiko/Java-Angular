@@ -76,7 +76,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
 
                     $scope.planMessage.message = "";
-                    $scope.getMessageCount();
+                    self.getMessageCount();
                 } else if ($scope.availableMessage == 0) {
                     $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
                 }
@@ -96,12 +96,13 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
                         });
 
             }
-            $scope.messages.push(message);
+            //$scope.messages.push(message);
+            self.getChat("IN");
         });
 
         //Traer la cantidad de mensajes disponibles
-        self.getAvailableMessages = function (coachAssignedPlanId, userId, tipoPlan, roleSelected, fn) {
-            MessageService.getAvailableMessages(coachAssignedPlanId, userId, tipoPlan, roleSelected).then(
+        self.getAvailableMessages = function (coachAssignedPlanId, userId, toUserId, tipoPlan, roleSelected, fn) {
+            MessageService.getAvailableMessages(coachAssignedPlanId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -121,34 +122,43 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
                     });
         };
 
-        $scope.getMessageCount = function () {
+        self.getMessageCount = function () {
             var tipoPlan = "IN";
-            if ($scope.planSelected.external) {
-                tipoPlan = "EXT";
-            }
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
+            var  athleteUserId = $scope.planSelected.athleteUserId.userId;
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, athleteUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
                 $scope.availableMessageStar = data;
             });
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, athleteUserId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
                 $scope.availableMessageSup = data;
             });
+            
+            $scope.getReceivedMessages($scope.userSession.planSelected.id, athleteUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
+                    function (data) {
+                        $scope.receivedMessageStar = data.output;
+
+                    });
+
+            $scope.getReceivedMessages($scope.userSession.planSelected.id, athleteUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
+                    function (data) {
+                        $scope.receivedMessageSup = data.output;
+                    });
 
         };
 
         self.init = function () {
             if ($scope.userSession != null) {
                 $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
-                $scope.availableMessageStar = $scope.planSelected.starCommunication.availableMsg;
+                //$scope.availableMessageStar = $scope.planSelected.starCommunication.availableMsg;
                 $scope.messageCountStar = $scope.planSelected.starCommunication.planMsg;
-                $scope.availableMessageSup = $scope.planSelected.asesorCommunication.availableMsg;
+                //$scope.availableMessageSup = $scope.planSelected.asesorCommunication.availableMsg;
                 $scope.messageCountSup = $scope.planSelected.asesorCommunication.planMsg;
-                $scope.receivedMessageStar = $scope.planSelected.starCommunication.receivedMsg;
-                $scope.receivedMessageSup = $scope.planSelected.asesorCommunication.receivedMsg;
-                self.getChat("IN");
+                //$scope.receivedMessageStar = $scope.planSelected.starCommunication.receivedMsg;
+                //$scope.receivedMessageSup = $scope.planSelected.asesorCommunication.receivedMsg;
+                //self.getChat("IN");
+                self.getMessageCount();
 
             } else {
-                $scope.showMessage("El usuario no se encuentra logueado");
-                $scope.logout();
+                $scope.setUserSession();
             }
         };
 
@@ -194,7 +204,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         $scope.getMessagesByRole = function (role) {
             $scope.messages = [];
             $scope.roleSelected = role;
-            console.log($scope.planSelected);
+            //console.log($scope.planSelected);
             if (role == $scope.userSessionTypeUserCoachEstrella) {
                 $scope.userMsgSelected = $scope.planSelected.starUserId.fullName;
                 /* if($scope.planSelected.starManageMessages == 'true'){

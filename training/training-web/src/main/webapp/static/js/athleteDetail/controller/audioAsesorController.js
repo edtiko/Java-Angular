@@ -254,8 +254,8 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             };
 
         }
-        self.getAvailableAudios = function (planId, userId, tipoPlan, roleSelected, fn) {
-            AudioMessageService.getAvailableAudios(planId, userId, tipoPlan, roleSelected).then(
+        self.getAvailableAudios = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
+            AudioMessageService.getAvailableAudios(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -277,7 +277,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
 
             });
 
-            self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
+            self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, toUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
                     function (data) {
                         $scope.availableAudioStar = data.entity.output;
                     });
@@ -300,7 +300,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             });
 
 
-            self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
+            self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, toUserId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
                     function (data) {
                         $scope.availableAudioAsesor = data.entity.output;
                     });

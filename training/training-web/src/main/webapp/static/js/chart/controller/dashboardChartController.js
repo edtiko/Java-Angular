@@ -7,10 +7,10 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
             activityPerformanceMetafieldId: {activityPerformanceMetafieldId: null, name: '', label: '', dataType: ''},
             executedDate: ''};
         $scope.userActivityPerformanceList = [];
-        $scope.days = 128;
+        $scope.days = 365;
         $scope.metafield = 1;
         $scope.weekly = false;
-        $scope.currentNavItem = 'sixmonths';
+        $scope.currentNavItem = 'twelvemonths';
         $scope.activities = [];
         $scope.distance = [];
         $scope.calories = [];
@@ -18,8 +18,9 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         var self = this;
         $scope.numSessions = 0;
         $scope.numActivities = 0;
-        $scope.distance = 0;
+        $scope.numDistance = 0;
         $scope.speedAverage = 0;
+        $scope.numCalories = 0;
 
         function substractDays(date, days) {
             var result = new Date(date);
@@ -136,10 +137,11 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         self.getWeeklyGoals = function () {
             UserActivityPerformanceService.getWeeklyGoals($scope.userSession.userId).then(
                     function (data) {
-                        $scope.numSessions = data.numSessions;
+                        //$scope.numSessions = data.numSessions;
                         $scope.numActivities = data.numActivities;
-                        $scope.distance = data.distance;
-                        $scope.speedAverage = data.speedAverage;
+                        $scope.numDistance = (data.distance/1000);
+                        $scope.speedAverage = (data.speedAverage/1000);
+                        $scope.numCalories = data.numCalories;
                     },
                     function (error) {
                         console.log(error);
@@ -149,13 +151,13 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
 
         if ($scope.userSession == null) {
             $scope.$on('userSession', function (event, args) {
-                self.getChart($scope.days, $scope.weekly);
-                //self.getWeeklyGoals();
+                $scope.getChart($scope.days, $scope.weekly);
+                self.getWeeklyGoals();
             });
 
         } else {
-            self.getChart($scope.days, $scope.weekly);
-            // self.getWeeklyGoals();
+            $scope.getChart($scope.days, $scope.weekly);
+            self.getWeeklyGoals();
         }
 
 

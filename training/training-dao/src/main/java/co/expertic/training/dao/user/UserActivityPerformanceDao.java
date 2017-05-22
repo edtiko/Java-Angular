@@ -134,5 +134,11 @@ public interface UserActivityPerformanceDao extends BaseDAO<UserActivityPerforma
 
     public List<ProgressReportDTO> getProgressReport(Integer date, Integer activity, Integer userId) throws DAOException;
 
-    public Integer getNumActivities(Date fromDate, Date toDate, Integer userId) throws DAOException;
+    public Integer getNumActivities(Integer userId, Date fromDate, Date toDate) throws DAOException;
+
+    public Integer getSpeedAverage(Integer userId, Date fromDate, Date toDate) throws DAOException;
+
+    public Integer getDistance(Integer userId, Date fromDate, Date toDate) throws DAOException;
+
+    public Integer getCalories(Integer userId, Date fromDate, Date toDate) throws DAOException;
 }

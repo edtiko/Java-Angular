@@ -48,8 +48,8 @@ public class PlanAudioServiceImpl implements PlanAudioService {
     }
 
     @Override
-    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
-        return planAudioDao.getCountAudioByPlan(coachAssignedPlanId, userId,roleSelected);
+    public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception {
+        return planAudioDao.getCountAudioByPlan(coachAssignedPlanId, userId,toUserId, roleSelected);
     }
 
     @Override

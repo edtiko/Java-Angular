@@ -49,7 +49,7 @@ public class TrainingUserSerieDaoImpl extends BaseDAOImpl<TrainingUserSerie> imp
         sql2.append("t.workDate, t.numSeries, t.serieTime, t.week, t.sesion, t.restTime, t.numZona, du.discipline ) ");
         sql2.append(" FROM TrainingUserSerie t, DisciplineUser du ");
         sql2.append("WHERE t.trainingPlanUserId.userId.userId = :userId ");
-        sql2.append("AND du.userId.userId = :userId ");
+        sql2.append("AND du.userId.userId = t.trainingPlanUserId.userId.userId ");
         sql2.append("AND t.workDate BETWEEN :fromDate AND :toDate ");
         sql2.append(" ORDER BY t.numZona DESC ");
         query = getEntityManager().createQuery(sql2.toString());

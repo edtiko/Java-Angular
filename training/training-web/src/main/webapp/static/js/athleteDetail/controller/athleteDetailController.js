@@ -116,6 +116,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
                  $scope.messageReceivedCount++;
+                 $scope.getUserNotification($scope.userSession.userId);
             }
         });
         

@@ -1,5 +1,6 @@
 package co.expertic.training.service.impl.user;
 
+import co.expertic.training.dao.plan.TrainingUserSerieDao;
 import co.expertic.training.dao.user.UserActivityPerformanceDao;
 import co.expertic.training.model.dto.ChartDTO;
 import co.expertic.training.model.dto.ProgressReportDTO;
@@ -7,8 +8,10 @@ import co.expertic.training.model.dto.UserActivityPerformanceDTO;
 import co.expertic.training.model.dto.WeeklyGoalsDTO;
 import co.expertic.training.model.entities.UserActivityPerformance;
 import co.expertic.training.service.user.UserActivityPerformanceService;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -99,11 +102,25 @@ public class UserActivityPerformanceServiceImpl implements UserActivityPerforman
     @Override
     public WeeklyGoalsDTO getWeeklyGoals(Integer userId) throws Exception {
         WeeklyGoalsDTO result = new WeeklyGoalsDTO();
-        Date fromDate = null;
-        Date toDate  = null;
-        result.setNumActivities(userActivityPerformanceDao.getNumActivities( fromDate,  toDate, userId ));
-        result.setNumSessions(Integer.SIZE);
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        Calendar calendarTo = Calendar.getInstance(Locale.getDefault());
+        calendarTo.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        calendarTo.set(Calendar.MINUTE, 0);
+        calendarTo.set(Calendar.SECOND, 0);
+        calendarTo.set(Calendar.HOUR_OF_DAY, 0);
+        Date fromDate = calendar.getTime();
+        Date toDate = calendarTo.getTime();
         
+        result.setNumActivities(userActivityPerformanceDao.getNumActivities(userId, fromDate, toDate));
+        //result.setNumSessions(trainingUserSerieDao.getPlanWorkoutByUser(userId, fromDate, toDate).size());
+        result.setSpeedAverage(userActivityPerformanceDao.getSpeedAverage(userId, fromDate, toDate));
+        result.setDistance(userActivityPerformanceDao.getDistance(userId, fromDate, toDate));
+        result.setNumCalories(userActivityPerformanceDao.getCalories(userId, fromDate, toDate));
+
         return result;
     }
 }

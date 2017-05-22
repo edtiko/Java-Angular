@@ -91,17 +91,17 @@ public class MessageController {
 
     }
 
-    @RequestMapping(value = "get/count/available/messages/{coachAssignedPlanId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/count/available/messages/{coachAssignedPlanId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
      ResponseEntity<ResponseService> getAvailableMessages(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("userId") Integer userId, 
-                                  @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
+                                  @PathVariable("toUserId") Integer toUserId, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         Integer emergency = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId, roleSelected);
+                count = planMessageService.getCountMessagesByPlan(coachAssignedPlanId, userId,toUserId, roleSelected);
                 emergency = planMessageService.getCountMessagesEmergency(coachAssignedPlanId, userId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planMessageService.getCountMessagesByPlanExt(coachAssignedPlanId, userId);
