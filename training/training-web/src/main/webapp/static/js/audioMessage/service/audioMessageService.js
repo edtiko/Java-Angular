@@ -101,8 +101,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                     );
         };
         
-         service.getAudiosReceived = function (planId, userId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'audio/get/count/received/' + planId + '/' + userId+'/'+tipoPlan+'/'+roleSelected)
+         service.getAudiosReceived = function (planId, userId, toUserId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'audio/get/count/received/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
                     .then(
                             function (response) {
                                 return response.data;

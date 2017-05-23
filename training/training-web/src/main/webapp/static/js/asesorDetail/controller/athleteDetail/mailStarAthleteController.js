@@ -193,7 +193,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
                     break;
                 }
             }
-            $scope.viewMailSelected = $scope.views.mailSelected;
+            $scope.viewMailSelected = $scope.viewsStarAthlete.mailSelected;
         };
 
         $scope.selectSentMail = function (id) {
@@ -204,7 +204,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
                     break;
                 }
             }
-            $scope.viewMailSelected = $scope.views.mailSelected;
+            $scope.viewMailSelected = $scope.viewsStarAthlete.mailSelected;
         };
 
 

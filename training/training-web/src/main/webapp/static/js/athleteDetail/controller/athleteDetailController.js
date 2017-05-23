@@ -13,6 +13,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
             calendar: 'static/views/athleteDetail/calendar/calendar.html',
             chart: 'static/views/athleteDetail/chart/chart.html'
         };
+       $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
 
 
         $scope.goAthleteMenu = function (module, index) {

@@ -154,7 +154,7 @@ public interface UserService {
 
     public List<Integer> getUserAges()throws Exception; 
 
-    public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception; 
+    public List<NotificationDTO> getUserNotification(Integer userSessionId, Integer planId, String tipoPlan) throws Exception; 
 
     public String getSubscriptions(Integer userId) throws Exception; 
 

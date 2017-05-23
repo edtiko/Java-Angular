@@ -49,6 +49,32 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             sent: 'static/views/starAsesor/mail/sent.html',
             mailSelected: 'static/views/starAsesor/mail/mailSelected.html'
         };
+        
+        $scope.selectReceivedMail = function (id) {
+            for (var i = 0; i < $scope.mailsReceived.length; i++) {
+                if ($scope.mailsReceived[i].mailCommunicationId === id) {
+                    $scope.mailSelected = angular.copy($scope.mailsReceived[i]);
+                    if ($scope.mailSelected.read == false) {
+                        self.readEmail(id);
+                        $scope.mailsReceived[i].read = true;
+                    }
+                    $scope.received = true;
+                    break;
+                }
+            }
+            $scope.viewMailSelected = $scope.viewsMail.mailSelected;
+        };
+
+        $scope.selectSentMail = function (id) { 
+            for (var i = 0; i < $scope.mailsSent.length; i++) {
+                if ($scope.mailsSent[i].mailCommunicationId === id) {
+                    $scope.mailSelected = angular.copy($scope.mailsSent[i]);
+                    $scope.received = false;
+                    break;
+                }
+            }
+            $scope.viewMailSelected = $scope.viewsMail.mailSelected;
+        };
 
         $scope.setFilter = function (letter) {
             $scope.filt = letter;
@@ -60,7 +86,8 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             if (letter != undefined) {
                 return lowerStr.indexOf(letter.toLowerCase()) === 0;
             }else{
-                $scope.starsFiltered = null;
+                $scope.starsFiltered = $scope.stars;
+                return true;
             }
         };
         
@@ -101,12 +128,31 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                     }
             );
         };
+        
+             //Leer mensajes
+        self.readMessages = function () {
+
+            var planId = -1;
+            var  userId =  $scope.userMsgSelected.userId;
+            var toUserId = $scope.userSession.userId;
+        
+            MessageService.readMessages(planId, userId, toUserId, -1, -1).then(
+                    function (data) {
+                        $scope.getUserNotification($scope.userSession.userId, -1, -1);
+                        //console.log(data.output);
+                    },
+                    function (error) { 
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+        };
 
         $scope.getMessagesByUser = function (user) {
             $scope.userMsgSelected = user;
             MessageService.getMessagesByReceivingUserSendingUser($scope.userSession.userId, user.userId).then(
                     function (data) {
                         $scope.messagesAsesor = data;
+                        self.readMessages();
                     },
                     function (error) {
                         console.log(error);
@@ -215,13 +261,13 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             $scope.viewMailSelected = $scope.viewsMail.sent;
         };
 
-        $scope.readEmail = function (id) {
+        self.readEmail = function (id) {
 
             MailService.readEmail(id)
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                    //$scope.getReceived();
+                                    $scope.getUserNotification($scope.userSession.userId, -1, -1);
                                 } else {
                                     console.log(d.output);
                                 }

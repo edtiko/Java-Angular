@@ -61,8 +61,8 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
 
         //Envia mensaje para planes Coach Interno
         self.sendMessageIn = function () {
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, "IN", $scope.roleSelected, function (data) {
-                 $scope.availableMessage = data;
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId,$scope.planSelected.athleteUserId.userId, "IN", $scope.roleSelected, function (data) {
+                 $scope.availableMessage = data.output;
                 if ($scope.userSession != null && $scope.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachAssignedPlanId.id = $scope.planSelected.id;
                     $scope.planMessage.coachAssignedPlanId.athleteUserId.userId = $scope.planSelected.athleteUserId.userId;
@@ -75,7 +75,6 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
 
                     $scope.planMessage.message = "";
-                    $scope.getMessageCount();
                 } else if ($scope.availableMessage == 0) {
                     $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
                 }
@@ -96,11 +95,12 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
 
             }
             $scope.messages.push(message);
+            self.getMessageCount();
         });
 
         //Traer la cantidad de mensajes disponibles
-        self.getAvailableMessages = function (coachAssignedPlanId, userId, tipoPlan, roleSelected, fn) {
-            MessageService.getAvailableMessages(coachAssignedPlanId, userId, tipoPlan, roleSelected).then(
+        self.getAvailableMessages = function (coachAssignedPlanId, userId, toUserId,tipoPlan, roleSelected, fn) {
+            MessageService.getAvailableMessages(coachAssignedPlanId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -112,7 +112,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
             MessageService.readMessages($scope.planSelected.id, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
                         //$scope.getReceived();
-                        console.log(data.output);
+                        //console.log(data.output);
                     },
                     function (error) {
                         //$scope.showMessage(error);
@@ -120,10 +120,10 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                     });
         };
 
-        $scope.getMessageCount = function () {
+        self.getMessageCount = function () {
             var tipoPlan = "IN";
-             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function(data){
-                 $scope.availableMessageStar = data;
+             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function(data){
+                 $scope.availableMessageStar = data.output;
              });
              
         };
@@ -137,8 +137,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                 self.getChat("IN");
 
             } else {
-                $scope.showMessage("El usuario no se encuentra logueado");
-                $scope.logout();
+                $scope.setUserSession();
             }
         };
 
@@ -147,6 +146,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
             $scope.roleSelected = role;
             $scope.userMsgSelected = $scope.planSelected.athleteUserId.fullName;
             self.getChat("IN");
+            self.getMessageCount();
 
         };
 

@@ -1349,13 +1349,14 @@ public class UserController {
         
     }
     
-    @RequestMapping(value = "get/user/notification/{userSessionId}", method = RequestMethod.GET)
+    @RequestMapping(value = "get/user/notification/{userSessionId}/{planId}/{tipoPlan}", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<ResponseService> getUserNotification(@PathVariable("userSessionId") Integer userSessionId) {
+    ResponseEntity<ResponseService> getUserNotification(@PathVariable("userSessionId") Integer userSessionId, @PathVariable("planId") Integer planId,
+            @PathVariable("tipoPlan") String tipoPlan) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            List<NotificationDTO> list = userService.getUserNotification(userSessionId);
+            List<NotificationDTO> list = userService.getUserNotification(userSessionId, planId, tipoPlan);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(list);
             return new ResponseEntity<>(responseService, HttpStatus.OK);

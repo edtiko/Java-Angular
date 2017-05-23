@@ -133,8 +133,8 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                 audioDiv = angular.element("#recordedReceivedAsesor");
                 AudioMessageService.readAudio(planAudioId).then(
                         function (data) {
-                            $scope.getReceived();
-                            console.log(data.entity.output);
+                            $scope.getReceived($scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, "IN");
+                            //console.log(data.entity.output);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -160,8 +160,8 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                 audioDiv = angular.element("#recordedReceivedStar");
                 AudioMessageService.readAudio(planAudioId).then(
                         function (data) {
-                            $scope.getReceived();
-                            console.log(data.entity.output);
+                            $scope.getReceived($scope.userSession.planSelected.starUserId.userId, $scope.userSession.planSelected.id, "IN");
+                            //console.log(data.entity.output);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -184,7 +184,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                 } else {
                     $scope.receivedAsesor.push(audio);
                 }
-                   $scope.getReceived();
+                   $scope.getReceived($scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, "IN");
             }
 
         });

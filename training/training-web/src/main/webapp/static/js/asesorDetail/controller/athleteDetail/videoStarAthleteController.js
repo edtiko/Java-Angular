@@ -289,34 +289,20 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
             $scope.numVideo = index;
             $scope.isRecordStar = false;
             $scope.planVideoSelected = planVideoId;
-            if (planVideoId.fromUserId != undefined) {
-                UserService.getUserById(planVideoId.fromUserId)
-                        .then(
-                                function (d) {
+            $scope.isVisibleSendVideo = true;
+            $scope.isVisibleDeleteVideo = false;
+            $scope.showVideo();
+            if (fromto == 'to') {
+                VideoService.readVideo(planVideoId).then(
+                        function (data) {
+                            // $scope.getReceived();
+                        },
+                        function (error) {
+                            console.error(error);
+                        });
 
-                                    $scope.isVisibleSendVideo = true;
-                                    $scope.isVisibleDeleteVideo = false;
-                                    $scope.showVideo();
-                                    //$scope.playVideoStar(path);
-                                    if (fromto == 'to') {
-                                        VideoService.readVideo(planVideoId.id).then(
-                                                function (data) {
-                                                   // $scope.getReceived();
-                                                },
-                                                function (error) {
-                                                    //$scope.showMessage(error);
-                                                    console.error(error);
-                                                });
-
-                                    }
-                                },
-                                function (errResponse) {
-                                    console.error('Error while fetching Currencies');
-                                }
-                        );
-            } else {
-                $scope.showVideo();
             }
+
 
         };
 

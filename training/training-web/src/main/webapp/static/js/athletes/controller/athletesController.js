@@ -19,6 +19,7 @@ trainingApp.controller('AthletesController', ['$scope', 'AthleteService', '$wind
                 return lowerStr.indexOf(letter.toLowerCase()) === 0;
             } else {
                 $scope.athletesFiltered = $scope.athletes;
+                  return true;
             }
         };
 

@@ -201,7 +201,7 @@
                             <h3 style="color: #00E8E8 !important;">NOTIFICACIONES</h3>
                             <span style="color: #ffffff;" ng-if="notificationCount == 0 && invitation == null">No hay notificaciones disponibles</span>
                             <md-list class="md-dense" flex>
-                                <md-list-item ng-repeat="n in listNotification" class="md-3-line"  ng-click="verModulo(n.module, n.fromUserId)" >
+                                <md-list-item ng-repeat="n in listNotification" class="md-3-line"  ng-click="verModulo(n.module, n.fromUserId, n.fromUserRole)" >
                                     <div ng-if="userSession.typeUser == userSessionTypeUserAtleta && !userSession.planSelected.external">
                                         <img ng-if="n.roleId == userSessionTypeUserCoachInterno" data-ng-src="{{asesorImage}}"  class="md-avatar border"> 
                                         <img ng-if="n.roleId == userSessionTypeUserCoachEstrella" data-ng-src="{{starImage}}"  class="md-avatar border">

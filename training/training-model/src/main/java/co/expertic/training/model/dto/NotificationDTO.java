@@ -18,6 +18,7 @@ public class NotificationDTO {
     private Integer id;
     private Integer fromUserId;
     private String fromUser;
+    private Integer fromUserRole;
     private String srcImage;
     private String userName;
     @JsonSerialize(using=JsonDateTimeSerializer.class)
@@ -31,9 +32,10 @@ public class NotificationDTO {
         
     }
     
-    public NotificationDTO(Integer id, Integer fromUserId, String module, Integer roleId, Date creationDate) {
+    public NotificationDTO(Integer fromUserRole, Integer id, Integer fromUserId, String module, Integer roleId, Date creationDate) {
         this.id = id;
         this.fromUserId = fromUserId;
+        this.fromUserRole = fromUserRole;
         this.creationDate = creationDate;
         this.module = module;
         this.roleId = roleId;
@@ -115,6 +117,14 @@ public class NotificationDTO {
 
     public void setFromUser(String fromUser) {
         this.fromUser = fromUser;
+    }
+
+    public Integer getFromUserRole() {
+        return fromUserRole;
+    }
+
+    public void setFromUserRole(Integer fromUserRole) {
+        this.fromUserRole = fromUserRole;
     }
         
 }

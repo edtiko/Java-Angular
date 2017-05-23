@@ -7,15 +7,20 @@ trainingApp.controller('AsesoresController', ['$scope', 'AsesorService', '$windo
         $scope.names = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
 
-        $scope.filt = 'A';
+        //$scope.filt = 'A';
         $scope.setFilter = function (letter) {
             $scope.filt = letter;
         };
 
         $scope.startsWith = function (asesor) {
-                var lowerStr = (asesor.fullName + "").toLowerCase();
-                var letter = $scope.filt;
-                return lowerStr.indexOf(letter.toLowerCase()) === 0;       
+            var lowerStr = (asesor.fullName + "").toLowerCase();
+            var letter = $scope.filt;
+            if (letter != undefined) {
+                return lowerStr.indexOf(letter.toLowerCase()) === 0;
+            } else {
+                $scope.asesoresFiltered = $scope.asesores;
+                return true;
+            }
         };
 
         self.getAsesores = function () {

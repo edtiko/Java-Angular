@@ -25,7 +25,7 @@ public interface PlanAudioService {
 
     public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId,Integer toUserId, Integer roleSelected) throws Exception;
 
-    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
+    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception;
 
     public void readAudios(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception;
 

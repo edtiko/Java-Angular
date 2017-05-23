@@ -332,8 +332,8 @@ trainingApp.service('UserService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            getUserNotification: function (userId) {
-                return $http.get($contextPath + 'get/user/notification/'+userId)
+            getUserNotification: function (userId, planId, tipoPlan) {
+                return $http.get($contextPath + 'get/user/notification/'+userId+'/'+planId+'/'+tipoPlan)
                         .then(
                                 function (response) {
                                     return response.data.output;

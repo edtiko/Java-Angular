@@ -66,7 +66,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
         $scope.sendMessage = function () {
             var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
             self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, coachUserId, "IN", $scope.roleSelected, function (data) {
-                $scope.availableMessage = data;
+                $scope.availableMessage =  data.output;
                 if ($scope.userSession != null && $scope.userSession.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachAssignedPlanId.id = $scope.userSession.planSelected.id;
                     $scope.planMessage.coachAssignedPlanId.athleteUserId.userId = $scope.userSession.planSelected.athleteUserId.userId;
@@ -77,12 +77,12 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                     
 
                     MessageService.send($scope.planMessage);
-                    //$scope.wsocket.send(JSON.stringify($scope.planMessage));
-                    self.getMessageCount();
+                    //$scope.wsocket.send(JSON.stringify($scope.planMessage));                  
                     $scope.planMessage.message = "";
                  
                 } else if ($scope.availableMessage == 0) {
                     $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
+                     self.getMessageCount();
                 }
             });
         };
@@ -92,9 +92,10 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
                 MessageService.readMessage(message.id).then(
                         function (data) {
-                           $scope.getReceived();
+                           //$scope.getReceived();
+                           self.getMessageCount();
                         },
-                        function (error) {
+                        function (error) { 
                             //$scope.showMessage(error);
                             console.error(error);
                         });
@@ -106,16 +107,16 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                     }
               //$scope.getReceived();
             }
-            //$scope.messages.push(message);
-           
-            self.getChat("IN");
+            $scope.messages.push(message);
+            self.getMessageCount();
+            //self.getChat("IN");
         });
 
         //Traer la cantidad de mensajes disponibles
         self.getAvailableMessages = function (coachAssignedPlanId, userId, toUserId, tipoPlan, roleSelected, fn) {
             MessageService.getAvailableMessages(coachAssignedPlanId, userId,toUserId, tipoPlan, roleSelected).then(
                     fn,
-                    function (error) {
+                    function (error) { 
                         //$scope.showMessage(error);
                         console.error(error);
                     });
@@ -125,15 +126,15 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
         self.readMessages = function () {
 
             var planId = $scope.userSession.planSelected.id;
-            var  userId = $scope.userSession.userId;
-            var toUserId = $scope.userSession.planSelected.coachUserId.userId;
-       
+            var  userId =  $scope.userSession.planSelected.coachUserId.userId;
+            var toUserId = $scope.userSession.userId;
+        
             MessageService.readMessages(planId, userId, toUserId, "IN", $scope.roleSelected).then(
                     function (data) {
-                        $scope.getReceived();
+                        $scope.getReceived(toUserId, planId, "IN");
                         //console.log(data.output);
                     },
-                    function (error) {
+                    function (error) { 
                         //$scope.showMessage(error);
                         console.error(error);
                     });
@@ -145,14 +146,10 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
             var starUserId = $scope.userSession.planSelected.starUserId.userId;
             
             self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, coachUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
-                $scope.availableMessageStar = data;
-                
-                        console.log("llego el count de estrella "+data);
+                $scope.availableMessageStar = data.output;
             });
             self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, coachUserId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
-                $scope.availableMessageSup = data;
-                
-                        console.log("llego el count de asesor "+data);
+                $scope.availableMessageSup = data.output;
             });
 
             $scope.getReceivedMessages($scope.userSession.planSelected.id, coachUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
@@ -169,7 +166,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                         $scope.receivedMessageSup = data.output;
                     });
                     
-            $scope.getReceived();
+             $scope.getReceived(coachUserId, $scope.userSession.planSelected.id, "IN");
 
             //$scope.getMessagesByRole($scope.roleSelected);
         };

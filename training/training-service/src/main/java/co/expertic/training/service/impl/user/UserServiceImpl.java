@@ -477,7 +477,7 @@ public class UserServiceImpl implements UserService {
             communication.setPlanMsg(configuration.getMessageCount());
 
             communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(communicatePlanId, atheteUserId, coachUserId, roleSelected));
-            communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, atheteUserId, roleSelected));
+            communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(communicatePlanId, atheteUserId,coachUserId, roleSelected));
             communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(communicatePlanId, atheteUserId, roleSelected));
             communication.setPlanAudio(configuration.getAudioCount());
             communication.setAudioDuration(configuration.getAudioDuration());
@@ -536,7 +536,7 @@ public class UserServiceImpl implements UserService {
                 return true;
             }
 
-            if (planAudioDao.getCountAudiosReceived(communicatePlanId, athleteUserId, roleSelected) > 0) {
+            if (planAudioDao.getCountAudiosReceived(communicatePlanId, athleteUserId,userId, roleSelected) > 0) {
                 return true;
             }
 
@@ -579,8 +579,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<NotificationDTO> getUserNotification(Integer userSessionId) throws Exception {
-        List<NotificationDTO> list = userDao.getUserNotification(userSessionId);
+    public List<NotificationDTO> getUserNotification(Integer userSessionId, Integer planId, String tipoPlan) throws Exception {
+        List<NotificationDTO> list = userDao.getUserNotification(userSessionId, planId, tipoPlan);
         
         for (NotificationDTO not : list) {
             User user = userDao.findById(not.getFromUserId());
@@ -654,7 +654,7 @@ public class UserServiceImpl implements UserService {
         communication.setPlanMsg(configuration.getMessageCount());
 
         communication.setAvailableAudio(planAudioDao.getCountAudioByPlan(plan.getId(), starUserId, athleteUserId, roleSelected));
-        communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(plan.getId(), starUserId, roleSelected));
+        communication.setReceivedAudio(planAudioDao.getCountAudiosReceived(plan.getId(), starUserId, athleteUserId, roleSelected));
         communication.setEmergencyAudio(planAudioDao.getCountAudioEmergencyByPlan(plan.getId(), starUserId, roleSelected));
         communication.setPlanAudio(configuration.getAudioCount());
         communication.setAudioDuration(configuration.getAudioDuration());

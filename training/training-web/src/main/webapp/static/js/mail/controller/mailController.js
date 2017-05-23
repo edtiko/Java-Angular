@@ -131,7 +131,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
                 self.init();
-                $scope.getReceived();
+                $scope.getReceived($scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, "IN");
             }
 
         });
@@ -195,7 +195,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                     $scope.getReceived();
+                                     $scope.getReceived($scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, "IN");
                                 } else {
                                     console.log(d.output);
                                 }

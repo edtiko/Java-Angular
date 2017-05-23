@@ -85,8 +85,8 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
         });
 
         //Traer la cantidad de mensajes disponibles
-        self.getAvailableMessages = function (coachExtAthleteId, userId, tipoPlan, roleSelected, fn) {
-            MessageService.getAvailableMessages(coachExtAthleteId, userId, tipoPlan, roleSelected).then(
+        self.getAvailableMessages = function (coachExtAthleteId, userId, toUserId, tipoPlan, roleSelected, fn) {
+            MessageService.getAvailableMessages(coachExtAthleteId, userId,toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -109,8 +109,8 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
         $scope.getMessageCount = function () {
             var tipoPlan = "EXT";
  
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected, function (data) {
-                $scope.availableMessage = data;
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected, function (data) {
+                $scope.availableMessage = data.output;
             });
 
         };

@@ -291,16 +291,25 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     }
 
     @Override
-    public List<NotificationDTO> getUserNotification(Integer userSessionId) throws DAOException {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" select notification.*  from(\n"
+    public List<NotificationDTO> getUserNotification(Integer userSessionId, Integer planId, String tipoPlan) throws DAOException {
+        String sql = "";
+        String strPlan = "";
+        if (planId != -1) {
+            if ("IN".equals(tipoPlan)) {
+                strPlan += " and coach_assigned_plan_id = " + planId + " \n";
+            } else{
+                strPlan += " and coach_ext_athlete_id = " + planId + " \n";
+            }
+        }
+        sql += " select r.role_id,  notification.*  from(\n"
                 + "select plan_audio_id as id,\n"
                 + "       from_user_id as from_user_id, \n"
                 + "       'audio' as module, \n"
                 + "        CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "        creation_date\n"
                 + "from plan_audio\n"
-                + "where to_user_id = "+userSessionId+" \n"
+                + "where to_user_id = " + userSessionId + " \n"
+                +strPlan
                 + "and readed = false\n"
                 + "\n"
                 + "union\n"
@@ -311,8 +320,9 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "       creation_date\n"
                 + "from plan_video\n"
-                + "where to_user_id = "+userSessionId+" \n"
-                + "and readed = false\n"
+                + "where to_user_id = " + userSessionId + " \n"
+                +strPlan
+                +" and readed = false\n"
                 + "\n"
                 + "union\n"
                 + "\n"
@@ -322,7 +332,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "       creation_date\n"
                 + "from mail_communication\n"
-                + "where receiving_user = "+userSessionId+" \n"
+                + "where receiving_user = " + userSessionId + " \n"
+                + strPlan
                 + "and read = false\n"
                 + "\n"
                 + "union \n"
@@ -333,56 +344,57 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "      CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
                 + "      creation_date\n"
                 + "from plan_message\n"
-                + "where receiving_user_id = "+userSessionId+" \n"
-                + "and readed = false) notification\n"
-                + "\n"
-                + "order by notification.creation_date desc ");
-        Query query = this.getEntityManager().createNativeQuery(sql.toString());
+                + "where receiving_user_id = " + userSessionId + " \n"
+                +strPlan
+                +" and readed = false) notification, role_user ru, role r \n"
+                + " where ru.user_id = notification.from_user_id \n"
+                + " and ru.role_id = r.role_id \n"
+                + " order by notification.creation_date desc ";
+        Query query = this.getEntityManager().createNativeQuery(sql);
         List<Object[]> list = query.getResultList();
         List<NotificationDTO> res = new ArrayList<>();
         list.stream().forEach((result) -> {
-            res.add(new NotificationDTO((Integer) result[0], (Integer) result[1] , (String) result[2], (Integer) result[3],(Date) result[4]));
+            res.add(new NotificationDTO((Integer) result[0], (Integer) result[1], (Integer) result[2],(String) result[3], (Integer) result[4], (Date) result[5]));
         });
         return res;
     }
-    
-    
+
     @Override
     public List<NotificationDTO> getUserCountNotification(Integer userSessionId) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append(" select notification.*  from(\n" +
-"                select  count(plan_audio_id),\n" +
-"                       'audio' as module\n" +
-"                from plan_audio\n" +
-"                where to_user_id = "+userSessionId+" \n"  +
-"                and readed = false\n" +
-"                group by to_user_id\n" +
-"                union\n" +
-"                \n" +
-"                select count(plan_video_id),\n" +
-"                       'video' as module\n" +
-"                from plan_video\n" +
-"                where to_user_id = "+userSessionId+" \n"+
-"                and readed = false\n" +
-"                group by to_user_id\n" +
-"                \n" +
-"                union\n" +
-"                \n" +
-"                select count(mail_communication_id), \n" +
-"                       'mail' as module\n" +
-"                from mail_communication\n" +
-"                where receiving_user = "+userSessionId+" \n"+
-"                and read = false\n" +
-"                group by receiving_user\n" +
-"                \n" +
-"                union \n" +
-"                \n" +
-"                select count(plan_message_id),\n" +
-"                      'chat' as module\n" +
-"                from plan_message\n" +
-"                where receiving_user_id = "+userSessionId+" \n" +
-"                and readed = false\n" +
-"                group by receiving_user_id ) notification ");
+        sql.append(" select notification.*  from(\n"
+                + "                select  count(plan_audio_id),\n"
+                + "                       'audio' as module\n"
+                + "                from plan_audio\n"
+                + "                where to_user_id = " + userSessionId + " \n"
+                + "                and readed = false\n"
+                + "                group by to_user_id\n"
+                + "                union\n"
+                + "                \n"
+                + "                select count(plan_video_id),\n"
+                + "                       'video' as module\n"
+                + "                from plan_video\n"
+                + "                where to_user_id = " + userSessionId + " \n"
+                + "                and readed = false\n"
+                + "                group by to_user_id\n"
+                + "                \n"
+                + "                union\n"
+                + "                \n"
+                + "                select count(mail_communication_id), \n"
+                + "                       'mail' as module\n"
+                + "                from mail_communication\n"
+                + "                where receiving_user = " + userSessionId + " \n"
+                + "                and read = false\n"
+                + "                group by receiving_user\n"
+                + "                \n"
+                + "                union \n"
+                + "                \n"
+                + "                select count(plan_message_id),\n"
+                + "                      'chat' as module\n"
+                + "                from plan_message\n"
+                + "                where receiving_user_id = " + userSessionId + " \n"
+                + "                and readed = false\n"
+                + "                group by receiving_user_id ) notification ");
         Query query = this.getEntityManager().createNativeQuery(sql.toString());
         List<Object[]> list = query.getResultList();
         List<NotificationDTO> res = new ArrayList<>();

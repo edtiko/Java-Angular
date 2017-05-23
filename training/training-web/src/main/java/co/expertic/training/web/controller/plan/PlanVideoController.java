@@ -488,7 +488,7 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/get/count/received/{coachAssignedPlanId}/{fromUserId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getVideosReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("fromUserId") Integer fromUserId,
+    ResponseEntity<ResponseService> getVideosReceived(@PathVariable("coachAssignedPlanId") Integer coachAssignedPlanId, @PathVariable("fromUserId") Integer fromUserId,
             @PathVariable("toUserId") Integer toUserId, @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -501,13 +501,13 @@ public class PlanVideoController {
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }

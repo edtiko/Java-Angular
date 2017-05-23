@@ -220,16 +220,17 @@ public class AudioMessageController {
 
     }
 
-    @RequestMapping(value = "/get/count/received/{planId}/{userId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/count/received/{planId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
     Response getAudiosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
+            @PathVariable("toUserId") Integer toUserId,
             @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         Integer count = 0;
         try {
             if (tipoPlan.equals(COACH_INTERNO)) {
-                count = planAudioService.getCountAudiosReceived(planId, userId, roleSelected);
+                count = planAudioService.getCountAudiosReceived(planId, userId, toUserId, roleSelected);
             } else if (tipoPlan.equals(COACH_EXTERNO)) {
                 count = planAudioService.getCountAudiosReceivedExt(planId, userId);
             }

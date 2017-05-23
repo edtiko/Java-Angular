@@ -14,28 +14,29 @@
                 </div>
             </div>
         </div>
+        <div layout="row" >
+            <div ng-repeat="asesor in asesoresFiltered| filter:startsWith | orderBy: 'fullName'">
+                <md-card layout="column" layout-align="center center" style="width: 303px; height: 450px;">
+                    <div><img class="circular" data-ng-src="{{asesor.srcImage}}" style="width: 117px; height: 117px;  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.13);"/></div>
+                    <span style="color: rgb(0, 100, 248); font-weight: bold; text-transform: uppercase">{{asesor.fullName}}</span>  
+                    <span style="color: rgb(0, 100, 248); text-transform: uppercase">{{asesor.country}}</span>
+                    <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="go('/asesor-detail/' + asesor.userId, 2)">VER PERFIL</md-button>
+                    <br />
+                    <md-divider></md-divider>
+                    <div layout="row" layout-align="space-around center" style="width: 200px">
+                        <div>
+                            <img src="static/img/athlete_29.png" style="width: 29px; height: 29px">
+                        </div>
+                        <div>
+                            <img src="static/img/chat_29.png" style="width: 29px; height: 29px">
+                        </div>
+                        <div>
+                            <img src="static/img/mail_29.png" style="width: 29px; height: 29px">
+                        </div>
+                    </div>
 
-        <div ng-repeat="asesor in asesoresFiltered| filter:startsWith | orderBy: 'fullName'">
-            <md-card layout="column" layout-align="center center" style="width: 303px; height: 450px;">
-                <div><img class="circular" data-ng-src="{{asesor.srcImage}}" style="width: 117px; height: 117px;  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.13);"/></div>
-                <span style="color: rgb(0, 100, 248); font-weight: bold; text-transform: uppercase">{{asesor.fullName}}</span>  
-                <span style="color: rgb(0, 100, 248); text-transform: uppercase">{{asesor.country}}</span>
-                <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="go('/asesor-detail/' + asesor.userId, 2)">VER PERFIL</md-button>
-                <br />
-                <md-divider></md-divider>
-                <div layout="row" layout-align="space-around center" style="width: 200px">
-                    <div>
-                        <img src="static/img/athlete_29.png" style="width: 29px; height: 29px">
-                    </div>
-                    <div>
-                        <img src="static/img/chat_29.png" style="width: 29px; height: 29px">
-                    </div>
-                    <div>
-                        <img src="static/img/mail_29.png" style="width: 29px; height: 29px">
-                    </div>
-                </div>
-
-            </md-card>
+                </md-card>
+            </div>
         </div>
     </div>
 </div>
