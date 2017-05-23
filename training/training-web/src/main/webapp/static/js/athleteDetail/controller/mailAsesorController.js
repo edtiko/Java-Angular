@@ -229,7 +229,7 @@ trainingApp.controller("MailAsesorController", ['$scope', 'MailService', '$windo
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                    $scope.getReceived();
+                                    $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
                                 } else {
                                     console.log(d.output);
                                 }

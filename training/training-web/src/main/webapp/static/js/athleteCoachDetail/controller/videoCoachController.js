@@ -301,7 +301,7 @@ trainingApp.controller("VideoCoachController", ['$scope', 'VideoService', 'UserS
             if (fromto == 'to') {
                 VideoService.readVideo(planVideoId).then(
                         function (data) {
-                            //$scope.getReceived();
+                           $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
                         },
                         function (error) {
                             //$scope.showMessage(error);

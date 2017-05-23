@@ -490,7 +490,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
             if (fromto == 'to') {
                 VideoService.readVideo(planVideoId).then(
                         function (data) {
-                            $scope.getReceived();
+                             $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -513,7 +513,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
             if (fromto == 'to') {
                 VideoService.readVideo(planVideoId).then(
                         function (data) {
-                            $scope.getReceived();
+                             $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -723,21 +723,10 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
 
             self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, toUserId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
                     function (data) {
-                        $scope.availableVideoAsesor = data.entity.output;
+                        $scope.availableVideoAsesor = data.output; 
                     });
         };
 
-        $scope.approveVideo = function (guion) {
-            var planVideoId = $scope.scriptVideoId;
-            VideoService.approveVideo($scope.planSelected.athleteUserId.userId, planVideoId, guion).then(
-                    function (data) {
-                        self.getVideosStar();
-                    },
-                    function (error) {
-                        console.error(error);
-                    }
-            );
-        };
 
         $scope.rejectVideo = function (id) {
             VideoService.rejectVideo(id).then(
@@ -762,17 +751,30 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
                 });
             };
 
-            function sendVideoController($scope, $mdDialog)
-            {
+        function sendVideoController($scope, $mdDialog)
+        {
 
-                $scope.hide = function () {
-                    $mdDialog.hide();
-                };
-                $scope.cancel = function () {
-                    $mdDialog.cancel();
-                };
+            $scope.approveVideo = function (guion) {
+                var planVideoId = $scope.scriptVideoId;
+                VideoService.approveVideo($scope.planSelected.athleteUserId.userId, planVideoId, guion).then(
+                        function (data) {
+                            self.getVideosStar();
+                            $mdDialog.hide();
+                        },
+                        function (error) {
+                            console.error(error);
+                        }
+                );
+            };
 
-            }
+            $scope.hide = function () {
+                $mdDialog.hide();
+            };
+            $scope.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+        }
 
 
             if ($scope.userSession != null) {

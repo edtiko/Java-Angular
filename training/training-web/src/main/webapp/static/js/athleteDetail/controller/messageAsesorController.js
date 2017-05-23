@@ -113,7 +113,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         self.readMessages = function (tipoPlan, roleSelected, fromUserId, toUserId) {
             MessageService.readMessages($scope.planSelected.id, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
-                        //$scope.getReceived();
+                       self.getMessageCount();
                         console.log(data.output);
                     },
                     function (error) {
@@ -131,18 +131,16 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, athleteUserId, tipoPlan, $scope.userSessionTypeUserCoachInterno, function (data) {
                 $scope.availableMessageSup = data.output;
             });
-            
             $scope.getReceivedMessages($scope.planSelected.id, athleteUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
                     function (data) {
                         $scope.receivedMessageStar = data.output;
-
                     });
 
             $scope.getReceivedMessages($scope.planSelected.id, athleteUserId, $scope.userSession.userId, tipoPlan, $scope.userSessionTypeUserCoachInterno,
                     function (data) {
                         $scope.receivedMessageSup = data.output;
                     });
-
+            $scope.getReceivedAthleteAsesor(athleteUserId, $scope.planSelected.id);
         };
 
         self.init = function () {

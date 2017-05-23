@@ -128,7 +128,7 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
             $mdDialog.show({
                 controller: starRecordController,
                 scope: $scope.$new(),
-                templateUrl: 'static/views/audioMessage/recordStarModal.html',
+                templateUrl: 'static/views/asesorDetail/athleteDetail/audio/recordStarModal.html',
                 parent: angular.element(document.body),
                 clickOutsideToClose: false,
                 fullscreen: $scope.customFullscreen

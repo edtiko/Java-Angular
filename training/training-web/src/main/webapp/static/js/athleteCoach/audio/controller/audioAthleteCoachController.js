@@ -116,7 +116,7 @@ trainingApp.controller("AudioAthleteCoachController", ['$scope', 'AudioMessageSe
 
         //lee los audios recibidos en tiempo real
         AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUser.userId == $scope.userSession.userId) {
+            if (audio.toUserId == $scope.userSession.userId) {
           
                     $scope.received.push(audio);
             
@@ -146,8 +146,8 @@ trainingApp.controller("AudioAthleteCoachController", ['$scope', 'AudioMessageSe
 
         }
 
-        self.getAvailableAudios = function (planId, userId, tipoPlan, roleSelected, fn) {
-            AudioMessageService.getAvailableAudios(planId, userId, tipoPlan, roleSelected).then(
+        self.getAvailableAudios = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
+            AudioMessageService.getAvailableAudios(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -167,7 +167,7 @@ trainingApp.controller("AudioAthleteCoachController", ['$scope', 'AudioMessageSe
 
             });
 
-            self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected,
+            self.getAvailableAudios($scope.planSelected.id, $scope.userSession.userId, $scope.toUserId, tipoPlan, $scope.roleSelected,
                     function (data) {
                         $scope.availableAudio = data.entity.output;
                     });

@@ -46,8 +46,8 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
 
         //Envia mensaje para planes Coach Interno
         $scope.sendMessage = function () {
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, "EXT", $scope.roleSelected, function (data) {
-                $scope.availableMessage = data;
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId,$scope.planSelected.athleteUserId.userId, "EXT", $scope.roleSelected, function (data) {
+                $scope.availableMessage = data.output;
                 if ($scope.userSession != null && $scope.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachExtAthleteId.id = $scope.planSelected.id;
                     $scope.planMessage.coachExtAthleteId.athleteUserId.userId = $scope.planSelected.athleteUserId.userId;
@@ -73,7 +73,7 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
                 MessageService.readMessage(message.id).then(
                         function (data) {
-                            // $scope.getReceived();
+                           $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -85,8 +85,8 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
         });
 
         //Traer la cantidad de mensajes disponibles
-        self.getAvailableMessages = function (coachExtAthleteId, userId, tipoPlan, roleSelected, fn) {
-            MessageService.getAvailableMessages(coachExtAthleteId, userId, tipoPlan, roleSelected).then(
+        self.getAvailableMessages = function (coachExtAthleteId, userId, toUserId, tipoPlan, roleSelected, fn) {
+            MessageService.getAvailableMessages(coachExtAthleteId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -97,8 +97,8 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
         self.readMessages = function (tipoPlan, roleSelected, fromUserId, toUserId) {
             MessageService.readMessages($scope.planSelected.id, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
-                        //$scope.getReceived();
-                        console.log(data.output);
+                        $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
+                        //console.log(data.output);
                     },
                     function (error) {
                         //$scope.showMessage(error);
@@ -109,8 +109,8 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
         $scope.getMessageCount = function () {
             var tipoPlan = "EXT";
  
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, tipoPlan, $scope.roleSelected, function (data) {
-                $scope.availableMessage = data;
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId,$scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected, function (data) {
+                $scope.availableMessage = data.output;
             });
 
         };

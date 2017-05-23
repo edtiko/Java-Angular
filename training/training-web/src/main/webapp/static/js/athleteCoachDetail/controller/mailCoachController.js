@@ -189,7 +189,7 @@ trainingApp.controller("MailCoachController", ['$scope', 'MailService', '$window
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                    $scope.getReceived();
+                                     $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
                                 } else {
                                     console.log(d.output);
                                 }

@@ -91,6 +91,32 @@ trainingApp.controller('AthleteCoachDetailController', ['$scope', 'AthleteServic
 
             });
         };
+        
+                
+        $scope.getReceivedAthleteCoach = function (fromUserId, planId) {
+            var tipoPlan = "EXT";
+            if ($scope.userSession != null) {
+                //var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
+                $scope.getReceivedMessages(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.messageReceivedCount = data.output;
+                        });
+                $scope.getReceivedMails(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.mailReceivedCount = data.output;
+                        });
+                $scope.getReceivedVideos(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.videoReceivedCount = data.output;
+                        });
+                $scope.getReceivedAudios(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.audioReceivedCount = data.output;
+                        });
+                $scope.getUserNotification($scope.userSession.userId, planId, tipoPlan);
+            }
+
+        };
 
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {

@@ -4,6 +4,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.athleteUserId = $routeParams.user;
         $scope.moduleSelected = 1;
+        $scope.messageReceivedCount = 0;
         $scope.athleteView = {
             profile: 'static/views/athleteDetail/profile/profile.html',
             chat: 'static/views/athleteDetail/message/message.html',
@@ -113,11 +114,36 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
 
             });
         };
+        
+        
+        $scope.getReceivedAthleteAsesor = function (fromUserId, planId) {
+            var tipoPlan = "IN";
+            if ($scope.userSession != null) {
+                //var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
+                $scope.getReceivedMessages(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.messageReceivedCount = data.output;
+                        });
+                $scope.getReceivedMails(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.mailReceivedCount = data.output;
+                        });
+                $scope.getReceivedVideos(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.videoReceivedCount = data.output;
+                        });
+                $scope.getReceivedAudios(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
+                        function (data) {
+                            $scope.audioReceivedCount = data.output;
+                        });
+                $scope.getUserNotification($scope.userSession.userId, planId, tipoPlan);
+            }
+
+        };
 
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
                  $scope.messageReceivedCount++;
-                 $scope.getUserNotification($scope.userSession.userId);
             }
         });
         

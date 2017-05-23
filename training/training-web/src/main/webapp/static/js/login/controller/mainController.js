@@ -70,14 +70,14 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             availability: '', twitterPage: '', instagramPage: '', webPage: '', vo2Running: '', vo2Ciclismo: '',
             injury: '', disease: '', weather: ''
         };
-        
+
         $scope.rotate = 1;
-        
+
         $scope.next = function () {
             if ($scope.rotate < 2)
                 $scope.rotate++;
         };
-        
+
         $scope.previous = function () {
             if ($scope.rotate > 1)
                 $scope.rotate--;
@@ -100,22 +100,21 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 audio = '/audio-coach';
                 video = '/video-coach';
             } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoach) {
-                chat = '/athlete-coach-detail/'+userId;
-                mail = '/athlete-coach-detail/'+userId;
-                audio = '/athlete-coach-detail/'+userId;
-                video = '/athlete-coach-detail/'+userId;
+                chat = '/athlete-coach-detail/' + userId;
+                mail = '/athlete-coach-detail/' + userId;
+                audio = '/athlete-coach-detail/' + userId;
+                video = '/athlete-coach-detail/' + userId;
             } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno && fromRole == $scope.userSessionTypeUserAtleta) {
-                chat = '/athlete-detail/'+userId;
-                mail =  '/athlete-detail/'+userId;
-                audio =  '/athlete-detail/'+userId;
-                video =  '/athlete-detail/'+userId;
+                chat = '/athlete-detail/' + userId;
+                mail = '/athlete-detail/' + userId;
+                audio = '/athlete-detail/' + userId;
+                video = '/athlete-detail/' + userId;
             } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachInterno && fromRole == $scope.userSessionTypeUserCoachEstrella) {
                 chat = '/stars';
-                mail =  '/stars';
-                audio =  '/stars';
-                video =  '/stars';
-            } 
-            else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
+                mail = '/stars';
+                audio = '/stars';
+                video = '/stars';
+            } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
                 chat = '/asesores';
                 mail = '/asesores';
                 audio = '/asesores';
@@ -431,19 +430,19 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             return false;
         };
         $scope.calculateAge = function (birthDate) { // birthday is a date
-            if(birthDate != null){
-            var today = new Date();
-            /*var ageDifMs = Date.now() - birthday.getTime();
-             var ageDate = new Date(ageDifMs); // miliseconds from epoch
-             return Math.abs(ageDate.getUTCFullYear() - 1970)+1;*/
-            var age = today.getFullYear() - birthDate.getFullYear();
-            var m = (today.getMonth()+1) - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
-            {
-                age--;
+            if (birthDate != null) {
+                var today = new Date();
+                /*var ageDifMs = Date.now() - birthday.getTime();
+                 var ageDate = new Date(ageDifMs); // miliseconds from epoch
+                 return Math.abs(ageDate.getUTCFullYear() - 1970)+1;*/
+                var age = today.getFullYear() - birthDate.getFullYear();
+                var m = (today.getMonth() + 1) - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+                {
+                    age--;
+                }
+                return age;
             }
-            return age;
-        }
 
         };
         $scope.logout = function () {
@@ -625,7 +624,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
             });
             $scope.getReceived($scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, "IN");
-            //$scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id);
+            $scope.listenerAtleta("IN");
         };
 
         self.setAthleteCoach = function () {
@@ -651,6 +650,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             });
 
             $scope.getUserNotification($scope.userSession.userId, -1, -1);
+            $scope.listenerAtleta("EXT");
         };
 
         self.setAthletePlatform = function () {
@@ -756,49 +756,53 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             );
         };
 
-        //notificación mensajes recibidos
-        MessageService.receive().then(null, null, function (message) {
-            if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
+        $scope.listenerAtleta = function (tipoPlan) {
+            //notificación mensajes recibidos
+            MessageService.receive().then(null, null, function (message) {
+                if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
 
-                $scope.getReceived();
+                    $scope.messageReceivedCount++;
+                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
 
-            }
+                }
 
-        });
+            });
 
-        //notificación videos recibidos
-        VideoService.receive().then(null, null, function (video) {
-            if (video.toUser.userId == $scope.userSession.userId) {
+            //notificación videos recibidos
+            VideoService.receive().then(null, null, function (video) {
+                if (video.toUser.userId == $scope.userSession.userId) {
 
-                 $scope.getReceived();
+                    $scope.videoReceivedCount++;
+                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
+                }
 
-            }
+            });
 
-        });
+            //notificación audios recibidos
+            AudioMessageService.receive().then(null, null, function (audio) {
+                if (audio.toUserId == $scope.userSession.userId) {
 
-        //notificación audios recibidos
-        AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUserId == $scope.userSession.userId) {
+                    $scope.audioReceivedCount++;
+                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
 
-                $scope.getReceived();
+                }
 
-            }
-
-        });
+            });
 
 
-        //notificación emails recibidos
-        MailService.receive().then(null, null, function (email) {
-            if (email.receivingUser.userId == $scope.userSession.userId) {
+            //notificación emails recibidos
+            MailService.receive().then(null, null, function (email) {
+                if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                 $scope.getReceived();
+                    $scope.mailReceivedCount++;
+                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
+                }
 
-            }
-
-        });
+            });
+        };
 
         $scope.getReceivedAudios = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
-            AudioMessageService.getAudiosReceived(planId, userId,toUserId, tipoPlan, roleSelected).then(
+            AudioMessageService.getAudiosReceived(planId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         //$scope.showMessage(error);
@@ -894,11 +898,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                         console.error(error);
                     });
         };
-        
+
         $scope.getUserSessionInfo = function () {
             $scope.getUserSession(function (res) {
                 $scope.userSession = res.data.output;
-                 $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
+                $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
                 $scope.getLocation();
                 $scope.getImageProfile($scope.userSession.userId, function (data) {
                     if (data != "") {
@@ -909,9 +913,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     }
                 });
             });
-        }; 
-        
-        $scope.getLocation = function(){
+        };
+
+        $scope.getLocation = function () {
             var location = "";
             if ($scope.userSession != null && $scope.userSession.dashboard != null) {
 
@@ -926,8 +930,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
 
             }
-          
-          $scope.location = location;
+
+            $scope.location = location;
         };
 
         $scope.init = function () {
@@ -938,7 +942,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 $scope.userSession = res.data.output;
 
                 if ($scope.userSession != null) {
-                      $scope.getLocation();
+                    $scope.getLocation();
                     switch ($scope.userSession.typeUser) {
                         case $scope.userSessionTypeUserCoach:
                             $scope.setCoachRole();

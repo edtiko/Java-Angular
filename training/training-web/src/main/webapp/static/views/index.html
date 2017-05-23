@@ -218,6 +218,11 @@
                                         <p style="color: #ffffff;">Te envío un mensaje de {{n.module}}</p>
                                         <a href="javascript:void(0)" style="color: #AAFD6F">Ver {{n.module}}</a>
                                     </div>
+                                      <div class="md-list-item-text"  ng-if="userSession.typeUser == userSessionTypeUserAtleta && userSession.planSelected.external">
+                                        <h3 style="color: #ffffff; text-transform: capitalize">{{userSession.planSelected.coachUserId.fullName}}</h3>
+                                        <p style="color: #ffffff;">Te envío un mensaje de {{n.module}}</p>
+                                        <a href="javascript:void(0)" style="color: #AAFD6F">Ver {{n.module}}</a>
+                                    </div>
                                      <div class="md-list-item-text"  ng-if="userSession.typeUser != userSessionTypeUserAtleta">
                                         <h3 style="color: #ffffff; text-transform: capitalize" ng-if="n.roleId == userSessionTypeUserCoachInterno">{{n.fromUser}}</h3>
                                         <p style="color: #ffffff;">Te envío un mensaje de {{n.module}}</p>

@@ -126,15 +126,26 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
         self.readMessages = function () {
 
             var planId = $scope.userSession.planSelected.id;
-            var  userId =  $scope.userSession.planSelected.coachUserId.userId;
+            var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
+            var starUserId = $scope.userSession.planSelected.coachUserId.userId;
             var toUserId = $scope.userSession.userId;
-        
-            MessageService.readMessages(planId, userId, toUserId, "IN", $scope.roleSelected).then(
+
+            MessageService.readMessages(planId, coachUserId, toUserId, "IN", $scope.roleSelected).then(
                     function (data) {
                         $scope.getReceived(toUserId, planId, "IN");
                         //console.log(data.output);
                     },
-                    function (error) { 
+                    function (error) {
+                        //$scope.showMessage(error);
+                        console.error(error);
+                    });
+
+            MessageService.readMessages(planId, starUserId, toUserId, "IN", $scope.roleSelected).then(
+                    function (data) {
+                        $scope.getReceived(toUserId, planId, "IN");
+                        //console.log(data.output);
+                    },
+                    function (error) {
                         //$scope.showMessage(error);
                         console.error(error);
                     });

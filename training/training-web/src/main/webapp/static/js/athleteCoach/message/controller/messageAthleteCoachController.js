@@ -46,8 +46,8 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
 
         //Envia mensaje para planes Coach Interno
         $scope.sendMessage = function () {
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, "EXT", $scope.roleSelected, function (data) {
-                $scope.availableMessage = data;
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.coachUserId.userId, "EXT", $scope.roleSelected, function (data) {
+                $scope.availableMessage = data.output;
                 if ($scope.userSession != null && $scope.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachExtAthleteId.id = $scope.planSelected.id;
                     $scope.planMessage.coachExtAthleteId.athleteUserId.userId = $scope.planSelected.athleteUserId.userId;

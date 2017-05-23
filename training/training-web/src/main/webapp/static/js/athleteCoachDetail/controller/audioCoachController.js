@@ -97,8 +97,8 @@ trainingApp.controller("AudioCoachController", ['$scope', 'AudioMessageService',
                 audioDiv = angular.element("#recordedReceived");
                 AudioMessageService.readAudio(planAudioId).then(
                         function (data) {
-                            $scope.getReceived();
-                            console.log(data.entity.output);
+                            $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
+                            //console.log(data.entity.output);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -116,9 +116,10 @@ trainingApp.controller("AudioCoachController", ['$scope', 'AudioMessageService',
 
         //lee los audios recibidos en tiempo real
         AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUser.userId == $scope.userSession.userId) {
+            if (audio.toUserId == $scope.userSession.userId) {
           
-                    $scope.received.push(audio);
+                  $scope.received.push(audio);
+                  $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
             
             }
 

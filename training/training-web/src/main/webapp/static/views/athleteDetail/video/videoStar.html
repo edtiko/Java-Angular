@@ -60,7 +60,7 @@
                                 <tr md-row  md-auto-select ng-repeat="vr  in receivedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
                                     <td>Rutina número {{$index + 1}}</td>
                                     <td>{{vr.createDate}}</td>
-                                    <td><div class="circle_black42"  ng-click="verVideoStar(vr.name, vr, 'to', $index)"><img src="static/img/play.png" /></div></td>
+                                    <td><div class="circle_black42"  ng-click="verVideoStar(vr.name, vr.id, 'to', $index)"><img src="static/img/play.png" /></div></td>
                                     <td><a href="javascript:void(0)" ng-click="showScript(vr.id)"> Aprobar</a></td>
                                     <td><a href="javascript:void(0)" ng-click="rejectVideo(vr.id)">Rechazar</a></td>
                                 </tr>
@@ -90,7 +90,7 @@
                                     <td>Rutina número {{$index + 1}}</td>
                                     <td>{{vr.createDate}}</td>
                                     <td><span style="text-transform: lowercase">{{vr.indRejected=='1'?'Rechazado':'Aprobado'}}</span></td>
-                                    <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr, 'from', $index)"><img src="static/img/play.png" /></div></td>
+                                    <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr.id, 'from', $index)"><img src="static/img/play.png" /></div></td>
                                 </tr>
                             </tbody>
                         </table>

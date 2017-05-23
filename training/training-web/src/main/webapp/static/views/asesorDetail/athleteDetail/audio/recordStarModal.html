@@ -1,0 +1,51 @@
+<meta charset="utf-8">
+<md-dialog draggable layout-padding  style="width: 600px;">
+    <div class="md-toolbar-tools">
+        <div layout="column">
+            <span class="cpt-title">GRABA UN NUEVO AUDIO</span>
+            <span class="cpt-info">Presiona el botón para comenzar a grabar</span>
+        </div>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <md-dialog-content> 
+        <div class="md-dialog-content">
+            <ng-audio-recorder id='audioInput'  audio-model='recordedInputStar' ng-show="timeLimitStar > 0" show-player="false" time-limit="timeLimitStar">
+                <div ng-if="recorder.isAvailable">
+                    <div layout="column" layout-align="center center">
+                        <div layout="row" layout-align="space-around center" flex>
+                            <div ng-if="!recorder.status.isRecording" ng-click="recorder.startRecord()" class="circle_audio_record"><img data-ng-src="static/img/mic_white.png"   ng-class="recorder.status.isRecording ? 'recording' : ''"></div>
+                            <div ng-if="recorder.status.isRecording" ng-click="recorder.stopRecord()" class="circle_pause"><img data-ng-src="static/img/pause.png"></div>
+                            <md-button class="md-fab md-mini" style="background-color: rgb(170, 252, 112); color: #000" aria-label="elapsed time">
+                                {{recorder.elapsedTime}}
+                            </md-button>  
+                        </div>
+                    </div>
+                </div>
+                <br /><br /><br />
+                <div ng-if="!recorder.isAvailable">
+                    Message for users when recording is not possible.
+                </div>
+            </ng-audio-recorder>
+            <div layout="row" ng-if="timeLimitStar == 0" layout-align="center">
+                No tiene tiempo configurado para enviar mensajes de audio.  
+            </div>
+            <md-dialog-actions layout="row" layout-align="center">
+                <md-button ng-click="cancel()" class="md-raised">ELIMINAR</md-button>
+                <md-button style="background: #1C2127; color:#AAFD6F;" ng-disabled="recordedInputStar == null" ng-click=" uploadRecordStar(recordedInputStar)" class="md-raised">{{ 'SEND' | translate }}</md-button>
+
+            </md-dialog-actions>
+        </div>
+    </md-dialog-content>
+</md-dialog>
+<script>
+
+    function onUploadStar() {
+        var scope = angular.element($("#audioContent")).scope();
+        scope.$apply(function () {
+            scope.uploadRecordStar();
+        });
+    }
+</script>
