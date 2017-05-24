@@ -90,7 +90,7 @@
                         <span style="color: #0064F8; font-weight: bold">Disciplina deportiva:</span>
                     </div>
                     <div>
-                        <span style="color: #0064F8; font-weight: bold">Objetivo:</span>
+                        <span style="color: #0064F8; font-weight: bold">Nivel:</span>
                     </div>
                     <div>
                         <span style="color: #0064F8; font-weight: bold">Modalidad:</span>
@@ -105,36 +105,36 @@
                         <span style="color: #0064F8; font-weight: bold">Edad deportiva:</span>
                     </div>
                     <div>
-                        <span style="color: #0064F8; font-weight: bold">Peso(Kg):</span>
+                        <span style="color: #0064F8; font-weight: bold">Peso(kg):</span>
                     </div>
                     <div>
-                        <span style="color: #0064F8; font-weight: bold">Altura:</span>
+                        <span style="color: #0064F8; font-weight: bold">Altura(mts):</span>
                     </div>
                 </div>
                 <div layout="column" layout-padding>
                     <div>
-                        <span>{{userProfile.discipline}}</span>
+                        <span>{{userProfile.discipline==""?'&nbsp;':userProfile.discipline}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.objective}}</span>
+                        <span>{{userProfile.objective==""?'&nbsp;':userProfile.objective}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.modality}}</span>
+                        <span>{{userProfile.modality==""?'&nbsp;':userProfile.modality}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.environment}}</span>
+                        <span>{{userProfile.environment==""?'&nbsp;':userProfile.environment}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.weather}}</span>
+                        <span>{{userProfile.weather==""?'&nbsp;':userProfile.weather}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.ageSport}}</span>
+                        <span>{{userProfile.ageSport==""?'&nbsp;':userProfile.ageSport}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.weight}}</span>
+                        <span>{{userProfile.weight==""?'&nbsp;':userProfile.weight}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.height}}</span>
+                        <span>{{userProfile.height==""?'&nbsp;':userProfile.height}}</span>
                     </div>
                 </div>
             </div>
@@ -156,25 +156,34 @@
                     <div>
                         <span style="color: #0064F8; font-weight: bold">Disponibilidad de entrenamiento:</span>
                     </div>
+                    <div layout="row" layout-align="space-between center"> 
+                        <div layout="row" layout-align="center center" class="border"  style="width: 30px; height: 30px; text-align: center" ng-class="{checked_day : d.checked == true}" ng-repeat="d in userProfile.availabilityList">
+                            {{d.day.charAt(0)}}
+                        </div>
+                    </div>
                     <div>
                         <span style="color: #0064F8; font-weight: bold">¿Practicas otro deporte?:</span>
                     </div>
                 </div>
                 <div layout="column" layout-padding>
                     <div>
-                        <span>{{userProfile.imc}}</span>
+                        <span>{{userProfile.imc == ""?'&nbsp;':userProfile.imc}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.injury}}</span>
+                        <span>{{userProfile.injury == ""?'&nbsp;':userProfile.injury}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.disease}}</span>
+                        <span>{{userProfile.disease == ""?'&nbsp;':userProfile.disease}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.availability}}</span>
+                        <span>&nbsp;</span>
                     </div>
                     <div>
-                        <span>{{userProfile.weather}}</span>
+                        <span>&nbsp;</span>
+                    </div>
+                    <br />
+                    <div>
+                        <span>{{userProfile.weather == ""?'&nbsp;':userProfile.weather}}</span>
                     </div>
                 </div>
             </div>
@@ -203,18 +212,65 @@
                 </div>
                 <div layout="column" layout-padding>
                     <div>
-                        <span>{{userProfile.pulsometer}}</span>
+                        <span>{{userProfile.pulsometer == ""?'&nbsp;':userProfile.pulsometer}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.pulsometer}}</span>
+                        <span>{{userProfile.pulsometer == ""?'&nbsp;':userProfile.pulsometer}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.modelPulsometer}}</span>
+                        <span>{{userProfile.modelPulsometer == ""|| userProfile.modelPulsometer == null?'&nbsp;':userProfile.modelPulsometer}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.ppm}}</span>
+                        <span>{{userProfile.ppm == ""?'&nbsp;':userProfile.ppm}}</span>
                     </div>
                 </div>
+            </div>
+            <div layout="column" layout-padding>
+                <table>
+                    <thead >
+                        <tr >
+                            <th ><span class="blue">Zona</span></th>
+                            <th  colspan="2"><span class="blue">PPM</span></th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr >
+                            <td><span class="blue">1</span></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ppm0"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm81"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">2</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm82"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm89"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">3</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm90"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm93"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">4</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm94"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm99"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">5</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm100"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm102"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">6</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm103"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm106"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">7</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm106"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ppm0"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div flex>
@@ -243,24 +299,70 @@
                 </div>
                 <div layout="column" layout-padding>
                     <div>
-                        <span>{{userProfile.potentiometer}}</span>
+                        <span>{{userProfile.potentiometer == ""?'&nbsp;':userProfile.potentiometer}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.potentiometer}}</span>
+                        <span>{{userProfile.potentiometer == ""?'&nbsp;':userProfile.potentiometer}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.modelPotentiometer}}</span>
+                        <span>{{userProfile.modelPotentiometer == ""|| userProfile.modelPotentiometer == null ?'&nbsp;':userProfile.modelPotentiometer}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.power}}</span>
+                        <span>{{userProfile.power == ""?'&nbsp;':userProfile.power}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.vo2Running}}</span>
+                        <span>{{userProfile.vo2Running == ""?'&nbsp;':userProfile.vo2Running}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.vo2Ciclismo}}</span>
+                        <span>{{userProfile.vo2Ciclismo == ""?'&nbsp;':userProfile.vo2Ciclismo}}</span>
                     </div>
                 </div>
+            </div>
+            <div layout="column" layout-padding>
+                <table>
+                    <thead >
+                        <tr >
+                            <th ><span class="blue">Zona</span></th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr >
+                            <td ><span class="blue">1</span></td>
+                            <td ><input type="text" style="width: 60px" ng-model="userProfile.ftp0"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp129"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">2</span></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp129"></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp114"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">3</span></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp114"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp106"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">4</span></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp106"></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp100"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">5</span></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp100"></td>
+                            <td ><input type="text" style="width: 60px" ng-model="userProfile.ftp97"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">6</span></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp97"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp90"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">7</span></td>
+                            <td ><input type="text" style="width: 60px" ng-model="userProfile.ftp90"></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp0"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div flex>
@@ -274,7 +376,6 @@
                     <div>
                         <span style="color: #0064F8; font-weight: bold">Tipo de bicicleta</span>
                     </div>
-
                     <div>
                         <span style="color: #0064F8; font-weight: bold">¿Qué tipo de zapato usas para correr?:</span>
                     </div>
@@ -284,20 +385,24 @@
                 </div>
                 <div layout="column" layout-padding>
                     <div>
-                        <span>{{userProfile.bikes}}</span>
+                        <span>{{userProfile.bikes == ""?'&nbsp;':userProfile.bikes}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.bikes}}</span>
+                        <span>{{userProfile.bikes == ""?'&nbsp;':userProfile.bikes}}</span>
                     </div>
 
                     <div>
-                        <span>{{userProfile.shoes}}</span>
+                        <span><br />{{userProfile.shoes == ""?'&nbsp;':userProfile.shoes}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.indMetricSys}}</span>
+                        <span>{{userProfile.indMetricSys == ""?'&nbsp;':userProfile.indMetricSys=='1'?'Metrico Decimal':'Anglosajón'}}</span>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div layout="row" layout="space-around none">
+
+
     </div>
 </div>

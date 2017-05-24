@@ -622,7 +622,7 @@ public class UserServiceImpl implements UserService {
     public String editAccountUser(AccountDTO account) throws Exception {
         User user = userDao.findById(account.getUserId());
 
-        if (!user.getPassword().equals(account.getPassword())) {
+        if (user.getPassword() != null && account.getPassword() != null &&!user.getPassword().equals(account.getPassword())) {
             throw new Exception(", La contraseña actual es incorrecta");
         }
 

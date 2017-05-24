@@ -156,6 +156,11 @@
                     <div>
                         <span style="color: #0064F8; font-weight: bold">Disponibilidad de entrenamiento:</span>
                     </div>
+                    <div layout="row" layout-align="space-between center"> 
+                        <div layout="row" layout-align="center center" class="border"  style="width: 30px; height: 30px; text-align: center" ng-class="{checked_day : d.checked == true}" ng-repeat="d in userProfile.availabilityList">
+                            {{d.day.charAt(0)}}
+                        </div>
+                    </div>
                     <div>
                         <span style="color: #0064F8; font-weight: bold">¿Practicas otro deporte?:</span>
                     </div>
@@ -170,9 +175,13 @@
                     <div>
                         <span>{{userProfile.disease == ""?'&nbsp;':userProfile.disease}}</span>
                     </div>
-                    <div>
-                        <span>{{userProfile.availability}}</span>
+                     <div>
+                         <span>&nbsp;</span>
                     </div>
+                     <div>
+                         <span>&nbsp;</span>
+                    </div>
+                     <br />
                     <div>
                         <span>{{userProfile.weather == ""?'&nbsp;':userProfile.weather}}</span>
                     </div>
@@ -215,6 +224,53 @@
                         <span>{{userProfile.ppm == ""?'&nbsp;':userProfile.ppm}}</span>
                     </div>
                 </div>
+            </div>
+            <div layout="column" layout-padding>
+                <table>
+                    <thead >
+                        <tr >
+                            <th ><span class="blue">Zona</span></th>
+                            <th  colspan="2"><span class="blue">PPM</span></th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr >
+                            <td><span class="blue">1</span></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ppm0"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm81"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">2</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm82"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm89"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">3</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm90"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm93"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">4</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm94"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm99"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">5</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm100"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm102"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">6</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm103"></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm106"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">7</span></td>
+                            <td ><input type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01"  style="width: 60px" ng-model="userProfile.ppm106"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ppm0"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div flex>
@@ -262,6 +318,52 @@
                     </div>
                 </div>
             </div>
+             <div layout="column" layout-padding>
+                <table>
+                    <thead >
+                        <tr >
+                            <th ><span class="blue">Zona</span></th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr >
+                            <td ><span class="blue">1</span></td>
+                            <td ><input type="text" style="width: 60px" ng-model="userProfile.ftp0"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp129"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">2</span></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp129"></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp114"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">3</span></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp114"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp106"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">4</span></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp106"></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp100"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">5</span></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp100"></td>
+                            <td ><input type="text" style="width: 60px" ng-model="userProfile.ftp97"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">6</span></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp97"></td>
+                            <td ><input type="text"   style="width: 60px" ng-model="userProfile.ftp90"></td>
+                        </tr>
+                        <tr >
+                            <td ><span class="blue">7</span></td>
+                            <td ><input type="text" style="width: 60px" ng-model="userProfile.ftp90"></td>
+                            <td ><input type="text"  style="width: 60px" ng-model="userProfile.ftp0"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div flex>
             <span class="cpt-title">&nbsp;</span>
@@ -299,4 +401,8 @@
             </div>
         </div>
     </div>
+     <div layout="row" layout="space-around none">
+            
+           
+        </div>
 </div>

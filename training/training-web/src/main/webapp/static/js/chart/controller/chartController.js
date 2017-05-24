@@ -1,5 +1,6 @@
 trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceService', '$window',
     function ($scope, UserActivityPerformanceService, $window) {
+        var self = this;
         $scope.userActivityPerformance = {userActivityPerformanceId: null,
             userId: {userId: null, name: ''},
             activityId: {activityId: null, name: ''},
@@ -11,17 +12,23 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
         $scope.metafield = 1;
         $scope.weekly = false;
         $scope.currentNavItem = 'day';
+        $scope.numSessions = 0;
+        $scope.numActivities = 0;
+        $scope.numDistance = 0;
+        $scope.speedAverage = 0;
+        $scope.numCalories = 0;
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+        $scope.userId = $scope.userSession.userId;
+        if ($scope.planSelected != null) {
+            if ($scope.planSelected.athleteUserId != undefined) {
+                $scope.userId = $scope.planSelected.athleteUserId.userId;
+            }
+        }
 
         $scope.getReportByMetafieldOneWeek = function (metafield) {
-            var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
-            var planAthleteSelected = JSON.parse(sessionStorage.getItem("planSelected"));
-            if (planAthleteSelected != null) {
-                if(planAthleteSelected.athleteUserId != undefined) {
-                    user.userId = planAthleteSelected.athleteUserId.userId;
-                }
-            }
-
-            UserActivityPerformanceService.getByRangeDateAndUserAndVariable(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield)
+            
+            UserActivityPerformanceService.getByRangeDateAndUserAndVariable($scope.userId, substractDays(getDate(), $scope.days), getDate(), metafield)
                     .then(
                             function (response) {
                                 $scope.userActivityPerformanceList = response.output;
@@ -106,7 +113,7 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
             if (planAthleteSelected != null) {
                 user.userId = planAthleteSelected.athleteUserId.userId;
             }
-            UserActivityPerformanceService.getByRangeDateAndUserAndVariableAndDaysWeekly(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield, $scope.days, weekly)
+            UserActivityPerformanceService.getByRangeDateAndUserAndVariableAndDaysWeekly($scope.userId, substractDays(getDate(), $scope.days), getDate(), metafield, $scope.days, weekly)
                     .then(
                             function (response) {
                                 $scope.userActivityPerformanceList = response.output;
@@ -116,7 +123,7 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
 
                                     var title = '';
                                     if(google ==  null){
-                                        google.charts.load('current', {packages: ['corechart', 'gauge']});
+                                        google.charts.load('current', {packages: ['corechart']});
                                     }
                                     var data = new google.visualization.DataTable();
                                     data.addColumn('string', 'tiempo');
@@ -248,7 +255,6 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
                 $scope.getReportByMetafieldMonthlyOrWeekly($scope.metafield, weekly, $scope.currentNavItem);
             }
         };
-        $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
 
         $scope.parseDateToJavascriptDate = function (date) {
             var dateParts = date.split("-");
@@ -298,7 +304,28 @@ trainingApp.controller('ChartController', ['$scope', 'UserActivityPerformanceSer
             ];
             return monthNames[date.getMonth()];
         }
+
+        self.getWeeklyGoals = function () {
+            UserActivityPerformanceService.getWeeklyGoals($scope.userId).then(
+                    function (data) {
+                        $scope.numSessions = data.numSessions;
+                        $scope.numActivities = data.numActivities;
+                        $scope.numDistance = (data.distance / 1000);
+                        $scope.speedAverage = (data.speedAverage / 1000);
+                        $scope.numCalories = data.numCalories;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
         
        
+
+        if ($scope.userSession != null) {
+            $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
+             self.getWeeklyGoals();
+        }
+
 
     }]);

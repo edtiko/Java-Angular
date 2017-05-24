@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class DashboardDTO {
@@ -37,6 +38,7 @@ public class DashboardDTO {
     private String federalState;
     private String country;
     private String discipline;
+    private Integer disciplineId;
     private Integer ageSport;
     private BigInteger ppm;
     private BigInteger power;
@@ -68,6 +70,9 @@ public class DashboardDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date competenceDate;
     private Integer availableTime;
+    private Double testDistance;
+    private Double testDistanceN;
+    private List<UserAvailabilityDTO> availabilityList;
 
 
     public DashboardDTO() {
@@ -79,7 +84,7 @@ public class DashboardDTO {
             String indMetricSys, City city, String country, Integer ageSport, BigInteger ppm, BigInteger power, 
             String sportsAchievements, String aboutMe, String modality, String twitterPage, String instagramPage, 
             String webPage, Integer vo2Running, Integer vo2Ciclismo, Injury injury, String disease, Environment environment, 
-            Weather weather, TrainingLevel level, Date competenceDate, Integer availableTime) {
+            Weather weather, TrainingLevel level, Date competenceDate, Integer availableTime, Double testDistance, Double testDistanceN) {
         this.userId = userId;
         this.name = name;
         this.secondName = secondName;
@@ -130,6 +135,8 @@ public class DashboardDTO {
         this.disease = disease;
         this.competenceDate = competenceDate;
         this.availableTime = availableTime;
+        this.testDistance = testDistance;
+        this.testDistanceN = testDistanceN;
         
     }
     
@@ -582,6 +589,38 @@ public class DashboardDTO {
 
     public void setAvailableTime(Integer availableTime) {
         this.availableTime = availableTime;
+    }
+
+    public Double getTestDistance() {
+        return testDistance;
+    }
+
+    public void setTestDistance(Double testDistance) {
+        this.testDistance = testDistance;
+    }
+
+    public Double getTestDistanceN() {
+        return testDistanceN;
+    }
+
+    public void setTestDistanceN(Double testDistanceN) {
+        this.testDistanceN = testDistanceN;
+    }
+
+    public Integer getDisciplineId() {
+        return disciplineId;
+    }
+
+    public void setDisciplineId(Integer disciplineId) {
+        this.disciplineId = disciplineId;
+    }
+
+    public List<UserAvailabilityDTO> getAvailabilityList() {
+        return availabilityList;
+    }
+
+    public void setAvailabilityList(List<UserAvailabilityDTO> availabilityList) {
+        this.availabilityList = availabilityList;
     }
     
     

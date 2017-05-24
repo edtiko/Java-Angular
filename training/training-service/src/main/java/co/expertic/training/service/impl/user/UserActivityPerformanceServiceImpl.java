@@ -28,6 +28,9 @@ public class UserActivityPerformanceServiceImpl implements UserActivityPerforman
 
     @Autowired
     private UserActivityPerformanceDao userActivityPerformanceDao;
+    
+    @Autowired
+    private TrainingUserSerieDao trainingUserSerieDao;
 
     @Override
     public UserActivityPerformance create(UserActivityPerformance userActivityPerformance) throws Exception {
@@ -116,7 +119,7 @@ public class UserActivityPerformanceServiceImpl implements UserActivityPerforman
         Date toDate = calendarTo.getTime();
         
         result.setNumActivities(userActivityPerformanceDao.getNumActivities(userId, fromDate, toDate));
-        //result.setNumSessions(trainingUserSerieDao.getPlanWorkoutByUser(userId, fromDate, toDate).size());
+        result.setNumSessions(trainingUserSerieDao.getPlanWorkoutByUser(userId, fromDate, toDate).size());
         result.setSpeedAverage(userActivityPerformanceDao.getSpeedAverage(userId, fromDate, toDate));
         result.setDistance(userActivityPerformanceDao.getDistance(userId, fromDate, toDate));
         result.setNumCalories(userActivityPerformanceDao.getCalories(userId, fromDate, toDate));

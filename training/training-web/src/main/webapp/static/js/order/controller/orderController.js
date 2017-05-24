@@ -61,7 +61,8 @@ trainingApp.controller('OrderController', ['$scope', 'AccountService', '$window'
             ).$promise;
         };
         
-        $scope.verFactura = function () {
+        $scope.verFactura = function (order) {
+            $scope.selected = order;
             $mdDialog.show({
                 scope: $scope.$new(),
                 templateUrl: 'static/views/order/receipt.html',

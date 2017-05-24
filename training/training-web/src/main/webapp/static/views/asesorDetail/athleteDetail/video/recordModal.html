@@ -38,8 +38,9 @@
                 <br />
                 <span>Este es el guión sugerido por el asesor, para dar respuesta a este video.</span>
                 <br />
-                <div layout-padding class="border" >{{planVideo.guion}}</div>
-
+                
+                <span class="border"  style="text-align: justify;  word-wrap: break-word">{{planVideo.guion}}</span>
+                
             </div>
             <md-content flex layout="column" layout-align="center center">
                 <video id="gumVideoStar" ng-show="isRecordStar" style="background-color: #000;border: 2px solid #fff; width: 566px; height: 315px;" autoplay  muted></video>

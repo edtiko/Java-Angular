@@ -1,5 +1,6 @@
 trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerformanceService', '$window',
     function ($scope, UserActivityPerformanceService, $window) {
+        var self = this;
         $scope.userActivityPerformance = {userActivityPerformanceId: null,
             userId: {userId: null, name: ''},
             activityId: {activityId: null, name: ''},
@@ -11,6 +12,19 @@ trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerforma
         $scope.metafield = 1;
         $scope.weekly = false;
         $scope.currentNavItem = 'day';
+        $scope.numSessions = 0;
+        $scope.numActivities = 0;
+        $scope.numDistance = 0;
+        $scope.speedAverage = 0;
+        $scope.numCalories = 0;
+        $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
+        $scope.userId = $scope.userSession.userId;
+        if ($scope.planSelected != null) {
+            if ($scope.planSelected.athleteUserId != undefined) {
+                $scope.userId = $scope.planSelected.athleteUserId.userId;
+            }
+        }
 
         $scope.getReportByMetafieldOneWeek = function (metafield) {
             var user = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -21,12 +35,12 @@ trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerforma
                 }
             }
 
-            UserActivityPerformanceService.getByRangeDateAndUserAndVariable(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield)
+            UserActivityPerformanceService.getByRangeDateAndUserAndVariable($scope.userId, substractDays(getDate(), $scope.days), getDate(), metafield)
                     .then(
                             function (response) {
                                 $scope.userActivityPerformanceList = response.output;
                           
-                                google.charts.load('current', {packages: ['corechart', 'gauge']});
+                                google.charts.load('current', {packages: ['corechart']});
                                 google.charts.setOnLoadCallback(drawChart);
                                 function drawChart() {
 
@@ -75,21 +89,21 @@ trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerforma
                                     // Instantiate and draw our chart, passing in some options.
 
                                     if (metafield == 1) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 2) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 3) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 4) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 5) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 6) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 7) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 8) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
                                    //google.charts.setOnLoadCallback(drawGaugeChart);
@@ -108,7 +122,7 @@ trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerforma
             if (planAthleteSelected != null) {
                 user.userId = planAthleteSelected.athleteUserId.userId;
             }
-            UserActivityPerformanceService.getByRangeDateAndUserAndVariableAndDaysWeekly(user.userId, substractDays(getDate(), $scope.days), getDate(), metafield, $scope.days, weekly)
+            UserActivityPerformanceService.getByRangeDateAndUserAndVariableAndDaysWeekly($scope.userId, substractDays(getDate(), $scope.days), getDate(), metafield, $scope.days, weekly)
                     .then(
                             function (response) {
                                 $scope.userActivityPerformanceList = response.output;
@@ -190,21 +204,21 @@ trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerforma
 
                                     // Instantiate and draw our chart, passing in some options.
                                     if (metafield == 1) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 2) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 3) {
-                                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 4) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 5) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 6) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 7) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     } else if (metafield == 8) {
-                                        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+                                        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                                     }
                                     chart.draw(data, options);
                                 }
@@ -250,8 +264,7 @@ trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerforma
                 $scope.getReportByMetafieldMonthlyOrWeekly($scope.metafield, weekly, $scope.currentNavItem);
             }
         };
-        $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
-
+        
         $scope.parseDateToJavascriptDate = function (date) {
             var dateParts = date.split("-");
             return new Date(dateParts[0], (dateParts[1] - 1), dateParts[2]);
@@ -300,7 +313,28 @@ trainingApp.controller('ChartAsesorController', ['$scope', 'UserActivityPerforma
             ];
             return monthNames[date.getMonth()];
         }
+
+        self.getWeeklyGoals = function () {
+            UserActivityPerformanceService.getWeeklyGoals($scope.userId).then(
+                    function (data) {
+                        $scope.numSessions = data.numSessions;
+                        $scope.numActivities = data.numActivities;
+                        $scope.numDistance = (data.distance / 1000);
+                        $scope.speedAverage = (data.speedAverage / 1000);
+                        $scope.numCalories = data.numCalories;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
+        };
+
+
+
+        if ($scope.userSession != null) {
+            $scope.getReport($scope.metafield, $scope.days, $scope.weekly, $scope.currentNavItem);
+            self.getWeeklyGoals();
+        }
         
        
-
     }]);

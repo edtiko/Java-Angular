@@ -26,7 +26,7 @@
                         <td md-cell>{{order.order_date| limitTo: 10: 0}}</td>
                         <td md-cell>{{order.state_user}}</td>
                         <td md-cell>USD: ${{order.total}}.00</td>
-                        <td md-cell><a href="javascript:void(0)" ng-click="verFactura()">Ver factura</a></td>
+                        <td md-cell><a href="javascript:void(0)" ng-click="verFactura(order)">Ver factura</a></td>
                     </tr>
                 </tbody>
             </table>

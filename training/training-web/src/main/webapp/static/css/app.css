@@ -775,3 +775,9 @@ md-input-container label{
     margin-left: 60px;
 }
 
+.checked_day{
+    background: #0064F8;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+

@@ -929,6 +929,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         StringBuilder userAvailability = new StringBuilder("");
         List<UserAvailabilityDTO> availability = userAvailabilityService.findDtoByUserId(id);
         if (availability != null && !availability.isEmpty()) {
+            dashboard.setAvailabilityList(availability);
             for (UserAvailabilityDTO dto : availability) {
                 if (dto.getDay().equals("Lunes") && dto.getChecked()) {
                     userAvailability.append("Lunes");
@@ -974,6 +975,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         DisciplineUser discipline = disciplineUserDao.findByUserId(id);
         if(discipline != null){
+        dashboard.setDisciplineId(discipline.getDiscipline().getDisciplineId());
         dashboard.setDiscipline(discipline.getDiscipline().getName());
         }
 
