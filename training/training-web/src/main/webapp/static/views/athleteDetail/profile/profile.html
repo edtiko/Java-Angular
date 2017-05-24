@@ -170,10 +170,10 @@
                         <span>{{userProfile.imc == ""?'&nbsp;':userProfile.imc}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.injury == ""?'&nbsp;':userProfile.injury}}</span>
+                        <span>{{userProfile.injury == "" ||userProfile.injury == null ?'&nbsp;':userProfile.injury}}</span>
                     </div>
                     <div>
-                        <span>{{userProfile.disease == ""?'&nbsp;':userProfile.disease}}</span>
+                        <span>{{userProfile.disease == "" || userProfile.disease == null?'&nbsp;':userProfile.disease}}</span>
                     </div>
                      <div>
                          <span>&nbsp;</span>
@@ -181,9 +181,9 @@
                      <div>
                          <span>&nbsp;</span>
                     </div>
-                     <br />
+                    <br />
                     <div>
-                        <span>{{userProfile.weather == ""?'&nbsp;':userProfile.weather}}</span>
+                        <span>{{userProfile.sport == ""?'&nbsp;':userProfile.sport}}</span>
                     </div>
                 </div>
             </div>

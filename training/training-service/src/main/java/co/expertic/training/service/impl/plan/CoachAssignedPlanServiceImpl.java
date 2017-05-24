@@ -9,6 +9,7 @@ import co.expertic.training.dao.plan.CoachAssignedPlanDao;
 import co.expertic.training.dao.user.UserDao;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.MailCommunicationDTO;
+import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.ReportCountDTO;
@@ -114,7 +115,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
             }
         }
         for (UserResumeDTO athlete : list) {
-            athlete.setNotificationList(userDao.getUserCountNotification(athlete.getUserId()));
+           List<NotificationDTO> notificationList = userDao.getUserCountNotification(athlete.getUserId(), coachUserId);
+           // athlete.setMsgReceivedCount(notificationList.stream().filter(n-> n.getModule() == "chat").);
             int countFirstColour = 0;
             int countSecondColour = 0;
             int countThirdColour = 0;

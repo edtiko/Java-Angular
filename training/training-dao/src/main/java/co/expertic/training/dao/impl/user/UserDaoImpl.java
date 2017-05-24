@@ -360,13 +360,14 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
     }
 
     @Override
-    public List<NotificationDTO> getUserCountNotification(Integer userSessionId) throws DAOException {
+    public List<NotificationDTO> getUserCountNotification(Integer userId, Integer toUserId) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append(" select notification.*  from(\n"
                 + "                select  count(plan_audio_id),\n"
                 + "                       'audio' as module\n"
                 + "                from plan_audio\n"
-                + "                where to_user_id = " + userSessionId + " \n"
+                + "                where to_user_id = " + toUserId + " \n"
+                + "                and from_user_id = "+userId+" \n"
                 + "                and readed = false\n"
                 + "                group by to_user_id\n"
                 + "                union\n"
@@ -374,7 +375,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "                select count(plan_video_id),\n"
                 + "                       'video' as module\n"
                 + "                from plan_video\n"
-                + "                where to_user_id = " + userSessionId + " \n"
+                + "                where to_user_id = " + toUserId + " \n"
+                + "                and from_user_id = "+userId+" \n"
                 + "                and readed = false\n"
                 + "                group by to_user_id\n"
                 + "                \n"
@@ -383,7 +385,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "                select count(mail_communication_id), \n"
                 + "                       'mail' as module\n"
                 + "                from mail_communication\n"
-                + "                where receiving_user = " + userSessionId + " \n"
+                + "                where receiving_user = " + toUserId + " \n"
+                + "                and from_user_id = "+userId+" \n"
                 + "                and read = false\n"
                 + "                group by receiving_user\n"
                 + "                \n"
@@ -392,7 +395,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "                select count(plan_message_id),\n"
                 + "                      'chat' as module\n"
                 + "                from plan_message\n"
-                + "                where receiving_user_id = " + userSessionId + " \n"
+                + "                where receiving_user_id = " + toUserId + " \n"
+                + "                and from_user_id = "+userId+" \n"
                 + "                and readed = false\n"
                 + "                group by receiving_user_id ) notification ");
         Query query = this.getEntityManager().createNativeQuery(sql.toString());
