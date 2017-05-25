@@ -1152,7 +1152,12 @@ public class UserController {
                         
                         userTrainingOrder.setStatus("integrated");
                         userTrainingOrderService.store(userTrainingOrder);
-                    } else {
+                    } else if(jo.get("productId") != null && !jo.get("productId").isJsonNull()
+                            && !jo.get("productId").getAsString().trim().isEmpty()){
+                        
+                        userTrainingOrder.setStatus("integrated");
+                        userTrainingOrderService.store(userTrainingOrder);
+                    }else {
                         userTrainingOrder.setStatus("error");
                         userTrainingOrderService.store(userTrainingOrder);
                     }

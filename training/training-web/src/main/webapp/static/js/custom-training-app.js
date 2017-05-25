@@ -26,6 +26,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/dashboard-star', route.resolve('dashboardStar', 'dashboardStar/'))
 
                     .when('/dashboard-coach', route.resolve('dashboardCoach', 'dashboardCoach/'))
+            
+                    .when('/dashboard-mecanico', route.resolve('dashboardMecanico', 'dashboardMecanico/'))
 
                     .when('/data-person', route.resolve('user', 'datosPersonales/'))
 

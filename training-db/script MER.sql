@@ -1317,7 +1317,40 @@ CREATE TABLE user_zone
   CONSTRAINT fk_user_zone_user_id FOREIGN KEY (user_id)
       REFERENCES user_training (user_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
-)
+);
+
+/*==============================================================*/
+/* Table: user_fitting                                            */
+/*==============================================================*/
+create table user_fitting (
+   user_fitting_id   serial    not null,
+   user_id                integer   not null,
+   creation_date          integer   not null,
+   state_id               smallint,
+   constraint pk_user_fitting primary key (user_fitting_id)
+);
+
+alter table user_fitting
+add constraint fk_user_fitting_user foreign key (user_id)
+references user_training(user_id)
+on delete restrict on update restrict;
+
+/*==============================================================*/
+/* Table: user_fitting_history                                            */
+/*==============================================================*/
+create table user_fitting_history (
+   user_fitting_history_id   serial    not null,
+   user_fitting_id                integer   not null,
+   video_name              character varying(200),
+   creation_date          integer   not null,
+   state_id               smallint,
+   constraint pk_user_fitting_history primary key (user_fitting_history_id)
+);
+
+alter table user_fitting_history
+add constraint fk_fitting_history_user_fitting foreign key (user_fitting_id)
+references user_fitting(user_fitting_id)
+on delete restrict on update restrict;
 
 alter table training_user_serie
 add constraint fk_serieuser_tplanuser foreign key (training_plan_user_id)
