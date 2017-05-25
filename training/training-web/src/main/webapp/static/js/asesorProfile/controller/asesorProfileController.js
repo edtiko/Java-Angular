@@ -19,8 +19,11 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
         ];
         $scope.onStepChange = function (index, event) {
 
+            if (index == 2 || index == 3) {
+                $scope.submitUser();
+            }
             $scope.currentNavItem = index - 1;
-            console.log("el paso activo es:" + index);
+            //console.log("el paso activo es:" + index);
         };
 
         $scope.user = {userId: null, firstName: '', secondName: '', login: '', password: '', lastName: '', email: '', sex: '', weight: '', phone: '', cellphone: '', federalStateId: '', cityId: '', address: '', postalCode: '', birthDate: '', facebookPage: '', instagramPage: '', twitterPage: '', webPage: '', countryId: '', profilePhoto: '', age: ''};
@@ -35,6 +38,54 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
         ];
         $scope.isImage = false;
         $scope.errorMessages = [];
+        
+         $scope.validate = function (step) {
+            var res = true;
+            if (step == 1) {
+                if ($scope.user.firstName == null) {
+                    var uname = angular.element(document.querySelector('#uname'));
+                    uname.blur();
+                    window.scrollTo(0, 10);
+                    res = false;
+                }
+                if ($scope.user.secondName == null) {
+                    var secondName = angular.element(document.querySelector('#secondName'));
+                    secondName.blur();
+                    window.scrollTo(0, 10);
+                    res = false;
+                }
+                if ($scope.user.lastName == null) {
+                    var lastName = angular.element(document.querySelector('#lname'));
+                    lastName.blur();
+                    window.scrollTo(0, 10);
+                    res = false;
+                }
+                if ($scope.user.sex == null) {
+                    var sex = angular.element(document.querySelector('#sex'));
+                    sex.blur();
+                    window.scrollTo(0, 10);
+                    res = false;
+                }
+                if ($scope.birthdateDt == null) {
+                    var birthDate = angular.element(document.querySelector('#birthDate'));
+                    birthDate.blur();
+                    res = false;
+                    //window.scrollTo(0, 10);
+                }
+
+            } else if (step == 2) {
+                if ($scope.user.email == null) {
+                    var email = angular.element(document.querySelector('#email'));
+                    email.blur();
+                    window.scrollTo(0, 10);
+                    res = false;
+                }
+
+            } 
+            
+            return res;
+
+        };
 
 
         self.fetchAllCountries = function () {
@@ -102,7 +153,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
                                 $scope.getCitiesByState($scope.user.federalStateId);
                                 $scope.getImageProfile($scope.user.userId);
 
-                                $scope.getVisibleFieldsUserByUser($scope.user);
+                                //$scope.getVisibleFieldsUserByUser($scope.user);
 
                                 if ($scope.user.birthDate != null) {
                                     var date = $scope.user.birthDate.split("/");
@@ -118,7 +169,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
 
         };
 
-        $scope.visibleField = function (tableName, columnName) {
+       /* $scope.visibleField = function (tableName, columnName) {
             for (var i = 0; i < $scope.fields.length; i++) {
                 if ($scope.fields[i].tableName == tableName && $scope.fields[i].columnName == columnName) {
                     return true;
@@ -143,7 +194,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
                     break;
                 }
             }
-        };
+        };*/
 
         $scope.getUserSession(function (res) {
             $window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.output));
@@ -214,7 +265,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
                     .then(
                             function (msg) {
                                 $scope.editConfirmation();
-                                $scope.getVisibleFieldsUserByUser();
+                                //$scope.getVisibleFieldsUserByUser();
                                 if (file !== undefined && file != null) {
                                     $scope.uploadFile(file);
                                 }
@@ -225,7 +276,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
                                 console.error('Error while updating User.' + errResponse);
                             }
                     );
-            VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
+            /*VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
                     function (msg) {
                         $scope.setUserSession();
                     },
@@ -233,7 +284,7 @@ trainingApp.controller('AsesorProfileController', ['$scope', 'UserService', '$wi
                         console.error('Error while creating visible fields.');
                         console.error(errResponse);
                     }
-            );
+            );*/
         };
 
         $scope.editConfirmation = function () {

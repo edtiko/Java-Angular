@@ -115,8 +115,17 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
             }
         }
         for (UserResumeDTO athlete : list) {
-           List<NotificationDTO> notificationList = userDao.getUserCountNotification(athlete.getUserId(), coachUserId);
-           // athlete.setMsgReceivedCount(notificationList.stream().filter(n-> n.getModule() == "chat").);
+            List<NotificationDTO> notificationList = userDao.getUserCountNotification(athlete.getUserId(), coachUserId);
+            Long msgReceived = notificationList.stream().filter(n -> "chat".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long mailReceived = notificationList.stream().filter(n -> "mail".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long audioReceived = notificationList.stream().filter(n -> "audio".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long videoReceived = notificationList.stream().filter(n -> "video".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+
+            athlete.setMsgReceivedCount(msgReceived.intValue());
+            athlete.setMailReceivedCount(mailReceived.intValue());
+            athlete.setAudioReceivedCount(audioReceived.intValue());
+            athlete.setVideoReceivedCount(videoReceived.intValue());
+
             int countFirstColour = 0;
             int countSecondColour = 0;
             int countThirdColour = 0;

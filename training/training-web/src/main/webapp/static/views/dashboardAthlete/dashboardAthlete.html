@@ -48,24 +48,20 @@
                         <h5 style="color: #0064F8">MODALIDAD</h5>
                     </div>
                     <div  layout="column" style="text-align: center">
-                        <span class="text_dash">{{userSession.dashboard.objective}}</span>
-                        <h5 style="color: #0064F8">NIVEL</h5>
-                    </div>
-                    <div  layout="column" style="text-align: center">
-                        <span class="number_dash">{{userSession.dashboard.availableTime}}</span>
+                        <div><span class="number_dash">{{userSession.dashboard.availableTime}}</span><span class="blue">HRS</span></div>
                         <h5 style="color: #0064F8">HORAS SEMANALES</h5>
                     </div>
                     <div  layout="column" style="text-align: center">
-                        <span class="text_dash">{{userSession.dashboard.competenceDate}}</span>
-                        <h5 style="color: #0064F8">FECHA DE COMPETENCIA</h5>
+                        <span class="number_dash">{{userSession.dashboard.ageSport}}</span>
+                        <h5 style="color: #0064F8">EDAD DEPORTIVA</h5>
                     </div>
                     <div  layout="column" style="text-align: center">
-                        <span class="text_dash">{{userSession.dashboard.environment}}</span>
-                        <h5 style="color: #0064F8">ENTORNO</h5>
+                        <div><span class="number_dash">{{userSession.dashboard.testDistance}}</span><span class="blue">KM/H</span></div>
+                        <h5 style="color: #0064F8">TEST DISTANCIA</h5>
                     </div>
                     <div  layout="column" style="text-align: center"> 
-                        <span class="text_dash">{{userSession.dashboard.weather}}</span>
-                        <h5 style="color: #0064F8">CLIMA</h5>
+                        <span class="number_dash">{{userSession.dashboard.power == null? '&nbsp':userSession.dashboard.power}}</span>
+                        <h5 style="color: #0064F8">POTENCIA</h5>
                     </div>
                     <div>
                         <a href="javascript:void(0)" ng-click="next()"><img src="static/img/arrow_right.png" /></a>

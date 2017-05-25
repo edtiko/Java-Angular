@@ -25,14 +25,17 @@
                         <br />
                         <md-divider></md-divider>
                         <div layout="row" layout-align="space-around center" style="width: 200px">
-                            <div>
+                            <div class="athlete_icon">
                                 <img src="static/img/athlete_29.png" style="width: 29px; height: 29px">
                             </div>
-                            <div>
+                            <div class="athlete_icon">
                                 <img src="static/img/chat_29.png" style="width: 29px; height: 29px">
+                                <div ng-if="asesor.msgReceivedCount > 0" class="circle_notification">{{asesor.msgReceivedCount}}</div>
+                                
                             </div>
-                            <div>
+                            <div class="athlete_icon">
                                 <img src="static/img/mail_29.png" style="width: 29px; height: 29px">
+                                <div ng-if="asesor.mailReceivedCount > 0" class="circle_notification">{{asesor.mailReceivedCount}}</div>
                             </div>
                         </div>
 

@@ -94,6 +94,15 @@
                 <div ng-if="videoReceivedCount > 0" class="circle_notification">{{videoReceivedCount}}</div>
                 <md-divider></md-divider>
             </md-list-item>
+            <md-list-item class="md-2-line" ng-click="alertBuyPlan()">
+                <div flex="25" style="text-align: center" ng-class="{selectedIndex: selectedIndex === 9}">
+                    <md-icon class="icon-panel"><img src="static/img/fitting.png"></md-icon>
+                </div>
+                <div flex layout-padding class="md-list-item-text">
+                    <span style="color: #00E8E8">FITTING</span>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
         </md-list>
     </md-content>
 </div>

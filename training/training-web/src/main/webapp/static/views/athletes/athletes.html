@@ -29,22 +29,26 @@
                                 <div>
                                     <img src="static/img/calendar_29.png" style="width: 29px; height: 29px">
                                 </div>
-                                <div>
+                                <div class="athlete_icon">
                                     <img src="static/img/chat_29.png" style="width: 29px; height: 29px">
+                                    <div ng-if="athlete.msgReceivedCount > 0" class="circle_notification">{{athlete.msgReceivedCount}}</div>
                                 </div>
                                 <div>
                                     <img src="static/img/chart_29.png" style="width: 29px; height: 29px"> 
                                 </div>
                             </div>
                             <div layout="row" layout-align="space-around center" style="width: 200px">
-                                <div>
+                                <div class="athlete_icon">
                                     <img src="static/img/mail_29.png" style="width: 29px; height: 29px">
+                                    <div ng-if="athlete.mailReceivedCount > 0" class="circle_notification">{{athlete.mailReceivedCount}}</div>
                                 </div>
-                                <div>
+                                <div class="athlete_icon">
                                     <img src="static/img/audio_29.png" style="width: 29px; height: 29px">
+                                    <div ng-if="athlete.audioReceivedCount > 0" class="circle_notification">{{athlete.audioReceivedCount}}</div>
                                 </div>
-                                <div>
+                                <div class="athlete_icon">
                                     <img src="static/img/video_29.png" style="width: 29px; height: 29px">
+                                    <div ng-if="athlete.videoReceivedCount > 0" class="circle_notification">{{athlete.videoReceivedCount}}</div>
                                 </div>
                             </div>
                         </div>

@@ -170,7 +170,8 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         
           $scope.calculatePaceZone = function () {
             var pace;
-            if ($scope.userProfile.testDistance !== "" && $scope.userProfile.testDistance != null) {
+            if ($scope.userProfile.testDistance !== "" && $scope.userProfile.testDistance != null 
+                    && $scope.userProfile.disciplineId != null)  {
 
                 if ($scope.userProfile.disciplineId == 3) {
                     pace = 20 / $scope.userProfile.testDistance;

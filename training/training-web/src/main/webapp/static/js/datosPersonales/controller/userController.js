@@ -1,8 +1,8 @@
 
 trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$location', 'UserProfileService', 'DisciplineService', 'SportService', 'SportEquipmentService',
-    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService', '$location', '$mdDialog', 'DcfService','$timeout', function ($scope, UserService,
+    'ObjectiveService', 'ModalityService', 'surveyService', 'VisibleFieldsUserService', 'BikeTypeService', '$location', '$mdDialog','$timeout', function ($scope, UserService,
             $window, $location, UserProfileService, DisciplineService, SportService, SportEquipmentService, ObjectiveService, ModalityService, surveyService,
-            VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, DcfService, $timeout) {
+            VisibleFieldsUserService, BikeTypeService, $location, $mdDialog, $timeout) {
         var self = this;
         $scope.currentNavItem = 0;
         $scope.profileImage = $window.sessionStorage.getItem("profileImage");
@@ -340,7 +340,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                     $scope.getCitiesByState($scope.user.federalStateId);
                                     $scope.getImageProfile($scope.user.userId);
 
-                                    $scope.getVisibleFieldsUserByUser($scope.user);
+                                    //$scope.getVisibleFieldsUserByUser($scope.user);
 
                                     if ($scope.user.birthDate != null) {
                                         var date = $scope.user.birthDate.split("/");
@@ -495,7 +495,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             UserService.createUser(user)
                     .then(
                             function (msg) {
-                                $scope.getVisibleFieldsUserByUser();
+                                //$scope.getVisibleFieldsUserByUser();
                                 if (file !== undefined && file != null) {
                                     $scope.uploadFile(file);
                                 }
@@ -505,7 +505,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 console.error('Error while creating User.');
                             }
                     );
-            VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
+            /*VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
                     function (msg) {
                         //$scope.setUserSession();
                         console.log(msg);
@@ -514,7 +514,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         console.error('Error while creating visible fields.');
                         console.error(errResponse);
                     }
-            );
+            );*/
         };
 
         self.updateUser = function (user, id, file) {
@@ -525,7 +525,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             UserService.updateUser(user, id)
                     .then(
                             function (msg) { 
-                                $scope.getVisibleFieldsUserByUser();
+                                //$scope.getVisibleFieldsUserByUser();
                                 if (file !== undefined && file != null) {
                                     $scope.uploadFile(file);
                                 }
@@ -535,7 +535,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                                 console.error('Error while updating User.');
                             }
                     );
-            VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
+            /*VisibleFieldsUserService.createVisibleFieldsUser(user.userId, $scope.visibleFields).then(
                     function (msg) {
                        // $scope.setUserSession();
                         console.log(msg);
@@ -544,7 +544,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         console.error('Error while creating visible fields.');
                         console.error(errResponse);
                     }
-            );
+            );*/
         };
 
         self.authenticateUser = function (login, password) {
@@ -950,7 +950,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 );
             }
 
-            VisibleFieldsUserService.createVisibleFieldsUser(userProfile.userId, $scope.visibleFields).then(
+            /*VisibleFieldsUserService.createVisibleFieldsUser(userProfile.userId, $scope.visibleFields).then(
                     function (msg) {
                         //$scope.setUserSession();
                         console.log(msg);
@@ -959,7 +959,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                         console.error('Error while creating visible fields.');
                         console.error(errResponse);
                     }
-            );
+            );*/
         };
         self.getEquipments = function () {
             this.getPotentiometers();
@@ -1352,7 +1352,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             }
         };
 
-        $scope.visibleField = function (tableName, columnName) {
+       /* $scope.visibleField = function (tableName, columnName) {
             for (var i = 0; i < $scope.fields.length; i++) {
                 if ($scope.fields[i].tableName == tableName && $scope.fields[i].columnName == columnName) {
                     return true;
@@ -1377,7 +1377,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     break;
                 }
             }
-        };
+        };*/
         
         $scope.calculatePaceZoneRunning = function () {
             if ($scope.userProfile.testDistance !== "") {

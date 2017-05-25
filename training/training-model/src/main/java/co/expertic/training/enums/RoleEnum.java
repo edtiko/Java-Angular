@@ -7,7 +7,7 @@ package co.expertic.training.enums;
  * @author Andres Felipe Lopez
  */
 public enum RoleEnum {
-    ATLETA(1), COACH(2), ADMIN(3), COACH_INTERNO(4), ESTRELLA(5), SUPERVISOR(6);
+    ATLETA(1), COACH(2), ADMIN(3), COACH_INTERNO(4), ESTRELLA(5), MECANICO(6);
     private Integer id;
     
     private RoleEnum(Integer id) {

@@ -503,7 +503,10 @@ public class UserController {
             } else if (Objects.equals(userDto.getRoleId(), RoleEnum.COACH.getId())) {
                 response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-coach");
                 
-            } else {
+            } else if (Objects.equals(userDto.getRoleId(), RoleEnum.MECANICO.getId())) {
+                response.sendRedirect(request.getRequestURL() + "/../../../#/dashboard-mecanico");
+                
+            }else {
                 response.sendRedirect(request.getRequestURL() + "/../../..");
             }
             return null;
@@ -1202,31 +1205,6 @@ public class UserController {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             responseService.setOutput("Error al obtener estrellas");
-            responseService.setDetail(ex.getMessage());
-            responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
-        }
-    }
-    
-    @RequestMapping(value = "user/get/supervisors", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Response getSupervisors() {
-        ResponseService responseService = new ResponseService();
-        try {
-            List<UserDTO> list = UserDTO.mapFromUsersEntities(userService.findUserByRole(RoleEnum.SUPERVISOR.getId()));
-            
-            if (list != null || !list.isEmpty()) {
-                responseService.setOutput(list);
-                responseService.setStatus(StatusResponse.SUCCESS.getName());
-                return Response.status(Response.Status.OK).entity(responseService).build();
-            }
-            
-            responseService.setOutput(null);
-            responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
-            
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            responseService.setOutput("Error al obtener supervisores");
             responseService.setDetail(ex.getMessage());
             responseService.setStatus(StatusResponse.FAIL.getName());
             return Response.status(Response.Status.OK).entity(responseService).build();

@@ -386,7 +386,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "                       'mail' as module\n"
                 + "                from mail_communication\n"
                 + "                where receiving_user = " + toUserId + " \n"
-                + "                and from_user_id = "+userId+" \n"
+                + "                and sending_user = "+userId+" \n"
                 + "                and read = false\n"
                 + "                group by receiving_user\n"
                 + "                \n"
@@ -396,7 +396,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "                      'chat' as module\n"
                 + "                from plan_message\n"
                 + "                where receiving_user_id = " + toUserId + " \n"
-                + "                and from_user_id = "+userId+" \n"
+                + "                and message_user_id = "+userId+" \n"
                 + "                and readed = false\n"
                 + "                group by receiving_user_id ) notification ");
         Query query = this.getEntityManager().createNativeQuery(sql.toString());

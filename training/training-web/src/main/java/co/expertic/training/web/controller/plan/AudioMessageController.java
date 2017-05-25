@@ -9,7 +9,6 @@ import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.configuration.StorageService;
 import co.expertic.training.service.plan.PlanAudioService;
-import co.expertic.training.service.user.UserService;
 import co.expertic.training.web.enums.StatusResponse;
 import java.io.File;
 import java.nio.file.Files;

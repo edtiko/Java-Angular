@@ -3,6 +3,7 @@ package co.expertic.training.service.impl.configuration;
 import co.expertic.training.dao.configuration.StartTeamDao;
 import co.expertic.training.dao.user.UserDao;
 import co.expertic.training.model.dto.MailCommunicationDTO;
+import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.StarTeamDTO;
 import co.expertic.training.model.dto.UserResumeDTO;
@@ -115,7 +116,13 @@ public class StartTeamServiceImpl implements StartTeamService {
             }
         }
         for (UserResumeDTO asesor : list) {
-            asesor.setNotificationList(userDao.getUserCountNotification(asesor.getUserId()));
+            List<NotificationDTO> notificationList = userDao.getUserCountNotification(asesor.getUserId(), starUserId);
+            Long msgReceived = notificationList.stream().filter(n -> "chat".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long mailReceived = notificationList.stream().filter(n -> "mail".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+
+            asesor.setMsgReceivedCount(msgReceived.intValue());
+            asesor.setMailReceivedCount(mailReceived.intValue());
+            
             int countFirstColour = 0;
             int countSecondColour = 0;
             int countThirdColour = 0;
