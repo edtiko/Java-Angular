@@ -13,4 +13,5 @@ public class UrlProperties {
     public static final String URL_PORTAL = "http://181.143.227.220:4321/cpt/";
     public static final String URL_AUDIO_FILES = "https://181.143.227.220:8088/training/audio/files/audios/";
     public static final String URL_VIDEO_FILES = "https://181.143.227.220:8088/training/video/files/";
+    public static final String URL_FITTING_FILES = "https://181.143.227.220:8088/training/userFitting/files/";
 }

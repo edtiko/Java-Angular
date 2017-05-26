@@ -12,5 +12,7 @@ import java.util.List;
 public interface MechanicService {
     
      public List<UserResumeDTO> findAthletesByUserPaginate(Integer userId, PaginateDto paginateDto) throws Exception; 
+
+    public List<UserResumeDTO> getAthletes() throws Exception;
     
 }

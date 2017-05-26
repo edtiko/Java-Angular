@@ -12,7 +12,7 @@ trainingApp.controller('DashboardMecanicoController', ['$scope','MecanicoService
         $scope.count = 0;
         $scope.query = {
             filter: '',
-            order: "concat(m.userTrainingId.name, m.userTrainingId.secondName, m.userTrainingId.lastName)",
+            order: "u.name||' '||u.second_name||' '||u.last_name",
             limit: 10,
             page: 1
         };

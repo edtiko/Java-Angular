@@ -52,6 +52,11 @@ public class UserResumeDTO {
         
     }
     
+    public UserResumeDTO(String fullName, String state){
+        this.fullName = fullName;
+        this.state = state;
+    }
+    
     public UserResumeDTO(User user, Date creationDate) {
         this.userId =  user.getUserId();
         this.fullName = user.getName()+" "+user.getSecondName()+" "+user.getLastName();

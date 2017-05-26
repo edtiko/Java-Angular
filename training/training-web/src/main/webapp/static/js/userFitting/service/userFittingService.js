@@ -1,25 +1,24 @@
 trainingApp.service('UserFittingService', ['$http', '$q', function ($http, $q) {
         return {
-            getPlanVideoStarByCoach: function (userId) {
+            getUserFittingVideo: function (userFittingId) {
 
-                return $http.get($contextPath + '/script/get/getScriptVideoStarByCoach/' + userId)
+                return $http.get($contextPath + 'userFitting/get/video/' + userFittingId)
                         .then(
                                 function (response) {
-                                    return response.data.entity.output;
+                                    return response.data;
                                 },
                                 function (errResponse) {
-                                    console.error(userProfile);
                                     console.error('Error while getting');
                                     return $q.reject(errResponse);
                                 }
                         );
             },
-            uploadVideo: function (file, userId) {
+            uploadVideo: function (file, userFittingId) {
 
                 var fd = new FormData();
                 fd.append('file', file);
-                fd.append('userId', userId);
-                return $http.post($contextPath + 'userFitting/upload/' + userId, fd, {
+                fd.append('userFittingId', userFittingId);
+                return $http.post($contextPath + 'userFitting/upload/' + userFittingId, fd, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined}
                 }).then(

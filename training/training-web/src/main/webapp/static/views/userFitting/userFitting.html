@@ -1,5 +1,5 @@
 <meta charset="utf-8"> 
-<div layout="column" style="min-height: 750px" layout-padding>
+<div layout="column" layout-align="space-around center" style="min-height: 750px">
     <div layout="row" layout-align="space-around center">
         <div flex="65">
         <h4 style="color: #0064F8">FITTING</h4>
@@ -7,10 +7,11 @@
                 Puedes realizar el fitting de tu bicicleta desde la comodidad de tu hogar; 
                 sencillamente captura un clip de vídeo para grabar dinámicamente la posición en la que pedaleas, 
                 nuestros expertos recibirán tu video, lo analizarán y te harán llegar un reporte con indicaciones diseñado exclusivamente para ti!</span></div>
-        <div><md-button class="md-raised black-button" ng-click="showUploadFitting()">CARGAR VIDEO</md-button></div>
+        <div><md-button ng-disabled="fittingCargado" class="md-raised black-button" ng-click="showUploadFitting()">CARGAR VIDEO</md-button></div>
     </div>
 
-    <!--<div  class="border" style="width: 600px; height: 400px">
-        
-    </div>-->
+    <div layout="column" layout-align="space-around center" ng-if="videoFitting != null" class="border" style="width: 600px; height: 400px">
+        <video id="recordedVideo"  style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;"  controls="controls"></video>
+        <label>El video se encuentra en estado <strong>{{videoFitting.state}}, le estaremos informando por correo electrónico.</strong></label>
+    </div>
 </div>

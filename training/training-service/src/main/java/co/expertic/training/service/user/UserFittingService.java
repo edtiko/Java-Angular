@@ -5,7 +5,9 @@
  */
 package co.expertic.training.service.user;
 
+import co.expertic.training.model.dto.UserFittingVideoDTO;
 import co.expertic.training.model.entities.UserFitting;
+import co.expertic.training.model.entities.UserFittingHistory;
 
 /**
  *
@@ -20,5 +22,11 @@ public interface UserFittingService {
     public void update(UserFitting userFitting) throws Exception;
 
     public UserFitting getFittingActiveByUser(Integer userId) throws Exception;
+
+    public UserFittingHistory getByVideoName(String fileName)  throws Exception;
+
+    public void createVideo(UserFittingHistory video)  throws Exception;
+
+    public UserFittingVideoDTO getLastVideo(Integer userFittingId)  throws Exception;
     
 }

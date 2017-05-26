@@ -5,10 +5,13 @@
  */
 package co.expertic.training.service.impl.user;
 
+import co.expertic.training.dao.user.UserFittingDao;
+import co.expertic.training.dao.user.UserFittingHistoryDao;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.UserResumeDTO;
 import co.expertic.training.service.user.MechanicService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +22,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class MechanicServiceImpl implements MechanicService {
+    
+    @Autowired
+    UserFittingDao userFittingDao;
+    
+    @Autowired
+    UserFittingHistoryDao userFittingHistoryDao;
+    
 
     @Override
     public List<UserResumeDTO> findAthletesByUserPaginate(Integer userId, PaginateDto paginateDto) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return userFittingDao.findAthletesByUserPaginate(userId, paginateDto);
+    }
+
+    @Override
+    public List<UserResumeDTO> getAthletes() throws Exception {
+        return userFittingDao.getAthletes();
     }
     
 }

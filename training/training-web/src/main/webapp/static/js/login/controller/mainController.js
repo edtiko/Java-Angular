@@ -18,7 +18,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.userSessionTypeUserAdmin = "3";//Admin
         $scope.userSessionTypeUserCoachInterno = "4";//Asesor
         $scope.userSessionTypeUserCoachEstrella = "5";//Estrella
-        $scope.userSessionTypeUserSupervisor = "6";//Supervisor
+        $scope.userSessionTypeUserMecanico = "6";//Mecanico
         $scope.typePlanTraining = 1;
         $scope.typePlanPlatform = 2;
         $scope.invitation = null;
@@ -58,7 +58,8 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             athletePlatformPanel: 'static/views/dashboard/athletePlatformPanel.html',
             asesorPanel: 'static/views/dashboard/asesorPanel.html',
             starPanel: 'static/views/dashboard/starPanel.html',
-            coachPanel: 'static/views/dashboard/coachPanel.html'
+            coachPanel: 'static/views/dashboard/coachPanel.html',
+            mechanicPanel: 'static/views/dashboard/mechanicPanel.html'
         };
 
         $scope.userDashboard = {userId: null, name: '', secondName: '', lastName: '', email: '', sex: '', age: '',
@@ -750,6 +751,20 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
             $scope.getUserNotification($scope.userSession.userId, -1, -1);
         };
+        
+        $scope.setMechanicRole = function(){
+               $scope.userPanel = $scope.views.mechanicPanel;
+            $scope.getImageProfile($scope.userSession.userId, function (data) {
+                if (data != "") {
+                    $scope.profileImage = "data:image/png;base64," + data;
+                    $window.sessionStorage.setItem("profileImage", $scope.profileImage);
+                } else {
+                    $scope.profileImage = "static/img/profile-default.png";
+                }
+            });
+
+            //$scope.getUserNotification($scope.userSession.userId, -1, -1);
+        };
 
 
         $scope.getUserNotification = function (userId, planId, tipoPlan) {
@@ -982,6 +997,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                             break;
                         case $scope.userSessionTypeUserAdmin:
                             $scope.getMenuByUser();
+                            break;
+                        case $scope.userSessionTypeUserMecanico:
+                            $scope.setMechanicRole();
                             break;
 
                     }

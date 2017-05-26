@@ -2,6 +2,8 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
     function ($scope, UserFittingService, $window, $mdDialog) {
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
+        $scope.videoFitting = {};
+        $scope.fittingCargado = false;
 
         $scope.showUploadFitting = function () {
             $mdDialog.show({
@@ -18,7 +20,7 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
             });
         };
 
-        $scope.isVideo = function (type) {
+        self.isVideo = function (type) {
             if (type.indexOf("video") !== -1) {
                 return false;
             }
@@ -27,16 +29,13 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
 
         $scope.uploadFile = function (file) {
 
-            if (file.files[0] !== undefined) {
-                var file = file.files[0];
-            }
-            if (file !== undefined && $scope.isVideo(file.type)) {
+            if (file !== undefined && self.isVideo(file.type)) {
                 $scope.showMessage("Debe seleccionar un video valido.", "error");
-            } else if ($scope.userSession.userId != "" && file != null) {
-                UserFittingService.uploadVideo(file, $scope.user.userId)
+            } else if ($scope.userSession.userFittingId != "" && file != null) {
+                UserFittingService.uploadVideo(file, $scope.userSession.userFittingId)
                         .then(
                                 function (msg) {
-                                    $scope.showMessage("Imagen cargada correctamente.");
+                                    $scope.showMessage("Video cargado correctamente.");
                                 },
                                 function (error) {
                                     console.error(error);
@@ -46,6 +45,38 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
                 $scope.showMessage("Debe seleccionar una video.", "error");
             }
         };
+
+        self.getUserFittingVideo = function () {
+            UserFittingService.getUserFittingVideo($scope.userSession.userFittingId).then(
+                    function (data) {
+                        $scope.videoFitting = data.output;
+
+                        if ($scope.videoFitting != null) {
+                            if ($scope.videoFitting.stateId === 2 || $scope.videoFitting.stateId === 5) { //PENDIENTE Ó APROBADO
+                                $scope.fittingCargado = true;
+                            }
+                        }
+                        var video = document.querySelector('video#recordedVideo');
+                        var source = document.createElement('source');
+                        var src = $contextPath + "userFitting/files/" + $scope.videoFitting.videoName;
+                        video.pause();
+                        source.setAttribute('src', src);
+
+                        video.appendChild(source);
+                        video.load();
+                        //video.play();
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+
+            );
+        };
+
+        if ($scope.userSession != null) {
+            self.getUserFittingVideo();
+        }
+
 
 
     }]);

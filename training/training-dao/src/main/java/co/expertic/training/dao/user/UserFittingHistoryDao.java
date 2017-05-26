@@ -6,6 +6,8 @@
 package co.expertic.training.dao.user;
 
 import co.expertic.base.jpa.BaseDAO;
+import co.expertic.base.jpa.DAOException;
+import co.expertic.training.model.dto.UserFittingVideoDTO;
 import co.expertic.training.model.entities.UserFittingHistory;
 
 /**
@@ -13,6 +15,11 @@ import co.expertic.training.model.entities.UserFittingHistory;
  * @author Edwin G
  */
 public interface UserFittingHistoryDao extends BaseDAO<UserFittingHistory> {
+
+    public UserFittingHistory getByVideoName(String fileName) throws DAOException;
+
+    public UserFittingVideoDTO getLastVideo(Integer userFittingId) throws DAOException;
+    
     
     
     

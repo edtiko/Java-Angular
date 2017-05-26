@@ -10,15 +10,15 @@
             <i style="color: #AAFD6F" class="fa fa-times fa-lg" aria-hidden="true"></i>
         </md-button>
     </div>
-    <md-dialog-content layout="row" layout-align="center center" layout-padding>
-                    <input style="display:none" type="file" accept="image/*" onchange="angular.element(this).scope().uploadFile(this)" file-model="myFile" ng-model="video" id="video" />
+    <md-dialog-content layout="row" layout-align="center center" layout-padding>               
         <div class="md-dialog-content" layout="column" layout-align="center center"  >
-            <div layout="row" layout-align="center center"  class="border" style="width: 400px; height: 200px">
+            <div layout="column" layout-align="center center"  class="border" style="width: 400px; height: 200px">
+                <input class="ng-hide" type="file" accept="video/*" file-model="myFile" ng-model="video" id="video" />
                 <md-button class="md-raised"  id="upload_link">Selecciona un archivo</md-button>
             </div>
             <md-dialog-actions layout="row" layout-align="center">  
                 <md-button ng-click="cancel()" class="md-raised">CANCELAR</md-button>
-                <md-button  ng-click="upload()" class="md-raised black-button">{{ 'SEND' | translate }}</md-button>          
+                <md-button ng-disabled="myFile == null" ng-click="uploadFile(myFile)" class="md-raised black-button">{{ 'SEND' | translate }}</md-button>          
             </md-dialog-actions>
         </div>
 

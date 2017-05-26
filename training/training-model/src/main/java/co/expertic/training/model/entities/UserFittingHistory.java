@@ -44,8 +44,9 @@ public class UserFittingHistory implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
     private Date creationDate;
-    @Column(name = "state_id")
-    private Short stateId;
+    @JoinColumn(name = "state_id", referencedColumnName = "state_id")
+    @ManyToOne(optional = false)
+    private State stateId;
     @JoinColumn(name = "user_fitting_id", referencedColumnName = "user_fitting_id")
     @ManyToOne(optional = false)
     private UserFitting userFittingId;
@@ -86,11 +87,11 @@ public class UserFittingHistory implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public Short getStateId() {
+    public State getStateId() {
         return stateId;
     }
 
-    public void setStateId(Short stateId) {
+    public void setStateId(State stateId) {
         this.stateId = stateId;
     }
 

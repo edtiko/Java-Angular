@@ -1350,6 +1350,11 @@ create table user_fitting_history (
 );
 
 alter table user_fitting_history
+add constraint fk_fitting_history_state foreign key (state_id)
+references state(state_id)
+on delete restrict on update restrict;
+
+alter table user_fitting_history
 add constraint fk_fitting_history_user_fitting foreign key (user_fitting_id)
 references user_fitting(user_fitting_id)
 on delete restrict on update restrict;

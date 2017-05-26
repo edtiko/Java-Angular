@@ -47,5 +47,19 @@ public class MechanicController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @RequestMapping(value = "/get/athletes", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getAthletes() {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<UserResumeDTO> athletes = mechanicService.getAthletes();
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(athletes);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
   
 }
