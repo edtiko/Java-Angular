@@ -124,6 +124,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/athlete-coach-detail/:user', route.resolve('athleteCoachDetail', 'athleteCoachDetail/'))
 
                     .when('/athletes-coach', route.resolve('athletesCoach', 'athletesCoach/'))
+            
+                    .when('/fitting', route.resolve('userFitting', 'userFitting/'))
 
                     .when('/stars', route.resolve('starAsesor', 'starAsesor/'));
 

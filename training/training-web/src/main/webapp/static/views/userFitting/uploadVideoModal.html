@@ -1,0 +1,32 @@
+<meta charset="utf-8">
+<md-dialog style="width: 600px; height: 400px">
+    <div class="md-toolbar-tools">
+        <div layout="column">
+            <span class="cpt-title">CARGAR VIDEO</span>
+            <span class="cpt-info">Presiona el botón para comenzar</span>
+        </div>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F" class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+    <md-dialog-content layout="row" layout-align="center center" layout-padding>
+                    <input style="display:none" type="file" accept="image/*" onchange="angular.element(this).scope().uploadFile(this)" file-model="myFile" ng-model="video" id="video" />
+        <div class="md-dialog-content" layout="column" layout-align="center center"  >
+            <div layout="row" layout-align="center center"  class="border" style="width: 400px; height: 200px">
+                <md-button class="md-raised"  id="upload_link">Selecciona un archivo</md-button>
+            </div>
+            <md-dialog-actions layout="row" layout-align="center">  
+                <md-button ng-click="cancel()" class="md-raised">CANCELAR</md-button>
+                <md-button  ng-click="upload()" class="md-raised black-button">{{ 'SEND' | translate }}</md-button>          
+            </md-dialog-actions>
+        </div>
+
+    </md-dialog-content>
+</md-dialog>
+<script>
+    $("#upload_link").on('click', function (e) {
+        e.preventDefault();
+        $("#video").trigger('click');
+    });
+</script>

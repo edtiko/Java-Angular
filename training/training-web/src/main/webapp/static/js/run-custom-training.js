@@ -91,6 +91,7 @@ require.config({
         starTeamService: "configuration/service/starTeamService",
         physiologicalCapacityService: "configuration/service/physiologicalCapacityService",
         activityService: "configuration/service/activityService",
+        userFittingService: "userFitting/service/userFittingService",
         angularSanitize: 'lib/angular-sanitize',
         dcfService: "configuration/service/dcfService",
         characteristicService: "configuration/service/characteristicService",
@@ -197,6 +198,9 @@ require.config({
         },
         calendarService: {
             deps: ['angular', 'trainingApp']
+        },
+        userFittingService:{
+             deps: ['angular', 'trainingApp']
         },
         sharedProperties: {
             deps: ['angular', 'trainingApp']
@@ -402,7 +406,7 @@ require.config({
                 'mailAsesorController', 'audioAsesorController', 'videoAsesorController', 'asesorService', 'starAthleteController',
                 'mailStarController', 'messageStarController', 'starAthleteDetailController','messageStarAthleteController',
                 'mailStarAthleteController','audioStarAthleteController','videoStarAthleteController', 'calendarCoachController', 'messageCoachController',
-                'mailCoachController', 'audioCoachController', 'videoCoachController'
+                'mailCoachController', 'audioCoachController', 'videoCoachController','userFittingService'
 
             ]}
     }

@@ -7,6 +7,7 @@ package co.expertic.training.model.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +20,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -33,18 +37,25 @@ public class UserFitting implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
+    @SequenceGenerator(name = "user_fitting_user_fitting_id_seq", sequenceName = "user_fitting_user_fitting_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_fitting_user_fitting_id_seq")
     @Column(name = "user_fitting_id")
     private Integer userFittingId;
     @Basic(optional = false)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
-    private int creationDate;
+    private Date creationDate;
     @Column(name = "state_id")
     private Short stateId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne(optional = false)
     private User userId;
+    @Basic(optional = false)
+    @Column(name = "order_id")
+    private int orderId;
+    @Basic(optional = false)
+    @Column(name = "order_item_id")
+    private int orderItemId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFittingId")
     private Collection<UserFittingHistory> userFittingHistoryCollection;
 
@@ -55,7 +66,7 @@ public class UserFitting implements Serializable {
         this.userFittingId = userFittingId;
     }
 
-    public UserFitting(Integer userFittingId, int creationDate) {
+    public UserFitting(Integer userFittingId, Date creationDate) {
         this.userFittingId = userFittingId;
         this.creationDate = creationDate;
     }
@@ -68,11 +79,11 @@ public class UserFitting implements Serializable {
         this.userFittingId = userFittingId;
     }
 
-    public int getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(int creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -92,6 +103,22 @@ public class UserFitting implements Serializable {
         this.userId = userId;
     }
 
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getOrderItemId() {
+        return orderItemId;
+    }
+
+    public void setOrderItemId(int orderItemId) {
+        this.orderItemId = orderItemId;
+    }
+    
     public Collection<UserFittingHistory> getUserFittingHistoryCollection() {
         return userFittingHistoryCollection;
     }

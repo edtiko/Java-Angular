@@ -191,6 +191,30 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
             });
         };
+        
+        $scope.goFitting = function () {
+            if ($scope.userSession != null && $scope.userSession.userFittingId != null) {
+                $scope.go('/fitting', 9);
+            } else {
+                $scope.alertBuyFitting();
+            }
+
+        };
+        
+        $scope.alertBuyFitting = function () {
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/datosPersonales/buyFitting.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
+        };
 
         $scope.goBuyPlan = function () {
             window.location = urlCompraPlanEntrenamiento;

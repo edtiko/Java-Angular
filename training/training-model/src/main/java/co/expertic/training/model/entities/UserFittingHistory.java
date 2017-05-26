@@ -6,6 +6,7 @@
 package co.expertic.training.model.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -30,15 +34,16 @@ public class UserFittingHistory implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
+    @SequenceGenerator(name = "user_fitting_history_user_fitting_history_id_seq", sequenceName = "user_fitting_history_user_fitting_history_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_fitting_history_user_fitting_history_id_seq")
     @Column(name = "user_fitting_history_id")
     private Integer userFittingHistoryId;
     @Column(name = "video_name")
     private String videoName;
     @Basic(optional = false)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date")
-    private int creationDate;
+    private Date creationDate;
     @Column(name = "state_id")
     private Short stateId;
     @JoinColumn(name = "user_fitting_id", referencedColumnName = "user_fitting_id")
@@ -52,7 +57,7 @@ public class UserFittingHistory implements Serializable {
         this.userFittingHistoryId = userFittingHistoryId;
     }
 
-    public UserFittingHistory(Integer userFittingHistoryId, int creationDate) {
+    public UserFittingHistory(Integer userFittingHistoryId, Date creationDate) {
         this.userFittingHistoryId = userFittingHistoryId;
         this.creationDate = creationDate;
     }
@@ -73,11 +78,11 @@ public class UserFittingHistory implements Serializable {
         this.videoName = videoName;
     }
 
-    public int getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(int creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 

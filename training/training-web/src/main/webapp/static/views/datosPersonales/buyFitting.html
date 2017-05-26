@@ -1,0 +1,26 @@
+<meta charset="utf-8">
+<md-dialog  style="  width:698px; height: 398px;">
+    <div class="md-toolbar-tools">
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F"  class="fa fa-times fa-lg" aria-hidden="true"></i>
+        </md-button>
+    </div>
+        <div class="md-dialog-content" style="height: 150px">
+            <div layout="column" layout-align="center center">
+                <img src="static/img/order.png">
+                <br />
+                <span style="color: #0064F8; text-align: center;">PARA INGRESAR A ESTE MÓDULO DEBES ADQUIRIR UN PLAN DE FITTING<br> 
+                    EL CUAL TE PERMITIRÁ MEJORAR TU POSICIÓN EN LA BICICLETA<br>
+                    Y EVITAR POSIBLES LESIONES.<br>
+                    <br />
+                    <strong>¿DESEAS ADQUIRIRLO?</strong>
+                </span>
+                <br />
+                <div layout="row"  layout-align="end center">  
+                    <md-button class="md-raised" ng-click="goBuyPlan()">SI</md-button>
+                    <md-button style="background: #1C2127; color:#AAFD6F;" class="md-raised" ng-click="cancel()">NO</md-button>
+                </div>
+            </div>      
+        </div>
+</md-dialog>

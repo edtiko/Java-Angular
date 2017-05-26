@@ -1325,7 +1325,9 @@ CREATE TABLE user_zone
 create table user_fitting (
    user_fitting_id   serial    not null,
    user_id                integer   not null,
-   creation_date          integer   not null,
+   creation_date          timestamp without time zone NOT NULL,
+   order_id               integer not null,
+   order_item_id          integer not null,
    state_id               smallint,
    constraint pk_user_fitting primary key (user_fitting_id)
 );
@@ -1342,7 +1344,7 @@ create table user_fitting_history (
    user_fitting_history_id   serial    not null,
    user_fitting_id                integer   not null,
    video_name              character varying(200),
-   creation_date          integer   not null,
+   creation_date          timestamp without time zone NOT NULL,
    state_id               smallint,
    constraint pk_user_fitting_history primary key (user_fitting_history_id)
 );

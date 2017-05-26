@@ -75,6 +75,7 @@ public class UserDTO {
     private CommunicationDTO starCommunication;
     private CommunicationDTO asesorCommunication;
     private CommunicationDTO coachCommunication;
+    private Integer userFittingId;
     
     public UserDTO() {
     }
@@ -720,6 +721,12 @@ public class UserDTO {
         this.coachCommunication = coachCommunication;
     }
 
-    
-    
+    public Integer getUserFittingId() {
+        return userFittingId;
+    }
+
+    public void setUserFittingId(Integer userFittingId) {
+        this.userFittingId = userFittingId;
+    }
+
 }
