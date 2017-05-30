@@ -8,6 +8,7 @@ package co.expertic.training.service.user;
 import co.expertic.training.model.dto.UserFittingVideoDTO;
 import co.expertic.training.model.entities.UserFitting;
 import co.expertic.training.model.entities.UserFittingHistory;
+import java.util.List;
 
 /**
  *
@@ -28,5 +29,9 @@ public interface UserFittingService {
     public void createVideo(UserFittingHistory video)  throws Exception;
 
     public UserFittingVideoDTO getLastVideo(Integer userFittingId)  throws Exception;
+
+    public List<UserFittingVideoDTO> getUserFittingHistory(Integer userId)throws Exception;
+
+    public void changeState(Integer stateId, Integer id)throws Exception;
     
 }

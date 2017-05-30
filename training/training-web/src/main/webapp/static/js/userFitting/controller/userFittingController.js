@@ -4,7 +4,8 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.videoFitting = {};
         $scope.fittingCargado = false;
-
+        $scope.attachedVideo = null;
+ 
         $scope.showUploadFitting = function () {
             $mdDialog.show({
                 scope: $scope.$new(),
@@ -26,6 +27,11 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
             }
             return true;
         };
+        
+        $scope.attachVideo = function(file){
+           var file = file.files[0];
+           $scope.attachedVideo = file.name; 
+        };
 
         $scope.uploadFile = function (file) {
 
@@ -36,13 +42,14 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
                         .then(
                                 function (msg) {
                                     $scope.showMessage("Video cargado correctamente.");
+                                    self.getUserFittingVideo();
                                 },
                                 function (error) {
                                     console.error(error);
                                 }
                         );
             } else {
-                $scope.showMessage("Debe seleccionar una video.", "error");
+                $scope.showMessage("Debe seleccionar un video.", "error");
             }
         };
 
@@ -56,15 +63,10 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
                                 $scope.fittingCargado = true;
                             }
                         }
-                        var video = document.querySelector('video#recordedVideo');
-                        var source = document.createElement('source');
-                        var src = $contextPath + "userFitting/files/" + $scope.videoFitting.videoName;
-                        video.pause();
-                        source.setAttribute('src', src);
-
-                        video.appendChild(source);
-                        video.load();
-                        //video.play();
+                        var src = $contextPath + "userFitting/files/300520171553_1.mp4";
+                       var videoDiv = angular.element("#recordedVideo");
+                       var htmlVideo = '<video src="'+src+'" type="video/*" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;"  controls="controls"></video>';
+                       videoDiv.html(htmlVideo);
                     },
                     function (error) {
                         console.log(error);

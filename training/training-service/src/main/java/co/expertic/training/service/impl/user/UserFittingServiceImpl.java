@@ -7,10 +7,14 @@ package co.expertic.training.service.impl.user;
 
 import co.expertic.training.dao.user.UserFittingDao;
 import co.expertic.training.dao.user.UserFittingHistoryDao;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.dto.UserFittingVideoDTO;
+import co.expertic.training.model.entities.State;
 import co.expertic.training.model.entities.UserFitting;
 import co.expertic.training.model.entities.UserFittingHistory;
 import co.expertic.training.service.user.UserFittingService;
+import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +66,25 @@ public class UserFittingServiceImpl implements UserFittingService{
     @Override
     public UserFittingVideoDTO getLastVideo(Integer userFittingId) throws Exception {
         return userFittingHistoryDao.getLastVideo(userFittingId);
+    }
+
+    @Override
+    public List<UserFittingVideoDTO> getUserFittingHistory(Integer userId) throws Exception {
+        return userFittingHistoryDao.getUserFittingHistory(userId);
+    }
+
+    @Override
+    public void changeState(Integer stateId, Integer id) throws Exception {
+       UserFittingHistory userFittingHistory =  userFittingHistoryDao.findById(id);
+       UserFitting userFitting = userFittingHistory.getUserFittingId();
+       userFittingHistory.setStateId(new State(stateId));
+       userFittingHistoryDao.merge(userFittingHistory);
+       
+       if(Objects.equals(stateId, StateEnum.APPROVED.getId())){
+           userFitting.setStateId(StateEnum.INACTIVE.getId().shortValue());
+           userFittingDao.merge(userFitting);
+       }
+      
     }
     
 }

@@ -19,7 +19,7 @@ trainingApp.controller('AthletesMechanicController', ['$scope', 'MecanicoService
                 return lowerStr.indexOf(letter.toLowerCase()) === 0;
             } else {
                 $scope.athletesFiltered = $scope.athletes;
-                  return true;
+                return true;
             }
         };
 
@@ -33,6 +33,11 @@ trainingApp.controller('AthletesMechanicController', ['$scope', 'MecanicoService
                         console.log(error);
                     }
             );
+        };
+        $scope.goAthleteHistoryFitting = function (user) { 
+            $window.sessionStorage.setItem("userFitting", JSON.stringify(user));
+            $scope.go('/athlete-history-fitting/' + user.userId, 2);
+
         };
 
         $scope.ignoreAccents = function (item) {

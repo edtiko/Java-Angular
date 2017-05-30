@@ -13,7 +13,8 @@
     <md-dialog-content layout="row" layout-align="center center" layout-padding>               
         <div class="md-dialog-content" layout="column" layout-align="center center"  >
             <div layout="column" layout-align="center center"  class="border" style="width: 400px; height: 200px">
-                <input class="ng-hide" type="file" accept="video/*" file-model="myFile" ng-model="video" id="video" />
+                <input class="ng-hide" type="file" accept="video/*" onchange="angular.element(this).scope().attachVideo(this)" file-model="myFile" ng-model="video" id="video" />
+                <label>{{attachedVideo}}</label>
                 <md-button class="md-raised"  id="upload_link">Selecciona un archivo</md-button>
             </div>
             <md-dialog-actions layout="row" layout-align="center">  

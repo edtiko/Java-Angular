@@ -1,0 +1,43 @@
+<meta charset="utf-8">
+<div layout="column" layout-align="center" layout-padding>
+    <div layout="row" layout-align="start center">
+        <span class="cpt-title">HISTORIAL DE:</span>
+        <span class="blue" style="text-transform: uppercase; font-size: 24px">&nbsp; {{userFitting.fullName}}</span>
+    </div>
+    <div layout="column" layout-padding>
+        <span>Correo electrónico: {{userFitting.email}}</span>
+        <md-card>
+            <md-table-container>
+                <table md-table>
+                    <thead md-head>
+                        <tr md-row>
+                            <th md-column  class="md-column"><span class="blue"><strong>FECHA</strong></span></th>
+                            <th md-column  class="md-column"><span class="blue"><strong>ESTADO DEL VIDEO</strong></span></th>
+                            <th md-column  class="md-column"></th>
+                            <th md-column  class="md-column"></th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row md-select="configurationPlan" md-select-id="trainingPlanId.name" md-auto-select ng-repeat="userFitting in userFittingHistory| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
+
+                            <td md-cell>{{userFitting.creationDate}}</td>
+                            <td md-cell>
+                    <md-select id="state" name="state" ng-model="state">
+                        <md-option ng-repeat="s in states" ng-selected="{{userFitting.stateId == s.stateId}}" value="{{s.stateId}}" >
+                            {{s.name}}
+                        </md-option>
+                    </md-select> 
+                    </td>
+                    <td md-cell><a href="void:javascript(0)" ng-click="changeState(state, userFitting.id)">Aplicar estado</a></td>
+                    <td md-cell><a href="userFitting/files/{{userFitting.videoName}}">Descargar</a></td> 
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{userFittingHistory.length}}"></md-table-pagination>  
+        </md-card>
+    </div>
+</div>
+
+
+

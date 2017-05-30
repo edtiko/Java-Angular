@@ -127,8 +127,10 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
             
                     .when('/athletes-mecanico', route.resolve('athletesMechanic', 'athletesMechanic/'))
             
+                    .when('/athlete-history-fitting/:user', route.resolve('userFittingHistory', 'userFittingHistory/')) 
+                    
                     .when('/fitting', route.resolve('userFitting', 'userFitting/'))
-
+            
                     .when('/stars', route.resolve('starAsesor', 'starAsesor/'));
 
             $translateProvider.useStaticFilesLoader({

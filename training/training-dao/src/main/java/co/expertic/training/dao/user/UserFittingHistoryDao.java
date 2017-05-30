@@ -9,6 +9,7 @@ import co.expertic.base.jpa.BaseDAO;
 import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.UserFittingVideoDTO;
 import co.expertic.training.model.entities.UserFittingHistory;
+import java.util.List;
 
 /**
  *
@@ -19,6 +20,10 @@ public interface UserFittingHistoryDao extends BaseDAO<UserFittingHistory> {
     public UserFittingHistory getByVideoName(String fileName) throws DAOException;
 
     public UserFittingVideoDTO getLastVideo(Integer userFittingId) throws DAOException;
+
+    public List<UserFittingVideoDTO> getUserFittingHistory(Integer userId)throws DAOException;
+
+    public UserFittingHistory findById(Integer id)throws DAOException;
     
     
     

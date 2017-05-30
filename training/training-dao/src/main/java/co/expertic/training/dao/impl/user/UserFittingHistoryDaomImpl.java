@@ -50,4 +50,32 @@ public class UserFittingHistoryDaomImpl extends BaseDAOImpl<UserFittingHistory> 
         return (list == null || list.isEmpty()) ? null : list.get(0);
     }
 
+    @Override
+    public List<UserFittingVideoDTO> getUserFittingHistory(Integer userId) throws DAOException {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT new co.expertic.training.model.dto.UserFittingVideoDTO(u.userFittingHistoryId, u.videoName, u.stateId, u.creationDate, u.userFittingId.userId )");
+        sql.append("FROM UserFittingHistory u ");
+        sql.append("WHERE u.userFittingId.userId.userId = :userId ");
+        sql.append("AND u.userFittingId.stateId = :active ");
+        sql.append("ORDER BY u.creationDate DESC ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        query.setParameter("active", StateEnum.ACTIVE.getId().shortValue());
+        List<UserFittingVideoDTO> list = query.getResultList();
+        return list;
+    }
+
+    @Override
+    public UserFittingHistory findById(Integer id) throws DAOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select a from UserFittingHistory a ");
+        builder.append("WHERE a.userFittingHistoryId = :id ");
+        Query query = getEntityManager().createQuery(builder.toString());
+        query.setParameter("id", id);
+
+        List<UserFittingHistory> list = query.getResultList();
+
+        return (list == null || list.isEmpty()) ? null : list.get(0);
+    }
+
 }
