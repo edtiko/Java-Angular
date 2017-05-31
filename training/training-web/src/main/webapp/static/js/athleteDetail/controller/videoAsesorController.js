@@ -686,22 +686,38 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
         self.getVideosStar = function () {
             var tipoPlan = "IN";
             var userId = $scope.userSession.userId;
-            var toUserId = $scope.planSelected.athleteUserId.userId;
-            self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella,userId, toUserId, function (data) {
+            var athleteUserId = $scope.planSelected.athleteUserId.userId;
+            var starUserId = $scope.planSelected.starUserId.userId;
+            self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, athleteUserId, function (data) {
                 $scope.receivedStar = data.output;
-                $scope.loadingReceivedStar = true;
+
+                self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, starUserId, function (data) {
+                    data.output.forEach(function (v) {
+                        $scope.receivedStar.push(v);
+                    });
+
+                    $scope.loadingReceivedStar = true;
+
+                });
 
             });
-            self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella,toUserId, $scope.planSelected.starUserId.userId, function (data) {
+            
+            self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, athleteUserId, function (data) {
                 $scope.sendedStar = data.output;
-                $scope.loadingSentStar = true;
+                self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, starUserId, function (data) {
+                    data.output.forEach(function (v) {
+                        $scope.sendedStar.push(v);
+                    });
 
+                    $scope.loadingSentStar = true;
+
+                });
             });
 
-            self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, toUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
+           /* self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, athleteUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
                     function (data) {
                         $scope.availableVideoStar = data.output;
-                    });
+                    });*/
         };
 
         self.getVideosAsesor = function () {
@@ -730,6 +746,17 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
 
         $scope.rejectVideo = function (id) {
             VideoService.rejectVideo(id).then(
+                    function (data) {
+                        self.getVideosStar();
+                    },
+                    function (error) {
+                        console.error(error);
+                    }
+            );
+        };
+        
+        $scope.starVideoToAthlete = function(id){
+                VideoService.sendVideoToAtlethe($scope.userSession.userId, id).then(
                     function (data) {
                         self.getVideosStar();
                     },

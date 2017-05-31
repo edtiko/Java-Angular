@@ -288,15 +288,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             $mdToast.hide();
         };
 
-        $scope.showMessage = function (msg, title, html = false) {
-            // Appending dialog to document.body to cover sidenav in docs app
-            // Modal dialogs should fully cover application
-            // to prevent interaction outside of dialog
-
-            var titleDefault = 'Confirmaci\u00f3n';
-            if (title != "" && title != undefined) {
-                titleDefault = title;
-            }
+        $scope.showMessage = function (msg, title = 'Confirmaci\u00f3n', html = false) {
 
             if (html) {
                 $scope.message = msg;
@@ -310,7 +302,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     controller: function () {
                         $scope.cancel = function () {
                             $mdDialog.cancel();
-                        }
+                        };
                     }
                 });
             } else {
@@ -319,26 +311,16 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                         $mdDialog.alert()
                         .parent(angular.element(document.querySelector('#user-container')))
                         .clickOutsideToClose(true)
-                        .title(titleDefault)
+                        .title(title)
                         .textContent(msg)
                         .ariaLabel('Alert Dialog Demo')
                         .ok('Aceptar')
-                        //.targetEvent(ev)
                         );
             }
-        }
-        ;
+        };
 
-        $scope.showMessageConfirmation = function (msg, title, link) {
-            // Appending dialog to document.body to cover sidenav in docs app
-            // Modal dialogs should fully cover application
-            // to prevent interaction outside of dialog
-
-            var titleDefault = 'Confirmaci\u00f3n';
-            if (title != "") {
-                titleDefault = title;
-            }
-
+        $scope.showMessageConfirmation = function (msg, title= 'Confirmaci\u00f3n', link) {
+  
             $scope.message = msg;
             $scope.title = title;
             $scope.link = link;
@@ -368,8 +350,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             }
 
             $scope.appReady = true;
-            //$window.sessionStorage.setItem("userInfo", JSON.stringify(res.data.entity.output));
-            //$scope.userSession = res.data.entity.output;
             return JSON.parse(sessionStorage.getItem("userInfo"));
         };
         $scope.setUserSession = function () {

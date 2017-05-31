@@ -201,6 +201,7 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     public void approveVideo(Integer planVideoId, Integer userId, String guion) throws Exception {
         PlanVideo video = planVideoDao.getVideoById(planVideoId);
         User starId = userDao.getStarFromAtlethe(userId);
+        video.setFromUserId(video.getToUserId());
         video.setToUserId(starId);
         video.setIndRejected(0);
         planVideoDao.merge(video);

@@ -358,7 +358,7 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/uploadVideo/star/to/coach/{toUserId}/{fromUserId}/{fromPlanVideoId}", method = RequestMethod.POST)
     public @ResponseBody
-    Response uploadPlanVideoStarToCoach(@RequestParam("fileToUpload") MultipartFile file,
+    ResponseEntity<ResponseService> uploadPlanVideoStarToCoach(@RequestParam("fileToUpload") MultipartFile file,
             @PathVariable Integer toUserId,
             @PathVariable Integer fromUserId,
             @PathVariable Integer fromPlanVideoId) {
@@ -400,19 +400,19 @@ public class PlanVideoController {
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
                 responseService.setOutput("Video Cargado Correctamente.");
-                return Response.status(Response.Status.OK).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             } catch (Exception e) {
                 LOGGER.error(e.getMessage(), e);
-                responseService.setOutput(strResponse);
+                responseService.setOutput(e.getMessage());
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 responseService.setDetail(e.getMessage());
-                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+                return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
         } else {
             strResponse.append("Video cargado esta vacio.");
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
     }
 

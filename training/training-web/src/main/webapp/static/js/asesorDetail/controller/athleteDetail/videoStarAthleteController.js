@@ -306,38 +306,17 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
 
         };
 
-        $scope.enviarVideoStar = function (role) {
-            $scope.colorGrabacionStar = '';
-            var tipoPlan = "IN";
-            var date = new Date();
-            var month = date.getMonth() + 1;
-            var day = date.getDate();
-            var year = date.getFullYear();
-            var hh = date.getHours();
-            var mm = date.getMinutes();
-            var ss = date.getSeconds();
-            $scope.dateString = "" + day + month + year + hh + mm + ss;
-            if ($scope.planVideo == null) {
-                var url = $contextPath + "video/upload/" + $scope.toUserId + "/" + $scope.userSession.userId + "/";
-                url += $scope.planSelected.id + "/" + $scope.dateString + "/" + tipoPlan + "/" + role;
-            } else {
-                var url = $contextPath + "video/upload/star/to/athlete/" +$scope.toUserId  + "/" +  $scope.userSession.userId+ "/";
-                url += $scope.planSelected.id + "/" + $scope.dateString +"/"+$scope.planVideo.id;
-            }
+        $scope.enviarVideoStar = function () {    
+                var url = $contextPath + "video/uploadVideo/star/to/coach/" +$scope.toUserId  + "/" +  $scope.userSession.userId+ "/"+$scope.planVideo.id;
+            
 
             $scope.savePlanVideoStar(url,
                     function (response) {
                         if (response.data.status == 'success') {
-                            $scope.showMessage(response.data.message);
-                            var video = response.data.output;
-                            if (video != "") {
-                                video.sesionId = $scope.planSelected.id;
-
-                            }
-                            $scope.colorTimeStar = '';
+                            $scope.showMessage(response.data.output);
                             $scope.counterRecordStar = $scope.counterRecordInitialStar;
                         } else {
-                            $scope.showMessage(response.data.message, "error");
+                            $scope.showMessage(response.data.output, "error");
                         }
                         self.getVideosStar();
                     }
@@ -448,7 +427,7 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
 
         if ($scope.userSession != null) {
             $scope.colorTimeStar = '';
-            $scope.toUserId = $scope.planSelected.athleteUserId.userId;
+            $scope.toUserId = $scope.planSelected.coachUserId.userId;
             $scope.showCounterStar = true;
             $scope.counterRecordInitialStar = $scope.videoDurationStar;
             $scope.counterRecordStar = $scope.counterRecordInitialStar;

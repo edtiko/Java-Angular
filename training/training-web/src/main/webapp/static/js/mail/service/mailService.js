@@ -24,7 +24,9 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
 
         var reconnect = function () {
             $timeout(function () {
-                initialize();
+                if (service.SESSION_ID != "") {
+                    service.initialize(service.SESSION_ID);
+                }
             }, this.RECONNECT_TIMEOUT);
         };
 

@@ -14,7 +14,7 @@
                     </div>
                     <div layout="column" layout-align="center center" flex>
                         <div>
-                            <div  class="circle_black"><md-icon><img src="static/img/microphone.png" /></md-icon></div>
+                            <div  class="circle_black"><md-icon style="padding-top: 9px"><img src="static/img/record_video.png" /></md-icon></div>
                         </div>
                         <br />
                         <div>
@@ -58,10 +58,20 @@
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in receivedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
-                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td ng-if="planSelected.starUserId.userId == vr.fromUserId">
+                                        {{planSelected.starUserId.fullName}}/Estrella
+                                    </td>
+                                    <td ng-if="planSelected.athleteUserId.userId == vr.fromUserId">
+                                        {{planSelected.athleteUserId.fullName}}/Atleta
+                                    </td>
                                     <td>{{vr.createDate}}</td>
                                     <td><div class="circle_black42"  ng-click="verVideoStar(vr.name, vr.id, 'to', $index)"><img src="static/img/play.png" /></div></td>
-                                    <td><a href="javascript:void(0)" ng-click="showScript(vr.id)"> Aprobar</a></td>
+                                    <td ng-if="planSelected.athleteUserId.userId == vr.fromUserId">
+                                        <a href="javascript:void(0)" ng-click="showScript(vr.id)"> Aprobar</a>
+                                    </td>
+                                     <td ng-if="planSelected.starUserId.userId == vr.fromUserId">
+                                        <a href="javascript:void(0)" ng-click="starVideoToAthlete(vr.id)"> Aprobar</a>
+                                    </td>
                                     <td><a href="javascript:void(0)" ng-click="rejectVideo(vr.id)">Rechazar</a></td>
                                 </tr>
                             </tbody>
@@ -79,7 +89,7 @@
                         <table md-table>
                             <thead md-head>
                                 <tr md-row>
-                                    <th md-column><span style="color: #000; font-weight: bold" >Nombre</span></th>
+                                    <th md-column><span style="color: #000; font-weight: bold" >Para</span></th>
                                     <th md-column><span style="color: #000; font-weight: bold" >Fecha</span></th>
                                     <th md-column><span style="color: #000; font-weight: bold" >Estado</span></th>
                                     <th md-column></th>
@@ -87,7 +97,12 @@
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in sendedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
-                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td ng-if="planSelected.starUserId.userId == vr.toUserId">
+                                        {{planSelected.starUserId.fullName}}/Estrella
+                                    </td>
+                                    <td ng-if="planSelected.athleteUserId.userId == vr.toUserId">
+                                        {{planSelected.athleteUserId.fullName}}/Atleta
+                                    </td>
                                     <td>{{vr.createDate}}</td>
                                     <td><span style="text-transform: lowercase">{{vr.indRejected=='1'?'Rechazado':'Aprobado'}}</span></td>
                                     <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr.id, 'from', $index)"><img src="static/img/play.png" /></div></td>

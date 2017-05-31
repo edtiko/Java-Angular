@@ -170,7 +170,9 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
 
         var reconnect = function () {
             $timeout(function () {
-                initialize();
+                if (service.SESSION_ID != "") {
+                    service.initialize(service.SESSION_ID);
+                }
             }, this.RECONNECT_TIMEOUT);
         };
 

@@ -686,7 +686,7 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
         self.getVideosStar = function () {
             var tipoPlan = "IN";
             var userId = $scope.userSession.userId;
-            var toUserId = $scope.userSession.planSelected.starUserId.userId;
+            var toUserId = $scope.userSession.planSelected.coachUserId.userId;
             self.receivedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella,userId, toUserId, function (data) {
                 $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;
@@ -698,7 +698,7 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
 
             });
 
-            self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, $scope.userSession.planSelected.coachUserId.userId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
+            self.getAvailableVideos($scope.userSession.planSelected.id, $scope.userSession.userId, toUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
                     function (data) {
                         $scope.availableVideoStar = data.output;
                     });

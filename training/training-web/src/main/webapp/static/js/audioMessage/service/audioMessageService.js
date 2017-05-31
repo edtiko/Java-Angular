@@ -21,9 +21,11 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
             }, JSON.stringify({id:audio.id}));
         };
         
-           var reconnect = function () {
+        var reconnect = function () {
             $timeout(function () {
-                initialize();
+                if (service.SESSION_ID != "") {
+                    service.initialize(service.SESSION_ID);
+                }
             }, this.RECONNECT_TIMEOUT);
         };
 
