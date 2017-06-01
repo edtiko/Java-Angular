@@ -154,8 +154,8 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                     );
         };
         
-        service.sendVideoToAtlethe = function (userId, planVideoId) {
-            return $http.get($contextPath + 'video/send/video/to/atlethe/'+planVideoId + '/' + userId)
+        service.sendVideoToAtlethe = function (coachUserId, athleteUserId, planVideoId) {
+            return $http.get($contextPath + 'video/send/video/to/atlethe/'+planVideoId + '/' + coachUserId+ '/'+athleteUserId)
                     .then(
                             function (response) {
                                 return response.data;

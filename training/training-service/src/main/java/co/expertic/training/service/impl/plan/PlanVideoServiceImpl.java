@@ -14,6 +14,7 @@ import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanVideoService;
 import co.expertic.training.service.plan.ScriptVideoService;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -199,12 +200,25 @@ public class PlanVideoServiceImpl implements PlanVideoService {
 
     @Override
     public void approveVideo(Integer planVideoId, Integer userId, String guion) throws Exception {
-        PlanVideo video = planVideoDao.getVideoById(planVideoId);
+        PlanVideo videoAthlete = planVideoDao.getVideoById(planVideoId);
         User starId = userDao.getStarFromAtlethe(userId);
-        video.setFromUserId(video.getToUserId());
+     
+        videoAthlete.setIndRejected(0);
+        planVideoDao.merge(videoAthlete);
+        
+        PlanVideo video = new PlanVideo();
+        video.setFromUserId(videoAthlete.getToUserId());
         video.setToUserId(starId);
-        video.setIndRejected(0);
-        planVideoDao.merge(video);
+        video.setVideoPath(videoAthlete.getVideoPath());
+        video.setName(videoAthlete.getVideoPath());
+        video.setCoachAssignedPlanId(videoAthlete.getCoachAssignedPlanId());
+        video.setToStar(Boolean.TRUE);
+        video.setCreationDate(Calendar.getInstance().getTime());
+        video.setFromPlanVideoId(videoAthlete);
+        
+        planVideoDao.create(video);
+
+        
         ScriptVideo script = new ScriptVideo();
         script.setGuion(guion);
         script.setCreationDate(new Date());

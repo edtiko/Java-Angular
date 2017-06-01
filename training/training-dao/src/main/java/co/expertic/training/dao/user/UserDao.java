@@ -97,4 +97,6 @@ public interface UserDao extends BaseDAO<User> {
     public List<NotificationDTO> getUserNotification(Integer userSessionId, Integer planId, String tipoPlan)throws DAOException;
     
     public List<NotificationDTO> getUserCountNotification(Integer userSessionId, Integer toUserId) throws DAOException; 
+
+    public List<NotificationDTO> getUserCountNotificationStar(Integer userId, Integer coachUserId, Integer starUserId) throws DAOException; 
 }

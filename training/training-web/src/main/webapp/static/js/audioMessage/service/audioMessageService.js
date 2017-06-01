@@ -165,6 +165,19 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
+        
+        service.sendStarAudioToAthlete = function (planAudioId) {
+            return $http.get($contextPath + 'audio/send/star/to/athlete/' + planAudioId)
+                    .then(
+                            function (response) {
+                                return response.data;
+                            },
+                            function (errResponse) {
+                                console.error('Error while reading message');
+                                return $q.reject(errResponse);
+                            }
+                    );
+        };
 
         return service;
 

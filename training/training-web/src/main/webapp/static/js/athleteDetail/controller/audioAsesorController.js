@@ -20,7 +20,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             page: 1
         };
 
-        self.receivedAudios = function (tipoPlan, role, userId ,toUserId ,fn) {
+        self.receivedAudios = function (tipoPlan, role, userId, toUserId, fn) {
 
             AudioMessageService.getAudiosByUser($scope.planSelected.id, userId, toUserId, "to", tipoPlan, role).then(
                     fn,
@@ -32,14 +32,14 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
 
         self.sendedAudios = function (tipoPlan, role, userId, toUserId, fn) {
 
-            AudioMessageService.getAudiosByUser($scope.planSelected.id, userId ,toUserId, "from", tipoPlan, role).then(
+            AudioMessageService.getAudiosByUser($scope.planSelected.id, userId, toUserId, "from", tipoPlan, role).then(
                     fn,
                     function (error) {
                         $scope.showMessage(error);
                         console.error(error);
                     });
         };
-        
+
 
         self.getUrl = function (role) {
             var tipoPlan = "IN";
@@ -77,6 +77,10 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             );
         };
 
+        $scope.filterState = function (item) {
+            return item.stateId === 2;  //PENDING 
+        };
+
         $scope.uploadRecordStar = function (audioBlob) {
             var audio = audioBlob;
             var fd = new FormData();
@@ -109,6 +113,17 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                 $scope.showMessage("Ha ocurrido un error obteniendo el audio, comuniquese con el Administrador.");
             }
 
+        };
+
+        $scope.starAudioToAthlete = function (id) {
+            AudioMessageService.sendStarAudioToAthlete(id).then(
+                    function (data) {
+                        self.getAudiosStar();
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+            );
         };
 
         $scope.uploadRecordAsesor = function (audioBlob) {
@@ -156,7 +171,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                 audioDiv = angular.element("#recordedReceivedAsesor");
                 AudioMessageService.readAudio(planAudioId).then(
                         function (data) {
-                             $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
+                            $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -190,7 +205,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                         });
 
             }
-            
+
             var htmlVideo = '<audio id="myaudio" controls width="800" height="475" style="width:500px">';
             htmlVideo += '<source src="' + audioPath + '" type="audio/wav"/></audio>';
 
@@ -266,12 +281,24 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             var toUserId = $scope.planSelected.athleteUserId.userId;
             self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, toUserId, function (data) {
                 $scope.receivedStar = data.output;
-                $scope.loadingReceivedStar = true;
+                self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, $scope.planSelected.starUserId.userId, function (data) {
+                    data.output.forEach(function (audio) {
+                        $scope.receivedStar.push(audio);
+                    });
+                    $scope.loadingReceivedStar = true;
+
+                });
 
             });
-            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella,$scope.planSelected.athleteUserId.userId, $scope.planSelected.starUserId.userId, function (data) {
+            self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, $scope.planSelected.athleteUserId.userId, function (data) {
                 $scope.sendedStar = data.output;
-                $scope.loadingSentStar = true;
+                self.sendedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, $scope.planSelected.starUserId.userId, function (data) {
+                    data.output.forEach(function (audio) {
+                        $scope.sendedStar.push(audio);
+                    });
+                    $scope.loadingSentStar = true;
+
+                });
 
             });
 
@@ -285,7 +312,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
             var tipoPlan = "IN";
             var userSessionId = $scope.userSession.userId;
             var toUserId = $scope.planSelected.athleteUserId.userId;
-            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno,userSessionId, toUserId,  function (data) {
+            self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachInterno, userSessionId, toUserId, function (data) {
                 $scope.receivedAsesor = data.output;
                 $scope.loadingReceivedAsesor = true;
 
@@ -314,4 +341,4 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
         self.init();
 
 
-    }]);
+    }]); 

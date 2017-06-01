@@ -57,10 +57,10 @@
                                 </tr>
                             </thead>
                             <tbody md-body>
-                                <tr md-row  md-auto-select ng-repeat="vr  in receivedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
+                                <tr md-row  md-auto-select ng-repeat="vr  in receivedStar |filter: filterState |orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
                                     <td ng-if="planSelected.starUserId.userId == vr.fromUserId">
                                         {{planSelected.starUserId.fullName}}/Estrella
-                                    </td>
+                                    </td> 
                                     <td ng-if="planSelected.athleteUserId.userId == vr.fromUserId">
                                         {{planSelected.athleteUserId.fullName}}/Atleta
                                     </td>

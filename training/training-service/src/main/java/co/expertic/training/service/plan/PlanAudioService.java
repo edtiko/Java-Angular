@@ -45,4 +45,8 @@ public interface PlanAudioService {
 
     public void rejectAudio(Integer planAudioId)throws Exception;
 
+    public PlanAudio findById(Integer planAudioId)throws Exception;
+
+    public void sendAudioStarToAThlete(Integer planAudioId)throws Exception;
+
 }

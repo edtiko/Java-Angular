@@ -13,6 +13,18 @@
                 }
         );
         },
+         getAthletesStar: function (coachUserId, starUserId) {
+        return $http.get($contextPath + 'get/athletes/by/' + coachUserId+'/'+starUserId).then(
+                function (response) {
+                return response.data;
+                },
+                function (errResponse) {
+                console.error('Error while fetching athletes ');
+                        return $q.reject(errResponse);
+                }
+        );
+        }
+                    ,
                 getActivePlan: function(athleteUserId, fn){
                 return $http.get($contextPath + 'get/assigned/plan/' + athleteUserId).then(
                         fn,

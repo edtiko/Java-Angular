@@ -36,4 +36,6 @@ public interface PlanAudioDao extends BaseDAO<PlanAudio> {
 
     public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId)throws DAOException;
 
+    public PlanAudio findById(Integer planAudioId)throws DAOException;
+
 }

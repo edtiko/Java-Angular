@@ -381,6 +381,7 @@ public class PlanVideoController {
                 }
 
                 PlanVideoDTO dto = planVideoService.getByVideoPath(fileName);
+                ScriptVideo script = scriptVideoService.findByPlanVideoId(fromPlanVideoId);
                 if (dto == null) {
                     PlanVideo video = new PlanVideo();
                     video.setFromUserId(new User(fromUserId));
@@ -393,6 +394,10 @@ public class PlanVideoController {
                         PlanVideoDTO fromVideo = planVideoService.getVideoById(fromPlanVideoId);
                         video.setFromPlanVideoId(new PlanVideo(fromPlanVideoId));
                         video.setCoachAssignedPlanId(new CoachAssignedPlan(fromVideo.getCoachAssignedPlanId()));
+                    }
+                    if(script != null){
+                        script.setStateId(new State(StateEnum.RESPONDIDO.getId()));
+                        scriptVideoService.store(script);
                     }
 
                     dto = planVideoService.create(video);
@@ -660,25 +665,28 @@ public class PlanVideoController {
         }
     }
 
-    @RequestMapping(value = "/send/video/to/atlethe/{planVideoId}/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/send/video/to/atlethe/{planVideoId}/{coachUserId}/{athleteUserId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> sendVideoAtletheToStar(@PathVariable("planVideoId") Integer planVideoId,
-            @PathVariable("userId") Integer userId) {
+            @PathVariable("coachUserId") Integer coachUserId, @PathVariable("athleteUserId") Integer athleteUserId) {
         ResponseService responseService = new ResponseService();
         try {
             PlanVideo video = planVideoService.getPlanVideoById(planVideoId);
             PlanVideo fromPlan = video.getFromPlanVideoId();
             PlanVideo planVideo = new PlanVideo();
-            planVideo.setFromUserId(new User(userId));
+            planVideo.setFromUserId(new User(coachUserId));
             planVideo.setVideoPath(video.getName());
             planVideo.setName(video.getName());
-            planVideo.setToUserId(fromPlan.getFromUserId());
+            planVideo.setToUserId(new User(athleteUserId));
             planVideo.setCreationDate(new Date());
             planVideo.setCoachAssignedPlanId(fromPlan.getCoachAssignedPlanId());
             planVideo.setToStar(Boolean.TRUE);
+            planVideo.setIndRejected(0);
             planVideoService.create(planVideo);
             fromPlan.setIndRejected(0);
             planVideoService.store(fromPlan);
+            video.setIndRejected(0);
+            planVideoService.store(video);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Video enviado exitosamente");
             return new ResponseEntity<>(responseService, HttpStatus.OK);

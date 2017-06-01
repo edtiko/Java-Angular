@@ -407,4 +407,53 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         });
         return res;
     }
+
+    @Override
+    public List<NotificationDTO> getUserCountNotificationStar(Integer athleteId, Integer coachUserId, Integer starUserId) throws DAOException {
+         StringBuilder sql = new StringBuilder();
+        sql.append(" select notification.*  from(\n"
+                + "                select  count(plan_audio_id),\n"
+                + "                       'audio' as module\n"
+                + "                from plan_audio\n"
+                + "                where to_user_id = " + starUserId + " \n"
+                + "                and from_user_id = "+coachUserId+" \n"
+                + "                and readed = false\n"
+                + "                group by to_user_id\n"
+                + "                union\n"
+                + "                \n"
+                + "                select count(plan_video_id),\n"
+                + "                       'video' as module\n"
+                + "                from plan_video\n"
+                + "                where to_user_id = " + starUserId + " \n"
+                + "                and from_user_id = "+coachUserId+" \n"
+                + "                and readed = false\n"
+                + "                group by to_user_id\n"
+                + "                \n"
+                + "                union\n"
+                + "                \n"
+                + "                select count(mail_communication_id), \n"
+                + "                       'mail' as module\n"
+                + "                from mail_communication\n"
+                + "                where receiving_user = " + starUserId + " \n"
+                + "                and sending_user = "+athleteId+" \n"
+                + "                and read = false\n"
+                + "                group by receiving_user\n"
+                + "                \n"
+                + "                union \n"
+                + "                \n"
+                + "                select count(plan_message_id),\n"
+                + "                      'chat' as module\n"
+                + "                from plan_message\n"
+                + "                where receiving_user_id = " + starUserId + " \n"
+                + "                and message_user_id = "+athleteId+" \n"
+                + "                and readed = false\n"
+                + "                group by receiving_user_id ) notification ");
+        Query query = this.getEntityManager().createNativeQuery(sql.toString());
+        List<Object[]> list = query.getResultList();
+        List<NotificationDTO> res = new ArrayList<>();
+        list.stream().forEach((result) -> {
+            res.add(new NotificationDTO((Long) result[0], (String) result[1]));
+        });
+        return res;
+    }
 }

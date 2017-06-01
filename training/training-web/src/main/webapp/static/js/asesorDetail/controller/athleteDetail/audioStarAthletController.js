@@ -4,7 +4,7 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
         $scope.audioDuration = 0;
-        $scope.toUserId = $scope.planSelected.athleteUserId.userId;
+        $scope.toUserId = $scope.planSelected.coachUserId.userId;
         $scope.timeLimitStar = $scope.planSelected.starCommunication.audioDuration;
         $scope.availableAudioStar = $scope.planSelected.starCommunication.availableAudio;
         $scope.audioPlanStar = $scope.planSelected.starCommunication.planAudio;
@@ -158,7 +158,7 @@ trainingApp.controller("AudioStarAthleteController", ['$scope', 'AudioMessageSer
         self.getAudiosStar = function () {
             var tipoPlan = "IN";
              var userId = $scope.userSession.userId;
-            var toUserId = $scope.planSelected.athleteUserId.userId;
+            var toUserId = $scope.planSelected.coachUserId.userId;
             self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, toUserId, function (data) {
                 $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;

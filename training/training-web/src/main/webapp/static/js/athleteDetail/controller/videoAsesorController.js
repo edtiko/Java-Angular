@@ -682,6 +682,10 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
                         console.error(error);
                     });
         };
+        
+        $scope.filterState = function (item) {
+            return item.indRejected !== 0 && item.indRejected !== 1;
+        };
 
         self.getVideosStar = function () {
             var tipoPlan = "IN";
@@ -756,7 +760,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
         };
         
         $scope.starVideoToAthlete = function(id){
-                VideoService.sendVideoToAtlethe($scope.userSession.userId, id).then(
+                VideoService.sendVideoToAtlethe($scope.userSession.userId, $scope.planSelected.athleteUserId.userId, id).then(
                     function (data) {
                         self.getVideosStar();
                     },

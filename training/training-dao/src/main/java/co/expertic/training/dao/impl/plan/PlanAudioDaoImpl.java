@@ -33,7 +33,7 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
     @Override
     public List<PlanAudioDTO> getAudiosByUser(Integer planId, Integer userId, Integer receivingUserId, String fromto, String tipoPlan, Integer roleSelected) throws DAOException {
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.expertic.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.creationDate, m.toUserId.userId, m.toStar, m.stateId) ");
+        sql.append("SELECT new co.expertic.training.model.dto.PlanAudioDTO(m.planAudioId, m.name, m.creationDate, m.fromUserId.userId, m.toUserId.userId, m.toStar, m.stateId) ");
         sql.append("FROM PlanAudio m ");
         if (fromto.equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");
@@ -256,6 +256,18 @@ public class PlanAudioDaoImpl extends BaseDAOImpl<PlanAudio> implements PlanAudi
         List<Number> count = (List<Number>) query.getResultList();
 
         return count.size() > 0 ? count.get(0).intValue() : 0;
+    }
+
+    @Override
+    public PlanAudio findById(Integer planAudioId) throws DAOException {
+        try {
+            String qlString = "SELECT v FROM PlanAudio v WHERE v.planAudioId = :planAudioId ";
+            setParameter("planAudioId", planAudioId);
+            List<PlanAudio> query = createQuery(qlString);
+            return query.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

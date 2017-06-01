@@ -49,7 +49,7 @@ public class PlanVideoDaoImpl extends BaseDAOImpl<PlanVideo> implements PlanVide
     public List<PlanVideoDTO> getVideosByUser(Map param) throws DAOException {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, ");
-        sql.append("m.fromUserId.userId, m.toUserId.userId, m.creationDate) ");
+        sql.append("m.fromUserId.userId, m.toUserId.userId, m.creationDate, m.indRejected, m.fromPlanVideoId) ");
         sql.append("FROM PlanVideo m ");
         if (param.get("fromto").equals("from")) {
             sql.append("Where m.fromUserId.userId = :userId ");

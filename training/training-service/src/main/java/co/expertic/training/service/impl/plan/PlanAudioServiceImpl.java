@@ -21,96 +21,107 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class PlanAudioServiceImpl implements PlanAudioService {
-
+    
     @Autowired
     PlanAudioDao planAudioDao;
     @Autowired
     CoachAssignedPlanDao coachAssignedPlanDao;
-
+    
     @Override
     public PlanAudioDTO create(PlanAudio video) throws Exception {
         return PlanAudioDTO.mapFromPlanAudioEntity(planAudioDao.create(video));
     }
-
+    
     @Override
     public PlanAudioDTO getByAudioPath(String fileName) throws Exception {
         return PlanAudioDTO.mapFromPlanAudioEntity(planAudioDao.getByAudioPath(fileName));
     }
-
+    
     @Override
-    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, Integer receivingUserId,String fromto, String tipoPlan, Integer roleSelected) throws Exception {
-        return planAudioDao.getAudiosByUser(coachAssignedPlanId, userId, receivingUserId, fromto, tipoPlan,roleSelected);
+    public List<PlanAudioDTO> getAudiosByUser(Integer coachAssignedPlanId, Integer userId, Integer receivingUserId, String fromto, String tipoPlan, Integer roleSelected) throws Exception {
+        return planAudioDao.getAudiosByUser(coachAssignedPlanId, userId, receivingUserId, fromto, tipoPlan, roleSelected);
     }
-
+    
     @Override
     public PlanAudioDTO getAudioById(Integer id) throws Exception {
         return PlanAudioDTO.mapFromPlanAudioEntity(planAudioDao.getAudioById(id));
     }
-
+    
     @Override
     public Integer getCountAudioByPlan(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception {
-        return planAudioDao.getCountAudioByPlan(coachAssignedPlanId, userId,toUserId, roleSelected);
+        return planAudioDao.getCountAudioByPlan(coachAssignedPlanId, userId, toUserId, roleSelected);
     }
-
+    
     @Override
-    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId,  Integer toUserId,Integer roleSelected) throws Exception {
-        return planAudioDao.getCountAudiosReceived(coachAssignedPlanId, userId,toUserId,roleSelected);
+    public Integer getCountAudiosReceived(Integer coachAssignedPlanId, Integer userId, Integer toUserId, Integer roleSelected) throws Exception {
+        return planAudioDao.getCountAudiosReceived(coachAssignedPlanId, userId, toUserId, roleSelected);
     }
-
+    
     @Override
     public void readAudios(Integer coachAssignedPlanId, Integer userId, Integer roleSelected) throws Exception {
-        planAudioDao.readAudios(coachAssignedPlanId, userId,roleSelected);
+        planAudioDao.readAudios(coachAssignedPlanId, userId, roleSelected);
     }
-
+    
     @Override
     public void readAudio(Integer planMessageId) throws Exception {
         planAudioDao.readAudio(planMessageId);
     }
-
+    
     @Override
     public Integer getCountAudioByPlanExt(Integer planId, Integer userId) throws Exception {
         return planAudioDao.getCountAudioByPlanExt(planId, userId);
     }
-
+    
     @Override
     public Integer getCountAudiosReceivedExt(Integer planId, Integer userId) throws Exception {
         return planAudioDao.getCountAudiosReceivedExt(planId, userId);
     }
-
+    
     @Override
     public void readAudiosExt(Integer planId, Integer userId) throws Exception {
         planAudioDao.readAudiosExt(planId, userId);
     }
-
+    
     @Override
     public int getCountAudioEmergencyByPlan(Integer planId, Integer fromUserId, Integer roleSelected) throws Exception {
-        return planAudioDao.getCountAudioEmergencyByPlan(planId, fromUserId,roleSelected);
+        return planAudioDao.getCountAudioEmergencyByPlan(planId, fromUserId, roleSelected);
     }
-
+    
     @Override
     public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId) throws Exception {
-         return planAudioDao.getCountAudioByEmergencyPlanExt(planId, fromUserId);
+        return planAudioDao.getCountAudioByEmergencyPlanExt(planId, fromUserId);
     }
-
+    
     @Override
     public void approveAudio(Integer planAudioId, Integer planId) throws Exception {
-        PlanAudio audio = planAudioDao.getAudioById(planAudioId);
+        PlanAudio audioAthlete = planAudioDao.getAudioById(planAudioId);
         CoachAssignedPlan plan = coachAssignedPlanDao.findById(planId);
-        User starUserId = null;
+        User starUser = null;
+        User coachUser = null;
         
         if (plan.getStarTeamId() != null && plan.getStarTeamId().getStarUserId() != null) {
-            starUserId = plan.getStarTeamId().getStarUserId();
+            starUser = plan.getStarTeamId().getStarUserId();
+            coachUser = plan.getStarTeamId().getCoachUserId();
         } else {
             throw new Exception("No existe una estrella asignada, comuniquese con el administrador.");
         }
-
+        
+        audioAthlete.setStateId(StateEnum.APPROVED.getId().shortValue());
+        planAudioDao.merge(audioAthlete);
+           
+        PlanAudio audio = new PlanAudio();
+        audio.setFromUserId(coachUser);
+        audio.setToUserId(starUser);
+        audio.setName(audioAthlete.getName());
+        audio.setToStar(Boolean.TRUE);
+        audio.setCoachAssignedPlanId(plan);
+        audio.setReaded(Boolean.FALSE);
         audio.setStateId(StateEnum.APPROVED.getId().shortValue());
-        audio.setToUserId(starUserId);
         audio.setCreationDate(Calendar.getInstance().getTime());
-        planAudioDao.merge(audio);
-
+        planAudioDao.create(audio);
+        
     }
-
+    
     @Override
     public void rejectAudio(Integer planAudioId) throws Exception {
         PlanAudio audio = planAudioDao.getAudioById(planAudioId);
@@ -118,5 +129,38 @@ public class PlanAudioServiceImpl implements PlanAudioService {
         audio.setCreationDate(Calendar.getInstance().getTime());
         planAudioDao.merge(audio);
     }
-
+    
+    @Override
+    public PlanAudio findById(Integer planAudioId) throws Exception {
+        return planAudioDao.findById(planAudioId);
+    }
+    
+    @Override
+    public void sendAudioStarToAThlete(Integer planAudioId) throws Exception {
+        PlanAudio audioStar = planAudioDao.findById(planAudioId);
+        if (audioStar.getCoachAssignedPlanId() != null) {
+            
+            CoachAssignedPlan plan = coachAssignedPlanDao.findById(audioStar.getCoachAssignedPlanId().getCoachAssignedPlanId());
+            User Athlete = plan.getTrainingPlanUserId().getUserId();
+            User Asesor = audioStar.getToUserId();
+            audioStar.setStateId(StateEnum.APPROVED.getId().shortValue());
+            planAudioDao.merge(audioStar);
+            
+            PlanAudio audio = new PlanAudio();
+            audio.setFromUserId(Asesor);
+            audio.setToUserId(Athlete);
+            audio.setStateId(StateEnum.RESPONDIDO.getId().shortValue());
+            audio.setName(audioStar.getName());
+            audio.setCreationDate(Calendar.getInstance().getTime());
+            audio.setCoachAssignedPlanId(plan);
+            audio.setReaded(Boolean.FALSE);
+            audio.setToStar(Boolean.TRUE);
+            planAudioDao.create(audio);
+            
+        } else {
+            throw new Exception("No existe un plan asociado, comuniquese con el administrador.");
+        }
+        
+    }
+    
 }

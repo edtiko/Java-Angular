@@ -322,6 +322,10 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
                     }
             );
         };
+        
+        $scope.filterState = function (item) {
+            return item.indRejected === null;
+        };
 
 
         //lee los videos recibidos en tiempo real
@@ -404,7 +408,7 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
         self.getVideosStar = function () {
             var tipoPlan = "IN";
             var userId = $scope.userSession.userId;
-            var toUserId = $scope.planSelected.athleteUserId.userId;
+            var toUserId = $scope.planSelected.coachUserId.userId;
             self.receivedScripts($scope.planSelected.id, function (data) {
                 $scope.receivedStar = data;
                 $scope.loadingReceivedStar = true;

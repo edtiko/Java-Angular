@@ -37,6 +37,7 @@ public class PlanVideoDTO {
     private Integer roleSelected;
     private boolean mobile;
     private String guion;
+    private Integer fromPlanVideoId;
     
     public PlanVideoDTO(){
         
@@ -54,12 +55,16 @@ public class PlanVideoDTO {
         this.toStar = toStar;
     }
     
-    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate){
+    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate, Integer indRejected, PlanVideo fromPlanVideoId){
         this.id = planVideoId;
         this.name = name;
         this.fromUserId = fromUserId;
         this.toUserId =  toUserId;
         this.createDate = createDate;
+        this.indRejected = indRejected;
+        if(fromPlanVideoId != null){
+            this.fromPlanVideoId = fromPlanVideoId.getPlanVideoId();
+        }
     }
     
     public PlanVideoDTO(Integer planVideoId, String name, User fromUserId, User toUserId, Date createDate, CoachAssignedPlan coachAssignedPlanId, CoachExtAthlete coachExtAthleteId){
@@ -77,18 +82,22 @@ public class PlanVideoDTO {
         
     }
     
-    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate, String guion) {
+    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate, String guion, Integer indRejected, PlanVideo fromPlanVideoId) {
         this.id = planVideoId;
         this.name = name;
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
         this.createDate = createDate;
         this.guion = guion;
+        this.indRejected = indRejected;
+        if(fromPlanVideoId != null)
+        this.fromPlanVideoId = fromPlanVideoId.getPlanVideoId();
     }
     
     public static PlanVideoDTO mapFromPlanVideoEntityShort(PlanVideo video) {
         if (video != null) {
-            return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId().getUserId(), video.getToUserId().getUserId(), video.getCreationDate());
+            return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId().getUserId(),
+                    video.getToUserId().getUserId(), video.getCreationDate(), video.getIndRejected(), video.getFromPlanVideoId());
         }
         return null;
     }
@@ -244,6 +253,14 @@ public class PlanVideoDTO {
 
     public void setGuion(String guion) {
         this.guion = guion;
+    }
+
+    public Integer getFromPlanVideoId() {
+        return fromPlanVideoId;
+    }
+
+    public void setFromPlanVideoId(Integer fromPlanVideoId) {
+        this.fromPlanVideoId = fromPlanVideoId;
     }
 
       

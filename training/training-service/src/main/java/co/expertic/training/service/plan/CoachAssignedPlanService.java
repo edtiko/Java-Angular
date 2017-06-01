@@ -60,4 +60,6 @@ public interface CoachAssignedPlanService {
 
     public void setStarManageMessages(Integer planId) throws Exception;
 
+    public List<UserResumeDTO> findAthletesByCoachStar(Integer coachUserId, Integer starUserId) throws Exception;
+
 }

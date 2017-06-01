@@ -24,7 +24,7 @@ trainingApp.controller('StarAthleteController', ['$scope', 'AthleteService', '$w
         };
 
         self.getAthletes = function () {
-            AthleteService.getAthletes($scope.asesorUserId).then(
+            AthleteService.getAthletesStar($scope.asesorUserId, $scope.userSession.userId).then(
                     function (data) {
                         $scope.athletes = data.output;
                         $scope.athletesFiltered = data.output;

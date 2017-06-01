@@ -177,6 +177,27 @@ public class CoachAssignedPlanController {
 
     }
     
+        @RequestMapping(value = "get/athletes/by/{coachUserId}/{starUserId}", method = RequestMethod.GET)
+    public ResponseEntity<ResponseService> getAthletesByCoachStar(@PathVariable("coachUserId") Integer coachUserId, @PathVariable("starUserId") Integer starUserId) {
+        ResponseService responseService = new ResponseService();
+        StringBuilder strResponse = new StringBuilder();
+        try {
+
+            List<UserResumeDTO> athletes = coachService.findAthletesByCoachStar(coachUserId, starUserId);
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput(athletes);
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput(strResponse);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+
+    }
+    
     @RequestMapping(value = "get/star/{coachUserId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getAssignedStar(@PathVariable("coachUserId") Integer coachUserId) {

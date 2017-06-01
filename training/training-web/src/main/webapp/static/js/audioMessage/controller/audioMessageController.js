@@ -243,7 +243,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         self.getAudiosStar = function () {
             var tipoPlan = "IN";
             var userId = $scope.userSession.userId;
-            var toUserId = $scope.userSession.planSelected.starUserId.userId;
+            var toUserId = $scope.userSession.planSelected.coachUserId.userId;
             self.receivedAudios(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, toUserId, function (data) {
                 $scope.receivedStar = data.output;
                 $scope.loadingReceivedStar = true;

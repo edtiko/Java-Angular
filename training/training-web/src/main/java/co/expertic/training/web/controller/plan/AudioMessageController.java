@@ -1,6 +1,7 @@
 package co.expertic.training.web.controller.plan;
 
 import co.expertic.training.enums.RoleEnum;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.dto.PlanAudioDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.CoachExtAthlete;
@@ -123,6 +124,7 @@ public class AudioMessageController {
                     }
                     if (roleSelected != -1 && roleSelected == RoleEnum.ESTRELLA.getId()) {
                         audio.setToStar(Boolean.TRUE);
+                        audio.setStateId(StateEnum.PENDING.getId().shortValue());
                     }
                     if (tipoPlan.equals(COACH_INTERNO)) {
                         audio.setCoachAssignedPlanId(new CoachAssignedPlan(planId));
@@ -159,7 +161,7 @@ public class AudioMessageController {
     ResponseEntity<ResponseService> getAudiosByUser(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
             @PathVariable("receivingUserId") Integer receivingUserId, @PathVariable("fromto") String fromto,
             @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
-        
+
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
@@ -329,6 +331,26 @@ public class AudioMessageController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
+    }
+
+    @RequestMapping(value = "/send/star/to/athlete/{planAudioId}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseService> sendAudioStarToAThlete(@PathVariable("planAudioId") Integer planAudioId) {
+        ResponseService responseService = new ResponseService();
+        try {
+
+            planAudioService.sendAudioStarToAThlete(planAudioId);
+
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            responseService.setOutput("Video enviado exitosamente");
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            responseService.setOutput("Error al enviar video");
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setDetail(e.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
     }
 
 }

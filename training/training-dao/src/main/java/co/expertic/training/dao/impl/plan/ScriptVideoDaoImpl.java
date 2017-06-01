@@ -179,7 +179,7 @@ public class ScriptVideoDaoImpl extends BaseDAOImpl<ScriptVideo> implements Scri
     public List<PlanVideoDTO> getByPlan(Integer planId) throws Exception {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT new co.expertic.training.model.dto.PlanVideoDTO(m.planVideoId, m.name, ");
-        sql.append("m.fromUserId.userId, m.toUserId.userId, m.creationDate, s.guion) ");
+        sql.append("m.fromUserId.userId, m.toUserId.userId, m.creationDate, s.guion, m.indRejected, m.fromPlanVideoId) ");
         sql.append("FROM PlanVideo m, ScriptVideo s ");
         sql.append("WHERE m.planVideoId = s.planVideoId.planVideoId ");
 
