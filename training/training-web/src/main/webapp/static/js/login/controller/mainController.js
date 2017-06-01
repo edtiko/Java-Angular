@@ -780,7 +780,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             MessageService.receive().then(null, null, function (message) {
                 if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
 
-                    $scope.messageReceivedCount++;
+                    $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
                     $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
 
                 }
@@ -791,7 +791,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             VideoService.receive().then(null, null, function (video) {
                 if (video.toUser.userId == $scope.userSession.userId) {
 
-                    $scope.videoReceivedCount++;
+                    $scope.videoReceivedCount = $scope.videoReceivedCount +1;
                     $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
                 }
 
@@ -801,7 +801,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             AudioMessageService.receive().then(null, null, function (audio) {
                 if (audio.toUserId == $scope.userSession.userId) {
 
-                    $scope.audioReceivedCount++;
+                    $scope.audioReceivedCount = $scope.audioReceivedCount + 1;
                     $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
 
                 }
@@ -813,7 +813,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             MailService.receive().then(null, null, function (email) {
                 if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                    $scope.mailReceivedCount++;
+                    $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
                     $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
                 }
 

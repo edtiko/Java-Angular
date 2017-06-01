@@ -808,6 +808,21 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 }
             });
         };
+        
+        $scope.editConfirmation = function () {
+            $mdDialog.show({
+                scope: $scope.$new(),
+                templateUrl: 'static/views/datosPersonales/editConfirmation.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
+        };
 
         $scope.calculateIMC = function () {
 //            document.getElementById('height').onkeyup = oneDigitAndDecimals();
@@ -938,7 +953,7 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                             if (generatePlan) {
                                  $scope.validatePlan($scope.userProfile);
                             } else {
-                                //$scope.showMessage("Datos Deportivos editados exitosamente.");
+                                  $scope.editConfirmation();
                                  self.getUserById();
                             }
 

@@ -225,10 +225,12 @@ public class PlanMessageServiceImpl implements PlanMessageService{
             throw new Exception("No existe una estrella asignada, comuniquese con el administrador.");
         }
         
+        
         for (Integer planMessageId : messages) {
             PlanMessage planMessage = planMessageDao.findById(planMessageId);
             planMessage.setReceivingUserId(new User(starUserId));
             planMessage.setToStar(Boolean.TRUE);
+            planMessage.setReaded(Boolean.FALSE);
             planMessage.setCreationDate(Calendar.getInstance().getTime());
             planMessageDao.merge(planMessage);
         }

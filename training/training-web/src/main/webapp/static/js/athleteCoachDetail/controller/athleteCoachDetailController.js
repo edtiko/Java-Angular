@@ -204,7 +204,7 @@ trainingApp.controller('AthleteCoachDetailController', ['$scope', 'AthleteServic
 
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                $scope.messageReceivedCount++;
+                $scope.messageReceivedCount =  $scope.messageReceivedCount + 1;
             }
         });
 
@@ -212,7 +212,7 @@ trainingApp.controller('AthleteCoachDetailController', ['$scope', 'AthleteServic
         VideoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
 
-                $scope.videoReceivedCount++;
+                $scope.videoReceivedCount = $scope.videoReceivedCount + 1;
 
             }
 
@@ -222,7 +222,7 @@ trainingApp.controller('AthleteCoachDetailController', ['$scope', 'AthleteServic
         AudioMessageService.receive().then(null, null, function (audio) {
             if (audio.toUserId == $scope.userSession.userId) {
 
-                $scope.audioReceivedCount++;
+                $scope.audioReceivedCount = $scope.audioReceivedCount + 1;
 
             }
 
@@ -233,7 +233,7 @@ trainingApp.controller('AthleteCoachDetailController', ['$scope', 'AthleteServic
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                $scope.mailReceivedCount++;
+                $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
 
             }
 

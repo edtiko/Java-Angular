@@ -59,7 +59,7 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
 
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                $scope.messageReceivedCount++;
+                $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
             }
         });
 
@@ -68,7 +68,7 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                $scope.mailReceivedCount++;
+                $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
 
             }
 

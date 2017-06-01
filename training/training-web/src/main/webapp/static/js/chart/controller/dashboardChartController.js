@@ -82,7 +82,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
         };
 
         $scope.drawChart = function () {
-            var chart = new CanvasJS.Chart(document.getElementById('chartContainer'), {
+             chart = new CanvasJS.Chart(document.getElementById('chartContainer'), {
                 animationEnabled: true,
                 axisY: [
                     {
@@ -99,6 +99,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                 data: [
                     {
                         type: "splineArea",
+                        connectNullData:true,
                         color: "rgba(0,100,248,.7)",
                         markerType: "none",
                         showInLegend: true,
@@ -115,6 +116,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                     },
                     {
                         type: "splineArea",
+                        connectNullData:true,
                         color: "rgba(170,253,111,.7)",
                         markerType: "none",
                         showInLegend: true,
@@ -131,8 +133,25 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
 
                 ]
             });
+            isNoDataAvailable();
             chart.render();
         };
+
+        function isNoDataAvailable() {
+            var options = chart.options;
+
+            if (!options.axisY)
+                options.axisY = {};
+
+            for (var i = 0; i < options.data.length; i++) {
+                if (options.data[i].dataPoints.length === 0)
+                    options.axisY.maximum = 0;
+                else {
+                    options.axisY.maximum = null;
+                    break;
+                }
+            }
+        }
 
         self.getWeeklyGoals = function () {
             UserActivityPerformanceService.getWeeklyGoals($scope.userSession.userId).then(

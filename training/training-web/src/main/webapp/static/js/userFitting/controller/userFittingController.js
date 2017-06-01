@@ -62,11 +62,12 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
                             if ($scope.videoFitting.stateId === 2 || $scope.videoFitting.stateId === 5) { //PENDIENTE Ó APROBADO
                                 $scope.fittingCargado = true;
                             }
-                        }
-                        var src = $contextPath + "userFitting/files/300520171553_1.mp4";
+                        
+                        var src = $contextPath + "userFitting/files/" + $scope.videoFitting.videoName;
                        var videoDiv = angular.element("#recordedVideo");
                        var htmlVideo = '<video src="'+src+'" type="video/*" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;"  controls="controls"></video>';
                        videoDiv.html(htmlVideo);
+                       }
                     },
                     function (error) {
                         console.log(error);

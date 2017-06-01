@@ -1,4 +1,4 @@
-trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', 'DashboardService','MessageService','VideoService', 'AudioMessageService','MailService','$window', '$mdDialog', '$routeParams',
+trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', 'DashboardService', 'MessageService', 'VideoService', 'AudioMessageService', 'MailService', '$window', '$mdDialog', '$routeParams',
     function ($scope, AthleteService, DashboardService, MessageService, VideoService, AudioMessageService, MailService, $window, $mdDialog, $routeParams) {
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
@@ -14,7 +14,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
             calendar: 'static/views/athleteDetail/calendar/calendar.html',
             chart: 'static/views/athleteDetail/chart/chart.html'
         };
-       $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
+        $scope.metricSystems = [{id: 1, name: 'Metrico Decimal'}, {id: '0', name: "Anglosaj\u00f3n"}];
 
 
         $scope.goAthleteMenu = function (module, index) {
@@ -52,14 +52,14 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         };
 
         $scope.getProfile = function () {
-          $scope.athletePageSelected = $scope.athleteView.profile;
-            DashboardService.getDashboard($scope.athleteUserId, function(res){
-                  $scope.userProfile = angular.copy(res.data.output);
-                  $scope.calculatePpm();
-                  $scope.calculateZone();
-                  $scope.calculatePaceZone();
+            $scope.athletePageSelected = $scope.athleteView.profile;
+            DashboardService.getDashboard($scope.athleteUserId, function (res) {
+                $scope.userProfile = angular.copy(res.data.output);
+                $scope.calculatePpm();
+                $scope.calculateZone();
+                $scope.calculatePaceZone();
             });
-         
+
             $scope.getImageProfile($scope.athleteUserId, function (data) {
                 if (data != "") {
                     $scope.athleteImage = "data:image/png;base64," + data;
@@ -69,7 +69,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                 }
             });
         };
-        
+
 
         $scope.getActivePlan = function () {
             //$scope.showLoading(true);
@@ -77,7 +77,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                 $scope.planSelected = res.data.output;
                 if ($scope.planSelected != null) {
                     $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
-                    
+
                     MessageService.initialize($scope.planSelected.id);
                     VideoService.initialize($scope.planSelected.id);
                     AudioMessageService.initialize($scope.planSelected.id);
@@ -90,7 +90,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                     $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
                     $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
                     $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
-                    $scope.athleteReceivedCount = ($scope.messageReceivedCount + $scope.mailReceivedCount +  $scope.audioReceivedCount + $scope.videoReceivedCount);
+                    $scope.athleteReceivedCount = ($scope.messageReceivedCount + $scope.mailReceivedCount + $scope.audioReceivedCount + $scope.videoReceivedCount);
 
                     $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
                         if (data != "") {
@@ -113,12 +113,12 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                     $scope.showMessage("No hay un plan activo seleccionado", "Error");
                     return;
                 }
-                 //$scope.showLoading(false);
+                //$scope.showLoading(false);
 
             });
         };
-        
-        
+
+
         $scope.getReceivedAthleteAsesor = function (fromUserId, planId) {
             var tipoPlan = "IN";
             if ($scope.userSession != null) {
@@ -143,35 +143,35 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
             }
 
         };
-        
-             $scope.calculatePpm = function () {
+
+        $scope.calculatePpm = function () {
             if ($scope.userProfile.ppm !== "") {
-                var ppm = ($scope.userProfile.ppm * 95)/100;
-                
-                $scope.userProfile.ppm0 = "-"; 
-                $scope.userProfile.ppm81 =  Math.round((ppm * 81) / 100);
-                
-                $scope.userProfile.ppm82 =  $scope.userProfile.ppm81 + 1;
-                $scope.userProfile.ppm89 =  Math.round((ppm * 89) / 100);
-                
-                $scope.userProfile.ppm90 =  $scope.userProfile.ppm89 + 1;
-                $scope.userProfile.ppm93 =  Math.round((ppm * 93) / 100);
-                
-                $scope.userProfile.ppm94 =  $scope.userProfile.ppm93 + 1;
-                $scope.userProfile.ppm99 =  Math.round((ppm * 99) / 100);
-                
-                $scope.userProfile.ppm100 =  $scope.userProfile.ppm99 + 1;
-                $scope.userProfile.ppm102 =  Math.round((ppm * 102) / 100);
-                
-                $scope.userProfile.ppm103 =  $scope.userProfile.ppm102 + 1;
-                $scope.userProfile.ppm106 =  Math.round((ppm * 106) / 100);
+                var ppm = ($scope.userProfile.ppm * 95) / 100;
+
+                $scope.userProfile.ppm0 = "-";
+                $scope.userProfile.ppm81 = Math.round((ppm * 81) / 100);
+
+                $scope.userProfile.ppm82 = $scope.userProfile.ppm81 + 1;
+                $scope.userProfile.ppm89 = Math.round((ppm * 89) / 100);
+
+                $scope.userProfile.ppm90 = $scope.userProfile.ppm89 + 1;
+                $scope.userProfile.ppm93 = Math.round((ppm * 93) / 100);
+
+                $scope.userProfile.ppm94 = $scope.userProfile.ppm93 + 1;
+                $scope.userProfile.ppm99 = Math.round((ppm * 99) / 100);
+
+                $scope.userProfile.ppm100 = $scope.userProfile.ppm99 + 1;
+                $scope.userProfile.ppm102 = Math.round((ppm * 102) / 100);
+
+                $scope.userProfile.ppm103 = $scope.userProfile.ppm102 + 1;
+                $scope.userProfile.ppm106 = Math.round((ppm * 106) / 100);
             }
         };
-        
-          $scope.calculatePaceZone = function () {
+
+        $scope.calculatePaceZone = function () {
             var pace;
-            if ($scope.userProfile.testDistance !== "" && $scope.userProfile.testDistance != null 
-                    && $scope.userProfile.disciplineId != null)  {
+            if ($scope.userProfile.testDistance !== "" && $scope.userProfile.testDistance != null
+                    && $scope.userProfile.disciplineId != null) {
 
                 if ($scope.userProfile.disciplineId == 3) {
                     pace = 20 / $scope.userProfile.testDistance;
@@ -212,30 +212,30 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
             if ($scope.userProfile.power !== "") {
                 var power = ($scope.userProfile.power * 95) / 100;
 
-                $scope.userProfile.ftp0 =  "-";
-                $scope.userProfile.ftp129 =  Math.round((power * 129) / 100);
+                $scope.userProfile.ftp0 = "-";
+                $scope.userProfile.ftp129 = Math.round((power * 129) / 100);
 
-                $scope.userProfile.ftp114 =  Math.round((power * 114) / 100);
-                $scope.userProfile.ftp106 =  Math.round((power * 106) / 100);
+                $scope.userProfile.ftp114 = Math.round((power * 114) / 100);
+                $scope.userProfile.ftp106 = Math.round((power * 106) / 100);
 
-                $scope.userProfile.ftp100 =  Math.round((power * 100) / 100);
-                $scope.userProfile.ftp97 =  Math.round((power * 97) / 100);
+                $scope.userProfile.ftp100 = Math.round((power * 100) / 100);
+                $scope.userProfile.ftp97 = Math.round((power * 97) / 100);
 
-                $scope.userProfile.ftp90 =  Math.round((power * 90) / 100);
+                $scope.userProfile.ftp90 = Math.round((power * 90) / 100);
             }
         };
 
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                 $scope.messageReceivedCount++;
+                $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
             }
         });
-        
-                //notificación videos recibidos
+
+        //notificación videos recibidos
         VideoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
 
-                $scope.videoReceivedCount++;
+                $scope.videoReceivedCount = $scope.videoReceivedCount + 1;
 
             }
 
@@ -245,7 +245,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         AudioMessageService.receive().then(null, null, function (audio) {
             if (audio.toUserId == $scope.userSession.userId) {
 
-            $scope.audioReceivedCount++;
+                $scope.audioReceivedCount = $scope.audioReceivedCount + 1;
 
             }
 
@@ -256,12 +256,12 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                $scope.mailReceivedCount++;
+                $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
 
             }
 
         });
-        
+
         $scope.showLoading = function (loading) {
             if (loading) {
                 $mdDialog.show({
@@ -279,13 +279,13 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                 $mdDialog.cancel();
             }
         };
-        
-        
+
+
         self.init = function () {
             $scope.getProfile();
             $scope.getActivePlan();
         };
-        
+
         self.init();
 
     }]);

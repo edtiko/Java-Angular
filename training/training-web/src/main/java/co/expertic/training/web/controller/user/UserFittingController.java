@@ -65,8 +65,7 @@ public class UserFittingController {
             try {
 
                 String ext = file.getOriginalFilename().split("\\.")[1];
-                String fileName = DateUtil.getCurrentDate("ddMMyyyyHHmm") + "_" + userFittingId+"."+ext;
-                String name =  DateUtil.getCurrentDate("ddMMyyyyHHmm") + "_" + userFittingId;
+                String fileName = DateUtil.getCurrentDate("ddMMyyyyHHmmss") + "_" + userFittingId;
                 File directory = new File(ROOT);
                 File archivo = new File(ROOT + fileName);
                 if (!directory.exists()) {
@@ -77,12 +76,12 @@ public class UserFittingController {
                     Files.copy(file.getInputStream(), Paths.get(ROOT, fileName));
                 }
 
-                UserFittingHistory userFittingHistory = userFittingService.getByVideoName(name);
+                UserFittingHistory userFittingHistory = userFittingService.getByVideoName(fileName);
                 if (userFittingHistory == null) {
                     UserFittingHistory video = new UserFittingHistory();
                     video.setUserFittingId(new UserFitting(userFittingId));
                     video.setCreationDate(Calendar.getInstance().getTime());
-                    video.setVideoName(name);
+                    video.setVideoName(fileName);
                     video.setStateId(new State(StateEnum.PENDING.getId()));
                     userFittingService.createVideo(video);
                 }
