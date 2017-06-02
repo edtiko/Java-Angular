@@ -10,6 +10,7 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
         service.SOCKET_URL = $contextPath + "/mail";
         service.CHAT_BROKER = "/app/mail/";
         service.SESSION_ID = "";
+        service.sessionsId = [];
 
         service.receive = function () {
             return listener.promise;
@@ -24,7 +25,7 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
 
         var reconnect = function () {
             $timeout(function () {
-                if (service.SESSION_ID != "") {
+                if (service.SESSION_ID != "") { 
                     service.initialize(service.SESSION_ID);
                 }
             }, this.RECONNECT_TIMEOUT);
@@ -44,8 +45,8 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
             }
         };
         service.initialize = function (sessionId) {
-            if (service.SESSION_ID != sessionId) {
-                service.SESSION_ID = sessionId;
+               if (service.SESSION_ID != sessionId && service.sessionsId.indexOf(sessionId) == -1) {
+                service.sessionsId.push(sessionId);
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);

@@ -8,6 +8,7 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
         service.SOCKET_URL = $contextPath + "/send";
         service.CHAT_BROKER = "/app/send/";
         service.SESSION_ID = "";
+        service.sessionsId = [];
 
         service.receive = function () {
             return listener.promise;
@@ -42,8 +43,8 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
             }
         };
         service.initialize = function (sessionId) {
-            if (service.SESSION_ID != sessionId) {
-                service.SESSION_ID = sessionId;
+              if (service.SESSION_ID != sessionId && service.sessionsId.indexOf(sessionId) == -1) {
+                service.sessionsId.push(sessionId);
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);

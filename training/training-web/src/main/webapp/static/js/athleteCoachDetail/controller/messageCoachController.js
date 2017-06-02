@@ -70,7 +70,7 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-            if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
+            if ($scope.userSession.userId == message.receivingUserId.userId) {
                 MessageService.readMessage(message.id).then(
                         function (data) {
                            $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);

@@ -39,6 +39,7 @@ public class UserResumeDTO {
     private Date creationDate;
    private Integer coachExtAthleteId;
    private String state;
+   private Integer planId;
     
     
     
@@ -50,6 +51,17 @@ public class UserResumeDTO {
         this.email = user.getEmail();
         this.login = user.getLogin();
         
+    }
+    
+    public UserResumeDTO(Integer id, User user) {
+        this.userId = user.getUserId();
+        this.fullName = user.getName() + " " + user.getSecondName() + " " + user.getLastName();
+        this.srcImage = getProfilePhotoBase64(user.getProfilePhoto());
+        this.country = user.getCountryId() != null ? user.getCountryId().getName() : "";
+        this.email = user.getEmail();
+        this.login = user.getLogin();
+        this.planId = id;
+
     }
     
     public UserResumeDTO(Integer userId, String fullName, String state){
@@ -254,6 +266,14 @@ public class UserResumeDTO {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
         
     

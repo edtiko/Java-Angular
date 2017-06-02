@@ -160,7 +160,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                             var birthdate = new Date(date[2], date[1] - 1, date[0]);
                             $scope.userDashboard.age = $scope.calculateAge(birthdate);
                         }
-                        $scope.getVisibleFieldsUserByUser(user);
+                        //$scope.getVisibleFieldsUserByUser(user);
                         $scope.getImageProfile(user.userId, function (data) {
                             if (data != "") {
                                 $scope.profileImage = "data:image/png;base64," + data;
@@ -405,7 +405,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     });
         };
 
-        $scope.getVisibleFieldsUserByUser = function (user) {
+        /*$scope.getVisibleFieldsUserByUser = function (user) {
             if (user != null) {
                 VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
                         .then(
@@ -425,7 +425,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                                 }
                         );
             }
-        };
+        };*/
         $scope.inFieldsArray = function (field, array) {
             var length = array.length;
             for (var i = 0; i < length; i++) {
@@ -778,7 +778,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.listenerAtleta = function (tipoPlan) {
             //notificación mensajes recibidos
             MessageService.receive().then(null, null, function (message) {
-                if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
 
                     $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
                     $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
@@ -980,6 +980,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                             break;
                         case $scope.userSessionTypeUserMecanico:
                             $scope.setMechanicRole();
+                            break;
+                        default:
+                            $scope.setAthleteRole();
                             break;
 
                     }

@@ -21,11 +21,9 @@ trainingApp.controller('DashboardAthleteController', ['$scope', 'ActivityService
         if ($scope.userSession == null) {
             $scope.$on('userSession', function (event, args) {
                 $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
-                $scope.getVisibleFieldsUserByUser($scope.userSession);
                 $scope.getActivitiesByWeek();
             });
         } else {
-            $scope.getVisibleFieldsUserByUser($scope.userSession);
             $scope.getActivitiesByWeek();
         }
 

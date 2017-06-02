@@ -51,7 +51,7 @@ public class PlanMessageDTO {
     
      public static PlanMessageDTO mapFromPlanMessageEntity(PlanMessage e) {
         if (e != null) {
-            return new PlanMessageDTO(e.getPlanMessageId(), e.getMessage(), e.getMessageUserId(), e.getCreationDate());
+            return new PlanMessageDTO(e.getPlanMessageId(), e.getMessage(), e.getMessageUserId(), e.getCreationDate(), e.getReceivingUserId());
         }
         return null;
     }

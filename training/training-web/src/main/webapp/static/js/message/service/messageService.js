@@ -3,7 +3,7 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
         var service = {}, listener = $q.defer(), socket = {
             client: null,
             stomp: null
-        }, messageIds = [];
+        }, sessionIds = [];
 
 
         service.RECONNECT_TIMEOUT = 30000;
@@ -19,12 +19,12 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
         
         service.send = function (message) {
             //service.sendMovil(JSON.stringify(message));
-            var id = Math.floor(Math.random() * 1000000);
+     
             var url = service.CHAT_BROKER + service.SESSION_ID;
             socket.stomp.send(url, {
                 priority: 9
             }, JSON.stringify(message));
-            messageIds.push(id);
+         
         };
                 
         service.getAssignedAthletes = function (coachUserId) {
@@ -190,7 +190,8 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
             }
         };
         service.initialize = function (sessionId) {
-            if (service.SESSION_ID != sessionId) {
+            if (service.SESSION_ID != sessionId && sessionIds.indexOf(sessionId) == -1) {
+                sessionIds.push(sessionId);
                 service.SESSION_ID = sessionId;
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);

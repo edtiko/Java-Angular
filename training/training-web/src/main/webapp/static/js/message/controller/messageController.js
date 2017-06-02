@@ -89,25 +89,27 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-            if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
+             if ($scope.userSession.userId == message.receivingUserId.userId) {
                 MessageService.readMessage(message.id).then(
                         function (data) {
-                           //$scope.getReceived();
-                           self.getMessageCount();
+                            //$scope.getReceived();
+                            self.getMessageCount();
                         },
-                        function (error) { 
+                        function (error) {
                             //$scope.showMessage(error);
                             console.error(error);
                         });
 
-                    if (message.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                        $scope.receivedMessageStar++;
-                    } else if (message.roleSelected == $scope.userSessionTypeUserCoachInterno) {
-                        $scope.receivedMessageSup++;
-                    }
-              //$scope.getReceived();
+                if (message.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                    $scope.receivedMessageStar++;
+                } else if (message.roleSelected == $scope.userSessionTypeUserCoachInterno) {
+                    $scope.receivedMessageSup++;
+                }
+                //$scope.getReceived();
             }
-            $scope.messages.push(message);
+            if ($scope.roleSelected == message.roleSelected) {
+                $scope.messages.push(message);
+            }
             self.getMessageCount();
             //self.getChat("IN");
         });

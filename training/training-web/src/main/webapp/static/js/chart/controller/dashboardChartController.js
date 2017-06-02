@@ -35,7 +35,7 @@ trainingApp.controller('DashboardChartController', ['$scope', 'UserActivityPerfo
                                 var array = [];
                                 data.output.forEach(function (v) {
                                     var date = v.executedDate.split("-");
-                                    var executedDate = new Date(date[0], date[1], date[2]);
+                                    var executedDate = new Date(date[0], date[1]-1, date[2]);
                                     if (v.value != 0) {
                                         array.push({x: executedDate, y: Math.round(Number((v.value)))});
                                     }
