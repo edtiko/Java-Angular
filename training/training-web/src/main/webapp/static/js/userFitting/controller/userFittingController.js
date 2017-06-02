@@ -5,7 +5,7 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
         $scope.videoFitting = {};
         $scope.fittingCargado = false;
         $scope.attachedVideo = null;
- 
+
         $scope.showUploadFitting = function () {
             $mdDialog.show({
                 scope: $scope.$new(),
@@ -27,10 +27,10 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
             }
             return true;
         };
-        
-        $scope.attachVideo = function(file){
-           var file = file.files[0];
-           $scope.attachedVideo = file.name; 
+
+        $scope.attachVideo = function (file) {
+            var file = file.files[0];
+            $scope.attachedVideo = file.name;
         };
 
         $scope.uploadFile = function (file) {
@@ -62,12 +62,15 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
                             if ($scope.videoFitting.stateId === 2 || $scope.videoFitting.stateId === 5) { //PENDIENTE Ó APROBADO
                                 $scope.fittingCargado = true;
                             }
-                        
-                        var src = $contextPath + "userFitting/files/" + $scope.videoFitting.videoName;
-                       var videoDiv = angular.element("#recordedVideo");
-                       var htmlVideo = '<video src="'+src+'" type="video/*" style="background-color: #000;border: 2px solid #fff;width: 90%;height: 90%;"  controls="controls"></video>';
-                       videoDiv.html(htmlVideo);
-                       }
+
+                            var src = $contextPath + "userFitting/files/" + $scope.videoFitting.videoName;
+                            var video = document.querySelector("video#recordedVideo");
+                            var source = document.createElement('source');
+                            video.pause();
+                            source.setAttribute('src', src);
+                            video.appendChild(source);
+                            video.load();
+                        }
                     },
                     function (error) {
                         console.log(error);

@@ -112,8 +112,8 @@ public class StravaServiceImpl implements StravaService {
         JsonArray jarray = (JsonArray) jsonParser.parse(response);
         Integer userId = objUser.getUserId();
         Date lastExecutionDate = null;
-        List<TrainingPlanWorkoutDto> activitiesPlan = trainingPlanWorkoutService.getPlanWorkoutByUser(objUser.getUserId(), objUser.getLastExecuteStrava(), new Date());
-        List<TrainingPlanWorkoutDto> result = new ArrayList<>();
+        //List<TrainingPlanWorkoutDto> activitiesPlan = trainingPlanWorkoutService.getPlanWorkoutByUser(objUser.getUserId(), objUser.getLastExecuteStrava(), new Date());
+        //List<TrainingPlanWorkoutDto> result = new ArrayList<>();
         for (JsonElement jsonElement : jarray) {
             JsonObject jo = jsonElement.getAsJsonObject();
             String activityId = jo.get("id").getAsString();
@@ -126,7 +126,7 @@ public class StravaServiceImpl implements StravaService {
             SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Date executionDate = sp.parse(startDate);
-            String executionDateShort = sf.format(executionDate);
+            //String executionDateShort = sf.format(executionDate);
             
             boolean hasHeartrate = jo.get("has_heartrate").getAsBoolean();
             boolean hasDeviceWatts = jo.get("device_watts").getAsBoolean();
@@ -146,7 +146,7 @@ public class StravaServiceImpl implements StravaService {
                 }
             }*/
   
-            activitiesPlan.stream().filter((dto) -> (sf.format(dto.getWorkoutDate()).equals(executionDateShort) && Objects.equals(dto.getSportId(), SportEnum.valueOf(type.toUpperCase()).getId()))).forEach((TrainingPlanWorkoutDto dto) -> {
+           /* activitiesPlan.stream().filter((dto) -> (sf.format(dto.getWorkoutDate()).equals(executionDateShort) && Objects.equals(dto.getSportId(), SportEnum.valueOf(type.toUpperCase()).getId()))).forEach((TrainingPlanWorkoutDto dto) -> {
                 dto.setExecutedTime(Double.parseDouble(elapsedTime.replaceAll("'", "")));
                 dto.setExecutedDistance(Double.parseDouble(distance.replaceAll("'", "")));
                 try {
@@ -154,7 +154,7 @@ public class StravaServiceImpl implements StravaService {
                 } catch (Exception ex) {
                     Logger.getLogger(StravaServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            });
+            });*/
 
             if (hasHeartrate) {
                 averageHeartrate = jo.get("average_heartrate").getAsString();

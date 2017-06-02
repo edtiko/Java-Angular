@@ -27,6 +27,8 @@ public class UserFittingVideoDTO {
     @JsonDeserialize(using=CustomerDateAndTimeDeserialize.class)
     private Date creationDate;
     private Integer userId;
+    private long hoursSpent; 
+    private Double hours;
     
     public UserFittingVideoDTO() {
 
@@ -87,6 +89,22 @@ public class UserFittingVideoDTO {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public long getHoursSpent() {
+        return hoursSpent;
+    }
+
+    public void setHoursSpent(long hoursSpent) {
+        this.hoursSpent = hoursSpent;
+    }
+
+    public Double getHours() {
+        return hours;
+    }
+
+    public void setHours(Double hours) {
+        this.hours = hours;
     }
     
     

@@ -33,9 +33,9 @@
                     <tr md-row md-select="configurationPlan" md-select-id="trainingPlanId.name" md-auto-select ng-repeat="athlete in assignedAthletesList">
                         <td md-cell>{{athlete.athleteUserId.fullName}}</td>
                         <td md-cell><div class="circle_state" style="{{athlete.color}}"></div></td>
-                        <td md-cell>{{athlete.creationDate | date:'MMMM yyyy'}}</td>
-                        <td md-cell>4 de 10</td>
-                        <td md-cell>progress..</td>  
+                        <td md-cell>{{athlete.creationDate| date:'MMMM yyyy'}}</td>
+                        <td md-cell>{{athlete.numActivities}} de {{athlete.goalActivities}}</td>
+                        <td md-cell><md-progress-linear md-mode="determinate" value="{{athlete.percentaje}}"></md-progress-linear>{{athlete.percentaje}}%</td>  
                     </tr>
                 </tbody>
             </table>

@@ -67,7 +67,7 @@ public class UserFittingDaoImpl extends BaseDAOImpl<UserFitting> implements User
         if (order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }
-        sql.append("select u.name||' '||u.second_name||' '||u.last_name as fullName,\n"
+        sql.append("select u.user_id, u.name||' '||u.second_name||' '||u.last_name as fullName,\n"
                 + "       (select s.description\n"
                 + "        from user_fitting_history h, state s\n"
                 + "        where user_fitting_id = uf.user_fitting_id \n"
@@ -87,7 +87,7 @@ public class UserFittingDaoImpl extends BaseDAOImpl<UserFitting> implements User
         query.setMaxResults(max);
         List<UserResumeDTO> res = new ArrayList<>();
         list.stream().forEach((result) -> {
-            res.add(new UserResumeDTO((String) result[0], (String) result[1]));
+            res.add(new UserResumeDTO((Integer)result[0], (String) result[1], (String) result[2]));
         });
         return res;
     }

@@ -182,7 +182,7 @@ trainingApp.controller("MailStarController", ['$scope', 'MailService', '$window'
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                   // $scope.getReceived();
+                                    $scope.getMailReceivedCount();
                                 } else {
                                     console.log(d.output);
                                 }

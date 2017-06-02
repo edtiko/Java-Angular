@@ -9,13 +9,10 @@ import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.CoachExtAthleteDTO;
 import co.expertic.training.model.dto.CommunicationDTO;
-import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.PaginateDto;
-import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserResumeDTO;
-import co.expertic.training.model.entities.ColourIndicator;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.configuration.ColourIndicatorService;
 import co.expertic.training.service.plan.CoachAssignedPlanService;
@@ -76,73 +73,8 @@ public class CoachAssignedPlanController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
             List<CoachAssignedPlanDTO> athletes = coachService.findAthletesByUserRole(userId, roleId, paginateDto);
-            List<ColourIndicator> colours = colourIndicatorService.findAll();
-
-            int firstOrder = 0;
-            int secondOrder = 0;
-            int thirdOrder = 0;
-            String firstColour = "{'background-color':'white'}";
-            String secondColour = "{'background-color':'white'}";
-            String thirdColour = "{'background-color':'white'}";
-            for (ColourIndicator colour : colours) {
-                if (colour.getColourOrder().equals(1)) {
-                    firstOrder = colour.getHoursSpent();
-                    firstColour = colour.getColour();
-                }
-                if (colour.getColourOrder().equals(2)) {
-                    secondOrder = colour.getHoursSpent();
-                    secondColour = colour.getColour();
-                }
-                if (colour.getColourOrder().equals(3)) {
-                    thirdOrder = colour.getHoursSpent();
-                    thirdColour = colour.getColour();
-                }
-            }
-
-            for (CoachAssignedPlanDTO athlete : athletes) {
-                int countFirstColour = 0;
-                int countSecondColour = 0;
-                int countThirdColour = 0;
-                List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(userId, athlete.getAthleteUserId().getUserId());
-
-                List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(userId, athlete.getAthleteUserId().getUserId());
-
-
-                for (MailCommunicationDTO mail : mails) {
-                    if (!mail.getRead()) {
-                        mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
-                        if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
-                            countFirstColour++;
-                        } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
-                            countSecondColour++;
-                        } else {
-                            countThirdColour++;
-                        }
-                    }
-
-                }
-
-                for (PlanMessageDTO mail : messages) {
-                    long hours = (calculateHourDifference(mail.getCreationDate()));
-                    if (hours >= 0 && hours <= firstOrder) {
-                        countFirstColour++;
-                    } else if (hours > firstOrder && hours <= secondOrder) {
-                        countSecondColour++;
-                    } else {
-                        countThirdColour++;
-                    }
-                }
-                if (countThirdColour > 0) {
-                    athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countSecondColour > 0) {
-                    athlete.setColor(secondColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countFirstColour > 0) {
-                    athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                }
-            }
-
+        
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);
             return new ResponseEntity<>(responseService, HttpStatus.OK);

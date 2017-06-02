@@ -19,6 +19,8 @@ import java.util.List;
 public interface TrainingUserSerieDao extends BaseDAO<TrainingUserSerie> {
     
   public List<TrainingPlanWorkoutDto> getPlanWorkoutByUser(Integer userId, Date fromDate, Date toDate) throws Exception;
+  
+  public Integer getCountPlanWorkoutByUser(Integer userId) throws Exception;
     
   public List<TrainingUserSerie> createList(List<TrainingUserSerie> list) throws Exception;
   

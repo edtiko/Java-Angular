@@ -34,7 +34,7 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
                 MessageService.readMessage(message.id).then(
                         function (data) {
-                            // $scope.getReceived();
+                            $scope.getMessagesReceivedCount();
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -48,9 +48,8 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
         //Leer mensajes
         self.readMessages = function (fromUserId, toUserId) {
             MessageService.readMessages(-1, fromUserId, toUserId, -1, -1).then(
-                    function (data) {
-                        //$scope.getReceived();
-                        console.log(data.output);
+                    function (data) { 
+                        $scope.getMessagesReceivedCount();
                     },
                     function (error) {
                         //$scope.showMessage(error);

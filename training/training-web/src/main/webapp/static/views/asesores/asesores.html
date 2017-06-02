@@ -5,7 +5,7 @@
     <div layout="column" layout-padding>
         <div layout="row">
             <md-input-container md-no-float class="md-block" >
-                <input type="text" ng-model="search" placeholder="Buscar"/>
+                <input type="text" ng-model="search" placeholder="Buscar" ng-change="setFilter(search)"/> 
                 <md-icon><i style="color: #0064F8" class="fa fa-search" aria-hidden="true"></i></md-icon>
             </md-input-container>
             <div layout="row" layout-align="space-around center" flex>

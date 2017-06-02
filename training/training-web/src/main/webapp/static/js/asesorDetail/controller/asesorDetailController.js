@@ -74,7 +74,7 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
 
         });
 
-        self.getMessagesReceivedCount = function () {
+        $scope.getMessagesReceivedCount = function () {
             MessageService.getMessagesReceived(-1, $scope.asesorUserId, $scope.userSession.userId, -1, -1).then(
                     function (data) {
                         $scope.messageReceivedCount = data.output;
@@ -85,7 +85,7 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
             );
         };
 
-        self.getMailReceivedCount = function () {
+        $scope.getMailReceivedCount = function () {
             MailService.getReceivedMails(-1, $scope.asesorUserId, $scope.userSession.userId, -1, -1).then(
                     function (data) {
                         $scope.mailReceivedCount = data.output;
@@ -101,8 +101,8 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
                 $scope.getProfile();
                 MessageService.initialize($scope.userSession.userId + $scope.asesorUserId);
                 MailService.initialize($scope.userSession.userId + $scope.asesorUserId);
-                self.getMessagesReceivedCount();
-                self.getMailReceivedCount();
+                $scope.getMessagesReceivedCount();
+                $scope.getMailReceivedCount();
             } else {
                 $scope.setUserSession();
             }

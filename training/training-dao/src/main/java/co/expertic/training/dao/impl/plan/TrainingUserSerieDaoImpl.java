@@ -7,6 +7,7 @@ package co.expertic.training.dao.impl.plan;
 
 import co.expertic.base.jpa.BaseDAOImpl;
 import co.expertic.training.dao.plan.TrainingUserSerieDao;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
 import co.expertic.training.model.dto.TrainingUserSerieDTO;
@@ -61,6 +62,36 @@ public class TrainingUserSerieDaoImpl extends BaseDAOImpl<TrainingUserSerie> imp
         list.addAll(serieList);
 
         return list;
+    }
+    
+    @Override
+    public Integer getCountPlanWorkoutByUser(Integer userId) throws Exception {
+        StringBuilder sql = new StringBuilder();
+
+        sql.append("SELECT COUNT(t) ");
+        sql.append("FROM TrainingPlanWorkout t ");
+        sql.append("WHERE 1=1 ");
+        sql.append("AND t.userId.userId = :userId ");
+        sql.append("AND t.manualActivityId is not null ");
+        Query query = getEntityManager().createQuery(sql.toString());
+        query.setParameter("userId", userId);
+        List<Number> countManualList = (List<Number>) query.getResultList();
+
+        StringBuilder sql2 = new StringBuilder();
+        sql2.append("SELECT COUNT(t) ");
+        sql2.append(" FROM TrainingUserSerie t, DisciplineUser du ");
+        sql2.append("WHERE t.trainingPlanUserId.userId.userId = :userId ");
+        sql2.append("AND du.userId.userId = t.trainingPlanUserId.userId.userId ");
+        sql2.append("AND t.trainingPlanUserId.stateId = :active  ");
+        query = getEntityManager().createQuery(sql2.toString());
+        query.setParameter("userId", userId);
+        query.setParameter("active", StateEnum.ACTIVE.getId());
+
+        List<Number> countSerieList = (List<Number>) query.getResultList();
+        Integer countSerie = countSerieList.size() > 0 ? countSerieList.get(0).intValue() : 0;
+        Integer countManual = countManualList.size() > 0 ? countManualList.get(0).intValue() : 0;
+
+        return countSerie + countManual;
     }
 
     @Override

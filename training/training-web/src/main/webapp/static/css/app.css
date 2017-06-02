@@ -807,3 +807,7 @@ md-input-container label{
     color:#AAFD6F !important; 
 }
 
+md-progress-linear .md-bar{
+    background-color: #00E8E8 !important;
+}
+

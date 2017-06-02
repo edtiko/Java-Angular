@@ -52,7 +52,8 @@ public class UserResumeDTO {
         
     }
     
-    public UserResumeDTO(String fullName, String state){
+    public UserResumeDTO(Integer userId, String fullName, String state){
+        this.userId = userId;
         this.fullName = fullName;
         this.state = state;
     }

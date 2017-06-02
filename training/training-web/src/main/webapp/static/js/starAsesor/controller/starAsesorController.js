@@ -338,7 +338,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
 
         MessageService.receive().then(null, null, function (message) {
             if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                $scope.messageReceivedCount++;
+                $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
             }
 
             $scope.messagesAsesor.push(message);
@@ -349,7 +349,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                $scope.mailReceivedCount++;
+                $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
 
             }
 

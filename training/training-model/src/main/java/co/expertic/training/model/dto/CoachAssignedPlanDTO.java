@@ -34,6 +34,9 @@ public class CoachAssignedPlanDTO{
     private Boolean starManageMessages;
     private CommunicationDTO starCommunication;
     private CommunicationDTO asesorCommunication;
+    private Integer numActivities;
+    private Integer goalActivities;
+    private Integer percentaje;
     
      public CoachAssignedPlanDTO(){
          
@@ -233,6 +236,30 @@ public class CoachAssignedPlanDTO{
     public void setStarManageMessages(Boolean starManageMessages) {
         this.starManageMessages = starManageMessages;
     }
-    
-    
+
+    public Integer getNumActivities() {
+        return numActivities;
+    }
+
+    public void setNumActivities(Integer numActivities) {
+        this.numActivities = numActivities;
+    }
+
+    public Integer getGoalActivities() {
+        return goalActivities;
+    }
+
+    public void setGoalActivities(Integer goalActivities) {
+        this.goalActivities = goalActivities;
+    }
+
+    public Integer getPercentaje() {
+        return percentaje;
+    }
+
+    public void setPercentaje(Integer percentaje) {
+        this.percentaje = percentaje;
+    }
+
+ 
 }
