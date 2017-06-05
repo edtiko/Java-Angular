@@ -19,20 +19,21 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
         $scope.glued = true;
         $scope.msgStar = [];
         $scope.items = [];
+        $scope.msgAthleteCoachEnabled = true;
 
         //Carga datos del chat según el tipo de plan
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.planSelected != null) {
-                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.coachUserId.userId ,tipoPlan, -1).then(
+                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.coachUserId.userId, tipoPlan, -1).then(
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
 
                             self.readMessages(tipoPlan, -1, $scope.planSelected.coachUserId.userId, $scope.userSession.userId);
- 
+
                         },
-                        function (error) { 
+                        function (error) {
                             //$scope.showMessage(error);
                             console.error(error);
                         });
@@ -70,23 +71,25 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-            if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                MessageService.readMessage(message.id).then(
-                        function (data) {
-                            // $scope.getReceived();
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
+            if ($scope.msgAthleteCoachEnabled) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
+                    MessageService.readMessage(message.id).then(
+                            function (data) {
+                                // $scope.getReceived();
+                            },
+                            function (error) {
+                                //$scope.showMessage(error);
+                                console.error(error);
+                            });
 
+                }
+                $scope.messages.push(message);
             }
-            $scope.messages.push(message);
         });
 
         //Traer la cantidad de mensajes disponibles
         self.getAvailableMessages = function (coachExtAthleteId, userId, toUserId, tipoPlan, roleSelected, fn) {
-            MessageService.getAvailableMessages(coachExtAthleteId, userId,toUserId, tipoPlan, roleSelected).then(
+            MessageService.getAvailableMessages(coachExtAthleteId, userId, toUserId, tipoPlan, roleSelected).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -108,7 +111,7 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
 
         $scope.getMessageCount = function () {
             var tipoPlan = "EXT";
- 
+
             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected, function (data) {
                 $scope.availableMessage = data.output;
             });
@@ -123,12 +126,15 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
                 self.getChat("EXT");
 
             } else {
-                $scope.setUserSession(); 
+                $scope.setUserSession();
             }
         };
 
 
         self.init();
 
+        $scope.$on('$destroy', function () {
+            $scope.msgAthleteCoachEnabled = false;
+        });
 
     }]);

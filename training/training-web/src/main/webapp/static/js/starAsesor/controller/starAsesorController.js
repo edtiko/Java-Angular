@@ -12,6 +12,9 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         $scope.mailsAsesor = [];
         $scope.mailsReceived = [];
         $scope.mailsSent = [];
+        $scope.messageReceivedStarAsesor = 0;
+        $scope.mailReceivedStarAsesor = 0;
+        $scope.msgStarAsesorEnabled = true;
 
         //$scope.filt = 'A';
 
@@ -49,7 +52,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             sent: 'static/views/starAsesor/mail/sent.html',
             mailSelected: 'static/views/starAsesor/mail/mailSelected.html'
         };
-        
+
         $scope.selectReceivedMail = function (id) {
             for (var i = 0; i < $scope.mailsReceived.length; i++) {
                 if ($scope.mailsReceived[i].mailCommunicationId === id) {
@@ -65,7 +68,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             $scope.viewMailSelected = $scope.viewsMail.mailSelected;
         };
 
-        $scope.selectSentMail = function (id) { 
+        $scope.selectSentMail = function (id) {
             for (var i = 0; i < $scope.mailsSent.length; i++) {
                 if ($scope.mailsSent[i].mailCommunicationId === id) {
                     $scope.mailSelected = angular.copy($scope.mailsSent[i]);
@@ -85,12 +88,12 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             var letter = $scope.filt;
             if (letter != undefined) {
                 return lowerStr.indexOf(letter.toLowerCase()) === 0;
-            }else{
+            } else {
                 $scope.starsFiltered = $scope.stars;
                 return true;
             }
         };
-        
+
         self.getStars = function () {
             DashboardService.getAssignedStarByCoach($scope.userSession.userId).then(
                     function (data) {
@@ -107,10 +110,6 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             MessageService.getUsersMessages($scope.userSession.userId).then(
                     function (data) {
                         $scope.userMessages = data;
-                        data.forEach(function (v) {
-                            MessageService.initialize(v.userId + $scope.userSession.userId);
-                            MailService.initialize(v.userId + $scope.userSession.userId);
-                        });
                     },
                     function (error) {
                         console.log(error);
@@ -128,20 +127,26 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                     }
             );
         };
-        
-             //Leer mensajes
+
+        //Leer mensajes
         self.readMessages = function () {
 
             var planId = -1;
-            var  userId =  $scope.userMsgSelected.userId;
+            var userId = $scope.userMsgSelected.userId;
             var toUserId = $scope.userSession.userId;
-        
+
             MessageService.readMessages(planId, userId, toUserId, -1, -1).then(
                     function (data) {
+                        self.getMessagesReceivedCount(userId, function (data) {
+                            $scope.msgUserReceivedCount = data.output;
+                        });
+                         self.getMessagesReceivedCount(-1, function (data) {
+                            $scope.messageReceivedStarAsesor = data.output;
+                        });
                         $scope.getUserNotification($scope.userSession.userId, -1, -1);
                         //console.log(data.output);
                     },
-                    function (error) { 
+                    function (error) {
                         //$scope.showMessage(error);
                         console.error(error);
                     });
@@ -149,6 +154,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
 
         $scope.getMessagesByUser = function (user) {
             $scope.userMsgSelected = user;
+            $scope.msgUserReceivedCount = user.msgReceivedCount;
             MessageService.getMessagesByReceivingUserSendingUser($scope.userSession.userId, user.userId).then(
                     function (data) {
                         $scope.messagesAsesor = data;
@@ -286,7 +292,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                 $scope.planMessage.message = "";
             }
         };
-        
+
         $scope.ignoreAccents = function (item) {
             if (!$scope.search)
                 return true;
@@ -337,8 +343,11 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         };
 
         MessageService.receive().then(null, null, function (message) {
-            if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
+            if ($scope.msgStarAsesorEnabled) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
+                    $scope.messageReceivedStarAsesor = $scope.messageReceivedStarAsesor + 1;
+                    self.readMessages();
+                }
             }
 
             $scope.messagesAsesor.push(message);
@@ -349,12 +358,12 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
+                $scope.mailReceivedStarAsesor = $scope.mailReceivedStarAsesor + 1;
 
             }
 
-            $scope.mailsAsesor.push(email);
-
+                $scope.mailsAsesor.push(email);
+            
         });
 
         $scope.showLoading = function (loading) {
@@ -375,22 +384,18 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             }
         };
 
-        self.getMessagesReceivedCount = function () {
-            MessageService.getMessagesReceived(-1, $scope.userSession.userId, -1, -1, -1).then(
-                    function (data) {
-                        $scope.messageReceivedCount = data.output;
-                    },
+        self.getMessagesReceivedCount = function (userId, fn) {
+            MessageService.getMessagesReceived(userId, $scope.userSession.userId, -1, -1, -1).then(
+                    fn,
                     function (error) {
                         console.log(error);
                     }
             );
         };
 
-        self.getMailReceivedCount = function () {
-            MailService.getReceivedMails(-1, $scope.userSession.userId, -1, -1, -1).then(
-                    function (data) {
-                        $scope.mailReceivedCount = data.output;
-                    },
+        self.getMailReceivedCount = function (userId, fn) {
+            MailService.getReceivedMails(userId, $scope.userSession.userId, -1, -1, -1).then(
+                    fn,
                     function (error) {
                         console.log(error);
                     }
@@ -399,8 +404,12 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
 
 
         self.init = function () {
-            self.getMessagesReceivedCount();
-            self.getMailReceivedCount();
+            self.getMessagesReceivedCount(-1, function (data) {
+                $scope.messageReceivedStarAsesor = data.output;
+            });
+            self.getMailReceivedCount(-1, function (data) {
+                $scope.mailReceivedStarAsesor = data.output;
+            });
             self.getStars();
             self.getUsersMessagesByUser();
             self.getUsersMailsByUser();
@@ -408,5 +417,9 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
         };
 
         self.init();
+
+        $scope.$on('$destroy', function () {
+            $scope.msgStarAsesorEnabled = false;
+        });
 
     }]);

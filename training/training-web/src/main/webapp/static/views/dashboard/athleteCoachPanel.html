@@ -45,7 +45,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">MENSAJES</span>
                 </div>
-                <div ng-if="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
+                <div ng-show="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
                 <md-divider></md-divider>
             </md-list-item>
             <md-list-item class="md-2-line" ng-click="go('/mail-coach', 6)">
@@ -55,7 +55,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">MAIL</span>
                 </div>
-                <div ng-if="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
+                <div ng-show="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
                 <md-divider></md-divider>
             </md-list-item>
             <md-list-item class="md-2-line" ng-click="go('/audio-coach', 7)">
@@ -65,7 +65,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">AUDIOS</span>
                 </div>
-                <div ng-if="audioReceivedCount > 0" class="circle_notification">{{audioReceivedCount}}</div>
+                <div ng-show="audioReceivedCount > 0" class="circle_notification">{{audioReceivedCount}}</div>
                 <md-divider></md-divider>
             </md-list-item>
             <md-list-item class="md-2-line" ng-click="go('/video-coach', 8)" >
@@ -75,7 +75,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">VIDEOS</span>
                 </div>
-                <div ng-if="videoReceivedCount > 0" class="circle_notification">{{videoReceivedCount}}</div>
+                <div ng-show="videoReceivedCount > 0" class="circle_notification">{{videoReceivedCount}}</div>
                 <md-divider></md-divider>
             </md-list-item>
         </md-list>

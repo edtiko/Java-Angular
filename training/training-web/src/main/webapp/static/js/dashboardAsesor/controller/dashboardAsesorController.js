@@ -39,60 +39,6 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'AthleteService',
             }).$promise;
         };
 
-        self.getAssignedAthletes = function () {
-            AthleteService.getAthletes($scope.userSession.userId).then(
-                    function (data) {
-                        data.output.forEach(function (a) {
-                            MessageService.initialize(a.planId);
-                            VideoService.initialize(a.planId);
-                            AudioMessageService.initialize(a.planId);
-                            MailService.initialize(a.planId);
-                        });
-                    },
-                    function (error) {
-                        console.log(error);
-                    }
-            );
-        };
-
-        MessageService.receive().then(null, null, function (message) {
-            if ($scope.userSession.userId == message.receivingUserId.userId) {
-                $scope.getUserNotification($scope.userSession.userId, -1, -1);
-            }
-        });
-
-        //notificación videos recibidos
-        VideoService.receive().then(null, null, function (video) {
-            if (video.toUser.userId == $scope.userSession.userId) {
-
-                $scope.getUserNotification($scope.userSession.userId, -1, -1);
-
-            }
-
-        });
-
-        //notificación audios recibidos
-        AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUserId == $scope.userSession.userId) {
-
-                $scope.getUserNotification($scope.userSession.userId, -1, -1);
-
-            }
-
-        });
-
-
-        //notificación emails recibidos
-        MailService.receive().then(null, null, function (email) {
-            if (email.receivingUser.userId == $scope.userSession.userId) {
-
-                $scope.getUserNotification($scope.userSession.userId, -1, -1);
-
-            }
-
-        });
-
-
         self.getCountByPlanAsesor = function () {
             DashboardService.getCountByPlanRole($scope.userSession.userId, $scope.userSessionTypeUserCoachInterno, function (response) {
                 $scope.countPlanList = success(response);
@@ -104,12 +50,10 @@ trainingApp.controller('DashboardAsesorController', ['$scope', 'AthleteService',
                 $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
                 self.getCountByPlanAsesor();
                 self.getAssignedAthletesPaginate();
-                self.getAssignedAthletes();
             });
         } else {
             self.getCountByPlanAsesor();
             self.getAssignedAthletesPaginate();
-            self.getAssignedAthletes();
         }
 
     }]);

@@ -7,7 +7,7 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
 
         service.RECONNECT_TIMEOUT = 30000;
         service.SOCKET_URL = $contextPath + "/invitation";
-        service.CHAT_BROKER = "/app/invitation/";
+        service.CHAT_BROKER = "/app/invitation";
         service.SESSION_ID = "";
 
         service.receive = function () {
@@ -15,10 +15,10 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
         };
 
         service.send = function (mail) {
-            var url = service.CHAT_BROKER + mail.sesionId;
+            var url = service.CHAT_BROKER;
             socket.stomp.send(url, {
                 priority: 9
-            }, JSON.stringify({id: mail.id}));
+            }, JSON.stringify(mail));
         };
 
         var reconnect = function () {
@@ -34,20 +34,19 @@ trainingApp.service("ExternalCoachService", ['$http', '$q', function ($http, $q)
         };
 
         var startListener = function () {
-            if (service.SESSION_ID != null) {
-                socket.stomp.subscribe("/queue/invitation/" + service.SESSION_ID, function (data) {
+     
+                socket.stomp.subscribe("/queue/invitation", function (data) {
                     listener.notify(getInvitation(data.body));
                 });
-            }
+            
         };
-        service.initialize = function (sessionId) {
-            if (service.SESSION_ID == "") {
-                service.SESSION_ID = sessionId;
+        service.initialize = function () {
+
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
-            }
+            
         };
 
         service.createAthlete = function (obj) {

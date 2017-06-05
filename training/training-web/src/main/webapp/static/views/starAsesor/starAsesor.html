@@ -13,7 +13,7 @@
                 <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 2" src="static/img/chat_profile.png">
                     <img ng-if="moduleSelected === 2" src="static/img/chat-selected.png">
-                    <div ng-if="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
+                    <div ng-show="messageReceivedStarAsesor > 0" class="circle_notification">{{messageReceivedStarAsesor}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">TODOS LOS MENSAJES</h5>
             </div>
@@ -21,7 +21,7 @@
                 <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 3" src="static/img/mail_profile.png">
                     <img ng-if="moduleSelected === 3" src="static/img/mail-selected.png">
-                    <div ng-if="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
+                    <div ng-show="mailReceivedStarAsesor > 0" class="circle_notification">{{mailReceivedStarAsesor}}</div> 
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">TODOS LOS MAIL</h5>
             </div>

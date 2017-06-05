@@ -8,7 +8,7 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
 
         service.RECONNECT_TIMEOUT = 30000;
         service.SOCKET_URL = $contextPath + "/mail";
-        service.CHAT_BROKER = "/app/mail/";
+        service.CHAT_BROKER = "/app/mail";
         service.SESSION_ID = "";
         service.sessionsId = [];
 
@@ -17,17 +17,17 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
         };
 
         service.send = function (mail) {
-            var url = service.CHAT_BROKER + mail.sesionId;
+            var url = service.CHAT_BROKER;
             socket.stomp.send(url, {
                 priority: 9
-            }, JSON.stringify({id: mail.id}));
+            }, JSON.stringify(mail));
         };
 
         var reconnect = function () {
             $timeout(function () {
-                if (service.SESSION_ID != "") { 
-                    service.initialize(service.SESSION_ID);
-                }
+      
+                    service.initialize();
+                
             }, this.RECONNECT_TIMEOUT);
         };
 
@@ -38,20 +38,19 @@ trainingApp.service('MailService', ['$http', '$q', function ($http, $q) {
         };
 
         var startListener = function () {
-            if (service.SESSION_ID != null) {
-                socket.stomp.subscribe("/queue/mail/" + service.SESSION_ID, function (data) {
+          
+                socket.stomp.subscribe("/queue/mail", function (data) {
                     listener.notify(getMail(data.body));
                 }, { id: service.SESSION_ID });
-            }
+            
         };
-        service.initialize = function (sessionId) {
-               if (service.SESSION_ID != sessionId && service.sessionsId.indexOf(sessionId) == -1) {
-                service.sessionsId.push(sessionId);
+        service.initialize = function () {
+        
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
-            }
+            
         };
         
           service.getAvailableMails = function (planId, userId, tipoPlan, roleSelected) {

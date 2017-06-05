@@ -4,7 +4,10 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.athleteUserId = $routeParams.user;
         $scope.moduleSelected = 1;
-        $scope.messageReceivedCount = 0;
+        $scope.messageReceivedAthlete = 0;
+        $scope.mailReceivedAthlete = 0;
+        $scope.audioReceivedAthlete = 0;
+        $scope.videoReceivedAthlete = 0;
         $scope.athleteView = {
             profile: 'static/views/athleteDetail/profile/profile.html',
             chat: 'static/views/athleteDetail/message/message.html',
@@ -78,19 +81,10 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                 if ($scope.planSelected != null) {
                     $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
 
-                    MessageService.initialize($scope.planSelected.id);
-                    VideoService.initialize($scope.planSelected.id);
-                    AudioMessageService.initialize($scope.planSelected.id);
-                    MailService.initialize($scope.planSelected.id);
-                    //$scope.connectToChatserver($scope.planSelected.id);
-                    //$scope.connectToAudioWsMovil($scope.planSelected.id);
-                    //$scope.connectToVideoWsMovil($scope.planSelected.id);
-
-                    $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
-                    $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
-                    $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
-                    $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
-                    $scope.athleteReceivedCount = ($scope.messageReceivedCount + $scope.mailReceivedCount + $scope.audioReceivedCount + $scope.videoReceivedCount);
+                    $scope.messageReceivedAthlete = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
+                    $scope.mailReceivedAthlete = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
+                    $scope.audioReceivedAthlete = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
+                    $scope.videoReceivedAthlete = ($scope.planSelected.starCommunication.receivedVideo + $scope.planSelected.asesorCommunication.receivedVideo);
 
                     $scope.getImageProfile($scope.planSelected.starUserId.userId, function (data) {
                         if (data != "") {
@@ -125,19 +119,19 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                 //var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
                 $scope.getReceivedMessages(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
                         function (data) {
-                            $scope.messageReceivedCount = data.output;
+                            $scope.messageReceivedAthlete = data.output;
                         });
                 $scope.getReceivedMails(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
                         function (data) {
-                            $scope.mailReceivedCount = data.output;
+                            $scope.mailReceivedAthlete = data.output;
                         });
                 $scope.getReceivedVideos(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
                         function (data) {
-                            $scope.videoReceivedCount = data.output;
+                            $scope.videoReceivedAthlete = data.output;
                         });
                 $scope.getReceivedAudios(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
                         function (data) {
-                            $scope.audioReceivedCount = data.output;
+                            $scope.audioReceivedAthlete = data.output;
                         });
                 $scope.getUserNotification($scope.userSession.userId, planId, tipoPlan);
             }
@@ -227,7 +221,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
 
         MessageService.receive().then(null, null, function (message) {
              if ($scope.userSession.userId == message.receivingUserId.userId) {
-                $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
+                $scope.messageReceivedAthlete = $scope.messageReceivedAthlete + 1;
             }
         });
 
@@ -235,7 +229,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         VideoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
 
-                $scope.videoReceivedCount = $scope.videoReceivedCount + 1;
+                $scope.videoReceivedAthlete = $scope.videoReceivedAthlete + 1;
 
             }
 
@@ -245,7 +239,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         AudioMessageService.receive().then(null, null, function (audio) {
             if (audio.toUserId == $scope.userSession.userId) {
 
-                $scope.audioReceivedCount = $scope.audioReceivedCount + 1;
+                $scope.audioReceivedAthlete = $scope.audioReceivedAthlete + 1;
 
             }
 
@@ -256,7 +250,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
+                $scope.mailReceivedAthlete = $scope.mailReceivedAthlete + 1;
 
             }
 

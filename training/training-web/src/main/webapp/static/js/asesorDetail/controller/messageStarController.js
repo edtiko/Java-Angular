@@ -16,6 +16,7 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
         $scope.dataImage = "static/img/profile-default.png";
         $scope.glued = true;
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        $scope.msgStarEnabled = true;
 
 
         //Envia mensaje
@@ -31,24 +32,26 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-            if (message.id != "" && $scope.userSession != null && $scope.userSession.userId != message.messageUserId.userId) {
-                MessageService.readMessage(message.id).then(
-                        function (data) {
-                            $scope.getMessagesReceivedCount();
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
+            if ($scope.msgStarEnabled) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
+                    MessageService.readMessage(message.id).then(
+                            function (data) {
+                                $scope.getMessagesReceivedCount();
+                            },
+                            function (error) {
+                                //$scope.showMessage(error);
+                                console.error(error);
+                            });
 
+                }
+                $scope.messagesStar.push(message);
             }
-            $scope.messagesStar.push(message);
         });
 
         //Leer mensajes
         self.readMessages = function (fromUserId, toUserId) {
             MessageService.readMessages(-1, fromUserId, toUserId, -1, -1).then(
-                    function (data) { 
+                    function (data) {
                         $scope.getMessagesReceivedCount();
                     },
                     function (error) {
@@ -63,7 +66,7 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
                     function (data) {
                         $scope.messagesStar = data;
                         $scope.loading = false;
-                        self.readMessages(userId, $scope.userSession.userId); 
+                        self.readMessages(userId, $scope.userSession.userId);
                     },
                     function (error) {
                         console.log(error);
@@ -84,5 +87,8 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
 
         self.init();
 
+        $scope.$on('$destroy', function () {
+            $scope.msgStarEnabled = false;
+        });
 
     }]);

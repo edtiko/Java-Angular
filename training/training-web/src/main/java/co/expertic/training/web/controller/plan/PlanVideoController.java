@@ -75,9 +75,9 @@ public class PlanVideoController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/send/{sessionId}")
+    @MessageMapping("/send")
     //@SendTo("/topic/message")
-    public void sendMessage(PlanVideoDTO message, @DestinationVariable("sessionId") Integer sessionId) {
+    public void sendMessage(PlanVideoDTO message) {
         PlanVideoDTO msg = null;
         try {
             msg = planVideoService.getVideoById(message.getId());
@@ -85,7 +85,7 @@ public class PlanVideoController {
             LOGGER.error(e.getMessage(), e);
 
         }
-        simpMessagingTemplate.convertAndSend("/queue/video/" + sessionId, msg);
+        simpMessagingTemplate.convertAndSend("/queue/video" , msg);
         //return new OutputMessage(message, new Date());
     }
 
@@ -149,7 +149,7 @@ public class PlanVideoController {
                     dto.setFromUserId(fromUserId);
                     dto.setRoleSelected(roleSelected);
                     responseService.setOutput(dto);
-                    simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
+                    simpMessagingTemplate.convertAndSend("/queue/video" , dto);
                 }
 
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -225,7 +225,7 @@ public class PlanVideoController {
                     }
 
                     responseService.setOutput(dto);
-                    simpMessagingTemplate.convertAndSend("/queue/video/" + planId, dto);
+                    simpMessagingTemplate.convertAndSend("/queue/video", dto);
                 }
 
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -283,7 +283,7 @@ public class PlanVideoController {
                     script.setCreationDate(new Date());
                     script.setPlanVideoId(new PlanVideo(dto.getId()));
                     scriptVideoService.create(script);
-                    simpMessagingTemplate.convertAndSend("/queue/video/" + coachAssignedPlanId, dto);
+                    simpMessagingTemplate.convertAndSend("/queue/video" , dto);
                 }
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());

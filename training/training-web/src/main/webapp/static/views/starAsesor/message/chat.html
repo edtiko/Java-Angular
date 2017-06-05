@@ -4,7 +4,7 @@
     <div flex layout="row" layout-align="center">
         <div flex="35">
             <md-card style="min-height:550px">
-                <md-card-content> 
+                <md-card-content style="overflow-x: hidden;"> 
                     <md-list  flex>
                         <md-list-item ng-repeat="userMsg in  userMessages" class="md-3-line"  ng-click="getMessagesByUser(userMsg)" >
                             <div class="rectangule1"></div>
@@ -13,7 +13,7 @@
                                 <h3 style="font-weight: bold; color: #0064F8">{{userMsg.fullName}}</h3>
                                 <h3 style="color: #0064F8">{{userMsg.role}}</h3>
                             </div>
-                            <div ng-if="userMsg.msgReceivedCount > 0" class="circle_notification">{{userMsg.msgReceivedCount}}</div>
+                            <div ng-if="msgUserReceivedCount > 0" class="circle_notification">{{msgUserReceivedCount}}</div>
                         </md-list-item>
                     </md-list>
                 </md-card-content>

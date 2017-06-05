@@ -35,7 +35,7 @@
                 <div flex layout-padding class="md-list-item-text">
                     <span style="color: #00E8E8">MIS ATLETAS</span>
                 </div>
-                <div ng-if="listNotification.length > 0" class="circle_notification">{{listNotification.length}}</div>
+                <div ng-show="listNotification.length > 0" class="circle_notification">{{listNotification.length}}</div>
                 <md-divider></md-divider>
             </md-list-item> 
              <md-list-item class="md-2-line" ng-click="go('/external-coach', 3)" >

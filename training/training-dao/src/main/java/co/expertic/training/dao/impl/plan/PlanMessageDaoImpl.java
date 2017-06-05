@@ -10,6 +10,7 @@ import co.expertic.base.jpa.DAOException;
 import co.expertic.training.dao.plan.PlanMessageDao;
 import co.expertic.training.dao.user.UserDao;
 import co.expertic.training.enums.RoleEnum;
+import co.expertic.training.enums.StateEnum;
 import co.expertic.training.model.dto.PlanMessageDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserResumeDTO;
@@ -395,7 +396,6 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         }
     }
     
-    
     @Override
     public List<UserResumeDTO> getMessageUsersByUserId(Integer userId) throws DAOException {
         StringBuilder sql = new StringBuilder();
@@ -409,6 +409,22 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("userId", userId);
         List<UserResumeDTO> list = query.getResultList();
+        
+        if (list == null || list.isEmpty()) {
+            sql = new StringBuilder();
+            sql.append("SELECT new co.expertic.training.model.dto.UserResumeDTO(m.starUserId, r.roleId) ");
+            sql.append("FROM StarTeam m, RoleUser r ");
+            sql.append("WHERE ((m.starUserId.userId = :userId ");
+            sql.append("AND m.starUserId.userId = r.userId.userId) ");
+            sql.append("OR (m.coachUserId.userId = :userId ");
+            sql.append("AND m.starUserId.userId = r.userId.userId ))");
+            sql.append("AND m.stateId = :active ");
+            query = getEntityManager().createQuery(sql.toString());
+            query.setParameter("userId", userId);
+            query.setParameter("active", StateEnum.ACTIVE.getId().shortValue());
+            list = query.getResultList();
+        }
+
         return list;
     }
 }

@@ -18,6 +18,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
         $scope.glued = true;
         $scope.starImage = $window.sessionStorage.getItem("starImage");
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        $scope.msgStarAthleteEnabled = false;
 
         //Carga datos del chat según el tipo de plan
         self.getChat = function (tipoPlan) {
@@ -70,7 +71,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     $scope.planMessage.roleSelected = $scope.roleSelected;
                     $scope.planMessage.receivingUserId.userId = $scope.planSelected.athleteUserId.userId;
-             
+                    $scope.planMessage.sesionId = $scope.planSelected.id;
                     MessageService.send($scope.planMessage);
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
 
@@ -83,19 +84,21 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-            if ($scope.userSession.userId == message.receivingUserId.userId) {
-                MessageService.readMessage(message.id).then(
-                        function (data) {
-                           // $scope.getReceived();
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
+            if ($scope.msgStarAthleteEnabled) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
+                    MessageService.readMessage(message.id).then(
+                            function (data) {
+                                // $scope.getReceived();
+                            },
+                            function (error) {
+                                //$scope.showMessage(error);
+                                console.error(error);
+                            });
 
+                }
+                $scope.messages.push(message);
+                self.getMessageCount();
             }
-            $scope.messages.push(message);
-            self.getMessageCount();
         });
 
         //Traer la cantidad de mensajes disponibles
@@ -152,6 +155,10 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
 
 
             self.init();
+            
+        $scope.$on('$destroy', function () {
+            $scope.msgStarAthleteEnabled = false;
+        });
         
 
     }]);

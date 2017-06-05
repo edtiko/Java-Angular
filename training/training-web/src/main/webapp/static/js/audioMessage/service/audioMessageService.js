@@ -1,10 +1,10 @@
 'use strict';
 trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) {
- var service = {}, listener = $q.defer(), socket = {
+        var service = {}, listener = $q.defer(), socket = {
             client: null,
             stomp: null
         };
-        
+
         service.RECONNECT_TIMEOUT = 30000;
         service.SOCKET_URL = $contextPath + "/voice";
         service.CHAT_BROKER = "/app/voice/";
@@ -19,14 +19,14 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
             var url = service.CHAT_BROKER + audio.sesionId;
             socket.stomp.send(url, {
                 priority: 9
-            }, JSON.stringify({id:audio.id}));
+            }, JSON.stringify({id: audio.id}));
         };
-        
+
         var reconnect = function () {
             $timeout(function () {
-                if (service.SESSION_ID != "") {
-                    service.initialize(service.SESSION_ID);
-                }
+
+                service.initialize();
+
             }, this.RECONNECT_TIMEOUT);
         };
 
@@ -37,23 +37,22 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
         };
 
         var startListener = function () {
-            if (service.SESSION_ID != null) {
-                socket.stomp.subscribe("/queue/audio/" + service.SESSION_ID, function (data) {
-                    listener.notify(getAudio(data.body));
-                });
-            }
+
+            socket.stomp.subscribe("/queue/audio", function (data) {
+                listener.notify(getAudio(data.body));
+            });
+
         };
-        service.initialize = function (sessionId) {
-             if (service.SESSION_ID != sessionId && service.sessionsId.indexOf(sessionId) == -1) {
-                service.sessionsId.push(sessionId);
-                socket.client = new SockJS(service.SOCKET_URL);
-                socket.stomp = Stomp.over(socket.client);
-                socket.stomp.connect({}, startListener);
-                socket.stomp.onclose = reconnect;
-            }
+        service.initialize = function () {
+
+            socket.client = new SockJS(service.SOCKET_URL);
+            socket.stomp = Stomp.over(socket.client);
+            socket.stomp.connect({}, startListener);
+            socket.stomp.onclose = reconnect;
+
         };
         service.getAudiosByUser = function (planId, userId, receivingUserId, fromto, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'audio/get/audios/'+planId +"/"+ userId +'/'+receivingUserId+"/" + fromto+"/"+tipoPlan+'/'+roleSelected)
+            return $http.get($contextPath + 'audio/get/audios/' + planId + "/" + userId + '/' + receivingUserId + "/" + fromto + "/" + tipoPlan + '/' + roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -64,9 +63,9 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-        
-          service.uploadRecord = function (blob) {
-            return $http.post($contextPath + 'audio/upload/',blob)
+
+        service.uploadRecord = function (blob) {
+            return $http.post($contextPath + 'audio/upload/', blob)
                     .then(
                             function (response) {
                                 return response.data;
@@ -90,9 +89,9 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-        
+
         service.getAvailableAudios = function (planId, userId, toUserId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'audio/get/count/available/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
+            return $http.get($contextPath + 'audio/get/count/available/' + planId + '/' + userId + '/' + toUserId + '/' + tipoPlan + '/' + roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -103,9 +102,9 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-        
-         service.getAudiosReceived = function (planId, userId, toUserId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'audio/get/count/received/' + planId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
+
+        service.getAudiosReceived = function (planId, userId, toUserId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'audio/get/count/received/' + planId + '/' + userId + '/' + toUserId + '/' + tipoPlan + '/' + roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -116,9 +115,9 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-        
-         service.readAudios = function (planId, userId,tipoPlan) {
-            return $http.get($contextPath + 'audio/read/all/' + planId + '/' + userId+'/'+tipoPlan)
+
+        service.readAudios = function (planId, userId, tipoPlan) {
+            return $http.get($contextPath + 'audio/read/all/' + planId + '/' + userId + '/' + tipoPlan)
                     .then(
                             function (response) {
                                 return response.data;
@@ -129,8 +128,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-        
-         service.readAudio = function (planAudioId) {
+
+        service.readAudio = function (planAudioId) {
             return $http.get($contextPath + 'audio/read/' + planAudioId)
                     .then(
                             function (response) {
@@ -142,8 +141,8 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-          service.aprobarAudio = function (planAudioId, planId) {
-            return $http.get($contextPath + 'audio/approve/' + planAudioId+'/'+planId)
+        service.aprobarAudio = function (planAudioId, planId) {
+            return $http.get($contextPath + 'audio/approve/' + planAudioId + '/' + planId)
                     .then(
                             function (response) {
                                 return response.data;
@@ -154,7 +153,7 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-          service.rechazarAudio = function (planAudioId) {
+        service.rechazarAudio = function (planAudioId) {
             return $http.get($contextPath + 'audio/reject/' + planAudioId)
                     .then(
                             function (response) {
@@ -166,7 +165,7 @@ trainingApp.service("AudioMessageService", ['$http', '$q', function ($http, $q) 
                             }
                     );
         };
-        
+
         service.sendStarAudioToAthlete = function (planAudioId) {
             return $http.get($contextPath + 'audio/send/star/to/athlete/' + planAudioId)
                     .then(

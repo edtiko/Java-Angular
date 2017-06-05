@@ -3,10 +3,10 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
             client: null,
             stomp: null
         };
-        
+
         service.RECONNECT_TIMEOUT = 30000;
         service.SOCKET_URL = $contextPath + "/send";
-        service.CHAT_BROKER = "/app/send/";
+        service.CHAT_BROKER = "/app/send";
         service.SESSION_ID = "";
         service.sessionsId = [];
 
@@ -15,17 +15,16 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
         };
 
         service.send = function (message) {
-            var url = service.CHAT_BROKER + message.sesionId;
+            var url = service.CHAT_BROKER;
             socket.stomp.send(url, {
                 priority: 9
-            }, JSON.stringify({id:message.id}));
+            }, JSON.stringify(message));
         };
-        
-           var reconnect = function () {
+
+        var reconnect = function () {
             $timeout(function () {
-                if (service.SESSION_ID != "") {
-                    service.initialize(service.SESSION_ID);
-                }
+                service.initialize();
+
             }, this.RECONNECT_TIMEOUT);
         };
 
@@ -36,23 +35,21 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
         };
 
         var startListener = function () {
-            if (service.SESSION_ID != null) {
-                socket.stomp.subscribe("/queue/video/" + service.SESSION_ID, function (data) {
-                    listener.notify(getVideo(data.body));
-                });
-            }
+
+            socket.stomp.subscribe("/queue/video", function (data) {
+                listener.notify(getVideo(data.body));
+            });
+
         };
-        service.initialize = function (sessionId) {
-              if (service.SESSION_ID != sessionId && service.sessionsId.indexOf(sessionId) == -1) {
-                service.sessionsId.push(sessionId);
-                socket.client = new SockJS(service.SOCKET_URL);
-                socket.stomp = Stomp.over(socket.client);
-                socket.stomp.connect({}, startListener);
-                socket.stomp.onclose = reconnect;
-            }
+        service.initialize = function () {
+            socket.client = new SockJS(service.SOCKET_URL);
+            socket.stomp = Stomp.over(socket.client);
+            socket.stomp.connect({}, startListener);
+            socket.stomp.onclose = reconnect;
+
         };
-        service.getVideosByUser = function (planId, userId, toUserId, fromto, tipoPlan,roleSelected) {
-            return $http.get($contextPath + 'video/get/videos/'+planId +"/"+ userId + "/"+toUserId+'/'+ fromto+"/"+tipoPlan+'/'+roleSelected)
+        service.getVideosByUser = function (planId, userId, toUserId, fromto, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'video/get/videos/' + planId + "/" + userId + "/" + toUserId + '/' + fromto + "/" + tipoPlan + '/' + roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -76,9 +73,9 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
-        
+
         service.getAvailableVideos = function (coachAssignedPlanId, userId, toUserId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'video/get/count/available/' + coachAssignedPlanId + '/' + userId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
+            return $http.get($contextPath + 'video/get/count/available/' + coachAssignedPlanId + '/' + userId + '/' + toUserId + '/' + tipoPlan + '/' + roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -89,9 +86,9 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
-        
-         service.getVideosReceived = function (coachAssignedPlanId, fromUserId, toUserId, tipoPlan, roleSelected) {
-            return $http.get($contextPath + 'video/get/count/received/' + coachAssignedPlanId + '/' + fromUserId+'/'+toUserId+'/'+tipoPlan+'/'+roleSelected)
+
+        service.getVideosReceived = function (coachAssignedPlanId, fromUserId, toUserId, tipoPlan, roleSelected) {
+            return $http.get($contextPath + 'video/get/count/received/' + coachAssignedPlanId + '/' + fromUserId + '/' + toUserId + '/' + tipoPlan + '/' + roleSelected)
                     .then(
                             function (response) {
                                 return response.data;
@@ -102,9 +99,9 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
-        
-         service.readVideos = function (coachAssignedPlanId, userId,tipoPlan) {
-            return $http.get($contextPath + 'video/read/all/' + coachAssignedPlanId + '/' + userId+'/'+tipoPlan)
+
+        service.readVideos = function (coachAssignedPlanId, userId, tipoPlan) {
+            return $http.get($contextPath + 'video/read/all/' + coachAssignedPlanId + '/' + userId + '/' + tipoPlan)
                     .then(
                             function (response) {
                                 return response.data;
@@ -115,8 +112,8 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
-        
-         service.readVideo = function (planVideoId) {
+
+        service.readVideo = function (planVideoId) {
             return $http.get($contextPath + 'video/read/' + planVideoId)
                     .then(
                             function (response) {
@@ -128,9 +125,9 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
-        
+
         service.rejectVideo = function (planVideoId) {
-            return $http.get($contextPath + 'video/rejected/atlethe/'+planVideoId)
+            return $http.get($contextPath + 'video/rejected/atlethe/' + planVideoId)
                     .then(
                             function (response) {
                                 return response.data;
@@ -141,9 +138,9 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
-        
+
         service.approveVideo = function (userId, planVideoId, guion) {
-            return $http.get($contextPath + 'video/approve/'+planVideoId + '/' + userId + '?guion=' + guion)
+            return $http.get($contextPath + 'video/approve/' + planVideoId + '/' + userId + '?guion=' + guion)
                     .then(
                             function (response) {
                                 return response.data;
@@ -154,9 +151,9 @@ trainingApp.service("VideoService", ['$http', '$q', function ($http, $q) {
                             }
                     );
         };
-        
+
         service.sendVideoToAtlethe = function (coachUserId, athleteUserId, planVideoId) {
-            return $http.get($contextPath + 'video/send/video/to/atlethe/'+planVideoId + '/' + coachUserId+ '/'+athleteUserId)
+            return $http.get($contextPath + 'video/send/video/to/atlethe/' + planVideoId + '/' + coachUserId + '/' + athleteUserId)
                     .then(
                             function (response) {
                                 return response.data;

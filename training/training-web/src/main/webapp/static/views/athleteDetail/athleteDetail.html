@@ -27,7 +27,7 @@
                 <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 4" src="static/img/chat_profile.png">
                     <img ng-if="moduleSelected === 4" src="static/img/chat-selected.png">
-                    <div ng-if="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
+                    <div ng-show="messageReceivedAthlete > 0" class="circle_notification">{{messageReceivedAthlete}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">MENSAJES</h5>
             </div>
@@ -35,7 +35,7 @@
                 <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 5" src="static/img/mail_profile.png">
                     <img ng-if="moduleSelected === 5" src="static/img/mail-selected.png">
-                    <div ng-if="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
+                    <div ng-show="mailReceivedAthlete > 0" class="circle_notification">{{mailReceivedAthlete}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">MAIL</h5>
             </div>
@@ -43,7 +43,7 @@
                 <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 6" src="static/img/audio_profile.png">
                     <img ng-if="moduleSelected === 6" src="static/img/audio-selected.png">
-                    <div ng-if="audioReceivedCount > 0" class="circle_notification">{{audioReceivedCount}}</div>
+                    <div ng-show="audioReceivedAthlete > 0" class="circle_notification">{{audioReceivedAthlete}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">AUDIOS</h5>
             </div>
@@ -51,7 +51,7 @@
                 <span  class="asesor_icon">
                     <img ng-if="moduleSelected !== 7" src="static/img/video_profile.png">
                     <img ng-if="moduleSelected === 7" src="static/img/video-selected.png">
-                    <div ng-if="videoReceivedCount > 0" class="circle_notification">{{videoReceivedCount}}</div>
+                    <div ng-show="videoReceivedAthlete > 0" class="circle_notification">{{videoReceivedAthlete}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">VIDEOS</h5>
             </div>

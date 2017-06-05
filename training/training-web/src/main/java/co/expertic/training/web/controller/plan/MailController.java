@@ -266,7 +266,7 @@ public class MailController {
                 RoleUser roleUserMsg = roleUserService.findByUserId(mailCommunication.getSendingUser().getUserId());
                 mailCommunication.getSendingUser().setRoleId(roleUserMsg.getRoleId().getRoleId());
             }
-            simpMessagingTemplate.convertAndSend("/queue/mail/" + sessionId, mailCommunication);
+            simpMessagingTemplate.convertAndSend("/queue/mail", mailCommunication);
             //responseService.setOutput(MessageUtil.getMessageFromBundle("co.expertic.training.i18n.trainingPlan", "msgRegistroCreado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

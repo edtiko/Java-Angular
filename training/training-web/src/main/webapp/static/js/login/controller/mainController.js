@@ -192,7 +192,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
             });
         };
-        
+
         $scope.goFitting = function () {
             if ($scope.userSession != null && $scope.userSession.userFittingId != null) {
                 $scope.go('/fitting', 9);
@@ -201,7 +201,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             }
 
         };
-        
+
         $scope.alertBuyFitting = function () {
             $mdDialog.show({
                 scope: $scope.$new(),
@@ -290,42 +290,43 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
         $scope.showMessage = function (msg, title = 'Confirmaci\u00f3n', html = false) {
 
-            if (html) {
-                $scope.message = msg;
-                $scope.title = title;
-                $mdDialog.show({
-                    scope: $scope.$new(),
-                    templateUrl: 'static/tmpls/dialogConfirmation.html',
-                    parent: angular.element(document.querySelector('#trainingApp')),
-                    clickOutsideToClose: true,
-                    fullscreen: $scope.customFullscreen,
-                    controller: function () {
-                        $scope.cancel = function () {
-                            $mdDialog.cancel();
-                        };
-                    }
-                });
-            } else {
-
-                $mdDialog.show(
-                        $mdDialog.alert()
-                        .parent(angular.element(document.querySelector('#user-container')))
-                        .clickOutsideToClose(true)
-                        .title(title)
-                        .textContent(msg)
-                        .ariaLabel('Alert Dialog Demo')
-                        .ok('Aceptar')
-                        );
-            }
-        };
-
-        $scope.showMessageConfirmation = function (msg, title= 'Confirmaci\u00f3n', link) {
-  
+        if (html) {
             $scope.message = msg;
             $scope.title = title;
-            $scope.link = link;
             $mdDialog.show({
                 scope: $scope.$new(),
+                templateUrl: 'static/tmpls/dialogConfirmation.html',
+                parent: angular.element(document.querySelector('#trainingApp')),
+                clickOutsideToClose: true,
+                fullscreen: $scope.customFullscreen,
+                controller: function () {
+                    $scope.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            });
+        } else {
+
+            $mdDialog.show(
+                    $mdDialog.alert()
+                    .parent(angular.element(document.querySelector('#user-container')))
+                    .clickOutsideToClose(true)
+                    .title(title)
+                    .textContent(msg)
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Aceptar')
+                    );
+            }
+        }
+        ;
+
+        $scope.showMessageConfirmation = function (msg, title = 'Confirmaci\u00f3n', link) {
+
+        $scope.message = msg;
+        $scope.title = title;
+        $scope.link = link;
+        $mdDialog.show({
+        scope: $scope.$new(),
                 templateUrl: 'static/tmpls/dialogConfirmationLink.html',
                 parent: angular.element(document.querySelector('#trainingApp')),
                 clickOutsideToClose: true,
@@ -335,7 +336,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                         $mdDialog.cancel();
                     }
                 }
-            });
+        });
         };
 
         $scope.goCalendar = function () {
@@ -406,26 +407,26 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         };
 
         /*$scope.getVisibleFieldsUserByUser = function (user) {
-            if (user != null) {
-                VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
-                        .then(
-                                function (response) {
-                                    $scope.fields = response;
-                                    for (var i = 0; i < $scope.fields.length; i++) {
-                                        $scope[$scope.fields[i].tableName + $scope.fields[i].columnName] = true;
-                                        if (!$scope.inFieldsArray({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId}, $scope.visibleFields)) {
-
-                                            $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});
-                                        }
-                                    }
-                                },
-                                function (errResponse) {
-                                    console.error('Error while fetching Visible Fields');
-                                    console.error(errResponse);
-                                }
-                        );
-            }
-        };*/
+         if (user != null) {
+         VisibleFieldsUserService.getVisibleFieldsUserByUser(user)
+         .then(
+         function (response) {
+         $scope.fields = response;
+         for (var i = 0; i < $scope.fields.length; i++) {
+         $scope[$scope.fields[i].tableName + $scope.fields[i].columnName] = true;
+         if (!$scope.inFieldsArray({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId}, $scope.visibleFields)) {
+         
+         $scope.visibleFields.push({tableName: $scope.fields[i].tableName, columnName: $scope.fields[i].columnName, userId: user.userId});
+         }
+         }
+         },
+         function (errResponse) {
+         console.error('Error while fetching Visible Fields');
+         console.error(errResponse);
+         }
+         );
+         }
+         };*/
         $scope.inFieldsArray = function (field, array) {
             var length = array.length;
             for (var i = 0; i < length; i++) {
@@ -599,10 +600,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         self.setAthleteStar = function () {
             $scope.userPanel = $scope.views.athleteStarPanel;
             $scope.getDashBoardByUser($scope.userSession);
-            MessageService.initialize($scope.userSession.planSelected.id);
-            VideoService.initialize($scope.userSession.planSelected.id);
-            AudioMessageService.initialize($scope.userSession.planSelected.id);
-            MailService.initialize($scope.userSession.planSelected.id);
             //$scope.connectToChatserver($scope.userSession.planSelected.id);
             //$scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
             //$scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
@@ -629,16 +626,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
             });
             $scope.getReceived($scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, "IN");
-            $scope.listenerAtleta("IN");
         };
 
         self.setAthleteCoach = function () {
             $scope.userPanel = $scope.views.athleteCoachPanel;
             $scope.getDashBoardByUser($scope.userSession);
-            MessageService.initialize($scope.userSession.planSelected.id);
-            VideoService.initialize($scope.userSession.planSelected.id);
-            AudioMessageService.initialize($scope.userSession.planSelected.id);
-            MailService.initialize($scope.userSession.planSelected.id);
             $scope.messageReceivedCount = $scope.userSession.planSelected.coachCommunication.receivedMsg;
             $scope.mailReceivedCount = $scope.userSession.planSelected.coachCommunication.receivedMail;
             $scope.audioReceivedCount = $scope.userSession.planSelected.coachCommunication.receivedAudio;
@@ -655,7 +647,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             });
 
             $scope.getUserNotification($scope.userSession.userId, -1, -1);
-            $scope.listenerAtleta("EXT");
         };
 
         self.setAthletePlatform = function () {
@@ -682,6 +673,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     self.setAthletePlatform();
                 }
 
+                MessageService.initialize();
+                VideoService.initialize();
+                AudioMessageService.initialize();
+                MailService.initialize();
+
             } else {
                 self.setAthletePlatform();
             }
@@ -690,6 +686,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.setAsesorRole = function () {
 
             $scope.userPanel = $scope.views.asesorPanel;
+            MessageService.initialize();
+            VideoService.initialize();
+            AudioMessageService.initialize();
+            MailService.initialize();
             $scope.getImageProfile($scope.userSession.userId, function (data) {
                 if (data != "") {
                     $scope.profileImage = "data:image/png;base64," + data;
@@ -705,6 +705,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         $scope.setStarRole = function () {
 
             $scope.userPanel = $scope.views.starPanel;
+            MessageService.initialize();
+            VideoService.initialize();
+            AudioMessageService.initialize();
+            MailService.initialize();
             $scope.getImageProfile($scope.userSession.userId, function (data) {
                 if (data != "") {
                     $scope.profileImage = "data:image/png;base64," + data;
@@ -720,6 +724,10 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
         $scope.setCoachRole = function () {
             $scope.userPanel = $scope.views.coachPanel;
+            MessageService.initialize();
+            VideoService.initialize();
+            AudioMessageService.initialize();
+            MailService.initialize();
             $scope.getImageProfile($scope.userSession.userId, function (data) {
                 if (data != "") {
                     $scope.profileImage = "data:image/png;base64," + data;
@@ -731,9 +739,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
 
             $scope.getUserNotification($scope.userSession.userId, -1, -1);
         };
-        
-        $scope.setMechanicRole = function(){
-               $scope.userPanel = $scope.views.mechanicPanel;
+
+        $scope.setMechanicRole = function () {
+            $scope.userPanel = $scope.views.mechanicPanel;
             $scope.getImageProfile($scope.userSession.userId, function (data) {
                 if (data != "") {
                     $scope.profileImage = "data:image/png;base64," + data;
@@ -775,50 +783,49 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
             );
         };
 
-        $scope.listenerAtleta = function (tipoPlan) {
-            //notificación mensajes recibidos
-            MessageService.receive().then(null, null, function (message) {
-                if ($scope.userSession.userId == message.receivingUserId.userId) {
+        //notificación mensajes recibidos
+        MessageService.receive().then(null, null, function (message) {
+            if ($scope.userSession.userId == message.receivingUserId.userId) {
 
-                    $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
-                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
+                $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
+                $scope.getUserNotification($scope.userSession.userId, -1, -1);
 
-                }
+            }
 
-            });
+        });
 
-            //notificación videos recibidos
-            VideoService.receive().then(null, null, function (video) {
-                if (video.toUser.userId == $scope.userSession.userId) {
+        //notificación videos recibidos
+        VideoService.receive().then(null, null, function (video) {
+            if (video.toUser.userId == $scope.userSession.userId) {
 
-                    $scope.videoReceivedCount = $scope.videoReceivedCount +1;
-                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
-                }
+                $scope.videoReceivedCount = $scope.videoReceivedCount + 1;
+                $scope.getUserNotification($scope.userSession.userId, -1, -1);
+            }
 
-            });
+        });
 
-            //notificación audios recibidos
-            AudioMessageService.receive().then(null, null, function (audio) {
-                if (audio.toUserId == $scope.userSession.userId) {
+        //notificación audios recibidos
+        AudioMessageService.receive().then(null, null, function (audio) {
+            if (audio.toUserId == $scope.userSession.userId) {
 
-                    $scope.audioReceivedCount = $scope.audioReceivedCount + 1;
-                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
+                $scope.audioReceivedCount = $scope.audioReceivedCount + 1;
+                $scope.getUserNotification($scope.userSession.userId, -1, -1);
 
-                }
+            }
 
-            });
+        });
 
 
-            //notificación emails recibidos
-            MailService.receive().then(null, null, function (email) {
-                if (email.receivingUser.userId == $scope.userSession.userId) {
+        //notificación emails recibidos
+        MailService.receive().then(null, null, function (email) {
+            if (email.receivingUser.userId == $scope.userSession.userId) {
 
-                    $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
-                    $scope.getUserNotification($scope.userSession.userId, $scope.userSession.planSelected.id, tipoPlan);
-                }
+                $scope.mailReceivedCount = $scope.mailReceivedCount + 1;
+                $scope.getUserNotification($scope.userSession.userId, -1, -1);
+            }
 
-            });
-        };
+        });
+
 
         $scope.getReceivedAudios = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
             AudioMessageService.getAudiosReceived(planId, userId, toUserId, tipoPlan, roleSelected).then(

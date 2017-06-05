@@ -20,7 +20,7 @@
                 <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 4" src="static/img/chat_profile.png">
                     <img ng-if="moduleSelected === 4" src="static/img/chat-selected.png">
-                    <div ng-if="messageReceivedCount > 0" class="circle_notification">{{messageReceivedCount}}</div>
+                    <div ng-show="messageReceivedAsesor > 0" class="circle_notification">{{messageReceivedAsesor}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">MENSAJES</h5>
             </div>
@@ -28,7 +28,7 @@
                 <span class="asesor_icon">
                     <img ng-if="moduleSelected !== 5" src="static/img/mail_profile.png">
                     <img ng-if="moduleSelected === 5" src="static/img/mail-selected.png">
-                    <div ng-if="mailReceivedCount > 0" class="circle_notification">{{mailReceivedCount}}</div>
+                    <div ng-show="mailReceivedAsesor > 0" class="circle_notification">{{mailReceivedAsesor}}</div>
                 </span>
                 <h5 style="color: #0064F8; font-weight: bold">MAIL</h5>
             </div>

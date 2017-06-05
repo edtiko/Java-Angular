@@ -3,15 +3,16 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
         var service = {}, listener = $q.defer(), socket = {
             client: null,
             stomp: null
-        }, sessionIds = [];
+        };
 
 
         service.RECONNECT_TIMEOUT = 30000;
         service.SOCKET_URL = $contextPath + "/chat";
         service.CHAT_TOPIC = "/topic/message";
-        service.CHAT_BROKER = "/app/chat/";
+        service.CHAT_BROKER = "/app/chat";
         service.SESSION_ID = "";
         service.WS_MOVIL;
+        service.sessionIds = [];
 
         service.receive = function () {
             return listener.promise;
@@ -20,37 +21,13 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
         service.send = function (message) {
             //service.sendMovil(JSON.stringify(message));
      
-            var url = service.CHAT_BROKER + service.SESSION_ID;
+            var url = service.CHAT_BROKER;
             socket.stomp.send(url, {
                 priority: 9
             }, JSON.stringify(message));
          
         };
-                
-        service.getAssignedAthletes = function (coachUserId) {
-            return $http.get($contextPath + 'get/athtletes/' + coachUserId)
-                    .then(
-                            function (response) {
-                                return response.data;
-                            },
-                            function (errResponse) {
-                                console.error('Error while fetching athletes');
-                                return $q.reject(errResponse);
-                            }
-                    );
-        };
-        service.getAssignedCoach = function (athleteUserId) {
-            return $http.get($contextPath + 'get/coach/' + athleteUserId)
-                    .then(
-                            function (response) {
-                                return response.data;
-                            },
-                            function (errResponse) {
-                                console.error('Error while fetching coach');
-                                return $q.reject(errResponse);
-                            }
-                    );
-        };
+
         service.getMessages = function (planId, userSessionId, receivingUserId, tipoPlan, roleSelected ) {
             return $http.get($contextPath + '/get/messages/' + planId+'/'+tipoPlan+'/'+roleSelected+'/'+userSessionId+'/'+receivingUserId)
                     .then(
@@ -170,9 +147,9 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
 
         var reconnect = function () {
             $timeout(function () {
-                if (service.SESSION_ID != "") {
-                    service.initialize(service.SESSION_ID);
-                }
+                
+                    service.initialize();
+                
             }, this.RECONNECT_TIMEOUT);
         };
 
@@ -183,22 +160,22 @@ trainingApp.service("MessageService", ['$q', '$timeout', '$http', '$window', fun
         };
 
         var startListener = function () {
-            if (service.SESSION_ID != null) {
-                socket.stomp.subscribe("/queue/message/" + service.SESSION_ID, function (data) {
+                socket.stomp.subscribe("/queue/message", function (data) {
                     listener.notify(getMessage(data.body));
-                }, { id: service.SESSION_ID });
-            }
+                });
+            
         };
-        service.initialize = function (sessionId) {
-            if (service.SESSION_ID != sessionId && sessionIds.indexOf(sessionId) == -1) {
-                sessionIds.push(sessionId);
-                service.SESSION_ID = sessionId;
+        
+        service.initialize = function () {
+           // if (service.sessionIds.indexOf(sessionId) == -1) { 
+             //   service.sessionIds.push(sessionId);
+               // service.SESSION_ID = sessionId;
                 socket.client = new SockJS(service.SOCKET_URL);
                 socket.stomp = Stomp.over(socket.client);
                 socket.stomp.connect({}, startListener);
                 socket.stomp.onclose = reconnect;
 
-            }
+            //}
         };
 
         //initialize();

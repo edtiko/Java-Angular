@@ -68,18 +68,14 @@ trainingApp.controller('StarAthleteDetailController', ['$scope', 'AthleteService
                 if ($scope.planSelected != null) {
                     $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
 
-                    MessageService.initialize($scope.planSelected.id);
-                    VideoService.initialize($scope.planSelected.id);
-                    AudioMessageService.initialize($scope.planSelected.id);
-                    MailService.initialize($scope.planSelected.id);
                     //$scope.connectToChatserver($scope.planSelected.id);
                     //$scope.connectToAudioWsMovil($scope.planSelected.id);
                     //$scope.connectToVideoWsMovil($scope.planSelected.id);
 
-                    $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg);
+                   /* $scope.messageReceivedCount = ($scope.planSelected.starCommunication.receivedMsg);
                     $scope.mailReceivedCount = ($scope.planSelected.starCommunication.receivedMail);
                     $scope.audioReceivedCount = ($scope.planSelected.starCommunication.receivedAudio);
-                    $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo);
+                    $scope.videoReceivedCount = ($scope.planSelected.starCommunication.receivedVideo);*/
 
 
                 } else {
@@ -172,45 +168,6 @@ trainingApp.controller('StarAthleteDetailController', ['$scope', 'AthleteService
                 $scope.userProfile.ftp90 = Math.round((power * 90) / 100);
             }
         };
-
-
-
-        MessageService.receive().then(null, null, function (message) {
-             if ($scope.userSession.userId == message.receivingUserId.userId) {
-                $scope.messageReceivedCount = $scope.messageReceivedCount + 1;
-            }
-        });
-
-        //notificación videos recibidos
-        VideoService.receive().then(null, null, function (video) {
-            if (video.toUser.userId == $scope.userSession.userId) {
-
-                $scope.videoReceivedCount = $scope.videoReceivedCount + 1;
-
-            }
-
-        });
-
-        //notificación audios recibidos
-        AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUserId == $scope.userSession.userId) {
-
-                $scope.audioReceivedCount = $scope.audioReceivedCount + 1;
-
-            }
-
-        });
-
-
-        //notificación emails recibidos
-        MailService.receive().then(null, null, function (email) {
-            if (email.receivingUser.userId == $scope.userSession.userId) {
-
-                $scope.mailReceivedCount = $scope.mailReceivedCount  + 1;
-
-            }
-
-        });
 
         $scope.showLoading = function (loading) {
             if (loading) {

@@ -43,9 +43,9 @@ public class MessageController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/chat/{sessionId}")
+    @MessageMapping("/chat")
     //@SendTo("/topic/message")
-    public void sendMessage(PlanMessageDTO message, @DestinationVariable("sessionId") Integer sessionId) {
+    public void sendMessage(PlanMessageDTO message) {
         PlanMessageDTO msg = null;
         try {
             msg = planMessageService.saveMessage(message);
@@ -53,7 +53,7 @@ public class MessageController {
             LOGGER.error(e.getMessage(), e);
 
         }
-        simpMessagingTemplate.convertAndSend("/queue/message/" + sessionId, msg);
+        simpMessagingTemplate.convertAndSend("/queue/message", msg);
         //return new OutputMessage(message, new Date());
     }
     

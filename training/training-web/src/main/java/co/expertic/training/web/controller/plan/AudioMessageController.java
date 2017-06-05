@@ -60,9 +60,9 @@ public class AudioMessageController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("voice/{sessionId}")
+    @MessageMapping("voice")
     //@SendTo("/topic/message")
-    public void sendMessage(PlanAudioDTO message, @DestinationVariable("sessionId") Integer sessionId) {
+    public void sendMessage(PlanAudioDTO message) {
         PlanAudioDTO msg = null;
         try {
             msg = planAudioService.getAudioById(message.getId());
@@ -70,7 +70,7 @@ public class AudioMessageController {
             LOGGER.error(e.getMessage(), e);
 
         }
-        simpMessagingTemplate.convertAndSend("/queue/audio/" + sessionId, msg);
+        simpMessagingTemplate.convertAndSend("/queue/audio", msg);
         //return new OutputMessage(message, new Date());
     }
 
@@ -135,7 +135,7 @@ public class AudioMessageController {
                     dto.setFromUserId(fromUserId);
                     dto.setRoleSelected(roleSelected);
                     responseService.setOutput(dto);
-                    simpMessagingTemplate.convertAndSend("/queue/audio/" + planId, dto);
+                    simpMessagingTemplate.convertAndSend("/queue/audio", dto);
                 }
 
                 //strResponse.append("video cargado correctamente.");

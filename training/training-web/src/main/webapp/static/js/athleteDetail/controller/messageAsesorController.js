@@ -20,18 +20,19 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.msgStar = [];
         $scope.items = [];
+        $scope.msgAsesorEnabled = true;
 
         //Carga datos del chat según el tipo de plan
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.planSelected != null) {
-                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId ,tipoPlan, $scope.roleSelected).then(
+                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
 
                             self.readMessages(tipoPlan, $scope.roleSelected, $scope.planSelected.athleteUserId.userId, $scope.userSession.userId);
-                             
+
                             $scope.messages.filter(function (m) {
                                 return  $scope.userSession.userId != m.messageUserId.userId
                             }).forEach(function (v) {
@@ -68,7 +69,6 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
                     $scope.planMessage.coachAssignedPlanId.coachUserId.userId = $scope.planSelected.coachUserId.userId;
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     $scope.planMessage.roleSelected = $scope.roleSelected;
-
                     $scope.planMessage.receivingUserId.userId = $scope.planSelected.athleteUserId.userId;
 
 
@@ -85,21 +85,23 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-             if ($scope.userSession.userId == message.receivingUserId.userId) {
-                MessageService.readMessage(message.id).then(
-                        function (data) {
-                            // $scope.getReceived();
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
+            if ($scope.msgAsesorEnabled) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
+                    MessageService.readMessage(message.id).then(
+                            function (data) {
+                                // $scope.getReceived();
+                            },
+                            function (error) {
+                                //$scope.showMessage(error);
+                                console.error(error);
+                            });
 
+                }
+                if ($scope.roleSelected == message.roleSelected) {
+                    $scope.messages.push(message);
+                }
+                self.getMessageCount();
             }
-            if ($scope.roleSelected == message.roleSelected) {
-                $scope.messages.push(message);
-            }
-            self.getMessageCount();
         });
 
         //Traer la cantidad de mensajes disponibles
@@ -115,7 +117,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         self.readMessages = function (tipoPlan, roleSelected, fromUserId, toUserId) {
             MessageService.readMessages($scope.planSelected.id, fromUserId, toUserId, tipoPlan, roleSelected).then(
                     function (data) {
-                       self.getMessageCount();
+                        self.getMessageCount();
                         console.log(data.output);
                     },
                     function (error) {
@@ -126,7 +128,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
 
         self.getMessageCount = function () {
             var tipoPlan = "IN";
-            var  athleteUserId = $scope.planSelected.athleteUserId.userId;
+            var athleteUserId = $scope.planSelected.athleteUserId.userId;
             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, athleteUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella, function (data) {
                 $scope.availableMessageStar = data.output;
             });
@@ -165,7 +167,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         $scope.resendStar = function () {
             MessageService.resendMessageStar($scope.planSelected.id, $scope.msgStar).then(
                     function (data) {
-                      $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
+                        $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
                     },
                     function (error) {
                         console.log(error);
@@ -188,8 +190,8 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
 
         $scope.toggleAll = function () {
             /*$scope.items = $scope.messages.filter(function (m) {
-                return  m.messageUserId.userId != $scope.userSession.userId
-            });*/
+             return  m.messageUserId.userId != $scope.userSession.userId
+             });*/
             if ($scope.msgStar.length === $scope.items.length) {
                 $scope.msgStar = [];
             } else if ($scope.msgStar.length === 0 || $scope.msgStar.length > 0) {
@@ -220,6 +222,10 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
 
 
         self.init();
+
+        $scope.$on('$destroy', function () {
+            $scope.msgAsesorEnabled = false;
+        });
 
 
     }]);

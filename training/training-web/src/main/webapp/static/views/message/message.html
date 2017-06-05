@@ -14,7 +14,7 @@
                                 <h3 style="color: #0064F8">Estrella</h3>
                                 <p style="color: #000">Mensajes disponibles {{availableMessageStar}} de {{messageCountStar}}</p>
                             </div>
-                            <div ng-if="receivedMessageStar > 0" class="circle_notification">{{receivedMessageStar}}</div>
+                            <div ng-show="receivedMessageStar > 0" class="circle_notification">{{receivedMessageStar}}</div>
                         </md-list-item>
                         <md-list-item class="md-3-line" ng-click="getMessagesByRole(userSessionTypeUserCoachInterno)" >
                             <div class="rectangule2" ng-if="roleSelected == userSessionTypeUserCoachInterno"></div>
@@ -24,7 +24,7 @@
                                 <h3 style="color: #0064F8">Asesor</h3>
                                 <p style="color: #000">Mensajes  disponibles {{availableMessageSup}} de {{messageCountSup}}</p>
                             </div>
-                            <div ng-if="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>
+                            <div ng-show="receivedMessageSup > 0" class="circle_notification">{{receivedMessageSup}}</div>
                         </md-list-item>
                     </md-list>
                 </md-card-content>

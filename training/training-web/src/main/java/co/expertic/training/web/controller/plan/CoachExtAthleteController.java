@@ -53,7 +53,7 @@ public class CoachExtAthleteController {
                 return new ResponseEntity<>(responseService, HttpStatus.OK);
             }
             coachExtAthleteService.create(dto);
-            simpMessagingTemplate.convertAndSend("/queue/invitation/" + dto.getAthleteUserId().getUserId(), dto);
+            simpMessagingTemplate.convertAndSend("/queue/invitation", dto);
             strResponse.append("Atleta creado éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -75,7 +75,7 @@ public class CoachExtAthleteController {
         StringBuilder strResponse = new StringBuilder();
         try {
             coachExtAthleteService.sendInvitation(dto);
-            simpMessagingTemplate.convertAndSend("/queue/invitation/" + dto.getAthleteUserId().getUserId(), dto);
+            simpMessagingTemplate.convertAndSend("/queue/invitation", dto);
             strResponse.append("Se ha enviado la invitación éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -174,7 +174,7 @@ public class CoachExtAthleteController {
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer trainingPlanUserId = coachExtAthleteService.acceptInvitation(coachExtAthleteId);
-            simpMessagingTemplate.convertAndSend("/queue/invitation/" + trainingPlanUserId, "");
+            simpMessagingTemplate.convertAndSend("/queue/invitation", "");
             strResponse.append("Invitación aceptada éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);
@@ -196,7 +196,7 @@ public class CoachExtAthleteController {
         StringBuilder strResponse = new StringBuilder();
         try {
             Integer trainingPlanUserId = coachExtAthleteService.rejectInvitation(coachExtAthleteId);
-            simpMessagingTemplate.convertAndSend("/queue/invitation/" + trainingPlanUserId, "");
+            simpMessagingTemplate.convertAndSend("/queue/invitation", "");
             strResponse.append("Invitación rechazada éxitosamente.");
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(strResponse);

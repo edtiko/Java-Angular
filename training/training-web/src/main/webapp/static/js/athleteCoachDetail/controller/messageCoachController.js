@@ -19,18 +19,19 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
         $scope.glued = true;
         $scope.msgStar = [];
         $scope.items = [];
+        $scope.msgCoachEnabled = true;
 
         //Carga datos del chat según el tipo de plan
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.planSelected != null) {
-                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId ,tipoPlan, -1).then(
+                MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, -1).then(
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
 
                             self.readMessages(tipoPlan, -1, $scope.planSelected.athleteUserId.userId, $scope.userSession.userId);
- 
+
                         },
                         function (error) {
                             //$scope.showMessage(error);
@@ -46,7 +47,7 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
 
         //Envia mensaje para planes Coach Interno
         $scope.sendMessage = function () {
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId,$scope.planSelected.athleteUserId.userId, "EXT", $scope.roleSelected, function (data) {
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, "EXT", $scope.roleSelected, function (data) {
                 $scope.availableMessage = data.output;
                 if ($scope.userSession != null && $scope.planSelected != null && $scope.availableMessage > 0 && $scope.planMessage.message != "") {
                     $scope.planMessage.coachExtAthleteId.id = $scope.planSelected.id;
@@ -55,7 +56,7 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     $scope.planMessage.roleSelected = $scope.roleSelected;
                     $scope.planMessage.receivingUserId.userId = $scope.planSelected.athleteUserId.userId;
-
+                    $scope.planMessage.sesionId = $scope.planSelected.id;
 
                     MessageService.send($scope.planMessage);
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
@@ -70,18 +71,20 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-            if ($scope.userSession.userId == message.receivingUserId.userId) {
-                MessageService.readMessage(message.id).then(
-                        function (data) {
-                           $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
-                        },
-                        function (error) {
-                            //$scope.showMessage(error);
-                            console.error(error);
-                        });
+            if ($scope.msgCoachEnabled) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
+                    MessageService.readMessage(message.id).then(
+                            function (data) {
+                                $scope.getReceivedAthleteCoach($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
+                            },
+                            function (error) {
+                                //$scope.showMessage(error);
+                                console.error(error);
+                            });
 
+                }
+                $scope.messages.push(message);
             }
-            $scope.messages.push(message);
         });
 
         //Traer la cantidad de mensajes disponibles
@@ -108,8 +111,8 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
 
         $scope.getMessageCount = function () {
             var tipoPlan = "EXT";
- 
-            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId,$scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected, function (data) {
+
+            self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected, function (data) {
                 $scope.availableMessage = data.output;
             });
 
@@ -130,5 +133,8 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
 
         self.init();
 
+        $scope.$on('$destroy', function () {
+            $scope.msgCoachEnabled = false;
+        });
 
     }]);
