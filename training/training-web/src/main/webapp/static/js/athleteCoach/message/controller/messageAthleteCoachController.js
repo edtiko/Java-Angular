@@ -42,9 +42,6 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
         };
 
 
-
-
-
         //Envia mensaje para planes Coach Interno
         $scope.sendMessage = function () {
             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.coachUserId.userId, "EXT", $scope.roleSelected, function (data) {

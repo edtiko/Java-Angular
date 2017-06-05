@@ -557,6 +557,17 @@ md-menu-item>.md-button{
     font-weight: bold;
 }
 
+.circle_mail{
+    border-radius: 50%;
+    background-color: #00E8E8;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    line-height: normal;
+    color: #000;
+    font-weight: bold;
+}
+
 .circle_state{
     border-radius: 50%;
     width: 15px;

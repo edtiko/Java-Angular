@@ -10,7 +10,7 @@
                     <div class="md-list-item-text" >
                         <h3>&nbsp; Bandeja de entrada</h3>
                     </div>
-                    <div ng-if="mailsReceived.length > 0" class="circle_notification">{{mailsReceived.length}}</div>
+                    <div ng-if="mailsReceived.length > 0" class=""><strong>{{mailsReceived.length}}</strong></div>
                 </md-list-item>
                 <md-list-item ng-click="verEnviados()" class="md-2-line" ng-class="{selectedMail: enviados === true}">
                     <img src="static/img/send_email.png"/>
@@ -18,7 +18,7 @@
                         <h3>&nbsp; Mails enviados</h3>
 
                     </div>
-                    <div ng-if="mailsSent.length > 0" class="circle_notification">{{mailsSent.length}}</div>
+                    <div ng-if="mailsSent.length > 0" class=""><strong>{{mailsSent.length}}</strong></div>
                 </md-list-item>
             </md-list>
             <div flex >

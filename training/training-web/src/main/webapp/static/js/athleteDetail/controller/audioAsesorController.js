@@ -78,7 +78,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
         };
 
         $scope.filterState = function (item) {
-            return item.stateId === 2;  //PENDING 
+            return item.stateId === 2 || item.stateId === 4;  //PENDING ó RECHAZADO
         };
 
         $scope.uploadRecordStar = function (audioBlob) {
@@ -214,12 +214,13 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
 
         //lee los audios recibidos en tiempo real
         AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUser.userId == $scope.userSession.userId) {
-                if (audio.toStar == 'true') {
+            if (audio.toUserId  == $scope.userSession.userId) {
+                if (audio.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                     $scope.receivedStar.push(audio);
                 } else {
                     $scope.receivedAsesor.push(audio);
                 }
+                $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
             }
 
         });

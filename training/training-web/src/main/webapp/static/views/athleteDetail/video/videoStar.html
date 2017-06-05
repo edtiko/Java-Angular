@@ -66,13 +66,15 @@
                                     </td>
                                     <td>{{vr.createDate}}</td>
                                     <td><div class="circle_black42"  ng-click="verVideoStar(vr.name, vr.id, 'to', $index)"><img src="static/img/play.png" /></div></td>
-                                    <td ng-if="planSelected.athleteUserId.userId == vr.fromUserId">
+                                    <td ng-if="planSelected.athleteUserId.userId == vr.fromUserId && vr.indRejected !== 1">
                                         <a href="javascript:void(0)" ng-click="showScript(vr.id)"> Aprobar</a>
                                     </td>
-                                     <td ng-if="planSelected.starUserId.userId == vr.fromUserId">
+                                     <td ng-if="planSelected.starUserId.userId == vr.fromUserId && vr.indRejected !== 1">
                                         <a href="javascript:void(0)" ng-click="starVideoToAthlete(vr.id)"> Aprobar</a>
                                     </td>
-                                    <td><a href="javascript:void(0)" ng-click="rejectVideo(vr.id)">Rechazar</a></td>
+                                    <td><a href="javascript:void(0)" ng-if="vr.indRejected !== 1" ng-click="rejectVideo(vr.id)">Rechazar</a></td>
+                                    <td ng-if="vr.indRejected === 1">Rechazado</td>
+                                    <td ng-if="vr.indRejected === 1">&nbsp;</td>
                                 </tr>
                             </tbody>
                         </table>

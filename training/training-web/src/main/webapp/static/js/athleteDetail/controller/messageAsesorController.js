@@ -150,13 +150,8 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         self.init = function () {
             if ($scope.userSession != null) {
                 $scope.getMessagesByRole($scope.userSessionTypeUserCoachEstrella);
-                //$scope.availableMessageStar = $scope.planSelected.starCommunication.availableMsg;
                 $scope.messageCountStar = $scope.planSelected.starCommunication.planMsg;
-                //$scope.availableMessageSup = $scope.planSelected.asesorCommunication.availableMsg;
                 $scope.messageCountSup = $scope.planSelected.asesorCommunication.planMsg;
-                //$scope.receivedMessageStar = $scope.planSelected.starCommunication.receivedMsg;
-                //$scope.receivedMessageSup = $scope.planSelected.asesorCommunication.receivedMsg;
-                //self.getChat("IN");
                 self.getMessageCount();
 
             } else {
@@ -189,9 +184,6 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         };
 
         $scope.toggleAll = function () {
-            /*$scope.items = $scope.messages.filter(function (m) {
-             return  m.messageUserId.userId != $scope.userSession.userId
-             });*/
             if ($scope.msgStar.length === $scope.items.length) {
                 $scope.msgStar = [];
             } else if ($scope.msgStar.length === 0 || $scope.msgStar.length > 0) {
@@ -206,12 +198,9 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         $scope.getMessagesByRole = function (role) {
             $scope.messages = [];
             $scope.roleSelected = role;
-            //console.log($scope.planSelected);
             if (role == $scope.userSessionTypeUserCoachEstrella) {
                 $scope.userMsgSelected = $scope.planSelected.starUserId.fullName;
-                /* if($scope.planSelected.starManageMessages == 'true'){
-                 
-                 }*/
+   
             } else {
                 $scope.userMsgSelected = $scope.planSelected.coachUserId.fullName;
             }

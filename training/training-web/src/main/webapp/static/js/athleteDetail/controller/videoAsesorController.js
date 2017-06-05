@@ -597,7 +597,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
         //lee los videos recibidos en tiempo real
         VideoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
-                if (video.toStar == 'true') {
+                if (video.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                     $scope.receivedStar.push(video);
                 } else {
                     $scope.receivedAsesor.push(video);
@@ -684,7 +684,7 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
         };
         
         $scope.filterState = function (item) {
-            return item.indRejected !== 0 && item.indRejected !== 1;
+            return item.indRejected !== 0;
         };
 
         self.getVideosStar = function () {

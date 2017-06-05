@@ -42,9 +42,6 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
         };
 
 
-
-
-
         //Envia mensaje para planes Coach Interno
         $scope.sendMessage = function () {
             self.getAvailableMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, "EXT", $scope.roleSelected, function (data) {
@@ -56,7 +53,6 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
                     $scope.planMessage.messageUserId.userId = $scope.userSession.userId;
                     $scope.planMessage.roleSelected = $scope.roleSelected;
                     $scope.planMessage.receivingUserId.userId = $scope.planSelected.athleteUserId.userId;
-                    $scope.planMessage.sesionId = $scope.planSelected.id;
 
                     MessageService.send($scope.planMessage);
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
