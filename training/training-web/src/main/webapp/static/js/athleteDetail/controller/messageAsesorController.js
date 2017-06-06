@@ -16,8 +16,8 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         $scope.planSelected = JSON.parse($window.sessionStorage.getItem("planSelected"));
         $scope.dataImage = "static/img/profile-default.png";
         $scope.glued = true;
-        $scope.starImage = $window.sessionStorage.getItem("starImage");
-        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        //$scope.starImage = $window.sessionStorage.getItem("starImage");
+        //$scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.msgStar = [];
         $scope.items = [];
         $scope.msgAsesorEnabled = true;

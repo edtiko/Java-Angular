@@ -101,6 +101,24 @@ public class TrainingPlanWorkoutController {
             return calendarEventDto;
         }
     }
+    
+    @RequestMapping(value = "/trainingPlanWorkout/get/series/by/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getSeriesByUser(@PathVariable("userId") Integer userId, @RequestParam("fromDate") Date fromDate,
+            @RequestParam("toDate") Date toDate) {
+        ResponseService responseService = new ResponseService();
+        try {
+            List<TrainingSesionDTO> list = getTrainingPlanWorkoutByIntervalDateUserId(userId, fromDate, toDate);
+            responseService.setOutput(list);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception e) {
+            Logger.getLogger(TrainingPlanWorkoutController.class.getName()).log(Level.SEVERE, null, e);
+            responseService.setOutput(e.getMessage());
+            responseService.setDetail(e.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
 
     /**
      *

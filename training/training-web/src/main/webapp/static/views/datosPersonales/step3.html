@@ -3,7 +3,7 @@
     <input type="hidden" ng-model="user.userId" />
     <form name="frm3">
         <div layout="row">
-            <span style="color: #0064F8">&iquest;Eres usuario de alguna de estas p&aacute;ginas? Conecta tu cuenta</span>
+            <span style="color: #0064F8">&iquest;Eres usuario de Strava? Conecta tu cuenta</span>
         </div>
         <div layout="row">
 
@@ -40,7 +40,7 @@
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label>Modalidad </label>
+                    <label>Modalidad / Distancia</label>
                     <md-select  ng-model="userProfile.modality" id="modality" name="modality" ng-change="getLevelsByModality(userProfile.modality)" ng-required="true">
                         <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
                             {{m.name}}
@@ -57,7 +57,7 @@
         <div layout="row"> 
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
-                    <label>Nivel </label>
+                    <label>Nivel Deportivo</label>
                     <md-select id="objective"  name="objective" ng-model="userProfile.objective" ng-required="true" ng-change="getTrainingLevel(userProfile.objective)">
                         <md-option ng-repeat="o in objectives" value="{{o.id}}" >
                             {{o.name}}
@@ -89,7 +89,7 @@
         <div layout="row">
             <div flex="66">
                 <md-input-container class="md-block" >
-                    <label>Fecha de competencia &oacute; chequeo (dd/mm/yyyy) </label>
+                    <label>Fecha de competencia / Chequeo / Objetivo</label>
                     <input type="text" id="endDate" readonly="true"  ng-model-options="{updateOn: 'blur'}" name="endDate" ng-model="userProfile.endDate" jqdatepicker  ng-required="true" />
                     <div class="has-error" ng-messages="frm3.endDate.$error">
                         <div ng-message="required">Este es un campo requerido</div>
@@ -259,6 +259,18 @@
             </div>
             <!--<md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profilesport, 'user_profile', 'sport')"
                        ng-model="user_profilesport"> {{ 'SHOW' | translate }}</md-switch>-->
+        </div>
+         <div layout="row"> 
+            <div flex="66">
+                <md-input-container class="md-block md-input-has-placeholder">
+                    <label>Sistema de medici&oacute;n </label>
+                    <md-select  ng-model="userProfile.indMetricSys" id="indMetricSys" name="indMetricSys" ng-change="setUnit(userProfile.indMetricSys)">
+                        <md-option ng-repeat="m in metricSystems" value="{{m.id}}" >
+                            {{m.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
         </div>
        <!-- {{$setValidity(frm3.$valid, 3)}}-->
     </form>

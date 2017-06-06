@@ -135,6 +135,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 case "video":
                     $scope.go(video, 8);
                     break;
+                case "fitting":
+                    $scope.go('/athletes-mecanico',  2);
+                    break;
 
             }
         };
@@ -751,7 +754,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
             });
 
-            //$scope.getUserNotification($scope.userSession.userId, -1, -1);
+            $scope.getUserNotification($scope.userSession.userId, -1, -1); 
         };
 
 
