@@ -30,8 +30,8 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
         var sourceBuffer;
         $scope.mediaModelStar = null;
         $scope.mediaModelAsesor = null;
-        $scope.starImage = $window.sessionStorage.getItem("starImage");
-        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        //$scope.starImage = $window.sessionStorage.getItem("starImage");
+        //$scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.query = {
             filter: '',
             limit: 2,
@@ -718,10 +718,8 @@ trainingApp.controller("VideoAsesorController", ['$scope', 'VideoService', 'User
                 });
             });
 
-           /* self.getAvailableVideos($scope.planSelected.id, $scope.userSession.userId, athleteUserId, tipoPlan, $scope.userSessionTypeUserCoachEstrella,
-                    function (data) {
-                        $scope.availableVideoStar = data.output;
-                    });*/
+           $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
+           $scope.getReceivedAthleteAsesor($scope.planSelected.starUserId.userId, $scope.planSelected.id);
         };
 
         self.getVideosAsesor = function () {

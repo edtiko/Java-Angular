@@ -83,7 +83,9 @@ public class PlanVideo implements Serializable {
     private Collection<PlanVideo> planVideoCollection2;
     @Column(name = "to_star")
     private Boolean toStar;
-
+    @Column(name = "readed")
+    private Boolean readed = false;
+    
     public PlanVideo() {
     }
 
@@ -218,6 +220,14 @@ public class PlanVideo implements Serializable {
 
     public void setToStar(Boolean toStar) {
         this.toStar = toStar;
+    }
+
+    public Boolean getReaded() {
+        return readed;
+    }
+
+    public void setReaded(Boolean readed) {
+        this.readed = readed;
     }
     
     

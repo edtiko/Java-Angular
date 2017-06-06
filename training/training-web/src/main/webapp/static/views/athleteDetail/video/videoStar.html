@@ -58,18 +58,18 @@
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in receivedStar |filter: filterState |orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
-                                    <td ng-if="planSelected.starUserId.userId == vr.fromUserId">
+                                    <td ng-if="planSelected.starUserId.userId === vr.fromUserId">
                                         {{planSelected.starUserId.fullName}}/Estrella
                                     </td> 
-                                    <td ng-if="planSelected.athleteUserId.userId == vr.fromUserId">
+                                    <td ng-if="planSelected.athleteUserId.userId === vr.fromUserId">
                                         {{planSelected.athleteUserId.fullName}}/Atleta
                                     </td>
                                     <td>{{vr.createDate}}</td>
                                     <td><div class="circle_black42"  ng-click="verVideoStar(vr.name, vr.id, 'to', $index)"><img src="static/img/play.png" /></div></td>
-                                    <td ng-if="planSelected.athleteUserId.userId == vr.fromUserId && vr.indRejected !== 1">
+                                    <td ng-if="planSelected.athleteUserId.userId === vr.fromUser.userId && vr.indRejected !== 1">
                                         <a href="javascript:void(0)" ng-click="showScript(vr.id)"> Aprobar</a>
                                     </td>
-                                     <td ng-if="planSelected.starUserId.userId == vr.fromUserId && vr.indRejected !== 1">
+                                     <td ng-if="planSelected.starUserId.userId === vr.fromUserId && vr.indRejected !== 1">
                                         <a href="javascript:void(0)" ng-click="starVideoToAthlete(vr.id)"> Aprobar</a>
                                     </td>
                                     <td><a href="javascript:void(0)" ng-if="vr.indRejected !== 1" ng-click="rejectVideo(vr.id)">Rechazar</a></td>
@@ -106,7 +106,7 @@
                                         {{planSelected.athleteUserId.fullName}}/Atleta
                                     </td>
                                     <td>{{vr.createDate}}</td>
-                                    <td><span style="text-transform: lowercase">{{vr.indRejected=='1'?'Rechazado':'Aprobado'}}</span></td>
+                                    <td><span>{{vr.indRejected=='1'?'Rechazado':'Aprobado'}}</span></td>
                                     <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr.id, 'from', $index)"><img src="static/img/play.png" /></div></td>
                                 </tr>
                             </tbody>

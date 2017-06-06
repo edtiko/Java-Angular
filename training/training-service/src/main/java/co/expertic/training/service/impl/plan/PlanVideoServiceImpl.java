@@ -199,11 +199,12 @@ public class PlanVideoServiceImpl implements PlanVideoService {
     }
 
     @Override
-    public void approveVideo(Integer planVideoId, Integer userId, String guion) throws Exception {
+    public PlanVideoDTO approveVideo(Integer planVideoId, Integer userId, String guion) throws Exception {
         PlanVideo videoAthlete = planVideoDao.getVideoById(planVideoId);
         User starId = userDao.getStarFromAtlethe(userId);
      
         videoAthlete.setIndRejected(0);
+        videoAthlete.setReaded(Boolean.TRUE);
         planVideoDao.merge(videoAthlete);
         
         PlanVideo video = new PlanVideo();
@@ -216,7 +217,8 @@ public class PlanVideoServiceImpl implements PlanVideoService {
         video.setCreationDate(Calendar.getInstance().getTime());
         video.setFromPlanVideoId(videoAthlete);
         
-        planVideoDao.create(video);
+        PlanVideoDTO dto = PlanVideoDTO.mapFromPlanVideoEntity(planVideoDao.create(video));
+        dto.setGuion(guion);
 
         
         ScriptVideo script = new ScriptVideo();
@@ -226,5 +228,7 @@ public class PlanVideoServiceImpl implements PlanVideoService {
         script.setFromPlanVideoId(new PlanVideo(planVideoId));
         script.setStateId(new State(StateEnum.PENDING.getId()));
         scriptVideoService.create(script);
+        
+        return dto;
     }
 }

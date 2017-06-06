@@ -29,8 +29,8 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
         var sourceBuffer;
         $scope.mediaModelStar = null;
         $scope.mediaModelAsesor = null;
-        $scope.starImage = $window.sessionStorage.getItem("starImage");
-        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        //$scope.starImage = $window.sessionStorage.getItem("starImage");
+        //$scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.query = {
             filter: '',
             limit: 2,
@@ -596,7 +596,7 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
         //lee los videos recibidos en tiempo real
         VideoService.receive().then(null, null, function (video) {
             if (video.toUser.userId == $scope.userSession.userId) {
-                if (video.toStar == 'true') {
+                 if (video.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                     $scope.receivedStar.push(video);
                 } else {
                     $scope.receivedAsesor.push(video);

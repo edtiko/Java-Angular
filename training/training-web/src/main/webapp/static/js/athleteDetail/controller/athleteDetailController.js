@@ -116,7 +116,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         $scope.getReceivedAthleteAsesor = function (fromUserId, planId) {
             var tipoPlan = "IN";
             if ($scope.userSession != null) {
-                //var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
+                
                 $scope.getReceivedMessages(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
                         function (data) {
                             $scope.messageReceivedAthlete = data.output;

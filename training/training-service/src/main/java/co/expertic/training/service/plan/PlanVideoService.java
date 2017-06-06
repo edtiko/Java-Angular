@@ -52,6 +52,7 @@ public interface PlanVideoService {
      * fecha 13/10/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
      * @param userId
+     * @param roleId
      * @return 
      * @throws Exception 
      */
@@ -77,5 +78,5 @@ public interface PlanVideoService {
 
     public int getCountVideoEmergencyExt(Integer planId, Integer fromUserId)throws Exception;
 
-    public void approveVideo(Integer planVideoId, Integer userId, String guion)throws Exception;
+    public PlanVideoDTO approveVideo(Integer planVideoId, Integer userId, String guion)throws Exception;
 }

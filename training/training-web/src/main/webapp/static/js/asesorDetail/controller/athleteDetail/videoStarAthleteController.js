@@ -1,4 +1,4 @@
-trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 'ScriptService', 'UserService', '$timeout', '$mdDialog', '$window','$http',
+trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 'ScriptService', 'UserService', '$timeout', '$mdDialog', '$window', '$http',
     function ($scope, VideoService, ScriptService, UserService, $timeout, $mdDialog, $window, $http) {
         $scope.isRecordStar = false;
         $scope.isVisibleSendVideo = true;
@@ -150,17 +150,17 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
             var video = document.querySelector('video#recordedVideo');
             var source = document.createElement('source');
             var src = $contextPath + "video/files/" + $scope.path;
-            
-             video.pause();
+
+            video.pause();
             source.setAttribute('src', src);
 
             video.appendChild(source);
             video.load();
             video.play();
 
-           /* $scope.recordedVideo = document.querySelector('video#recordedVideo');
-            $scope.recordedVideo.controls = true;
-            $scope.recordedVideo.src = $contextPath + "video/files/" + path;*/
+            /* $scope.recordedVideo = document.querySelector('video#recordedVideo');
+             $scope.recordedVideo.controls = true;
+             $scope.recordedVideo.src = $contextPath + "video/files/" + path;*/
         };
 
         $scope.playVideoStar = function (path) {
@@ -205,7 +205,7 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
 
         //Obtiene los videos recibidos 
         self.receivedVideos = function (tipoPlan, role, userId, toUserId, fn) {
-            VideoService.getVideosByUser($scope.planSelected.id, userId, toUserId,  "to", tipoPlan, role).then(
+            VideoService.getVideosByUser($scope.planSelected.id, userId, toUserId, "to", tipoPlan, role).then(
                     fn,
                     function (error) {
                         console.error(error);
@@ -295,7 +295,7 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
             if (fromto == 'to') {
                 VideoService.readVideo(planVideoId).then(
                         function (data) {
-                            // $scope.getReceived();
+                            $scope.getUserNotification($scope.userSession.userId, $scope.planSelected.id, "IN");
                         },
                         function (error) {
                             console.error(error);
@@ -306,9 +306,9 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
 
         };
 
-        $scope.enviarVideoStar = function () {    
-                var url = $contextPath + "video/uploadVideo/star/to/coach/" +$scope.toUserId  + "/" +  $scope.userSession.userId+ "/"+$scope.planVideo.id;
-            
+        $scope.enviarVideoStar = function () {
+            var url = $contextPath + "video/uploadVideo/star/to/coach/" + $scope.toUserId + "/" + $scope.userSession.userId + "/" + $scope.planVideo.id;
+
 
             $scope.savePlanVideoStar(url,
                     function (response) {
@@ -322,7 +322,7 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
                     }
             );
         };
-        
+
         $scope.filterState = function (item) {
             return item.indRejected === null;
         };
@@ -330,12 +330,9 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
 
         //lee los videos recibidos en tiempo real
         VideoService.receive().then(null, null, function (video) {
-            if (video.toUserId == $scope.userSession.userId) {
-                if (video.toStar == 'true') {
-                    $scope.receivedStar.push(video);
-                } else {
-                    $scope.receivedAsesor.push(video);
-                }
+            if (video.toUser.userId == $scope.userSession.userId) {
+                $scope.receivedStar.push(video);
+                $scope.getUserNotification($scope.userSession.userId, $scope.planSelected.id, "IN");
             }
 
         });
@@ -373,9 +370,9 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
                 fullscreen: $scope.customFullscreen
             });
         };
-        
+
         function showVideoController($scope, $mdDialog) {
-            
+
             //$scope.playVideoModal();
 
             $scope.hide = function () {
@@ -386,7 +383,7 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
             };
 
         }
-        
+
 
         self.getAvailableVideos = function (planId, userId, toUserId, tipoPlan, roleSelected, fn) {
             VideoService.getAvailableVideos(planId, userId, toUserId, tipoPlan, roleSelected).then(
@@ -414,7 +411,7 @@ trainingApp.controller("VideoStarAthleteController", ['$scope', 'VideoService', 
                 $scope.loadingReceivedStar = true;
 
             });
-            
+
             self.sendedVideos(tipoPlan, $scope.userSessionTypeUserCoachEstrella, userId, toUserId, function (data) {
                 $scope.sendedStar = data.output;
                 $scope.loadingSentStar = true;

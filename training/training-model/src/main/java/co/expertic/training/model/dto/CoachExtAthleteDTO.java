@@ -39,6 +39,7 @@ public class CoachExtAthleteDTO {
     private String color;
     private String srcImage;
     private CommunicationDTO coachCommunication;
+    private Integer userFittingId;
 
     public CoachExtAthleteDTO() {
 
@@ -203,6 +204,14 @@ public class CoachExtAthleteDTO {
         this.coachCommunication = coachCommunication;
     }
 
+    public Integer getUserFittingId() {
+        return userFittingId;
+    }
+
+    public void setUserFittingId(Integer userFittingId) {
+        this.userFittingId = userFittingId;
+    }
+    
     public static String getProfilePhotoBase64(byte[] profilePhoto) {
         String base64Encoded = "";
 

@@ -41,12 +41,12 @@ public interface PlanAudioService {
 
     public int getCountAudioByEmergencyPlanExt(Integer planId, Integer fromUserId)throws Exception;
 
-    public void approveAudio(Integer planAudioId, Integer planId)throws Exception;
+    public PlanAudioDTO approveAudio(Integer planAudioId, Integer planId)throws Exception;
 
     public void rejectAudio(Integer planAudioId)throws Exception;
 
     public PlanAudio findById(Integer planAudioId)throws Exception;
 
-    public void sendAudioStarToAThlete(Integer planAudioId)throws Exception;
+    public PlanAudioDTO sendAudioStarToAThlete(Integer planAudioId)throws Exception;
 
 }

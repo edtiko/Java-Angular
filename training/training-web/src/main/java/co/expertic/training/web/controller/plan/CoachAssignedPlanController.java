@@ -13,6 +13,7 @@ import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserResumeDTO;
+import co.expertic.training.model.entities.UserFitting;
 import co.expertic.training.model.util.ResponseService;
 import co.expertic.training.service.configuration.ColourIndicatorService;
 import co.expertic.training.service.plan.CoachAssignedPlanService;
@@ -20,6 +21,7 @@ import co.expertic.training.service.plan.CoachExtAthleteService;
 import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanMessageService;
 import co.expertic.training.service.plan.PlanVideoService;
+import co.expertic.training.service.user.UserFittingService;
 import co.expertic.training.service.user.UserService;
 import co.expertic.training.web.enums.StatusResponse;
 import java.util.Date;
@@ -64,9 +66,12 @@ public class CoachAssignedPlanController {
 
     @Autowired
     PlanMessageService planMessageService;
-    
+
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserFittingService userFittingService;
 
     @RequestMapping(value = "get/athtletes/{userId}/{roleId}", method = RequestMethod.POST)
     public ResponseEntity<ResponseService> getAssignedAthletes(@PathVariable("userId") Integer userId, @PathVariable("roleId") Integer roleId, @RequestBody PaginateDto paginateDto) {
@@ -74,7 +79,7 @@ public class CoachAssignedPlanController {
         StringBuilder strResponse = new StringBuilder();
         try {
             List<CoachAssignedPlanDTO> athletes = coachService.findAthletesByUserRole(userId, roleId, paginateDto);
-        
+
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(athletes);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -108,8 +113,8 @@ public class CoachAssignedPlanController {
         }
 
     }
-    
-        @RequestMapping(value = "get/athletes/by/{coachUserId}/{starUserId}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "get/athletes/by/{coachUserId}/{starUserId}", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> getAthletesByCoachStar(@PathVariable("coachUserId") Integer coachUserId, @PathVariable("starUserId") Integer starUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
@@ -129,7 +134,7 @@ public class CoachAssignedPlanController {
         }
 
     }
-    
+
     @RequestMapping(value = "get/star/{coachUserId}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseService> getAssignedStar(@PathVariable("coachUserId") Integer coachUserId) {
@@ -157,8 +162,12 @@ public class CoachAssignedPlanController {
         try {
             CoachAssignedPlanDTO assignedCoachInternal = coachService.findByAthleteUserId(athleteUserId);
             CoachExtAthleteDTO assignedCoachExternal = coachExtService.findByAthleteUserId(athleteUserId);
+            UserFitting fitting = userFittingService.findByUser(athleteUserId);
             if (assignedCoachInternal != null) {
-                CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId,  assignedCoachInternal.getCoachUserId().getUserId(), RoleEnum.ESTRELLA.getId());
+                if (fitting != null) {
+                    assignedCoachInternal.setUserFittingId(fitting.getUserFittingId());
+                }
+                CommunicationDTO starCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId, assignedCoachInternal.getCoachUserId().getUserId(), RoleEnum.ESTRELLA.getId());
                 CommunicationDTO asesorCommunication = userService.getCommunicationUser(PLAN_TYPE_IN, assignedCoachInternal.getId(), athleteUserId, assignedCoachInternal.getCoachUserId().getUserId(), RoleEnum.COACH_INTERNO.getId());
 
                 assignedCoachInternal.setExternal(false);
@@ -166,6 +175,9 @@ public class CoachAssignedPlanController {
                 assignedCoachInternal.setAsesorCommunication(asesorCommunication);
                 responseService.setOutput(assignedCoachInternal);
             } else if (assignedCoachExternal != null) {
+                if (fitting != null) {
+                    assignedCoachExternal.setUserFittingId(fitting.getUserFittingId());
+                }
                 CommunicationDTO coachCommunication = userService.getCommunicationUser(PLAN_TYPE_EXT, assignedCoachExternal.getId(), athleteUserId, assignedCoachExternal.getCoachUserId().getUserId(), RoleEnum.COACH.getId());
                 assignedCoachExternal.setCoachCommunication(coachCommunication);
                 assignedCoachExternal.setExternal(true);
@@ -187,22 +199,21 @@ public class CoachAssignedPlanController {
         }
 
     }
-    
-        @RequestMapping(value = "get/assigned/plan/star/athlete/{athleteUserId}/{starUserId}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "get/assigned/plan/star/athlete/{athleteUserId}/{starUserId}", method = RequestMethod.GET)
     public ResponseEntity<ResponseService> getAssignedPlanStarAthlete(@PathVariable("athleteUserId") Integer athleteUserId, @PathVariable("starUserId") Integer starUserId) {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
             CoachAssignedPlanDTO plan = coachService.findByStarAthleteUserId(athleteUserId, starUserId);
-            
+
             if (plan != null) {
                 CommunicationDTO starCommunication = userService.getCommunicationStarAthlete(plan);
 
                 plan.setExternal(false);
                 plan.setStarCommunication(starCommunication);
                 responseService.setOutput(plan);
-    
-                
+
             } else {
                 responseService.setStatus(StatusResponse.FAIL.getName());
                 strResponse.append("El usuario no tiene asociado un plan activo.");
@@ -260,11 +271,5 @@ public class CoachAssignedPlanController {
 
     }
 
-    private long calculateHourDifference(Date creationDate) {
-        Date now = new Date();
-        long diff = now.getTime() - creationDate.getTime();
-        long hoursSpent = diff / (60 * 60 * 1000);
-        return hoursSpent;
-    }
 
 }

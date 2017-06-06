@@ -37,6 +37,7 @@ public class CoachAssignedPlanDTO{
     private Integer numActivities;
     private Integer goalActivities;
     private Integer percentaje;
+    private Integer userFittingId;
     
      public CoachAssignedPlanDTO(){
          
@@ -259,6 +260,14 @@ public class CoachAssignedPlanDTO{
 
     public void setPercentaje(Integer percentaje) {
         this.percentaje = percentaje;
+    }
+
+    public Integer getUserFittingId() {
+        return userFittingId;
+    }
+
+    public void setUserFittingId(Integer userFittingId) {
+        this.userFittingId = userFittingId;
     }
 
  

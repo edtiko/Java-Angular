@@ -32,7 +32,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -278,6 +277,9 @@ public class PlanVideoController {
                     video.setCoachAssignedPlanId(new CoachAssignedPlan(coachAssignedPlanId));
                     video.setToStar(Boolean.TRUE);
                     dto = planVideoService.create(video);
+                    dto.setFromUserId(fromUserId);
+                    dto.setRoleSelected(RoleEnum.ESTRELLA.getId());
+                    dto.setGuion(guion);
                     ScriptVideo script = new ScriptVideo();
                     script.setGuion(guion);
                     script.setCreationDate(new Date());
@@ -401,6 +403,9 @@ public class PlanVideoController {
                     }
 
                     dto = planVideoService.create(video);
+                    dto.setFromUserId(fromUserId);
+                    dto.setRoleSelected(RoleEnum.ESTRELLA.getId());
+                    simpMessagingTemplate.convertAndSend("/queue/video" , dto);
                 }
                 //strResponse.append("video cargado correctamente.");
                 responseService.setStatus(StatusResponse.SUCCESS.getName());
@@ -651,8 +656,8 @@ public class PlanVideoController {
             @PathVariable("userId") Integer userId, @RequestParam("guion") String guion) {
         ResponseService responseService = new ResponseService();
         try {
-            planVideoService.approveVideo(planVideoId, userId, guion);
-
+            PlanVideoDTO dto = planVideoService.approveVideo(planVideoId, userId, guion);
+            simpMessagingTemplate.convertAndSend("/queue/video" , dto);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Video enviado exitosamente");
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -667,7 +672,7 @@ public class PlanVideoController {
 
     @RequestMapping(value = "/send/video/to/atlethe/{planVideoId}/{coachUserId}/{athleteUserId}", method = RequestMethod.GET)
     public @ResponseBody
-    ResponseEntity<ResponseService> sendVideoAtletheToStar(@PathVariable("planVideoId") Integer planVideoId,
+    ResponseEntity<ResponseService> sendVideoStarToAthlete(@PathVariable("planVideoId") Integer planVideoId,
             @PathVariable("coachUserId") Integer coachUserId, @PathVariable("athleteUserId") Integer athleteUserId) {
         ResponseService responseService = new ResponseService();
         try {
@@ -682,11 +687,13 @@ public class PlanVideoController {
             planVideo.setCoachAssignedPlanId(fromPlan.getCoachAssignedPlanId());
             planVideo.setToStar(Boolean.TRUE);
             planVideo.setIndRejected(0);
-            planVideoService.create(planVideo);
+            PlanVideoDTO dto = planVideoService.create(planVideo);
+            dto.setRoleSelected(RoleEnum.ESTRELLA.getId());
             fromPlan.setIndRejected(0);
             planVideoService.store(fromPlan);
             video.setIndRejected(0);
             planVideoService.store(video);
+            simpMessagingTemplate.convertAndSend("/queue/video" , dto);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Video enviado exitosamente");
             return new ResponseEntity<>(responseService, HttpStatus.OK);

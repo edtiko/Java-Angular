@@ -69,7 +69,7 @@ require.config({
         starAthleteDetailController: "asesorDetail/controller/athleteDetail/starAthleteDetailController",
         messageStarAthleteController: "asesorDetail/controller/athleteDetail/messageStarAthleteController",
         mailStarAthleteController: "asesorDetail/controller/athleteDetail/mailStarAthleteController",
-        audioStarAthleteController: "asesorDetail/controller/athleteDetail/audioStarAthletController",
+        audioStarAthleteController: "asesorDetail/controller/athleteDetail/audioStarAthleteController",
         videoStarAthleteController: "asesorDetail/controller/athleteDetail/videoStarAthleteController",
         app: "routeResolver",
         sockjs: "lib/sockjs.min",

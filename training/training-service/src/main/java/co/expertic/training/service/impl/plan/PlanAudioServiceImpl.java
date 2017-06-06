@@ -93,7 +93,7 @@ public class PlanAudioServiceImpl implements PlanAudioService {
     }
     
     @Override
-    public void approveAudio(Integer planAudioId, Integer planId) throws Exception {
+    public PlanAudioDTO approveAudio(Integer planAudioId, Integer planId) throws Exception {
         PlanAudio audioAthlete = planAudioDao.getAudioById(planAudioId);
         CoachAssignedPlan plan = coachAssignedPlanDao.findById(planId);
         User starUser = null;
@@ -107,6 +107,7 @@ public class PlanAudioServiceImpl implements PlanAudioService {
         }
         
         audioAthlete.setStateId(StateEnum.APPROVED.getId().shortValue());
+        audioAthlete.setReaded(Boolean.TRUE);
         planAudioDao.merge(audioAthlete);
            
         PlanAudio audio = new PlanAudio();
@@ -118,7 +119,9 @@ public class PlanAudioServiceImpl implements PlanAudioService {
         audio.setReaded(Boolean.FALSE);
         audio.setStateId(StateEnum.APPROVED.getId().shortValue());
         audio.setCreationDate(Calendar.getInstance().getTime());
-        planAudioDao.create(audio);
+        PlanAudioDTO dto = PlanAudioDTO.mapFromPlanAudioEntity(planAudioDao.create(audio));
+        
+        return dto;
         
     }
     
@@ -136,7 +139,7 @@ public class PlanAudioServiceImpl implements PlanAudioService {
     }
     
     @Override
-    public void sendAudioStarToAThlete(Integer planAudioId) throws Exception {
+    public PlanAudioDTO sendAudioStarToAThlete(Integer planAudioId) throws Exception {
         PlanAudio audioStar = planAudioDao.findById(planAudioId);
         if (audioStar.getCoachAssignedPlanId() != null) {
             
@@ -155,7 +158,7 @@ public class PlanAudioServiceImpl implements PlanAudioService {
             audio.setCoachAssignedPlanId(plan);
             audio.setReaded(Boolean.FALSE);
             audio.setToStar(Boolean.TRUE);
-            planAudioDao.create(audio);
+            return PlanAudioDTO.mapFromPlanAudioEntity(planAudioDao.create(audio));
             
         } else {
             throw new Exception("No existe un plan asociado, comuniquese con el administrador.");

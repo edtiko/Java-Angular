@@ -223,7 +223,7 @@ public class AudioMessageController {
 
     @RequestMapping(value = "/get/count/received/{planId}/{userId}/{toUserId}/{tipoPlan}/{roleSelected}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getAudiosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
+    ResponseEntity<ResponseService> getAudiosReceived(@PathVariable("planId") Integer planId, @PathVariable("userId") Integer userId,
             @PathVariable("toUserId") Integer toUserId,
             @PathVariable("tipoPlan") String tipoPlan, @PathVariable("roleSelected") Integer roleSelected) {
         ResponseService responseService = new ResponseService();
@@ -237,13 +237,13 @@ public class AudioMessageController {
             }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(count);
-            return Response.status(Response.Status.OK).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             responseService.setOutput(strResponse);
             responseService.setStatus(StatusResponse.FAIL.getName());
             responseService.setDetail(e.getMessage());
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseService).build();
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
     }
@@ -299,7 +299,9 @@ public class AudioMessageController {
         ResponseService responseService = new ResponseService();
         StringBuilder strResponse = new StringBuilder();
         try {
-            planAudioService.approveAudio(planAudioId, planId);
+            PlanAudioDTO dto = planAudioService.approveAudio(planAudioId, planId);
+            dto.setRoleSelected(RoleEnum.ESTRELLA.getId());
+            simpMessagingTemplate.convertAndSend("/queue/audio", dto);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Audio aprobado correctamente.");
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -339,8 +341,9 @@ public class AudioMessageController {
         ResponseService responseService = new ResponseService();
         try {
 
-            planAudioService.sendAudioStarToAThlete(planAudioId);
-
+            PlanAudioDTO dto = planAudioService.sendAudioStarToAThlete(planAudioId);
+            dto.setRoleSelected(RoleEnum.ESTRELLA.getId());
+            simpMessagingTemplate.convertAndSend("/queue/audio", dto);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput("Video enviado exitosamente");
             return new ResponseEntity<>(responseService, HttpStatus.OK);

@@ -12,8 +12,8 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
         $scope.availableAudioAsesor = $scope.planSelected.asesorCommunication.availableAudio;
         $scope.audioPlanAsesor = $scope.planSelected.asesorCommunication.planAudio;
         $scope.selectedIndex = 0;
-        $scope.starImage = $window.sessionStorage.getItem("starImage");
-        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        //$scope.starImage = $window.sessionStorage.getItem("starImage");
+        //$scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.query = {
             filter: '',
             limit: 2,
@@ -214,7 +214,7 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
 
         //lee los audios recibidos en tiempo real
         AudioMessageService.receive().then(null, null, function (audio) {
-            if (audio.toUserId  == $scope.userSession.userId) {
+            if (audio.toUserId == $scope.userSession.userId) {
                 if (audio.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                     $scope.receivedStar.push(audio);
                 } else {
@@ -307,6 +307,9 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                     function (data) {
                         $scope.availableAudioStar = data.entity.output;
                     });
+
+            $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
+            $scope.getReceivedAthleteAsesor($scope.planSelected.starUserId.userId, $scope.planSelected.id);
         };
 
         self.getAudiosAsesor = function () {

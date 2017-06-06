@@ -11,8 +11,8 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         $scope.audioPlanAsesor = $scope.userSession.planSelected.asesorCommunication.planAudio;
         $scope.timeLimitAsesor = $scope.userSession.planSelected.asesorCommunication.audioDuration;
         $scope.selectedIndex = 0;
-        $scope.starImage = $window.sessionStorage.getItem("starImage");
-        $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
+        //$scope.starImage = $window.sessionStorage.getItem("starImage");
+        //$scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.query = {
             filter: '',
             limit: 2,
@@ -179,7 +179,7 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
         //lee los audios recibidos en tiempo real
         AudioMessageService.receive().then(null, null, function (audio) {
             if (audio.toUserId == $scope.userSession.userId) {
-                if (audio.toStar == 'true') {
+                if (audio.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
                     $scope.receivedStar.push(audio);
                 } else {
                     $scope.receivedAsesor.push(audio);
