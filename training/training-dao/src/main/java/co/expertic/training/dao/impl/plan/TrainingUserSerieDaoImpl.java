@@ -8,7 +8,6 @@ package co.expertic.training.dao.impl.plan;
 import co.expertic.base.jpa.BaseDAOImpl;
 import co.expertic.training.dao.plan.TrainingUserSerieDao;
 import co.expertic.training.enums.StateEnum;
-import co.expertic.training.enums.Status;
 import co.expertic.training.model.dto.TrainingPlanWorkoutDto;
 import co.expertic.training.model.dto.TrainingUserSerieDTO;
 import co.expertic.training.model.entities.TrainingUserSerie;

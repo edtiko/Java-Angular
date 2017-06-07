@@ -42,6 +42,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,11 +103,15 @@ public class TrainingPlanWorkoutController {
         }
     }
     
-    @RequestMapping(value = "/trainingPlanWorkout/get/series/by/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResponseService> getSeriesByUser(@PathVariable("userId") Integer userId, @RequestParam("fromDate") Date fromDate,
-            @RequestParam("toDate") Date toDate) {
+    @RequestMapping(value = "/trainingPlanWorkout/get/series/by/user/{userId}/{fromDate}/{toDate}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getSeriesByUser(@PathVariable("userId") Integer userId, @DateTimeFormat(pattern="yyyy-MM-dd") @PathVariable("fromDate") Date fromDate,
+            @DateTimeFormat(pattern="yyyy-MM-dd") @PathVariable("toDate") Date toDate) {
         ResponseService responseService = new ResponseService();
         try {
+            
+            //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            //Date from = dateFormat.parse(fromDate);
+            //Date to =  dateFormat.parse(toDate);
             List<TrainingSesionDTO> list = getTrainingPlanWorkoutByIntervalDateUserId(userId, fromDate, toDate);
             responseService.setOutput(list);
             responseService.setStatus(StatusResponse.SUCCESS.getName());

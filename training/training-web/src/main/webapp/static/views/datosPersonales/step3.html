@@ -181,48 +181,6 @@
 
         <div layout="row"> 
             <div flex="66">
-                <md-input-container class="md-block md-input-has-placeholder" >
-                    <input ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }} {{weightmetric}}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
-                    <div class="has-error" role="alert" ng-messages="frm3.weight.$error">
-                        <div ng-message="required">Este es un campo requerido</div>
-                        <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
-                    </div>
-
-                </md-input-container>
-            </div>
-            <!--<md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileweight, 'user_profile', 'weight')"
-                       ng-model="user_profileweight"> {{ 'SHOW' | translate }}</md-switch>-->
-        </div>
-
-        <div layout="row"> 
-            <div flex="66">
-                <md-input-container class="md-block md-input-has-placeholder" >
-                    <input type="text" ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }} {{heightmetric}}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
-                    <div class="has-error" role="alert" ng-messages="frm3.height.$error">
-                        <div ng-message="required">Este es un campo requerido</div>
-                        <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
-                    </div>
-                </md-input-container>
-            </div>
-            <!--<md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileheight, 'user_profile', 'height')"
-                       ng-model="user_profileheight"> {{ 'SHOW' | translate }}</md-switch>-->
-        </div>
-
-        <div layout="row">
-            <div flex="66">
-                <md-input-container class="md-block md-input-has-placeholder" >
-                    <input type="text" ng-model="userProfile.imc" id="imc"  placeholder="{{ 'IMC' | translate }}" readonly="true"/>
-                </md-input-container>
-            </div> 
-            <md-button class="md-icon-button launch md-primary" aria-label="imc" ng-click="showTooltipImc()">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-            </md-button>
-            <!--<md-switch class="md-primary" aria-label="Mostrar" ng-change="setVisibleField(user_profileimc, 'user_profile', 'imc')"
-                       ng-model="user_profileimc"> {{ 'SHOW' | translate }} </md-switch>-->
-        </div>
-
-        <div layout="row"> 
-            <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder">
 
                     <label>Lesiones</label>
