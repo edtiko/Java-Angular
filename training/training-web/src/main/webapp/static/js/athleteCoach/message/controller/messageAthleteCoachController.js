@@ -19,7 +19,7 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
         $scope.glued = true;
         $scope.msgStar = [];
         $scope.items = [];
-        $scope.msgAthleteCoachEnabled = true;
+        $scope.msgAthleteCoachEnabled = false;
 
         //Carga datos del chat según el tipo de plan
         self.getChat = function (tipoPlan) {
@@ -29,6 +29,7 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
+                            $scope.msgAthleteCoachEnabled = true;
 
                             self.readMessages(tipoPlan, -1, $scope.planSelected.coachUserId.userId, $scope.userSession.userId);
 

@@ -81,6 +81,9 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
                 if ($scope.planSelected != null) {
                     $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
 
+                    $scope.connectToChatserver($scope.planSelected.id);
+                    $scope.connectToAudioWsMovil($scope.planSelected.id);
+                    $scope.connectToVideoWsMovil($scope.planSelected.id);
                     $scope.messageReceivedAthlete = ($scope.planSelected.starCommunication.receivedMsg + $scope.planSelected.asesorCommunication.receivedMsg);
                     $scope.mailReceivedAthlete = ($scope.planSelected.starCommunication.receivedMail + $scope.planSelected.asesorCommunication.receivedMail);
                     $scope.audioReceivedAthlete = ($scope.planSelected.starCommunication.receivedAudio + $scope.planSelected.asesorCommunication.receivedAudio);
@@ -116,7 +119,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         $scope.getReceivedAthleteAsesor = function (fromUserId, planId) {
             var tipoPlan = "IN";
             if ($scope.userSession != null) {
-                
+
                 $scope.getReceivedMessages(planId, fromUserId, $scope.userSession.userId, tipoPlan, -1,
                         function (data) {
                             $scope.messageReceivedAthlete = data.output;
@@ -220,7 +223,7 @@ trainingApp.controller('AthleteDetailController', ['$scope', 'AthleteService', '
         };
 
         MessageService.receive().then(null, null, function (message) {
-             if ($scope.userSession.userId == message.receivingUserId.userId) {
+            if ($scope.userSession.userId == message.receivingUserId.userId) {
                 $scope.messageReceivedAthlete = $scope.messageReceivedAthlete + 1;
             }
         });

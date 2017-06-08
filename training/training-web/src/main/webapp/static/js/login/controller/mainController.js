@@ -603,9 +603,6 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         self.setAthleteStar = function () {
             $scope.userPanel = $scope.views.athleteStarPanel;
             $scope.getDashBoardByUser($scope.userSession);
-            //$scope.connectToChatserver($scope.userSession.planSelected.id);
-            //$scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
-            //$scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
             $scope.messageReceivedCount = ($scope.userSession.planSelected.starCommunication.receivedMsg + $scope.userSession.planSelected.asesorCommunication.receivedMsg);
             $scope.mailReceivedCount = ($scope.userSession.planSelected.starCommunication.receivedMail + $scope.userSession.planSelected.asesorCommunication.receivedMail);
             $scope.audioReceivedCount = ($scope.userSession.planSelected.starCommunication.receivedAudio + $scope.userSession.planSelected.asesorCommunication.receivedAudio);
@@ -680,6 +677,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 VideoService.initialize();
                 AudioMessageService.initialize();
                 MailService.initialize();
+                $scope.connectToChatserver($scope.userSession.planSelected.id);
+                $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
+                $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
 
             } else {
                 self.setAthletePlatform();

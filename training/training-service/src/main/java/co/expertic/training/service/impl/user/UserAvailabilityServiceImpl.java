@@ -32,30 +32,37 @@ public class UserAvailabilityServiceImpl implements UserAvailabilityService {
         if(list != null && !list.isEmpty()) {
             UserAvailability userAvailability = list.get(0);
             dto.setDay("Lunes");
+            dto.setDayNumber(0);
             dto.setChecked(userAvailability.getMonday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
             dto.setDay("Martes");
+            dto.setDayNumber(1);
             dto.setChecked(userAvailability.getTuesday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
             dto.setDay("Miercoles");
+            dto.setDayNumber(2);
             dto.setChecked(userAvailability.getWednesday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
             dto.setDay("Jueves");
+            dto.setDayNumber(3);
             dto.setChecked(userAvailability.getThursday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
             dto.setDay("Viernes");
+            dto.setDayNumber(4);
             dto.setChecked(userAvailability.getFriday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
             dto.setDay("Sabado");
+            dto.setDayNumber(5);
             dto.setChecked(userAvailability.getSaturday());
             dtoList.add(dto);
             dto = new UserAvailabilityDTO();
             dto.setDay("Domingo");
+            dto.setDayNumber(6);
             dto.setChecked(userAvailability.getSunday());
             dtoList.add(dto);
             

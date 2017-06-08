@@ -28,7 +28,7 @@ trainingApp.controller("MessageStarAthleteController", ['$scope', 'MessageServic
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
-
+                            $scope.msgStarAthleteEnabled = true;
                             self.readMessages(tipoPlan, $scope.roleSelected, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId);
                         },
                         function (error) {

@@ -13,6 +13,7 @@ public class UserAvailabilityDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private String day;
     private Boolean checked;
+    private Integer dayNumber;
 
     public UserAvailabilityDTO() {
     }
@@ -31,6 +32,14 @@ public class UserAvailabilityDTO implements Serializable {
 
     public void setChecked(Boolean checked) {
         this.checked = checked;
+    }
+
+    public Integer getDayNumber() {
+        return dayNumber;
+    }
+
+    public void setDayNumber(Integer dayNumber) {
+        this.dayNumber = dayNumber;
     }
 
 }

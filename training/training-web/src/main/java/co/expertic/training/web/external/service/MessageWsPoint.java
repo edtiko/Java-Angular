@@ -54,7 +54,7 @@ public class MessageWsPoint {
                 LOGGER.error(e.getMessage(), e);
 
             }
-            simpMessagingTemplate.convertAndSend("/queue/message/" + session.getUserProperties().get("sessionId"), msg);
+            simpMessagingTemplate.convertAndSend("/queue/message", msg);
         }
 
             sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(message));

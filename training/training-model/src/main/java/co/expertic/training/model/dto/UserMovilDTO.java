@@ -1,12 +1,9 @@
 package co.expertic.training.model.dto;
 
 import co.expertic.training.model.entities.User;
-import co.expertic.training.model.util.JsonDateSerializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.Date;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -14,7 +11,6 @@ import org.apache.log4j.Logger;
  */
 public class UserMovilDTO {
 
-    private static final Logger LOGGER = Logger.getLogger(UserMovilDTO.class);
     private Integer userId;
     private String login;
     private String password;
@@ -25,24 +21,6 @@ public class UserMovilDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String sex;
-    private String phone;
-    private String cellphone;
-    private String address;
-    private String postalCode;
-    private String facebookPage;
-    private String instagramPage;
-    private String twitterPage;
-    private String webPage;
-    private String indMetricSys;
-    @JsonSerialize(using = JsonDateSerializer.class)
-    private Date creationDate;
-    private Integer cityId;
-    private String cityName;
-    private Short stateId;
-    private Integer federalStateId;
-    private String federalStateName;
-    private Integer countryId;
-    private String countryName;
     private Integer disciplineId;
     private String disciplineName;
     private String typeUser;
@@ -50,8 +28,6 @@ public class UserMovilDTO {
     private String fullName;
     private Integer planActiveId;
     private Integer trainingPlanUserId;
-    private UserBasicMovilDTO starUser;
-    private UserBasicMovilDTO coachUser;
     @JsonIgnore
     private UserProfileMovilDTO userProfile;
     private String planType;
@@ -72,20 +48,8 @@ public class UserMovilDTO {
         this.secondName = secondName;
         this.lastName = lastName;
         this.birthDate = birthDate;
-        this.address = address;
         this.email = email;
         this.sex = sex;
-        this.phone = phone;
-        this.cellphone = cellphone;
-        this.cityId = cityId;
-        this.stateId = stateId;
-        this.facebookPage = facebookPage;
-        this.instagramPage = instagramPage;
-        this.twitterPage = twitterPage;
-        this.webPage = webPage;
-        this.postalCode = postalCode;
-        this.federalStateId = federalStateId;
-        this.countryId = countryId;
     }
 
     public static UserMovilDTO mapFromUserEntity(User user) {
@@ -99,21 +63,6 @@ public class UserMovilDTO {
         return null;
     }
 
-    public UserBasicMovilDTO getStarUser() {
-        return starUser;
-    }
-
-    public void setStarUser(UserBasicMovilDTO starUser) {
-        this.starUser = starUser;
-    }
-
-    public UserBasicMovilDTO getCoachUser() {
-        return coachUser;
-    }
-
-    public void setCoachUser(UserBasicMovilDTO coachUser) {
-        this.coachUser = coachUser;
-    }
 
     public Integer getPlanActiveId() {
         return planActiveId;
@@ -211,118 +160,6 @@ public class UserMovilDTO {
         this.sex = sex;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getCellphone() {
-        return cellphone;
-    }
-
-    public void setCellphone(String cellphone) {
-        this.cellphone = cellphone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getFacebookPage() {
-        return facebookPage;
-    }
-
-    public void setFacebookPage(String facebookPage) {
-        this.facebookPage = facebookPage;
-    }
-
-    public String getInstagramPage() {
-        return instagramPage;
-    }
-
-    public void setInstagramPage(String instagramPage) {
-        this.instagramPage = instagramPage;
-    }
-
-    public String getTwitterPage() {
-        return twitterPage;
-    }
-
-    public void setTwitterPage(String twitterPage) {
-        this.twitterPage = twitterPage;
-    }
-
-    public String getWebPage() {
-        return webPage;
-    }
-
-    public void setWebPage(String webPage) {
-        this.webPage = webPage;
-    }
-
-    public String getIndMetricSys() {
-        return indMetricSys;
-    }
-
-    public void setIndMetricSys(String indMetricSys) {
-        this.indMetricSys = indMetricSys;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Integer getCityId() {
-        return cityId;
-    }
-
-    public void setCityId(Integer cityId) {
-        this.cityId = cityId;
-    }
-
-    public Short getStateId() {
-        return stateId;
-    }
-
-    public void setStateId(Short stateId) {
-        this.stateId = stateId;
-    }
-
-    public Integer getFederalStateId() {
-        return federalStateId;
-    }
-
-    public void setFederalStateId(Integer federalStateId) {
-        this.federalStateId = federalStateId;
-    }
-
-    public Integer getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
-    }
-
     public Integer getRoleId() {
         return roleId;
     }
@@ -381,30 +218,6 @@ public class UserMovilDTO {
 
     public void setUserProfile(UserProfileMovilDTO userProfile) {
         this.userProfile = userProfile;
-    }
-
-    public String getCityName() {
-        return cityName;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
-    public String getFederalStateName() {
-        return federalStateName;
-    }
-
-    public void setFederalStateName(String federalStateName) {
-        this.federalStateName = federalStateName;
-    }
-
-    public String getCountryName() {
-        return countryName;
-    }
-
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
     }
 
 }

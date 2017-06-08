@@ -47,7 +47,7 @@ public class VideoWsPoint {
 
         if (message != null && message.isMobile()) {
 
-            simpMessagingTemplate.convertAndSend("/queue/video/" + session.getUserProperties().get("sessionId"), message);
+            simpMessagingTemplate.convertAndSend("/queue/video", message);
         }
 
         sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(message));

@@ -24,7 +24,6 @@ import co.expertic.training.service.plan.PlanVideoService;
 import co.expertic.training.service.user.UserFittingService;
 import co.expertic.training.service.user.UserService;
 import co.expertic.training.web.enums.StatusResponse;
-import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;

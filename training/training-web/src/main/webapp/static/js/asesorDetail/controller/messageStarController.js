@@ -16,7 +16,7 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
         $scope.dataImage = "static/img/profile-default.png";
         $scope.glued = true;
         $scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
-        $scope.msgStarEnabled = true;
+        $scope.msgStarEnabled = false;
 
 
         //Envia mensaje
@@ -66,6 +66,7 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
                     function (data) {
                         $scope.messagesStar = data;
                         $scope.loading = false;
+                        $scope.msgStarEnabled = true;
                         self.readMessages(userId, $scope.userSession.userId);
                     },
                     function (error) {

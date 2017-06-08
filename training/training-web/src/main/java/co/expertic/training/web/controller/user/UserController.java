@@ -16,7 +16,9 @@ import co.expertic.training.model.dto.OpenTokDTO;
 import co.expertic.training.model.dto.PaginateDto;
 import co.expertic.training.model.dto.UserBasicMovilDTO;
 import co.expertic.training.model.dto.UserDTO;
+import co.expertic.training.model.dto.UserGroupDTO;
 import co.expertic.training.model.dto.UserMovilDTO;
+import co.expertic.training.model.dto.UserProfileDTO;
 import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.Country;
 import co.expertic.training.model.entities.Discipline;
@@ -241,6 +243,24 @@ public class UserController {
         try {
             UserDTO user = userService.findById(userId);
             responseService.setOutput(user);
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            responseService.setMessage(ex.getMessage());
+            return new ResponseEntity<>(responseService, HttpStatus.OK);
+        }
+    }
+    
+    @RequestMapping(value = "/user/profile/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseService> getUserGroup(@PathVariable("userId") Integer userId) {
+        ResponseService responseService = new ResponseService();
+        try {
+            UserDTO user = userService.findById(userId);
+            UserProfileDTO profile = userProfileService.findDTOByUserId(userId);
+            UserGroupDTO dto = new UserGroupDTO(user, profile);
+            responseService.setOutput(dto);
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         } catch (Exception ex) {
@@ -838,77 +858,12 @@ public class UserController {
             userSession.setDisciplineName(userDto.getDisciplineName());
             userSession.setEmail(userDto.getEmail());
             userSession.setRoleId(userDto.getRoleId());
-            userSession.setCityId(userDto.getCityId());
-            if (userDto.getCityId() != null) {
-                userSession.setCityName(userService.getCityById(userDto.getCityId()).getName());
-            }
-            userSession.setCountryId(userDto.getCountryId());
-            if (userDto.getCountryId() != null) {
-                userSession.setCountryName(userService.getCountryById(userDto.getCountryId()).getName());
-            }
-            userSession.setFederalStateId(userDto.getFederalStateId());
-            if (userDto.getFederalStateId() != null) {
-                userSession.setFederalStateName(userService.getFederalStateById(userDto.getFederalStateId()).getName());
-            }
+
             userSession.setBirthDate(userDto.getBirthDate());
             userSession.setSex(userDto.getSex());
 
             if (userDto.getUserWordpressId() != null) {
                 createOrderFromAuthetication(userDto);
-            }
-
-            if (userDto.getRoleId().equals(RoleEnum.ATLETA.getId())) {
-                CoachAssignedPlanDTO coachAssignedPlanDTO = coachAssignedPlanService.findByAthleteUserId(userDto.getUserId());
-                CoachExtAthleteDTO coachExtAthleteDTO = coachExtAthleteService.findByAthleteUserId(userDto.getUserId());
-
-                if (coachAssignedPlanDTO != null) {
-                    userSession.setPlanType(PLAN_TYPE_IN);
-                    userSession.setCommunicationPlanId(coachAssignedPlanDTO.getId());
-                    if (coachAssignedPlanDTO.getCoachUserId() != null) {
-                        UserDTO coachUserDTO = coachAssignedPlanDTO.getCoachUserId();
-                        UserBasicMovilDTO userCoach = new UserBasicMovilDTO();
-                        userCoach.setUserId(coachUserDTO.getUserId());
-                        userCoach.setLogin(coachUserDTO.getLogin());
-                        userCoach.setFirstName(coachUserDTO.getFirstName());
-                        userCoach.setLastName(coachUserDTO.getLastName());
-                        userCoach.setSecondName(coachUserDTO.getSecondName());
-                        userCoach.setTypeUser(coachUserDTO.getTypeUser());
-                        userCoach.setFullName(coachUserDTO.getFullName());
-                        userCoach.setDisciplineId(coachUserDTO.getDisciplineId());
-                        userCoach.setDisciplineName(coachUserDTO.getDisciplineName());
-                        userCoach.setRoleId(coachUserDTO.getRoleId());
-                        userCoach.setEmail(coachUserDTO.getEmail());
-                        userCoach.setSex(coachUserDTO.getSex());
-                        userCoach.setBirthDate(coachUserDTO.getBirthDate());
-
-                        userSession.setCoachUser(userCoach);
-                    }
-
-                    if (coachAssignedPlanDTO.getStarUserId() != null) {
-                        UserDTO starUserDTO = coachAssignedPlanDTO.getStarUserId();
-                        UserBasicMovilDTO userStar = new UserBasicMovilDTO();
-                        userStar.setUserId(starUserDTO.getUserId());
-                        userStar.setLogin(starUserDTO.getLogin());
-                        userStar.setFirstName(starUserDTO.getFirstName());
-                        userStar.setLastName(starUserDTO.getLastName());
-                        userStar.setSecondName(starUserDTO.getSecondName());
-                        userStar.setTypeUser(starUserDTO.getTypeUser());
-                        userStar.setFullName(starUserDTO.getFullName());
-                        userStar.setDisciplineId(starUserDTO.getDisciplineId());
-                        userStar.setDisciplineName(starUserDTO.getDisciplineName());
-                        userStar.setRoleId(starUserDTO.getRoleId());
-                        userStar.setEmail(starUserDTO.getEmail());
-                        userStar.setSex(starUserDTO.getSex());
-                        userStar.setBirthDate(starUserDTO.getBirthDate());
-                        userSession.setStarUser(userStar);
-                    }
-            
-                } else if (coachExtAthleteDTO != null) {
-                    userSession.setPlanType(PLAN_TYPE_EXT);
-                    userSession.setCommunicationPlanId(coachExtAthleteDTO.getId());
-
-                }
-
             }
 
             TrainingPlanUser trainingPlanUser = trainingPlanUserService.getTrainingPlanUserByUser(new User(userDto.getUserId()));
@@ -1368,6 +1323,25 @@ public class UserController {
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
 
+    }
+    
+    @RequestMapping(value = "user/update/profile", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Response updateUserGroup(@RequestBody UserGroupDTO userDTO) {
+        ResponseService responseService = new ResponseService();
+        try {
+            userService.updateUser(userDTO.getUser());
+            userProfileService.merge(userDTO.getUserProfile());
+            
+            responseService.setOutput("");
+            responseService.setStatus(StatusResponse.SUCCESS.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            responseService.setOutput("Error al actualizar usuario");
+            responseService.setDetail(ex.getMessage());
+            responseService.setStatus(StatusResponse.FAIL.getName());
+            return Response.status(Response.Status.OK).entity(responseService).build();
+        }
     }
 
     @RequestMapping(value = "/files/{path}", method = RequestMethod.GET)

@@ -1419,15 +1419,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 pace = (pace * 95)/100; 
                 
                 $scope.ftp0N =  "-";
-                $scope.ftp129N =  Math.round((pace * 129) / 100);
+                $scope.ftp129N =  Math.trunc((pace * 129) / 100);
 
-                $scope.ftp114N =  Math.round((pace * 114) / 100);
-                $scope.ftp106N =  Math.round((pace * 106) / 100);
+                $scope.ftp114N =  Math.trunc((pace * 114) / 100);
+                $scope.ftp106N =  Math.trunc((pace * 106) / 100);
 
-                $scope.ftp100N =  Math.round((pace * 100) / 100);
-                $scope.ftp97N =  Math.round((pace * 97) / 100);
+                $scope.ftp100N =  Math.trunc((pace * 100) / 100);
+                $scope.ftp97N =  Math.trunc((pace * 97) / 100);
 
-                $scope.ftp90N =  Math.round((pace * 90) / 100);
+                $scope.ftp90N =  Math.trunc((pace * 90) / 100);
             }
         };
         
@@ -1441,32 +1441,31 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     pace = 20 / ($scope.userProfile.testDistance / 100);
                 }
                 pace = (pace * 95) / 100;
-                //TODO falta multiplicar la parte decimal por 6
                 $scope.userProfile.ftp0 = "-";
                 $scope.userProfile.ftp129 = ((pace * 129) / 100);
-                var seconds = Math.round($scope.userProfile.ftp129) - $scope.userProfile.ftp129;
-                seconds = ("0" + Math.round(Math.abs(seconds * 60))).slice(-2);
-                $scope.userProfile.ftp129 = Math.round($scope.userProfile.ftp129) + ":" + seconds + "min/km";
+                var seconds = Math.trunc($scope.userProfile.ftp129) - $scope.userProfile.ftp129;
+                seconds = ("0" + Math.trunc(Math.abs(seconds * 60))).slice(-2);
+                $scope.userProfile.ftp129 = Math.trunc($scope.userProfile.ftp129) + ":" + seconds;
                 $scope.userProfile.ftp114 = ((pace * 114) / 100);
-                var seconds = Math.round($scope.userProfile.ftp114) - $scope.userProfile.ftp114;
-                 seconds = ("0" + Math.round(Math.abs(seconds * 60))).slice(-2);
-                $scope.userProfile.ftp114 = Math.round($scope.userProfile.ftp114) + ":" + seconds + "min/km";
+                var seconds = Math.trunc($scope.userProfile.ftp114) - $scope.userProfile.ftp114;
+                 seconds = ("0" + Math.trunc(Math.abs(seconds * 60))).slice(-2);
+                $scope.userProfile.ftp114 = Math.trunc($scope.userProfile.ftp114) + ":" + seconds;
                 $scope.userProfile.ftp106 = ((pace * 106) / 100);
-                var seconds = Math.round($scope.userProfile.ftp106) - $scope.userProfile.ftp106;
-                 seconds = ("0" + Math.round(Math.abs(seconds * 60))).slice(-2);
-                $scope.userProfile.ftp106 = Math.round($scope.userProfile.ftp106) + ":" + seconds + "min/km";
+                var seconds = Math.trunc($scope.userProfile.ftp106) - $scope.userProfile.ftp106;
+                 seconds = ("0" + Math.trunc(Math.abs(seconds * 60))).slice(-2);
+                $scope.userProfile.ftp106 = Math.trunc($scope.userProfile.ftp106) + ":" + seconds;
                 $scope.userProfile.ftp100 = ((pace * 100) / 100);
-                var seconds = Math.round($scope.userProfile.ftp100) - $scope.userProfile.ftp100;
-                 seconds = ("0" + Math.round(Math.abs(seconds * 60))).slice(-2);
-                $scope.userProfile.ftp100 = Math.round($scope.userProfile.ftp100) + ":" + seconds + "min/km";
+                var seconds = Math.trunc($scope.userProfile.ftp100) - $scope.userProfile.ftp100;
+                 seconds = ("0" + Math.trunc(Math.abs(seconds * 60))).slice(-2);
+                $scope.userProfile.ftp100 = Math.trunc($scope.userProfile.ftp100) + ":" + seconds;
                 $scope.userProfile.ftp97 = ((pace * 97) / 100);
-                var seconds = Math.round($scope.userProfile.ftp97) - $scope.userProfile.ftp97;
-                 seconds = ("0" + Math.round(Math.abs(seconds * 60))).slice(-2);
-                $scope.userProfile.ftp97 = Math.round($scope.userProfile.ftp97) + ":" + seconds + "min/km";
+                var seconds = Math.trunc($scope.userProfile.ftp97) - $scope.userProfile.ftp97;
+                 seconds = ("0" + Math.trunc(Math.abs(seconds * 60))).slice(-2);
+                $scope.userProfile.ftp97 = Math.trunc($scope.userProfile.ftp97) + ":" + seconds;
                 $scope.userProfile.ftp90 = ((pace * 90) / 100);
-                var seconds = Math.round($scope.userProfile.ftp90) - $scope.userProfile.ftp90;
-                 seconds = ("0" + Math.round(Math.abs(seconds * 60))).slice(-2);
-                $scope.userProfile.ftp90 = Math.round($scope.userProfile.ftp90) + ":" + seconds + "min/km";
+                var seconds = Math.trunc($scope.userProfile.ftp90) - $scope.userProfile.ftp90;
+                 seconds = ("0" + Math.trunc(Math.abs(seconds * 60))).slice(-2);
+                $scope.userProfile.ftp90 = Math.trunc($scope.userProfile.ftp90) + ":" + seconds;
             }
         };
 
@@ -1475,15 +1474,15 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 var power = ($scope.userProfile.power * 95) / 100;
 
                 $scope.userProfile.ftp0 =  "-";
-                $scope.userProfile.ftp129 =  Math.round((power * 129) / 100);
+                $scope.userProfile.ftp129 =  Math.trunc((power * 129) / 100);
 
-                $scope.userProfile.ftp114 =  Math.round((power * 114) / 100);
-                $scope.userProfile.ftp106 =  Math.round((power * 106) / 100);
+                $scope.userProfile.ftp114 =  Math.trunc((power * 114) / 100);
+                $scope.userProfile.ftp106 =  Math.trunc((power * 106) / 100);
 
-                $scope.userProfile.ftp100 =  Math.round((power * 100) / 100);
-                $scope.userProfile.ftp97 =  Math.round((power * 97) / 100);
+                $scope.userProfile.ftp100 =  Math.trunc((power * 100) / 100);
+                $scope.userProfile.ftp97 =  Math.trunc((power * 97) / 100);
 
-                $scope.userProfile.ftp90 =  Math.round((power * 90) / 100);
+                $scope.userProfile.ftp90 =  Math.trunc((power * 90) / 100);
             }
         };
         $scope.calculatePpm = function () {
@@ -1491,22 +1490,22 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                 var ppm = ($scope.userProfile.ppm * 95)/100;
                 
                 $scope.userProfile.ppm0 = "-"; 
-                $scope.userProfile.ppm81 =  Math.round((ppm * 81) / 100);
+                $scope.userProfile.ppm81 =  Math.trunc((ppm * 81) / 100);
                 
                 $scope.userProfile.ppm82 =  $scope.userProfile.ppm81 + 1;
-                $scope.userProfile.ppm89 =  Math.round((ppm * 89) / 100);
+                $scope.userProfile.ppm89 =  Math.trunc((ppm * 89) / 100);
                 
                 $scope.userProfile.ppm90 =  $scope.userProfile.ppm89 + 1;
-                $scope.userProfile.ppm93 =  Math.round((ppm * 93) / 100);
+                $scope.userProfile.ppm93 =  Math.trunc((ppm * 93) / 100);
                 
                 $scope.userProfile.ppm94 =  $scope.userProfile.ppm93 + 1;
-                $scope.userProfile.ppm99 =  Math.round((ppm * 99) / 100);
+                $scope.userProfile.ppm99 =  Math.trunc((ppm * 99) / 100);
                 
                 $scope.userProfile.ppm100 =  $scope.userProfile.ppm99 + 1;
-                $scope.userProfile.ppm102 =  Math.round((ppm * 102) / 100);
+                $scope.userProfile.ppm102 =  Math.trunc((ppm * 102) / 100);
                 
                 $scope.userProfile.ppm103 =  $scope.userProfile.ppm102 + 1;
-                $scope.userProfile.ppm106 =  Math.round((ppm * 106) / 100);
+                $scope.userProfile.ppm106 =  Math.trunc((ppm * 106) / 100);
             }
         };
 

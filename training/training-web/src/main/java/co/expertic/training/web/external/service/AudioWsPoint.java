@@ -47,7 +47,7 @@ public class AudioWsPoint {
 
         if (message != null && message.isMobile()) {      
 
-            simpMessagingTemplate.convertAndSend("/queue/audio/" + session.getUserProperties().get("sessionId"), message);
+            simpMessagingTemplate.convertAndSend("/queue/audio", message);
         }
 
             sessionRegistry.getAll().forEach(sesion -> sesion.getAsyncRemote().sendObject(message));

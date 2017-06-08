@@ -71,9 +71,9 @@ trainingApp.controller("AudioMessageController", ['$scope', 'AudioMessageService
                     if (data.status == 'success') {
                         $scope.showMessage(data.message);
                          self.getAudiosStar();
-                        /*if (data.output != null) {
+                        if (data.output != null) {
                             $scope.wsAudioMobile.send(JSON.stringify(data.output));
-                        }*/
+                        }
                     } else {
                         $scope.showMessage(data.output);
                     }

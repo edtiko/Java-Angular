@@ -20,7 +20,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
         //$scope.asesorImage = $window.sessionStorage.getItem("asesorImage");
         $scope.msgStar = [];
         $scope.items = [];
-        $scope.msgAsesorEnabled = true;
+        $scope.msgAsesorEnabled = false;
 
         //Carga datos del chat según el tipo de plan
         self.getChat = function (tipoPlan) {
@@ -30,7 +30,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
                         function (data) {
                             $scope.messages = data.output;
                             $scope.loading = false;
-
+                            $scope.msgAsesorEnabled = true;
                             self.readMessages(tipoPlan, $scope.roleSelected, $scope.planSelected.athleteUserId.userId, $scope.userSession.userId);
 
                             $scope.messages.filter(function (m) {
@@ -73,7 +73,7 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
 
 
                     MessageService.send($scope.planMessage);
-                    //$scope.wsocket.send(JSON.stringify($scope.planMessage));
+                    $scope.wsocket.send(JSON.stringify($scope.planMessage));
 
                     $scope.planMessage.message = "";
                 } else if ($scope.availableMessage == 0) {
