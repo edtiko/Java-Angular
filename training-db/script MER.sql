@@ -1064,11 +1064,23 @@ create table training_plan_percentaje (
    constraint pk_training_plan_percentaje primary key (training_plan_percentaje_id)
 );
 
+CREATE TABLE training_level_type
+(
+  training_level_type_id serial NOT NULL,
+  name character varying(500) NOT NULL,
+  description character varying(500),
+  user_create integer,
+  user_update integer,
+  creation_date  timestamp without time zone,
+  last_update  timestamp without time zone,
+  state_id smallint,
+  CONSTRAINT pk_training_level_type PRIMARY KEY (training_level_type_id)
+);
 
 CREATE TABLE training_level
 (
   training_level_id serial NOT NULL,
-  description character varying(500) NOT NULL,
+  training_level_type_id integer NOT NULL,
   min_sesion integer,
   max_sesion integer,
   min_hour_week integer,
@@ -1083,6 +1095,24 @@ CREATE TABLE training_level
   state_id smallint,
   CONSTRAINT pk_training_level PRIMARY KEY (training_level_id)
 );
+
+CREATE SEQUENCE training_level_id_seq
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+
+
+alter table training_level
+add constraint fk_training_level_type foreign key (training_level_type_id)
+references training_level_type(training_level_type_id)
+on delete restrict on update restrict;
+
+alter table training_level
+add constraint fk_training_level_modality foreign key (modality_id)
+references modality(modality_id)
+on delete restrict on update restrict;
 
 CREATE TABLE weekly_volume
 (

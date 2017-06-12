@@ -6,8 +6,10 @@
 package co.expertic.training.dao.configuration;
 
 import co.expertic.base.jpa.BaseDAO;
+import co.expertic.base.jpa.DAOException;
 import co.expertic.training.model.dto.TrainingLevelDTO;
 import co.expertic.training.model.entities.TrainingLevel;
+import co.expertic.training.model.entities.TrainingLevelType;
 import java.util.List;
 
 /**
@@ -18,6 +20,12 @@ public interface TrainingLevelDao extends BaseDAO<TrainingLevel> {
     
     public TrainingLevelDTO findById(Integer trainingLevelId) throws Exception;
     
+    public TrainingLevel getById(Integer trainingLevelId) throws Exception;
+    
      public List<TrainingLevelDTO> findByModality(Integer modalityId) throws Exception;
+
+    public List<TrainingLevelDTO> findAllActive() throws Exception;
+    
+     public List<TrainingLevelType> getTrainingLevelTypeActive() throws DAOException;
     
 }

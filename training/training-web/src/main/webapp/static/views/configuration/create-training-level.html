@@ -1,0 +1,108 @@
+<md-dialog aria-label="ConfigurationPlan" style="width: 500px">
+    <div class="md-toolbar-tools">
+        <h2 style="color: #0064F8; font-weight: bold">Configuraci&oacute;n de Nivel Deportivo</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i style="color: #AAFD6F" class="fa fa-times" aria-hidden="true"></i>
+        </md-button>
+    </div>
+
+    <md-dialog-content>
+        <div class="md-dialog-content" layout-align="center center">
+
+            <form  name="formTrainingLevel" novalidate>
+                <input type="hidden" ng-model="trainingLevel.trainingLevelId" />
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <label class="blue" style="font-size: 12px">Disciplina Deportiva</label>
+                            <md-select id="discipline" name="discipline" ng-model="trainingLevel.discipline"  ng-change="getModalitiesByDisciplineId(trainingLevel.discipline, true)" ng-required="true">
+                                <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
+                                    {{d.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" role="alert" ng-messages="formTrainingLevel.discipline.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <label class="blue" style="font-size: 12px">Modalidad</label>
+                            <md-select id="modalityId" name="modalityId" ng-model="trainingLevel.modalityId" ng-change="getLevelsByModality(trainingLevel.modalityId)" ng-required="true">
+                                <md-option ng-repeat="m in modalities" value="{{m.modalityId}}" >
+                                    {{m.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formTrainingLevel.modalityId.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row"> 
+                    <div flex="66">
+                        <md-input-container class="md-block md-input-has-placeholder" >
+                            <label class="blue" style="font-size: 12px">Nivel</label>
+                            <md-select id="trainingLevelTypeId" name="trainingLevelTypeId" ng-model="trainingLevel.trainingLevelTypeId" ng-required="true">
+                                <md-option ng-repeat="l in levelTypes" value="{{l.trainingLevelTypeId}}" >
+                                    {{l.name}}
+                                </md-option>
+                            </md-select>
+                            <div class="has-error" ng-messages="formTrainingLevel.trainingLevelTypeId.$error">
+                                <div ng-message="required">{{ 'REQUIRED_FIELD_TEXT' | translate }}</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <div layout="row">
+                    <div flex="40">
+                        <md-input-container class="md-block md-input-has-placeholder">
+                            <input type="number" placeholder="Sesiones Minimas" style=" display: inline" ng-model="trainingLevel.minSesion">
+                        </md-input-container>
+                    </div>
+                    <div flex="40">
+                        <md-input-container class="md-block md-input-has-placeholder">
+                            <input type="number"  placeholder="Sesiones Maximas" style=" display: inline" ng-model="trainingLevel.maxSesion">
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex="40">
+                        <md-input-container class="md-block md-input-has-placeholder">
+                            <input type="number"  placeholder="Horas Semanales Min." style=" display: inline" ng-model="trainingLevel.minHourWeek">
+                        </md-input-container>
+                    </div>
+                    <div flex="40">
+                        <md-input-container class="md-block md-input-has-placeholder">
+                            <input type="number"  placeholder="Horas Semanales Max." style=" display: inline" ng-model="trainingLevel.maxHourWeek">
+                        </md-input-container>
+                    </div>
+                </div>
+
+
+                <div layout="row">
+                    <div flex="40">
+                        <md-input-container class="md-block md-input-has-placeholder">
+                            <input type="number"  placeholder="Semanas Minimas" style=" display: inline" ng-model="trainingLevel.minWeekPlan">
+                        </md-input-container>
+                    </div>
+                    <div flex="40">
+                        <md-input-container class="md-block md-input-has-placeholder">
+                            <input type="number"  placeholder="Semanas Maximas" style=" display: inline" ng-model="trainingLevel.maxWeekPlan">
+                        </md-input-container>
+                    </div>
+                </div>
+
+                <section layout="row" layout-sm="column" layout-align="left" layout-wrap>
+                    <md-button ng-click="saveTrainingLevel(trainingLevel)" class="md-raised black-button">{{ 'GUARDAR_TEXT' | translate }}</md-button>
+                    <md-button ng-click="cancel()" class="md-raised">{{ 'CANCELAR' | translate }}</md-button>
+                </section>
+
+            </form>
+        </div>
+    </md-dialog-content>
+</md-dialog>

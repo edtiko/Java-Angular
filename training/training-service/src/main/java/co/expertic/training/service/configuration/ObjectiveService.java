@@ -3,6 +3,7 @@ package co.expertic.training.service.configuration;
 import co.expertic.training.model.dto.ObjectiveDTO;
 import co.expertic.training.model.dto.TrainingLevelDTO;
 import co.expertic.training.model.entities.Objective;
+import co.expertic.training.model.entities.TrainingLevelType;
 import java.util.List;
 
 /**
@@ -19,21 +20,19 @@ public interface ObjectiveService {
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param objective
-     * @return 
+     * @param objective 
      * @throws Exception 
      */
-    public Objective create(Objective objective) throws Exception;
+    public void create(TrainingLevelDTO objective) throws Exception;
     /**
      * Modifica objective <br>
      * Info. Creación: <br>
      * fecha 30/08/2016 <br>
      * @author Andres Felipe Lopez Rodriguez
-     * @param objective
-     * @return 
+     * @param objective 
      * @throws Exception 
      */
-    public Objective store(Objective objective) throws Exception;
+    public void store(TrainingLevelDTO objective) throws Exception;
     /**
      * Elimina objective<br>
      * Info. Creación: <br>
@@ -61,7 +60,7 @@ public interface ObjectiveService {
      * @return
      * @throws Exception 
      */
-    public List<Objective> findAllActive() throws Exception;
+    public List<TrainingLevelDTO> findAllActive() throws Exception;
 
     /**
      * Obtiene todos los registros de objective paginados <br>
@@ -116,6 +115,8 @@ public interface ObjectiveService {
     public List<TrainingLevelDTO> findByModality(Integer modalityId) throws Exception;
 
     public TrainingLevelDTO findById(Integer levelId) throws Exception;
+    
+    public List<TrainingLevelType> getTrainingLevelTypeActive() throws Exception;
 
     
 }

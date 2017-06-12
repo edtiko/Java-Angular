@@ -8,15 +8,17 @@ package co.expertic.training.model.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,13 +35,13 @@ public class TrainingLevel implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
+    @SequenceGenerator(name = "training_level_id_seq", sequenceName = "training_level_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_level_id_seq")
     @Column(name = "training_level_id")
     private Integer trainingLevelId;
-    @Basic(optional = false)
-    @Column(name = "description")
-    private String description;
+    @JoinColumn(name = "training_level_type_id", referencedColumnName = "training_level_type_id")
+    @ManyToOne
+    private TrainingLevelType trainingLeveTypelId;
     @Column(name = "min_sesion")
     private Integer minSesion;
     @Column(name = "max_sesion")
@@ -52,17 +54,18 @@ public class TrainingLevel implements Serializable {
     private Integer minWeekPlan;
     @Column(name = "max_week_plan")
     private Integer maxWeekPlan;
-    @Column(name = "modality_id")
-    private Integer modalityId;
+    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
+    @ManyToOne
+    private Modality modalityId;
     @Column(name = "user_create")
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "last_update")
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
     @Column(name = "state_id")
     private Short stateId;
@@ -76,11 +79,6 @@ public class TrainingLevel implements Serializable {
         this.trainingLevelId = trainingLevelId;
     }
 
-    public TrainingLevel(Integer trainingLevelId, String description) {
-        this.trainingLevelId = trainingLevelId;
-        this.description = description;
-    }
-
     public Integer getTrainingLevelId() {
         return trainingLevelId;
     }
@@ -89,13 +87,6 @@ public class TrainingLevel implements Serializable {
         this.trainingLevelId = trainingLevelId;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Integer getMinSesion() {
         return minSesion;
@@ -145,11 +136,11 @@ public class TrainingLevel implements Serializable {
         this.maxWeekPlan = maxWeekPlan;
     }
 
-    public Integer getModalityId() {
+    public Modality getModalityId() {
         return modalityId;
     }
 
-    public void setModalityId(Integer modalityId) {
+    public void setModalityId(Modality modalityId) {
         this.modalityId = modalityId;
     }
 
@@ -193,6 +184,14 @@ public class TrainingLevel implements Serializable {
         this.stateId = stateId;
     }
 
+    public TrainingLevelType getTrainingLeveTypelId() {
+        return trainingLeveTypelId;
+    }
+
+    public void setTrainingLeveTypelId(TrainingLevelType trainingLeveTypelId) {
+        this.trainingLeveTypelId = trainingLeveTypelId;
+    }
+    
     public Collection<IntensityZone> getIntensityZoneCollection() {
         return intensityZoneCollection;
     }

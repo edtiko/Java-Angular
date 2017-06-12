@@ -48,9 +48,9 @@ public class UserProfileMovilDTO {
         this.ppm = ppm;
         this.power = power;
         this.userId = userId.getUserId();
-        if(objectiveId != null){
+        if(objectiveId != null && objectiveId.getTrainingLeveTypelId() != null){
         this.objectiveId = objectiveId.getTrainingLevelId();
-        this.objectiveName = objectiveId.getDescription();
+        this.objectiveName = objectiveId.getTrainingLeveTypelId().getName();
         }
         if(modalityId != null){
         this.modalityId = modalityId.getModalityId();

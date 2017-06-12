@@ -108,9 +108,9 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         if (userProfile.getAvailableTime() == null || userProfile.getAvailableTime() == 0) {
             throw new Exception("No se puede generar plan, no existe horas de entrenamiento registrado.");
         } else if (userProfile.getAvailableTime() < userProfile.getObjectiveId().getMinHourWeek()) {
-            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getDescription() + " requiere minimo " + userProfile.getObjectiveId().getMinHourWeek() + " horas.");
+            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getTrainingLeveTypelId().getName()+ " requiere minimo " + userProfile.getObjectiveId().getMinHourWeek() + " horas.");
         } else if (userProfile.getAvailableTime() > userProfile.getObjectiveId().getMaxHourWeek()) {
-            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getDescription() + " tiene un máximo de " + userProfile.getObjectiveId().getMaxHourWeek() + " horas.");
+            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getTrainingLeveTypelId().getName() + " tiene un máximo de " + userProfile.getObjectiveId().getMaxHourWeek() + " horas.");
         }
 
         if (userProfile.getCompetenceDate() == null) {
@@ -149,7 +149,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
         int numSemanas = endWeek - startWeek;
 
         if (daysAvailable < userProfile.getObjectiveId().getMinSesion()) {
-            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getDescription() + " requiere minimo " + userProfile.getObjectiveId().getMinSesion() + " de días disponibles. ");
+            throw new Exception("No se puede generar plan, el nivel " + userProfile.getObjectiveId().getTrainingLeveTypelId().getName() + " requiere minimo " + userProfile.getObjectiveId().getMinSesion() + " de días disponibles. ");
         } else if (daysAvailable == userProfile.getObjectiveId().getMinSesion()) {
             numSesiones = userProfile.getObjectiveId().getMinSesion();
         } else if (daysAvailable > userProfile.getObjectiveId().getMinSesion() || daysAvailable > userProfile.getObjectiveId().getMaxSesion()) {
@@ -637,7 +637,7 @@ public class TrainingPlanWorkoutServiceImpl implements TrainingPlanWorkoutServic
             index++;
             if (act.getActivityId() == null && indexCount.equals(activityList.size())) {
                 throw new Exception("No hay actividad configurada de " + code + " para el objetivo "
-                        + userProfile.getObjectiveId().getDescription() + " y la modalidad " + userProfile.getModalityId().getName());
+                        + userProfile.getObjectiveId().getTrainingLeveTypelId().getName() + " y la modalidad " + userProfile.getModalityId().getName());
             }
             if (index.equals(activityList.size())) {
                 index = 0;

@@ -109,7 +109,8 @@ require.config({
         configurationPlanService: "configuration/service/configurationPlanService",
         membershipService: "configuration/service/membershipService",
         multiStepForm: "lib/angular-multi-step-form",
-        loader: "lib/loader"
+        loader: "lib/loader",
+        agGrid: "lib/ag-grid.min"
     },
     shim: {
         angular: {
@@ -292,6 +293,10 @@ require.config({
         },
         multiStepForm: {
             exports: 'multiStepForm',
+            deps: ['angular']
+        },
+        agGrid:{
+            exports: 'agGrid',
             deps: ['angular']
         },
         trainingApp: {

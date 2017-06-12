@@ -33,8 +33,8 @@ trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            createObjective: function (objective) {
-                return $http.post($contextPath + '/objective/create', objective)
+            createTrainingLevel: function (trainingLevel) {
+                return $http.post($contextPath + '/objective/create', trainingLevel)
                         .then(
                                 function (response) {
                                     return response.data;
@@ -101,6 +101,18 @@ trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
                                 },
                                 function (errResponse) {
                                     console.error('Error while getting objectives by modality');
+                                    return $q.reject(errResponse);
+                                }
+                        );
+            },
+            getLevelTypes: function () {
+                return $http.get($contextPath + 'objective/get/level/types/')
+                        .then(
+                                function (response) {
+                                    return response.data.output;
+                                },
+                                function (errResponse) {
+                                    console.error('Error while getting level types');
                                     return $q.reject(errResponse);
                                 }
                         );

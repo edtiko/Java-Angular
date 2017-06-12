@@ -95,6 +95,7 @@
     <class>co.expertic.training.model.entities.TrainingLoadType</class>
     <class>co.expertic.training.model.entities.UserFittingHistory</class>
     <class>co.expertic.training.model.entities.UserFitting</class>
+    <class>co.expertic.training.model.entities.TrainingLevelType</class>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
       <!--  Except for Customer which is shared by orders -->

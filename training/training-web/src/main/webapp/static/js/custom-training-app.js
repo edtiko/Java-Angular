@@ -1,8 +1,11 @@
 'use strict';
 var urlCompraPlanEntrenamiento = $wordPressContextPath + 'atletas/';
+agGrid.initialiseAgGridWithAngular1(angular);
 // create the module and name it trainingApp
 var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRoute',
-    'ngMessages', 'ngMaterial', 'pascalprecht.translate', 'angular-notification-icons', 'md.data.table', 'ngSanitize', 'luegg.directives', 'angular.filter', 'ngCamRecorder', 'angularAudioRecorder', 'multiStepForm', 'angAccordion'])
+    'ngMessages', 'ngMaterial', 'pascalprecht.translate', 'md.data.table', 'ngSanitize', 
+    'luegg.directives', 'angular.filter', 'angularAudioRecorder', 'multiStepForm', 
+    'angAccordion','agGrid']) 
         .config(function ($routeProvider, routeResolverProvider, $controllerProvider, $provide,
                 $translateProvider, $mdDateLocaleProvider) {
 
@@ -130,6 +133,8 @@ var trainingApp = angular.module('trainingApp', ['routeResolverServices', 'ngRou
                     .when('/athlete-history-fitting/:user', route.resolve('userFittingHistory', 'userFittingHistory/')) 
                     
                     .when('/fitting', route.resolve('userFitting', 'userFitting/'))
+            
+                    .when('/training-level', route.resolve('trainingLevel', 'configuration/'))
             
                     .when('/stars', route.resolve('starAsesor', 'starAsesor/'));
 

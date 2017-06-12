@@ -22,6 +22,8 @@ public class TrainingLevelDTO {
     private Integer minWeekPlan;
     private Integer maxWeekPlan;
     private Integer modalityId;
+    private String  modality;
+    private Integer trainingLevelTypeId;
 
     public TrainingLevelDTO() {
 
@@ -29,13 +31,16 @@ public class TrainingLevelDTO {
 
     public TrainingLevelDTO(TrainingLevel t) {
         this.id = t.getTrainingLevelId();
-        this.name = t.getDescription();
+        this.name = t.getTrainingLeveTypelId().getName();
         this.minSesion = t.getMinSesion();
         this.maxSesion = t.getMaxSesion();
         this.minHourWeek = t.getMinHourWeek();
         this.maxHourWeek = t.getMaxHourWeek();
         this.minWeekPlan = t.getMinWeekPlan();
         this.maxWeekPlan = t.getMaxWeekPlan();
+        this.modality = t.getModalityId().getName();
+        this.modalityId = t.getModalityId().getModalityId();
+        
     }
 
     public TrainingLevelDTO(Integer id, String name) {
@@ -113,6 +118,22 @@ public class TrainingLevelDTO {
 
     public void setMaxWeekPlan(Integer maxWeekPlan) {
         this.maxWeekPlan = maxWeekPlan;
+    }
+
+    public String getModality() {
+        return modality;
+    }
+
+    public void setModality(String modality) {
+        this.modality = modality;
+    }
+
+    public Integer getTrainingLevelTypeId() {
+        return trainingLevelTypeId;
+    }
+
+    public void setTrainingLevelTypeId(Integer trainingLevelTypeId) {
+        this.trainingLevelTypeId = trainingLevelTypeId;
     }
 
 
