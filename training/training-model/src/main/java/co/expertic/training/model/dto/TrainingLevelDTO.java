@@ -25,6 +25,7 @@ public class TrainingLevelDTO {
     private String  modality;
     private Integer trainingLevelTypeId;
     private Integer disciplineId;
+    private Short stateId;
 
     public TrainingLevelDTO() {
 
@@ -145,6 +146,14 @@ public class TrainingLevelDTO {
 
     public void setDisciplineId(Integer disciplineId) {
         this.disciplineId = disciplineId;
+    }
+
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
     }
 
 

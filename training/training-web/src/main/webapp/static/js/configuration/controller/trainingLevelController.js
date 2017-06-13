@@ -20,7 +20,6 @@ trainingApp.controller('TrainingLevelController', ['$scope', 'ObjectiveService',
             var selectedRows = $scope.gridOptions.api.getSelectedRows();
             $scope.trainingLevel = selectedRows[0];
             $scope.edit = true;
-
         };
         
          function editCellRendererFunc(params){  

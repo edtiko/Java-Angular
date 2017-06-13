@@ -65,7 +65,7 @@ public class ObjectiveServiceImpl implements ObjectiveService {
          trainingLevel.setMinHourWeek(dto.getMinHourWeek());
          trainingLevel.setMinSesion(dto.getMinSesion());
          trainingLevel.setMinWeekPlan(dto.getMinWeekPlan());
-         trainingLevel.setStateId(StateEnum.ACTIVE.getId().shortValue());
+         trainingLevel.setStateId(dto.getStateId());
          trainingLevel.setLastUpdate(Calendar.getInstance().getTime());
          levelDao.merge(trainingLevel);
     }
