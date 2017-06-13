@@ -11,12 +11,12 @@
         <div class="md-dialog-content" layout-align="center center">
 
             <form  name="formTrainingLevel" novalidate>
-                <input type="hidden" ng-model="trainingLevel.trainingLevelId" />
+                <input type="hidden" ng-model="trainingLevel.id" />
                 <div layout="row"> 
                     <div flex="66">
                         <md-input-container class="md-block md-input-has-placeholder" >
                             <label class="blue" style="font-size: 12px">Disciplina Deportiva</label>
-                            <md-select id="discipline" name="discipline" ng-model="trainingLevel.discipline"  ng-change="getModalitiesByDisciplineId(trainingLevel.discipline, true)" ng-required="true">
+                            <md-select id="discipline" name="discipline" ng-model="trainingLevel.disciplineId"  ng-change="getModalitiesByDisciplineId(trainingLevel.disciplineId, true)" ng-required="true">
                                 <md-option ng-repeat="d in disciplines" value="{{d.disciplineId}}" >
                                     {{d.name}}
                                 </md-option>

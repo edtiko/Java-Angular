@@ -45,8 +45,8 @@ trainingApp.service('ObjectiveService', ['$http', '$q', function ($http, $q) {
                                 }
                         );
             },
-            mergeObjective: function (objective) {
-                return $http.post($contextPath + '/objective/update', objective)
+            mergeObjective: function (trainingLevel) {
+                return $http.post($contextPath + '/objective/update', trainingLevel)
                         .then(
                                 function (response) {
                                     return response.data;

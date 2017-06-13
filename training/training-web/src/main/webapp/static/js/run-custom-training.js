@@ -110,7 +110,8 @@ require.config({
         membershipService: "configuration/service/membershipService",
         multiStepForm: "lib/angular-multi-step-form",
         loader: "lib/loader",
-        agGrid: "lib/ag-grid.min"
+        agGrid: "lib/ag-grid.min",
+        angularCamera: "lib/angular-camera"
     },
     shim: {
         angular: {
@@ -299,11 +300,14 @@ require.config({
             exports: 'agGrid',
             deps: ['angular']
         },
+         angularCamera:{
+            deps: ['angular']
+        },
         trainingApp: {
             deps: ['lodash', 'angular', 'angularMessages', 'angularRoute', 'angularAnimate', 'angularAria', 'angularMaterial',
                 'sockjs', 'stompWebsocket', 'angularTranslate', 'angularDataTable', 'angularNotification', 'angularSanitize',
                 'scrollGlue', 'angularFilter', 'ngCamRecorder', 'recorder', 'whammy', 'viRecorder', 'angularPickList', 'angularAudioRecorder',
-                'wavesurfer', 'adapter', 'moment', 'jqueryui', 'multiStepForm', 'loader', 'accordion'
+                'wavesurfer', 'adapter', 'moment', 'jqueryui', 'multiStepForm', 'loader', 'accordion','angularCamera'
 
             ]
         },

@@ -1,4 +1,4 @@
-// ag-grid v10.1.0
+// ag-grid-enterprise v10.1.0
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -10,8 +10,6 @@
 		root["agGrid"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
-    
-    this.enterprise = true;
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 
@@ -57,22 +55,64 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	// same as main.js, except also includes the styles, so webpack includes the css in the bundle
-	var agGrid = __webpack_require__(1);
+	__webpack_require__(1);
+
+	// add in exports for ag-Grid-Enterprise
+	var populateClientExports = __webpack_require__(168).populateClientExports;
+	populateClientExports(exports);
+
+	// also add in in exports for ag-Grid-Standard, as it's webpack, we want both packed up
+	var agGrid = __webpack_require__(2);
 	Object.keys(agGrid).forEach(function(key) {
 	    exports[key] = agGrid[key];
 	});
 
-	__webpack_require__(126);
-	__webpack_require__(130);
-	__webpack_require__(132);
-	__webpack_require__(134);
-	__webpack_require__(136);
-	__webpack_require__(138);
+	__webpack_require__(169);
+	__webpack_require__(173);
+	__webpack_require__(175);
+	__webpack_require__(177);
+	__webpack_require__(179);
+	__webpack_require__(181);
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var main_1 = __webpack_require__(2);
+	var enterpriseMenu_1 = __webpack_require__(127);
+	var rangeController_1 = __webpack_require__(135);
+	var clipboardService_1 = __webpack_require__(134);
+	var groupStage_1 = __webpack_require__(137);
+	var aggregationStage_1 = __webpack_require__(138);
+	var enterpriseBoot_1 = __webpack_require__(141);
+	var statusBar_1 = __webpack_require__(150);
+	var contextMenu_1 = __webpack_require__(152);
+	var viewportRowModel_1 = __webpack_require__(153);
+	var pivotColumnsPanel_1 = __webpack_require__(154);
+	var toolPanelComp_1 = __webpack_require__(157);
+	var rowGroupCompFactory_1 = __webpack_require__(161);
+	var licenseManager_1 = __webpack_require__(148);
+	var md5_1 = __webpack_require__(149);
+	var pivotStage_1 = __webpack_require__(139);
+	var pivotColDefService_1 = __webpack_require__(140);
+	var aggFuncService_1 = __webpack_require__(136);
+	var pivotCompFactory_1 = __webpack_require__(162);
+	var menuItemMapper_1 = __webpack_require__(133);
+	var excelCreator_1 = __webpack_require__(163);
+	var excelXmlFactory_1 = __webpack_require__(164);
+	var enterpriseRowModel_1 = __webpack_require__(165);
+	var rowModelTypes = { viewport: viewportRowModel_1.ViewportRowModel, enterprise: enterpriseRowModel_1.EnterpriseRowModel };
+	main_1.Grid.setEnterpriseBeans([toolPanelComp_1.ToolPanelComp, enterpriseMenu_1.EnterpriseMenuFactory, excelCreator_1.ExcelCreator, excelXmlFactory_1.ExcelXmlFactory, rowGroupCompFactory_1.RowGroupCompFactory, pivotCompFactory_1.PivotCompFactory,
+	    pivotColumnsPanel_1.PivotColumnsPanel, rangeController_1.RangeController, clipboardService_1.ClipboardService, pivotStage_1.PivotStage, pivotColDefService_1.PivotColDefService,
+	    contextMenu_1.ContextMenuFactory, groupStage_1.GroupStage, aggregationStage_1.AggregationStage, enterpriseBoot_1.EnterpriseBoot, aggFuncService_1.AggFuncService,
+	    statusBar_1.StatusBar, licenseManager_1.LicenseManager, md5_1.MD5, menuItemMapper_1.MenuItemMapper], rowModelTypes);
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -84,29 +124,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	// columnController
-	var balancedColumnTreeBuilder_1 = __webpack_require__(2);
+	var balancedColumnTreeBuilder_1 = __webpack_require__(3);
 	exports.BalancedColumnTreeBuilder = balancedColumnTreeBuilder_1.BalancedColumnTreeBuilder;
-	var columnController_1 = __webpack_require__(14);
+	var columnController_1 = __webpack_require__(15);
 	exports.ColumnController = columnController_1.ColumnController;
-	var columnKeyCreator_1 = __webpack_require__(102);
+	var columnKeyCreator_1 = __webpack_require__(103);
 	exports.ColumnKeyCreator = columnKeyCreator_1.ColumnKeyCreator;
-	var columnUtils_1 = __webpack_require__(17);
+	var columnUtils_1 = __webpack_require__(18);
 	exports.ColumnUtils = columnUtils_1.ColumnUtils;
-	var displayedGroupCreator_1 = __webpack_require__(20);
+	var displayedGroupCreator_1 = __webpack_require__(21);
 	exports.DisplayedGroupCreator = displayedGroupCreator_1.DisplayedGroupCreator;
-	var groupInstanceIdCreator_1 = __webpack_require__(97);
+	var groupInstanceIdCreator_1 = __webpack_require__(98);
 	exports.GroupInstanceIdCreator = groupInstanceIdCreator_1.GroupInstanceIdCreator;
 	// components
-	var componentUtil_1 = __webpack_require__(10);
+	var componentUtil_1 = __webpack_require__(11);
 	exports.ComponentUtil = componentUtil_1.ComponentUtil;
-	var agGridNg1_1 = __webpack_require__(103);
+	var agGridNg1_1 = __webpack_require__(104);
 	exports.initialiseAgGridWithAngular1 = agGridNg1_1.initialiseAgGridWithAngular1;
-	var agGridWebComponent_1 = __webpack_require__(122);
+	var agGridWebComponent_1 = __webpack_require__(123);
 	exports.initialiseAgGridWithWebComponents = agGridWebComponent_1.initialiseAgGridWithWebComponents;
 	// context
-	var beanStub_1 = __webpack_require__(44);
+	var beanStub_1 = __webpack_require__(45);
 	exports.BeanStub = beanStub_1.BeanStub;
-	var context_1 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
 	exports.Context = context_1.Context;
 	exports.Autowired = context_1.Autowired;
 	exports.PostConstruct = context_1.PostConstruct;
@@ -115,222 +155,222 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Bean = context_1.Bean;
 	exports.Qualifier = context_1.Qualifier;
 	exports.PreDestroy = context_1.PreDestroy;
-	var componentAnnotations_1 = __webpack_require__(45);
+	var componentAnnotations_1 = __webpack_require__(46);
 	exports.QuerySelector = componentAnnotations_1.QuerySelector;
 	exports.Listener = componentAnnotations_1.Listener;
 	// dragAndDrop
-	var dragAndDropService_1 = __webpack_require__(83);
+	var dragAndDropService_1 = __webpack_require__(84);
 	exports.DragAndDropService = dragAndDropService_1.DragAndDropService;
 	exports.DragSourceType = dragAndDropService_1.DragSourceType;
 	exports.HDirection = dragAndDropService_1.HDirection;
 	exports.VDirection = dragAndDropService_1.VDirection;
-	var dragService_1 = __webpack_require__(30);
+	var dragService_1 = __webpack_require__(31);
 	exports.DragService = dragService_1.DragService;
 	// entities
-	var column_1 = __webpack_require__(16);
+	var column_1 = __webpack_require__(17);
 	exports.Column = column_1.Column;
-	var columnGroup_1 = __webpack_require__(15);
+	var columnGroup_1 = __webpack_require__(16);
 	exports.ColumnGroup = columnGroup_1.ColumnGroup;
-	var gridCell_1 = __webpack_require__(35);
+	var gridCell_1 = __webpack_require__(36);
 	exports.GridCell = gridCell_1.GridCell;
-	var gridRow_1 = __webpack_require__(36);
+	var gridRow_1 = __webpack_require__(37);
 	exports.GridRow = gridRow_1.GridRow;
-	var originalColumnGroup_1 = __webpack_require__(18);
+	var originalColumnGroup_1 = __webpack_require__(19);
 	exports.OriginalColumnGroup = originalColumnGroup_1.OriginalColumnGroup;
-	var rowNode_1 = __webpack_require__(26);
+	var rowNode_1 = __webpack_require__(27);
 	exports.RowNode = rowNode_1.RowNode;
 	// filter
-	var baseFilter_1 = __webpack_require__(42);
+	var baseFilter_1 = __webpack_require__(43);
 	exports.BaseFilter = baseFilter_1.BaseFilter;
-	var dateFilter_1 = __webpack_require__(47);
+	var dateFilter_1 = __webpack_require__(48);
 	exports.DateFilter = dateFilter_1.DateFilter;
-	var filterManager_1 = __webpack_require__(39);
+	var filterManager_1 = __webpack_require__(40);
 	exports.FilterManager = filterManager_1.FilterManager;
-	var numberFilter_1 = __webpack_require__(46);
+	var numberFilter_1 = __webpack_require__(47);
 	exports.NumberFilter = numberFilter_1.NumberFilter;
-	var textFilter_1 = __webpack_require__(41);
+	var textFilter_1 = __webpack_require__(42);
 	exports.TextFilter = textFilter_1.TextFilter;
 	// gridPanel
-	var gridPanel_1 = __webpack_require__(23);
+	var gridPanel_1 = __webpack_require__(24);
 	exports.GridPanel = gridPanel_1.GridPanel;
-	var scrollVisibleService_1 = __webpack_require__(60);
+	var scrollVisibleService_1 = __webpack_require__(61);
 	exports.ScrollVisibleService = scrollVisibleService_1.ScrollVisibleService;
-	var mouseEventService_1 = __webpack_require__(31);
+	var mouseEventService_1 = __webpack_require__(32);
 	exports.MouseEventService = mouseEventService_1.MouseEventService;
 	// headerRendering
-	var bodyDropPivotTarget_1 = __webpack_require__(95);
+	var bodyDropPivotTarget_1 = __webpack_require__(96);
 	exports.BodyDropPivotTarget = bodyDropPivotTarget_1.BodyDropPivotTarget;
-	var bodyDropTarget_1 = __webpack_require__(93);
+	var bodyDropTarget_1 = __webpack_require__(94);
 	exports.BodyDropTarget = bodyDropTarget_1.BodyDropTarget;
-	var cssClassApplier_1 = __webpack_require__(88);
+	var cssClassApplier_1 = __webpack_require__(89);
 	exports.CssClassApplier = cssClassApplier_1.CssClassApplier;
-	var headerContainer_1 = __webpack_require__(82);
+	var headerContainer_1 = __webpack_require__(83);
 	exports.HeaderContainer = headerContainer_1.HeaderContainer;
-	var headerRenderer_1 = __webpack_require__(81);
+	var headerRenderer_1 = __webpack_require__(82);
 	exports.HeaderRenderer = headerRenderer_1.HeaderRenderer;
-	var headerRowComp_1 = __webpack_require__(84);
+	var headerRowComp_1 = __webpack_require__(85);
 	exports.HeaderRowComp = headerRowComp_1.HeaderRowComp;
-	var headerTemplateLoader_1 = __webpack_require__(86);
+	var headerTemplateLoader_1 = __webpack_require__(87);
 	exports.HeaderTemplateLoader = headerTemplateLoader_1.HeaderTemplateLoader;
-	var horizontalDragService_1 = __webpack_require__(87);
+	var horizontalDragService_1 = __webpack_require__(88);
 	exports.HorizontalDragService = horizontalDragService_1.HorizontalDragService;
-	var moveColumnController_1 = __webpack_require__(94);
+	var moveColumnController_1 = __webpack_require__(95);
 	exports.MoveColumnController = moveColumnController_1.MoveColumnController;
-	var renderedHeaderCell_1 = __webpack_require__(85);
+	var renderedHeaderCell_1 = __webpack_require__(86);
 	exports.RenderedHeaderCell = renderedHeaderCell_1.RenderedHeaderCell;
-	var standardMenu_1 = __webpack_require__(105);
+	var standardMenu_1 = __webpack_require__(106);
 	exports.StandardMenuFactory = standardMenu_1.StandardMenuFactory;
 	// layout
-	var borderLayout_1 = __webpack_require__(29);
+	var borderLayout_1 = __webpack_require__(30);
 	exports.BorderLayout = borderLayout_1.BorderLayout;
-	var tabbedLayout_1 = __webpack_require__(123);
+	var tabbedLayout_1 = __webpack_require__(124);
 	exports.TabbedLayout = tabbedLayout_1.TabbedLayout;
-	var verticalStack_1 = __webpack_require__(124);
+	var verticalStack_1 = __webpack_require__(125);
 	exports.VerticalStack = verticalStack_1.VerticalStack;
 	// misc
-	var focusService_1 = __webpack_require__(37);
+	var focusService_1 = __webpack_require__(38);
 	exports.FocusService = focusService_1.FocusService;
-	var methodNotImplementedException_1 = __webpack_require__(75);
+	var methodNotImplementedException_1 = __webpack_require__(76);
 	exports.MethodNotImplementedException = methodNotImplementedException_1.MethodNotImplementedException;
-	var simpleHttpRequest_1 = __webpack_require__(125);
+	var simpleHttpRequest_1 = __webpack_require__(126);
 	exports.simpleHttpRequest = simpleHttpRequest_1.simpleHttpRequest;
-	var largeTextCellEditor_1 = __webpack_require__(67);
+	var largeTextCellEditor_1 = __webpack_require__(68);
 	exports.LargeTextCellEditor = largeTextCellEditor_1.LargeTextCellEditor;
-	var popupEditorWrapper_1 = __webpack_require__(64);
+	var popupEditorWrapper_1 = __webpack_require__(65);
 	exports.PopupEditorWrapper = popupEditorWrapper_1.PopupEditorWrapper;
-	var popupSelectCellEditor_1 = __webpack_require__(66);
+	var popupSelectCellEditor_1 = __webpack_require__(67);
 	exports.PopupSelectCellEditor = popupSelectCellEditor_1.PopupSelectCellEditor;
-	var popupTextCellEditor_1 = __webpack_require__(65);
+	var popupTextCellEditor_1 = __webpack_require__(66);
 	exports.PopupTextCellEditor = popupTextCellEditor_1.PopupTextCellEditor;
-	var selectCellEditor_1 = __webpack_require__(63);
+	var selectCellEditor_1 = __webpack_require__(64);
 	exports.SelectCellEditor = selectCellEditor_1.SelectCellEditor;
-	var textCellEditor_1 = __webpack_require__(62);
+	var textCellEditor_1 = __webpack_require__(63);
 	exports.TextCellEditor = textCellEditor_1.TextCellEditor;
-	var animateShowChangeCellRenderer_1 = __webpack_require__(70);
+	var animateShowChangeCellRenderer_1 = __webpack_require__(71);
 	exports.AnimateShowChangeCellRenderer = animateShowChangeCellRenderer_1.AnimateShowChangeCellRenderer;
-	var animateSlideCellRenderer_1 = __webpack_require__(69);
+	var animateSlideCellRenderer_1 = __webpack_require__(70);
 	exports.AnimateSlideCellRenderer = animateSlideCellRenderer_1.AnimateSlideCellRenderer;
-	var groupCellRenderer_1 = __webpack_require__(71);
+	var groupCellRenderer_1 = __webpack_require__(72);
 	exports.GroupCellRenderer = groupCellRenderer_1.GroupCellRenderer;
 	// features
-	var setLeftFeature_1 = __webpack_require__(56);
+	var setLeftFeature_1 = __webpack_require__(57);
 	exports.SetLeftFeature = setLeftFeature_1.SetLeftFeature;
 	// rendering
-	var autoWidthCalculator_1 = __webpack_require__(21);
+	var autoWidthCalculator_1 = __webpack_require__(22);
 	exports.AutoWidthCalculator = autoWidthCalculator_1.AutoWidthCalculator;
-	var cellEditorFactory_1 = __webpack_require__(61);
+	var cellEditorFactory_1 = __webpack_require__(62);
 	exports.CellEditorFactory = cellEditorFactory_1.CellEditorFactory;
-	var cellRendererFactory_1 = __webpack_require__(68);
+	var cellRendererFactory_1 = __webpack_require__(69);
 	exports.CellRendererFactory = cellRendererFactory_1.CellRendererFactory;
-	var cellRendererService_1 = __webpack_require__(72);
+	var cellRendererService_1 = __webpack_require__(73);
 	exports.CellRendererService = cellRendererService_1.CellRendererService;
-	var checkboxSelectionComponent_1 = __webpack_require__(74);
+	var checkboxSelectionComponent_1 = __webpack_require__(75);
 	exports.CheckboxSelectionComponent = checkboxSelectionComponent_1.CheckboxSelectionComponent;
-	var cellComp_1 = __webpack_require__(32);
+	var cellComp_1 = __webpack_require__(33);
 	exports.CellComp = cellComp_1.CellComp;
-	var rowComp_1 = __webpack_require__(78);
+	var rowComp_1 = __webpack_require__(79);
 	exports.RowComp = rowComp_1.RowComp;
-	var rowRenderer_1 = __webpack_require__(22);
+	var rowRenderer_1 = __webpack_require__(23);
 	exports.RowRenderer = rowRenderer_1.RowRenderer;
-	var valueFormatterService_1 = __webpack_require__(73);
+	var valueFormatterService_1 = __webpack_require__(74);
 	exports.ValueFormatterService = valueFormatterService_1.ValueFormatterService;
 	// rowControllers/inMemory
-	var filterStage_1 = __webpack_require__(106);
+	var filterStage_1 = __webpack_require__(107);
 	exports.FilterStage = filterStage_1.FilterStage;
-	var flattenStage_1 = __webpack_require__(110);
+	var flattenStage_1 = __webpack_require__(111);
 	exports.FlattenStage = flattenStage_1.FlattenStage;
-	var sortStage_1 = __webpack_require__(108);
+	var sortStage_1 = __webpack_require__(109);
 	exports.SortStage = sortStage_1.SortStage;
 	// row models
-	var floatingRowModel_1 = __webpack_require__(25);
+	var floatingRowModel_1 = __webpack_require__(26);
 	exports.FloatingRowModel = floatingRowModel_1.FloatingRowModel;
-	var inMemoryRowModel_1 = __webpack_require__(117);
+	var inMemoryRowModel_1 = __webpack_require__(118);
 	exports.InMemoryRowModel = inMemoryRowModel_1.InMemoryRowModel;
-	var inMemoryNodeManager_1 = __webpack_require__(118);
+	var inMemoryNodeManager_1 = __webpack_require__(119);
 	exports.InMemoryNodeManager = inMemoryNodeManager_1.InMemoryNodeManager;
-	var infiniteRowModel_1 = __webpack_require__(111);
+	var infiniteRowModel_1 = __webpack_require__(112);
 	exports.InfiniteRowModel = infiniteRowModel_1.InfiniteRowModel;
-	var rowNodeBlock_1 = __webpack_require__(114);
+	var rowNodeBlock_1 = __webpack_require__(115);
 	exports.RowNodeBlock = rowNodeBlock_1.RowNodeBlock;
-	var rowNodeBlockLoader_1 = __webpack_require__(116);
+	var rowNodeBlockLoader_1 = __webpack_require__(117);
 	exports.RowNodeBlockLoader = rowNodeBlockLoader_1.RowNodeBlockLoader;
-	var rowNodeCache_1 = __webpack_require__(115);
+	var rowNodeCache_1 = __webpack_require__(116);
 	exports.RowNodeCache = rowNodeCache_1.RowNodeCache;
 	//styling
-	var stylingService_1 = __webpack_require__(76);
+	var stylingService_1 = __webpack_require__(77);
 	exports.StylingService = stylingService_1.StylingService;
 	// widgets
-	var agCheckbox_1 = __webpack_require__(90);
+	var agCheckbox_1 = __webpack_require__(91);
 	exports.AgCheckbox = agCheckbox_1.AgCheckbox;
-	var component_1 = __webpack_require__(43);
+	var component_1 = __webpack_require__(44);
 	exports.Component = component_1.Component;
-	var popupService_1 = __webpack_require__(40);
+	var popupService_1 = __webpack_require__(41);
 	exports.PopupService = popupService_1.PopupService;
-	var touchListener_1 = __webpack_require__(51);
+	var touchListener_1 = __webpack_require__(52);
 	exports.TouchListener = touchListener_1.TouchListener;
 	// root
-	var baseFrameworkFactory_1 = __webpack_require__(119);
+	var baseFrameworkFactory_1 = __webpack_require__(120);
 	exports.BaseFrameworkFactory = baseFrameworkFactory_1.BaseFrameworkFactory;
-	var cellNavigationService_1 = __webpack_require__(80);
+	var cellNavigationService_1 = __webpack_require__(81);
 	exports.CellNavigationService = cellNavigationService_1.CellNavigationService;
-	var columnChangeEvent_1 = __webpack_require__(96);
+	var columnChangeEvent_1 = __webpack_require__(97);
 	exports.ColumnChangeEvent = columnChangeEvent_1.ColumnChangeEvent;
-	var constants_1 = __webpack_require__(9);
+	var constants_1 = __webpack_require__(10);
 	exports.Constants = constants_1.Constants;
-	var csvCreator_1 = __webpack_require__(12);
+	var csvCreator_1 = __webpack_require__(13);
 	exports.CsvCreator = csvCreator_1.CsvCreator;
-	var downloader_1 = __webpack_require__(100);
+	var downloader_1 = __webpack_require__(101);
 	exports.Downloader = downloader_1.Downloader;
-	var grid_1 = __webpack_require__(104);
+	var grid_1 = __webpack_require__(105);
 	exports.Grid = grid_1.Grid;
-	var gridApi_1 = __webpack_require__(11);
+	var gridApi_1 = __webpack_require__(12);
 	exports.GridApi = gridApi_1.GridApi;
-	var events_1 = __webpack_require__(8);
+	var events_1 = __webpack_require__(9);
 	exports.Events = events_1.Events;
-	var focusedCellController_1 = __webpack_require__(34);
+	var focusedCellController_1 = __webpack_require__(35);
 	exports.FocusedCellController = focusedCellController_1.FocusedCellController;
-	var functions_1 = __webpack_require__(99);
+	var functions_1 = __webpack_require__(100);
 	exports.defaultGroupComparator = functions_1.defaultGroupComparator;
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	exports.GridOptionsWrapper = gridOptionsWrapper_1.GridOptionsWrapper;
-	var eventService_1 = __webpack_require__(4);
+	var eventService_1 = __webpack_require__(5);
 	exports.EventService = eventService_1.EventService;
-	var expressionService_1 = __webpack_require__(19);
+	var expressionService_1 = __webpack_require__(20);
 	exports.ExpressionService = expressionService_1.ExpressionService;
-	var gridCore_1 = __webpack_require__(38);
+	var gridCore_1 = __webpack_require__(39);
 	exports.GridCore = gridCore_1.GridCore;
-	var logger_1 = __webpack_require__(5);
+	var logger_1 = __webpack_require__(6);
 	exports.Logger = logger_1.Logger;
-	var masterSlaveService_1 = __webpack_require__(24);
+	var masterSlaveService_1 = __webpack_require__(25);
 	exports.MasterSlaveService = masterSlaveService_1.MasterSlaveService;
-	var selectionController_1 = __webpack_require__(27);
+	var selectionController_1 = __webpack_require__(28);
 	exports.SelectionController = selectionController_1.SelectionController;
-	var sortController_1 = __webpack_require__(53);
+	var sortController_1 = __webpack_require__(54);
 	exports.SortController = sortController_1.SortController;
-	var svgFactory_1 = __webpack_require__(50);
+	var svgFactory_1 = __webpack_require__(51);
 	exports.SvgFactory = svgFactory_1.SvgFactory;
-	var templateService_1 = __webpack_require__(33);
+	var templateService_1 = __webpack_require__(34);
 	exports.TemplateService = templateService_1.TemplateService;
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	exports.Utils = utils_1.Utils;
 	exports.NumberSequence = utils_1.NumberSequence;
 	exports._ = utils_1._;
-	var valueService_1 = __webpack_require__(28);
+	var valueService_1 = __webpack_require__(29);
 	exports.ValueService = valueService_1.ValueService;
-	var xmlFactory_1 = __webpack_require__(120);
+	var xmlFactory_1 = __webpack_require__(121);
 	exports.XmlFactory = xmlFactory_1.XmlFactory;
-	var gridSerializer_1 = __webpack_require__(13);
+	var gridSerializer_1 = __webpack_require__(14);
 	exports.GridSerializer = gridSerializer_1.GridSerializer;
 	exports.BaseGridSerializingSession = gridSerializer_1.BaseGridSerializingSession;
 	exports.RowType = gridSerializer_1.RowType;
-	var logger_2 = __webpack_require__(5);
+	var logger_2 = __webpack_require__(6);
 	exports.LoggerFactory = logger_2.LoggerFactory;
-	var columnController_2 = __webpack_require__(14);
+	var columnController_2 = __webpack_require__(15);
 	exports.ColumnApi = columnController_2.ColumnApi;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -353,17 +393,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var logger_1 = __webpack_require__(5);
-	var columnUtils_1 = __webpack_require__(17);
-	var columnKeyCreator_1 = __webpack_require__(102);
-	var originalColumnGroup_1 = __webpack_require__(18);
-	var column_1 = __webpack_require__(16);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
-	var context_3 = __webpack_require__(6);
-	var context_4 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var logger_1 = __webpack_require__(6);
+	var columnUtils_1 = __webpack_require__(18);
+	var columnKeyCreator_1 = __webpack_require__(103);
+	var originalColumnGroup_1 = __webpack_require__(19);
+	var column_1 = __webpack_require__(17);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
+	var context_3 = __webpack_require__(7);
+	var context_4 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	// takes in a list of columns, as specified by the column definitions, and returns column groups
 	var BalancedColumnTreeBuilder = (function () {
 	    function BalancedColumnTreeBuilder() {
@@ -532,7 +572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -555,13 +595,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var eventService_1 = __webpack_require__(4);
-	var constants_1 = __webpack_require__(9);
-	var componentUtil_1 = __webpack_require__(10);
-	var gridApi_1 = __webpack_require__(11);
-	var context_1 = __webpack_require__(6);
-	var columnController_1 = __webpack_require__(14);
-	var utils_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var constants_1 = __webpack_require__(10);
+	var componentUtil_1 = __webpack_require__(11);
+	var gridApi_1 = __webpack_require__(12);
+	var context_1 = __webpack_require__(7);
+	var columnController_1 = __webpack_require__(15);
+	var utils_1 = __webpack_require__(8);
 	var DEFAULT_ROW_HEIGHT = 25;
 	var DEFAULT_VIEWPORT_ROW_MODEL_PAGE_SIZE = 5;
 	var DEFAULT_VIEWPORT_ROW_MODEL_BUFFER_SIZE = 5;
@@ -1140,7 +1180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -1163,12 +1203,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var logger_1 = __webpack_require__(5);
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var events_1 = __webpack_require__(8);
+	var logger_1 = __webpack_require__(6);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var events_1 = __webpack_require__(9);
 	var EventService = EventService_1 = (function () {
 	    function EventService() {
 	        this.allSyncListeners = {};
@@ -1353,7 +1393,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -1376,9 +1416,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
 	var LoggerFactory = (function () {
 	    function LoggerFactory() {
 	    }
@@ -1422,7 +1462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -1433,7 +1473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	var Context = (function () {
 	    function Context(params, logger) {
 	        this.beans = {};
@@ -1763,7 +1803,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 	/**
@@ -2847,7 +2887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 	/**
@@ -2974,7 +3014,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 	/**
@@ -3093,7 +3133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3104,8 +3144,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var events_1 = __webpack_require__(8);
-	var utils_1 = __webpack_require__(7);
+	var events_1 = __webpack_require__(9);
+	var utils_1 = __webpack_require__(8);
 	var ComponentUtil = (function () {
 	    function ComponentUtil() {
 	    }
@@ -3331,7 +3371,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3351,29 +3391,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var csvCreator_1 = __webpack_require__(12);
-	var rowRenderer_1 = __webpack_require__(22);
-	var headerRenderer_1 = __webpack_require__(81);
-	var filterManager_1 = __webpack_require__(39);
-	var columnController_1 = __webpack_require__(14);
-	var selectionController_1 = __webpack_require__(27);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var gridPanel_1 = __webpack_require__(23);
-	var valueService_1 = __webpack_require__(28);
-	var masterSlaveService_1 = __webpack_require__(24);
-	var eventService_1 = __webpack_require__(4);
-	var floatingRowModel_1 = __webpack_require__(25);
-	var constants_1 = __webpack_require__(9);
-	var context_1 = __webpack_require__(6);
-	var gridCore_1 = __webpack_require__(38);
-	var sortController_1 = __webpack_require__(53);
-	var focusedCellController_1 = __webpack_require__(34);
-	var gridCell_1 = __webpack_require__(35);
-	var utils_1 = __webpack_require__(7);
-	var cellRendererFactory_1 = __webpack_require__(68);
-	var cellEditorFactory_1 = __webpack_require__(61);
-	var paginationProxy_1 = __webpack_require__(59);
-	var immutableService_1 = __webpack_require__(101);
+	var csvCreator_1 = __webpack_require__(13);
+	var rowRenderer_1 = __webpack_require__(23);
+	var headerRenderer_1 = __webpack_require__(82);
+	var filterManager_1 = __webpack_require__(40);
+	var columnController_1 = __webpack_require__(15);
+	var selectionController_1 = __webpack_require__(28);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var gridPanel_1 = __webpack_require__(24);
+	var valueService_1 = __webpack_require__(29);
+	var masterSlaveService_1 = __webpack_require__(25);
+	var eventService_1 = __webpack_require__(5);
+	var floatingRowModel_1 = __webpack_require__(26);
+	var constants_1 = __webpack_require__(10);
+	var context_1 = __webpack_require__(7);
+	var gridCore_1 = __webpack_require__(39);
+	var sortController_1 = __webpack_require__(54);
+	var focusedCellController_1 = __webpack_require__(35);
+	var gridCell_1 = __webpack_require__(36);
+	var utils_1 = __webpack_require__(8);
+	var cellRendererFactory_1 = __webpack_require__(69);
+	var cellEditorFactory_1 = __webpack_require__(62);
+	var paginationProxy_1 = __webpack_require__(60);
+	var immutableService_1 = __webpack_require__(102);
 	var GridApi = (function () {
 	    function GridApi() {
 	    }
@@ -4218,7 +4258,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -4248,12 +4288,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var gridSerializer_1 = __webpack_require__(13);
-	var downloader_1 = __webpack_require__(100);
-	var columnController_1 = __webpack_require__(14);
-	var valueService_1 = __webpack_require__(28);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var context_1 = __webpack_require__(7);
+	var gridSerializer_1 = __webpack_require__(14);
+	var downloader_1 = __webpack_require__(101);
+	var columnController_1 = __webpack_require__(15);
+	var valueService_1 = __webpack_require__(29);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var LINE_SEPARATOR = '\r\n';
 	var CsvSerializingSession = (function (_super) {
 	    __extends(CsvSerializingSession, _super);
@@ -4392,7 +4432,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -4412,17 +4452,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var columnController_1 = __webpack_require__(14);
-	var constants_1 = __webpack_require__(9);
-	var floatingRowModel_1 = __webpack_require__(25);
-	var utils_1 = __webpack_require__(7);
-	var selectionController_1 = __webpack_require__(27);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var displayedGroupCreator_1 = __webpack_require__(20);
-	var balancedColumnTreeBuilder_1 = __webpack_require__(2);
-	var groupInstanceIdCreator_1 = __webpack_require__(97);
-	var columnGroup_1 = __webpack_require__(15);
+	var context_1 = __webpack_require__(7);
+	var columnController_1 = __webpack_require__(15);
+	var constants_1 = __webpack_require__(10);
+	var floatingRowModel_1 = __webpack_require__(26);
+	var utils_1 = __webpack_require__(8);
+	var selectionController_1 = __webpack_require__(28);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var displayedGroupCreator_1 = __webpack_require__(21);
+	var balancedColumnTreeBuilder_1 = __webpack_require__(3);
+	var groupInstanceIdCreator_1 = __webpack_require__(98);
+	var columnGroup_1 = __webpack_require__(16);
 	var BaseGridSerializingSession = (function () {
 	    function BaseGridSerializingSession(columnController, valueService, gridOptionsWrapper, processCellCallback, processHeaderCallback, cellAndHeaderEscaper) {
 	        this.columnController = columnController;
@@ -4688,7 +4728,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -4711,25 +4751,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var columnGroup_1 = __webpack_require__(15);
-	var column_1 = __webpack_require__(16);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var expressionService_1 = __webpack_require__(19);
-	var balancedColumnTreeBuilder_1 = __webpack_require__(2);
-	var displayedGroupCreator_1 = __webpack_require__(20);
-	var autoWidthCalculator_1 = __webpack_require__(21);
-	var eventService_1 = __webpack_require__(4);
-	var columnUtils_1 = __webpack_require__(17);
-	var logger_1 = __webpack_require__(5);
-	var events_1 = __webpack_require__(8);
-	var columnChangeEvent_1 = __webpack_require__(96);
-	var originalColumnGroup_1 = __webpack_require__(18);
-	var groupInstanceIdCreator_1 = __webpack_require__(97);
-	var context_1 = __webpack_require__(6);
-	var gridPanel_1 = __webpack_require__(23);
-	var columnAnimationService_1 = __webpack_require__(57);
-	var autoGroupColService_1 = __webpack_require__(98);
+	var utils_1 = __webpack_require__(8);
+	var columnGroup_1 = __webpack_require__(16);
+	var column_1 = __webpack_require__(17);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var expressionService_1 = __webpack_require__(20);
+	var balancedColumnTreeBuilder_1 = __webpack_require__(3);
+	var displayedGroupCreator_1 = __webpack_require__(21);
+	var autoWidthCalculator_1 = __webpack_require__(22);
+	var eventService_1 = __webpack_require__(5);
+	var columnUtils_1 = __webpack_require__(18);
+	var logger_1 = __webpack_require__(6);
+	var events_1 = __webpack_require__(9);
+	var columnChangeEvent_1 = __webpack_require__(97);
+	var originalColumnGroup_1 = __webpack_require__(19);
+	var groupInstanceIdCreator_1 = __webpack_require__(98);
+	var context_1 = __webpack_require__(7);
+	var gridPanel_1 = __webpack_require__(24);
+	var columnAnimationService_1 = __webpack_require__(58);
+	var autoGroupColService_1 = __webpack_require__(99);
 	var ColumnApi = (function () {
 	    function ColumnApi() {
 	    }
@@ -6496,7 +6536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -6516,10 +6556,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var column_1 = __webpack_require__(16);
-	var eventService_1 = __webpack_require__(4);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var column_1 = __webpack_require__(17);
+	var eventService_1 = __webpack_require__(5);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var ColumnGroup = (function () {
 	    function ColumnGroup(originalColumnGroup, groupId, instanceId) {
 	        // depends on the open/closed state of the group, only displaying columns are stored here
@@ -6751,7 +6791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -6771,11 +6811,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var eventService_1 = __webpack_require__(4);
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnUtils_1 = __webpack_require__(17);
+	var eventService_1 = __webpack_require__(5);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnUtils_1 = __webpack_require__(18);
 	// Wrapper around a user provide column definition. The grid treats the column definition as ready only.
 	// This class contains all the runtime information about a column, plus some logic (the definition has no logic).
 	// This class implements both interfaces ColumnGroupChild and OriginalColumnGroupChild as the class can
@@ -7168,7 +7208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -7188,11 +7228,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnGroup_1 = __webpack_require__(15);
-	var originalColumnGroup_1 = __webpack_require__(18);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnGroup_1 = __webpack_require__(16);
+	var originalColumnGroup_1 = __webpack_require__(19);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
 	// takes in a list of columns, as specified by the column definitions, and returns column groups
 	var ColumnUtils = (function () {
 	    function ColumnUtils() {
@@ -7326,7 +7366,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -7337,9 +7377,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var columnGroup_1 = __webpack_require__(15);
-	var column_1 = __webpack_require__(16);
-	var eventService_1 = __webpack_require__(4);
+	var columnGroup_1 = __webpack_require__(16);
+	var column_1 = __webpack_require__(17);
+	var eventService_1 = __webpack_require__(5);
 	var OriginalColumnGroup = (function () {
 	    function OriginalColumnGroup(colGroupDef, groupId, padding) {
 	        this.localEventService = new eventService_1.EventService();
@@ -7444,7 +7484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -7467,9 +7507,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var logger_1 = __webpack_require__(5);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
+	var logger_1 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
 	var ExpressionService = (function () {
 	    function ExpressionService() {
 	        this.expressionToFunctionCache = {};
@@ -7529,7 +7569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -7549,12 +7589,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var columnUtils_1 = __webpack_require__(17);
-	var columnGroup_1 = __webpack_require__(15);
-	var originalColumnGroup_1 = __webpack_require__(18);
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var context_2 = __webpack_require__(6);
+	var columnUtils_1 = __webpack_require__(18);
+	var columnGroup_1 = __webpack_require__(16);
+	var originalColumnGroup_1 = __webpack_require__(19);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var context_2 = __webpack_require__(7);
 	// takes in a list of columns, as specified by the column definitions, and returns column groups
 	var DisplayedGroupCreator = (function () {
 	    function DisplayedGroupCreator() {
@@ -7724,7 +7764,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -7744,14 +7784,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var rowRenderer_1 = __webpack_require__(22);
-	var gridPanel_1 = __webpack_require__(23);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
-	var headerRenderer_1 = __webpack_require__(81);
-	var renderedHeaderCell_1 = __webpack_require__(85);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var headerWrapperComp_1 = __webpack_require__(89);
+	var rowRenderer_1 = __webpack_require__(23);
+	var gridPanel_1 = __webpack_require__(24);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
+	var headerRenderer_1 = __webpack_require__(82);
+	var renderedHeaderCell_1 = __webpack_require__(86);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var headerWrapperComp_1 = __webpack_require__(90);
 	var AutoWidthCalculator = (function () {
 	    function AutoWidthCalculator() {
 	    }
@@ -7864,7 +7904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -7897,27 +7937,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var gridPanel_1 = __webpack_require__(23);
-	var expressionService_1 = __webpack_require__(19);
-	var templateService_1 = __webpack_require__(33);
-	var valueService_1 = __webpack_require__(28);
-	var eventService_1 = __webpack_require__(4);
-	var floatingRowModel_1 = __webpack_require__(25);
-	var rowComp_1 = __webpack_require__(78);
-	var events_1 = __webpack_require__(8);
-	var constants_1 = __webpack_require__(9);
-	var cellComp_1 = __webpack_require__(32);
-	var context_1 = __webpack_require__(6);
-	var gridCore_1 = __webpack_require__(38);
-	var columnController_1 = __webpack_require__(14);
-	var logger_1 = __webpack_require__(5);
-	var focusedCellController_1 = __webpack_require__(34);
-	var cellNavigationService_1 = __webpack_require__(80);
-	var gridCell_1 = __webpack_require__(35);
-	var beanStub_1 = __webpack_require__(44);
-	var paginationProxy_1 = __webpack_require__(59);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var gridPanel_1 = __webpack_require__(24);
+	var expressionService_1 = __webpack_require__(20);
+	var templateService_1 = __webpack_require__(34);
+	var valueService_1 = __webpack_require__(29);
+	var eventService_1 = __webpack_require__(5);
+	var floatingRowModel_1 = __webpack_require__(26);
+	var rowComp_1 = __webpack_require__(79);
+	var events_1 = __webpack_require__(9);
+	var constants_1 = __webpack_require__(10);
+	var cellComp_1 = __webpack_require__(33);
+	var context_1 = __webpack_require__(7);
+	var gridCore_1 = __webpack_require__(39);
+	var columnController_1 = __webpack_require__(15);
+	var logger_1 = __webpack_require__(6);
+	var focusedCellController_1 = __webpack_require__(35);
+	var cellNavigationService_1 = __webpack_require__(81);
+	var gridCell_1 = __webpack_require__(36);
+	var beanStub_1 = __webpack_require__(45);
+	var paginationProxy_1 = __webpack_require__(60);
 	var RowRenderer = (function (_super) {
 	    __extends(RowRenderer, _super);
 	    function RowRenderer() {
@@ -8673,7 +8713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -8706,29 +8746,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var masterSlaveService_1 = __webpack_require__(24);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var rowRenderer_1 = __webpack_require__(22);
-	var floatingRowModel_1 = __webpack_require__(25);
-	var borderLayout_1 = __webpack_require__(29);
-	var logger_1 = __webpack_require__(5);
-	var context_1 = __webpack_require__(6);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var dragService_1 = __webpack_require__(30);
-	var constants_1 = __webpack_require__(9);
-	var selectionController_1 = __webpack_require__(27);
-	var csvCreator_1 = __webpack_require__(12);
-	var mouseEventService_1 = __webpack_require__(31);
-	var focusedCellController_1 = __webpack_require__(34);
-	var rowComp_1 = __webpack_require__(78);
-	var scrollVisibleService_1 = __webpack_require__(60);
-	var beanStub_1 = __webpack_require__(44);
-	var rowContainerComponent_1 = __webpack_require__(79);
-	var paginationProxy_1 = __webpack_require__(59);
-	var popupEditorWrapper_1 = __webpack_require__(64);
+	var utils_1 = __webpack_require__(8);
+	var masterSlaveService_1 = __webpack_require__(25);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var rowRenderer_1 = __webpack_require__(23);
+	var floatingRowModel_1 = __webpack_require__(26);
+	var borderLayout_1 = __webpack_require__(30);
+	var logger_1 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var dragService_1 = __webpack_require__(31);
+	var constants_1 = __webpack_require__(10);
+	var selectionController_1 = __webpack_require__(28);
+	var csvCreator_1 = __webpack_require__(13);
+	var mouseEventService_1 = __webpack_require__(32);
+	var focusedCellController_1 = __webpack_require__(35);
+	var rowComp_1 = __webpack_require__(79);
+	var scrollVisibleService_1 = __webpack_require__(61);
+	var beanStub_1 = __webpack_require__(45);
+	var rowContainerComponent_1 = __webpack_require__(80);
+	var paginationProxy_1 = __webpack_require__(60);
+	var popupEditorWrapper_1 = __webpack_require__(65);
 	// in the html below, it is important that there are no white space between some of the divs, as if there is white space,
 	// it won't render correctly in safari, as safari renders white space as a gap
 	var HEADER_SNIPPET = '<div class="ag-header">' +
@@ -10345,7 +10385,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -10368,16 +10408,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var gridPanel_1 = __webpack_require__(23);
-	var eventService_1 = __webpack_require__(4);
-	var logger_1 = __webpack_require__(5);
-	var events_1 = __webpack_require__(8);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
-	var context_3 = __webpack_require__(6);
-	var context_4 = __webpack_require__(6);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var gridPanel_1 = __webpack_require__(24);
+	var eventService_1 = __webpack_require__(5);
+	var logger_1 = __webpack_require__(6);
+	var events_1 = __webpack_require__(9);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
+	var context_3 = __webpack_require__(7);
+	var context_4 = __webpack_require__(7);
 	var MasterSlaveService = (function () {
 	    function MasterSlaveService() {
 	        // flag to mark if we are consuming. to avoid cyclic events (ie slave firing back to master
@@ -10559,7 +10599,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -10579,15 +10619,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var rowNode_1 = __webpack_require__(26);
-	var context_1 = __webpack_require__(6);
-	var eventService_1 = __webpack_require__(4);
-	var context_2 = __webpack_require__(6);
-	var events_1 = __webpack_require__(8);
-	var context_3 = __webpack_require__(6);
-	var constants_1 = __webpack_require__(9);
-	var utils_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var rowNode_1 = __webpack_require__(27);
+	var context_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var context_2 = __webpack_require__(7);
+	var events_1 = __webpack_require__(9);
+	var context_3 = __webpack_require__(7);
+	var constants_1 = __webpack_require__(10);
+	var utils_1 = __webpack_require__(8);
 	var FloatingRowModel = (function () {
 	    function FloatingRowModel() {
 	    }
@@ -10717,7 +10757,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -10737,15 +10777,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var selectionController_1 = __webpack_require__(27);
-	var valueService_1 = __webpack_require__(28);
-	var columnController_1 = __webpack_require__(14);
-	var context_1 = __webpack_require__(6);
-	var constants_1 = __webpack_require__(9);
-	var utils_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var selectionController_1 = __webpack_require__(28);
+	var valueService_1 = __webpack_require__(29);
+	var columnController_1 = __webpack_require__(15);
+	var context_1 = __webpack_require__(7);
+	var constants_1 = __webpack_require__(10);
+	var utils_1 = __webpack_require__(8);
 	var RowNode = (function () {
 	    function RowNode() {
 	        /** Children mapped by the pivot columns */
@@ -11217,7 +11257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -11240,16 +11280,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
-	var logger_1 = __webpack_require__(5);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var context_3 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_4 = __webpack_require__(6);
-	var constants_1 = __webpack_require__(9);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
+	var logger_1 = __webpack_require__(6);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var context_3 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_4 = __webpack_require__(7);
+	var constants_1 = __webpack_require__(10);
 	var SelectionController = (function () {
 	    function SelectionController() {
 	    }
@@ -11521,7 +11561,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -11541,13 +11581,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var expressionService_1 = __webpack_require__(19);
-	var columnController_1 = __webpack_require__(14);
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var events_1 = __webpack_require__(8);
-	var eventService_1 = __webpack_require__(4);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var expressionService_1 = __webpack_require__(20);
+	var columnController_1 = __webpack_require__(15);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var events_1 = __webpack_require__(9);
+	var eventService_1 = __webpack_require__(5);
 	var ValueService = (function () {
 	    function ValueService() {
 	        this.initialised = false;
@@ -11719,7 +11759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -11730,7 +11770,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	var BorderLayout = (function () {
 	    function BorderLayout(params) {
 	        this.centerHeightLastTime = -1;
@@ -11995,7 +12035,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -12015,12 +12055,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var logger_1 = __webpack_require__(5);
-	var utils_1 = __webpack_require__(7);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var context_1 = __webpack_require__(7);
+	var logger_1 = __webpack_require__(6);
+	var utils_1 = __webpack_require__(8);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	/** Adds drag listening onto an element. In ag-Grid this is used twice, first is resizing columns,
 	 * second is moving the columns and column groups around (ie the 'drag' part of Drag and Drop. */
 	var DragService = (function () {
@@ -12249,7 +12289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -12269,11 +12309,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var cellComp_1 = __webpack_require__(32);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var cellComp_1 = __webpack_require__(33);
 	var MouseEventService = (function () {
 	    function MouseEventService() {
 	    }
@@ -12305,7 +12345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -12335,35 +12375,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var column_1 = __webpack_require__(16);
-	var rowNode_1 = __webpack_require__(26);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var expressionService_1 = __webpack_require__(19);
-	var rowRenderer_1 = __webpack_require__(22);
-	var templateService_1 = __webpack_require__(33);
-	var columnController_1 = __webpack_require__(14);
-	var valueService_1 = __webpack_require__(28);
-	var eventService_1 = __webpack_require__(4);
-	var constants_1 = __webpack_require__(9);
-	var events_1 = __webpack_require__(8);
-	var context_1 = __webpack_require__(6);
-	var gridApi_1 = __webpack_require__(11);
-	var focusedCellController_1 = __webpack_require__(34);
-	var gridCell_1 = __webpack_require__(35);
-	var focusService_1 = __webpack_require__(37);
-	var cellEditorFactory_1 = __webpack_require__(61);
-	var component_1 = __webpack_require__(43);
-	var popupService_1 = __webpack_require__(40);
-	var cellRendererFactory_1 = __webpack_require__(68);
-	var cellRendererService_1 = __webpack_require__(72);
-	var valueFormatterService_1 = __webpack_require__(73);
-	var checkboxSelectionComponent_1 = __webpack_require__(74);
-	var setLeftFeature_1 = __webpack_require__(56);
-	var methodNotImplementedException_1 = __webpack_require__(75);
-	var stylingService_1 = __webpack_require__(76);
-	var columnHoverService_1 = __webpack_require__(77);
-	var columnAnimationService_1 = __webpack_require__(57);
+	var utils_1 = __webpack_require__(8);
+	var column_1 = __webpack_require__(17);
+	var rowNode_1 = __webpack_require__(27);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var expressionService_1 = __webpack_require__(20);
+	var rowRenderer_1 = __webpack_require__(23);
+	var templateService_1 = __webpack_require__(34);
+	var columnController_1 = __webpack_require__(15);
+	var valueService_1 = __webpack_require__(29);
+	var eventService_1 = __webpack_require__(5);
+	var constants_1 = __webpack_require__(10);
+	var events_1 = __webpack_require__(9);
+	var context_1 = __webpack_require__(7);
+	var gridApi_1 = __webpack_require__(12);
+	var focusedCellController_1 = __webpack_require__(35);
+	var gridCell_1 = __webpack_require__(36);
+	var focusService_1 = __webpack_require__(38);
+	var cellEditorFactory_1 = __webpack_require__(62);
+	var component_1 = __webpack_require__(44);
+	var popupService_1 = __webpack_require__(41);
+	var cellRendererFactory_1 = __webpack_require__(69);
+	var cellRendererService_1 = __webpack_require__(73);
+	var valueFormatterService_1 = __webpack_require__(74);
+	var checkboxSelectionComponent_1 = __webpack_require__(75);
+	var setLeftFeature_1 = __webpack_require__(57);
+	var methodNotImplementedException_1 = __webpack_require__(76);
+	var stylingService_1 = __webpack_require__(77);
+	var columnHoverService_1 = __webpack_require__(78);
+	var columnAnimationService_1 = __webpack_require__(58);
 	var CellComp = (function (_super) {
 	    __extends(CellComp, _super);
 	    function CellComp(column, node, scope, renderedRow) {
@@ -13332,7 +13372,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    return CellComp;
 	}(component_1.Component));
-	CellComp.PRINTABLE_CHARACTERS = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!"Â£$%^&*()_+-=[];\'#,./\|<>?:@~{}';
+	CellComp.PRINTABLE_CHARACTERS = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890!"£$%^&*()_+-=[];\'#,./\|<>?:@~{}';
 	CellComp.DOM_DATA_KEY_CELL_COMP = 'cellComp';
 	__decorate([
 	    context_1.Autowired('context'),
@@ -13436,7 +13476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -13456,8 +13496,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var context_2 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
+	var context_2 = __webpack_require__(7);
 	var TemplateService = (function () {
 	    function TemplateService() {
 	        this.templateCache = {};
@@ -13528,7 +13568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -13548,14 +13588,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var utils_1 = __webpack_require__(7);
-	var gridCell_1 = __webpack_require__(35);
-	var constants_1 = __webpack_require__(9);
+	var context_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var utils_1 = __webpack_require__(8);
+	var gridCell_1 = __webpack_require__(36);
+	var constants_1 = __webpack_require__(10);
 	var FocusedCellController = (function () {
 	    function FocusedCellController() {
 	    }
@@ -13722,7 +13762,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -13733,8 +13773,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var gridRow_1 = __webpack_require__(36);
+	var utils_1 = __webpack_require__(8);
+	var gridRow_1 = __webpack_require__(37);
 	var GridCell = (function () {
 	    function GridCell(gridCellDef) {
 	        this.rowIndex = gridCellDef.rowIndex;
@@ -13763,7 +13803,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -13774,9 +13814,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var constants_1 = __webpack_require__(9);
-	var utils_1 = __webpack_require__(7);
-	var gridCell_1 = __webpack_require__(35);
+	var constants_1 = __webpack_require__(10);
+	var utils_1 = __webpack_require__(8);
+	var gridCell_1 = __webpack_require__(36);
 	var GridRow = (function () {
 	    function GridRow(rowIndex, floating) {
 	        this.rowIndex = rowIndex;
@@ -13840,7 +13880,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -13860,12 +13900,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var gridCore_1 = __webpack_require__(38);
-	var columnController_1 = __webpack_require__(14);
-	var constants_1 = __webpack_require__(9);
-	var gridCell_1 = __webpack_require__(35);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var gridCore_1 = __webpack_require__(39);
+	var columnController_1 = __webpack_require__(15);
+	var constants_1 = __webpack_require__(10);
+	var gridCell_1 = __webpack_require__(36);
 	// tracks when focus goes into a cell. cells listen to this, so they know to stop editing
 	// if focus goes into another cell.
 	/** THIS IS NOT USED - it was something Niall was working on, but doesn't work well with popup editors */
@@ -13976,7 +14016,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -13999,22 +14039,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var rowRenderer_1 = __webpack_require__(22);
-	var filterManager_1 = __webpack_require__(39);
-	var eventService_1 = __webpack_require__(4);
-	var gridPanel_1 = __webpack_require__(23);
-	var logger_1 = __webpack_require__(5);
-	var constants_1 = __webpack_require__(9);
-	var popupService_1 = __webpack_require__(40);
-	var events_1 = __webpack_require__(8);
-	var utils_1 = __webpack_require__(7);
-	var borderLayout_1 = __webpack_require__(29);
-	var context_1 = __webpack_require__(6);
-	var focusedCellController_1 = __webpack_require__(34);
-	var component_1 = __webpack_require__(43);
-	var paginationComp_1 = __webpack_require__(58);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var rowRenderer_1 = __webpack_require__(23);
+	var filterManager_1 = __webpack_require__(40);
+	var eventService_1 = __webpack_require__(5);
+	var gridPanel_1 = __webpack_require__(24);
+	var logger_1 = __webpack_require__(6);
+	var constants_1 = __webpack_require__(10);
+	var popupService_1 = __webpack_require__(41);
+	var events_1 = __webpack_require__(9);
+	var utils_1 = __webpack_require__(8);
+	var borderLayout_1 = __webpack_require__(30);
+	var context_1 = __webpack_require__(7);
+	var focusedCellController_1 = __webpack_require__(35);
+	var component_1 = __webpack_require__(44);
+	var paginationComp_1 = __webpack_require__(59);
 	var GridCore = (function () {
 	    function GridCore(loggerFactory) {
 	        this.destroyFunctions = [];
@@ -14355,7 +14395,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -14375,18 +14415,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var popupService_1 = __webpack_require__(40);
-	var valueService_1 = __webpack_require__(28);
-	var columnController_1 = __webpack_require__(14);
-	var textFilter_1 = __webpack_require__(41);
-	var numberFilter_1 = __webpack_require__(46);
-	var context_1 = __webpack_require__(6);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var dateFilter_1 = __webpack_require__(47);
-	var componentProvider_1 = __webpack_require__(48);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var popupService_1 = __webpack_require__(41);
+	var valueService_1 = __webpack_require__(29);
+	var columnController_1 = __webpack_require__(15);
+	var textFilter_1 = __webpack_require__(42);
+	var numberFilter_1 = __webpack_require__(47);
+	var context_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var dateFilter_1 = __webpack_require__(48);
+	var componentProvider_1 = __webpack_require__(49);
 	var FilterManager = FilterManager_1 = (function () {
 	    function FilterManager() {
 	        this.allFilters = {};
@@ -14773,9 +14813,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (utils_1.Utils.missing(filterType)) {
 	            return defaultFilter;
 	        }
-	        if (filterType === 'set') {
-	            //console.warn('ag-Grid: Set filter is only available in Enterprise ag-Grid');
-	            filterType = 'set';
+	        if (!this.enterprise && filterType === 'set') {
+	            console.warn('ag-Grid: Set filter is only available in Enterprise ag-Grid');
+	            filterType = 'text';
 	        }
 	        if (this.availableFilters[filterType]) {
 	            return this.availableFilters[filterType];
@@ -14888,7 +14928,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -14908,11 +14948,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var constants_1 = __webpack_require__(9);
-	var context_1 = __webpack_require__(6);
-	var gridCore_1 = __webpack_require__(38);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var utils_1 = __webpack_require__(8);
+	var constants_1 = __webpack_require__(10);
+	var context_1 = __webpack_require__(7);
+	var gridCore_1 = __webpack_require__(39);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var PopupService = (function () {
 	    function PopupService() {
 	    }
@@ -15169,7 +15209,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -15199,9 +15239,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var baseFilter_1 = __webpack_require__(42);
-	var componentAnnotations_1 = __webpack_require__(45);
+	var utils_1 = __webpack_require__(8);
+	var baseFilter_1 = __webpack_require__(43);
+	var componentAnnotations_1 = __webpack_require__(46);
 	var TextFilter = (function (_super) {
 	    __extends(TextFilter, _super);
 	    function TextFilter() {
@@ -15346,7 +15386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -15376,11 +15416,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var utils_1 = __webpack_require__(7);
+	var component_1 = __webpack_require__(44);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var utils_1 = __webpack_require__(8);
 	var DEFAULT_TRANSLATIONS = {
 	    equals: 'Equals',
 	    notEqual: 'Not equal',
@@ -15664,7 +15704,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -15685,8 +15725,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var beanStub_1 = __webpack_require__(44);
+	var utils_1 = __webpack_require__(8);
+	var beanStub_1 = __webpack_require__(45);
 	var Component = (function (_super) {
 	    __extends(Component, _super);
 	    function Component(template) {
@@ -15883,7 +15923,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -15894,8 +15934,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var eventService_1 = __webpack_require__(4);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var eventService_1 = __webpack_require__(5);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var BeanStub = (function () {
 	    function BeanStub() {
 	        this.destroyFunctions = [];
@@ -15955,7 +15995,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports) {
 
 	/**
@@ -16023,7 +16063,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -16053,9 +16093,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var baseFilter_1 = __webpack_require__(42);
+	var utils_1 = __webpack_require__(8);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var baseFilter_1 = __webpack_require__(43);
 	var NumberFilter = (function (_super) {
 	    __extends(NumberFilter, _super);
 	    function NumberFilter() {
@@ -16188,7 +16228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -16218,12 +16258,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var utils_1 = __webpack_require__(7);
-	var baseFilter_1 = __webpack_require__(42);
-	var context_1 = __webpack_require__(6);
-	var componentProvider_1 = __webpack_require__(48);
+	var component_1 = __webpack_require__(44);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var utils_1 = __webpack_require__(8);
+	var baseFilter_1 = __webpack_require__(43);
+	var context_1 = __webpack_require__(7);
+	var componentProvider_1 = __webpack_require__(49);
 	var DateFilter = (function (_super) {
 	    __extends(DateFilter, _super);
 	    function DateFilter() {
@@ -16372,7 +16412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -16392,15 +16432,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var headerGroupComp_1 = __webpack_require__(49);
-	var headerComp_1 = __webpack_require__(52);
-	var dateFilter_1 = __webpack_require__(47);
-	var utils_1 = __webpack_require__(7);
-	var floatingFilter_1 = __webpack_require__(54);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var floatingFilterWrapper_1 = __webpack_require__(55);
-	var filterManager_1 = __webpack_require__(39);
+	var context_1 = __webpack_require__(7);
+	var headerGroupComp_1 = __webpack_require__(50);
+	var headerComp_1 = __webpack_require__(53);
+	var dateFilter_1 = __webpack_require__(48);
+	var utils_1 = __webpack_require__(8);
+	var floatingFilter_1 = __webpack_require__(55);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var floatingFilterWrapper_1 = __webpack_require__(56);
+	var filterManager_1 = __webpack_require__(40);
 	var ComponentType;
 	(function (ComponentType) {
 	    ComponentType[ComponentType["AG_GRID"] = 0] = "AG_GRID";
@@ -16645,7 +16685,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -16675,15 +16715,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var svgFactory_1 = __webpack_require__(50);
-	var utils_1 = __webpack_require__(7);
-	var columnController_1 = __webpack_require__(14);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_1 = __webpack_require__(6);
-	var touchListener_1 = __webpack_require__(51);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var originalColumnGroup_1 = __webpack_require__(18);
+	var component_1 = __webpack_require__(44);
+	var svgFactory_1 = __webpack_require__(51);
+	var utils_1 = __webpack_require__(8);
+	var columnController_1 = __webpack_require__(15);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
+	var touchListener_1 = __webpack_require__(52);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var originalColumnGroup_1 = __webpack_require__(19);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var HeaderGroupComp = (function (_super) {
 	    __extends(HeaderGroupComp, _super);
@@ -16777,7 +16817,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports) {
 
 	/**
@@ -17083,7 +17123,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -17094,8 +17134,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var eventService_1 = __webpack_require__(4);
-	var utils_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var utils_1 = __webpack_require__(8);
 	var TouchListener = (function () {
 	    function TouchListener(eElement) {
 	        var _this = this;
@@ -17182,7 +17222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -17212,17 +17252,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var column_1 = __webpack_require__(16);
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var sortController_1 = __webpack_require__(53);
-	var touchListener_1 = __webpack_require__(51);
-	var svgFactory_1 = __webpack_require__(50);
-	var eventService_1 = __webpack_require__(4);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var events_1 = __webpack_require__(8);
+	var component_1 = __webpack_require__(44);
+	var column_1 = __webpack_require__(17);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var sortController_1 = __webpack_require__(54);
+	var touchListener_1 = __webpack_require__(52);
+	var svgFactory_1 = __webpack_require__(51);
+	var eventService_1 = __webpack_require__(5);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var events_1 = __webpack_require__(9);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var HeaderComp = (function (_super) {
 	    __extends(HeaderComp, _super);
@@ -17430,7 +17470,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -17450,14 +17490,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var column_1 = __webpack_require__(16);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var context_2 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
+	var column_1 = __webpack_require__(17);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var context_2 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	var SortController = SortController_1 = (function () {
 	    function SortController() {
 	    }
@@ -17624,7 +17664,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -17654,13 +17694,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var dateFilter_1 = __webpack_require__(47);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var utils_1 = __webpack_require__(7);
-	var componentProvider_1 = __webpack_require__(48);
-	var component_1 = __webpack_require__(43);
-	var constants_1 = __webpack_require__(9);
+	var context_1 = __webpack_require__(7);
+	var dateFilter_1 = __webpack_require__(48);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var utils_1 = __webpack_require__(8);
+	var componentProvider_1 = __webpack_require__(49);
+	var component_1 = __webpack_require__(44);
+	var constants_1 = __webpack_require__(10);
 	var InputTextFloatingFilterComp = (function (_super) {
 	    __extends(InputTextFloatingFilterComp, _super);
 	    function InputTextFloatingFilterComp() {
@@ -17909,7 +17949,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -17939,12 +17979,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var column_1 = __webpack_require__(16);
-	var utils_1 = __webpack_require__(7);
-	var setLeftFeature_1 = __webpack_require__(56);
-	var component_1 = __webpack_require__(43);
-	var componentAnnotations_1 = __webpack_require__(45);
+	var context_1 = __webpack_require__(7);
+	var column_1 = __webpack_require__(17);
+	var utils_1 = __webpack_require__(8);
+	var setLeftFeature_1 = __webpack_require__(57);
+	var component_1 = __webpack_require__(44);
+	var componentAnnotations_1 = __webpack_require__(46);
 	var BaseFilterWrapperComp = (function (_super) {
 	    __extends(BaseFilterWrapperComp, _super);
 	    function BaseFilterWrapperComp() {
@@ -18032,7 +18072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18062,12 +18102,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var column_1 = __webpack_require__(16);
-	var beanStub_1 = __webpack_require__(44);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnAnimationService_1 = __webpack_require__(57);
+	var utils_1 = __webpack_require__(8);
+	var column_1 = __webpack_require__(17);
+	var beanStub_1 = __webpack_require__(45);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnAnimationService_1 = __webpack_require__(58);
 	var SetLeftFeature = (function (_super) {
 	    __extends(SetLeftFeature, _super);
 	    function SetLeftFeature(columnOrGroup, eCell) {
@@ -18141,7 +18181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18161,10 +18201,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var gridPanel_1 = __webpack_require__(23);
-	var utils_1 = __webpack_require__(7);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var gridPanel_1 = __webpack_require__(24);
+	var utils_1 = __webpack_require__(8);
 	var ColumnAnimationService = (function () {
 	    function ColumnAnimationService() {
 	        this.executeNextFuncs = [];
@@ -18256,7 +18296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18286,15 +18326,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var utils_1 = __webpack_require__(7);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var rowRenderer_1 = __webpack_require__(22);
-	var paginationProxy_1 = __webpack_require__(59);
+	var component_1 = __webpack_require__(44);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var utils_1 = __webpack_require__(8);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var rowRenderer_1 = __webpack_require__(23);
+	var paginationProxy_1 = __webpack_require__(60);
 	var PaginationComp = (function (_super) {
 	    __extends(PaginationComp, _super);
 	    function PaginationComp() {
@@ -18466,7 +18506,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18496,14 +18536,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var beanStub_1 = __webpack_require__(44);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var gridPanel_1 = __webpack_require__(23);
-	var scrollVisibleService_1 = __webpack_require__(60);
+	var beanStub_1 = __webpack_require__(45);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var gridPanel_1 = __webpack_require__(24);
+	var scrollVisibleService_1 = __webpack_require__(61);
 	var RowBounds = (function () {
 	    function RowBounds() {
 	    }
@@ -18766,7 +18806,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18786,11 +18826,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var columnController_1 = __webpack_require__(14);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var columnController_1 = __webpack_require__(15);
 	var ScrollVisibleService = (function () {
 	    function ScrollVisibleService() {
 	    }
@@ -18856,7 +18896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18876,15 +18916,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var textCellEditor_1 = __webpack_require__(62);
-	var selectCellEditor_1 = __webpack_require__(63);
-	var popupEditorWrapper_1 = __webpack_require__(64);
-	var popupTextCellEditor_1 = __webpack_require__(65);
-	var popupSelectCellEditor_1 = __webpack_require__(66);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var largeTextCellEditor_1 = __webpack_require__(67);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var textCellEditor_1 = __webpack_require__(63);
+	var selectCellEditor_1 = __webpack_require__(64);
+	var popupEditorWrapper_1 = __webpack_require__(65);
+	var popupTextCellEditor_1 = __webpack_require__(66);
+	var popupSelectCellEditor_1 = __webpack_require__(67);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var largeTextCellEditor_1 = __webpack_require__(68);
 	var CellEditorFactory = CellEditorFactory_1 = (function () {
 	    function CellEditorFactory() {
 	        this.cellEditorMap = {};
@@ -18967,7 +19007,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -18988,9 +19028,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var constants_1 = __webpack_require__(9);
-	var component_1 = __webpack_require__(43);
-	var utils_1 = __webpack_require__(7);
+	var constants_1 = __webpack_require__(10);
+	var component_1 = __webpack_require__(44);
+	var utils_1 = __webpack_require__(8);
 	var TextCellEditor = (function (_super) {
 	    __extends(TextCellEditor, _super);
 	    function TextCellEditor() {
@@ -19078,7 +19118,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -19099,9 +19139,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var utils_1 = __webpack_require__(7);
-	var constants_1 = __webpack_require__(9);
+	var component_1 = __webpack_require__(44);
+	var utils_1 = __webpack_require__(8);
+	var constants_1 = __webpack_require__(10);
 	var SelectCellEditor = (function (_super) {
 	    __extends(SelectCellEditor, _super);
 	    function SelectCellEditor() {
@@ -19153,7 +19193,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -19183,9 +19223,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var component_1 = __webpack_require__(44);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var PopupEditorWrapper = (function (_super) {
 	    __extends(PopupEditorWrapper, _super);
 	    function PopupEditorWrapper(cellEditor) {
@@ -19263,42 +19303,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/**
-	 * ag-grid - Advanced Data Grid / Data Table supporting Javascript / React / AngularJS / Web Components
-	 * @version v10.1.0
-	 * @link http://www.ag-grid.com/
-	 * @license MIT
-	 */
-	"use strict";
-	var __extends = (this && this.__extends) || (function () {
-	    var extendStatics = Object.setPrototypeOf ||
-	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-	    return function (d, b) {
-	        extendStatics(d, b);
-	        function __() { this.constructor = d; }
-	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	    };
-	})();
-	Object.defineProperty(exports, "__esModule", { value: true });
-	var textCellEditor_1 = __webpack_require__(62);
-	var PopupTextCellEditor = (function (_super) {
-	    __extends(PopupTextCellEditor, _super);
-	    function PopupTextCellEditor() {
-	        return _super !== null && _super.apply(this, arguments) || this;
-	    }
-	    PopupTextCellEditor.prototype.isPopup = function () {
-	        return true;
-	    };
-	    return PopupTextCellEditor;
-	}(textCellEditor_1.TextCellEditor));
-	exports.PopupTextCellEditor = PopupTextCellEditor;
-
-
-/***/ }),
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19320,18 +19324,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var selectCellEditor_1 = __webpack_require__(63);
-	var PopupSelectCellEditor = (function (_super) {
-	    __extends(PopupSelectCellEditor, _super);
-	    function PopupSelectCellEditor() {
+	var textCellEditor_1 = __webpack_require__(63);
+	var PopupTextCellEditor = (function (_super) {
+	    __extends(PopupTextCellEditor, _super);
+	    function PopupTextCellEditor() {
 	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
-	    PopupSelectCellEditor.prototype.isPopup = function () {
+	    PopupTextCellEditor.prototype.isPopup = function () {
 	        return true;
 	    };
-	    return PopupSelectCellEditor;
-	}(selectCellEditor_1.SelectCellEditor));
-	exports.PopupSelectCellEditor = PopupSelectCellEditor;
+	    return PopupTextCellEditor;
+	}(textCellEditor_1.TextCellEditor));
+	exports.PopupTextCellEditor = PopupTextCellEditor;
 
 
 /***/ }),
@@ -19356,9 +19360,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var constants_1 = __webpack_require__(9);
-	var utils_1 = __webpack_require__(7);
+	var selectCellEditor_1 = __webpack_require__(64);
+	var PopupSelectCellEditor = (function (_super) {
+	    __extends(PopupSelectCellEditor, _super);
+	    function PopupSelectCellEditor() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    PopupSelectCellEditor.prototype.isPopup = function () {
+	        return true;
+	    };
+	    return PopupSelectCellEditor;
+	}(selectCellEditor_1.SelectCellEditor));
+	exports.PopupSelectCellEditor = PopupSelectCellEditor;
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/**
+	 * ag-grid - Advanced Data Grid / Data Table supporting Javascript / React / AngularJS / Web Components
+	 * @version v10.1.0
+	 * @link http://www.ag-grid.com/
+	 * @license MIT
+	 */
+	"use strict";
+	var __extends = (this && this.__extends) || (function () {
+	    var extendStatics = Object.setPrototypeOf ||
+	        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+	        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+	    return function (d, b) {
+	        extendStatics(d, b);
+	        function __() { this.constructor = d; }
+	        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	    };
+	})();
+	Object.defineProperty(exports, "__esModule", { value: true });
+	var component_1 = __webpack_require__(44);
+	var constants_1 = __webpack_require__(10);
+	var utils_1 = __webpack_require__(8);
 	var LargeTextCellEditor = (function (_super) {
 	    __extends(LargeTextCellEditor, _super);
 	    function LargeTextCellEditor() {
@@ -19409,7 +19449,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -19429,14 +19469,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var eventService_1 = __webpack_require__(4);
-	var expressionService_1 = __webpack_require__(19);
-	var animateSlideCellRenderer_1 = __webpack_require__(69);
-	var animateShowChangeCellRenderer_1 = __webpack_require__(70);
-	var groupCellRenderer_1 = __webpack_require__(71);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var eventService_1 = __webpack_require__(5);
+	var expressionService_1 = __webpack_require__(20);
+	var animateSlideCellRenderer_1 = __webpack_require__(70);
+	var animateShowChangeCellRenderer_1 = __webpack_require__(71);
+	var groupCellRenderer_1 = __webpack_require__(72);
 	var CellRendererFactory = CellRendererFactory_1 = (function () {
 	    function CellRendererFactory() {
 	        this.cellRendererMap = {};
@@ -19495,7 +19535,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -19516,8 +19556,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var component_1 = __webpack_require__(43);
+	var utils_1 = __webpack_require__(8);
+	var component_1 = __webpack_require__(44);
 	var AnimateSlideCellRenderer = (function (_super) {
 	    __extends(AnimateSlideCellRenderer, _super);
 	    function AnimateSlideCellRenderer() {
@@ -19590,7 +19630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -19611,8 +19651,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var component_1 = __webpack_require__(43);
+	var utils_1 = __webpack_require__(8);
+	var component_1 = __webpack_require__(44);
 	var ARROW_UP = '&#65514;';
 	var ARROW_DOWN = '&#65516;';
 	var AnimateShowChangeCellRenderer = (function (_super) {
@@ -19698,7 +19738,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -19728,21 +19768,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var svgFactory_1 = __webpack_require__(50);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var expressionService_1 = __webpack_require__(19);
-	var eventService_1 = __webpack_require__(4);
-	var constants_1 = __webpack_require__(9);
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var component_1 = __webpack_require__(43);
-	var rowNode_1 = __webpack_require__(26);
-	var cellRendererService_1 = __webpack_require__(72);
-	var valueFormatterService_1 = __webpack_require__(73);
-	var checkboxSelectionComponent_1 = __webpack_require__(74);
-	var columnController_1 = __webpack_require__(14);
-	var column_1 = __webpack_require__(16);
-	var componentAnnotations_1 = __webpack_require__(45);
+	var svgFactory_1 = __webpack_require__(51);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var expressionService_1 = __webpack_require__(20);
+	var eventService_1 = __webpack_require__(5);
+	var constants_1 = __webpack_require__(10);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var component_1 = __webpack_require__(44);
+	var rowNode_1 = __webpack_require__(27);
+	var cellRendererService_1 = __webpack_require__(73);
+	var valueFormatterService_1 = __webpack_require__(74);
+	var checkboxSelectionComponent_1 = __webpack_require__(75);
+	var columnController_1 = __webpack_require__(15);
+	var column_1 = __webpack_require__(17);
+	var componentAnnotations_1 = __webpack_require__(46);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var GroupCellRenderer = (function (_super) {
 	    __extends(GroupCellRenderer, _super);
@@ -20150,7 +20190,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -20170,9 +20210,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var cellRendererFactory_1 = __webpack_require__(68);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var cellRendererFactory_1 = __webpack_require__(69);
 	/** Class to use a cellRenderer. */
 	var CellRendererService = (function () {
 	    function CellRendererService() {
@@ -20259,7 +20299,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -20279,8 +20319,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var ValueFormatterService = (function () {
 	    function ValueFormatterService() {
 	    }
@@ -20322,7 +20362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -20352,16 +20392,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var rowNode_1 = __webpack_require__(26);
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var svgFactory_1 = __webpack_require__(50);
-	var events_1 = __webpack_require__(8);
-	var eventService_1 = __webpack_require__(4);
-	var gridApi_1 = __webpack_require__(11);
-	var columnController_1 = __webpack_require__(14);
+	var component_1 = __webpack_require__(44);
+	var rowNode_1 = __webpack_require__(27);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var svgFactory_1 = __webpack_require__(51);
+	var events_1 = __webpack_require__(9);
+	var eventService_1 = __webpack_require__(5);
+	var gridApi_1 = __webpack_require__(12);
+	var columnController_1 = __webpack_require__(15);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var CheckboxSelectionComponent = (function (_super) {
 	    __extends(CheckboxSelectionComponent, _super);
@@ -20458,7 +20498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports) {
 
 	/**
@@ -20478,7 +20518,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -20498,8 +20538,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var expressionService_1 = __webpack_require__(19);
+	var context_1 = __webpack_require__(7);
+	var expressionService_1 = __webpack_require__(20);
 	var StylingService = (function () {
 	    function StylingService() {
 	    }
@@ -20564,7 +20604,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -20594,10 +20634,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var eventService_1 = __webpack_require__(4);
-	var context_1 = __webpack_require__(6);
-	var events_1 = __webpack_require__(8);
-	var beanStub_1 = __webpack_require__(44);
+	var eventService_1 = __webpack_require__(5);
+	var context_1 = __webpack_require__(7);
+	var events_1 = __webpack_require__(9);
+	var beanStub_1 = __webpack_require__(45);
 	var ColumnHoverService = (function (_super) {
 	    __extends(ColumnHoverService, _super);
 	    function ColumnHoverService() {
@@ -20637,7 +20677,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -20667,26 +20707,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var cellComp_1 = __webpack_require__(32);
-	var rowNode_1 = __webpack_require__(26);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var column_1 = __webpack_require__(16);
-	var events_1 = __webpack_require__(8);
-	var eventService_1 = __webpack_require__(4);
-	var context_1 = __webpack_require__(6);
-	var focusedCellController_1 = __webpack_require__(34);
-	var constants_1 = __webpack_require__(9);
-	var cellRendererService_1 = __webpack_require__(72);
-	var cellRendererFactory_1 = __webpack_require__(68);
-	var gridPanel_1 = __webpack_require__(23);
-	var beanStub_1 = __webpack_require__(44);
-	var columnAnimationService_1 = __webpack_require__(57);
-	var paginationProxy_1 = __webpack_require__(59);
-	var component_1 = __webpack_require__(43);
-	var svgFactory_1 = __webpack_require__(50);
-	var componentAnnotations_1 = __webpack_require__(45);
+	var utils_1 = __webpack_require__(8);
+	var cellComp_1 = __webpack_require__(33);
+	var rowNode_1 = __webpack_require__(27);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var column_1 = __webpack_require__(17);
+	var events_1 = __webpack_require__(9);
+	var eventService_1 = __webpack_require__(5);
+	var context_1 = __webpack_require__(7);
+	var focusedCellController_1 = __webpack_require__(35);
+	var constants_1 = __webpack_require__(10);
+	var cellRendererService_1 = __webpack_require__(73);
+	var cellRendererFactory_1 = __webpack_require__(69);
+	var gridPanel_1 = __webpack_require__(24);
+	var beanStub_1 = __webpack_require__(45);
+	var columnAnimationService_1 = __webpack_require__(58);
+	var paginationProxy_1 = __webpack_require__(60);
+	var component_1 = __webpack_require__(44);
+	var svgFactory_1 = __webpack_require__(51);
+	var componentAnnotations_1 = __webpack_require__(46);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var TempStubCell = (function (_super) {
 	    __extends(TempStubCell, _super);
@@ -21727,7 +21767,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -21738,7 +21778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	/**
 	 * There are many instances of this component covering each of the areas a row can be entered
 	 * eg body, pinned left, fullWidth. The component differs from others in that it's given the
@@ -21799,7 +21839,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -21819,14 +21859,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var constants_1 = __webpack_require__(9);
-	var columnController_1 = __webpack_require__(14);
-	var floatingRowModel_1 = __webpack_require__(25);
-	var utils_1 = __webpack_require__(7);
-	var gridRow_1 = __webpack_require__(36);
-	var gridCell_1 = __webpack_require__(35);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var context_1 = __webpack_require__(7);
+	var constants_1 = __webpack_require__(10);
+	var columnController_1 = __webpack_require__(15);
+	var floatingRowModel_1 = __webpack_require__(26);
+	var utils_1 = __webpack_require__(8);
+	var gridRow_1 = __webpack_require__(37);
+	var gridCell_1 = __webpack_require__(36);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var CellNavigationService = (function () {
 	    function CellNavigationService() {
 	    }
@@ -22046,7 +22086,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -22066,15 +22106,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var gridPanel_1 = __webpack_require__(23);
-	var column_1 = __webpack_require__(16);
-	var context_1 = __webpack_require__(6);
-	var headerContainer_1 = __webpack_require__(82);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var scrollVisibleService_1 = __webpack_require__(60);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var gridPanel_1 = __webpack_require__(24);
+	var column_1 = __webpack_require__(17);
+	var context_1 = __webpack_require__(7);
+	var headerContainer_1 = __webpack_require__(83);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var scrollVisibleService_1 = __webpack_require__(61);
 	var HeaderRenderer = (function () {
 	    function HeaderRenderer() {
 	    }
@@ -22188,7 +22228,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -22208,18 +22248,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_1 = __webpack_require__(6);
-	var dragAndDropService_1 = __webpack_require__(83);
-	var columnController_1 = __webpack_require__(14);
-	var gridPanel_1 = __webpack_require__(23);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var headerRowComp_1 = __webpack_require__(84);
-	var bodyDropTarget_1 = __webpack_require__(93);
-	var column_1 = __webpack_require__(16);
-	var scrollVisibleService_1 = __webpack_require__(60);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var columnController_1 = __webpack_require__(15);
+	var gridPanel_1 = __webpack_require__(24);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var headerRowComp_1 = __webpack_require__(85);
+	var bodyDropTarget_1 = __webpack_require__(94);
+	var column_1 = __webpack_require__(17);
+	var scrollVisibleService_1 = __webpack_require__(61);
 	var HeaderContainer = (function () {
 	    function HeaderContainer(eContainer, eViewport, eRoot, pinned) {
 	        this.headerRowComps = [];
@@ -22359,7 +22399,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -22382,13 +22422,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var logger_1 = __webpack_require__(5);
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var svgFactory_1 = __webpack_require__(50);
-	var dragService_1 = __webpack_require__(30);
-	var columnController_1 = __webpack_require__(14);
+	var logger_1 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var svgFactory_1 = __webpack_require__(51);
+	var dragService_1 = __webpack_require__(31);
+	var columnController_1 = __webpack_require__(15);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var DragSourceType;
 	(function (DragSourceType) {
@@ -22732,7 +22772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -22762,20 +22802,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnGroup_1 = __webpack_require__(15);
-	var columnController_1 = __webpack_require__(14);
-	var column_1 = __webpack_require__(16);
-	var renderedHeaderCell_1 = __webpack_require__(85);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var utils_1 = __webpack_require__(7);
-	var headerWrapperComp_1 = __webpack_require__(89);
-	var headerGroupWrapperComp_1 = __webpack_require__(92);
-	var filterManager_1 = __webpack_require__(39);
-	var componentProvider_1 = __webpack_require__(48);
+	var component_1 = __webpack_require__(44);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnGroup_1 = __webpack_require__(16);
+	var columnController_1 = __webpack_require__(15);
+	var column_1 = __webpack_require__(17);
+	var renderedHeaderCell_1 = __webpack_require__(86);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var utils_1 = __webpack_require__(8);
+	var headerWrapperComp_1 = __webpack_require__(90);
+	var headerGroupWrapperComp_1 = __webpack_require__(93);
+	var filterManager_1 = __webpack_require__(40);
+	var componentProvider_1 = __webpack_require__(49);
 	var HeaderRowType;
 	(function (HeaderRowType) {
 	    HeaderRowType[HeaderRowType["COLUMN_GROUP"] = 0] = "COLUMN_GROUP";
@@ -23033,7 +23073,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -23063,21 +23103,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var column_1 = __webpack_require__(16);
-	var filterManager_1 = __webpack_require__(39);
-	var columnController_1 = __webpack_require__(14);
-	var headerTemplateLoader_1 = __webpack_require__(86);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var horizontalDragService_1 = __webpack_require__(87);
-	var gridCore_1 = __webpack_require__(38);
-	var context_1 = __webpack_require__(6);
-	var cssClassApplier_1 = __webpack_require__(88);
-	var dragAndDropService_1 = __webpack_require__(83);
-	var sortController_1 = __webpack_require__(53);
-	var setLeftFeature_1 = __webpack_require__(56);
-	var touchListener_1 = __webpack_require__(51);
-	var component_1 = __webpack_require__(43);
+	var utils_1 = __webpack_require__(8);
+	var column_1 = __webpack_require__(17);
+	var filterManager_1 = __webpack_require__(40);
+	var columnController_1 = __webpack_require__(15);
+	var headerTemplateLoader_1 = __webpack_require__(87);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var horizontalDragService_1 = __webpack_require__(88);
+	var gridCore_1 = __webpack_require__(39);
+	var context_1 = __webpack_require__(7);
+	var cssClassApplier_1 = __webpack_require__(89);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var sortController_1 = __webpack_require__(54);
+	var setLeftFeature_1 = __webpack_require__(57);
+	var touchListener_1 = __webpack_require__(52);
+	var component_1 = __webpack_require__(44);
 	var RenderedHeaderCell = (function (_super) {
 	    __extends(RenderedHeaderCell, _super);
 	    function RenderedHeaderCell(column, eRoot, dragSourceDropTarget, pinned) {
@@ -23443,7 +23483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -23463,10 +23503,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var svgFactory_1 = __webpack_require__(50);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_1 = __webpack_require__(6);
+	var utils_1 = __webpack_require__(8);
+	var svgFactory_1 = __webpack_require__(51);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var HeaderTemplateLoader = HeaderTemplateLoader_1 = (function () {
 	    function HeaderTemplateLoader() {
@@ -23548,7 +23588,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -23568,8 +23608,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_1 = __webpack_require__(6);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
 	var HorizontalDragService = (function () {
 	    function HorizontalDragService() {
 	    }
@@ -23663,7 +23703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -23674,7 +23714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	var CssClassApplier = (function () {
 	    function CssClassApplier() {
 	    }
@@ -23727,7 +23767,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -23757,25 +23797,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var context_1 = __webpack_require__(6);
-	var column_1 = __webpack_require__(16);
-	var utils_1 = __webpack_require__(7);
-	var dragAndDropService_1 = __webpack_require__(83);
-	var columnController_1 = __webpack_require__(14);
-	var horizontalDragService_1 = __webpack_require__(87);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var cssClassApplier_1 = __webpack_require__(88);
-	var setLeftFeature_1 = __webpack_require__(56);
-	var gridApi_1 = __webpack_require__(11);
-	var sortController_1 = __webpack_require__(53);
-	var eventService_1 = __webpack_require__(4);
-	var componentProvider_1 = __webpack_require__(48);
-	var agCheckbox_1 = __webpack_require__(90);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var selectAllFeature_1 = __webpack_require__(91);
-	var events_1 = __webpack_require__(8);
-	var columnHoverService_1 = __webpack_require__(77);
+	var component_1 = __webpack_require__(44);
+	var context_1 = __webpack_require__(7);
+	var column_1 = __webpack_require__(17);
+	var utils_1 = __webpack_require__(8);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var columnController_1 = __webpack_require__(15);
+	var horizontalDragService_1 = __webpack_require__(88);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var cssClassApplier_1 = __webpack_require__(89);
+	var setLeftFeature_1 = __webpack_require__(57);
+	var gridApi_1 = __webpack_require__(12);
+	var sortController_1 = __webpack_require__(54);
+	var eventService_1 = __webpack_require__(5);
+	var componentProvider_1 = __webpack_require__(49);
+	var agCheckbox_1 = __webpack_require__(91);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var selectAllFeature_1 = __webpack_require__(92);
+	var events_1 = __webpack_require__(9);
+	var columnHoverService_1 = __webpack_require__(78);
 	var HeaderWrapperComp = (function (_super) {
 	    __extends(HeaderWrapperComp, _super);
 	    function HeaderWrapperComp(column, eRoot, dragSourceDropTarget, pinned) {
@@ -24029,7 +24069,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -24059,12 +24099,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var componentAnnotations_1 = __webpack_require__(45);
-	var utils_1 = __webpack_require__(7);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var svgFactory_1 = __webpack_require__(50);
+	var component_1 = __webpack_require__(44);
+	var componentAnnotations_1 = __webpack_require__(46);
+	var utils_1 = __webpack_require__(8);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var svgFactory_1 = __webpack_require__(51);
 	var svgFactory = svgFactory_1.SvgFactory.getInstance();
 	var AgCheckbox = (function (_super) {
 	    __extends(AgCheckbox, _super);
@@ -24203,7 +24243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -24233,16 +24273,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var agCheckbox_1 = __webpack_require__(90);
-	var beanStub_1 = __webpack_require__(44);
-	var context_1 = __webpack_require__(6);
-	var columnController_1 = __webpack_require__(14);
-	var gridApi_1 = __webpack_require__(11);
-	var events_1 = __webpack_require__(8);
-	var eventService_1 = __webpack_require__(4);
-	var constants_1 = __webpack_require__(9);
-	var selectionController_1 = __webpack_require__(27);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var agCheckbox_1 = __webpack_require__(91);
+	var beanStub_1 = __webpack_require__(45);
+	var context_1 = __webpack_require__(7);
+	var columnController_1 = __webpack_require__(15);
+	var gridApi_1 = __webpack_require__(12);
+	var events_1 = __webpack_require__(9);
+	var eventService_1 = __webpack_require__(5);
+	var constants_1 = __webpack_require__(10);
+	var selectionController_1 = __webpack_require__(28);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var SelectAllFeature = (function (_super) {
 	    __extends(SelectAllFeature, _super);
 	    function SelectAllFeature(cbSelectAll, column) {
@@ -24423,7 +24463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -24453,19 +24493,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var component_1 = __webpack_require__(43);
-	var column_1 = __webpack_require__(16);
-	var utils_1 = __webpack_require__(7);
-	var columnGroup_1 = __webpack_require__(15);
-	var columnController_1 = __webpack_require__(14);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var horizontalDragService_1 = __webpack_require__(87);
-	var context_1 = __webpack_require__(6);
-	var cssClassApplier_1 = __webpack_require__(88);
-	var dragAndDropService_1 = __webpack_require__(83);
-	var setLeftFeature_1 = __webpack_require__(56);
-	var componentProvider_1 = __webpack_require__(48);
-	var gridApi_1 = __webpack_require__(11);
+	var component_1 = __webpack_require__(44);
+	var column_1 = __webpack_require__(17);
+	var utils_1 = __webpack_require__(8);
+	var columnGroup_1 = __webpack_require__(16);
+	var columnController_1 = __webpack_require__(15);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var horizontalDragService_1 = __webpack_require__(88);
+	var context_1 = __webpack_require__(7);
+	var cssClassApplier_1 = __webpack_require__(89);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var setLeftFeature_1 = __webpack_require__(57);
+	var componentProvider_1 = __webpack_require__(49);
+	var gridApi_1 = __webpack_require__(12);
 	var HeaderGroupWrapperComp = (function (_super) {
 	    __extends(HeaderGroupWrapperComp, _super);
 	    function HeaderGroupWrapperComp(columnGroup, eRoot, dragSourceDropTarget, pinned) {
@@ -24742,7 +24782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -24762,13 +24802,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var dragAndDropService_1 = __webpack_require__(83);
-	var context_1 = __webpack_require__(6);
-	var moveColumnController_1 = __webpack_require__(94);
-	var column_1 = __webpack_require__(16);
-	var gridPanel_1 = __webpack_require__(23);
-	var bodyDropPivotTarget_1 = __webpack_require__(95);
-	var columnController_1 = __webpack_require__(14);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var context_1 = __webpack_require__(7);
+	var moveColumnController_1 = __webpack_require__(95);
+	var column_1 = __webpack_require__(17);
+	var gridPanel_1 = __webpack_require__(24);
+	var bodyDropPivotTarget_1 = __webpack_require__(96);
+	var columnController_1 = __webpack_require__(15);
 	var BodyDropTarget = (function () {
 	    function BodyDropTarget(pinned, eContainer) {
 	        this.pinned = pinned;
@@ -24863,7 +24903,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -24883,14 +24923,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var logger_1 = __webpack_require__(5);
-	var columnController_1 = __webpack_require__(14);
-	var column_1 = __webpack_require__(16);
-	var utils_1 = __webpack_require__(7);
-	var dragAndDropService_1 = __webpack_require__(83);
-	var gridPanel_1 = __webpack_require__(23);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var context_1 = __webpack_require__(7);
+	var logger_1 = __webpack_require__(6);
+	var columnController_1 = __webpack_require__(15);
+	var column_1 = __webpack_require__(17);
+	var utils_1 = __webpack_require__(8);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var gridPanel_1 = __webpack_require__(24);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var MoveColumnController = (function () {
 	    function MoveColumnController(pinned, eContainer) {
 	        this.needToMoveLeft = false;
@@ -25173,7 +25213,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25193,10 +25233,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var dragAndDropService_1 = __webpack_require__(83);
-	var columnController_1 = __webpack_require__(14);
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var columnController_1 = __webpack_require__(15);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var BodyDropPivotTarget = (function () {
 	    function BodyDropPivotTarget(pinned) {
 	        this.columnsToAggregate = [];
@@ -25280,7 +25320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25376,7 +25416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports) {
 
 	/**
@@ -25421,7 +25461,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25441,11 +25481,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var column_1 = __webpack_require__(16);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var utils_1 = __webpack_require__(7);
-	var functions_1 = __webpack_require__(99);
+	var context_1 = __webpack_require__(7);
+	var column_1 = __webpack_require__(17);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var utils_1 = __webpack_require__(8);
+	var functions_1 = __webpack_require__(100);
 	var AutoGroupColService = AutoGroupColService_1 = (function () {
 	    function AutoGroupColService() {
 	    }
@@ -25549,7 +25589,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25560,7 +25600,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	function defaultGroupComparator(valueA, valueB, nodeA, nodeB) {
 	    var nodeAIsGroup = utils_1.Utils.exists(nodeA) && nodeA.group;
 	    var nodeBIsGroup = utils_1.Utils.exists(nodeB) && nodeB.group;
@@ -25583,7 +25623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25600,7 +25640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return c > 3 && r && Object.defineProperty(target, key, r), r;
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
 	var Downloader = (function () {
 	    function Downloader() {
 	    }
@@ -25633,7 +25673,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25653,10 +25693,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var constants_1 = __webpack_require__(9);
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
+	var context_1 = __webpack_require__(7);
+	var constants_1 = __webpack_require__(10);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
 	var ImmutableService = (function () {
 	    function ImmutableService() {
 	    }
@@ -25736,7 +25776,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25751,7 +25791,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// id is already taken, it will start appending numbers until it gets a unique id.
 	// eg, if the col field is 'name', it will try ids: {name, name_1, name_2...}
 	// if no field or id provided in the col, it will try the ids of natural numbers
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	var ColumnKeyCreator = (function () {
 	    function ColumnKeyCreator() {
 	        this.existingKeys = [];
@@ -25790,7 +25830,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25801,7 +25841,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var grid_1 = __webpack_require__(104);
+	var grid_1 = __webpack_require__(105);
 	function initialiseAgGridWithAngular1(angular) {
 	    var angularModule = angular.module("agGrid", []);
 	    angularModule.directive("agGrid", function () {
@@ -25837,7 +25877,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -25848,66 +25888,66 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var floatingRowModel_1 = __webpack_require__(25);
-	var selectionController_1 = __webpack_require__(27);
-	var columnController_1 = __webpack_require__(14);
-	var rowRenderer_1 = __webpack_require__(22);
-	var headerRenderer_1 = __webpack_require__(81);
-	var filterManager_1 = __webpack_require__(39);
-	var valueService_1 = __webpack_require__(28);
-	var masterSlaveService_1 = __webpack_require__(24);
-	var eventService_1 = __webpack_require__(4);
-	var gridPanel_1 = __webpack_require__(23);
-	var gridApi_1 = __webpack_require__(11);
-	var headerTemplateLoader_1 = __webpack_require__(86);
-	var balancedColumnTreeBuilder_1 = __webpack_require__(2);
-	var displayedGroupCreator_1 = __webpack_require__(20);
-	var expressionService_1 = __webpack_require__(19);
-	var templateService_1 = __webpack_require__(33);
-	var popupService_1 = __webpack_require__(40);
-	var logger_1 = __webpack_require__(5);
-	var columnUtils_1 = __webpack_require__(17);
-	var autoWidthCalculator_1 = __webpack_require__(21);
-	var horizontalDragService_1 = __webpack_require__(87);
-	var context_1 = __webpack_require__(6);
-	var csvCreator_1 = __webpack_require__(12);
-	var gridCore_1 = __webpack_require__(38);
-	var standardMenu_1 = __webpack_require__(105);
-	var dragAndDropService_1 = __webpack_require__(83);
-	var dragService_1 = __webpack_require__(30);
-	var sortController_1 = __webpack_require__(53);
-	var focusedCellController_1 = __webpack_require__(34);
-	var mouseEventService_1 = __webpack_require__(31);
-	var cellNavigationService_1 = __webpack_require__(80);
-	var utils_1 = __webpack_require__(7);
-	var filterStage_1 = __webpack_require__(106);
-	var sortStage_1 = __webpack_require__(108);
-	var flattenStage_1 = __webpack_require__(110);
-	var focusService_1 = __webpack_require__(37);
-	var cellEditorFactory_1 = __webpack_require__(61);
-	var events_1 = __webpack_require__(8);
-	var infiniteRowModel_1 = __webpack_require__(111);
-	var inMemoryRowModel_1 = __webpack_require__(117);
-	var cellRendererFactory_1 = __webpack_require__(68);
-	var cellRendererService_1 = __webpack_require__(72);
-	var valueFormatterService_1 = __webpack_require__(73);
-	var agCheckbox_1 = __webpack_require__(90);
-	var baseFrameworkFactory_1 = __webpack_require__(119);
-	var scrollVisibleService_1 = __webpack_require__(60);
-	var downloader_1 = __webpack_require__(100);
-	var xmlFactory_1 = __webpack_require__(120);
-	var gridSerializer_1 = __webpack_require__(13);
-	var stylingService_1 = __webpack_require__(76);
-	var columnHoverService_1 = __webpack_require__(77);
-	var columnAnimationService_1 = __webpack_require__(57);
-	var componentProvider_1 = __webpack_require__(48);
-	var sortService_1 = __webpack_require__(109);
-	var filterService_1 = __webpack_require__(107);
-	var rowNodeFactory_1 = __webpack_require__(121);
-	var autoGroupColService_1 = __webpack_require__(98);
-	var paginationProxy_1 = __webpack_require__(59);
-	var immutableService_1 = __webpack_require__(101);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var floatingRowModel_1 = __webpack_require__(26);
+	var selectionController_1 = __webpack_require__(28);
+	var columnController_1 = __webpack_require__(15);
+	var rowRenderer_1 = __webpack_require__(23);
+	var headerRenderer_1 = __webpack_require__(82);
+	var filterManager_1 = __webpack_require__(40);
+	var valueService_1 = __webpack_require__(29);
+	var masterSlaveService_1 = __webpack_require__(25);
+	var eventService_1 = __webpack_require__(5);
+	var gridPanel_1 = __webpack_require__(24);
+	var gridApi_1 = __webpack_require__(12);
+	var headerTemplateLoader_1 = __webpack_require__(87);
+	var balancedColumnTreeBuilder_1 = __webpack_require__(3);
+	var displayedGroupCreator_1 = __webpack_require__(21);
+	var expressionService_1 = __webpack_require__(20);
+	var templateService_1 = __webpack_require__(34);
+	var popupService_1 = __webpack_require__(41);
+	var logger_1 = __webpack_require__(6);
+	var columnUtils_1 = __webpack_require__(18);
+	var autoWidthCalculator_1 = __webpack_require__(22);
+	var horizontalDragService_1 = __webpack_require__(88);
+	var context_1 = __webpack_require__(7);
+	var csvCreator_1 = __webpack_require__(13);
+	var gridCore_1 = __webpack_require__(39);
+	var standardMenu_1 = __webpack_require__(106);
+	var dragAndDropService_1 = __webpack_require__(84);
+	var dragService_1 = __webpack_require__(31);
+	var sortController_1 = __webpack_require__(54);
+	var focusedCellController_1 = __webpack_require__(35);
+	var mouseEventService_1 = __webpack_require__(32);
+	var cellNavigationService_1 = __webpack_require__(81);
+	var utils_1 = __webpack_require__(8);
+	var filterStage_1 = __webpack_require__(107);
+	var sortStage_1 = __webpack_require__(109);
+	var flattenStage_1 = __webpack_require__(111);
+	var focusService_1 = __webpack_require__(38);
+	var cellEditorFactory_1 = __webpack_require__(62);
+	var events_1 = __webpack_require__(9);
+	var infiniteRowModel_1 = __webpack_require__(112);
+	var inMemoryRowModel_1 = __webpack_require__(118);
+	var cellRendererFactory_1 = __webpack_require__(69);
+	var cellRendererService_1 = __webpack_require__(73);
+	var valueFormatterService_1 = __webpack_require__(74);
+	var agCheckbox_1 = __webpack_require__(91);
+	var baseFrameworkFactory_1 = __webpack_require__(120);
+	var scrollVisibleService_1 = __webpack_require__(61);
+	var downloader_1 = __webpack_require__(101);
+	var xmlFactory_1 = __webpack_require__(121);
+	var gridSerializer_1 = __webpack_require__(14);
+	var stylingService_1 = __webpack_require__(77);
+	var columnHoverService_1 = __webpack_require__(78);
+	var columnAnimationService_1 = __webpack_require__(58);
+	var componentProvider_1 = __webpack_require__(49);
+	var sortService_1 = __webpack_require__(110);
+	var filterService_1 = __webpack_require__(108);
+	var rowNodeFactory_1 = __webpack_require__(122);
+	var autoGroupColService_1 = __webpack_require__(99);
+	var paginationProxy_1 = __webpack_require__(60);
+	var immutableService_1 = __webpack_require__(102);
 	var Grid = (function () {
 	    function Grid(eGridDiv, gridOptions, params) {
 	        if (!eGridDiv) {
@@ -26015,7 +26055,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26035,12 +26075,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var filterManager_1 = __webpack_require__(39);
-	var utils_1 = __webpack_require__(7);
-	var popupService_1 = __webpack_require__(40);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var eventService_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
+	var filterManager_1 = __webpack_require__(40);
+	var utils_1 = __webpack_require__(8);
+	var popupService_1 = __webpack_require__(41);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var eventService_1 = __webpack_require__(5);
 	var StandardMenuFactory = (function () {
 	    function StandardMenuFactory() {
 	    }
@@ -26119,7 +26159,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26139,9 +26179,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var filterService_1 = __webpack_require__(107);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var filterService_1 = __webpack_require__(108);
 	var FilterStage = (function () {
 	    function FilterStage() {
 	    }
@@ -26171,7 +26211,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26191,8 +26231,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var filterManager_1 = __webpack_require__(39);
+	var context_1 = __webpack_require__(7);
+	var filterManager_1 = __webpack_require__(40);
 	var FilterService = (function () {
 	    function FilterService() {
 	    }
@@ -26260,7 +26300,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26280,9 +26320,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var sortService_1 = __webpack_require__(109);
+	var context_1 = __webpack_require__(7);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var sortService_1 = __webpack_require__(110);
 	var SortStage = (function () {
 	    function SortStage() {
 	    }
@@ -26312,7 +26352,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26332,10 +26372,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var sortController_1 = __webpack_require__(53);
-	var utils_1 = __webpack_require__(7);
-	var valueService_1 = __webpack_require__(28);
+	var context_1 = __webpack_require__(7);
+	var sortController_1 = __webpack_require__(54);
+	var utils_1 = __webpack_require__(8);
+	var valueService_1 = __webpack_require__(29);
 	var SortService = (function () {
 	    function SortService() {
 	    }
@@ -26418,7 +26458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26438,13 +26478,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var rowNode_1 = __webpack_require__(26);
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var selectionController_1 = __webpack_require__(27);
-	var eventService_1 = __webpack_require__(4);
-	var columnController_1 = __webpack_require__(14);
+	var context_1 = __webpack_require__(7);
+	var rowNode_1 = __webpack_require__(27);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var selectionController_1 = __webpack_require__(28);
+	var eventService_1 = __webpack_require__(5);
+	var columnController_1 = __webpack_require__(15);
 	var FlattenStage = (function () {
 	    function FlattenStage() {
 	    }
@@ -26600,7 +26640,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26630,19 +26670,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_1 = __webpack_require__(6);
-	var eventService_1 = __webpack_require__(4);
-	var selectionController_1 = __webpack_require__(27);
-	var events_1 = __webpack_require__(8);
-	var sortController_1 = __webpack_require__(53);
-	var filterManager_1 = __webpack_require__(39);
-	var constants_1 = __webpack_require__(9);
-	var infiniteCache_1 = __webpack_require__(112);
-	var beanStub_1 = __webpack_require__(44);
-	var rowNodeCache_1 = __webpack_require__(115);
-	var rowNodeBlockLoader_1 = __webpack_require__(116);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var selectionController_1 = __webpack_require__(28);
+	var events_1 = __webpack_require__(9);
+	var sortController_1 = __webpack_require__(54);
+	var filterManager_1 = __webpack_require__(40);
+	var constants_1 = __webpack_require__(10);
+	var infiniteCache_1 = __webpack_require__(113);
+	var beanStub_1 = __webpack_require__(45);
+	var rowNodeCache_1 = __webpack_require__(116);
+	var rowNodeBlockLoader_1 = __webpack_require__(117);
 	var InfiniteRowModel = (function (_super) {
 	    __extends(InfiniteRowModel, _super);
 	    function InfiniteRowModel() {
@@ -26928,7 +26968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -26961,12 +27001,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var logger_1 = __webpack_require__(5);
-	var infiniteBlock_1 = __webpack_require__(113);
-	var rowNodeCache_1 = __webpack_require__(115);
+	var context_1 = __webpack_require__(7);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var logger_1 = __webpack_require__(6);
+	var infiniteBlock_1 = __webpack_require__(114);
+	var rowNodeCache_1 = __webpack_require__(116);
 	var InfiniteCache = (function (_super) {
 	    __extends(InfiniteCache, _super);
 	    function InfiniteCache(params) {
@@ -27095,7 +27135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -27125,11 +27165,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var context_1 = __webpack_require__(6);
-	var rowNodeBlock_1 = __webpack_require__(114);
-	var rowRenderer_1 = __webpack_require__(22);
+	var utils_1 = __webpack_require__(8);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var context_1 = __webpack_require__(7);
+	var rowNodeBlock_1 = __webpack_require__(115);
+	var rowRenderer_1 = __webpack_require__(23);
 	var InfiniteBlock = (function (_super) {
 	    __extends(InfiniteBlock, _super);
 	    function InfiniteBlock(pageNumber, params) {
@@ -27229,7 +27269,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -27250,9 +27290,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var rowNode_1 = __webpack_require__(26);
-	var beanStub_1 = __webpack_require__(44);
+	var utils_1 = __webpack_require__(8);
+	var rowNode_1 = __webpack_require__(27);
+	var beanStub_1 = __webpack_require__(45);
 	var RowNodeBlock = (function (_super) {
 	    __extends(RowNodeBlock, _super);
 	    function RowNodeBlock(blockNumber, rowNodeCacheParams) {
@@ -27426,7 +27466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -27447,9 +27487,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	})();
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var beanStub_1 = __webpack_require__(44);
-	var rowNodeBlock_1 = __webpack_require__(114);
+	var utils_1 = __webpack_require__(8);
+	var beanStub_1 = __webpack_require__(45);
+	var rowNodeBlock_1 = __webpack_require__(115);
 	var RowNodeCache = (function (_super) {
 	    __extends(RowNodeCache, _super);
 	    function RowNodeCache(cacheParams) {
@@ -27653,7 +27693,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -27676,10 +27716,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (target, key) { decorator(target, key, paramIndex); }
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var rowNodeBlock_1 = __webpack_require__(114);
-	var logger_1 = __webpack_require__(5);
-	var context_1 = __webpack_require__(6);
-	var utils_1 = __webpack_require__(7);
+	var rowNodeBlock_1 = __webpack_require__(115);
+	var logger_1 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	var RowNodeBlockLoader = (function () {
 	    function RowNodeBlockLoader(maxConcurrentRequests) {
 	        this.activeBlockLoadsCount = 0;
@@ -27764,7 +27804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -27784,17 +27824,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
-	var constants_1 = __webpack_require__(9);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var columnController_1 = __webpack_require__(14);
-	var filterManager_1 = __webpack_require__(39);
-	var rowNode_1 = __webpack_require__(26);
-	var eventService_1 = __webpack_require__(4);
-	var events_1 = __webpack_require__(8);
-	var context_1 = __webpack_require__(6);
-	var selectionController_1 = __webpack_require__(27);
-	var inMemoryNodeManager_1 = __webpack_require__(118);
+	var utils_1 = __webpack_require__(8);
+	var constants_1 = __webpack_require__(10);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var columnController_1 = __webpack_require__(15);
+	var filterManager_1 = __webpack_require__(40);
+	var rowNode_1 = __webpack_require__(27);
+	var eventService_1 = __webpack_require__(5);
+	var events_1 = __webpack_require__(9);
+	var context_1 = __webpack_require__(7);
+	var selectionController_1 = __webpack_require__(28);
+	var inMemoryNodeManager_1 = __webpack_require__(119);
 	var RecursionType;
 	(function (RecursionType) {
 	    RecursionType[RecursionType["Normal"] = 0] = "Normal";
@@ -28297,7 +28337,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -28308,8 +28348,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var rowNode_1 = __webpack_require__(26);
-	var utils_1 = __webpack_require__(7);
+	var rowNode_1 = __webpack_require__(27);
+	var utils_1 = __webpack_require__(8);
 	var InMemoryNodeManager = (function () {
 	    function InMemoryNodeManager(rootNode, gridOptionsWrapper, context, eventService) {
 	        this.nextId = 0;
@@ -28567,7 +28607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports) {
 
 	/**
@@ -28615,7 +28655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -28632,7 +28672,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return c > 3 && r && Object.defineProperty(target, key, r), r;
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var context_1 = __webpack_require__(6);
+	var context_1 = __webpack_require__(7);
 	var LINE_SEPARATOR = '\r\n';
 	var XmlFactory = (function () {
 	    function XmlFactory() {
@@ -28689,7 +28729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -28709,11 +28749,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var rowNode_1 = __webpack_require__(26);
-	var inMemoryNodeManager_1 = __webpack_require__(118);
-	var gridOptionsWrapper_1 = __webpack_require__(3);
-	var eventService_1 = __webpack_require__(4);
-	var context_1 = __webpack_require__(6);
+	var rowNode_1 = __webpack_require__(27);
+	var inMemoryNodeManager_1 = __webpack_require__(119);
+	var gridOptionsWrapper_1 = __webpack_require__(4);
+	var eventService_1 = __webpack_require__(5);
+	var context_1 = __webpack_require__(7);
 	var RowNodeFactory = (function () {
 	    function RowNodeFactory() {
 	    }
@@ -28745,7 +28785,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -28756,8 +28796,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var componentUtil_1 = __webpack_require__(10);
-	var grid_1 = __webpack_require__(104);
+	var componentUtil_1 = __webpack_require__(11);
+	var grid_1 = __webpack_require__(105);
 	var registered = false;
 	function initialiseAgGridWithWebComponents() {
 	    // only register to WebComponents once
@@ -28866,7 +28906,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -28877,7 +28917,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
-	var utils_1 = __webpack_require__(7);
+	var utils_1 = __webpack_require__(8);
 	var TabbedLayout = (function () {
 	    function TabbedLayout(params) {
 	        var _this = this;
@@ -28971,7 +29011,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports) {
 
 	/**
@@ -29017,7 +29057,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports) {
 
 	/**
@@ -29059,23 +29099,7939 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 126 */
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var columnSelectPanel_1 = __webpack_require__(128);
+	var menuList_1 = __webpack_require__(131);
+	var menuItemComponent_1 = __webpack_require__(132);
+	var menuItemMapper_1 = __webpack_require__(133);
+	var svgFactory = ag_grid_1.SvgFactory.getInstance();
+	var EnterpriseMenuFactory = (function () {
+	    function EnterpriseMenuFactory() {
+	    }
+	    EnterpriseMenuFactory.prototype.showMenuAfterMouseEvent = function (column, mouseEvent, defaultTab) {
+	        var _this = this;
+	        this.showMenu(column, function (menu) {
+	            _this.popupService.positionPopupUnderMouseEvent({
+	                column: column,
+	                type: 'columnMenu',
+	                mouseEvent: mouseEvent,
+	                ePopup: menu.getGui()
+	            });
+	            if (defaultTab) {
+	                menu.showTab(defaultTab);
+	            }
+	        }, defaultTab);
+	    };
+	    EnterpriseMenuFactory.prototype.showMenuAfterButtonClick = function (column, eventSource, defaultTab) {
+	        var _this = this;
+	        this.showMenu(column, function (menu) {
+	            _this.popupService.positionPopupUnderComponent({
+	                column: column,
+	                type: 'columnMenu',
+	                eventSource: eventSource,
+	                ePopup: menu.getGui(),
+	                nudgeX: -9,
+	                nudgeY: -26,
+	                minWidth: menu.getMinWidth(),
+	                keepWithinBounds: true
+	            });
+	            if (defaultTab) {
+	                menu.showTab(defaultTab);
+	            }
+	        }, defaultTab);
+	    };
+	    EnterpriseMenuFactory.prototype.showMenu = function (column, positionCallback, defaultTab) {
+	        var _this = this;
+	        var menu = new EnterpriseMenu(column, this.lastSelectedTab);
+	        this.context.wireBean(menu);
+	        var eMenuGui = menu.getGui();
+	        // need to show filter before positioning, as only after filter
+	        // is visible can we find out what the width of it is
+	        var hidePopup = this.popupService.addAsModalPopup(eMenuGui, true, function () { return menu.destroy(); });
+	        positionCallback(menu);
+	        menu.afterGuiAttached({
+	            hidePopup: hidePopup
+	        });
+	        if (!defaultTab) {
+	            menu.showTabBasedOnPreviousSelection();
+	        }
+	        menu.addEventListener(EnterpriseMenu.EVENT_TAB_SELECTED, function (event) {
+	            _this.lastSelectedTab = event.key;
+	        });
+	    };
+	    EnterpriseMenuFactory.prototype.isMenuEnabled = function (column) {
+	        var showColumnPanel = !this.gridOptionsWrapper.isSuppressMenuColumnPanel();
+	        var showMainPanel = !this.gridOptionsWrapper.isSuppressMenuMainPanel();
+	        var showFilterPanel = !this.gridOptionsWrapper.isSuppressMenuFilterPanel() && column.isFilterAllowed();
+	        return showColumnPanel || showMainPanel || showFilterPanel;
+	    };
+	    return EnterpriseMenuFactory;
+	}());
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], EnterpriseMenuFactory.prototype, "context", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('popupService'),
+	    __metadata("design:type", ag_grid_1.PopupService)
+	], EnterpriseMenuFactory.prototype, "popupService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", ag_grid_1.GridOptionsWrapper)
+	], EnterpriseMenuFactory.prototype, "gridOptionsWrapper", void 0);
+	EnterpriseMenuFactory = __decorate([
+	    ag_grid_1.Bean('menuFactory')
+	], EnterpriseMenuFactory);
+	exports.EnterpriseMenuFactory = EnterpriseMenuFactory;
+	var EnterpriseMenu = (function () {
+	    function EnterpriseMenu(column, initialSelection) {
+	        this.localEventService = new ag_grid_1.EventService();
+	        this.destroyFunctions = [];
+	        this.column = column;
+	        this.initialSelection = initialSelection;
+	    }
+	    EnterpriseMenu.prototype.addEventListener = function (event, listener) {
+	        this.localEventService.addEventListener(event, listener);
+	    };
+	    EnterpriseMenu.prototype.getMinWidth = function () {
+	        return this.tabbedLayout.getMinWidth();
+	    };
+	    EnterpriseMenu.prototype.init = function () {
+	        var tabItems = [];
+	        if (!this.gridOptionsWrapper.isSuppressMenuMainPanel()) {
+	            this.createMainPanel();
+	            tabItems.push(this.tabItemGeneral);
+	        }
+	        if (!this.gridOptionsWrapper.isSuppressMenuFilterPanel() && this.column.isFilterAllowed()) {
+	            this.createFilterPanel();
+	            tabItems.push(this.tabItemFilter);
+	        }
+	        if (!this.gridOptionsWrapper.isSuppressMenuColumnPanel()) {
+	            this.createColumnsPanel();
+	            tabItems.push(this.tabItemColumns);
+	        }
+	        this.tabbedLayout = new ag_grid_1.TabbedLayout({
+	            items: tabItems,
+	            cssClass: 'ag-menu',
+	            onActiveItemClicked: this.onHidePopup.bind(this),
+	            onItemClicked: this.onTabItemClicked.bind(this)
+	        });
+	    };
+	    EnterpriseMenu.prototype.showTabBasedOnPreviousSelection = function () {
+	        // show the tab the user was on last time they had a menu open
+	        this.showTab(this.initialSelection);
+	    };
+	    EnterpriseMenu.prototype.showTab = function (toShow) {
+	        if (this.tabItemColumns && toShow === EnterpriseMenu.TAB_COLUMNS) {
+	            this.tabbedLayout.showItem(this.tabItemColumns);
+	        }
+	        else if (this.tabItemFilter && toShow === EnterpriseMenu.TAB_FILTER) {
+	            this.tabbedLayout.showItem(this.tabItemFilter);
+	        }
+	        else if (this.tabItemGeneral && toShow === EnterpriseMenu.TAB_GENERAL) {
+	            this.tabbedLayout.showItem(this.tabItemGeneral);
+	        }
+	        else {
+	            this.tabbedLayout.showFirstItem();
+	        }
+	    };
+	    EnterpriseMenu.prototype.onTabItemClicked = function (event) {
+	        var key;
+	        switch (event.item) {
+	            case this.tabItemColumns:
+	                key = EnterpriseMenu.TAB_COLUMNS;
+	                break;
+	            case this.tabItemFilter:
+	                key = EnterpriseMenu.TAB_FILTER;
+	                break;
+	            case this.tabItemGeneral:
+	                key = EnterpriseMenu.TAB_GENERAL;
+	                break;
+	        }
+	        if (key) {
+	            this.localEventService.dispatchEvent(EnterpriseMenu.EVENT_TAB_SELECTED, { key: key });
+	        }
+	    };
+	    EnterpriseMenu.prototype.destroy = function () {
+	        if (this.columnSelectPanel) {
+	            this.columnSelectPanel.destroy();
+	        }
+	        if (this.mainMenuList) {
+	            this.mainMenuList.destroy();
+	        }
+	        this.destroyFunctions.forEach(function (func) { return func(); });
+	    };
+	    EnterpriseMenu.prototype.getMenuItems = function () {
+	        var defaultMenuOptions = this.getDefaultMenuOptions();
+	        var result;
+	        var userFunc = this.gridOptionsWrapper.getMainMenuItemsFunc();
+	        if (userFunc) {
+	            var userOptions = userFunc({
+	                column: this.column,
+	                api: this.gridOptionsWrapper.getApi(),
+	                columnApi: this.gridOptionsWrapper.getColumnApi(),
+	                context: this.gridOptionsWrapper.getContext(),
+	                defaultItems: defaultMenuOptions
+	            });
+	            result = userOptions;
+	        }
+	        else {
+	            result = defaultMenuOptions;
+	        }
+	        // GUI looks weird when two separators are side by side. this can happen accidentally
+	        // if we remove items from the menu then two separators can edit up adjacent.
+	        ag_grid_1.Utils.removeRepeatsFromArray(result, EnterpriseMenu.MENU_ITEM_SEPARATOR);
+	        return result;
+	    };
+	    EnterpriseMenu.prototype.getDefaultMenuOptions = function () {
+	        var result = [];
+	        var rowGroupCount = this.columnController.getRowGroupColumns().length;
+	        var doingGrouping = rowGroupCount > 0;
+	        var groupedByThisColumn = this.columnController.getRowGroupColumns().indexOf(this.column) >= 0;
+	        var allowValue = this.column.isAllowValue();
+	        var allowRowGroup = this.column.isAllowRowGroup();
+	        var isPrimary = this.column.isPrimary();
+	        var pivotModeOn = this.columnController.isPivotMode();
+	        result.push('pinSubMenu');
+	        var allowValueAgg = 
+	        // if primary, then only allow aggValue if grouping and it's a value columns
+	        (isPrimary && doingGrouping && allowValue)
+	            || !isPrimary;
+	        if (allowValueAgg) {
+	            result.push('valueAggSubMenu');
+	        }
+	        result.push(EnterpriseMenu.MENU_ITEM_SEPARATOR);
+	        result.push('autoSizeThis');
+	        result.push('autoSizeAll');
+	        result.push(EnterpriseMenu.MENU_ITEM_SEPARATOR);
+	        if (allowRowGroup && this.column.isPrimary()) {
+	            if (groupedByThisColumn) {
+	                result.push('rowUnGroup');
+	            }
+	            else {
+	                result.push('rowGroup');
+	            }
+	        }
+	        result.push(EnterpriseMenu.MENU_ITEM_SEPARATOR);
+	        result.push('resetColumns');
+	        result.push('toolPanel');
+	        // only add grouping expand/collapse if grouping
+	        // if pivoting, we only have expandable groups if grouping by 2 or more columns
+	        // as the lowest level group is not expandable while pivoting.
+	        // if not pivoting, then any active row group can be expanded.
+	        var allowExpandAndContract = pivotModeOn ? rowGroupCount > 1 : rowGroupCount > 0;
+	        if (allowExpandAndContract) {
+	            result.push('expandAll');
+	            result.push('contractAll');
+	        }
+	        return result;
+	    };
+	    EnterpriseMenu.prototype.createMainPanel = function () {
+	        this.mainMenuList = new menuList_1.MenuList();
+	        this.context.wireBean(this.mainMenuList);
+	        var menuItems = this.getMenuItems();
+	        var menuItemsMapped = this.menuItemMapper.mapWithStockItems(menuItems, this.column);
+	        this.mainMenuList.addMenuItems(menuItemsMapped);
+	        this.mainMenuList.addEventListener(menuItemComponent_1.MenuItemComponent.EVENT_ITEM_SELECTED, this.onHidePopup.bind(this));
+	        this.tabItemGeneral = {
+	            title: ag_grid_1.Utils.createIconNoSpan('menu', this.gridOptionsWrapper, this.column, svgFactory.createMenuSvg),
+	            body: this.mainMenuList.getGui()
+	        };
+	    };
+	    EnterpriseMenu.prototype.onHidePopup = function () {
+	        this.hidePopupFunc();
+	    };
+	    EnterpriseMenu.prototype.createFilterPanel = function () {
+	        var filterWrapper = this.filterManager.getOrCreateFilterWrapper(this.column);
+	        var afterFilterAttachedCallback;
+	        if (filterWrapper.filter.afterGuiAttached) {
+	            afterFilterAttachedCallback = filterWrapper.filter.afterGuiAttached.bind(filterWrapper.filter);
+	        }
+	        this.tabItemFilter = {
+	            title: ag_grid_1.Utils.createIconNoSpan('filter', this.gridOptionsWrapper, this.column, svgFactory.createFilterSvg12),
+	            body: filterWrapper.gui,
+	            afterAttachedCallback: afterFilterAttachedCallback
+	        };
+	    };
+	    EnterpriseMenu.prototype.createColumnsPanel = function () {
+	        var eWrapperDiv = document.createElement('div');
+	        ag_grid_1.Utils.addCssClass(eWrapperDiv, 'ag-menu-column-select-wrapper');
+	        this.columnSelectPanel = new columnSelectPanel_1.ColumnSelectPanel(false);
+	        this.context.wireBean(this.columnSelectPanel);
+	        eWrapperDiv.appendChild(this.columnSelectPanel.getGui());
+	        this.tabItemColumns = {
+	            title: ag_grid_1.Utils.createIconNoSpan('columns', this.gridOptionsWrapper, this.column, svgFactory.createColumnsSvg12),
+	            body: eWrapperDiv
+	        };
+	    };
+	    EnterpriseMenu.prototype.afterGuiAttached = function (params) {
+	        var _this = this;
+	        this.tabbedLayout.setAfterAttachedParams({ hidePopup: params.hidePopup });
+	        this.hidePopupFunc = params.hidePopup;
+	        // if the body scrolls, we want to hide the menu, as the menu will not appear in the right location anymore
+	        var onBodyScroll = function (event) {
+	            // if h scroll, popup is no longer over the column
+	            if (event.direction === 'horizontal') {
+	                params.hidePopup();
+	            }
+	        };
+	        this.eventService.addEventListener('bodyScroll', onBodyScroll);
+	        this.destroyFunctions.push(function () { return _this.eventService.removeEventListener('bodyScroll', onBodyScroll); });
+	    };
+	    EnterpriseMenu.prototype.getGui = function () {
+	        return this.tabbedLayout.getGui();
+	    };
+	    return EnterpriseMenu;
+	}());
+	EnterpriseMenu.EVENT_TAB_SELECTED = 'tabSelected';
+	EnterpriseMenu.TAB_FILTER = 'filter';
+	EnterpriseMenu.TAB_GENERAL = 'general';
+	EnterpriseMenu.TAB_COLUMNS = 'columns';
+	EnterpriseMenu.MENU_ITEM_SEPARATOR = 'separator';
+	__decorate([
+	    ag_grid_1.Autowired('columnController'),
+	    __metadata("design:type", ag_grid_1.ColumnController)
+	], EnterpriseMenu.prototype, "columnController", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('filterManager'),
+	    __metadata("design:type", ag_grid_1.FilterManager)
+	], EnterpriseMenu.prototype, "filterManager", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], EnterpriseMenu.prototype, "context", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('gridApi'),
+	    __metadata("design:type", ag_grid_1.GridApi)
+	], EnterpriseMenu.prototype, "gridApi", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", ag_grid_1.GridOptionsWrapper)
+	], EnterpriseMenu.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('eventService'),
+	    __metadata("design:type", ag_grid_1.EventService)
+	], EnterpriseMenu.prototype, "eventService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('menuItemMapper'),
+	    __metadata("design:type", menuItemMapper_1.MenuItemMapper)
+	], EnterpriseMenu.prototype, "menuItemMapper", void 0);
+	__decorate([
+	    ag_grid_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseMenu.prototype, "init", null);
+	exports.EnterpriseMenu = EnterpriseMenu;
+
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var renderedGroup_1 = __webpack_require__(129);
+	var renderedColumn_1 = __webpack_require__(130);
+	var ColumnSelectPanel = (function (_super) {
+	    __extends(ColumnSelectPanel, _super);
+	    // we allow dragging in the toolPanel, but not when this component appears in the column menu
+	    function ColumnSelectPanel(allowDragging) {
+	        var _this = _super.call(this, ColumnSelectPanel.TEMPLATE) || this;
+	        _this.allowDragging = allowDragging;
+	        return _this;
+	    }
+	    ColumnSelectPanel.prototype.init = function () {
+	        this.addDestroyableEventListener(this.globalEventService, main_1.Events.EVENT_COLUMN_EVERYTHING_CHANGED, this.onColumnsChanged.bind(this));
+	        if (this.columnController.isReady()) {
+	            this.onColumnsChanged();
+	        }
+	    };
+	    ColumnSelectPanel.prototype.onColumnsChanged = function () {
+	        this.destroyAllRenderedElements();
+	        this.columnTree = this.columnController.getPrimaryColumnTree();
+	        this.recursivelyRenderComponents(this.columnTree, 0);
+	    };
+	    ColumnSelectPanel.prototype.destroy = function () {
+	        _super.prototype.destroy.call(this);
+	        this.destroyAllRenderedElements();
+	    };
+	    ColumnSelectPanel.prototype.destroyAllRenderedElements = function () {
+	        main_1.Utils.removeAllChildren(this.getGui());
+	        if (this.renderedItems) {
+	            main_1.Utils.iterateObject(this.renderedItems, function (key, renderedItem) { return renderedItem.destroy(); });
+	        }
+	        this.renderedItems = {};
+	    };
+	    ColumnSelectPanel.prototype.recursivelyRenderGroupComponent = function (columnGroup, dept) {
+	        // only render group if user provided the definition
+	        var newDept;
+	        if (columnGroup.getColGroupDef() && columnGroup.getColGroupDef().suppressToolPanel) {
+	            return;
+	        }
+	        if (!columnGroup.isPadding()) {
+	            var renderedGroup = new renderedGroup_1.RenderedGroup(columnGroup, dept, this.onGroupExpanded.bind(this), this.allowDragging);
+	            this.context.wireBean(renderedGroup);
+	            this.appendChild(renderedGroup.getGui());
+	            // we want to indent on the gui for the children
+	            newDept = dept + 1;
+	            this.renderedItems[columnGroup.getId()] = renderedGroup;
+	        }
+	        else {
+	            // no children, so no indent
+	            newDept = dept;
+	        }
+	        this.recursivelyRenderComponents(columnGroup.getChildren(), newDept);
+	    };
+	    ColumnSelectPanel.prototype.recursivelyRenderColumnComponent = function (column, dept) {
+	        if (column.getColDef() && column.getColDef().suppressToolPanel) {
+	            return;
+	        }
+	        var renderedColumn = new renderedColumn_1.RenderedColumn(column, dept, this.allowDragging);
+	        this.context.wireBean(renderedColumn);
+	        this.appendChild(renderedColumn.getGui());
+	        this.renderedItems[column.getId()] = renderedColumn;
+	    };
+	    ColumnSelectPanel.prototype.recursivelyRenderComponents = function (tree, dept) {
+	        var _this = this;
+	        tree.forEach(function (child) {
+	            if (child instanceof main_1.OriginalColumnGroup) {
+	                _this.recursivelyRenderGroupComponent(child, dept);
+	            }
+	            else {
+	                _this.recursivelyRenderColumnComponent(child, dept);
+	            }
+	        });
+	    };
+	    ColumnSelectPanel.prototype.recursivelySetVisibility = function (columnTree, visible) {
+	        var _this = this;
+	        columnTree.forEach(function (child) {
+	            var component = _this.renderedItems[child.getId()];
+	            if (component) {
+	                component.setVisible(visible);
+	            }
+	            if (child instanceof main_1.OriginalColumnGroup) {
+	                var columnGroup = child;
+	                var newVisible = void 0;
+	                if (component) {
+	                    var expanded = component.isExpanded();
+	                    newVisible = visible ? expanded : false;
+	                }
+	                else {
+	                    newVisible = visible;
+	                }
+	                var newChildren = columnGroup.getChildren();
+	                _this.recursivelySetVisibility(newChildren, newVisible);
+	            }
+	        });
+	    };
+	    ColumnSelectPanel.prototype.onGroupExpanded = function () {
+	        this.recursivelySetVisibility(this.columnTree, true);
+	    };
+	    return ColumnSelectPanel;
+	}(main_1.Component));
+	ColumnSelectPanel.TEMPLATE = '<div class="ag-column-select-panel"></div>';
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], ColumnSelectPanel.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], ColumnSelectPanel.prototype, "globalEventService", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], ColumnSelectPanel.prototype, "context", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ColumnSelectPanel.prototype, "init", null);
+	exports.ColumnSelectPanel = ColumnSelectPanel;
+
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var svgFactory = main_1.SvgFactory.getInstance();
+	var RenderedGroup = (function (_super) {
+	    __extends(RenderedGroup, _super);
+	    function RenderedGroup(columnGroup, columnDept, expandedCallback, allowDragging) {
+	        var _this = _super.call(this) || this;
+	        _this.expanded = true;
+	        _this.processingColumnStateChange = false;
+	        _this.columnGroup = columnGroup;
+	        _this.columnDept = columnDept;
+	        _this.expandedCallback = expandedCallback;
+	        _this.allowDragging = allowDragging;
+	        return _this;
+	    }
+	    RenderedGroup.prototype.init = function () {
+	        this.setTemplate(RenderedGroup.TEMPLATE);
+	        this.instantiate(this.context);
+	        var eText = this.queryForHtmlElement('#eText');
+	        this.displayName = this.columnGroup.getColGroupDef() ? this.columnGroup.getColGroupDef().headerName : null;
+	        if (main_1.Utils.missing(this.displayName)) {
+	            this.displayName = '>>';
+	        }
+	        eText.innerHTML = this.displayName;
+	        this.setupExpandContract();
+	        var eIndent = this.queryForHtmlElement('#eIndent');
+	        eIndent.style.width = (this.columnDept * 10) + 'px';
+	        this.addDestroyableEventListener(eText, 'click', this.onClick.bind(this));
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_PIVOT_MODE_CHANGED, this.onColumnStateChanged.bind(this));
+	        this.addDestroyableEventListener(this.cbSelect, main_1.AgCheckbox.EVENT_CHANGED, this.onCheckboxChanged.bind(this));
+	        var eCheckboxAndText = this.queryForHtmlElement('#eCheckboxAndText');
+	        var touchListener = new main_1.TouchListener(eCheckboxAndText);
+	        this.addDestroyableEventListener(touchListener, main_1.TouchListener.EVENT_TAP, this.onClick.bind(this));
+	        this.addDestroyFunc(touchListener.destroy.bind(touchListener));
+	        this.setOpenClosedIcons();
+	        if (this.allowDragging) {
+	            this.addDragSource();
+	        }
+	        this.onColumnStateChanged();
+	        this.addVisibilityListenersToAllChildren();
+	        main_1.CssClassApplier.addToolPanelClassesFromColDef(this.columnGroup.getColGroupDef(), this.getGui(), this.gridOptionsWrapper, null, this.columnGroup);
+	    };
+	    RenderedGroup.prototype.addVisibilityListenersToAllChildren = function () {
+	        var _this = this;
+	        this.columnGroup.getLeafColumns().forEach(function (column) {
+	            _this.addDestroyableEventListener(column, main_1.Column.EVENT_VISIBLE_CHANGED, _this.onColumnStateChanged.bind(_this));
+	            _this.addDestroyableEventListener(column, main_1.Column.EVENT_VALUE_CHANGED, _this.onColumnStateChanged.bind(_this));
+	            _this.addDestroyableEventListener(column, main_1.Column.EVENT_PIVOT_CHANGED, _this.onColumnStateChanged.bind(_this));
+	            _this.addDestroyableEventListener(column, main_1.Column.EVENT_ROW_GROUP_CHANGED, _this.onColumnStateChanged.bind(_this));
+	        });
+	    };
+	    RenderedGroup.prototype.addDragSource = function () {
+	        var _this = this;
+	        var dragSource = {
+	            type: main_1.DragSourceType.ToolPanel,
+	            eElement: this.getGui(),
+	            dragItemName: this.displayName,
+	            dragItem: this.columnGroup.getLeafColumns()
+	        };
+	        this.dragAndDropService.addDragSource(dragSource, true);
+	        this.addDestroyFunc(function () { return _this.dragAndDropService.removeDragSource(dragSource); });
+	    };
+	    RenderedGroup.prototype.setupExpandContract = function () {
+	        this.eGroupClosedIcon = this.queryForHtmlElement('#eGroupClosedIcon');
+	        this.eGroupOpenedIcon = this.queryForHtmlElement('#eGroupOpenedIcon');
+	        this.eGroupClosedIcon.appendChild(main_1.Utils.createIcon('columnSelectClosed', this.gridOptionsWrapper, null, svgFactory.createFolderClosed));
+	        this.eGroupOpenedIcon.appendChild(main_1.Utils.createIcon('columnSelectOpen', this.gridOptionsWrapper, null, svgFactory.createFolderOpen));
+	        this.addDestroyableEventListener(this.eGroupClosedIcon, 'click', this.onExpandOrContractClicked.bind(this));
+	        this.addDestroyableEventListener(this.eGroupOpenedIcon, 'click', this.onExpandOrContractClicked.bind(this));
+	        var eColumnGroupIcons = this.queryForHtmlElement('#eColumnGroupIcons');
+	        var touchListener = new main_1.TouchListener(eColumnGroupIcons);
+	        this.addDestroyableEventListener(touchListener, main_1.TouchListener.EVENT_TAP, this.onExpandOrContractClicked.bind(this));
+	        this.addDestroyFunc(touchListener.destroy.bind(touchListener));
+	    };
+	    RenderedGroup.prototype.onClick = function () {
+	        this.cbSelect.setSelected(!this.cbSelect.isSelected());
+	    };
+	    RenderedGroup.prototype.onCheckboxChanged = function () {
+	        if (this.processingColumnStateChange) {
+	            return;
+	        }
+	        var childColumns = this.columnGroup.getLeafColumns();
+	        var selected = this.cbSelect.isSelected();
+	        if (this.columnController.isPivotMode()) {
+	            if (selected) {
+	                this.actionCheckedReduce(childColumns);
+	            }
+	            else {
+	                this.actionUnCheckedReduce(childColumns);
+	            }
+	        }
+	        else {
+	            this.columnController.setColumnsVisible(childColumns, selected);
+	        }
+	    };
+	    RenderedGroup.prototype.actionUnCheckedReduce = function (columns) {
+	        var columnsToUnPivot = [];
+	        var columnsToUnValue = [];
+	        var columnsToUnGroup = [];
+	        columns.forEach(function (column) {
+	            if (column.isPivotActive()) {
+	                columnsToUnPivot.push(column);
+	            }
+	            if (column.isRowGroupActive()) {
+	                columnsToUnGroup.push(column);
+	            }
+	            if (column.isValueActive()) {
+	                columnsToUnValue.push(column);
+	            }
+	        });
+	        if (columnsToUnPivot.length > 0) {
+	            this.columnController.removePivotColumns(columnsToUnPivot);
+	        }
+	        if (columnsToUnGroup.length > 0) {
+	            this.columnController.removeRowGroupColumns(columnsToUnGroup);
+	        }
+	        if (columnsToUnValue.length > 0) {
+	            this.columnController.removeValueColumns(columnsToUnValue);
+	        }
+	    };
+	    RenderedGroup.prototype.actionCheckedReduce = function (columns) {
+	        var columnsToAggregate = [];
+	        var columnsToGroup = [];
+	        var columnsToPivot = [];
+	        columns.forEach(function (column) {
+	            // don't change any column that's already got a function active
+	            if (column.isAnyFunctionActive()) {
+	                return;
+	            }
+	            if (column.isAllowValue()) {
+	                columnsToAggregate.push(column);
+	            }
+	            else if (column.isAllowRowGroup()) {
+	                columnsToGroup.push(column);
+	            }
+	            else if (column.isAllowRowGroup()) {
+	                columnsToPivot.push(column);
+	            }
+	        });
+	        if (columnsToAggregate.length > 0) {
+	            this.columnController.addValueColumns(columnsToAggregate);
+	        }
+	        if (columnsToGroup.length > 0) {
+	            this.columnController.addRowGroupColumns(columnsToGroup);
+	        }
+	        if (columnsToPivot.length > 0) {
+	            this.columnController.addPivotColumns(columnsToPivot);
+	        }
+	    };
+	    RenderedGroup.prototype.onColumnStateChanged = function () {
+	        var _this = this;
+	        var columnsReduced = this.columnController.isPivotMode();
+	        var visibleChildCount = 0;
+	        var hiddenChildCount = 0;
+	        this.columnGroup.getLeafColumns().forEach(function (column) {
+	            if (_this.isColumnVisible(column, columnsReduced)) {
+	                visibleChildCount++;
+	            }
+	            else {
+	                hiddenChildCount++;
+	            }
+	        });
+	        var selectedValue;
+	        if (visibleChildCount > 0 && hiddenChildCount > 0) {
+	            selectedValue = null;
+	        }
+	        else if (visibleChildCount > 0) {
+	            selectedValue = true;
+	        }
+	        else {
+	            selectedValue = false;
+	        }
+	        this.processingColumnStateChange = true;
+	        this.cbSelect.setSelected(selectedValue);
+	        this.processingColumnStateChange = false;
+	    };
+	    RenderedGroup.prototype.isColumnVisible = function (column, columnsReduced) {
+	        if (columnsReduced) {
+	            var pivoted = column.isPivotActive();
+	            var grouped = column.isRowGroupActive();
+	            var aggregated = column.isValueActive();
+	            return pivoted || grouped || aggregated;
+	        }
+	        else {
+	            return column.isVisible();
+	        }
+	    };
+	    RenderedGroup.prototype.onExpandOrContractClicked = function () {
+	        this.expanded = !this.expanded;
+	        this.setOpenClosedIcons();
+	        this.expandedCallback();
+	    };
+	    RenderedGroup.prototype.setOpenClosedIcons = function () {
+	        var folderOpen = this.expanded;
+	        main_1.Utils.setVisible(this.eGroupClosedIcon, !folderOpen);
+	        main_1.Utils.setVisible(this.eGroupOpenedIcon, folderOpen);
+	    };
+	    RenderedGroup.prototype.isExpanded = function () {
+	        return this.expanded;
+	    };
+	    return RenderedGroup;
+	}(main_1.Component));
+	RenderedGroup.TEMPLATE = '<div class="ag-column-select-column-group">' +
+	    '  <span id="eIndent" class="ag-column-select-indent"></span>' +
+	    '  <span id="eColumnGroupIcons" class="ag-column-group-icons">' +
+	    '    <span id="eGroupOpenedIcon" class="ag-column-group-closed-icon"></span>' +
+	    '    <span id="eGroupClosedIcon" class="ag-column-group-opened-icon"></span>' +
+	    '  </span>' +
+	    '  <span id="eCheckboxAndText">' +
+	    '    <ag-checkbox class="ag-column-select-checkbox"></ag-checkbox>' +
+	    '    <span id="eText" class="ag-column-select-column-group-label"></span>' +
+	    '  </span>' +
+	    '</div>';
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], RenderedGroup.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], RenderedGroup.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('gridPanel'),
+	    __metadata("design:type", main_1.GridPanel)
+	], RenderedGroup.prototype, "gridPanel", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], RenderedGroup.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('dragAndDropService'),
+	    __metadata("design:type", main_1.DragAndDropService)
+	], RenderedGroup.prototype, "dragAndDropService", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], RenderedGroup.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-column-select-checkbox'),
+	    __metadata("design:type", main_1.AgCheckbox)
+	], RenderedGroup.prototype, "cbSelect", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], RenderedGroup.prototype, "init", null);
+	exports.RenderedGroup = RenderedGroup;
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var RenderedColumn = (function (_super) {
+	    __extends(RenderedColumn, _super);
+	    function RenderedColumn(column, columnDept, allowDragging) {
+	        var _this = _super.call(this) || this;
+	        _this.processingColumnStateChange = false;
+	        _this.column = column;
+	        _this.columnDept = columnDept;
+	        _this.allowDragging = allowDragging;
+	        return _this;
+	    }
+	    RenderedColumn.prototype.init = function () {
+	        this.setTemplate(RenderedColumn.TEMPLATE);
+	        this.displayName = this.columnController.getDisplayNameForColumn(this.column, 'toolPanel');
+	        this.eText.innerHTML = this.displayName;
+	        this.eIndent.style.width = (this.columnDept * 10) + 'px';
+	        if (this.allowDragging) {
+	            this.addDragSource();
+	        }
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_PIVOT_MODE_CHANGED, this.onColumnStateChanged.bind(this));
+	        this.addDestroyableEventListener(this.column, main_1.Column.EVENT_VALUE_CHANGED, this.onColumnStateChanged.bind(this));
+	        this.addDestroyableEventListener(this.column, main_1.Column.EVENT_PIVOT_CHANGED, this.onColumnStateChanged.bind(this));
+	        this.addDestroyableEventListener(this.column, main_1.Column.EVENT_ROW_GROUP_CHANGED, this.onColumnStateChanged.bind(this));
+	        this.addDestroyableEventListener(this.column, main_1.Column.EVENT_VISIBLE_CHANGED, this.onColumnStateChanged.bind(this));
+	        this.addDestroyableEventListener(this.gridOptionsWrapper, 'functionsReadOnly', this.onColumnStateChanged.bind(this));
+	        this.instantiate(this.context);
+	        this.onColumnStateChanged();
+	        this.addDestroyableEventListener(this.cbSelect, main_1.AgCheckbox.EVENT_CHANGED, this.onChange.bind(this));
+	        this.addDestroyableEventListener(this.eText, 'click', this.onClick.bind(this));
+	        this.addTap();
+	        main_1.CssClassApplier.addToolPanelClassesFromColDef(this.column.getColDef(), this.getGui(), this.gridOptionsWrapper, this.column, null);
+	    };
+	    RenderedColumn.prototype.addTap = function () {
+	        var touchListener = new main_1.TouchListener(this.getGui());
+	        this.addDestroyableEventListener(touchListener, main_1.TouchListener.EVENT_TAP, this.onClick.bind(this));
+	        this.addDestroyFunc(touchListener.destroy.bind(touchListener));
+	    };
+	    RenderedColumn.prototype.onClick = function () {
+	        if (this.cbSelect.isReadOnly()) {
+	            return;
+	        }
+	        this.cbSelect.toggle();
+	    };
+	    RenderedColumn.prototype.onChange = function (event) {
+	        // only want to action if the user clicked the checkbox, not is we are setting the checkbox because
+	        // of a change in the model
+	        if (this.processingColumnStateChange) {
+	            return;
+	        }
+	        // action in a timeout, as the action takes some time, we want to update the icons first
+	        // so the user gets nice feedback when they click. otherwise there would be a lag and the
+	        // user would think the checkboxes were clunky
+	        if (this.columnController.isPivotMode()) {
+	            if (event.selected) {
+	                this.actionCheckedPivotMode();
+	            }
+	            else {
+	                this.actionUnCheckedPivotMode();
+	            }
+	        }
+	        else {
+	            this.columnController.setColumnVisible(this.column, event.selected);
+	        }
+	    };
+	    RenderedColumn.prototype.actionUnCheckedPivotMode = function () {
+	        var functionPassive = this.gridOptionsWrapper.isFunctionsPassive();
+	        var column = this.column;
+	        var columnController = this.columnController;
+	        // remove pivot if column is pivoted
+	        if (column.isPivotActive()) {
+	            if (functionPassive) {
+	                var copyOfPivotColumns = this.columnController.getPivotColumns().slice();
+	                copyOfPivotColumns.push(column);
+	                this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_PIVOT_CHANGE_REQUEST, { columns: copyOfPivotColumns });
+	            }
+	            else {
+	                columnController.removePivotColumn(column);
+	            }
+	        }
+	        // remove value if column is value
+	        if (column.isValueActive()) {
+	            if (functionPassive) {
+	                var copyOfValueColumns = this.columnController.getValueColumns().slice();
+	                copyOfValueColumns.push(column);
+	                this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_VALUE_CHANGE_REQUEST, { columns: copyOfValueColumns });
+	            }
+	            else {
+	                columnController.removeValueColumn(column);
+	            }
+	        }
+	        // remove group if column is grouped
+	        if (column.isRowGroupActive()) {
+	            if (functionPassive) {
+	                var copyOfRowGroupColumns = this.columnController.getRowGroupColumns().slice();
+	                copyOfRowGroupColumns.push(column);
+	                this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_ROW_GROUP_CHANGE_REQUEST, { columns: copyOfRowGroupColumns });
+	            }
+	            else {
+	                columnController.removeRowGroupColumn(column);
+	            }
+	        }
+	    };
+	    RenderedColumn.prototype.actionCheckedPivotMode = function () {
+	        var column = this.column;
+	        // function already active, so do nothing
+	        if (column.isValueActive() || column.isPivotActive() || column.isRowGroupActive()) {
+	            return;
+	        }
+	        var functionPassive = this.gridOptionsWrapper.isFunctionsPassive();
+	        if (column.isAllowValue()) {
+	            if (functionPassive) {
+	                var copyOfValueColumns = this.columnController.getValueColumns().slice();
+	                main_1.Utils.removeFromArray(copyOfValueColumns, column);
+	                this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_VALUE_CHANGE_REQUEST, { columns: copyOfValueColumns });
+	            }
+	            else {
+	                this.columnController.addValueColumn(column);
+	            }
+	        }
+	        else if (column.isAllowRowGroup()) {
+	            if (functionPassive) {
+	                var copyOfRowGroupColumns = this.columnController.getRowGroupColumns().slice();
+	                main_1.Utils.removeFromArray(copyOfRowGroupColumns, column);
+	                this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_ROW_GROUP_CHANGE_REQUEST, { columns: copyOfRowGroupColumns });
+	            }
+	            else {
+	                this.columnController.addRowGroupColumn(column);
+	            }
+	        }
+	        else if (column.isAllowPivot()) {
+	            if (functionPassive) {
+	                var copyOfPivotColumns = this.columnController.getPivotColumns().slice();
+	                main_1.Utils.removeFromArray(copyOfPivotColumns, column);
+	                this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_PIVOT_CHANGE_REQUEST, { columns: copyOfPivotColumns });
+	            }
+	            else {
+	                this.columnController.addPivotColumn(column);
+	            }
+	        }
+	    };
+	    RenderedColumn.prototype.addDragSource = function () {
+	        var _this = this;
+	        var dragSource = {
+	            type: main_1.DragSourceType.ToolPanel,
+	            eElement: this.getGui(),
+	            dragItemName: this.displayName,
+	            dragItem: [this.column]
+	        };
+	        this.dragAndDropService.addDragSource(dragSource, true);
+	        this.addDestroyFunc(function () { return _this.dragAndDropService.removeDragSource(dragSource); });
+	    };
+	    RenderedColumn.prototype.onColumnStateChanged = function () {
+	        this.processingColumnStateChange = true;
+	        var isPivotMode = this.columnController.isPivotMode();
+	        if (isPivotMode) {
+	            // if reducing, checkbox means column is one of pivot, value or group
+	            var anyFunctionActive = this.column.isAnyFunctionActive();
+	            this.cbSelect.setSelected(anyFunctionActive);
+	        }
+	        else {
+	            // if not reducing, the checkbox tells us if column is visible or not
+	            this.cbSelect.setSelected(this.column.isVisible());
+	        }
+	        // read only in pivot mode if:
+	        var checkboxReadOnly = isPivotMode
+	            && (this.gridOptionsWrapper.isFunctionsReadOnly()
+	                || !this.column.isAnyFunctionAllowed());
+	        this.cbSelect.setReadOnly(checkboxReadOnly);
+	        var checkboxPassive = isPivotMode && this.gridOptionsWrapper.isFunctionsPassive();
+	        this.cbSelect.setPassive(checkboxPassive);
+	        this.processingColumnStateChange = false;
+	    };
+	    return RenderedColumn;
+	}(main_1.Component));
+	RenderedColumn.TEMPLATE = '<div class="ag-column-select-column">' +
+	    '<span class="ag-column-select-indent"></span>' +
+	    '<ag-checkbox class="ag-column-select-checkbox"></ag-checkbox>' +
+	    '<span class="ag-column-select-label"></span>' +
+	    '</div>';
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], RenderedColumn.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], RenderedColumn.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], RenderedColumn.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('dragAndDropService'),
+	    __metadata("design:type", main_1.DragAndDropService)
+	], RenderedColumn.prototype, "dragAndDropService", void 0);
+	__decorate([
+	    main_1.Autowired('gridPanel'),
+	    __metadata("design:type", main_1.GridPanel)
+	], RenderedColumn.prototype, "gridPanel", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], RenderedColumn.prototype, "context", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-column-select-label'),
+	    __metadata("design:type", HTMLElement)
+	], RenderedColumn.prototype, "eText", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-column-select-indent'),
+	    __metadata("design:type", HTMLElement)
+	], RenderedColumn.prototype, "eIndent", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-column-select-checkbox'),
+	    __metadata("design:type", main_1.AgCheckbox)
+	], RenderedColumn.prototype, "cbSelect", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], RenderedColumn.prototype, "init", null);
+	exports.RenderedColumn = RenderedColumn;
+
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var menuItemComponent_1 = __webpack_require__(132);
+	var MenuList = (function (_super) {
+	    __extends(MenuList, _super);
+	    function MenuList() {
+	        var _this = _super.call(this, MenuList.TEMPLATE) || this;
+	        _this.timerCount = 0;
+	        _this.removeChildFuncs = [];
+	        return _this;
+	        // console.log('MenuList->constructor() ' + this.instance);
+	    }
+	    MenuList.prototype.clearActiveItem = function () {
+	        this.removeActiveItem();
+	        this.removeChildPopup();
+	    };
+	    MenuList.prototype.addMenuItems = function (menuItems) {
+	        var _this = this;
+	        if (ag_grid_1.Utils.missing(menuItems)) {
+	            return;
+	        }
+	        menuItems.forEach(function (menuItemOrString) {
+	            if (menuItemOrString === 'separator') {
+	                _this.addSeparator();
+	            }
+	            else if (typeof menuItemOrString === 'string') {
+	                console.log("ag-Grid: unrecognised menu item " + menuItemOrString);
+	            }
+	            else {
+	                var menuItem = menuItemOrString;
+	                _this.addItem(menuItem);
+	            }
+	        });
+	    };
+	    MenuList.prototype.addItem = function (menuItemDef) {
+	        var _this = this;
+	        var cMenuItem = new menuItemComponent_1.MenuItemComponent(menuItemDef);
+	        this.context.wireBean(cMenuItem);
+	        this.getGui().appendChild(cMenuItem.getGui());
+	        this.addDestroyFunc(function () { return cMenuItem.destroy(); });
+	        cMenuItem.addEventListener(menuItemComponent_1.MenuItemComponent.EVENT_ITEM_SELECTED, function (event) {
+	            if (menuItemDef.subMenu) {
+	                _this.showChildMenu(menuItemDef, cMenuItem);
+	            }
+	            else {
+	                _this.dispatchEvent(menuItemComponent_1.MenuItemComponent.EVENT_ITEM_SELECTED, event);
+	            }
+	        });
+	        cMenuItem.addGuiEventListener('mouseenter', this.mouseEnterItem.bind(this, menuItemDef, cMenuItem));
+	        cMenuItem.addGuiEventListener('mouseleave', function () { return _this.timerCount++; });
+	    };
+	    MenuList.prototype.mouseEnterItem = function (menuItemParams, menuItem) {
+	        if (menuItemParams.disabled) {
+	            return;
+	        }
+	        if (this.activeMenuItemParams !== menuItemParams) {
+	            this.removeChildPopup();
+	        }
+	        this.removeActiveItem();
+	        this.activeMenuItemParams = menuItemParams;
+	        this.activeMenuItem = menuItem;
+	        ag_grid_1.Utils.addCssClass(this.activeMenuItem.getGui(), 'ag-menu-option-active');
+	        if (menuItemParams.subMenu) {
+	            this.addHoverForChildPopup(menuItemParams, menuItem);
+	        }
+	    };
+	    MenuList.prototype.removeActiveItem = function () {
+	        if (this.activeMenuItem) {
+	            ag_grid_1.Utils.removeCssClass(this.activeMenuItem.getGui(), 'ag-menu-option-active');
+	            this.activeMenuItem = null;
+	            this.activeMenuItemParams = null;
+	        }
+	    };
+	    MenuList.prototype.addHoverForChildPopup = function (menuItemDef, menuItemComp) {
+	        var _this = this;
+	        var timerCountCopy = this.timerCount;
+	        setTimeout(function () {
+	            var shouldShow = timerCountCopy === _this.timerCount;
+	            var showingThisMenu = _this.subMenuParentDef === menuItemDef;
+	            if (shouldShow && !showingThisMenu) {
+	                _this.showChildMenu(menuItemDef, menuItemComp);
+	            }
+	        }, 500);
+	    };
+	    MenuList.prototype.addSeparator = function () {
+	        this.getGui().appendChild(ag_grid_1.Utils.loadTemplate(MenuList.SEPARATOR_TEMPLATE));
+	    };
+	    MenuList.prototype.showChildMenu = function (menuItemDef, menuItemComp) {
+	        var _this = this;
+	        this.removeChildPopup();
+	        var childMenu = new MenuList();
+	        this.context.wireBean(childMenu);
+	        childMenu.addMenuItems(menuItemDef.subMenu);
+	        var ePopup = ag_grid_1.Utils.loadTemplate('<div class="ag-menu"></div>');
+	        ePopup.appendChild(childMenu.getGui());
+	        var hidePopupFunc = this.popupService.addAsModalPopup(ePopup, true);
+	        this.popupService.positionPopupForMenu({
+	            eventSource: menuItemComp.getGui(),
+	            ePopup: ePopup
+	        });
+	        this.subMenuParentDef = menuItemDef;
+	        var selectedListener = function (event) {
+	            _this.dispatchEvent(menuItemComponent_1.MenuItemComponent.EVENT_ITEM_SELECTED, event);
+	        };
+	        childMenu.addEventListener(menuItemComponent_1.MenuItemComponent.EVENT_ITEM_SELECTED, selectedListener);
+	        this.removeChildFuncs.push(function () {
+	            childMenu.clearActiveItem();
+	            childMenu.destroy();
+	            _this.subMenuParentDef = null;
+	            childMenu.removeEventListener(menuItemComponent_1.MenuItemComponent.EVENT_ITEM_SELECTED, selectedListener);
+	            hidePopupFunc();
+	        });
+	    };
+	    MenuList.prototype.removeChildPopup = function () {
+	        this.removeChildFuncs.forEach(function (func) { return func(); });
+	        this.removeChildFuncs = [];
+	    };
+	    MenuList.prototype.destroy = function () {
+	        // console.log('MenuList->destroy() ' + this.instance);
+	        this.removeChildPopup();
+	        _super.prototype.destroy.call(this);
+	    };
+	    return MenuList;
+	}(ag_grid_1.Component));
+	// private instance = Math.random();
+	MenuList.TEMPLATE = '<div class="ag-menu-list"></div>';
+	MenuList.SEPARATOR_TEMPLATE = '<div class="ag-menu-separator">' +
+	    '  <span class="ag-menu-separator-cell"></span>' +
+	    '  <span class="ag-menu-separator-cell"></span>' +
+	    '  <span class="ag-menu-separator-cell"></span>' +
+	    '  <span class="ag-menu-separator-cell"></span>' +
+	    '</div>';
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], MenuList.prototype, "context", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('popupService'),
+	    __metadata("design:type", ag_grid_1.PopupService)
+	], MenuList.prototype, "popupService", void 0);
+	exports.MenuList = MenuList;
+
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var svgFactory = ag_grid_1.SvgFactory.getInstance();
+	var MenuItemComponent = (function (_super) {
+	    __extends(MenuItemComponent, _super);
+	    function MenuItemComponent(params) {
+	        var _this = _super.call(this, MenuItemComponent.TEMPLATE) || this;
+	        _this.params = params;
+	        return _this;
+	    }
+	    MenuItemComponent.prototype.init = function () {
+	        var _this = this;
+	        if (this.params.checked) {
+	            this.queryForHtmlElement('#eIcon').innerHTML = '&#10004;';
+	        }
+	        else if (this.params.icon) {
+	            if (ag_grid_1.Utils.isNodeOrElement(this.params.icon)) {
+	                this.queryForHtmlElement('#eIcon').appendChild(this.params.icon);
+	            }
+	            else if (typeof this.params.icon === 'string') {
+	                this.queryForHtmlElement('#eIcon').innerHTML = this.params.icon;
+	            }
+	            else {
+	                console.log('ag-Grid: menu item icon must be DOM node or string');
+	            }
+	        }
+	        else {
+	            // if i didn't put space here, the alignment was messed up, probably
+	            // fixable with CSS but i was spending to much time trying to figure
+	            // it out.
+	            this.queryForHtmlElement('#eIcon').innerHTML = '&nbsp;';
+	        }
+	        if (this.params.tooltip) {
+	            this.getGui().setAttribute('title', this.params.tooltip);
+	        }
+	        if (this.params.shortcut) {
+	            this.queryForHtmlElement('#eShortcut').innerHTML = this.params.shortcut;
+	        }
+	        if (this.params.subMenu) {
+	            if (this.gridOptionsWrapper.isEnableRtl()) {
+	                // for RTL, we show arrow going left
+	                this.queryForHtmlElement('#ePopupPointer').appendChild(svgFactory.createSmallArrowLeftSvg());
+	            }
+	            else {
+	                // for normal, we show arrow going right
+	                this.queryForHtmlElement('#ePopupPointer').appendChild(svgFactory.createSmallArrowRightSvg());
+	            }
+	        }
+	        else {
+	            this.queryForHtmlElement('#ePopupPointer').innerHTML = '&nbsp;';
+	        }
+	        this.queryForHtmlElement('#eName').innerHTML = this.params.name;
+	        if (this.params.disabled) {
+	            ag_grid_1.Utils.addCssClass(this.getGui(), 'ag-menu-option-disabled');
+	        }
+	        else {
+	            this.addGuiEventListener('click', this.onOptionSelected.bind(this));
+	        }
+	        if (this.params.cssClasses) {
+	            this.params.cssClasses.forEach(function (it) { return ag_grid_1.Utils.addCssClass(_this.getGui(), it); });
+	        }
+	    };
+	    MenuItemComponent.prototype.onOptionSelected = function () {
+	        this.dispatchEvent(MenuItemComponent.EVENT_ITEM_SELECTED, this.params);
+	        if (this.params.action) {
+	            this.params.action();
+	        }
+	    };
+	    MenuItemComponent.prototype.destroy = function () {
+	        // console.log('MenuItemComponent->destroy() ' + this.instance);
+	        _super.prototype.destroy.call(this);
+	    };
+	    return MenuItemComponent;
+	}(ag_grid_1.Component));
+	// private instance = Math.random();
+	MenuItemComponent.TEMPLATE = '<div class="ag-menu-option">' +
+	    '  <span id="eIcon" class="ag-menu-option-icon"></span>' +
+	    '  <span id="eName" class="ag-menu-option-text"></span>' +
+	    '  <span id="eShortcut" class="ag-menu-option-shortcut"></span>' +
+	    '  <span id="ePopupPointer" class="ag-menu-option-popup-pointer"></span>' +
+	    '</div>';
+	MenuItemComponent.EVENT_ITEM_SELECTED = 'itemSelected';
+	__decorate([
+	    ag_grid_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", ag_grid_1.GridOptionsWrapper)
+	], MenuItemComponent.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    ag_grid_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], MenuItemComponent.prototype, "init", null);
+	exports.MenuItemComponent = MenuItemComponent;
+
+
+/***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var clipboardService_1 = __webpack_require__(134);
+	var aggFuncService_1 = __webpack_require__(136);
+	var svgFactory = ag_grid_1.SvgFactory.getInstance();
+	var MenuItemMapper = (function () {
+	    function MenuItemMapper() {
+	    }
+	    MenuItemMapper.prototype.mapWithStockItems = function (originalList, column) {
+	        var _this = this;
+	        if (!originalList) {
+	            return [];
+	        }
+	        var resultList = [];
+	        originalList.forEach(function (menuItemOrString) {
+	            var result;
+	            if (typeof menuItemOrString === 'string') {
+	                result = _this.getStockMenuItem(menuItemOrString, column);
+	            }
+	            else {
+	                result = menuItemOrString;
+	            }
+	            if (result.subMenu) {
+	                var resultDef = result;
+	                resultDef.subMenu = _this.mapWithStockItems(resultDef.subMenu, column);
+	            }
+	            resultList.push(result);
+	        });
+	        return resultList;
+	    };
+	    MenuItemMapper.prototype.getStockMenuItem = function (key, column) {
+	        var _this = this;
+	        var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	        switch (key) {
+	            case 'pinSubMenu': return {
+	                name: localeTextFunc('pinColumn', 'Pin Column'),
+	                icon: ag_grid_1.Utils.createIconNoSpan('menuPin', this.gridOptionsWrapper, null, svgFactory.createPinIcon),
+	                subMenu: ['pinLeft', 'pinRight', 'clearPinned']
+	            };
+	            case 'pinLeft': return {
+	                name: localeTextFunc('pinLeft', 'Pin Left'),
+	                action: function () { return _this.columnController.setColumnPinned(column, ag_grid_1.Column.PINNED_LEFT); },
+	                checked: column.isPinnedLeft()
+	            };
+	            case 'pinRight': return {
+	                name: localeTextFunc('pinRight', 'Pin Right'),
+	                action: function () { return _this.columnController.setColumnPinned(column, ag_grid_1.Column.PINNED_RIGHT); },
+	                checked: column.isPinnedRight()
+	            };
+	            case 'clearPinned': return {
+	                name: localeTextFunc('noPin', 'No Pin'),
+	                action: function () { return _this.columnController.setColumnPinned(column, null); },
+	                checked: !column.isPinned()
+	            };
+	            case 'valueAggSubMenu': return {
+	                name: localeTextFunc('valueAggregation', 'Value Aggregation'),
+	                icon: ag_grid_1.Utils.createIconNoSpan('menuValue', this.gridOptionsWrapper, null, svgFactory.createAggregationIcon),
+	                subMenu: this.createAggregationSubMenu(column)
+	            };
+	            case 'autoSizeThis': return {
+	                name: localeTextFunc('autosizeThiscolumn', 'Autosize This Column'),
+	                action: function () { return _this.columnController.autoSizeColumn(column); }
+	            };
+	            case 'autoSizeAll': return {
+	                name: localeTextFunc('autosizeAllColumns', 'Autosize All Columns'),
+	                action: function () { return _this.columnController.autoSizeAllColumns(); }
+	            };
+	            case 'rowGroup': return {
+	                name: localeTextFunc('groupBy', 'Group by') + ' ' + column.getColDef().headerName,
+	                action: function () { return _this.columnController.addRowGroupColumn(column); },
+	                icon: ag_grid_1.Utils.createIconNoSpan('menuAddRowGroup', this.gridOptionsWrapper, null, svgFactory.createGroupIcon12)
+	            };
+	            case 'rowUnGroup': return {
+	                name: localeTextFunc('ungroupBy', 'Un-Group by') + ' ' + column.getColDef().headerName,
+	                action: function () { return _this.columnController.removeRowGroupColumn(column); },
+	                icon: ag_grid_1.Utils.createIconNoSpan('menuRemoveRowGroup', this.gridOptionsWrapper, null, svgFactory.createGroupIcon12)
+	            };
+	            case 'resetColumns': return {
+	                name: localeTextFunc('resetColumns', 'Reset Columns'),
+	                action: function () { return _this.columnController.resetColumnState(); }
+	            };
+	            case 'expandAll': return {
+	                name: localeTextFunc('expandAll', 'Expand All'),
+	                action: function () { return _this.gridApi.expandAll(); }
+	            };
+	            case 'contractAll': return {
+	                name: localeTextFunc('collapseAll', 'Collapse All'),
+	                action: function () { return _this.gridApi.collapseAll(); }
+	            };
+	            case 'copy': return {
+	                name: localeTextFunc('copy', 'Copy'),
+	                shortcut: localeTextFunc('ctrlC', 'Ctrl+C'),
+	                icon: ag_grid_1.Utils.createIconNoSpan('clipboardCopy', this.gridOptionsWrapper, null, svgFactory.createCopyIcon),
+	                action: function () { return _this.clipboardService.copyToClipboard(false); }
+	            };
+	            case 'copyWithHeaders': return {
+	                name: localeTextFunc('copyWithHeaders', 'Copy with Headers'),
+	                // shortcut: localeTextFunc('ctrlC','Ctrl+C'),
+	                icon: ag_grid_1.Utils.createIconNoSpan('clipboardCopy', this.gridOptionsWrapper, null, svgFactory.createCopyIcon),
+	                action: function () { return _this.clipboardService.copyToClipboard(true); }
+	            };
+	            case 'paste': return {
+	                name: localeTextFunc('paste', 'Paste'),
+	                shortcut: localeTextFunc('ctrlV', 'Ctrl+V'),
+	                disabled: true,
+	                icon: ag_grid_1.Utils.createIconNoSpan('clipboardPaste', this.gridOptionsWrapper, null, svgFactory.createPasteIcon),
+	                action: function () { return _this.clipboardService.pasteFromClipboard(); }
+	            };
+	            case 'toolPanel': return {
+	                name: localeTextFunc('toolPanel', 'Tool Panel'),
+	                checked: this.gridApi.isToolPanelShowing(),
+	                action: function () { return _this.gridApi.showToolPanel(!_this.gridApi.isToolPanelShowing()); }
+	            };
+	            case 'export': return {
+	                name: localeTextFunc('export', 'Export'),
+	                subMenu: ['csvExport', 'excelExport']
+	            };
+	            case 'csvExport': return {
+	                name: localeTextFunc('csvExport', 'CSV Export'),
+	                action: function () { return _this.gridApi.exportDataAsCsv({}); }
+	            };
+	            case 'excelExport': return {
+	                name: localeTextFunc('excelExport', 'Excel Export'),
+	                action: function () { return _this.gridApi.exportDataAsExcel({}); }
+	            };
+	            case 'separator': return 'separator';
+	            default:
+	                console.log("ag-Grid: unknown menu item type " + key);
+	                return null;
+	        }
+	    };
+	    MenuItemMapper.prototype.createAggregationSubMenu = function (column) {
+	        var _this = this;
+	        var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	        var columnIsAlreadyAggValue = column.isValueActive();
+	        var funcNames = this.aggFuncService.getFuncNames(column);
+	        var columnToUse;
+	        if (column.isPrimary()) {
+	            columnToUse = column;
+	        }
+	        else {
+	            columnToUse = column.getColDef().pivotValueColumn;
+	        }
+	        var result = [];
+	        funcNames.forEach(function (funcName) {
+	            result.push({
+	                name: localeTextFunc(funcName, funcName),
+	                action: function () {
+	                    _this.columnController.setColumnAggFunc(columnToUse, funcName);
+	                    _this.columnController.addValueColumn(columnToUse);
+	                },
+	                checked: columnIsAlreadyAggValue && columnToUse.getAggFunc() === funcName
+	            });
+	        });
+	        return result;
+	    };
+	    return MenuItemMapper;
+	}());
+	__decorate([
+	    ag_grid_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", ag_grid_1.GridOptionsWrapper)
+	], MenuItemMapper.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('columnController'),
+	    __metadata("design:type", ag_grid_1.ColumnController)
+	], MenuItemMapper.prototype, "columnController", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('gridApi'),
+	    __metadata("design:type", ag_grid_1.GridApi)
+	], MenuItemMapper.prototype, "gridApi", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('clipboardService'),
+	    __metadata("design:type", clipboardService_1.ClipboardService)
+	], MenuItemMapper.prototype, "clipboardService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('aggFuncService'),
+	    __metadata("design:type", aggFuncService_1.AggFuncService)
+	], MenuItemMapper.prototype, "aggFuncService", void 0);
+	MenuItemMapper = __decorate([
+	    ag_grid_1.Bean('menuItemMapper')
+	], MenuItemMapper);
+	exports.MenuItemMapper = MenuItemMapper;
+
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var rangeController_1 = __webpack_require__(135);
+	var ClipboardService = (function () {
+	    function ClipboardService() {
+	    }
+	    ClipboardService.prototype.init = function () {
+	        this.logger = this.loggerFactory.create('ClipboardService');
+	    };
+	    ClipboardService.prototype.pasteFromClipboard = function () {
+	        var _this = this;
+	        this.logger.log('pasteFromClipboard');
+	        this.executeOnTempElement(function (textArea) {
+	            textArea.focus();
+	        }, function (element) {
+	            var text = element.value;
+	            _this.finishPasteFromClipboard(text);
+	        });
+	    };
+	    ClipboardService.prototype.copyRangeDown = function () {
+	        var _this = this;
+	        if (this.rangeController.isEmpty()) {
+	            return;
+	        }
+	        var cellsToFlash = {};
+	        var firstRowValues = null;
+	        var updatedRowNodes = [];
+	        var updatedColumnIds = [];
+	        var rowCallback = function (currentRow, rowNode, columns) {
+	            // take reference of first row, this is the one we will be using to copy from
+	            if (!firstRowValues) {
+	                firstRowValues = [];
+	                // two reasons for looping through columns
+	                columns.forEach(function (column) {
+	                    // reason 1 - to get the initial values to copy down
+	                    var value = _this.valueService.getValue(column, rowNode);
+	                    firstRowValues.push(value);
+	                    // reason 2 - to record the columnId for refreshing
+	                    updatedColumnIds.push(column.getId());
+	                });
+	            }
+	            else {
+	                // otherwise we are not the first row, so copy
+	                updatedRowNodes.push(rowNode);
+	                columns.forEach(function (column, index) {
+	                    if (!column.isCellEditable(rowNode)) {
+	                        return;
+	                    }
+	                    var firstRowValue = firstRowValues[index];
+	                    _this.valueService.setValue(rowNode, column, firstRowValue);
+	                    var gridCellDef = { rowIndex: currentRow.rowIndex, floating: currentRow.floating, column: column };
+	                    var cellId = new main_1.GridCell(gridCellDef).createId();
+	                    cellsToFlash[cellId] = true;
+	                });
+	            }
+	        };
+	        this.iterateActiveRanges(true, rowCallback);
+	        // this is very heavy, should possibly just refresh the specific cells?
+	        this.rowRenderer.refreshCells(updatedRowNodes, updatedColumnIds);
+	        this.dispatchFlashCells(cellsToFlash);
+	    };
+	    ClipboardService.prototype.finishPasteFromClipboard = function (data) {
+	        if (main_1.Utils.missingOrEmpty(data)) {
+	            return;
+	        }
+	        var focusedCell = this.focusedCellController.getFocusedCell();
+	        if (!focusedCell) {
+	            return;
+	        }
+	        var parsedData = this.dataToArray(data);
+	        if (!parsedData) {
+	            return;
+	        }
+	        // remove last row if empty, excel puts empty last row in
+	        var lastLine = parsedData[parsedData.length - 1];
+	        if (lastLine.length === 1 && lastLine[0] === '') {
+	            main_1.Utils.removeFromArray(parsedData, lastLine);
+	        }
+	        var currentRow = new main_1.GridRow(focusedCell.rowIndex, focusedCell.floating);
+	        var cellsToFlash = {};
+	        var updatedRowNodes = [];
+	        var updatedColumnIds = [];
+	        var columnsToPasteInto = this.columnController.getDisplayedColumnsStartingAt(focusedCell.column);
+	        var onlyOneCellInRange = parsedData.length === 1 && parsedData[0].length === 1;
+	        if (onlyOneCellInRange) {
+	            this.singleCellRange(parsedData, updatedRowNodes, currentRow, cellsToFlash, updatedColumnIds);
+	        }
+	        else {
+	            this.multipleCellRange(parsedData, currentRow, updatedRowNodes, columnsToPasteInto, cellsToFlash, updatedColumnIds);
+	        }
+	        // this is very heavy, should possibly just refresh the specific cells?
+	        this.rowRenderer.refreshCells(updatedRowNodes, updatedColumnIds);
+	        this.dispatchFlashCells(cellsToFlash);
+	        this.focusedCellController.setFocusedCell(focusedCell.rowIndex, focusedCell.column, focusedCell.floating, true);
+	    };
+	    ClipboardService.prototype.multipleCellRange = function (clipboardGridData, currentRow, updatedRowNodes, columnsToPasteInto, cellsToFlash, updatedColumnIds) {
+	        var _this = this;
+	        clipboardGridData.forEach(function (clipboardRowData) {
+	            // if we have come to end of rows in grid, then skip
+	            if (!currentRow) {
+	                return;
+	            }
+	            var rowNode = _this.getRowNode(currentRow);
+	            updatedRowNodes.push(rowNode);
+	            clipboardRowData.forEach(function (value, index) {
+	                var column = columnsToPasteInto[index];
+	                if (main_1.Utils.missing(column)) {
+	                    return;
+	                }
+	                if (!column.isCellEditable(rowNode)) {
+	                    return;
+	                }
+	                _this.updateCellValue(rowNode, column, value, currentRow, cellsToFlash, updatedColumnIds);
+	            });
+	            // move to next row down for next set of values
+	            currentRow = _this.cellNavigationService.getRowBelow(currentRow);
+	        });
+	        return currentRow;
+	    };
+	    ClipboardService.prototype.singleCellRange = function (parsedData, updatedRowNodes, currentRow, cellsToFlash, updatedColumnIds) {
+	        var _this = this;
+	        var value = parsedData[0][0];
+	        var rowCallback = function (gridRow, rowNode, columns) {
+	            updatedRowNodes.push(rowNode);
+	            columns.forEach(function (column) {
+	                _this.updateCellValue(rowNode, column, value, currentRow, cellsToFlash, updatedColumnIds);
+	            });
+	        };
+	        this.iterateActiveRanges(false, rowCallback);
+	    };
+	    ClipboardService.prototype.updateCellValue = function (rowNode, column, value, currentRow, cellsToFlash, updatedColumnIds) {
+	        var processedValue = this.processRangeCell(rowNode, column, value, this.gridOptionsWrapper.getProcessCellFromClipboardFunc());
+	        this.valueService.setValue(rowNode, column, processedValue);
+	        var gridCellDef = {
+	            rowIndex: currentRow.rowIndex,
+	            floating: currentRow.floating,
+	            column: column
+	        };
+	        var cellId = new main_1.GridCell(gridCellDef).createId();
+	        cellsToFlash[cellId] = true;
+	        if (updatedColumnIds.indexOf(column.getId()) < 0) {
+	            updatedColumnIds.push(column.getId());
+	        }
+	    };
+	    ClipboardService.prototype.copyToClipboard = function (includeHeaders) {
+	        if (includeHeaders === void 0) { includeHeaders = false; }
+	        this.logger.log("copyToClipboard: includeHeaders = " + includeHeaders);
+	        var selectedRowsToCopy = !this.selectionController.isEmpty()
+	            && !this.gridOptionsWrapper.isSuppressCopyRowsToClipboard();
+	        // default is copy range if exists, otherwise rows
+	        if (this.rangeController.isMoreThanOneCell()) {
+	            this.copySelectedRangeToClipboard(includeHeaders);
+	        }
+	        else if (selectedRowsToCopy) {
+	            // otherwise copy selected rows if they exist
+	            this.copySelectedRowsToClipboard(includeHeaders);
+	        }
+	        else if (this.focusedCellController.isAnyCellFocused()) {
+	            // if there is a focused cell, copy this
+	            this.copyFocusedCellToClipboard(includeHeaders);
+	        }
+	        else {
+	            // lastly if no focused cell, try range again. this can happen
+	            // if use has cellSelection turned off (so no focused cell)
+	            // but has a cell clicked, so there exists a cell range
+	            // of exactly one cell (hence the first 'if' above didn't
+	            // get executed).
+	            this.copySelectedRangeToClipboard(includeHeaders);
+	        }
+	    };
+	    ClipboardService.prototype.iterateActiveRanges = function (onlyFirst, rowCallback, columnCallback) {
+	        var _this = this;
+	        if (this.rangeController.isEmpty()) {
+	            return;
+	        }
+	        var rangeSelections = this.rangeController.getCellRanges();
+	        if (onlyFirst) {
+	            var range = rangeSelections[0];
+	            this.iterateActiveRange(range, rowCallback, columnCallback);
+	        }
+	        else {
+	            rangeSelections.forEach(function (range) { return _this.iterateActiveRange(range, rowCallback, columnCallback); });
+	        }
+	    };
+	    ClipboardService.prototype.iterateActiveRange = function (range, rowCallback, columnCallback) {
+	        // get starting and ending row, remember rowEnd could be before rowStart
+	        var startRow = range.start.getGridRow();
+	        var endRow = range.end.getGridRow();
+	        var startRowIsFirst = startRow.before(endRow);
+	        var currentRow = startRowIsFirst ? startRow : endRow;
+	        var lastRow = startRowIsFirst ? endRow : startRow;
+	        if (main_1.Utils.exists(columnCallback)) {
+	            columnCallback(range.columns);
+	        }
+	        while (true) {
+	            var rowNode = this.getRowNode(currentRow);
+	            rowCallback(currentRow, rowNode, range.columns);
+	            if (currentRow.equals(lastRow)) {
+	                break;
+	            }
+	            currentRow = this.cellNavigationService.getRowBelow(currentRow);
+	        }
+	    };
+	    ClipboardService.prototype.copySelectedRangeToClipboard = function (includeHeaders) {
+	        var _this = this;
+	        if (includeHeaders === void 0) { includeHeaders = false; }
+	        if (this.rangeController.isEmpty()) {
+	            return;
+	        }
+	        var data = '';
+	        var cellsToFlash = {};
+	        // adds columns to the data
+	        var columnCallback = function (columns) {
+	            if (!includeHeaders) {
+	                return;
+	            }
+	            columns.forEach(function (column, index) {
+	                var value = _this.columnController.getDisplayNameForColumn(column, 'clipboard', true);
+	                if (index != 0) {
+	                    data += '\t';
+	                }
+	                if (main_1.Utils.exists(value)) {
+	                    data += value;
+	                }
+	            });
+	            data += '\r\n';
+	        };
+	        // adds cell values to the data
+	        var rowCallback = function (currentRow, rowNode, columns) {
+	            columns.forEach(function (column, index) {
+	                var value = _this.valueService.getValue(column, rowNode);
+	                var processedValue = _this.processRangeCell(rowNode, column, value, _this.gridOptionsWrapper.getProcessCellForClipboardFunc());
+	                if (index != 0) {
+	                    data += '\t';
+	                }
+	                if (main_1.Utils.exists(processedValue)) {
+	                    data += processedValue;
+	                }
+	                var gridCellDef = { rowIndex: currentRow.rowIndex, floating: currentRow.floating, column: column };
+	                var cellId = new main_1.GridCell(gridCellDef).createId();
+	                cellsToFlash[cellId] = true;
+	            });
+	            data += '\r\n';
+	        };
+	        this.iterateActiveRanges(false, rowCallback, columnCallback);
+	        this.copyDataToClipboard(data);
+	        this.dispatchFlashCells(cellsToFlash);
+	    };
+	    ClipboardService.prototype.copyFocusedCellToClipboard = function (includeHeaders) {
+	        if (includeHeaders === void 0) { includeHeaders = false; }
+	        var focusedCell = this.focusedCellController.getFocusedCell();
+	        if (main_1.Utils.missing(focusedCell)) {
+	            return;
+	        }
+	        var currentRow = focusedCell.getGridRow();
+	        var rowNode = this.getRowNode(currentRow);
+	        var column = focusedCell.column;
+	        var value = this.valueService.getValue(column, rowNode);
+	        var processedValue = this.processRangeCell(rowNode, column, value, this.gridOptionsWrapper.getProcessCellForClipboardFunc());
+	        if (main_1.Utils.exists(processedValue)) {
+	            var data = '';
+	            if (includeHeaders) {
+	                data = this.columnController.getDisplayNameForColumn(column, 'clipboard', true) + '\r\n';
+	            }
+	            data += processedValue.toString();
+	            this.copyDataToClipboard(data);
+	        }
+	        else {
+	            this.copyDataToClipboard('');
+	        }
+	        var cellId = focusedCell.createId();
+	        var cellsToFlash = {};
+	        cellsToFlash[cellId] = true;
+	        this.dispatchFlashCells(cellsToFlash);
+	    };
+	    ClipboardService.prototype.dispatchFlashCells = function (cellsToFlash) {
+	        var _this = this;
+	        setTimeout(function () {
+	            _this.eventService.dispatchEvent(main_1.Events.EVENT_FLASH_CELLS, { cells: cellsToFlash });
+	        }, 0);
+	    };
+	    ClipboardService.prototype.processRangeCell = function (rowNode, column, value, func) {
+	        if (func) {
+	            var params = {
+	                column: column,
+	                node: rowNode,
+	                value: value,
+	                api: this.gridOptionsWrapper.getApi(),
+	                columnApi: this.gridOptionsWrapper.getColumnApi(),
+	                context: this.gridOptionsWrapper.getContext()
+	            };
+	            return func(params);
+	        }
+	        else {
+	            return value;
+	        }
+	    };
+	    ClipboardService.prototype.getRowNode = function (gridRow) {
+	        switch (gridRow.floating) {
+	            case main_1.Constants.FLOATING_TOP:
+	                return this.floatingRowModel.getFloatingTopRowData()[gridRow.rowIndex];
+	            case main_1.Constants.FLOATING_BOTTOM:
+	                return this.floatingRowModel.getFloatingBottomRowData()[gridRow.rowIndex];
+	            default:
+	                return this.rowModel.getRow(gridRow.rowIndex);
+	        }
+	    };
+	    ClipboardService.prototype.copySelectedRowsToClipboard = function (includeHeaders, columnKeys) {
+	        if (includeHeaders === void 0) { includeHeaders = false; }
+	        var skipHeader = !includeHeaders;
+	        var params = {
+	            columnKeys: columnKeys,
+	            skipHeader: skipHeader,
+	            skipFooters: true,
+	            suppressQuotes: true,
+	            columnSeparator: '\t',
+	            onlySelected: true,
+	            processCellCallback: this.gridOptionsWrapper.getProcessCellForClipboardFunc()
+	        };
+	        var data = this.csvCreator.getDataAsCsv(params);
+	        this.copyDataToClipboard(data);
+	    };
+	    ClipboardService.prototype.copyDataToClipboard = function (data) {
+	        var userProvidedFunc = this.gridOptionsWrapper.getSendToClipboardFunc();
+	        if (main_1.Utils.exists(userProvidedFunc)) {
+	            var params = { data: data };
+	            userProvidedFunc(params);
+	        }
+	        else {
+	            this.executeOnTempElement(function (element) {
+	                element.value = data;
+	                element.select();
+	                element.focus();
+	                return document.execCommand('copy');
+	            });
+	        }
+	    };
+	    ClipboardService.prototype.executeOnTempElement = function (callbackNow, callbackAfter) {
+	        var eTempInput = document.createElement('textarea');
+	        eTempInput.style.width = '1px';
+	        eTempInput.style.height = '1px';
+	        eTempInput.style.top = '0px';
+	        eTempInput.style.left = '0px';
+	        eTempInput.style.position = 'absolute';
+	        eTempInput.style.opacity = '0.0';
+	        var guiRoot = this.gridCore.getRootGui();
+	        guiRoot.appendChild(eTempInput);
+	        try {
+	            var result = callbackNow(eTempInput);
+	            this.logger.log('Clipboard operation result: ' + result);
+	        }
+	        catch (err) {
+	            this.logger.log('Browser doesn\t support document.execComment(\'copy\') for clipboard operations');
+	        }
+	        //It needs 100 otherwise OS X seemed to not always be able to paste... Go figure...
+	        if (callbackAfter) {
+	            setTimeout(function () {
+	                callbackAfter(eTempInput);
+	                guiRoot.removeChild(eTempInput);
+	            }, 100);
+	        }
+	        else {
+	            guiRoot.removeChild(eTempInput);
+	        }
+	    };
+	    // From http://stackoverflow.com/questions/1293147/javascript-code-to-parse-csv-data
+	    // This will parse a delimited string into an array of
+	    // arrays. The default delimiter is the comma, but this
+	    // can be overriden in the second argument.
+	    ClipboardService.prototype.dataToArray = function (strData) {
+	        var strDelimiter = '\t';
+	        // Create a regular expression to parse the CSV values.
+	        var objPattern = new RegExp((
+	        // Delimiters.
+	        "(\\" + strDelimiter + "|\\r?\\n|\\r|^)" +
+	            // Quoted fields.
+	            "(?:\"([^\"]*(?:\"\"[^\"]*)*)\"|" +
+	            // Standard fields.
+	            "([^\"\\" + strDelimiter + "\\r\\n]*))"), "gi");
+	        // Create an array to hold our data. Give the array
+	        // a default empty first row.
+	        var arrData = [[]];
+	        // Create an array to hold our individual pattern
+	        // matching groups.
+	        var arrMatches = null;
+	        // Keep looping over the regular expression matches
+	        // until we can no longer find a match.
+	        while (arrMatches = objPattern.exec(strData)) {
+	            // Get the delimiter that was found.
+	            var strMatchedDelimiter = arrMatches[1];
+	            // Check to see if the given delimiter has a length
+	            // (is not the start of string) and if it matches
+	            // field delimiter. If id does not, then we know
+	            // that this delimiter is a row delimiter.
+	            if (strMatchedDelimiter.length &&
+	                strMatchedDelimiter !== strDelimiter) {
+	                // Since we have reached a new row of data,
+	                // add an empty row to our data array.
+	                arrData.push([]);
+	            }
+	            var strMatchedValue = void 0;
+	            // Now that we have our delimiter out of the way,
+	            // let's check to see which kind of value we
+	            // captured (quoted or unquoted).
+	            if (arrMatches[2]) {
+	                // We found a quoted value. When we capture
+	                // this value, unescape any double quotes.
+	                strMatchedValue = arrMatches[2].replace(new RegExp("\"\"", "g"), "\"");
+	            }
+	            else {
+	                // We found a non-quoted value.
+	                strMatchedValue = arrMatches[3];
+	            }
+	            // Now that we have our value string, let's add
+	            // it to the data array.
+	            arrData[arrData.length - 1].push(strMatchedValue);
+	        }
+	        // Return the parsed data.
+	        return arrData;
+	    };
+	    return ClipboardService;
+	}());
+	__decorate([
+	    main_1.Autowired('csvCreator'),
+	    __metadata("design:type", main_1.CsvCreator)
+	], ClipboardService.prototype, "csvCreator", void 0);
+	__decorate([
+	    main_1.Autowired('loggerFactory'),
+	    __metadata("design:type", main_1.LoggerFactory)
+	], ClipboardService.prototype, "loggerFactory", void 0);
+	__decorate([
+	    main_1.Autowired('selectionController'),
+	    __metadata("design:type", main_1.SelectionController)
+	], ClipboardService.prototype, "selectionController", void 0);
+	__decorate([
+	    main_1.Autowired('rangeController'),
+	    __metadata("design:type", rangeController_1.RangeController)
+	], ClipboardService.prototype, "rangeController", void 0);
+	__decorate([
+	    main_1.Autowired('rowModel'),
+	    __metadata("design:type", Object)
+	], ClipboardService.prototype, "rowModel", void 0);
+	__decorate([
+	    main_1.Autowired('floatingRowModel'),
+	    __metadata("design:type", main_1.FloatingRowModel)
+	], ClipboardService.prototype, "floatingRowModel", void 0);
+	__decorate([
+	    main_1.Autowired('valueService'),
+	    __metadata("design:type", main_1.ValueService)
+	], ClipboardService.prototype, "valueService", void 0);
+	__decorate([
+	    main_1.Autowired('focusedCellController'),
+	    __metadata("design:type", main_1.FocusedCellController)
+	], ClipboardService.prototype, "focusedCellController", void 0);
+	__decorate([
+	    main_1.Autowired('rowRenderer'),
+	    __metadata("design:type", main_1.RowRenderer)
+	], ClipboardService.prototype, "rowRenderer", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], ClipboardService.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], ClipboardService.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('cellNavigationService'),
+	    __metadata("design:type", main_1.CellNavigationService)
+	], ClipboardService.prototype, "cellNavigationService", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], ClipboardService.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('gridCore'),
+	    __metadata("design:type", main_1.GridCore)
+	], ClipboardService.prototype, "gridCore", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ClipboardService.prototype, "init", null);
+	ClipboardService = __decorate([
+	    main_1.Bean('clipboardService')
+	], ClipboardService);
+	exports.ClipboardService = ClipboardService;
+
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var RangeController = (function () {
+	    function RangeController() {
+	        this.bodyScrollListener = this.onBodyScroll.bind(this);
+	        this.dragging = false;
+	    }
+	    RangeController.prototype.init = function () {
+	        this.logger = this.loggerFactory.create('RangeController');
+	        this.eventService.addEventListener(main_1.Events.EVENT_COLUMN_EVERYTHING_CHANGED, this.clearSelection.bind(this));
+	        this.eventService.addEventListener(main_1.Events.EVENT_COLUMN_GROUP_OPENED, this.clearSelection.bind(this));
+	        this.eventService.addEventListener(main_1.Events.EVENT_COLUMN_MOVED, this.clearSelection.bind(this));
+	        this.eventService.addEventListener(main_1.Events.EVENT_COLUMN_PINNED, this.clearSelection.bind(this));
+	        this.eventService.addEventListener(main_1.Events.EVENT_COLUMN_ROW_GROUP_CHANGED, this.clearSelection.bind(this));
+	        this.eventService.addEventListener(main_1.Events.EVENT_COLUMN_VISIBLE, this.clearSelection.bind(this));
+	    };
+	    RangeController.prototype.setRangeToCell = function (cell) {
+	        if (!this.gridOptionsWrapper.isEnableRangeSelection()) {
+	            return;
+	        }
+	        var columns = this.updateSelectedColumns(cell.column, cell.column);
+	        if (!columns) {
+	            return;
+	        }
+	        var gridCellDef = { rowIndex: cell.rowIndex, floating: cell.floating, column: cell.column };
+	        var newRange = {
+	            start: new main_1.GridCell(gridCellDef),
+	            end: new main_1.GridCell(gridCellDef),
+	            columns: columns
+	        };
+	        this.cellRanges = [];
+	        this.cellRanges.push(newRange);
+	        this.activeRange = null;
+	        this.dispatchChangedEvent(true, false);
+	    };
+	    RangeController.prototype.setRange = function (rangeSelection) {
+	        if (!this.gridOptionsWrapper.isEnableRangeSelection()) {
+	            return;
+	        }
+	        this.cellRanges = [];
+	        this.addRange(rangeSelection);
+	    };
+	    RangeController.prototype.addRange = function (rangeSelection) {
+	        if (!this.gridOptionsWrapper.isEnableRangeSelection()) {
+	            return;
+	        }
+	        var columnStart = this.columnController.getColumnWithValidation(rangeSelection.columnStart);
+	        var columnEnd = this.columnController.getPrimaryColumn(rangeSelection.columnEnd);
+	        if (!columnStart || !columnEnd) {
+	            return;
+	        }
+	        var columns = this.updateSelectedColumns(columnStart, columnEnd);
+	        if (!columns) {
+	            return;
+	        }
+	        var startGridCellDef = { column: columnStart, rowIndex: rangeSelection.rowStart, floating: rangeSelection.floatingStart };
+	        var endGridCellDef = { column: columnEnd, rowIndex: rangeSelection.rowEnd, floating: rangeSelection.floatingEnd };
+	        var newRange = {
+	            start: new main_1.GridCell(startGridCellDef),
+	            end: new main_1.GridCell(endGridCellDef),
+	            columns: columns
+	        };
+	        if (!this.cellRanges) {
+	            this.cellRanges = [];
+	        }
+	        this.cellRanges.push(newRange);
+	        this.dispatchChangedEvent(true, false);
+	    };
+	    RangeController.prototype.getCellRanges = function () {
+	        return this.cellRanges;
+	    };
+	    RangeController.prototype.isEmpty = function () {
+	        return main_1.Utils.missingOrEmpty(this.cellRanges);
+	    };
+	    RangeController.prototype.isMoreThanOneCell = function () {
+	        if (main_1.Utils.missingOrEmpty(this.cellRanges)) {
+	            return false;
+	        }
+	        else {
+	            if (this.cellRanges.length > 1) {
+	                return true;
+	            }
+	            else {
+	                var onlyRange = this.cellRanges[0];
+	                var onlyOneCellInRange = onlyRange.start.column === onlyRange.end.column &&
+	                    onlyRange.start.rowIndex === onlyRange.end.rowIndex;
+	                return !onlyOneCellInRange;
+	            }
+	        }
+	    };
+	    RangeController.prototype.clearSelection = function () {
+	        if (main_1.Utils.missing(this.cellRanges)) {
+	            return;
+	        }
+	        this.activeRange = null;
+	        this.cellRanges = null;
+	        this.dispatchChangedEvent(true, false);
+	    };
+	    // as the user is dragging outside of the panel, the div starts to scroll, which in turn
+	    // means we are selection more (or less) cells, but the mouse isn't moving, so we recalculate
+	    // the selection my mimicking a new mouse event
+	    RangeController.prototype.onBodyScroll = function () {
+	        this.onDragging(this.lastMouseEvent);
+	    };
+	    RangeController.prototype.isCellInAnyRange = function (cell) {
+	        return this.getCellRangeCount(cell) > 0;
+	    };
+	    RangeController.prototype.isCellInSpecificRange = function (cell, range) {
+	        var columnInRange = range.columns.indexOf(cell.column) >= 0;
+	        var rowInRange = this.isRowInRange(cell.rowIndex, cell.floating, range);
+	        return columnInRange && rowInRange;
+	    };
+	    // returns the number of ranges this cell is in
+	    RangeController.prototype.getCellRangeCount = function (cell) {
+	        var _this = this;
+	        if (main_1.Utils.missingOrEmpty(this.cellRanges)) {
+	            return 0;
+	        }
+	        var matchingCount = 0;
+	        this.cellRanges.forEach(function (cellRange) {
+	            if (_this.isCellInSpecificRange(cell, cellRange)) {
+	                matchingCount++;
+	            }
+	        });
+	        return matchingCount;
+	    };
+	    RangeController.prototype.isRowInRange = function (rowIndex, floating, cellRange) {
+	        var row1 = new main_1.GridRow(cellRange.start.rowIndex, cellRange.start.floating);
+	        var row2 = new main_1.GridRow(cellRange.end.rowIndex, cellRange.end.floating);
+	        var firstRow = row1.before(row2) ? row1 : row2;
+	        var lastRow = row1.before(row2) ? row2 : row1;
+	        var thisRow = new main_1.GridRow(rowIndex, floating);
+	        if (thisRow.equals(firstRow) || thisRow.equals(lastRow)) {
+	            return true;
+	        }
+	        else {
+	            var afterFirstRow = !thisRow.before(firstRow);
+	            var beforeLastRow = thisRow.before(lastRow);
+	            return afterFirstRow && beforeLastRow;
+	        }
+	    };
+	    RangeController.prototype.onDragStart = function (mouseEvent) {
+	        if (!this.gridOptionsWrapper.isEnableRangeSelection()) {
+	            return;
+	        }
+	        // ctrlKey for windows, metaKey for Apple
+	        var multiSelectKeyPressed = mouseEvent.ctrlKey || mouseEvent.metaKey;
+	        if (main_1.Utils.missing(this.cellRanges) || !multiSelectKeyPressed) {
+	            this.cellRanges = [];
+	        }
+	        var cell = this.mouseEventService.getGridCellForEvent(mouseEvent);
+	        if (main_1.Utils.missing(cell)) {
+	            // if drag wasn't on cell, then do nothing, including do not set dragging=true,
+	            // (which them means onDragging and onDragStop do nothing)
+	            return;
+	        }
+	        this.createNewActiveRange(cell);
+	        this.gridPanel.addScrollEventListener(this.bodyScrollListener);
+	        this.dragging = true;
+	        this.lastMouseEvent = mouseEvent;
+	        this.selectionChanged(false, true);
+	    };
+	    RangeController.prototype.createNewActiveRange = function (cell) {
+	        var gridCellDef = { column: cell.column, rowIndex: cell.rowIndex, floating: cell.floating };
+	        this.activeRange = {
+	            start: new main_1.GridCell(gridCellDef),
+	            end: new main_1.GridCell(gridCellDef),
+	            columns: [cell.column]
+	        };
+	        this.cellRanges.push(this.activeRange);
+	    };
+	    RangeController.prototype.selectionChanged = function (finished, started) {
+	        this.activeRange.columns = this.updateSelectedColumns(this.activeRange.start.column, this.activeRange.end.column);
+	        this.dispatchChangedEvent(finished, started);
+	    };
+	    RangeController.prototype.dispatchChangedEvent = function (finished, started) {
+	        this.eventService.dispatchEvent(main_1.Events.EVENT_RANGE_SELECTION_CHANGED, { finished: finished, started: started });
+	    };
+	    RangeController.prototype.onDragStop = function () {
+	        if (!this.dragging) {
+	            return;
+	        }
+	        this.gridPanel.removeScrollEventListener(this.bodyScrollListener);
+	        this.lastMouseEvent = null;
+	        this.dragging = false;
+	        this.dispatchChangedEvent(true, false);
+	    };
+	    RangeController.prototype.onDragging = function (mouseEvent) {
+	        if (!this.dragging) {
+	            return;
+	        }
+	        this.lastMouseEvent = mouseEvent;
+	        var cell = this.mouseEventService.getGridCellForEvent(mouseEvent);
+	        if (main_1.Utils.missing(cell)) {
+	            return;
+	        }
+	        var columnChanged = false;
+	        if (cell.column !== this.activeRange.end.column) {
+	            this.activeRange.end.column = cell.column;
+	            columnChanged = true;
+	        }
+	        var rowChanged = false;
+	        if (cell.rowIndex !== this.activeRange.end.rowIndex || cell.floating !== this.activeRange.end.floating) {
+	            this.activeRange.end.rowIndex = cell.rowIndex;
+	            this.activeRange.end.floating = cell.floating;
+	            rowChanged = true;
+	        }
+	        if (columnChanged || rowChanged) {
+	            this.selectionChanged(false, false);
+	        }
+	    };
+	    RangeController.prototype.updateSelectedColumns = function (columnFrom, columnTo) {
+	        var allColumns = this.columnController.getAllDisplayedColumns();
+	        var fromIndex = allColumns.indexOf(columnFrom);
+	        var toIndex = allColumns.indexOf(columnTo);
+	        if (fromIndex < 0) {
+	            console.log('ag-Grid: column ' + columnFrom.getId() + ' is not visible');
+	            return null;
+	        }
+	        if (toIndex < 0) {
+	            console.log('ag-Grid: column ' + columnTo.getId() + ' is not visible');
+	            return null;
+	        }
+	        var firstIndex = Math.min(fromIndex, toIndex);
+	        var lastIndex = Math.max(fromIndex, toIndex);
+	        var columns = [];
+	        for (var i = firstIndex; i <= lastIndex; i++) {
+	            columns.push(allColumns[i]);
+	        }
+	        return columns;
+	    };
+	    return RangeController;
+	}());
+	__decorate([
+	    main_1.Autowired('loggerFactory'),
+	    __metadata("design:type", main_1.LoggerFactory)
+	], RangeController.prototype, "loggerFactory", void 0);
+	__decorate([
+	    main_1.Autowired('gridPanel'),
+	    __metadata("design:type", main_1.GridPanel)
+	], RangeController.prototype, "gridPanel", void 0);
+	__decorate([
+	    main_1.Autowired('rowModel'),
+	    __metadata("design:type", Object)
+	], RangeController.prototype, "rowModel", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], RangeController.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], RangeController.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('rowRenderer'),
+	    __metadata("design:type", main_1.RowRenderer)
+	], RangeController.prototype, "rowRenderer", void 0);
+	__decorate([
+	    main_1.Autowired('focusedCellController'),
+	    __metadata("design:type", main_1.FocusedCellController)
+	], RangeController.prototype, "focusedCellController", void 0);
+	__decorate([
+	    main_1.Autowired('mouseEventService'),
+	    __metadata("design:type", main_1.MouseEventService)
+	], RangeController.prototype, "mouseEventService", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], RangeController.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], RangeController.prototype, "init", null);
+	RangeController = __decorate([
+	    main_1.Bean('rangeController')
+	], RangeController);
+	exports.RangeController = RangeController;
+
+
+/***/ }),
+/* 136 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var AggFuncService = AggFuncService_1 = (function () {
+	    function AggFuncService() {
+	        this.aggFuncsMap = {};
+	        this.initialised = false;
+	    }
+	    AggFuncService.prototype.init = function () {
+	        if (this.initialised) {
+	            return;
+	        }
+	        this.initialised = true;
+	        this.initialiseWithDefaultAggregations();
+	        this.addAggFuncs(this.gridOptionsWrapper.getAggFuncs());
+	    };
+	    AggFuncService.prototype.initialiseWithDefaultAggregations = function () {
+	        this.aggFuncsMap[AggFuncService_1.AGG_SUM] = aggSum;
+	        this.aggFuncsMap[AggFuncService_1.AGG_FIRST] = aggFirst;
+	        this.aggFuncsMap[AggFuncService_1.AGG_LAST] = aggLast;
+	        this.aggFuncsMap[AggFuncService_1.AGG_MIN] = aggMin;
+	        this.aggFuncsMap[AggFuncService_1.AGG_MAX] = aggMax;
+	        this.aggFuncsMap[AggFuncService_1.AGG_COUNT] = aggCount;
+	        this.aggFuncsMap[AggFuncService_1.AGG_AVG] = aggAvg;
+	    };
+	    AggFuncService.prototype.getDefaultAggFunc = function (column) {
+	        var allKeys = this.getFuncNames(column);
+	        // use 'sum' if it's a) allowed for the column and b) still registered
+	        // (ie not removed by user)
+	        var sumInKeysList = allKeys.indexOf(AggFuncService_1.AGG_SUM) >= 0;
+	        var sumInFuncs = main_1._.exists(this.aggFuncsMap[AggFuncService_1.AGG_SUM]);
+	        var useSum = sumInKeysList && sumInFuncs;
+	        if (useSum) {
+	            return AggFuncService_1.AGG_SUM;
+	        }
+	        else {
+	            if (main_1.Utils.existsAndNotEmpty(allKeys)) {
+	                return allKeys[0];
+	            }
+	            else {
+	                return null;
+	            }
+	        }
+	    };
+	    AggFuncService.prototype.addAggFuncs = function (aggFuncs) {
+	        main_1.Utils.iterateObject(aggFuncs, this.addAggFunc.bind(this));
+	    };
+	    AggFuncService.prototype.addAggFunc = function (key, aggFunc) {
+	        this.init();
+	        this.aggFuncsMap[key] = aggFunc;
+	    };
+	    AggFuncService.prototype.getAggFunc = function (name) {
+	        this.init();
+	        return this.aggFuncsMap[name];
+	    };
+	    AggFuncService.prototype.getFuncNames = function (column) {
+	        var userAllowedFuncs = column.getColDef().allowedAggFuncs;
+	        if (main_1._.exists(userAllowedFuncs)) {
+	            return userAllowedFuncs;
+	        }
+	        else {
+	            return Object.keys(this.aggFuncsMap).sort();
+	        }
+	    };
+	    AggFuncService.prototype.clear = function () {
+	        this.aggFuncsMap = {};
+	    };
+	    return AggFuncService;
+	}());
+	AggFuncService.AGG_SUM = 'sum';
+	AggFuncService.AGG_FIRST = 'first';
+	AggFuncService.AGG_LAST = 'last';
+	AggFuncService.AGG_MIN = 'min';
+	AggFuncService.AGG_MAX = 'max';
+	AggFuncService.AGG_COUNT = 'count';
+	AggFuncService.AGG_AVG = 'avg';
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], AggFuncService.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], AggFuncService.prototype, "init", null);
+	AggFuncService = AggFuncService_1 = __decorate([
+	    main_1.Bean('aggFuncService')
+	], AggFuncService);
+	exports.AggFuncService = AggFuncService;
+	function aggSum(input) {
+	    var result = null;
+	    var length = input.length;
+	    for (var i = 0; i < length; i++) {
+	        if (typeof input[i] === 'number') {
+	            if (result === null) {
+	                result = input[i];
+	            }
+	            else {
+	                result += input[i];
+	            }
+	        }
+	    }
+	    return result;
+	}
+	function aggFirst(input) {
+	    if (input.length >= 0) {
+	        return input[0];
+	    }
+	    else {
+	        return null;
+	    }
+	}
+	function aggLast(input) {
+	    if (input.length >= 0) {
+	        return input[input.length - 1];
+	    }
+	    else {
+	        return null;
+	    }
+	}
+	function aggMin(input) {
+	    var result = null;
+	    var length = input.length;
+	    for (var i = 0; i < length; i++) {
+	        if (typeof input[i] === 'number') {
+	            if (result === null) {
+	                result = input[i];
+	            }
+	            else if (result > input[i]) {
+	                result = input[i];
+	            }
+	        }
+	    }
+	    return result;
+	}
+	function aggMax(input) {
+	    var result = null;
+	    var length = input.length;
+	    for (var i = 0; i < length; i++) {
+	        if (typeof input[i] === 'number') {
+	            if (result === null) {
+	                result = input[i];
+	            }
+	            else if (result < input[i]) {
+	                result = input[i];
+	            }
+	        }
+	    }
+	    return result;
+	}
+	function aggCount(input) {
+	    var result = {
+	        value: 0,
+	        toString: function () {
+	            return this.value.toString();
+	        }
+	    };
+	    var length = input.length;
+	    for (var i = 0; i < length; i++) {
+	        var isGroupAgg = main_1.Utils.exists(input[i]) && typeof input[i].value === 'number';
+	        if (isGroupAgg) {
+	            result.value += input[i].value;
+	        }
+	        else {
+	            result.value++;
+	        }
+	    }
+	    return result;
+	}
+	// the average function is tricky as the multiple levels require weighted averages
+	// for the non-leaf node aggregations.
+	function aggAvg(input) {
+	    // the average will be the sum / count
+	    var sum = 0;
+	    var count = 0;
+	    var length = input.length;
+	    for (var i = 0; i < length; i++) {
+	        var currentItem = input[i];
+	        var itemIsGroupResult = main_1.Utils.exists(currentItem) && typeof currentItem.value === 'number' && typeof currentItem.count === 'number';
+	        // skip values that are not numbers (ie skip empty values)
+	        if (typeof currentItem === 'number') {
+	            sum += currentItem;
+	            count++;
+	        }
+	        else if (itemIsGroupResult) {
+	            // we are aggregating groups, so we take the
+	            // aggregated values to calculated a weighted average
+	            sum += currentItem.value * currentItem.count;
+	            count += currentItem.count;
+	        }
+	    }
+	    // avoid divide by zero error
+	    var value = null;
+	    if (count !== 0) {
+	        value = sum / count;
+	    }
+	    // the result will be an object. when this cell is rendered, only the avg is shown.
+	    // however when this cell is part of another aggregation, the count is also needed
+	    // to create a weighted average for the next level.
+	    var result = {
+	        count: count,
+	        value: value,
+	        // the grid by default uses toString to render values for an object, so this
+	        // is a trick to get the default cellRenderer to display the avg value
+	        toString: function () {
+	            if (typeof this.value === 'number') {
+	                return this.value.toString();
+	            }
+	            else {
+	                return '';
+	            }
+	        }
+	    };
+	    return result;
+	}
+	var AggFuncService_1;
+
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var GroupStage = (function () {
+	    function GroupStage() {
+	        // we use a sequence variable so that each time we do a grouping, we don't
+	        // reuse the ids - otherwise the rowRenderer will confuse rowNodes between redraws
+	        // when it tries to animate between rows. we set to -1 as others row id 0 will be shared
+	        // with the other rows.
+	        this.groupIdSequence = new main_1.NumberSequence(1);
+	    }
+	    // when grouping, these items are of note:
+	    // rowNode.parent: RowNode: set to the parent
+	    // rowNode.childrenAfterGroup: RowNode[] = the direct children of this group
+	    // rowNode.childrenMapped: string=>RowNode = children mapped by group key (when groups) or an empty map if leaf group (this is then used by pivot)
+	    // for leaf groups, rowNode.childrenAfterGroup = rowNode.allLeafChildren;
+	    GroupStage.prototype.execute = function (params) {
+	        var rootNode = params.rowNode;
+	        var groupedCols = this.columnController.getRowGroupColumns();
+	        var expandByDefault;
+	        if (this.gridOptionsWrapper.isGroupSuppressRow()) {
+	            expandByDefault = -1;
+	        }
+	        else {
+	            expandByDefault = this.gridOptionsWrapper.getGroupDefaultExpanded();
+	        }
+	        var includeParents = !this.gridOptionsWrapper.isSuppressParentsInRowNodes();
+	        var isPivot = this.columnController.isPivotMode();
+	        if (params.rowNodeTransaction) {
+	            this.handleTransaction(params.rowNodeTransaction, rootNode, groupedCols, expandByDefault, includeParents, isPivot);
+	        }
+	        else {
+	            this.shotgunResetEverything(rootNode, groupedCols, expandByDefault, includeParents, isPivot);
+	        }
+	    };
+	    GroupStage.prototype.handleTransaction = function (tran, rootNode, groupedCols, expandByDefault, includeParents, isPivot) {
+	        if (tran.add) {
+	            this.insertRowNodesIntoGroups(tran.add, rootNode, groupedCols, expandByDefault, includeParents, isPivot);
+	        }
+	        if (tran.update) {
+	            // the InMemoryNodeManager already updated the value, however we
+	            // need to check the grouping, in case a dimension changed.
+	            this.checkParents(tran.update, rootNode, groupedCols, expandByDefault, includeParents, isPivot);
+	        }
+	        if (tran.remove) {
+	            this.removeRowNodesFromGroups(tran.remove, rootNode);
+	        }
+	    };
+	    GroupStage.prototype.checkParents = function (leafRowNodes, rootNode, groupColumns, expandByDefault, includeParents, isPivot) {
+	        var _this = this;
+	        leafRowNodes.forEach(function (nodeToPlace) {
+	            var groupKeys = groupColumns.map(function (col) { return _this.getKeyForNode(col, nodeToPlace); });
+	            var parent = nodeToPlace.parent;
+	            var keysMatch = true;
+	            groupKeys.forEach(function (key) {
+	                if (parent.key !== key) {
+	                    keysMatch = false;
+	                }
+	                parent = parent.parent;
+	            });
+	            if (!keysMatch) {
+	                _this.removeRowNodeFromGroups(nodeToPlace, rootNode);
+	                _this.insertRowNodeIntoGroups(nodeToPlace, rootNode, groupColumns, expandByDefault, includeParents, isPivot);
+	            }
+	        });
+	    };
+	    GroupStage.prototype.removeRowNodesFromGroups = function (leafRowNodes, rootNode) {
+	        var _this = this;
+	        leafRowNodes.forEach(function (leafToRemove) {
+	            _this.removeRowNodeFromGroups(leafToRemove, rootNode);
+	        });
+	    };
+	    GroupStage.prototype.removeRowNodeFromGroups = function (leafToRemove, rootNode) {
+	        // step 1 - remove leaf from direct parent
+	        main_1._.removeFromArray(leafToRemove.parent.childrenAfterGroup, leafToRemove);
+	        // step 2 - go up the row group hierarchy and:
+	        //  a) remove from allLeafChildren
+	        //  b) remove empty groups
+	        var groupPointer = leafToRemove.parent;
+	        while (groupPointer !== rootNode) {
+	            main_1._.removeFromArray(groupPointer.allLeafChildren, leafToRemove);
+	            var isEmptyGroup = groupPointer.allLeafChildren.length === 0;
+	            if (isEmptyGroup) {
+	                this.removeGroupFromParent(groupPointer);
+	            }
+	            groupPointer = groupPointer.parent;
+	        }
+	    };
+	    GroupStage.prototype.removeGroupFromParent = function (groupPointer) {
+	        main_1._.removeFromArray(groupPointer.parent.childrenAfterGroup, groupPointer);
+	        groupPointer.parent.childrenMapped[groupPointer.key] = undefined;
+	    };
+	    GroupStage.prototype.shotgunResetEverything = function (rootNode, groupedCols, expandByDefault, includeParents, isPivot) {
+	        // because we are not creating the root node each time, we have the logic
+	        // here to change leafGroup once.
+	        rootNode.leafGroup = groupedCols.length === 0;
+	        // we are going everything from scratch, so reset childrenAfterGroup and childrenMapped from the rootNode
+	        rootNode.childrenAfterGroup = [];
+	        rootNode.childrenMapped = {};
+	        this.insertRowNodesIntoGroups(rootNode.allLeafChildren, rootNode, groupedCols, expandByDefault, includeParents, isPivot);
+	    };
+	    GroupStage.prototype.insertRowNodesIntoGroups = function (newRowNodes, rootNode, groupColumns, expandByDefault, includeParents, isPivot) {
+	        var _this = this;
+	        newRowNodes.forEach(function (rowNode) {
+	            _this.insertRowNodeIntoGroups(rowNode, rootNode, groupColumns, expandByDefault, includeParents, isPivot);
+	        });
+	    };
+	    GroupStage.prototype.insertRowNodeIntoGroups = function (rowNode, rootNode, groupColumns, expandByDefault, includeParents, isPivot) {
+	        var _this = this;
+	        var nextGroup = rootNode;
+	        groupColumns.forEach(function (groupColumn, level) {
+	            nextGroup = _this.getOrCreateNextGroup(nextGroup, rowNode, groupColumn, expandByDefault, level, includeParents, groupColumns.length, isPivot);
+	            // node gets added to all group nodes.
+	            // note: we do not add to rootNode here, as the rootNode is the master list of rowNodes, not impacted by grouping
+	            nextGroup.allLeafChildren.push(rowNode);
+	        });
+	        rowNode.parent = nextGroup;
+	        rowNode.level = groupColumns.length;
+	        nextGroup.childrenAfterGroup.push(rowNode);
+	    };
+	    GroupStage.prototype.getOrCreateNextGroup = function (parentGroup, nodeToPlace, groupColumn, expandByDefault, level, includeParents, numberOfGroupColumns, isPivot) {
+	        var groupKey = this.getKeyForNode(groupColumn, nodeToPlace);
+	        var nextGroup = parentGroup.childrenMapped[groupKey];
+	        if (!nextGroup) {
+	            nextGroup = this.createSubGroup(groupColumn, groupKey, parentGroup, expandByDefault, level, includeParents, numberOfGroupColumns, isPivot);
+	            // attach the new group to the parent
+	            parentGroup.childrenMapped[groupKey] = nextGroup;
+	            parentGroup.childrenAfterGroup.push(nextGroup);
+	        }
+	        return nextGroup;
+	    };
+	    GroupStage.prototype.getKeyForNode = function (groupColumn, rowNode) {
+	        var value = this.valueService.getValue(groupColumn, rowNode);
+	        var result;
+	        var keyCreator = groupColumn.getColDef().keyCreator;
+	        if (keyCreator) {
+	            result = keyCreator({ value: value });
+	        }
+	        else {
+	            result = value;
+	        }
+	        return result;
+	    };
+	    GroupStage.prototype.createSubGroup = function (groupColumn, groupKey, parent, expandByDefault, level, includeParents, numberOfGroupColumns, isPivot) {
+	        var newGroup = new main_1.RowNode();
+	        this.context.wireBean(newGroup);
+	        newGroup.group = true;
+	        newGroup.field = groupColumn.getColDef().field;
+	        newGroup.rowGroupColumn = groupColumn;
+	        // we use negative number for the ids of the groups, this makes sure we don't clash with the
+	        // id's of the leaf nodes.
+	        newGroup.id = (this.groupIdSequence.next() * -1).toString();
+	        newGroup.key = groupKey;
+	        newGroup.level = level;
+	        newGroup.leafGroup = level === (numberOfGroupColumns - 1);
+	        // if doing pivoting, then the leaf group is never expanded,
+	        // as we do not show leaf rows
+	        if (isPivot && newGroup.leafGroup) {
+	            newGroup.expanded = false;
+	        }
+	        else {
+	            newGroup.expanded = this.isExpanded(expandByDefault, level);
+	        }
+	        newGroup.allLeafChildren = [];
+	        // why is this done here? we are not updating the children could as we go,
+	        // i suspect this is updated in the filter stage
+	        newGroup.setAllChildrenCount(0);
+	        newGroup.rowGroupIndex = level;
+	        newGroup.childrenAfterGroup = [];
+	        newGroup.childrenMapped = {};
+	        newGroup.parent = includeParents ? parent : null;
+	        return newGroup;
+	    };
+	    GroupStage.prototype.isExpanded = function (expandByDefault, level) {
+	        if (expandByDefault === -1) {
+	            return true;
+	        }
+	        else {
+	            return level < expandByDefault;
+	        }
+	    };
+	    return GroupStage;
+	}());
+	__decorate([
+	    main_1.Autowired('selectionController'),
+	    __metadata("design:type", main_1.SelectionController)
+	], GroupStage.prototype, "selectionController", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], GroupStage.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], GroupStage.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('valueService'),
+	    __metadata("design:type", main_1.ValueService)
+	], GroupStage.prototype, "valueService", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], GroupStage.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], GroupStage.prototype, "context", void 0);
+	GroupStage = __decorate([
+	    main_1.Bean('groupStage')
+	], GroupStage);
+	exports.GroupStage = GroupStage;
+
+
+/***/ }),
+/* 138 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var pivotStage_1 = __webpack_require__(139);
+	var aggFuncService_1 = __webpack_require__(136);
+	var AggregationStage = (function () {
+	    function AggregationStage() {
+	    }
+	    // it's possible to recompute the aggregate without doing the other parts
+	    // + gridApi.recomputeAggregates()
+	    AggregationStage.prototype.execute = function (params) {
+	        var rootNode = params.rowNode;
+	        // we don't do aggregation if user provided the groups
+	        var rowsAlreadyGrouped = main_1._.exists(this.gridOptionsWrapper.getNodeChildDetailsFunc());
+	        if (rowsAlreadyGrouped) {
+	            return;
+	        }
+	        var pivotActive = this.columnController.isPivotActive();
+	        var measureColumns = this.columnController.getValueColumns();
+	        var pivotColumns = pivotActive ? this.columnController.getPivotColumns() : [];
+	        this.recursivelyCreateAggData(rootNode, measureColumns, pivotColumns);
+	    };
+	    AggregationStage.prototype.recursivelyCreateAggData = function (rowNode, measureColumns, pivotColumns) {
+	        var _this = this;
+	        // aggregate all children first, as we use the result in this nodes calculations
+	        rowNode.childrenAfterFilter.forEach(function (child) {
+	            if (child.group) {
+	                _this.recursivelyCreateAggData(child, measureColumns, pivotColumns);
+	            }
+	        });
+	        //Optionally prevent the aggregation at the root Node
+	        //https://ag-grid.atlassian.net/browse/AG-388
+	        var notPivoting = !this.columnController.isPivotMode();
+	        var suppressAggAtRootLevel = this.gridOptionsWrapper.isSuppressAggAtRootLevel();
+	        var isRootNode = rowNode.level === -1;
+	        if (isRootNode && suppressAggAtRootLevel && notPivoting)
+	            return;
+	        this.aggregateRowNode(rowNode, measureColumns, pivotColumns);
+	    };
+	    AggregationStage.prototype.aggregateRowNode = function (rowNode, measureColumns, pivotColumns) {
+	        var measureColumnsMissing = measureColumns.length === 0;
+	        var pivotColumnsMissing = pivotColumns.length === 0;
+	        var userProvidedGroupRowAggNodes = this.gridOptionsWrapper.getGroupRowAggNodesFunc();
+	        var aggResult;
+	        if (rowNode.group && userProvidedGroupRowAggNodes) {
+	            aggResult = userProvidedGroupRowAggNodes(rowNode.childrenAfterFilter);
+	        }
+	        else if (measureColumnsMissing) {
+	            aggResult = null;
+	        }
+	        else if (rowNode.group && pivotColumnsMissing) {
+	            aggResult = this.aggregateRowNodeUsingValuesOnly(rowNode, measureColumns);
+	        }
+	        else {
+	            aggResult = this.aggregateRowNodeUsingValuesAndPivot(rowNode);
+	        }
+	        rowNode.setAggData(aggResult);
+	        // if we are grouping, then it's possible there is a sibling footer
+	        // to the group, so update the data here also if there is one
+	        if (rowNode.sibling) {
+	            rowNode.sibling.setAggData(aggResult);
+	        }
+	    };
+	    AggregationStage.prototype.aggregateRowNodeUsingValuesAndPivot = function (rowNode) {
+	        var _this = this;
+	        var result = {};
+	        var pivotColumnDefs = this.pivotStage.getPivotColumnDefs();
+	        pivotColumnDefs.forEach(function (pivotColumnDef) {
+	            var values;
+	            var valueColumn = pivotColumnDef.pivotValueColumn;
+	            if (rowNode.leafGroup) {
+	                // lowest level group, get the values from the mapped set
+	                var keys = pivotColumnDef.pivotKeys;
+	                values = _this.getValuesFromMappedSet(rowNode.childrenMapped, keys, valueColumn);
+	            }
+	            else {
+	                // value columns and pivot columns, non-leaf group
+	                values = _this.getValuesPivotNonLeaf(rowNode, pivotColumnDef.colId);
+	            }
+	            result[pivotColumnDef.colId] = _this.aggregateValues(values, valueColumn.getAggFunc());
+	        });
+	        this.putInValueForGroupNode(result, rowNode);
+	        return result;
+	    };
+	    AggregationStage.prototype.aggregateRowNodeUsingValuesOnly = function (rowNode, valueColumns) {
+	        var _this = this;
+	        var result = {};
+	        var values2d = this.getValuesNormal(rowNode, valueColumns);
+	        valueColumns.forEach(function (valueColumn, index) {
+	            result[valueColumn.getId()] = _this.aggregateValues(values2d[index], valueColumn.getAggFunc());
+	        });
+	        this.putInValueForGroupNode(result, rowNode);
+	        return result;
+	    };
+	    // when doing copy to clipboard, the valueService is used to get the value for the cell.
+	    // the problem is that the valueService is wired to get the values directly from the data
+	    // using column ID's (rather than, eg, valueGetters), so we need to have the value of the
+	    // group key in the data, so when copy to clipboard is executed, the value is picked up correctly.
+	    AggregationStage.prototype.putInValueForGroupNode = function (result, rowNode) {
+	        var autoCols = this.columnController.getGroupAutoColumns();
+	        if (!autoCols) {
+	            return;
+	        }
+	        autoCols.forEach(function (autoCol) {
+	            var rendererParams = autoCol.getColDef().cellRendererParams;
+	            var groupKeyExists = main_1._.exists(rendererParams) && main_1._.exists(rendererParams.groupKey);
+	            if (groupKeyExists) {
+	                if (rendererParams.groupKey === rowNode.field) {
+	                    result[autoCol.getColId()] = rowNode.key;
+	                }
+	            }
+	            else {
+	                result[autoCol.getColId()] = rowNode.key;
+	            }
+	        });
+	    };
+	    AggregationStage.prototype.getValuesPivotNonLeaf = function (rowNode, colId) {
+	        var values = [];
+	        rowNode.childrenAfterFilter.forEach(function (rowNode) {
+	            var value = rowNode.data[colId];
+	            values.push(value);
+	        });
+	        return values;
+	    };
+	    AggregationStage.prototype.getValuesFromMappedSet = function (mappedSet, keys, valueColumn) {
+	        var _this = this;
+	        var mapPointer = mappedSet;
+	        keys.forEach(function (key) { return mapPointer = mapPointer ? mapPointer[key] : null; });
+	        if (!mapPointer) {
+	            return [];
+	        }
+	        var values = [];
+	        mapPointer.forEach(function (rowNode) {
+	            var value = _this.valueService.getValue(valueColumn, rowNode);
+	            values.push(value);
+	        });
+	        return values;
+	    };
+	    AggregationStage.prototype.getValuesNormal = function (rowNode, valueColumns) {
+	        // create 2d array, of all values for all valueColumns
+	        var values = [];
+	        valueColumns.forEach(function () { return values.push([]); });
+	        var valueColumnCount = valueColumns.length;
+	        var rowCount = rowNode.childrenAfterFilter.length;
+	        for (var i = 0; i < rowCount; i++) {
+	            var childNode = rowNode.childrenAfterFilter[i];
+	            for (var j = 0; j < valueColumnCount; j++) {
+	                var valueColumn = valueColumns[j];
+	                var value = void 0;
+	                // if the row is a group, then it will only have an agg result value,
+	                // which means valueGetter is never used.
+	                if (childNode.group) {
+	                    value = childNode.data[valueColumn.getId()];
+	                }
+	                else {
+	                    value = this.valueService.getValueUsingSpecificData(valueColumn, childNode.data, childNode);
+	                }
+	                values[j].push(value);
+	            }
+	        }
+	        return values;
+	    };
+	    AggregationStage.prototype.aggregateValues = function (values, aggFuncOrString) {
+	        var aggFunction;
+	        if (typeof aggFuncOrString === 'string') {
+	            aggFunction = this.aggFuncService.getAggFunc(aggFuncOrString);
+	        }
+	        else {
+	            aggFunction = aggFuncOrString;
+	        }
+	        if (typeof aggFunction !== 'function') {
+	            console.error("ag-Grid: unrecognised aggregation function " + aggFuncOrString);
+	            return null;
+	        }
+	        var result = aggFunction(values);
+	        return result;
+	    };
+	    return AggregationStage;
+	}());
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], AggregationStage.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], AggregationStage.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('valueService'),
+	    __metadata("design:type", main_1.ValueService)
+	], AggregationStage.prototype, "valueService", void 0);
+	__decorate([
+	    main_1.Autowired('pivotStage'),
+	    __metadata("design:type", pivotStage_1.PivotStage)
+	], AggregationStage.prototype, "pivotStage", void 0);
+	__decorate([
+	    main_1.Autowired('aggFuncService'),
+	    __metadata("design:type", aggFuncService_1.AggFuncService)
+	], AggregationStage.prototype, "aggFuncService", void 0);
+	AggregationStage = __decorate([
+	    main_1.Bean('aggregationStage')
+	], AggregationStage);
+	exports.AggregationStage = AggregationStage;
+
+
+/***/ }),
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var pivotColDefService_1 = __webpack_require__(140);
+	var PivotStage = (function () {
+	    function PivotStage() {
+	        this.uniqueValues = {};
+	    }
+	    PivotStage.prototype.execute = function (params) {
+	        var rootNode = params.rowNode;
+	        if (this.columnController.isPivotActive()) {
+	            this.executePivotOn(rootNode);
+	        }
+	        else {
+	            this.executePivotOff();
+	        }
+	    };
+	    PivotStage.prototype.executePivotOff = function () {
+	        this.aggregationColumnsHashLastTime = null;
+	        this.uniqueValues = {};
+	        this.columnController.setSecondaryColumns(null);
+	    };
+	    PivotStage.prototype.executePivotOn = function (rootNode) {
+	        var uniqueValues = this.bucketUpRowNodes(rootNode);
+	        var uniqueValuesChanged = this.setUniqueValues(uniqueValues);
+	        var aggregationColumns = this.columnController.getValueColumns();
+	        var aggregationColumnsHash = aggregationColumns.map(function (column) { return column.getId(); }).join('#');
+	        var aggregationColumnsChanged = this.aggregationColumnsHashLastTime !== aggregationColumnsHash;
+	        this.aggregationColumnsHashLastTime = aggregationColumnsHash;
+	        if (uniqueValuesChanged || aggregationColumnsChanged) {
+	            var result = this.pivotColDefService.createPivotColumnDefs(this.uniqueValues);
+	            this.pivotColumnGroupDefs = result.pivotColumnGroupDefs;
+	            this.pivotColumnDefs = result.pivotColumnDefs;
+	            this.columnController.setSecondaryColumns(this.pivotColumnGroupDefs);
+	        }
+	    };
+	    PivotStage.prototype.setUniqueValues = function (newValues) {
+	        var json1 = JSON.stringify(newValues);
+	        var json2 = JSON.stringify(this.uniqueValues);
+	        var uniqueValuesChanged = json1 !== json2;
+	        // we only continue the below if the unique values are different, as otherwise
+	        // the result will be the same as the last time we did it
+	        if (uniqueValuesChanged) {
+	            this.uniqueValues = newValues;
+	            return true;
+	        }
+	        else {
+	            return false;
+	        }
+	    };
+	    // returns true if values were different
+	    PivotStage.prototype.bucketUpRowNodes = function (rootNode) {
+	        var _this = this;
+	        // accessed from inside inner function
+	        var uniqueValues = {};
+	        // finds all leaf groups and calls mapRowNode with it
+	        var recursivelySearchForLeafNodes = function (rowNode) {
+	            if (rowNode.leafGroup) {
+	                _this.bucketRowNode(rowNode, uniqueValues);
+	            }
+	            else {
+	                rowNode.childrenAfterFilter.forEach(function (child) {
+	                    recursivelySearchForLeafNodes(child);
+	                });
+	            }
+	        };
+	        recursivelySearchForLeafNodes(rootNode);
+	        return uniqueValues;
+	    };
+	    PivotStage.prototype.bucketRowNode = function (rowNode, uniqueValues) {
+	        var pivotColumns = this.columnController.getPivotColumns();
+	        if (pivotColumns.length === 0) {
+	            rowNode.childrenMapped = null;
+	            return;
+	        }
+	        rowNode.childrenMapped = this.bucketChildren(rowNode.childrenAfterFilter, pivotColumns, 0, uniqueValues);
+	    };
+	    PivotStage.prototype.bucketChildren = function (children, pivotColumns, pivotIndex, uniqueValues) {
+	        var _this = this;
+	        var mappedChildren = {};
+	        var pivotColumn = pivotColumns[pivotIndex];
+	        // map the children out based on the pivot column
+	        children.forEach(function (child) {
+	            var key = _this.valueService.getValue(pivotColumn, child);
+	            if (main_1.Utils.missing(key)) {
+	                key = '';
+	            }
+	            if (!uniqueValues[key]) {
+	                uniqueValues[key] = {};
+	            }
+	            if (!mappedChildren[key]) {
+	                mappedChildren[key] = [];
+	            }
+	            mappedChildren[key].push(child);
+	        });
+	        // if it's the last pivot column, return as is, otherwise go one level further in the map
+	        if (pivotIndex === pivotColumns.length - 1) {
+	            return mappedChildren;
+	        }
+	        else {
+	            var result_1 = {};
+	            main_1.Utils.iterateObject(mappedChildren, function (key, value) {
+	                result_1[key] = _this.bucketChildren(value, pivotColumns, pivotIndex + 1, uniqueValues[key]);
+	            });
+	            return result_1;
+	        }
+	    };
+	    PivotStage.prototype.getPivotColumnDefs = function () {
+	        return this.pivotColumnDefs;
+	    };
+	    return PivotStage;
+	}());
+	__decorate([
+	    main_1.Autowired('rowModel'),
+	    __metadata("design:type", Object)
+	], PivotStage.prototype, "rowModel", void 0);
+	__decorate([
+	    main_1.Autowired('valueService'),
+	    __metadata("design:type", main_1.ValueService)
+	], PivotStage.prototype, "valueService", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], PivotStage.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], PivotStage.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('pivotColDefService'),
+	    __metadata("design:type", pivotColDefService_1.PivotColDefService)
+	], PivotStage.prototype, "pivotColDefService", void 0);
+	PivotStage = __decorate([
+	    main_1.Bean('pivotStage')
+	], PivotStage);
+	exports.PivotStage = PivotStage;
+
+
+/***/ }),
+/* 140 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var PivotColDefService = (function () {
+	    function PivotColDefService() {
+	    }
+	    PivotColDefService.prototype.createPivotColumnDefs = function (uniqueValues) {
+	        // this is passed to the columnController, to configure the columns and groups we show
+	        var pivotColumnGroupDefs = [];
+	        // this is used by the aggregation stage, to do the aggregation based on the pivot columns
+	        var pivotColumnDefs = [];
+	        var pivotColumns = this.columnController.getPivotColumns();
+	        var levelsDeep = pivotColumns.length;
+	        var columnIdSequence = new main_1.NumberSequence();
+	        this.recursivelyAddGroup(pivotColumnGroupDefs, pivotColumnDefs, 1, uniqueValues, [], columnIdSequence, levelsDeep, pivotColumns);
+	        // we clone, so the colDefs in pivotColumnsGroupDefs and pivotColumnDefs are not shared. this is so that
+	        // any changes the user makes (via processSecondaryColumnDefinitions) don't impact the internal aggregations,
+	        // as these use the col defs also
+	        var pivotColumnDefsClone = pivotColumnDefs.map(function (colDef) { return main_1.Utils.cloneObject(colDef); });
+	        return {
+	            pivotColumnGroupDefs: pivotColumnGroupDefs,
+	            pivotColumnDefs: pivotColumnDefsClone
+	        };
+	    };
+	    // parentChildren - the list of colDefs we are adding to
+	    // @index - how far the column is from the top (also same as pivotKeys.length)
+	    // @uniqueValues - the values for which we should create a col for
+	    // @pivotKeys - the keys for the pivot, eg if pivoting on {Language,Country} then could be {English,Ireland}
+	    PivotColDefService.prototype.recursivelyAddGroup = function (parentChildren, pivotColumnDefs, index, uniqueValues, pivotKeys, columnIdSequence, levelsDeep, primaryPivotColumns) {
+	        var _this = this;
+	        main_1.Utils.iterateObject(uniqueValues, function (key, value) {
+	            var newPivotKeys = pivotKeys.slice(0);
+	            newPivotKeys.push(key);
+	            var createGroup = index !== levelsDeep;
+	            if (createGroup) {
+	                var groupDef = {
+	                    children: [],
+	                    headerName: key,
+	                    pivotKeys: newPivotKeys
+	                };
+	                parentChildren.push(groupDef);
+	                _this.recursivelyAddGroup(groupDef.children, pivotColumnDefs, index + 1, value, newPivotKeys, columnIdSequence, levelsDeep, primaryPivotColumns);
+	            }
+	            else {
+	                var measureColumns = _this.columnController.getValueColumns();
+	                var valueGroup_1 = {
+	                    children: [],
+	                    headerName: key,
+	                    pivotKeys: newPivotKeys
+	                };
+	                parentChildren.push(valueGroup_1);
+	                // if no value columns selected, then we insert one blank column, so the user at least sees columns
+	                // rendered. otherwise the grid would render with no columns (just empty groups) which would give the
+	                // impression that the grid is broken
+	                if (measureColumns.length === 0) {
+	                    // this is the blank column, for when no value columns enabled.
+	                    var colDef_1 = _this.createColDef(null, '-', newPivotKeys, columnIdSequence);
+	                    valueGroup_1.children.push(colDef_1);
+	                    pivotColumnDefs.push(colDef_1);
+	                }
+	                else {
+	                    measureColumns.forEach(function (measureColumn) {
+	                        var colDef = _this.createColDef(measureColumn, measureColumn.getColDef().headerName, newPivotKeys, columnIdSequence);
+	                        valueGroup_1.children.push(colDef);
+	                        pivotColumnDefs.push(colDef);
+	                    });
+	                }
+	            }
+	        });
+	        // sort by either user provided comparator, or our own one
+	        var colDef = primaryPivotColumns[index - 1].getColDef();
+	        var userComparator = colDef.pivotComparator;
+	        var comparator = this.headerNameComparator.bind(this, userComparator);
+	        parentChildren.sort(comparator);
+	    };
+	    PivotColDefService.prototype.createColDef = function (valueColumn, headerName, pivotKeys, columnIdSequence) {
+	        var colDef = {};
+	        if (valueColumn) {
+	            var colDefToCopy = valueColumn.getColDef();
+	            main_1.Utils.assign(colDef, colDefToCopy);
+	            // even if original column was hidden, we always show the pivot value column, otherwise it would be
+	            // very confusing for people thinking the pivot is broken
+	            colDef.hide = false;
+	        }
+	        colDef.headerName = headerName;
+	        colDef.colId = 'pivot_' + columnIdSequence.next();
+	        colDef.pivotKeys = pivotKeys;
+	        colDef.pivotValueColumn = valueColumn;
+	        return colDef;
+	    };
+	    PivotColDefService.prototype.headerNameComparator = function (userComparator, a, b) {
+	        if (userComparator) {
+	            return userComparator(a.headerName, b.headerName);
+	        }
+	        else {
+	            if (a.headerName < b.headerName) {
+	                return -1;
+	            }
+	            else if (a.headerName > b.headerName) {
+	                return 1;
+	            }
+	            else {
+	                return 0;
+	            }
+	        }
+	    };
+	    return PivotColDefService;
+	}());
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], PivotColDefService.prototype, "columnController", void 0);
+	PivotColDefService = __decorate([
+	    main_1.Bean('pivotColDefService')
+	], PivotColDefService);
+	exports.PivotColDefService = PivotColDefService;
+
+
+/***/ }),
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var setFilter_1 = __webpack_require__(142);
+	var richSelectCellEditor_1 = __webpack_require__(146);
+	var licenseManager_1 = __webpack_require__(148);
+	var EnterpriseBoot = EnterpriseBoot_1 = (function () {
+	    function EnterpriseBoot() {
+	    }
+	    EnterpriseBoot.prototype.init = function () {
+	        this.filterManager.registerFilter('set', setFilter_1.SetFilter);
+	        this.cellEditorFactory.addCellEditor(EnterpriseBoot_1.RICH_SELECT, richSelectCellEditor_1.RichSelectCellEditor);
+	        this.licenseManager.validateLicense();
+	    };
+	    return EnterpriseBoot;
+	}());
+	EnterpriseBoot.RICH_SELECT = 'richSelect';
+	__decorate([
+	    main_1.Autowired('filterManager'),
+	    __metadata("design:type", main_1.FilterManager)
+	], EnterpriseBoot.prototype, "filterManager", void 0);
+	__decorate([
+	    main_1.Autowired('cellEditorFactory'),
+	    __metadata("design:type", main_1.CellEditorFactory)
+	], EnterpriseBoot.prototype, "cellEditorFactory", void 0);
+	__decorate([
+	    main_1.Autowired('licenseManager'),
+	    __metadata("design:type", licenseManager_1.LicenseManager)
+	], EnterpriseBoot.prototype, "licenseManager", void 0);
+	__decorate([
+	    main_1.PreConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseBoot.prototype, "init", null);
+	EnterpriseBoot = EnterpriseBoot_1 = __decorate([
+	    main_1.Bean('enterpriseBoot')
+	], EnterpriseBoot);
+	exports.EnterpriseBoot = EnterpriseBoot;
+	var EnterpriseBoot_1;
+
+
+/***/ }),
+/* 142 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var setFilterModel_1 = __webpack_require__(143);
+	var setFilterListItem_1 = __webpack_require__(144);
+	var virtualList_1 = __webpack_require__(145);
+	var SetFilter = (function (_super) {
+	    __extends(SetFilter, _super);
+	    function SetFilter() {
+	        return _super.call(this) || this;
+	    }
+	    SetFilter.prototype.customInit = function () {
+	        var _this = this;
+	        var changeFilter = function () {
+	            _this.onFilterChanged();
+	        };
+	        var debounceMs = this.filterParams && this.filterParams.debounceMs != null ? this.filterParams.debounceMs : 0;
+	        this.debounceFilterChanged = main_1._.debounce(changeFilter, debounceMs);
+	    };
+	    SetFilter.prototype.initialiseFilterBodyUi = function () {
+	        var _this = this;
+	        this.virtualList = new virtualList_1.VirtualList();
+	        this.context.wireBean(this.virtualList);
+	        this.getGui().querySelector('#richList').appendChild(this.virtualList.getGui());
+	        if (main_1.Utils.exists(this.filterParams.cellHeight)) {
+	            this.virtualList.setRowHeight(this.filterParams.cellHeight);
+	        }
+	        this.virtualList.setComponentCreator(this.createSetListItem.bind(this));
+	        this.model = new setFilterModel_1.SetFilterModel(this.filterParams.colDef, this.filterParams.rowModel, this.filterParams.valueGetter, this.filterParams.doesRowPassOtherFilter, this.filterParams.suppressSorting);
+	        this.virtualList.setModel(new ModelWrapper(this.model));
+	        main_1._.setVisible(this.getGui().querySelector('#ag-mini-filter'), !this.filterParams.suppressMiniFilter);
+	        this.eMiniFilter.value = this.model.getMiniFilter();
+	        this.addDestroyableEventListener(this.eMiniFilter, 'input', function () { return _this.onMiniFilterChanged(); });
+	        this.eSelectAll.onclick = this.onSelectAll.bind(this);
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    SetFilter.prototype.modelFromFloatingFilter = function (from) {
+	        return [from];
+	    };
+	    SetFilter.prototype.refreshFilterBodyUi = function () {
+	    };
+	    SetFilter.prototype.createSetListItem = function (value) {
+	        var _this = this;
+	        var cellRenderer = this.filterParams.cellRenderer;
+	        var listItem = new setFilterListItem_1.SetFilterListItem(value, cellRenderer);
+	        this.context.wireBean(listItem);
+	        listItem.setSelected(this.model.isValueSelected(value));
+	        listItem.addEventListener(setFilterListItem_1.SetFilterListItem.EVENT_SELECTED, function () {
+	            _this.onItemSelected(value, listItem.isSelected());
+	        });
+	        return listItem;
+	    };
+	    // we need to have the gui attached before we can draw the virtual rows, as the
+	    // virtual row logic needs info about the gui state
+	    SetFilter.prototype.afterGuiAttached = function (params) {
+	        this.virtualList.refresh();
+	        this.eMiniFilter.focus();
+	    };
+	    SetFilter.prototype.isFilterActive = function () {
+	        return this.model.isFilterActive();
+	    };
+	    SetFilter.prototype.doesFilterPass = function (params) {
+	        // if no filter, always pass
+	        if (this.model.isEverythingSelected() && !this.filterParams.selectAllOnMiniFilter) {
+	            return true;
+	        }
+	        // if nothing selected in filter, always fail
+	        if (this.model.isNothingSelected() && !this.filterParams.selectAllOnMiniFilter) {
+	            return false;
+	        }
+	        var value = this.filterParams.valueGetter(params.node);
+	        if (this.filterParams.colDef.keyCreator) {
+	            value = this.filterParams.colDef.keyCreator({ value: value });
+	        }
+	        value = main_1.Utils.makeNull(value);
+	        if (Array.isArray(value)) {
+	            for (var i = 0; i < value.length; i++) {
+	                if (this.model.isValueSelected(value[i])) {
+	                    return true;
+	                }
+	            }
+	            return false;
+	        }
+	        else {
+	            return this.model.isValueSelected(value);
+	        }
+	    };
+	    SetFilter.prototype.onNewRowsLoaded = function () {
+	        var keepSelection = this.filterParams && this.filterParams.newRowsAction === 'keep';
+	        var isSelectAll = this.eSelectAll && this.eSelectAll.checked && !this.eSelectAll.indeterminate;
+	        // default is reset
+	        this.model.refreshAfterNewRowsLoaded(keepSelection, isSelectAll);
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    //noinspection JSUnusedGlobalSymbols
+	    /**
+	     * Public method provided so the user can change the value of the filter once
+	     * the filter has been already started
+	     * @param options The options to use.
+	     */
+	    SetFilter.prototype.setFilterValues = function (options) {
+	        var keepSelection = this.filterParams && this.filterParams.newRowsAction === 'keep';
+	        var isSelectAll = this.eSelectAll && this.eSelectAll.checked && !this.eSelectAll.indeterminate;
+	        this.model.setUsingProvidedSet(true);
+	        this.model.refreshValues(options, keepSelection, isSelectAll);
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    //noinspection JSUnusedGlobalSymbols
+	    /**
+	     * Public method provided so the user can reset the values of the filter once that it has started
+	     * @param options The options to use.
+	     */
+	    SetFilter.prototype.resetFilterValues = function () {
+	        this.model.setUsingProvidedSet(false);
+	        this.onNewRowsLoaded();
+	    };
+	    SetFilter.prototype.onAnyFilterChanged = function () {
+	        this.model.refreshAfterAnyFilterChanged();
+	        this.virtualList.refresh();
+	    };
+	    SetFilter.prototype.bodyTemplate = function () {
+	        var translate = this.translate.bind(this);
+	        return "<div>\n                    <div class=\"ag-filter-header-container\" id=\"ag-mini-filter\">\n                        <input class=\"ag-filter-filter\" type=\"text\" placeholder=\"" + translate('searchOoo') + "\"/>\n                    </div>\n                    <div class=\"ag-filter-header-container\">\n                        <label>\n                            <input id=\"selectAll\" type=\"checkbox\" class=\"ag-filter-checkbox\"/>\n                            <span class=\"ag-filter-value\">(" + translate('selectAll') + ")</span>\n                        </label>\n                    </div>\n                    <div id=\"richList\" class=\"ag-set-filter-list\"></div>                    \n                </div>";
+	    };
+	    SetFilter.prototype.updateSelectAll = function () {
+	        if (this.model.isEverythingSelected()) {
+	            this.eSelectAll.indeterminate = false;
+	            this.eSelectAll.checked = true;
+	        }
+	        else if (this.model.isNothingSelected()) {
+	            this.eSelectAll.indeterminate = false;
+	            this.eSelectAll.checked = false;
+	        }
+	        else {
+	            this.eSelectAll.indeterminate = true;
+	        }
+	    };
+	    SetFilter.prototype.onMiniFilterChanged = function () {
+	        var miniFilterChanged = this.model.setMiniFilter(this.eMiniFilter.value);
+	        if (miniFilterChanged) {
+	            this.virtualList.refresh();
+	        }
+	        this.updateSelectAll();
+	    };
+	    SetFilter.prototype.onSelectAll = function () {
+	        var checked = this.eSelectAll.checked;
+	        if (checked) {
+	            this.model.selectEverything();
+	        }
+	        else {
+	            this.model.selectNothing();
+	        }
+	        this.virtualList.refresh();
+	        this.debounceFilterChanged();
+	    };
+	    SetFilter.prototype.onItemSelected = function (value, selected) {
+	        if (selected) {
+	            this.model.selectValue(value);
+	        }
+	        else {
+	            this.model.unselectValue(value);
+	        }
+	        this.updateSelectAll();
+	        this.debounceFilterChanged();
+	    };
+	    SetFilter.prototype.setMiniFilter = function (newMiniFilter) {
+	        this.model.setMiniFilter(newMiniFilter);
+	        this.eMiniFilter.value = this.model.getMiniFilter();
+	    };
+	    SetFilter.prototype.getMiniFilter = function () {
+	        return this.model.getMiniFilter();
+	    };
+	    SetFilter.prototype.selectEverything = function () {
+	        this.model.selectEverything();
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    SetFilter.prototype.selectNothing = function () {
+	        this.model.selectNothing();
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    SetFilter.prototype.unselectValue = function (value) {
+	        this.model.unselectValue(value);
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    SetFilter.prototype.selectValue = function (value) {
+	        this.model.selectValue(value);
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    SetFilter.prototype.isValueSelected = function (value) {
+	        return this.model.isValueSelected(value);
+	    };
+	    SetFilter.prototype.isEverythingSelected = function () {
+	        return this.model.isEverythingSelected();
+	    };
+	    SetFilter.prototype.isNothingSelected = function () {
+	        return this.model.isNothingSelected();
+	    };
+	    SetFilter.prototype.getUniqueValueCount = function () {
+	        return this.model.getUniqueValueCount();
+	    };
+	    SetFilter.prototype.getUniqueValue = function (index) {
+	        return this.model.getUniqueValue(index);
+	    };
+	    SetFilter.prototype.serialize = function () {
+	        return this.model.getModel();
+	    };
+	    SetFilter.prototype.parse = function (dataModel) {
+	        this.model.setModel(dataModel);
+	        this.updateSelectAll();
+	        this.virtualList.refresh();
+	    };
+	    SetFilter.prototype.resetState = function () {
+	        this.setMiniFilter(null);
+	        this.model.setModel(null, true);
+	        this.selectEverything();
+	    };
+	    return SetFilter;
+	}(main_1.BaseFilter));
+	__decorate([
+	    main_1.QuerySelector('#selectAll'),
+	    __metadata("design:type", HTMLInputElement)
+	], SetFilter.prototype, "eSelectAll", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-filter-filter'),
+	    __metadata("design:type", HTMLInputElement)
+	], SetFilter.prototype, "eMiniFilter", void 0);
+	exports.SetFilter = SetFilter;
+	var ModelWrapper = (function () {
+	    function ModelWrapper(model) {
+	        this.model = model;
+	    }
+	    ModelWrapper.prototype.getRowCount = function () {
+	        return this.model.getDisplayedValueCount();
+	    };
+	    ModelWrapper.prototype.getRow = function (index) {
+	        return this.model.getDisplayedValue(index);
+	    };
+	    return ModelWrapper;
+	}());
+
+
+/***/ }),
+/* 143 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var main_1 = __webpack_require__(2);
+	var main_2 = __webpack_require__(2);
+	// we cannot have 'null' as a key in a JavaScript map,
+	// it needs to be a string. so we use this string for
+	// storing null values.
+	var NULL_VALUE = '___NULL___';
+	var SetFilterModel = (function () {
+	    function SetFilterModel(colDef, rowModel, valueGetter, doesRowPassOtherFilters, suppressSorting) {
+	        this.suppressSorting = suppressSorting;
+	        this.colDef = colDef;
+	        this.rowModel = rowModel;
+	        this.valueGetter = valueGetter;
+	        this.doesRowPassOtherFilters = doesRowPassOtherFilters;
+	        this.filterParams = this.colDef.filterParams ? this.colDef.filterParams : {};
+	        if (main_1.Utils.exists(this.filterParams)) {
+	            this.usingProvidedSet = main_1.Utils.exists(this.filterParams.values);
+	            this.showingAvailableOnly = this.filterParams.suppressRemoveEntries !== true;
+	        }
+	        else {
+	            this.usingProvidedSet = false;
+	            this.showingAvailableOnly = true;
+	        }
+	        this.createAllUniqueValues();
+	        this.createAvailableUniqueValues();
+	        // by default, no filter, so we display everything
+	        this.displayedValues = this.availableUniqueValues;
+	        this.miniFilter = null;
+	        // we use a map rather than an array for the selected values as the lookup
+	        // for a map is much faster than the lookup for an array, especially when
+	        // the length of the array is thousands of records long
+	        this.selectedValuesMap = {};
+	        this.selectEverything();
+	        this.formatter = this.filterParams.textFormatter ? this.filterParams.textFormatter : main_2.TextFilter.DEFAULT_FORMATTER;
+	    }
+	    // if keepSelection not set will always select all filters
+	    // if keepSelection set will keep current state of selected filters
+	    //    unless selectAll chosen in which case will select all
+	    SetFilterModel.prototype.refreshAfterNewRowsLoaded = function (keepSelection, isSelectAll) {
+	        this.createAllUniqueValues();
+	        this.refreshSelection(keepSelection, isSelectAll);
+	    };
+	    // if keepSelection not set will always select all filters
+	    // if keepSelection set will keep current state of selected filters
+	    //    unless selectAll chosen in which case will select all
+	    SetFilterModel.prototype.refreshValues = function (valuesToUse, keepSelection, isSelectAll) {
+	        this.setValues(valuesToUse);
+	        this.refreshSelection(keepSelection, isSelectAll);
+	    };
+	    SetFilterModel.prototype.refreshSelection = function (keepSelection, isSelectAll) {
+	        this.createAvailableUniqueValues();
+	        var oldModel = Object.keys(this.selectedValuesMap);
+	        this.selectedValuesMap = {};
+	        this.processMiniFilter();
+	        if (keepSelection) {
+	            this.setModel(oldModel, isSelectAll);
+	        }
+	        else {
+	            this.selectEverything();
+	        }
+	    };
+	    SetFilterModel.prototype.refreshAfterAnyFilterChanged = function () {
+	        if (this.showingAvailableOnly) {
+	            this.createAvailableUniqueValues();
+	            this.processMiniFilter();
+	        }
+	    };
+	    SetFilterModel.prototype.createAllUniqueValues = function () {
+	        var valuesToUse = this.extractValuesToUse();
+	        this.setValues(valuesToUse);
+	    };
+	    SetFilterModel.prototype.setUsingProvidedSet = function (value) {
+	        this.usingProvidedSet = value;
+	    };
+	    SetFilterModel.prototype.setValues = function (valuesToUse) {
+	        this.allUniqueValues = valuesToUse;
+	        if (!this.suppressSorting) {
+	            this.sortValues(this.allUniqueValues);
+	        }
+	    };
+	    SetFilterModel.prototype.extractValuesToUse = function () {
+	        var valuesToUse;
+	        if (this.usingProvidedSet) {
+	            valuesToUse = main_1.Utils.toStrings(this.filterParams.values);
+	        }
+	        else {
+	            var uniqueValuesAsAnyObjects = this.getUniqueValues(false);
+	            valuesToUse = main_1.Utils.toStrings(uniqueValuesAsAnyObjects);
+	        }
+	        return valuesToUse;
+	    };
+	    SetFilterModel.prototype.createAvailableUniqueValues = function () {
+	        var dontCheckAvailableValues = !this.showingAvailableOnly || this.usingProvidedSet;
+	        if (dontCheckAvailableValues) {
+	            this.availableUniqueValues = this.allUniqueValues;
+	            return;
+	        }
+	        var uniqueValuesAsAnyObjects = this.getUniqueValues(true);
+	        this.availableUniqueValues = main_1.Utils.toStrings(uniqueValuesAsAnyObjects);
+	        this.sortValues(this.availableUniqueValues);
+	    };
+	    SetFilterModel.prototype.sortValues = function (values) {
+	        if (this.filterParams && this.filterParams.comparator) {
+	            values.sort(this.filterParams.comparator);
+	        }
+	        else if (this.colDef.comparator) {
+	            values.sort(this.colDef.comparator);
+	        }
+	        else {
+	            values.sort(main_1.Utils.defaultComparator);
+	        }
+	    };
+	    SetFilterModel.prototype.getUniqueValues = function (filterOutNotAvailable) {
+	        var _this = this;
+	        var uniqueCheck = {};
+	        var result = [];
+	        if (!this.rowModel.forEachLeafNode) {
+	            console.error('ag-Grid: Set Filter cannot initialise because you are using a row model that does not contain all rows in the browser. Either use a different filter type, or configure Set Filter such that you provide it with values');
+	            return [];
+	        }
+	        this.rowModel.forEachLeafNode(function (node) {
+	            if (!node.group) {
+	                var value = _this.valueGetter(node);
+	                if (_this.colDef.keyCreator) {
+	                    value = _this.colDef.keyCreator({ value: value });
+	                }
+	                if (value === "" || value === undefined) {
+	                    value = null;
+	                }
+	                if (filterOutNotAvailable) {
+	                    if (!_this.doesRowPassOtherFilters(node)) {
+	                        return;
+	                    }
+	                }
+	                if (value != null && Array.isArray(value)) {
+	                    for (var j = 0; j < value.length; j++) {
+	                        addUniqueValueIfMissing(value[j]);
+	                    }
+	                }
+	                else {
+	                    addUniqueValueIfMissing(value);
+	                }
+	            }
+	        });
+	        function addUniqueValueIfMissing(value) {
+	            if (!uniqueCheck.hasOwnProperty(value)) {
+	                result.push(value);
+	                uniqueCheck[value] = 1;
+	            }
+	        }
+	        return result;
+	    };
+	    //sets mini filter. returns true if it changed from last value, otherwise false
+	    SetFilterModel.prototype.setMiniFilter = function (newMiniFilter) {
+	        newMiniFilter = main_1.Utils.makeNull(newMiniFilter);
+	        if (this.miniFilter === newMiniFilter) {
+	            //do nothing if filter has not changed
+	            return false;
+	        }
+	        this.miniFilter = newMiniFilter;
+	        this.processMiniFilter();
+	        return true;
+	    };
+	    SetFilterModel.prototype.getMiniFilter = function () {
+	        return this.miniFilter;
+	    };
+	    SetFilterModel.prototype.processMiniFilter = function () {
+	        // if no filter, just use the unique values
+	        if (this.miniFilter === null) {
+	            this.displayedValues = this.availableUniqueValues;
+	            return;
+	        }
+	        // if filter present, we filter down the list
+	        this.displayedValues = [];
+	        var miniFilterFormatted = this.formatter(this.miniFilter);
+	        for (var i = 0, l = this.availableUniqueValues.length; i < l; i++) {
+	            var filteredValue = this.availableUniqueValues[i];
+	            if (filteredValue) {
+	                var filteredValueFormatted = this.formatter(filteredValue.toString());
+	                if (filteredValueFormatted !== null && filteredValueFormatted.indexOf(miniFilterFormatted) >= 0) {
+	                    this.displayedValues.push(filteredValue);
+	                }
+	            }
+	        }
+	    };
+	    SetFilterModel.prototype.getDisplayedValueCount = function () {
+	        return this.displayedValues.length;
+	    };
+	    SetFilterModel.prototype.getDisplayedValue = function (index) {
+	        return this.displayedValues[index];
+	    };
+	    SetFilterModel.prototype.selectEverything = function () {
+	        if (!this.filterParams.selectAllOnMiniFilter || !this.miniFilter) {
+	            this.selectOn(this.allUniqueValues);
+	        }
+	        else {
+	            this.selectOn(this.displayedValues);
+	        }
+	    };
+	    SetFilterModel.prototype.selectOn = function (toSelectOn) {
+	        var count = toSelectOn.length;
+	        for (var i = 0; i < count; i++) {
+	            var key = toSelectOn[i];
+	            var safeKey = this.valueToKey(key);
+	            this.selectedValuesMap[safeKey] = null;
+	        }
+	        this.selectedValuesCount = count;
+	    };
+	    SetFilterModel.prototype.valueToKey = function (key) {
+	        if (key === null) {
+	            return NULL_VALUE;
+	        }
+	        else {
+	            return key;
+	        }
+	    };
+	    SetFilterModel.prototype.keyToValue = function (value) {
+	        if (value === NULL_VALUE) {
+	            return null;
+	        }
+	        else {
+	            return value;
+	        }
+	    };
+	    SetFilterModel.prototype.isFilterActive = function () {
+	        return this.allUniqueValues.length !== this.selectedValuesCount;
+	    };
+	    SetFilterModel.prototype.selectNothing = function () {
+	        var _this = this;
+	        if (!this.filterParams.selectAllOnMiniFilter || !this.miniFilter) {
+	            this.selectedValuesMap = {};
+	            this.selectedValuesCount = 0;
+	        }
+	        else {
+	            this.displayedValues.forEach(function (it) { return _this.unselectValue(it); });
+	        }
+	    };
+	    SetFilterModel.prototype.getUniqueValueCount = function () {
+	        return this.allUniqueValues.length;
+	    };
+	    SetFilterModel.prototype.getUniqueValue = function (index) {
+	        return this.allUniqueValues[index];
+	    };
+	    SetFilterModel.prototype.unselectValue = function (value) {
+	        var safeKey = this.valueToKey(value);
+	        if (this.selectedValuesMap[safeKey] !== undefined) {
+	            delete this.selectedValuesMap[safeKey];
+	            this.selectedValuesCount--;
+	        }
+	    };
+	    SetFilterModel.prototype.selectValue = function (value) {
+	        var safeKey = this.valueToKey(value);
+	        if (this.selectedValuesMap[safeKey] === undefined) {
+	            this.selectedValuesMap[safeKey] = null;
+	            this.selectedValuesCount++;
+	        }
+	    };
+	    SetFilterModel.prototype.isValueSelected = function (value) {
+	        var safeKey = this.valueToKey(value);
+	        return this.selectedValuesMap[safeKey] !== undefined;
+	    };
+	    SetFilterModel.prototype.isEverythingSelected = function () {
+	        var _this = this;
+	        if (!this.filterParams.selectAllOnMiniFilter || !this.miniFilter) {
+	            return this.allUniqueValues.length === this.selectedValuesCount;
+	        }
+	        else {
+	            return this.displayedValues.filter(function (it) { return _this.isValueSelected(it); }).length === this.displayedValues.length;
+	        }
+	    };
+	    SetFilterModel.prototype.isNothingSelected = function () {
+	        var _this = this;
+	        if (!this.filterParams.selectAllOnMiniFilter || !this.miniFilter) {
+	            return this.selectedValuesCount === 0;
+	        }
+	        else {
+	            return this.displayedValues.filter(function (it) { return _this.isValueSelected(it); }).length === 0;
+	        }
+	    };
+	    SetFilterModel.prototype.getModel = function () {
+	        var _this = this;
+	        if (!this.isFilterActive()) {
+	            return null;
+	        }
+	        var selectedValues = [];
+	        main_1.Utils.iterateObject(this.selectedValuesMap, function (key) {
+	            var value = _this.keyToValue(key);
+	            selectedValues.push(value);
+	        });
+	        return selectedValues;
+	    };
+	    SetFilterModel.prototype.setModel = function (model, isSelectAll) {
+	        if (isSelectAll === void 0) { isSelectAll = false; }
+	        if (model && !isSelectAll) {
+	            this.selectNothing();
+	            for (var i = 0; i < model.length; i++) {
+	                var rawValue = model[i];
+	                var value = this.keyToValue(rawValue);
+	                if (this.allUniqueValues.indexOf(value) >= 0) {
+	                    this.selectValue(value);
+	                }
+	            }
+	        }
+	        else {
+	            this.selectEverything();
+	        }
+	    };
+	    return SetFilterModel;
+	}());
+	exports.SetFilterModel = SetFilterModel;
+
+
+/***/ }),
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var SetFilterListItem = (function (_super) {
+	    __extends(SetFilterListItem, _super);
+	    function SetFilterListItem(value, cellRenderer) {
+	        var _this = _super.call(this, SetFilterListItem.TEMPLATE) || this;
+	        _this.value = value;
+	        _this.cellRenderer = cellRenderer;
+	        return _this;
+	    }
+	    SetFilterListItem.prototype.init = function () {
+	        var _this = this;
+	        this.render();
+	        this.eCheckbox = this.queryForHtmlInputElement("input");
+	        this.addDestroyableEventListener(this.eCheckbox, 'click', function () { return _this.dispatchEvent(SetFilterListItem.EVENT_SELECTED); });
+	    };
+	    SetFilterListItem.prototype.isSelected = function () {
+	        return this.eCheckbox.checked;
+	    };
+	    SetFilterListItem.prototype.setSelected = function (selected) {
+	        this.eCheckbox.checked = selected;
+	    };
+	    SetFilterListItem.prototype.render = function () {
+	        var valueElement = this.queryForHtmlElement(".ag-filter-value");
+	        // let valueElement = eFilterValue.querySelector(".ag-filter-value");
+	        if (this.cellRenderer) {
+	            var component = this.cellRendererService.useCellRenderer(this.cellRenderer, valueElement, { value: this.value });
+	            if (component && component.destroy) {
+	                this.addDestroyFunc(component.destroy.bind(component));
+	            }
+	        }
+	        else {
+	            // otherwise display as a string
+	            var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	            var blanksText = '(' + localeTextFunc('blanks', 'Blanks') + ')';
+	            var displayNameOfValue = this.value === null ? blanksText : this.value;
+	            valueElement.innerHTML = displayNameOfValue;
+	        }
+	    };
+	    return SetFilterListItem;
+	}(main_1.Component));
+	SetFilterListItem.EVENT_SELECTED = 'selected';
+	SetFilterListItem.TEMPLATE = '<label class="ag-set-filter-item">' +
+	    '<input type="checkbox" class="ag-filter-checkbox"/>' +
+	    '<span class="ag-filter-value"></span>' +
+	    '</label>';
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], SetFilterListItem.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('cellRendererService'),
+	    __metadata("design:type", main_1.CellRendererService)
+	], SetFilterListItem.prototype, "cellRendererService", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], SetFilterListItem.prototype, "init", null);
+	exports.SetFilterListItem = SetFilterListItem;
+
+
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var VirtualList = (function (_super) {
+	    __extends(VirtualList, _super);
+	    function VirtualList() {
+	        var _this = _super.call(this, null) || this;
+	        _this.rowsInBodyContainer = {};
+	        _this.rowHeight = 20;
+	        return _this;
+	    }
+	    VirtualList.prototype.init = function () {
+	        this.setTemplate(VirtualList.TEMPLATE);
+	        this.eListContainer = this.queryForHtmlElement(".ag-virtual-list-container");
+	        this.addScrollListener();
+	    };
+	    VirtualList.prototype.ensureIndexVisible = function (index) {
+	        var lastRow = this.model.getRowCount();
+	        if (typeof index !== 'number' || index < 0 || index >= lastRow) {
+	            console.warn('invalid row index for ensureIndexVisible: ' + index);
+	            return;
+	        }
+	        // let nodeAtIndex = this.rowModel.getRow(index);
+	        var rowTopPixel = index * this.rowHeight;
+	        var rowBottomPixel = rowTopPixel + this.rowHeight;
+	        var viewportTopPixel = this.getGui().scrollTop;
+	        var viewportHeight = this.getGui().offsetHeight;
+	        var viewportBottomPixel = viewportTopPixel + viewportHeight;
+	        var viewportScrolledPastRow = viewportTopPixel > rowTopPixel;
+	        var viewportScrolledBeforeRow = viewportBottomPixel < rowBottomPixel;
+	        if (viewportScrolledPastRow) {
+	            // if row is before, scroll up with row at top
+	            this.getGui().scrollTop = rowTopPixel;
+	        }
+	        else if (viewportScrolledBeforeRow) {
+	            // if row is below, scroll down with row at bottom
+	            var newScrollPosition = rowBottomPixel - viewportHeight;
+	            this.getGui().scrollTop = newScrollPosition;
+	        }
+	    };
+	    VirtualList.prototype.setComponentCreator = function (componentCreator) {
+	        this.componentCreator = componentCreator;
+	    };
+	    VirtualList.prototype.getRowHeight = function () {
+	        return this.rowHeight;
+	    };
+	    VirtualList.prototype.getScrollTop = function () {
+	        return this.getGui().scrollTop;
+	    };
+	    VirtualList.prototype.setRowHeight = function (rowHeight) {
+	        this.rowHeight = rowHeight;
+	        this.refresh();
+	    };
+	    VirtualList.prototype.refresh = function () {
+	        if (main_1.Utils.missing(this.model)) {
+	            return;
+	        }
+	        this.eListContainer.style.height = (this.model.getRowCount() * this.rowHeight) + "px";
+	        this.clearVirtualRows();
+	        this.drawVirtualRows();
+	    };
+	    VirtualList.prototype.clearVirtualRows = function () {
+	        var rowsToRemove = Object.keys(this.rowsInBodyContainer);
+	        this.removeVirtualRows(rowsToRemove);
+	    };
+	    VirtualList.prototype.drawVirtualRows = function () {
+	        var topPixel = this.getGui().scrollTop;
+	        var bottomPixel = topPixel + this.getGui().offsetHeight;
+	        var firstRow = Math.floor(topPixel / this.rowHeight);
+	        var lastRow = Math.floor(bottomPixel / this.rowHeight);
+	        this.ensureRowsRendered(firstRow, lastRow);
+	    };
+	    VirtualList.prototype.ensureRowsRendered = function (start, finish) {
+	        // at the end, this array will contain the items we need to remove
+	        var rowsToRemove = Object.keys(this.rowsInBodyContainer);
+	        // add in new rows
+	        for (var rowIndex = start; rowIndex <= finish; rowIndex++) {
+	            // see if item already there, and if yes, take it out of the 'to remove' array
+	            if (rowsToRemove.indexOf(rowIndex.toString()) >= 0) {
+	                rowsToRemove.splice(rowsToRemove.indexOf(rowIndex.toString()), 1);
+	                continue;
+	            }
+	            // check this row actually exists (in case overflow buffer window exceeds real data)
+	            if (this.model.getRowCount() > rowIndex) {
+	                var value = this.model.getRow(rowIndex);
+	                this.insertRow(value, rowIndex);
+	            }
+	        }
+	        // at this point, everything in our 'rowsToRemove' . . .
+	        this.removeVirtualRows(rowsToRemove);
+	    };
+	    // takes array of row id's
+	    VirtualList.prototype.removeVirtualRows = function (rowsToRemove) {
+	        var _this = this;
+	        rowsToRemove.forEach(function (index) {
+	            var component = _this.rowsInBodyContainer[index];
+	            _this.eListContainer.removeChild(component.eDiv);
+	            if (component.rowComponent.destroy) {
+	                component.rowComponent.destroy();
+	            }
+	            delete _this.rowsInBodyContainer[index];
+	        });
+	    };
+	    VirtualList.prototype.insertRow = function (value, rowIndex) {
+	        var eDiv = document.createElement('div');
+	        main_1.Utils.addCssClass(eDiv, 'ag-virtual-list-item');
+	        eDiv.style.top = (this.rowHeight * rowIndex) + "px";
+	        var rowComponent = this.componentCreator(value);
+	        eDiv.appendChild(rowComponent.getGui());
+	        this.eListContainer.appendChild(eDiv);
+	        this.rowsInBodyContainer[rowIndex] = {
+	            rowComponent: rowComponent,
+	            eDiv: eDiv
+	        };
+	    };
+	    VirtualList.prototype.addScrollListener = function () {
+	        var _this = this;
+	        this.addGuiEventListener('scroll', function () {
+	            _this.drawVirtualRows();
+	        });
+	    };
+	    VirtualList.prototype.setModel = function (model) {
+	        this.model = model;
+	    };
+	    return VirtualList;
+	}(main_1.Component));
+	VirtualList.TEMPLATE = '<div class="ag-virtual-list-viewport">' +
+	    '<div class="ag-virtual-list-container">' +
+	    '</div>' +
+	    '</div>';
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], VirtualList.prototype, "init", null);
+	exports.VirtualList = VirtualList;
+
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var richSelectRow_1 = __webpack_require__(147);
+	var virtualList_1 = __webpack_require__(145);
+	var RichSelectCellEditor = (function (_super) {
+	    __extends(RichSelectCellEditor, _super);
+	    function RichSelectCellEditor() {
+	        return _super.call(this, RichSelectCellEditor.TEMPLATE) || this;
+	    }
+	    RichSelectCellEditor.prototype.init = function (params) {
+	        this.params = params;
+	        this.selectedValue = params.value;
+	        this.cellRenderer = params.cellRenderer;
+	        this.focusAfterAttached = params.cellStartedEdit;
+	        this.virtualList = new virtualList_1.VirtualList();
+	        this.context.wireBean(this.virtualList);
+	        this.virtualList.setComponentCreator(this.createRowComponent.bind(this));
+	        this.getGui().querySelector('.ag-rich-select-list').appendChild(this.virtualList.getGui());
+	        this.renderSelectedValue();
+	        if (main_1.Utils.missing(params.values)) {
+	            console.log('ag-Grid: richSelectCellEditor requires values for it to work');
+	            return;
+	        }
+	        var values = params.values;
+	        this.virtualList.setModel({
+	            getRowCount: function () { return values.length; },
+	            getRow: function (index) { return values[index]; }
+	        });
+	        this.addGuiEventListener('keydown', this.onKeyDown.bind(this));
+	        this.addDestroyableEventListener(this.virtualList.getGui(), 'click', this.onClick.bind(this));
+	        this.addDestroyableEventListener(this.virtualList.getGui(), 'mousemove', this.onMouseMove.bind(this));
+	    };
+	    RichSelectCellEditor.prototype.onKeyDown = function (event) {
+	        var key = event.which || event.keyCode;
+	        switch (key) {
+	            case main_1.Constants.KEY_ENTER:
+	                this.onEnterKeyDown();
+	                break;
+	            case main_1.Constants.KEY_DOWN:
+	            case main_1.Constants.KEY_UP:
+	                this.onNavigationKeyPressed(event, key);
+	                break;
+	        }
+	    };
+	    RichSelectCellEditor.prototype.onEnterKeyDown = function () {
+	        this.params.stopEditing();
+	    };
+	    RichSelectCellEditor.prototype.onNavigationKeyPressed = function (event, key) {
+	        // if we don't stop propagation, then the grids navigation kicks in
+	        event.stopPropagation();
+	        var oldIndex = this.params.values.indexOf(this.selectedValue);
+	        var newIndex = key === main_1.Constants.KEY_UP ? oldIndex - 1 : oldIndex + 1;
+	        if (newIndex >= 0 && newIndex < this.params.values.length) {
+	            var valueToSelect = this.params.values[newIndex];
+	            this.setSelectedValue(valueToSelect);
+	        }
+	    };
+	    RichSelectCellEditor.prototype.renderSelectedValue = function () {
+	        var eValue = this.getGui().querySelector('.ag-rich-select-value');
+	        if (this.cellRenderer) {
+	            var result_1 = this.cellRendererService.useCellRenderer(this.cellRenderer, eValue, { value: this.selectedValue });
+	            if (result_1 && result_1.destroy) {
+	                this.addDestroyFunc(function () { return result_1.destroy(); });
+	            }
+	        }
+	        else {
+	            if (main_1.Utils.exists(this.selectedValue)) {
+	                eValue.innerHTML = this.selectedValue.toString();
+	            }
+	            else {
+	                eValue.innerHTML = '';
+	            }
+	        }
+	    };
+	    RichSelectCellEditor.prototype.setSelectedValue = function (value) {
+	        if (this.selectedValue === value) {
+	            return;
+	        }
+	        var index = this.params.values.indexOf(value);
+	        if (index >= 0) {
+	            this.selectedValue = value;
+	            this.virtualList.ensureIndexVisible(index);
+	            this.virtualList.refresh();
+	        }
+	    };
+	    RichSelectCellEditor.prototype.createRowComponent = function (value) {
+	        var row = new richSelectRow_1.RichSelectRow(this.cellRenderer);
+	        this.context.wireBean(row);
+	        row.setState(value, value === this.selectedValue);
+	        return row;
+	    };
+	    RichSelectCellEditor.prototype.onMouseMove = function (mouseEvent) {
+	        var rect = this.virtualList.getGui().getBoundingClientRect();
+	        var scrollTop = this.virtualList.getScrollTop();
+	        var mouseY = mouseEvent.clientY - rect.top + scrollTop;
+	        var row = Math.floor(mouseY / this.virtualList.getRowHeight());
+	        var value = this.params.values[row];
+	        // not using utils.exist() as want empty string test to pass
+	        if (value !== null && value !== undefined) {
+	            this.setSelectedValue(value);
+	        }
+	    };
+	    RichSelectCellEditor.prototype.onClick = function () {
+	        this.params.stopEditing();
+	    };
+	    // we need to have the gui attached before we can draw the virtual rows, as the
+	    // virtual row logic needs info about the gui state
+	    RichSelectCellEditor.prototype.afterGuiAttached = function () {
+	        var selectedIndex = this.params.values.indexOf(this.selectedValue);
+	        // we have to call this here to get the list to have the right height, ie
+	        // otherwise it would not have scrolls yet and ensureIndeVisible would do nothing
+	        this.virtualList.refresh();
+	        if (selectedIndex >= 0) {
+	            this.virtualList.ensureIndexVisible(selectedIndex);
+	        }
+	        // we call refresh again, as the list could of moved, and we need to render the new rows
+	        this.virtualList.refresh();
+	        if (this.focusAfterAttached) {
+	            this.getGui().focus();
+	        }
+	    };
+	    RichSelectCellEditor.prototype.getValue = function () {
+	        return this.selectedValue;
+	    };
+	    RichSelectCellEditor.prototype.isPopup = function () {
+	        return true;
+	    };
+	    return RichSelectCellEditor;
+	}(main_1.Component));
+	RichSelectCellEditor.TEMPLATE = 
+	// tab index is needed so we can focus, which is needed for keyboard events
+	'<div class="ag-rich-select" tabindex="0">' +
+	    '<div class="ag-rich-select-value"></div>' +
+	    '<div class="ag-rich-select-list"></div>' +
+	    '</div>';
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], RichSelectCellEditor.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('cellRendererService'),
+	    __metadata("design:type", main_1.CellRendererService)
+	], RichSelectCellEditor.prototype, "cellRendererService", void 0);
+	exports.RichSelectCellEditor = RichSelectCellEditor;
+
+
+/***/ }),
+/* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var RichSelectRow = (function (_super) {
+	    __extends(RichSelectRow, _super);
+	    function RichSelectRow(cellRenderer) {
+	        var _this = _super.call(this, '<div class="ag-rich-select-row"></div>') || this;
+	        _this.cellRenderer = cellRenderer;
+	        return _this;
+	    }
+	    RichSelectRow.prototype.setState = function (value, selected) {
+	        if (main_1.Utils.exists(this.cellRenderer)) {
+	            this.populateWithRenderer(value);
+	        }
+	        else {
+	            this.populateWithoutRenderer(value);
+	        }
+	        main_1.Utils.addOrRemoveCssClass(this.getGui(), 'ag-rich-select-row-selected', selected);
+	    };
+	    RichSelectRow.prototype.populateWithoutRenderer = function (value) {
+	        if (main_1.Utils.exists(value) && value !== '') {
+	            // not using innerHTML to prevent injection of HTML
+	            // https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML#Security_considerations
+	            this.getGui().textContent = value.toString();
+	        }
+	        else {
+	            // putting in blank, so if missing, at least the user can click on it
+	            this.getGui().innerHTML = '&nbsp;';
+	        }
+	    };
+	    RichSelectRow.prototype.populateWithRenderer = function (value) {
+	        var childComponent = this.cellRendererService.useCellRenderer(this.cellRenderer, this.getGui(), { value: value });
+	        if (childComponent && childComponent.destroy) {
+	            this.addDestroyFunc(childComponent.destroy.bind(childComponent));
+	        }
+	    };
+	    return RichSelectRow;
+	}(main_1.Component));
+	__decorate([
+	    main_1.Autowired('cellRendererService'),
+	    __metadata("design:type", main_1.CellRendererService)
+	], RichSelectRow.prototype, "cellRendererService", void 0);
+	exports.RichSelectRow = RichSelectRow;
+
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var main_2 = __webpack_require__(2);
+	var md5_1 = __webpack_require__(149);
+	var LicenseManager = LicenseManager_1 = (function () {
+	    function LicenseManager() {
+	    }
+	    LicenseManager.prototype.validateLicense = function () {
+	        var gridReleaseDate = LicenseManager_1.getGridReleaseDate();
+	        var valid = true;
+	        var current = true;
+	        var expiry = null;
+	        if (!main_2.Utils.missingOrEmpty(LicenseManager_1.licenseKey) && LicenseManager_1.licenseKey.length > 32) {
+	            var _a = LicenseManager_1.extractLicenseComponents(LicenseManager_1.licenseKey), md5 = _a.md5, license = _a.license;
+	            if (md5 === this.md5.md5(license)) {
+	                expiry = LicenseManager_1.extractExpiry(license);
+	                if (!isNaN(expiry.getTime())) {
+	                    valid = true;
+	                    current = (gridReleaseDate < expiry);
+	                }
+	            }
+	        }
+	        if (!valid) {
+	            LicenseManager_1.outputMessage('********************************************* Invalid License **************************************************', '* Your license for ag-Grid Enterprise is not valid - please contact accounts@ag-grid.com to obtain a valid license. *');
+	        }
+	        else if (!current) {
+	            var formattedExpiryDate = LicenseManager_1.formatDate(expiry);
+	            var formattedReleaseDate = LicenseManager_1.formatDate(gridReleaseDate);
+	            LicenseManager_1.outputMessage('********************* License not compatible with installed version of ag-Grid Enterprise. *********************', "Your license for ag-Grid Enterprise expired on " + formattedExpiryDate + " but the version installed was released on " + formattedReleaseDate + ". Please " +
+	                'contact accounts@ag-grid.com to renew your license');
+	        }
+	    };
+	    LicenseManager.extractExpiry = function (license) {
+	        var restrictionHashed = license.substring(license.lastIndexOf('_') + 1, license.length);
+	        return new Date(parseInt(LicenseManager_1.decode(restrictionHashed)));
+	    };
+	    LicenseManager.extractLicenseComponents = function (licenseKey) {
+	        var hashStart = licenseKey.length - 32;
+	        var md5 = licenseKey.substring(hashStart);
+	        var license = licenseKey.substring(0, hashStart);
+	        return { md5: md5, license: license };
+	    };
+	    LicenseManager.prototype.getLicenseDetails = function (licenseKey) {
+	        var _a = LicenseManager_1.extractLicenseComponents(licenseKey), md5 = _a.md5, license = _a.license;
+	        var valid = (md5 === this.md5.md5(license));
+	        var expiry;
+	        if (valid) {
+	            expiry = LicenseManager_1.extractExpiry(license);
+	            valid = !isNaN(expiry.getTime());
+	        }
+	        return {
+	            licenseKey: licenseKey,
+	            valid: valid,
+	            expiry: valid ? LicenseManager_1.formatDate(expiry) : null
+	        };
+	    };
+	    LicenseManager.outputMessage = function (header, message) {
+	        console.error('****************************************************************************************************************');
+	        console.error('*************************************** ag-Grid Enterprise License *********************************************');
+	        console.error(header);
+	        console.error(message);
+	        console.error('****************************************************************************************************************');
+	        console.error('****************************************************************************************************************');
+	    };
+	    LicenseManager.formatDate = function (date) {
+	        var monthNames = [
+	            'January', 'February', 'March',
+	            'April', 'May', 'June', 'July',
+	            'August', 'September', 'October',
+	            'November', 'December'
+	        ];
+                date = new Date();
+                date.setFullYear(date.getFullYear() + 1);
+	        var day = date.getDate();
+	        var monthIndex = date.getMonth();
+	        var year = date.getFullYear();
+	        return day + ' ' + monthNames[monthIndex] + ' ' + year;
+	    };
+	    LicenseManager.getGridReleaseDate = function () {
+                              var  date = new Date();
+                date.setFullYear(date.getFullYear() + 1);
+
+	        return date;
+	    };
+	    ;
+	    LicenseManager.decode = function (input) {
+	        var keystr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+	        var t = '';
+	        var n, r, i;
+	        var s, o, u, a;
+	        var f = 0;
+	        var e = input.replace(/[^A-Za-z0-9+/=]/g, '');
+	        while (f < e.length) {
+	            s = keystr.indexOf(e.charAt(f++));
+	            o = keystr.indexOf(e.charAt(f++));
+	            u = keystr.indexOf(e.charAt(f++));
+	            a = keystr.indexOf(e.charAt(f++));
+	            n = s << 2 | o >> 4;
+	            r = (o & 15) << 4 | u >> 2;
+	            i = (u & 3) << 6 | a;
+	            t = t + String.fromCharCode(n);
+	            if (u != 64) {
+	                t = t + String.fromCharCode(r);
+	            }
+	            if (a != 64) {
+	                t = t + String.fromCharCode(i);
+	            }
+	        }
+	        t = LicenseManager_1.utf8_decode(t);
+	        return t;
+	    };
+	    LicenseManager.utf8_decode = function (input) {
+	        input = input.replace(/rn/g, 'n');
+	        var t = '';
+	        for (var n = 0; n < input.length; n++) {
+	            var r = input.charCodeAt(n);
+	            if (r < 128) {
+	                t += String.fromCharCode(r);
+	            }
+	            else if (r > 127 && r < 2048) {
+	                t += String.fromCharCode(r >> 6 | 192);
+	                t += String.fromCharCode(r & 63 | 128);
+	            }
+	            else {
+	                t += String.fromCharCode(r >> 12 | 224);
+	                t += String.fromCharCode(r >> 6 & 63 | 128);
+	                t += String.fromCharCode(r & 63 | 128);
+	            }
+	        }
+	        return t;
+	    };
+	    LicenseManager.setLicenseKey = function (licenseKey) {
+	        LicenseManager_1.licenseKey = licenseKey;
+	    };
+	    return LicenseManager;
+	}());
+	LicenseManager.RELEASE_INFORMATION = 'MTQ5Njg0OTgzMTM3Ng==';
+	__decorate([
+	    main_1.Autowired('md5'),
+	    __metadata("design:type", md5_1.MD5)
+	], LicenseManager.prototype, "md5", void 0);
+	LicenseManager = LicenseManager_1 = __decorate([
+	    main_1.Bean('licenseManager')
+	], LicenseManager);
+	exports.LicenseManager = LicenseManager;
+	var LicenseManager_1;
+
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var MD5 = (function () {
+	    function MD5() {
+	        this.ieCompatibility = false;
+	    }
+	    MD5.prototype.init = function () {
+	        this.ieCompatibility = (this.md5('hello') != '5d41402abc4b2a76b9719d911017c592');
+	    };
+	    MD5.prototype.md5cycle = function (x, k) {
+	        var a = x[0], b = x[1], c = x[2], d = x[3];
+	        a = this.ff(a, b, c, d, k[0], 7, -680876936);
+	        d = this.ff(d, a, b, c, k[1], 12, -389564586);
+	        c = this.ff(c, d, a, b, k[2], 17, 606105819);
+	        b = this.ff(b, c, d, a, k[3], 22, -1044525330);
+	        a = this.ff(a, b, c, d, k[4], 7, -176418897);
+	        d = this.ff(d, a, b, c, k[5], 12, 1200080426);
+	        c = this.ff(c, d, a, b, k[6], 17, -1473231341);
+	        b = this.ff(b, c, d, a, k[7], 22, -45705983);
+	        a = this.ff(a, b, c, d, k[8], 7, 1770035416);
+	        d = this.ff(d, a, b, c, k[9], 12, -1958414417);
+	        c = this.ff(c, d, a, b, k[10], 17, -42063);
+	        b = this.ff(b, c, d, a, k[11], 22, -1990404162);
+	        a = this.ff(a, b, c, d, k[12], 7, 1804603682);
+	        d = this.ff(d, a, b, c, k[13], 12, -40341101);
+	        c = this.ff(c, d, a, b, k[14], 17, -1502002290);
+	        b = this.ff(b, c, d, a, k[15], 22, 1236535329);
+	        a = this.gg(a, b, c, d, k[1], 5, -165796510);
+	        d = this.gg(d, a, b, c, k[6], 9, -1069501632);
+	        c = this.gg(c, d, a, b, k[11], 14, 643717713);
+	        b = this.gg(b, c, d, a, k[0], 20, -373897302);
+	        a = this.gg(a, b, c, d, k[5], 5, -701558691);
+	        d = this.gg(d, a, b, c, k[10], 9, 38016083);
+	        c = this.gg(c, d, a, b, k[15], 14, -660478335);
+	        b = this.gg(b, c, d, a, k[4], 20, -405537848);
+	        a = this.gg(a, b, c, d, k[9], 5, 568446438);
+	        d = this.gg(d, a, b, c, k[14], 9, -1019803690);
+	        c = this.gg(c, d, a, b, k[3], 14, -187363961);
+	        b = this.gg(b, c, d, a, k[8], 20, 1163531501);
+	        a = this.gg(a, b, c, d, k[13], 5, -1444681467);
+	        d = this.gg(d, a, b, c, k[2], 9, -51403784);
+	        c = this.gg(c, d, a, b, k[7], 14, 1735328473);
+	        b = this.gg(b, c, d, a, k[12], 20, -1926607734);
+	        a = this.hh(a, b, c, d, k[5], 4, -378558);
+	        d = this.hh(d, a, b, c, k[8], 11, -2022574463);
+	        c = this.hh(c, d, a, b, k[11], 16, 1839030562);
+	        b = this.hh(b, c, d, a, k[14], 23, -35309556);
+	        a = this.hh(a, b, c, d, k[1], 4, -1530992060);
+	        d = this.hh(d, a, b, c, k[4], 11, 1272893353);
+	        c = this.hh(c, d, a, b, k[7], 16, -155497632);
+	        b = this.hh(b, c, d, a, k[10], 23, -1094730640);
+	        a = this.hh(a, b, c, d, k[13], 4, 681279174);
+	        d = this.hh(d, a, b, c, k[0], 11, -358537222);
+	        c = this.hh(c, d, a, b, k[3], 16, -722521979);
+	        b = this.hh(b, c, d, a, k[6], 23, 76029189);
+	        a = this.hh(a, b, c, d, k[9], 4, -640364487);
+	        d = this.hh(d, a, b, c, k[12], 11, -421815835);
+	        c = this.hh(c, d, a, b, k[15], 16, 530742520);
+	        b = this.hh(b, c, d, a, k[2], 23, -995338651);
+	        a = this.ii(a, b, c, d, k[0], 6, -198630844);
+	        d = this.ii(d, a, b, c, k[7], 10, 1126891415);
+	        c = this.ii(c, d, a, b, k[14], 15, -1416354905);
+	        b = this.ii(b, c, d, a, k[5], 21, -57434055);
+	        a = this.ii(a, b, c, d, k[12], 6, 1700485571);
+	        d = this.ii(d, a, b, c, k[3], 10, -1894986606);
+	        c = this.ii(c, d, a, b, k[10], 15, -1051523);
+	        b = this.ii(b, c, d, a, k[1], 21, -2054922799);
+	        a = this.ii(a, b, c, d, k[8], 6, 1873313359);
+	        d = this.ii(d, a, b, c, k[15], 10, -30611744);
+	        c = this.ii(c, d, a, b, k[6], 15, -1560198380);
+	        b = this.ii(b, c, d, a, k[13], 21, 1309151649);
+	        a = this.ii(a, b, c, d, k[4], 6, -145523070);
+	        d = this.ii(d, a, b, c, k[11], 10, -1120210379);
+	        c = this.ii(c, d, a, b, k[2], 15, 718787259);
+	        b = this.ii(b, c, d, a, k[9], 21, -343485551);
+	        x[0] = this.add32(a, x[0]);
+	        x[1] = this.add32(b, x[1]);
+	        x[2] = this.add32(c, x[2]);
+	        x[3] = this.add32(d, x[3]);
+	    };
+	    MD5.prototype.cmn = function (q, a, b, x, s, t) {
+	        a = this.add32(this.add32(a, q), this.add32(x, t));
+	        return this.add32((a << s) | (a >>> (32 - s)), b);
+	    };
+	    MD5.prototype.ff = function (a, b, c, d, x, s, t) {
+	        return this.cmn((b & c) | ((~b) & d), a, b, x, s, t);
+	    };
+	    MD5.prototype.gg = function (a, b, c, d, x, s, t) {
+	        return this.cmn((b & d) | (c & (~d)), a, b, x, s, t);
+	    };
+	    MD5.prototype.hh = function (a, b, c, d, x, s, t) {
+	        return this.cmn(b ^ c ^ d, a, b, x, s, t);
+	    };
+	    MD5.prototype.ii = function (a, b, c, d, x, s, t) {
+	        return this.cmn(c ^ (b | (~d)), a, b, x, s, t);
+	    };
+	    MD5.prototype.md51 = function (s) {
+	        var n = s.length, state = [1732584193, -271733879, -1732584194, 271733878], i;
+	        for (i = 64; i <= s.length; i += 64) {
+	            this.md5cycle(state, this.md5blk(s.substring(i - 64, i)));
+	        }
+	        s = s.substring(i - 64);
+	        var tail = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	        for (i = 0; i < s.length; i++)
+	            tail[i >> 2] |= s.charCodeAt(i) << ((i % 4) << 3);
+	        tail[i >> 2] |= 0x80 << ((i % 4) << 3);
+	        if (i > 55) {
+	            this.md5cycle(state, tail);
+	            for (i = 0; i < 16; i++)
+	                tail[i] = 0;
+	        }
+	        tail[14] = n * 8;
+	        this.md5cycle(state, tail);
+	        return state;
+	    };
+	    /* there needs to be support for Unicode here, * unless we pretend that we can redefine the MD-5
+	     * algorithm for multi-byte characters (perhaps by adding every four 16-bit characters and
+	     * shortening the sum to 32 bits). Otherwise I suthis.ggest performing MD-5 as if every character
+	     * was two bytes--e.g., 0040 0025 = @%--but then how will an ordinary MD-5 sum be matched?
+	     * There is no way to standardize text to something like UTF-8 before transformation; speed cost is
+	     * utterly prohibitive. The JavaScript standard itself needs to look at this: it should start
+	     * providing access to strings as preformed UTF-8 8-bit unsigned value arrays.
+	     */
+	    MD5.prototype.md5blk = function (s) {
+	        var md5blks = [], i;
+	        /* Andy King said do it this way. */
+	        for (i = 0; i < 64; i += 4) {
+	            md5blks[i >> 2] = s.charCodeAt(i)
+	                + (s.charCodeAt(i + 1) << 8)
+	                + (s.charCodeAt(i + 2) << 16)
+	                + (s.charCodeAt(i + 3) << 24);
+	        }
+	        return md5blks;
+	    };
+	    MD5.prototype.rhex = function (n) {
+	        var hex_chr = '0123456789abcdef'.split('');
+	        var s = '', j = 0;
+	        for (; j < 4; j++)
+	            s += hex_chr[(n >> (j * 8 + 4)) & 0x0F]
+	                + hex_chr[(n >> (j * 8)) & 0x0F];
+	        return s;
+	    };
+	    MD5.prototype.hex = function (x) {
+	        for (var i = 0; i < x.length; i++)
+	            x[i] = this.rhex(x[i]);
+	        return x.join('');
+	    };
+	    MD5.prototype.md5 = function (s) {
+	        return this.hex(this.md51(s));
+	    };
+	    MD5.prototype.add32 = function (a, b) {
+	        return this.ieCompatibility ? this.add32Compat(a, b) : this.add32Std(a, b);
+	    };
+	    /* this function is much faster, so if possible we use it. Some IEs are the only ones I know of that
+	     need the idiotic second function, generated by an if clause.  */
+	    MD5.prototype.add32Std = function (a, b) {
+	        return (a + b) & 0xFFFFFFFF;
+	    };
+	    MD5.prototype.add32Compat = function (x, y) {
+	        var lsw = (x & 0xFFFF) + (y & 0xFFFF), msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+	        return (msw << 16) | (lsw & 0xFFFF);
+	    };
+	    return MD5;
+	}());
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], MD5.prototype, "init", null);
+	MD5 = __decorate([
+	    main_1.Bean('md5')
+	], MD5);
+	exports.MD5 = MD5;
+
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var statusItem_1 = __webpack_require__(151);
+	var rangeController_1 = __webpack_require__(135);
+	var StatusBar = StatusBar_1 = (function (_super) {
+	    __extends(StatusBar, _super);
+	    function StatusBar() {
+	        var _this = _super.call(this, StatusBar_1.TEMPLATE) || this;
+	        _this.aggregationsComponent = new main_1.Component('<div class="ag-status-bar-aggregations"></div>');
+	        _this.infoLabel = new main_1.Component("<div class=\"ag-status-bar-info-label\"></div>");
+	        return _this;
+	    }
+	    StatusBar.prototype.init = function () {
+	        // we want to hide until the first aggregation comes in
+	        this.setVisible(false);
+	        this.createStatusItems();
+	        this.eventService.addEventListener(main_1.Events.EVENT_RANGE_SELECTION_CHANGED, this.onRangeSelectionChanged.bind(this));
+	        this.eventService.addEventListener(main_1.Events.EVENT_MODEL_UPDATED, this.onRangeSelectionChanged.bind(this));
+	    };
+	    StatusBar.prototype.createStatusItems = function () {
+	        var _this = this;
+	        var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	        this.statusItemSum = new statusItem_1.StatusItem(localeTextFunc('sum', 'Sum'));
+	        this.statusItemCount = new statusItem_1.StatusItem(localeTextFunc('count', 'Count'));
+	        this.statusItemMin = new statusItem_1.StatusItem(localeTextFunc('min', 'Min'));
+	        this.statusItemMax = new statusItem_1.StatusItem(localeTextFunc('max', 'Max'));
+	        this.statusItemAvg = new statusItem_1.StatusItem(localeTextFunc('average', 'Average'));
+	        this.forEachStatusItem(function (statusItem) {
+	            _this.context.wireBean(statusItem);
+	            _this.aggregationsComponent.appendChild(statusItem);
+	            statusItem.setVisible(false);
+	        });
+	        this.appendChild(this.infoLabel);
+	        this.appendChild(this.aggregationsComponent);
+	    };
+	    StatusBar.prototype.forEachStatusItem = function (callback) {
+	        [this.statusItemAvg, this.statusItemCount, this.statusItemMin, this.statusItemMax, this.statusItemSum].forEach(callback);
+	    };
+	    StatusBar.prototype.onRangeSelectionChanged = function () {
+	        var _this = this;
+	        var cellRanges = this.rangeController.getCellRanges();
+	        var sum = 0;
+	        var count = 0;
+	        var numberCount = 0;
+	        var min = null;
+	        var max = null;
+	        var cellsSoFar = {};
+	        if (!main_1._.missingOrEmpty(cellRanges)) {
+	            cellRanges.forEach(function (cellRange) {
+	                // get starting and ending row, remember rowEnd could be before rowStart
+	                var startRow = cellRange.start.getGridRow();
+	                var endRow = cellRange.end.getGridRow();
+	                var startRowIsFirst = startRow.before(endRow);
+	                var currentRow = startRowIsFirst ? startRow : endRow;
+	                var lastRow = startRowIsFirst ? endRow : startRow;
+	                while (true) {
+	                    cellRange.columns.forEach(function (column) {
+	                        // we only want to include each cell once, in case a cell is in multiple ranges
+	                        var cellId = currentRow.getGridCell(column).createId();
+	                        if (cellsSoFar[cellId]) {
+	                            return;
+	                        }
+	                        cellsSoFar[cellId] = true;
+	                        var rowNode = _this.getRowNode(currentRow);
+	                        if (main_1._.missing(rowNode)) {
+	                            return;
+	                        }
+	                        var value = _this.valueService.getValue(column, rowNode);
+	                        // if empty cell, skip it, doesn't impact count or anything
+	                        if (main_1._.missing(value) || value === '') {
+	                            return;
+	                        }
+	                        // see if value is wrapped, can happen when doing count() or avg() functions
+	                        if (value.value) {
+	                            value = value.value;
+	                        }
+	                        if (typeof value === 'string') {
+	                            value = Number(value);
+	                        }
+	                        if (typeof value === 'number' && !isNaN(value)) {
+	                            sum += value;
+	                            if (max === null || value > max) {
+	                                max = value;
+	                            }
+	                            if (min === null || value < min) {
+	                                min = value;
+	                            }
+	                            numberCount++;
+	                        }
+	                        count++;
+	                    });
+	                    if (currentRow.equals(lastRow)) {
+	                        break;
+	                    }
+	                    currentRow = _this.cellNavigationService.getRowBelow(currentRow);
+	                }
+	            });
+	        }
+	        var gotResult = count > 1;
+	        var gotNumberResult = numberCount > 1;
+	        // we should count even if no numbers
+	        if (gotResult) {
+	            this.statusItemCount.setValue(count);
+	        }
+	        this.statusItemCount.setVisible(gotResult);
+	        // if numbers, then show the number items
+	        if (gotNumberResult) {
+	            this.statusItemSum.setValue(sum);
+	            this.statusItemMin.setValue(min);
+	            this.statusItemMax.setValue(max);
+	            this.statusItemAvg.setValue(sum / numberCount);
+	        }
+	        this.statusItemSum.setVisible(gotNumberResult);
+	        this.statusItemMin.setVisible(gotNumberResult);
+	        this.statusItemMax.setVisible(gotNumberResult);
+	        this.statusItemAvg.setVisible(gotNumberResult);
+	        if (this.isVisible() !== gotResult) {
+	            this.setVisible(gotResult);
+	            this.gridCore.doLayout();
+	        }
+	    };
+	    StatusBar.prototype.getRowNode = function (gridRow) {
+	        switch (gridRow.floating) {
+	            case main_1.Constants.FLOATING_TOP:
+	                return this.floatingRowModel.getFloatingTopRowData()[gridRow.rowIndex];
+	            case main_1.Constants.FLOATING_BOTTOM:
+	                return this.floatingRowModel.getFloatingBottomRowData()[gridRow.rowIndex];
+	            default:
+	                return this.rowModel.getRow(gridRow.rowIndex);
+	        }
+	    };
+	    return StatusBar;
+	}(main_1.Component));
+	StatusBar.TEMPLATE = '<div class="ag-status-bar">' +
+	    '</div>';
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], StatusBar.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('rangeController'),
+	    __metadata("design:type", rangeController_1.RangeController)
+	], StatusBar.prototype, "rangeController", void 0);
+	__decorate([
+	    main_1.Autowired('valueService'),
+	    __metadata("design:type", main_1.ValueService)
+	], StatusBar.prototype, "valueService", void 0);
+	__decorate([
+	    main_1.Autowired('cellNavigationService'),
+	    __metadata("design:type", main_1.CellNavigationService)
+	], StatusBar.prototype, "cellNavigationService", void 0);
+	__decorate([
+	    main_1.Autowired('floatingRowModel'),
+	    __metadata("design:type", main_1.FloatingRowModel)
+	], StatusBar.prototype, "floatingRowModel", void 0);
+	__decorate([
+	    main_1.Autowired('rowModel'),
+	    __metadata("design:type", Object)
+	], StatusBar.prototype, "rowModel", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], StatusBar.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], StatusBar.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('gridCore'),
+	    __metadata("design:type", main_1.GridCore)
+	], StatusBar.prototype, "gridCore", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], StatusBar.prototype, "init", null);
+	StatusBar = StatusBar_1 = __decorate([
+	    main_1.Bean('statusBar'),
+	    __metadata("design:paramtypes", [])
+	], StatusBar);
+	exports.StatusBar = StatusBar;
+	var StatusBar_1;
+
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var StatusItem = (function (_super) {
+	    __extends(StatusItem, _super);
+	    function StatusItem(label) {
+	        var _this = _super.call(this, StatusItem.TEMPLATE) || this;
+	        _this.queryForHtmlElement('#_label').innerHTML = label;
+	        return _this;
+	    }
+	    StatusItem.prototype.init = function () {
+	        this.lbValue = this.queryForHtmlElement('#_value');
+	    };
+	    StatusItem.prototype.setValue = function (value) {
+	        this.lbValue.innerHTML = main_1.Utils.formatNumberTwoDecimalPlacesAndCommas(value);
+	    };
+	    return StatusItem;
+	}(main_1.Component));
+	StatusItem.TEMPLATE = '<span class="ag-status-bar-item">' +
+	    '  <span id="_label"></span>' +
+	    '  <span id="_value"></span>' +
+	    '</span>';
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], StatusItem.prototype, "init", null);
+	exports.StatusItem = StatusItem;
+
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var clipboardService_1 = __webpack_require__(134);
+	var menuItemComponent_1 = __webpack_require__(132);
+	var menuList_1 = __webpack_require__(131);
+	var menuItemMapper_1 = __webpack_require__(133);
+	var ContextMenuFactory = (function () {
+	    function ContextMenuFactory() {
+	    }
+	    ContextMenuFactory.prototype.init = function () {
+	    };
+	    ContextMenuFactory.prototype.getMenuItems = function (node, column, value) {
+	        var defaultMenuOptions;
+	        if (ag_grid_1.Utils.exists(node)) {
+	            // if user clicks a cell
+	            defaultMenuOptions = ['copy', 'copyWithHeaders', 'paste', 'separator', 'toolPanel'];
+	            // only put in the export if normal row model, other row models confuse things with export.
+	            if (this.rowModel.getType() === ag_grid_1.Constants.ROW_MODEL_TYPE_NORMAL) {
+	                defaultMenuOptions.push('export');
+	            }
+	        }
+	        else {
+	            // if user clicks outside of a cell (eg below the rows, or not rows present)
+	            defaultMenuOptions = ['toolPanel'];
+	        }
+	        if (this.gridOptionsWrapper.getContextMenuItemsFunc()) {
+	            var userFunc = this.gridOptionsWrapper.getContextMenuItemsFunc();
+	            var params = {
+	                node: node,
+	                column: column,
+	                value: value,
+	                defaultItems: defaultMenuOptions,
+	                api: this.gridOptionsWrapper.getApi(),
+	                columnApi: this.gridOptionsWrapper.getColumnApi(),
+	                context: this.gridOptionsWrapper.getContext()
+	            };
+	            var menuItemsFromUser = userFunc(params);
+	            return menuItemsFromUser;
+	        }
+	        else {
+	            return defaultMenuOptions;
+	        }
+	    };
+	    ContextMenuFactory.prototype.showMenu = function (node, column, value, mouseEvent) {
+	        var menuItems = this.getMenuItems(node, column, value);
+	        if (ag_grid_1.Utils.missingOrEmpty(menuItems)) {
+	            return;
+	        }
+	        var menu = new ContextMenu(menuItems);
+	        this.context.wireBean(menu);
+	        var eMenuGui = menu.getGui();
+	        // need to show filter before positioning, as only after filter
+	        // is visible can we find out what the width of it is
+	        var hidePopup = this.popupService.addAsModalPopup(eMenuGui, true, function () { return menu.destroy(); });
+	        this.popupService.positionPopupUnderMouseEvent({
+	            column: column,
+	            rowNode: node,
+	            type: 'contextMenu',
+	            mouseEvent: mouseEvent,
+	            ePopup: eMenuGui
+	        });
+	        menu.afterGuiAttached(hidePopup);
+	    };
+	    return ContextMenuFactory;
+	}());
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], ContextMenuFactory.prototype, "context", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('popupService'),
+	    __metadata("design:type", ag_grid_1.PopupService)
+	], ContextMenuFactory.prototype, "popupService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", ag_grid_1.GridOptionsWrapper)
+	], ContextMenuFactory.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('rowModel'),
+	    __metadata("design:type", Object)
+	], ContextMenuFactory.prototype, "rowModel", void 0);
+	__decorate([
+	    ag_grid_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ContextMenuFactory.prototype, "init", null);
+	ContextMenuFactory = __decorate([
+	    ag_grid_1.Bean('contextMenuFactory')
+	], ContextMenuFactory);
+	exports.ContextMenuFactory = ContextMenuFactory;
+	var ContextMenu = (function (_super) {
+	    __extends(ContextMenu, _super);
+	    function ContextMenu(menuItems) {
+	        var _this = _super.call(this, '<div class="ag-menu"></div>') || this;
+	        _this.menuItems = menuItems;
+	        return _this;
+	    }
+	    ContextMenu.prototype.addMenuItems = function () {
+	        var menuList = new menuList_1.MenuList();
+	        this.context.wireBean(menuList);
+	        var menuItemsMapped = this.menuItemMapper.mapWithStockItems(this.menuItems, null);
+	        menuList.addMenuItems(menuItemsMapped);
+	        this.appendChild(menuList);
+	        menuList.addEventListener(menuItemComponent_1.MenuItemComponent.EVENT_ITEM_SELECTED, this.destroy.bind(this));
+	    };
+	    ContextMenu.prototype.afterGuiAttached = function (hidePopup) {
+	        this.addDestroyFunc(hidePopup);
+	        // if the body scrolls, we want to hide the menu, as the menu will not appear in the right location anymore
+	        this.addDestroyableEventListener(this.eventService, 'bodyScroll', this.destroy.bind(this));
+	    };
+	    return ContextMenu;
+	}(ag_grid_1.Component));
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], ContextMenu.prototype, "context", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('clipboardService'),
+	    __metadata("design:type", clipboardService_1.ClipboardService)
+	], ContextMenu.prototype, "clipboardService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", ag_grid_1.GridOptionsWrapper)
+	], ContextMenu.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('gridApi'),
+	    __metadata("design:type", ag_grid_1.GridApi)
+	], ContextMenu.prototype, "gridApi", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('eventService'),
+	    __metadata("design:type", ag_grid_1.EventService)
+	], ContextMenu.prototype, "eventService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('menuItemMapper'),
+	    __metadata("design:type", menuItemMapper_1.MenuItemMapper)
+	], ContextMenu.prototype, "menuItemMapper", void 0);
+	__decorate([
+	    ag_grid_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ContextMenu.prototype, "addMenuItems", null);
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var ViewportRowModel = (function () {
+	    function ViewportRowModel() {
+	        // rowRenderer tells us these
+	        this.firstRow = -1;
+	        this.lastRow = -1;
+	        // datasource tells us this
+	        this.rowCount = -1;
+	        this.rowNodesByIndex = {};
+	    }
+	    ViewportRowModel.prototype.init = function () {
+	        this.rowHeight = this.gridOptionsWrapper.getRowHeightAsNumber();
+	        this.eventService.addEventListener(main_1.Events.EVENT_VIEWPORT_CHANGED, this.onViewportChanged.bind(this));
+	        var viewportEnabled = this.gridOptionsWrapper.isRowModelViewport();
+	        if (viewportEnabled && this.gridOptionsWrapper.getViewportDatasource()) {
+	            this.setViewportDatasource(this.gridOptionsWrapper.getViewportDatasource());
+	        }
+	    };
+	    ViewportRowModel.prototype.destroy = function () {
+	        this.destroyCurrentDatasource();
+	    };
+	    ViewportRowModel.prototype.isLastRowFound = function () {
+	        return true;
+	    };
+	    ViewportRowModel.prototype.destroyCurrentDatasource = function () {
+	        if (this.viewportDatasource && this.viewportDatasource.destroy) {
+	            this.viewportDatasource.destroy();
+	        }
+	    };
+	    ViewportRowModel.prototype.calculateFirstRow = function (firstRenderedRow) {
+	        var bufferSize = this.gridOptionsWrapper.getViewportRowModelBufferSize();
+	        var pageSize = this.gridOptionsWrapper.getViewportRowModelPageSize();
+	        var afterBuffer = firstRenderedRow - bufferSize;
+	        if (afterBuffer < 0) {
+	            return 0;
+	        }
+	        else {
+	            return Math.floor(afterBuffer / pageSize) * pageSize;
+	        }
+	    };
+	    ViewportRowModel.prototype.calculateLastRow = function (lastRenderedRow) {
+	        var bufferSize = this.gridOptionsWrapper.getViewportRowModelBufferSize();
+	        var pageSize = this.gridOptionsWrapper.getViewportRowModelPageSize();
+	        var afterBuffer = lastRenderedRow + bufferSize;
+	        var result = Math.ceil(afterBuffer / pageSize) * pageSize;
+	        if (result <= this.rowCount) {
+	            return result;
+	        }
+	        else {
+	            return this.rowCount;
+	        }
+	    };
+	    ViewportRowModel.prototype.onViewportChanged = function (event) {
+	        var newFirst = this.calculateFirstRow(event.firstRow);
+	        var newLast = this.calculateLastRow(event.lastRow);
+	        if (this.firstRow !== newFirst || this.lastRow !== newLast) {
+	            this.firstRow = newFirst;
+	            this.lastRow = newLast;
+	            this.purgeRowsNotInViewport();
+	            if (this.viewportDatasource) {
+	                this.viewportDatasource.setViewportRange(this.firstRow, this.lastRow);
+	            }
+	        }
+	    };
+	    ViewportRowModel.prototype.purgeRowsNotInViewport = function () {
+	        var _this = this;
+	        Object.keys(this.rowNodesByIndex).forEach(function (indexStr) {
+	            var index = parseInt(indexStr);
+	            if (index < _this.firstRow || index > _this.lastRow) {
+	                delete _this.rowNodesByIndex[index];
+	            }
+	        });
+	    };
+	    ViewportRowModel.prototype.setViewportDatasource = function (viewportDatasource) {
+	        this.destroyCurrentDatasource();
+	        this.viewportDatasource = viewportDatasource;
+	        this.rowCount = 0;
+	        if (!viewportDatasource.init) {
+	            console.warn('ag-Grid: viewport is missing init method.');
+	        }
+	        else {
+	            viewportDatasource.init({
+	                setRowCount: this.setRowCount.bind(this),
+	                setRowData: this.setRowData.bind(this),
+	                getRow: this.getRow.bind(this)
+	            });
+	        }
+	    };
+	    ViewportRowModel.prototype.getType = function () {
+	        return main_1.Constants.ROW_MODEL_TYPE_VIEWPORT;
+	    };
+	    ViewportRowModel.prototype.getRow = function (rowIndex) {
+	        if (!this.rowNodesByIndex[rowIndex]) {
+	            this.rowNodesByIndex[rowIndex] = this.createBlankRowNode(rowIndex);
+	        }
+	        return this.rowNodesByIndex[rowIndex];
+	    };
+	    ViewportRowModel.prototype.getPageFirstRow = function () {
+	        return 0;
+	    };
+	    ViewportRowModel.prototype.getPageLastRow = function () {
+	        return this.rowCount - 1;
+	    };
+	    ViewportRowModel.prototype.getRowCount = function () {
+	        return this.rowCount;
+	    };
+	    ViewportRowModel.prototype.getRowIndexAtPixel = function (pixel) {
+	        if (this.rowHeight !== 0) {
+	            return Math.floor(pixel / this.rowHeight);
+	        }
+	        else {
+	            return 0;
+	        }
+	    };
+	    ViewportRowModel.prototype.getRowBounds = function (index) {
+	        return {
+	            rowHeight: this.rowHeight,
+	            rowTop: this.rowHeight * index
+	        };
+	    };
+	    ViewportRowModel.prototype.getCurrentPageHeight = function () {
+	        return this.rowCount * this.rowHeight;
+	    };
+	    ViewportRowModel.prototype.isEmpty = function () {
+	        return this.rowCount > 0;
+	    };
+	    ViewportRowModel.prototype.isRowsToRender = function () {
+	        return this.rowCount > 0;
+	    };
+	    ViewportRowModel.prototype.forEachNode = function (callback) {
+	        var _this = this;
+	        var callbackCount = 0;
+	        Object.keys(this.rowNodesByIndex).forEach(function (indexStr) {
+	            var index = parseInt(indexStr);
+	            var rowNode = _this.rowNodesByIndex[index];
+	            callback(rowNode, callbackCount);
+	            callbackCount++;
+	        });
+	    };
+	    ViewportRowModel.prototype.setRowData = function (rowData) {
+	        var _this = this;
+	        main_1.Utils.iterateObject(rowData, function (indexStr, dataItem) {
+	            var index = parseInt(indexStr);
+	            // we should never keep rows that we didn't specifically ask for, this
+	            // guarantees the contract we have with the server.
+	            if (index >= _this.firstRow && index <= _this.lastRow) {
+	                var rowNode = _this.rowNodesByIndex[index];
+	                // the abnormal case is we requested a row even though the grid didn't need it
+	                // as a result of the paging and buffer (ie the row is off screen), in which
+	                // case we need to create a new node now
+	                if (main_1.Utils.missing(rowNode)) {
+	                    rowNode = _this.createBlankRowNode(index);
+	                    _this.rowNodesByIndex[index] = rowNode;
+	                }
+	                // now we deffo have a row node, so set in the details
+	                // if the grid already asked for this row (the normal case), then we would
+	                // of put a placeholder node in place.
+	                rowNode.setDataAndId(dataItem, index.toString());
+	            }
+	        });
+	    };
+	    ViewportRowModel.prototype.createBlankRowNode = function (rowIndex) {
+	        var rowNode = new main_1.RowNode();
+	        this.context.wireBean(rowNode);
+	        rowNode.setRowHeight(this.rowHeight);
+	        rowNode.setRowTop(this.rowHeight * rowIndex);
+	        rowNode.setRowIndex(rowIndex);
+	        return rowNode;
+	    };
+	    ViewportRowModel.prototype.setRowCount = function (rowCount) {
+	        if (rowCount !== this.rowCount) {
+	            this.rowCount = rowCount;
+	            this.eventService.dispatchEvent(main_1.Events.EVENT_MODEL_UPDATED);
+	        }
+	    };
+	    ViewportRowModel.prototype.isRowPresent = function (rowNode) {
+	        console.log('not yet supported');
+	        return false;
+	    };
+	    return ViewportRowModel;
+	}());
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], ViewportRowModel.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], ViewportRowModel.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('selectionController'),
+	    __metadata("design:type", main_1.SelectionController)
+	], ViewportRowModel.prototype, "selectionController", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], ViewportRowModel.prototype, "context", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ViewportRowModel.prototype, "init", null);
+	__decorate([
+	    main_1.PreDestroy,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ViewportRowModel.prototype, "destroy", null);
+	ViewportRowModel = __decorate([
+	    main_1.Bean('rowModel')
+	], ViewportRowModel);
+	exports.ViewportRowModel = ViewportRowModel;
+
+
+/***/ }),
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var abstractColumnDropPanel_1 = __webpack_require__(155);
+	var svgFactory = main_1.SvgFactory.getInstance();
+	var PivotColumnsPanel = (function (_super) {
+	    __extends(PivotColumnsPanel, _super);
+	    function PivotColumnsPanel(horizontal) {
+	        return _super.call(this, horizontal, false, 'pivot') || this;
+	    }
+	    PivotColumnsPanel.prototype.passBeansUp = function () {
+	        _super.prototype.setBeans.call(this, {
+	            gridOptionsWrapper: this.gridOptionsWrapper,
+	            eventService: this.eventService,
+	            context: this.context,
+	            loggerFactory: this.loggerFactory,
+	            dragAndDropService: this.dragAndDropService
+	        });
+	        var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	        var emptyMessage = localeTextFunc('pivotColumnsEmptyMessage', 'Drag here to set column labels');
+	        var title = localeTextFunc('pivots', 'Column Labels');
+	        _super.prototype.init.call(this, {
+	            dragAndDropIcon: main_1.DragAndDropService.ICON_GROUP,
+	            icon: main_1.Utils.createIconNoSpan('pivotPanel', this.gridOptionsWrapper, null, svgFactory.createPivotIcon),
+	            emptyMessage: emptyMessage,
+	            title: title
+	        });
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_EVERYTHING_CHANGED, this.refresh.bind(this));
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_PIVOT_CHANGED, this.refresh.bind(this));
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_PIVOT_MODE_CHANGED, this.checkVisibility.bind(this));
+	        this.refresh();
+	    };
+	    PivotColumnsPanel.prototype.refresh = function () {
+	        this.checkVisibility();
+	        this.refreshGui();
+	    };
+	    PivotColumnsPanel.prototype.checkVisibility = function () {
+	        var pivotMode = this.columnController.isPivotMode();
+	        if (this.isHorizontal()) {
+	            // what we do for horizontal (ie the pivot panel at the top) depends
+	            // on the user property as well as pivotMode.
+	            switch (this.gridOptionsWrapper.getPivotPanelShow()) {
+	                case 'always':
+	                    this.setVisible(pivotMode);
+	                    break;
+	                case 'onlyWhenPivoting':
+	                    var pivotActive = this.columnController.isPivotActive();
+	                    this.setVisible(pivotMode && pivotActive);
+	                    break;
+	                default:
+	                    // never show it
+	                    this.setVisible(false);
+	                    break;
+	            }
+	        }
+	        else {
+	            // in toolPanel, the pivot panel is always shown when pivot mode is on
+	            this.setVisible(pivotMode);
+	        }
+	    };
+	    PivotColumnsPanel.prototype.isColumnDroppable = function (column) {
+	        if (this.gridOptionsWrapper.isFunctionsReadOnly()) {
+	            return false;
+	        }
+	        // we never allow grouping of secondary columns
+	        if (!column.isPrimary()) {
+	            return false;
+	        }
+	        var allowPivot = column.isAllowPivot();
+	        var columnNotAlreadyPivoted = !column.isPivotActive();
+	        return allowPivot && columnNotAlreadyPivoted;
+	    };
+	    PivotColumnsPanel.prototype.updateColumns = function (columns) {
+	        if (this.gridOptionsWrapper.isFunctionsPassive()) {
+	            this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_PIVOT_CHANGE_REQUEST, { columns: columns });
+	        }
+	        else {
+	            this.columnController.setPivotColumns(columns);
+	        }
+	    };
+	    PivotColumnsPanel.prototype.getIconName = function () {
+	        return this.isPotentialDndColumns() ? main_1.DragAndDropService.ICON_PIVOT : main_1.DragAndDropService.ICON_NOT_ALLOWED;
+	    };
+	    PivotColumnsPanel.prototype.getExistingColumns = function () {
+	        return this.columnController.getPivotColumns();
+	    };
+	    return PivotColumnsPanel;
+	}(abstractColumnDropPanel_1.AbstractColumnDropPanel));
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], PivotColumnsPanel.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], PivotColumnsPanel.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], PivotColumnsPanel.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], PivotColumnsPanel.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('loggerFactory'),
+	    __metadata("design:type", main_1.LoggerFactory)
+	], PivotColumnsPanel.prototype, "loggerFactory", void 0);
+	__decorate([
+	    main_1.Autowired('dragAndDropService'),
+	    __metadata("design:type", main_1.DragAndDropService)
+	], PivotColumnsPanel.prototype, "dragAndDropService", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], PivotColumnsPanel.prototype, "passBeansUp", null);
+	exports.PivotColumnsPanel = PivotColumnsPanel;
+
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var main_1 = __webpack_require__(2);
+	var columnComponent_1 = __webpack_require__(156);
+	var AbstractColumnDropPanel = (function (_super) {
+	    __extends(AbstractColumnDropPanel, _super);
+	    function AbstractColumnDropPanel(horizontal, valueColumn, name) {
+	        var _this = _super.call(this, "<div class=\"ag-column-drop ag-font-style ag-column-drop-" + (horizontal ? 'horizontal' : 'vertical') + " ag-column-drop-" + name + "\"></div>") || this;
+	        _this.state = AbstractColumnDropPanel.STATE_NOT_DRAGGING;
+	        _this.guiDestroyFunctions = [];
+	        _this.childColumnComponents = [];
+	        _this.horizontal = horizontal;
+	        _this.valueColumn = valueColumn;
+	        return _this;
+	    }
+	    AbstractColumnDropPanel.prototype.isHorizontal = function () {
+	        return this.horizontal;
+	    };
+	    AbstractColumnDropPanel.prototype.setBeans = function (beans) {
+	        this.beans = beans;
+	    };
+	    AbstractColumnDropPanel.prototype.destroy = function () {
+	        this.destroyGui();
+	        _super.prototype.destroy.call(this);
+	    };
+	    AbstractColumnDropPanel.prototype.destroyGui = function () {
+	        this.guiDestroyFunctions.forEach(function (func) { return func(); });
+	        this.guiDestroyFunctions.length = 0;
+	        this.childColumnComponents.length = 0;
+	        main_1.Utils.removeAllChildren(this.getGui());
+	    };
+	    AbstractColumnDropPanel.prototype.init = function (params) {
+	        this.params = params;
+	        this.logger = this.beans.loggerFactory.create('AbstractColumnDropPanel');
+	        this.beans.eventService.addEventListener(main_1.Events.EVENT_COLUMN_EVERYTHING_CHANGED, this.refreshGui.bind(this));
+	        this.addDestroyableEventListener(this.beans.gridOptionsWrapper, 'functionsReadOnly', this.refreshGui.bind(this));
+	        this.setupDropTarget();
+	        // we don't know if this bean will be initialised before columnController.
+	        // if columnController first, then below will work
+	        // if columnController second, then below will put blank in, and then above event gets first when columnController is set up
+	        this.refreshGui();
+	    };
+	    AbstractColumnDropPanel.prototype.setupDropTarget = function () {
+	        this.dropTarget = {
+	            getContainer: this.getGui.bind(this),
+	            getIconName: this.getIconName.bind(this),
+	            onDragging: this.onDragging.bind(this),
+	            onDragEnter: this.onDragEnter.bind(this),
+	            onDragLeave: this.onDragLeave.bind(this),
+	            onDragStop: this.onDragStop.bind(this)
+	        };
+	        this.beans.dragAndDropService.addDropTarget(this.dropTarget);
+	    };
+	    AbstractColumnDropPanel.prototype.checkInsertIndex = function (draggingEvent) {
+	        var newIndex;
+	        if (this.horizontal) {
+	            newIndex = this.getNewHorizontalInsertIndex(draggingEvent);
+	        }
+	        else {
+	            newIndex = this.getNewVerticalInsertIndex(draggingEvent);
+	        }
+	        // <0 happens when drag is no a direction we are interested in, eg drag is up/down but in horizontal panel
+	        if (newIndex < 0) {
+	            return false;
+	        }
+	        var changed = newIndex !== this.insertIndex;
+	        if (changed) {
+	            this.insertIndex = newIndex;
+	        }
+	        return changed;
+	    };
+	    AbstractColumnDropPanel.prototype.getNewHorizontalInsertIndex = function (draggingEvent) {
+	        if (main_1.Utils.missing(draggingEvent.hDirection)) {
+	            return -1;
+	        }
+	        var newIndex = 0;
+	        var mouseEvent = draggingEvent.event;
+	        var enableRtl = this.beans.gridOptionsWrapper.isEnableRtl();
+	        var goingLeft = draggingEvent.hDirection === main_1.HDirection.Left;
+	        var mouseX = mouseEvent.clientX;
+	        this.childColumnComponents.forEach(function (childColumn) {
+	            var rect = childColumn.getGui().getBoundingClientRect();
+	            var rectX = goingLeft ? rect.right : rect.left;
+	            var horizontalFit = enableRtl ? (mouseX <= rectX) : (mouseX >= rectX);
+	            if (horizontalFit) {
+	                newIndex++;
+	            }
+	        });
+	        return newIndex;
+	    };
+	    AbstractColumnDropPanel.prototype.getNewVerticalInsertIndex = function (draggingEvent) {
+	        if (main_1.Utils.missing(draggingEvent.vDirection)) {
+	            return -1;
+	        }
+	        var newIndex = 0;
+	        var mouseEvent = draggingEvent.event;
+	        this.childColumnComponents.forEach(function (childColumn) {
+	            var rect = childColumn.getGui().getBoundingClientRect();
+	            if (draggingEvent.vDirection === main_1.VDirection.Down) {
+	                var verticalFit = mouseEvent.clientY >= rect.top;
+	                if (verticalFit) {
+	                    newIndex++;
+	                }
+	            }
+	            else {
+	                var verticalFit = mouseEvent.clientY >= rect.bottom;
+	                if (verticalFit) {
+	                    newIndex++;
+	                }
+	            }
+	        });
+	        return newIndex;
+	    };
+	    AbstractColumnDropPanel.prototype.checkDragStartedBySelf = function (draggingEvent) {
+	        if (this.state !== AbstractColumnDropPanel.STATE_NOT_DRAGGING) {
+	            return;
+	        }
+	        this.state = AbstractColumnDropPanel.STATE_REARRANGE_COLUMNS;
+	        this.potentialDndColumns = draggingEvent.dragSource.dragItem;
+	        this.refreshGui();
+	        this.checkInsertIndex(draggingEvent);
+	        this.refreshGui();
+	    };
+	    AbstractColumnDropPanel.prototype.onDragging = function (draggingEvent) {
+	        this.checkDragStartedBySelf(draggingEvent);
+	        var positionChanged = this.checkInsertIndex(draggingEvent);
+	        if (positionChanged) {
+	            this.refreshGui();
+	        }
+	    };
+	    AbstractColumnDropPanel.prototype.onDragEnter = function (draggingEvent) {
+	        // this will contain all columns that are potential drops
+	        var dragColumns = draggingEvent.dragSource.dragItem;
+	        this.state = AbstractColumnDropPanel.STATE_NEW_COLUMNS_IN;
+	        // take out columns that are not groupable
+	        var goodDragColumns = main_1.Utils.filter(dragColumns, this.isColumnDroppable.bind(this));
+	        var weHaveColumnsToDrag = goodDragColumns.length > 0;
+	        if (weHaveColumnsToDrag) {
+	            this.potentialDndColumns = goodDragColumns;
+	            this.checkInsertIndex(draggingEvent);
+	            this.refreshGui();
+	        }
+	    };
+	    AbstractColumnDropPanel.prototype.isPotentialDndColumns = function () {
+	        return main_1.Utils.existsAndNotEmpty(this.potentialDndColumns);
+	    };
+	    AbstractColumnDropPanel.prototype.onDragLeave = function (draggingEvent) {
+	        // if the dragging started from us, we remove the group, however if it started
+	        // someplace else, then we don't, as it was only 'asking'
+	        if (this.state === AbstractColumnDropPanel.STATE_REARRANGE_COLUMNS) {
+	            var columns = draggingEvent.dragSource.dragItem;
+	            this.removeColumns(columns);
+	        }
+	        if (this.potentialDndColumns) {
+	            this.potentialDndColumns = null;
+	            this.refreshGui();
+	        }
+	        this.state = AbstractColumnDropPanel.STATE_NOT_DRAGGING;
+	    };
+	    AbstractColumnDropPanel.prototype.onDragStop = function () {
+	        if (this.potentialDndColumns) {
+	            var success = void 0;
+	            if (this.state === AbstractColumnDropPanel.STATE_NEW_COLUMNS_IN) {
+	                this.addColumns(this.potentialDndColumns);
+	                success = true;
+	            }
+	            else {
+	                success = this.rearrangeColumns(this.potentialDndColumns);
+	            }
+	            this.potentialDndColumns = null;
+	            // if the function is passive, then we don't refresh, as we assume the client application
+	            // is going to call setRowGroups / setPivots / setValues at a later point which will then
+	            // cause a refresh. this gives a nice gui where the ghost stays until the app has caught
+	            // up with the changes.
+	            if (this.beans.gridOptionsWrapper.isFunctionsPassive()) {
+	                // when functions are passive, we don't refresh,
+	                // unless there was no change in the order, then we
+	                // do need to refresh to reset the columns
+	                if (!success) {
+	                    this.refreshGui();
+	                }
+	            }
+	            else {
+	                this.refreshGui();
+	            }
+	        }
+	        this.state = AbstractColumnDropPanel.STATE_NOT_DRAGGING;
+	    };
+	    AbstractColumnDropPanel.prototype.removeColumns = function (columnsToRemove) {
+	        var newColumnList = this.getExistingColumns().slice();
+	        columnsToRemove.forEach(function (column) { return main_1.Utils.removeFromArray(newColumnList, column); });
+	        this.updateColumns(newColumnList);
+	    };
+	    AbstractColumnDropPanel.prototype.addColumns = function (columnsToAdd) {
+	        var newColumnList = this.getExistingColumns().slice();
+	        main_1.Utils.insertArrayIntoArray(newColumnList, columnsToAdd, this.insertIndex);
+	        this.updateColumns(newColumnList);
+	    };
+	    AbstractColumnDropPanel.prototype.rearrangeColumns = function (columnsToAdd) {
+	        var newColumnList = this.getNonGhostColumns().slice();
+	        main_1.Utils.insertArrayIntoArray(newColumnList, columnsToAdd, this.insertIndex);
+	        var noChangeDetected = main_1.Utils.shallowCompare(newColumnList, this.getExistingColumns());
+	        if (noChangeDetected) {
+	            return false;
+	        }
+	        else {
+	            this.updateColumns(newColumnList);
+	            return true;
+	        }
+	    };
+	    AbstractColumnDropPanel.prototype.refreshGui = function () {
+	        this.destroyGui();
+	        this.addIconAndTitleToGui();
+	        this.addEmptyMessageToGui();
+	        this.addColumnsToGui();
+	    };
+	    AbstractColumnDropPanel.prototype.getNonGhostColumns = function () {
+	        var _this = this;
+	        var existingColumns = this.getExistingColumns();
+	        var nonGhostColumns;
+	        if (main_1.Utils.exists(this.potentialDndColumns)) {
+	            nonGhostColumns = main_1.Utils.filter(existingColumns, function (column) { return _this.potentialDndColumns.indexOf(column) < 0; });
+	        }
+	        else {
+	            nonGhostColumns = existingColumns;
+	        }
+	        return nonGhostColumns;
+	    };
+	    AbstractColumnDropPanel.prototype.addColumnsToGui = function () {
+	        var _this = this;
+	        var nonGhostColumns = this.getNonGhostColumns();
+	        var itemsToAddToGui = [];
+	        var addingGhosts = main_1.Utils.exists(this.potentialDndColumns);
+	        nonGhostColumns.forEach(function (column, index) {
+	            if (addingGhosts && index >= _this.insertIndex) {
+	                return;
+	            }
+	            var columnComponent = _this.createColumnComponent(column, false);
+	            itemsToAddToGui.push(columnComponent);
+	        });
+	        if (this.potentialDndColumns) {
+	            this.potentialDndColumns.forEach(function (column) {
+	                var columnComponent = _this.createColumnComponent(column, true);
+	                itemsToAddToGui.push(columnComponent);
+	            });
+	            nonGhostColumns.forEach(function (column, index) {
+	                if (index < _this.insertIndex) {
+	                    return;
+	                }
+	                var columnComponent = _this.createColumnComponent(column, false);
+	                itemsToAddToGui.push(columnComponent);
+	            });
+	        }
+	        itemsToAddToGui.forEach(function (columnComponent, index) {
+	            var needSeparator = index !== 0;
+	            if (needSeparator) {
+	                _this.addArrowToGui();
+	            }
+	            _this.getGui().appendChild(columnComponent.getGui());
+	        });
+	    };
+	    AbstractColumnDropPanel.prototype.createColumnComponent = function (column, ghost) {
+	        var columnComponent = new columnComponent_1.ColumnComponent(column, this.dropTarget, ghost, this.valueColumn);
+	        columnComponent.addEventListener(columnComponent_1.ColumnComponent.EVENT_COLUMN_REMOVE, this.removeColumns.bind(this, [column]));
+	        this.beans.context.wireBean(columnComponent);
+	        this.guiDestroyFunctions.push(function () { return columnComponent.destroy(); });
+	        if (!ghost) {
+	            this.childColumnComponents.push(columnComponent);
+	        }
+	        return columnComponent;
+	    };
+	    AbstractColumnDropPanel.prototype.addIconAndTitleToGui = function () {
+	        var iconFaded = this.horizontal && this.isExistingColumnsEmpty();
+	        var eGroupIcon = this.params.icon;
+	        main_1.Utils.addCssClass(eGroupIcon, 'ag-column-drop-icon');
+	        main_1.Utils.addOrRemoveCssClass(eGroupIcon, 'ag-faded', iconFaded);
+	        this.getGui().appendChild(eGroupIcon);
+	        if (!this.horizontal) {
+	            var eTitle = document.createElement('span');
+	            eTitle.innerHTML = this.params.title;
+	            main_1.Utils.addCssClass(eTitle, 'ag-column-drop-title');
+	            main_1.Utils.addOrRemoveCssClass(eTitle, 'ag-faded', iconFaded);
+	            this.getGui().appendChild(eTitle);
+	        }
+	    };
+	    AbstractColumnDropPanel.prototype.isExistingColumnsEmpty = function () {
+	        return this.getExistingColumns().length === 0;
+	    };
+	    AbstractColumnDropPanel.prototype.addEmptyMessageToGui = function () {
+	        var showEmptyMessage = this.isExistingColumnsEmpty() && !this.potentialDndColumns;
+	        if (!showEmptyMessage) {
+	            return;
+	        }
+	        var eMessage = document.createElement('span');
+	        eMessage.innerHTML = this.params.emptyMessage;
+	        main_1.Utils.addCssClass(eMessage, 'ag-column-drop-empty-message');
+	        this.getGui().appendChild(eMessage);
+	    };
+	    AbstractColumnDropPanel.prototype.addArrowToGui = function () {
+	        // only add the arrows if the layout is horizontal
+	        if (this.horizontal) {
+	            // for RTL it's a left arrow, otherwise it's a right arrow
+	            var enableRtl = this.beans.gridOptionsWrapper.isEnableRtl();
+	            var charCode = enableRtl ?
+	                AbstractColumnDropPanel.CHAR_LEFT_ARROW : AbstractColumnDropPanel.CHAR_RIGHT_ARROW;
+	            var eArrow = document.createElement('span');
+	            eArrow.innerHTML = charCode;
+	            this.getGui().appendChild(eArrow);
+	        }
+	    };
+	    return AbstractColumnDropPanel;
+	}(main_1.Component));
+	AbstractColumnDropPanel.STATE_NOT_DRAGGING = 'notDragging';
+	AbstractColumnDropPanel.STATE_NEW_COLUMNS_IN = 'newColumnsIn';
+	AbstractColumnDropPanel.STATE_REARRANGE_COLUMNS = 'rearrangeColumns';
+	AbstractColumnDropPanel.CHAR_LEFT_ARROW = '&#8592;';
+	AbstractColumnDropPanel.CHAR_RIGHT_ARROW = '&#8594;';
+	exports.AbstractColumnDropPanel = AbstractColumnDropPanel;
+
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var virtualList_1 = __webpack_require__(145);
+	var aggFuncService_1 = __webpack_require__(136);
+	var ColumnComponent = (function (_super) {
+	    __extends(ColumnComponent, _super);
+	    function ColumnComponent(column, dragSourceDropTarget, ghost, valueColumn) {
+	        var _this = _super.call(this) || this;
+	        _this.popupShowing = false;
+	        _this.valueColumn = valueColumn;
+	        _this.column = column;
+	        _this.dragSourceDropTarget = dragSourceDropTarget;
+	        _this.ghost = ghost;
+	        return _this;
+	    }
+	    ColumnComponent.prototype.init = function () {
+	        this.setTemplate(ColumnComponent.TEMPLATE);
+	        this.displayName = this.columnController.getDisplayNameForColumn(this.column, 'columnDrop');
+	        this.setupComponents();
+	        if (!this.ghost && !this.gridOptionsWrapper.isFunctionsReadOnly()) {
+	            this.addDragSource();
+	        }
+	    };
+	    ColumnComponent.prototype.addDragSource = function () {
+	        var _this = this;
+	        var dragSource = {
+	            type: main_1.DragSourceType.ToolPanel,
+	            eElement: this.eText,
+	            dragItem: [this.column],
+	            dragItemName: this.displayName,
+	            dragSourceDropTarget: this.dragSourceDropTarget
+	        };
+	        this.dragAndDropService.addDragSource(dragSource, true);
+	        this.addDestroyFunc(function () { return _this.dragAndDropService.removeDragSource(dragSource); });
+	    };
+	    ColumnComponent.prototype.setupComponents = function () {
+	        this.setTextValue();
+	        this.setupRemove();
+	        if (this.ghost) {
+	            main_1.Utils.addCssClass(this.getGui(), 'ag-column-drop-cell-ghost');
+	        }
+	        if (this.valueColumn && !this.gridOptionsWrapper.isFunctionsReadOnly()) {
+	            this.addGuiEventListener('click', this.onShowAggFuncSelection.bind(this));
+	        }
+	    };
+	    ColumnComponent.prototype.setupRemove = function () {
+	        var _this = this;
+	        main_1.Utils.setVisible(this.btRemove, !this.gridOptionsWrapper.isFunctionsReadOnly());
+	        this.addDestroyableEventListener(this.btRemove, 'click', function (event) {
+	            _this.dispatchEvent(ColumnComponent.EVENT_COLUMN_REMOVE);
+	            event.stopPropagation();
+	        });
+	        var touchListener = new main_1.TouchListener(this.btRemove);
+	        this.addDestroyableEventListener(touchListener, main_1.TouchListener.EVENT_TAP, function () {
+	            _this.dispatchEvent(ColumnComponent.EVENT_COLUMN_REMOVE);
+	        });
+	        this.addDestroyFunc(touchListener.destroy.bind(touchListener));
+	    };
+	    ColumnComponent.prototype.setTextValue = function () {
+	        var displayValue;
+	        if (this.valueColumn) {
+	            var aggFunc = this.column.getAggFunc();
+	            // if aggFunc is a string, we can use it, but if it's a function, then we swap with 'func'
+	            var aggFuncString = (typeof aggFunc === 'string') ? aggFunc : 'agg';
+	            displayValue = aggFuncString + "(" + this.displayName + ")";
+	        }
+	        else {
+	            displayValue = this.displayName;
+	        }
+	        this.eText.innerHTML = displayValue;
+	    };
+	    ColumnComponent.prototype.onShowAggFuncSelection = function () {
+	        var _this = this;
+	        if (this.popupShowing) {
+	            return;
+	        }
+	        this.popupShowing = true;
+	        var virtualList = new virtualList_1.VirtualList();
+	        var rows = this.aggFuncService.getFuncNames(this.column);
+	        virtualList.setModel({
+	            getRow: function (index) { return rows[index]; },
+	            getRowCount: function () { return rows.length; }
+	        });
+	        this.context.wireBean(virtualList);
+	        var ePopup = main_1.Utils.loadTemplate('<div class="ag-select-agg-func-popup"></div>');
+	        ePopup.style.top = '0px';
+	        ePopup.style.left = '0px';
+	        ePopup.appendChild(virtualList.getGui());
+	        ePopup.style.height = '100px';
+	        ePopup.style.width = this.getGui().clientWidth + 'px';
+	        var popupHiddenFunc = function () {
+	            virtualList.destroy();
+	            _this.popupShowing = false;
+	        };
+	        var hidePopup = this.popupService.addAsModalPopup(ePopup, true, popupHiddenFunc);
+	        virtualList.setComponentCreator(this.createAggSelect.bind(this, hidePopup));
+	        this.popupService.positionPopupUnderComponent({
+	            type: 'aggFuncSelect',
+	            eventSource: this.getGui(),
+	            ePopup: ePopup,
+	            keepWithinBounds: true,
+	            column: this.column
+	        });
+	        virtualList.refresh();
+	    };
+	    ColumnComponent.prototype.createAggSelect = function (hidePopup, value) {
+	        var _this = this;
+	        var itemSelected = function () {
+	            hidePopup();
+	            if (_this.gridOptionsWrapper.isFunctionsPassive()) {
+	                var event_1 = {
+	                    columns: [_this.column],
+	                    aggFunc: value
+	                };
+	                _this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_AGG_FUNC_CHANGE_REQUEST, event_1);
+	            }
+	            else {
+	                _this.columnController.setColumnAggFunc(_this.column, value);
+	            }
+	        };
+	        var comp = new AggItemComp(itemSelected, value.toString());
+	        return comp;
+	    };
+	    return ColumnComponent;
+	}(main_1.Component));
+	ColumnComponent.EVENT_COLUMN_REMOVE = 'columnRemove';
+	ColumnComponent.TEMPLATE = "<span class=\"ag-column-drop-cell\">\n          <span class=\"ag-column-drop-cell-text\"></span>\n          <span class=\"ag-column-drop-cell-button\">&#10006;</span>\n        </span>";
+	__decorate([
+	    main_1.Autowired('dragAndDropService'),
+	    __metadata("design:type", main_1.DragAndDropService)
+	], ColumnComponent.prototype, "dragAndDropService", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], ColumnComponent.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('gridPanel'),
+	    __metadata("design:type", main_1.GridPanel)
+	], ColumnComponent.prototype, "gridPanel", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], ColumnComponent.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('popupService'),
+	    __metadata("design:type", main_1.PopupService)
+	], ColumnComponent.prototype, "popupService", void 0);
+	__decorate([
+	    main_1.Autowired('aggFuncService'),
+	    __metadata("design:type", aggFuncService_1.AggFuncService)
+	], ColumnComponent.prototype, "aggFuncService", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], ColumnComponent.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], ColumnComponent.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-column-drop-cell-text'),
+	    __metadata("design:type", HTMLElement)
+	], ColumnComponent.prototype, "eText", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-column-drop-cell-button'),
+	    __metadata("design:type", HTMLElement)
+	], ColumnComponent.prototype, "btRemove", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ColumnComponent.prototype, "init", null);
+	exports.ColumnComponent = ColumnComponent;
+	var AggItemComp = (function (_super) {
+	    __extends(AggItemComp, _super);
+	    function AggItemComp(itemSelected, value) {
+	        var _this = _super.call(this, '<div class="ag-select-agg-func-item"/>') || this;
+	        _this.getGui().innerText = value;
+	        _this.value = value;
+	        _this.addGuiEventListener('click', itemSelected);
+	        return _this;
+	    }
+	    return AggItemComp;
+	}(main_1.Component));
+
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var columnSelectPanel_1 = __webpack_require__(128);
+	var rowGroupColumnsPanel_1 = __webpack_require__(158);
+	var pivotColumnsPanel_1 = __webpack_require__(154);
+	var pivotModePanel_1 = __webpack_require__(159);
+	var valueColumnsPanel_1 = __webpack_require__(160);
+	var ToolPanelComp = ToolPanelComp_1 = (function (_super) {
+	    __extends(ToolPanelComp, _super);
+	    function ToolPanelComp() {
+	        var _this = _super.call(this, ToolPanelComp_1.TEMPLATE) || this;
+	        _this.initialised = false;
+	        return _this;
+	    }
+	    // lazy initialise the toolPanel
+	    ToolPanelComp.prototype.setVisible = function (visible) {
+	        _super.prototype.setVisible.call(this, visible);
+	        if (visible && !this.initialised) {
+	            this.init();
+	        }
+	    };
+	    ToolPanelComp.prototype.init = function () {
+	        if (!this.gridOptionsWrapper.isToolPanelSuppressPivotMode()) {
+	            this.addComponent(new pivotModePanel_1.PivotModePanel());
+	        }
+	        this.addComponent(new columnSelectPanel_1.ColumnSelectPanel(true));
+	        if (!this.gridOptionsWrapper.isToolPanelSuppressRowGroups()) {
+	            this.addComponent(new rowGroupColumnsPanel_1.RowGroupColumnsPanel(false));
+	        }
+	        if (!this.gridOptionsWrapper.isToolPanelSuppressValues()) {
+	            this.addComponent(new valueColumnsPanel_1.ValuesColumnPanel(false));
+	        }
+	        if (!this.gridOptionsWrapper.isToolPanelSuppressPivots()) {
+	            this.addComponent(new pivotColumnsPanel_1.PivotColumnsPanel(false));
+	        }
+	        this.initialised = true;
+	    };
+	    ToolPanelComp.prototype.addComponent = function (component) {
+	        this.context.wireBean(component);
+	        this.getGui().appendChild(component.getGui());
+	        this.addDestroyFunc(function () {
+	            component.destroy();
+	        });
+	    };
+	    return ToolPanelComp;
+	}(main_1.Component));
+	ToolPanelComp.TEMPLATE = '<div class="ag-tool-panel"></div>';
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], ToolPanelComp.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], ToolPanelComp.prototype, "gridOptionsWrapper", void 0);
+	ToolPanelComp = ToolPanelComp_1 = __decorate([
+	    main_1.Bean('toolPanel'),
+	    __metadata("design:paramtypes", [])
+	], ToolPanelComp);
+	exports.ToolPanelComp = ToolPanelComp;
+	var ToolPanelComp_1;
+
+
+/***/ }),
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var abstractColumnDropPanel_1 = __webpack_require__(155);
+	var svgFactory = main_1.SvgFactory.getInstance();
+	var RowGroupColumnsPanel = (function (_super) {
+	    __extends(RowGroupColumnsPanel, _super);
+	    function RowGroupColumnsPanel(horizontal) {
+	        return _super.call(this, horizontal, false, 'row-group') || this;
+	    }
+	    RowGroupColumnsPanel.prototype.passBeansUp = function () {
+	        _super.prototype.setBeans.call(this, {
+	            gridOptionsWrapper: this.gridOptionsWrapper,
+	            eventService: this.eventService,
+	            context: this.context,
+	            loggerFactory: this.loggerFactory,
+	            dragAndDropService: this.dragAndDropService
+	        });
+	        var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	        var emptyMessage = localeTextFunc('rowGroupColumnsEmptyMessage', 'Drag here to set row groups');
+	        var title = localeTextFunc('groups', 'Row Groups');
+	        _super.prototype.init.call(this, {
+	            dragAndDropIcon: main_1.DragAndDropService.ICON_GROUP,
+	            icon: main_1.Utils.createIconNoSpan('rowGroupPanel', this.gridOptionsWrapper, null, svgFactory.createGroupIcon),
+	            emptyMessage: emptyMessage,
+	            title: title
+	        });
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_ROW_GROUP_CHANGED, this.refreshGui.bind(this));
+	    };
+	    RowGroupColumnsPanel.prototype.isColumnDroppable = function (column) {
+	        if (this.gridOptionsWrapper.isFunctionsReadOnly()) {
+	            return false;
+	        }
+	        // we never allow grouping of secondary columns
+	        if (!column.isPrimary()) {
+	            return false;
+	        }
+	        var columnGroupable = column.isAllowRowGroup();
+	        var columnNotAlreadyGrouped = !column.isRowGroupActive();
+	        return columnGroupable && columnNotAlreadyGrouped;
+	    };
+	    RowGroupColumnsPanel.prototype.updateColumns = function (columns) {
+	        if (this.gridOptionsWrapper.isFunctionsPassive()) {
+	            this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_ROW_GROUP_CHANGE_REQUEST, { columns: columns });
+	        }
+	        else {
+	            this.columnController.setRowGroupColumns(columns);
+	        }
+	    };
+	    RowGroupColumnsPanel.prototype.getIconName = function () {
+	        return this.isPotentialDndColumns() ? main_1.DragAndDropService.ICON_GROUP : main_1.DragAndDropService.ICON_NOT_ALLOWED;
+	    };
+	    RowGroupColumnsPanel.prototype.getExistingColumns = function () {
+	        return this.columnController.getRowGroupColumns();
+	    };
+	    return RowGroupColumnsPanel;
+	}(abstractColumnDropPanel_1.AbstractColumnDropPanel));
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], RowGroupColumnsPanel.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], RowGroupColumnsPanel.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], RowGroupColumnsPanel.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], RowGroupColumnsPanel.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('loggerFactory'),
+	    __metadata("design:type", main_1.LoggerFactory)
+	], RowGroupColumnsPanel.prototype, "loggerFactory", void 0);
+	__decorate([
+	    main_1.Autowired('dragAndDropService'),
+	    __metadata("design:type", main_1.DragAndDropService)
+	], RowGroupColumnsPanel.prototype, "dragAndDropService", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], RowGroupColumnsPanel.prototype, "passBeansUp", null);
+	exports.RowGroupColumnsPanel = RowGroupColumnsPanel;
+
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var PivotModePanel = (function (_super) {
+	    __extends(PivotModePanel, _super);
+	    function PivotModePanel() {
+	        return _super.call(this) || this;
+	    }
+	    PivotModePanel.prototype.createTemplate = function () {
+	        var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	        return "<div class=\"ag-pivot-mode\">\n                <ag-checkbox class=\"ag-pivot-mode-select\" label=\"" + localeTextFunc('pivotMode', 'Pivot Mode') + "\"></ag-checkbox>\n            </div>";
+	    };
+	    PivotModePanel.prototype.init = function () {
+	        this.setTemplate(this.createTemplate());
+	        this.instantiate(this.context);
+	        this.cbPivotMode.setSelected(this.columnController.isPivotMode());
+	        this.addDestroyableEventListener(this.cbPivotMode, main_1.AgCheckbox.EVENT_CHANGED, this.onBtPivotMode.bind(this));
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_EVERYTHING_CHANGED, this.onPivotModeChanged.bind(this));
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_PIVOT_MODE_CHANGED, this.onPivotModeChanged.bind(this));
+	    };
+	    PivotModePanel.prototype.onBtPivotMode = function () {
+	        var newValue = this.cbPivotMode.isSelected();
+	        if (newValue !== this.columnController.isPivotMode()) {
+	            this.columnController.setPivotMode(newValue);
+	            this.gridOptionsWrapper.getApi().refreshHeader();
+	        }
+	    };
+	    PivotModePanel.prototype.onPivotModeChanged = function () {
+	        var pivotModeActive = this.columnController.isPivotMode();
+	        this.cbPivotMode.setSelected(pivotModeActive);
+	    };
+	    return PivotModePanel;
+	}(main_1.Component));
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], PivotModePanel.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], PivotModePanel.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], PivotModePanel.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], PivotModePanel.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.QuerySelector('.ag-pivot-mode-select'),
+	    __metadata("design:type", main_1.AgCheckbox)
+	], PivotModePanel.prototype, "cbPivotMode", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], PivotModePanel.prototype, "init", null);
+	exports.PivotModePanel = PivotModePanel;
+
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var abstractColumnDropPanel_1 = __webpack_require__(155);
+	var svgFactory = main_1.SvgFactory.getInstance();
+	var ValuesColumnPanel = (function (_super) {
+	    __extends(ValuesColumnPanel, _super);
+	    function ValuesColumnPanel(horizontal) {
+	        return _super.call(this, horizontal, true, 'values') || this;
+	    }
+	    ValuesColumnPanel.prototype.passBeansUp = function () {
+	        _super.prototype.setBeans.call(this, {
+	            gridOptionsWrapper: this.gridOptionsWrapper,
+	            eventService: this.eventService,
+	            context: this.context,
+	            loggerFactory: this.loggerFactory,
+	            dragAndDropService: this.dragAndDropService
+	        });
+	        var localeTextFunc = this.gridOptionsWrapper.getLocaleTextFunc();
+	        var emptyMessage = localeTextFunc('pivotColumnsEmptyMessage', 'Drag here to aggregate');
+	        var title = localeTextFunc('values', 'Values');
+	        _super.prototype.init.call(this, {
+	            dragAndDropIcon: main_1.DragAndDropService.ICON_AGGREGATE,
+	            icon: main_1.Utils.createIconNoSpan('valuePanel', this.gridOptionsWrapper, null, svgFactory.createAggregationIcon),
+	            emptyMessage: emptyMessage,
+	            title: title
+	        });
+	        this.addDestroyableEventListener(this.eventService, main_1.Events.EVENT_COLUMN_VALUE_CHANGED, this.refreshGui.bind(this));
+	    };
+	    ValuesColumnPanel.prototype.getIconName = function () {
+	        return this.isPotentialDndColumns() ? main_1.DragAndDropService.ICON_AGGREGATE : main_1.DragAndDropService.ICON_NOT_ALLOWED;
+	    };
+	    ValuesColumnPanel.prototype.isColumnDroppable = function (column) {
+	        if (this.gridOptionsWrapper.isFunctionsReadOnly()) {
+	            return false;
+	        }
+	        // we never allow grouping of secondary columns
+	        if (!column.isPrimary()) {
+	            return false;
+	        }
+	        var columnValue = column.isAllowValue();
+	        var columnNotValue = !column.isValueActive();
+	        return columnValue && columnNotValue;
+	    };
+	    ValuesColumnPanel.prototype.updateColumns = function (columns) {
+	        if (this.gridOptionsWrapper.isFunctionsPassive()) {
+	            this.eventService.dispatchEvent(main_1.Events.EVENT_COLUMN_VALUE_CHANGE_REQUEST, { columns: columns });
+	        }
+	        else {
+	            this.columnController.setValueColumns(columns);
+	        }
+	    };
+	    ValuesColumnPanel.prototype.getExistingColumns = function () {
+	        return this.columnController.getValueColumns();
+	    };
+	    return ValuesColumnPanel;
+	}(abstractColumnDropPanel_1.AbstractColumnDropPanel));
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], ValuesColumnPanel.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('eventService'),
+	    __metadata("design:type", main_1.EventService)
+	], ValuesColumnPanel.prototype, "eventService", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], ValuesColumnPanel.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], ValuesColumnPanel.prototype, "context", void 0);
+	__decorate([
+	    main_1.Autowired('loggerFactory'),
+	    __metadata("design:type", main_1.LoggerFactory)
+	], ValuesColumnPanel.prototype, "loggerFactory", void 0);
+	__decorate([
+	    main_1.Autowired('dragAndDropService'),
+	    __metadata("design:type", main_1.DragAndDropService)
+	], ValuesColumnPanel.prototype, "dragAndDropService", void 0);
+	__decorate([
+	    main_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], ValuesColumnPanel.prototype, "passBeansUp", null);
+	exports.ValuesColumnPanel = ValuesColumnPanel;
+
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var rowGroupColumnsPanel_1 = __webpack_require__(158);
+	var RowGroupCompFactory = (function () {
+	    function RowGroupCompFactory() {
+	    }
+	    RowGroupCompFactory.prototype.create = function () {
+	        var rowGroupComp = new rowGroupColumnsPanel_1.RowGroupColumnsPanel(true);
+	        this.context.wireBean(rowGroupComp);
+	        return rowGroupComp;
+	    };
+	    return RowGroupCompFactory;
+	}());
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], RowGroupCompFactory.prototype, "context", void 0);
+	RowGroupCompFactory = __decorate([
+	    main_1.Bean('rowGroupCompFactory')
+	], RowGroupCompFactory);
+	exports.RowGroupCompFactory = RowGroupCompFactory;
+
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var pivotColumnsPanel_1 = __webpack_require__(154);
+	var PivotCompFactory = (function () {
+	    function PivotCompFactory() {
+	    }
+	    PivotCompFactory.prototype.create = function () {
+	        var pivotComp = new pivotColumnsPanel_1.PivotColumnsPanel(true);
+	        this.context.wireBean(pivotComp);
+	        return pivotComp;
+	    };
+	    return PivotCompFactory;
+	}());
+	__decorate([
+	    main_1.Autowired('context'),
+	    __metadata("design:type", main_1.Context)
+	], PivotCompFactory.prototype, "context", void 0);
+	PivotCompFactory = __decorate([
+	    main_1.Bean('pivotCompFactory')
+	], PivotCompFactory);
+	exports.PivotCompFactory = PivotCompFactory;
+
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var excelXmlFactory_1 = __webpack_require__(164);
+	var ExcelGridSerializingSession = (function (_super) {
+	    __extends(ExcelGridSerializingSession, _super);
+	    function ExcelGridSerializingSession(columnController, valueService, gridOptionsWrapper, processCellCallback, processHeaderCallback, excelXmlFactory, baseExcelStyles, styleLinker) {
+	        var _this = _super.call(this, columnController, valueService, gridOptionsWrapper, processCellCallback, processHeaderCallback, function (raw) { return main_1.Utils.escape(raw); }) || this;
+	        _this.excelXmlFactory = excelXmlFactory;
+	        _this.styleLinker = styleLinker;
+	        _this.mixedStyles = {};
+	        _this.mixedStyleCounter = 0;
+	        _this.rows = [];
+	        _this.stylesByIds = {};
+	        if (!baseExcelStyles) {
+	            _this.excelStyles = [];
+	        }
+	        else {
+	            baseExcelStyles.forEach(function (it) {
+	                _this.stylesByIds[it.id] = it;
+	            });
+	            _this.excelStyles = baseExcelStyles.slice();
+	        }
+	        return _this;
+	    }
+	    ExcelGridSerializingSession.prototype.addCustomHeader = function (customHeader) {
+	        this.customHeader = customHeader;
+	    };
+	    ExcelGridSerializingSession.prototype.addCustomFooter = function (customFooter) {
+	        this.customFooter = customFooter;
+	    };
+	    ExcelGridSerializingSession.prototype.prepare = function (columnsToExport) {
+	        this.cols = main_1.Utils.map(columnsToExport, function (it) {
+	            it.getColDef().cellStyle;
+	            return {
+	                width: it.getActualWidth()
+	            };
+	        });
+	    };
+	    ExcelGridSerializingSession.prototype.onNewHeaderGroupingRow = function () {
+	        var currentCells = [];
+	        var that = this;
+	        this.rows.push({
+	            cells: currentCells
+	        });
+	        return {
+	            onColumn: function (header, index, span) {
+	                var styleIds = that.styleLinker(main_1.RowType.HEADER_GROUPING, 1, index, "grouping-" + header, null, null);
+	                currentCells.push(that.createMergedCell(styleIds.length > 0 ? styleIds[0] : null, "String", header, span));
+	            }
+	        };
+	    };
+	    ExcelGridSerializingSession.prototype.onNewHeaderRow = function () {
+	        return this.onNewRow(this.onNewHeaderColumn);
+	    };
+	    ExcelGridSerializingSession.prototype.onNewBodyRow = function () {
+	        return this.onNewRow(this.onNewBodyColumn);
+	    };
+	    ExcelGridSerializingSession.prototype.onNewRow = function (onNewColumnAccumulator) {
+	        var currentCells = [];
+	        this.rows.push({
+	            cells: currentCells
+	        });
+	        return {
+	            onColumn: onNewColumnAccumulator.bind(this, this.rows.length, currentCells)()
+	        };
+	    };
+	    ExcelGridSerializingSession.prototype.onNewHeaderColumn = function (rowIndex, currentCells) {
+	        var _this = this;
+	        var that = this;
+	        return function (column, index, node) {
+	            var nameForCol = _this.extractHeaderValue(column);
+	            var styleIds = that.styleLinker(main_1.RowType.HEADER, rowIndex, index, nameForCol, column, null);
+	            currentCells.push(_this.createCell(styleIds.length > 0 ? styleIds[0] : null, 'String', nameForCol));
+	        };
+	    };
+	    ExcelGridSerializingSession.prototype.parse = function () {
+	        function join(header, body, footer) {
+	            var all = [];
+	            if (header) {
+	                header.forEach(function (rowArray) { return all.push({ cells: rowArray }); });
+	            }
+	            body.forEach(function (it) { return all.push(it); });
+	            if (footer) {
+	                footer.forEach(function (rowArray) { return all.push({ cells: rowArray }); });
+	            }
+	            return all;
+	        }
+	        var data = [{
+	                name: "ag-grid",
+	                table: {
+	                    columns: this.cols,
+	                    rows: join(this.customHeader, this.rows, this.customFooter)
+	                }
+	            }];
+	        return this.excelXmlFactory.createExcelXml(this.excelStyles, data);
+	    };
+	    ExcelGridSerializingSession.prototype.onNewBodyColumn = function (rowIndex, currentCells) {
+	        var _this = this;
+	        var that = this;
+	        return function (column, index, node) {
+	            var valueForCell = _this.extractRowCellValue(column, index, node);
+	            var styleIds = that.styleLinker(main_1.RowType.BODY, rowIndex, index, valueForCell, column, node);
+	            var excelStyleId = null;
+	            if (styleIds && styleIds.length == 1) {
+	                excelStyleId = styleIds[0];
+	            }
+	            else if (styleIds && styleIds.length > 1) {
+	                var key = styleIds.join("-");
+	                if (!_this.mixedStyles[key]) {
+	                    _this.addNewMixedStyle(styleIds);
+	                }
+	                excelStyleId = _this.mixedStyles[key].excelID;
+	            }
+	            var type = main_1.Utils.isNumeric(valueForCell) ? 'Number' : 'String';
+	            currentCells.push(that.createCell(excelStyleId, type, valueForCell));
+	        };
+	    };
+	    ExcelGridSerializingSession.prototype.addNewMixedStyle = function (styleIds) {
+	        var _this = this;
+	        this.mixedStyleCounter += 1;
+	        var excelId = 'mixedStyle' + this.mixedStyleCounter;
+	        var resultantStyle = {};
+	        styleIds.forEach(function (styleId) {
+	            _this.excelStyles.forEach(function (excelStyle) {
+	                if (excelStyle.id === styleId) {
+	                    main_1.Utils.mergeDeep(resultantStyle, excelStyle);
+	                }
+	            });
+	        });
+	        resultantStyle['id'] = excelId;
+	        resultantStyle['name'] = excelId;
+	        var key = styleIds.join("-");
+	        this.mixedStyles[key] = {
+	            excelID: excelId,
+	            key: key,
+	            result: resultantStyle
+	        };
+	        this.excelStyles.push(resultantStyle);
+	        this.stylesByIds[excelId] = resultantStyle;
+	    };
+	    ExcelGridSerializingSession.prototype.styleExists = function (styleId) {
+	        if (styleId == null)
+	            return false;
+	        return this.stylesByIds[styleId];
+	    };
+	    ExcelGridSerializingSession.prototype.createCell = function (styleId, type, value) {
+	        var actualStyle = this.stylesByIds[styleId];
+	        var styleExists = actualStyle != null;
+	        function getType() {
+	            if (styleExists &&
+	                actualStyle.dataType)
+	                switch (actualStyle.dataType) {
+	                    case 'string': return 'String';
+	                    case 'number': return 'Number';
+	                }
+	            return type;
+	        }
+	        return {
+	            styleId: styleExists ? styleId : null,
+	            data: {
+	                type: getType(),
+	                value: value
+	            }
+	        };
+	    };
+	    ExcelGridSerializingSession.prototype.createMergedCell = function (styleId, type, value, numOfCells) {
+	        return {
+	            styleId: this.styleExists(styleId) ? styleId : null,
+	            data: {
+	                type: type,
+	                value: value
+	            },
+	            mergeAcross: numOfCells
+	        };
+	    };
+	    return ExcelGridSerializingSession;
+	}(main_1.BaseGridSerializingSession));
+	exports.ExcelGridSerializingSession = ExcelGridSerializingSession;
+	var ExcelCreator = (function () {
+	    function ExcelCreator() {
+	    }
+	    ExcelCreator.prototype.exportDataAsExcel = function (params) {
+	        var fileNamePresent = params && params.fileName && params.fileName.length !== 0;
+	        var fileName = fileNamePresent ? params.fileName : 'export.xls';
+	        if (fileName.indexOf(".") === -1) {
+	            fileName = fileName + '.xls';
+	        }
+	        var content = this.getDataAsExcelXml(params);
+	        this.downloader.download(fileName, content, "application/vnd.ms-excel");
+	    };
+	    ExcelCreator.prototype.getDataAsExcelXml = function (params) {
+	        return this.gridSerializer.serialize(new ExcelGridSerializingSession(this.columnController, this.valueService, this.gridOptionsWrapper, params ? params.processCellCallback : null, params ? params.processHeaderCallback : null, this.excelXmlFactory, this.gridOptions.excelStyles, this.styleLinker.bind(this)), params);
+	    };
+	    ExcelCreator.prototype.styleLinker = function (rowType, rowIndex, colIndex, value, column, node) {
+	        if ((rowType === main_1.RowType.HEADER) || (rowType === main_1.RowType.HEADER_GROUPING))
+	            return ["header"];
+	        if (!this.gridOptions.excelStyles || this.gridOptions.excelStyles.length === 0)
+	            return null;
+	        var styleIds = this.gridOptions.excelStyles.map(function (it) {
+	            return it.id;
+	        });
+	        var applicableStyles = [];
+	        this.stylingService.processAllCellClasses(column.getColDef(), {
+	            value: value,
+	            data: node.data,
+	            node: node,
+	            colDef: column.getColDef(),
+	            rowIndex: rowIndex,
+	            api: this.gridOptionsWrapper.getApi(),
+	            context: this.gridOptionsWrapper.getContext()
+	        }, function (className) {
+	            if (styleIds.indexOf(className) > -1) {
+	                applicableStyles.push(className);
+	            }
+	        });
+	        return applicableStyles.sort(function (left, right) {
+	            return (styleIds.indexOf(left) < styleIds.indexOf(right)) ? -1 : 1;
+	        });
+	    };
+	    return ExcelCreator;
+	}());
+	__decorate([
+	    main_1.Autowired('excelXmlFactory'),
+	    __metadata("design:type", excelXmlFactory_1.ExcelXmlFactory)
+	], ExcelCreator.prototype, "excelXmlFactory", void 0);
+	__decorate([
+	    main_1.Autowired('downloader'),
+	    __metadata("design:type", main_1.Downloader)
+	], ExcelCreator.prototype, "downloader", void 0);
+	__decorate([
+	    main_1.Autowired('columnController'),
+	    __metadata("design:type", main_1.ColumnController)
+	], ExcelCreator.prototype, "columnController", void 0);
+	__decorate([
+	    main_1.Autowired('valueService'),
+	    __metadata("design:type", main_1.ValueService)
+	], ExcelCreator.prototype, "valueService", void 0);
+	__decorate([
+	    main_1.Autowired('gridSerializer'),
+	    __metadata("design:type", main_1.GridSerializer)
+	], ExcelCreator.prototype, "gridSerializer", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", main_1.GridOptionsWrapper)
+	], ExcelCreator.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    main_1.Autowired('gridOptions'),
+	    __metadata("design:type", Object)
+	], ExcelCreator.prototype, "gridOptions", void 0);
+	__decorate([
+	    main_1.Autowired('stylingService'),
+	    __metadata("design:type", main_1.StylingService)
+	], ExcelCreator.prototype, "stylingService", void 0);
+	ExcelCreator = __decorate([
+	    main_1.Bean('excelCreator')
+	], ExcelCreator);
+	exports.ExcelCreator = ExcelCreator;
+
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var main_1 = __webpack_require__(2);
+	var main_2 = __webpack_require__(2);
+	var main_3 = __webpack_require__(2);
+	var LINE_SEPARATOR = '\r\n';
+	/**
+	 * See https://msdn.microsoft.com/en-us/library/aa140066(v=office.10).aspx
+	 */
+	var ExcelXmlFactory = (function () {
+	    function ExcelXmlFactory() {
+	    }
+	    ExcelXmlFactory.prototype.createExcelXml = function (styles, worksheets) {
+	        var documentProperties = this.documentProperties();
+	        var excelWorkbook = this.excelWorkbook();
+	        return this.excelXmlHeader() +
+	            this.xmlFactory.createXml(this.workbook(documentProperties, excelWorkbook, styles, worksheets), function (boolean) { return boolean ? "1" : "0"; });
+	    };
+	    ExcelXmlFactory.prototype.workbook = function (documentProperties, excelWorkbook, styles, worksheets) {
+	        var _this = this;
+	        var children = [
+	            documentProperties,
+	            excelWorkbook,
+	            this.stylesXmlElement(styles)
+	        ];
+	        main_3.Utils.map(worksheets, function (it) {
+	            return _this.worksheetXmlElement(it);
+	        }).forEach(function (it) {
+	            children.push(it);
+	        });
+	        return {
+	            name: "Workbook",
+	            properties: {
+	                prefixedAttributes: [{
+	                        prefix: "xmlns:",
+	                        map: {
+	                            o: "urn:schemas-microsoft-com:office:office",
+	                            x: "urn:schemas-microsoft-com:office:excel",
+	                            ss: "urn:schemas-microsoft-com:office:spreadsheet",
+	                            html: "http://www.w3.org/TR/REC-html40"
+	                        },
+	                    }],
+	                rawMap: {
+	                    xmlns: "urn:schemas-microsoft-com:office:spreadsheet"
+	                }
+	            },
+	            children: children
+	        };
+	    };
+	    ExcelXmlFactory.prototype.excelXmlHeader = function () {
+	        // need to take out the question mark, otherwise it bothers php when have < and ? beside each
+	        // other in a string, as php thinks it's a directive for php
+	        var QUESTION_MARK = '?';
+	        return '<' + QUESTION_MARK + 'xml version="1.0"' + QUESTION_MARK + '>' + LINE_SEPARATOR +
+	            '<' + QUESTION_MARK + 'mso-application progid="Excel.Sheet"' + QUESTION_MARK + '>' + LINE_SEPARATOR;
+	    };
+	    ExcelXmlFactory.prototype.stylesXmlElement = function (styles) {
+	        var _this = this;
+	        return {
+	            name: 'Styles',
+	            children: styles ? main_3.Utils.map(styles, function (it) {
+	                return _this.styleXmlElement(it);
+	            }) : []
+	        };
+	    };
+	    ExcelXmlFactory.prototype.styleXmlElement = function (style) {
+	        var borders = [];
+	        if (style.borders) {
+	            [
+	                style.borders.borderBottom,
+	                style.borders.borderLeft,
+	                style.borders.borderRight,
+	                style.borders.borderTop
+	            ].forEach(function (it, index) {
+	                var current = index == 0 ? "Bottom" : index == 1 ? "Left" : index == 2 ? "Right" : "Top";
+	                borders.push({
+	                    name: "Border",
+	                    properties: {
+	                        prefixedAttributes: [{
+	                                prefix: "ss:",
+	                                map: {
+	                                    Position: current,
+	                                    LineStyle: it.lineStyle,
+	                                    Weight: it.weight,
+	                                    Color: it.color
+	                                }
+	                            }]
+	                    }
+	                });
+	            });
+	        }
+	        var children = [];
+	        if (style.alignment) {
+	            children.push({
+	                name: "Alignment",
+	                properties: {
+	                    prefixedAttributes: [{
+	                            prefix: "ss:",
+	                            map: {
+	                                Vertical: style.alignment.vertical,
+	                                Horizontal: style.alignment.horizontal,
+	                                Indent: style.alignment.indent,
+	                                ReadingOrder: style.alignment.readingOrder,
+	                                Rotate: style.alignment.rotate,
+	                                ShrinkToFit: style.alignment.shrinkToFit,
+	                                VerticalText: style.alignment.verticalText,
+	                                WrapText: style.alignment.wrapText
+	                            }
+	                        }]
+	                }
+	            });
+	        }
+	        if (style.borders) {
+	            children.push({
+	                name: "Borders",
+	                children: borders
+	            });
+	        }
+	        if (style.font) {
+	            children.push({
+	                name: "Font",
+	                properties: {
+	                    prefixedAttributes: [{
+	                            prefix: "ss:",
+	                            map: {
+	                                Bold: style.font.bold,
+	                                Italic: style.font.italic,
+	                                Color: style.font.color,
+	                                Outline: style.font.outline,
+	                                Shadow: style.font.shadow,
+	                                Size: style.font.size,
+	                                StrikeThrough: style.font.strikeThrough,
+	                                Underline: style.font.underline,
+	                                VerticalAlign: style.font.verticalAlign
+	                            }
+	                        }, {
+	                            prefix: "x:",
+	                            map: {
+	                                CharSet: style.font.charSet,
+	                                Family: style.font.family
+	                            }
+	                        }]
+	                }
+	            });
+	        }
+	        if (style.interior) {
+	            children.push({
+	                name: "Interior",
+	                properties: {
+	                    prefixedAttributes: [{
+	                            prefix: "ss:",
+	                            map: {
+	                                Color: style.interior.color,
+	                                Pattern: style.interior.pattern,
+	                                PatternColor: style.interior.patternColor
+	                            }
+	                        }]
+	                }
+	            });
+	        }
+	        if (style.protection) {
+	            children.push({
+	                name: "Protection",
+	                properties: {
+	                    prefixedAttributes: [{
+	                            prefix: "ss:",
+	                            map: {
+	                                Protected: style.protection.protected,
+	                                HideFormula: style.protection.hideFormula
+	                            }
+	                        }]
+	                }
+	            });
+	        }
+	        if (style.numberFormat) {
+	            children.push({
+	                name: "NumberFormat",
+	                properties: {
+	                    prefixedAttributes: [{
+	                            prefix: "ss:",
+	                            map: {
+	                                Format: style.numberFormat.format
+	                            }
+	                        }]
+	                }
+	            });
+	        }
+	        return {
+	            name: "Style",
+	            properties: {
+	                prefixedAttributes: [{
+	                        prefix: "ss:",
+	                        map: {
+	                            ID: style.id,
+	                            Name: (style.name) ? style.name : style.id
+	                        }
+	                    }]
+	            },
+	            children: children
+	        };
+	    };
+	    ExcelXmlFactory.prototype.worksheetXmlElement = function (worksheet) {
+	        var _this = this;
+	        var children = [];
+	        main_3.Utils.map(worksheet.table.columns, function (it) {
+	            return _this.columnXmlElement(it);
+	        }).forEach(function (it) {
+	            children.push(it);
+	        });
+	        main_3.Utils.map(worksheet.table.rows, function (it) {
+	            return _this.rowXmlElement(it);
+	        }).forEach(function (it) {
+	            children.push(it);
+	        });
+	        return {
+	            name: "Worksheet",
+	            children: [{
+	                    name: "Table",
+	                    children: children
+	                }],
+	            properties: {
+	                prefixedAttributes: [{
+	                        prefix: "ss:",
+	                        map: {
+	                            Name: worksheet.name
+	                        }
+	                    }]
+	            }
+	        };
+	    };
+	    ExcelXmlFactory.prototype.columnXmlElement = function (column) {
+	        return {
+	            name: "Column",
+	            properties: {
+	                prefixedAttributes: [{
+	                        prefix: "ss:",
+	                        map: {
+	                            Width: column.width
+	                        }
+	                    }]
+	            }
+	        };
+	    };
+	    ExcelXmlFactory.prototype.rowXmlElement = function (row) {
+	        var _this = this;
+	        return {
+	            name: "Row",
+	            children: main_3.Utils.map(row.cells, function (it) {
+	                return _this.rowCellXmlElement(it);
+	            })
+	        };
+	    };
+	    ExcelXmlFactory.prototype.rowCellXmlElement = function (cell) {
+	        var properties = {};
+	        if (cell.mergeAcross) {
+	            properties['MergeAcross'] = cell.mergeAcross;
+	        }
+	        if (cell.styleId) {
+	            properties['StyleID'] = cell.styleId;
+	        }
+	        return {
+	            name: "Cell",
+	            properties: {
+	                prefixedAttributes: [{
+	                        prefix: "ss:",
+	                        map: properties
+	                    }]
+	            },
+	            children: [{
+	                    name: "Data",
+	                    properties: {
+	                        prefixedAttributes: [{
+	                                prefix: "ss:",
+	                                map: {
+	                                    Type: cell.data.type
+	                                }
+	                            }]
+	                    },
+	                    textNode: cell.data.value
+	                }]
+	        };
+	    };
+	    ExcelXmlFactory.prototype.excelWorkbook = function () {
+	        return {
+	            name: "ExcelWorkbook",
+	            properties: {
+	                rawMap: {
+	                    xmlns: "urn:schemas-microsoft-com:office:excel"
+	                }
+	            },
+	            children: [{
+	                    name: "WindowHeight",
+	                    textNode: "8130"
+	                }, {
+	                    name: "WindowWidth",
+	                    textNode: "15135"
+	                }, {
+	                    name: "WindowHeight",
+	                    textNode: "8130"
+	                }, {
+	                    name: "WindowTopX",
+	                    textNode: "120"
+	                }, {
+	                    name: "WindowTopY",
+	                    textNode: "45"
+	                }, {
+	                    name: "ProtectStructure",
+	                    textNode: "False"
+	                }, {
+	                    name: "ProtectWindow",
+	                    textNode: "False"
+	                }]
+	        };
+	    };
+	    ExcelXmlFactory.prototype.documentProperties = function () {
+	        return {
+	            name: "DocumentProperties",
+	            properties: {
+	                rawMap: {
+	                    xmlns: "urn:schemas-microsoft-com:office:office"
+	                }
+	            },
+	            children: [{
+	                    name: "Version",
+	                    textNode: "12.00"
+	                }]
+	        };
+	    };
+	    return ExcelXmlFactory;
+	}());
+	__decorate([
+	    main_2.Autowired('xmlFactory'),
+	    __metadata("design:type", main_1.XmlFactory)
+	], ExcelXmlFactory.prototype, "xmlFactory", void 0);
+	ExcelXmlFactory = __decorate([
+	    main_2.Bean('excelXmlFactory')
+	], ExcelXmlFactory);
+	exports.ExcelXmlFactory = ExcelXmlFactory;
+
+
+/***/ }),
+/* 165 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var __param = (this && this.__param) || function (paramIndex, decorator) {
+	    return function (target, key) { decorator(target, key, paramIndex); }
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var enterpriseCache_1 = __webpack_require__(166);
+	var EnterpriseRowModel = (function (_super) {
+	    __extends(EnterpriseRowModel, _super);
+	    function EnterpriseRowModel() {
+	        return _super !== null && _super.apply(this, arguments) || this;
+	    }
+	    EnterpriseRowModel.prototype.postConstruct = function () {
+	        this.rowHeight = this.gridOptionsWrapper.getRowHeightAsNumber();
+	        this.addEventListeners();
+	    };
+	    EnterpriseRowModel.prototype.setBeans = function (loggerFactory) {
+	        this.logger = loggerFactory.create('EnterpriseRowModel');
+	    };
+	    EnterpriseRowModel.prototype.isLastRowFound = function () {
+	        if (ag_grid_1._.exists(this.rootNode) && ag_grid_1._.exists(this.rootNode.childrenCache)) {
+	            return this.rootNode.childrenCache.isMaxRowFound();
+	        }
+	        else {
+	            return false;
+	        }
+	    };
+	    EnterpriseRowModel.prototype.addEventListeners = function () {
+	        this.addDestroyableEventListener(this.eventService, ag_grid_1.Events.EVENT_COLUMN_ROW_GROUP_CHANGED, this.onColumnRowGroupChanged.bind(this));
+	        this.addDestroyableEventListener(this.eventService, ag_grid_1.Events.EVENT_ROW_GROUP_OPENED, this.onRowGroupOpened.bind(this));
+	        this.addDestroyableEventListener(this.eventService, ag_grid_1.Events.EVENT_COLUMN_VALUE_CHANGED, this.onValueChanged.bind(this));
+	        this.addDestroyableEventListener(this.eventService, ag_grid_1.Events.EVENT_FILTER_CHANGED, this.onFilterChanged.bind(this));
+	        this.addDestroyableEventListener(this.eventService, ag_grid_1.Events.EVENT_SORT_CHANGED, this.onSortChanged.bind(this));
+	    };
+	    EnterpriseRowModel.prototype.onFilterChanged = function () {
+	        this.reset();
+	    };
+	    EnterpriseRowModel.prototype.onSortChanged = function () {
+	        this.reset();
+	    };
+	    EnterpriseRowModel.prototype.onValueChanged = function () {
+	        this.reset();
+	    };
+	    EnterpriseRowModel.prototype.onColumnRowGroupChanged = function () {
+	        this.reset();
+	    };
+	    EnterpriseRowModel.prototype.onRowGroupOpened = function (event) {
+	        var openedNode = event.node;
+	        if (openedNode.expanded) {
+	            if (ag_grid_1._.missing(openedNode.childrenCache)) {
+	                this.createNodeCache(openedNode);
+	            }
+	        }
+	        else {
+	            if (this.gridOptionsWrapper.isPurgeClosedRowNodes() && ag_grid_1._.exists(openedNode.childrenCache)) {
+	                openedNode.childrenCache.destroy();
+	                openedNode.childrenCache = null;
+	            }
+	        }
+	        this.updateRowIndexes();
+	        var modelUpdatedEvent = { animate: true, keepRenderedRows: true };
+	        this.eventService.dispatchEvent(ag_grid_1.Events.EVENT_MODEL_UPDATED, modelUpdatedEvent);
+	    };
+	    EnterpriseRowModel.prototype.reset = function () {
+	        this.rootNode = new ag_grid_1.RowNode();
+	        this.rootNode.group = true;
+	        this.rootNode.level = -1;
+	        this.context.wireBean(this.rootNode);
+	        if (this.datasource) {
+	            this.createNewRowNodeBlockLoader();
+	            this.cacheParams = this.createCacheParams();
+	            this.createNodeCache(this.rootNode);
+	            this.updateRowIndexes();
+	        }
+	        // this event: 1) clears selection 2) updates filters 3) shows/hides 'no rows' overlay
+	        this.eventService.dispatchEvent(ag_grid_1.Events.EVENT_ROW_DATA_CHANGED);
+	        // this gets the row to render rows (or remove the previously rendered rows, as it's blank to start).
+	        // important to NOT pass in an event with keepRenderedRows or animate, as we want the renderer
+	        // to treat the rows as new rows, as it's all new data
+	        this.eventService.dispatchEvent(ag_grid_1.Events.EVENT_MODEL_UPDATED);
+	    };
+	    EnterpriseRowModel.prototype.createNewRowNodeBlockLoader = function () {
+	        this.destroyRowNodeBlockLoader();
+	        var maxConcurrentRequests = this.gridOptionsWrapper.getMaxConcurrentDatasourceRequests();
+	        this.rowNodeBlockLoader = new ag_grid_1.RowNodeBlockLoader(maxConcurrentRequests);
+	        this.context.wireBean(this.rowNodeBlockLoader);
+	    };
+	    EnterpriseRowModel.prototype.destroyRowNodeBlockLoader = function () {
+	        if (this.rowNodeBlockLoader) {
+	            this.rowNodeBlockLoader.destroy();
+	            this.rowNodeBlockLoader = null;
+	        }
+	    };
+	    EnterpriseRowModel.prototype.setDatasource = function (datasource) {
+	        this.datasource = datasource;
+	        this.reset();
+	    };
+	    EnterpriseRowModel.prototype.toValueObjects = function (columns) {
+	        var _this = this;
+	        return columns.map(function (col) { return ({
+	            id: col.getId(),
+	            aggFunc: col.getAggFunc(),
+	            displayName: _this.columnController.getDisplayNameForColumn(col, 'model'),
+	            field: col.getColDef().field
+	        }); });
+	    };
+	    EnterpriseRowModel.prototype.createCacheParams = function () {
+	        var rowGroupColumnVos = this.toValueObjects(this.columnController.getRowGroupColumns());
+	        var valueColumnVos = this.toValueObjects(this.columnController.getValueColumns());
+	        var params = {
+	            // the columns the user has grouped and aggregated by
+	            valueCols: valueColumnVos,
+	            rowGroupCols: rowGroupColumnVos,
+	            // sort and filter model
+	            filterModel: this.filterManager.getFilterModel(),
+	            sortModel: this.sortController.getSortModel(),
+	            rowNodeBlockLoader: this.rowNodeBlockLoader,
+	            datasource: this.datasource,
+	            lastAccessedSequence: new ag_grid_1.NumberSequence(),
+	            overflowSize: 1,
+	            initialRowCount: 1,
+	            maxConcurrentRequests: this.gridOptionsWrapper.getMaxConcurrentDatasourceRequests(),
+	            maxBlocksInCache: this.gridOptionsWrapper.getMaxBlocksInCache(),
+	            blockSize: this.gridOptionsWrapper.getCacheBlockSize(),
+	            rowHeight: this.rowHeight
+	        };
+	        // set defaults
+	        if (!(params.maxConcurrentRequests >= 1)) {
+	            params.maxConcurrentRequests = 2;
+	        }
+	        // page size needs to be 1 or greater. having it at 1 would be silly, as you would be hitting the
+	        // server for one page at a time. so the default if not specified is 100.
+	        if (!(params.blockSize >= 1)) {
+	            params.blockSize = 100;
+	        }
+	        // if user doesn't give initial rows to display, we assume zero
+	        if (!(params.initialRowCount >= 1)) {
+	            params.initialRowCount = 0;
+	        }
+	        // if user doesn't provide overflow, we use default overflow of 1, so user can scroll past
+	        // the current page and request first row of next page
+	        if (!(params.overflowSize >= 1)) {
+	            params.overflowSize = 1;
+	        }
+	        return params;
+	    };
+	    EnterpriseRowModel.prototype.createNodeCache = function (rowNode) {
+	        var cache = new enterpriseCache_1.EnterpriseCache(this.cacheParams, rowNode);
+	        this.context.wireBean(cache);
+	        cache.addEventListener(ag_grid_1.RowNodeCache.EVENT_CACHE_UPDATED, this.onCacheUpdated.bind(this));
+	        rowNode.childrenCache = cache;
+	    };
+	    EnterpriseRowModel.prototype.getRowBounds = function (index) {
+	        return {
+	            rowHeight: this.rowHeight,
+	            rowTop: this.rowHeight * index
+	        };
+	    };
+	    EnterpriseRowModel.prototype.onCacheUpdated = function () {
+	        this.updateRowIndexes();
+	        var modelUpdatedEvent = { animate: true, keepRenderedRows: true };
+	        this.eventService.dispatchEvent(ag_grid_1.Events.EVENT_MODEL_UPDATED, modelUpdatedEvent);
+	    };
+	    EnterpriseRowModel.prototype.updateRowIndexes = function () {
+	        var cacheExists = ag_grid_1._.exists(this.rootNode) && ag_grid_1._.exists(this.rootNode.childrenCache);
+	        if (cacheExists) {
+	            // todo: should not be casting here, the RowModel should use IEnterpriseRowModel interface?
+	            var enterpriseCache = this.rootNode.childrenCache;
+	            var numberSequence = new ag_grid_1.NumberSequence();
+	            enterpriseCache.setDisplayIndexes(numberSequence);
+	        }
+	    };
+	    EnterpriseRowModel.prototype.getRow = function (index) {
+	        var cacheExists = ag_grid_1._.exists(this.rootNode) && ag_grid_1._.exists(this.rootNode.childrenCache);
+	        if (cacheExists) {
+	            return this.rootNode.childrenCache.getRow(index);
+	        }
+	        else {
+	            return null;
+	        }
+	    };
+	    EnterpriseRowModel.prototype.getPageFirstRow = function () {
+	        return 0;
+	    };
+	    EnterpriseRowModel.prototype.getPageLastRow = function () {
+	        var cacheExists = ag_grid_1._.exists(this.rootNode) && ag_grid_1._.exists(this.rootNode.childrenCache);
+	        var lastRow;
+	        if (cacheExists) {
+	            // todo: should not be casting here, the RowModel should use IEnterpriseRowModel interface?
+	            var enterpriseCache = this.rootNode.childrenCache;
+	            lastRow = enterpriseCache.getLastDisplayedIndex();
+	        }
+	        else {
+	            lastRow = 0;
+	        }
+	        return lastRow;
+	    };
+	    EnterpriseRowModel.prototype.getRowCount = function () {
+	        return this.getPageLastRow() + 1;
+	    };
+	    EnterpriseRowModel.prototype.getRowIndexAtPixel = function (pixel) {
+	        if (this.rowHeight !== 0) {
+	            var rowIndexForPixel = Math.floor(pixel / this.rowHeight);
+	            if (rowIndexForPixel > this.getPageLastRow()) {
+	                return this.getPageLastRow();
+	            }
+	            else {
+	                return rowIndexForPixel;
+	            }
+	        }
+	        else {
+	            return 0;
+	        }
+	    };
+	    EnterpriseRowModel.prototype.getCurrentPageHeight = function () {
+	        var pageHeight = this.rowHeight * this.getRowCount();
+	        return pageHeight;
+	    };
+	    EnterpriseRowModel.prototype.isEmpty = function () {
+	        return false;
+	    };
+	    EnterpriseRowModel.prototype.isRowsToRender = function () {
+	        return this.getRowCount() > 0;
+	    };
+	    EnterpriseRowModel.prototype.getType = function () {
+	        return ag_grid_1.Constants.ROW_MODEL_TYPE_ENTERPRISE;
+	    };
+	    EnterpriseRowModel.prototype.forEachNode = function (callback) {
+	        if (this.rootNode && this.rootNode.childrenCache) {
+	            this.rootNode.childrenCache.forEachNodeDeep(callback, new ag_grid_1.NumberSequence());
+	        }
+	    };
+	    EnterpriseRowModel.prototype.purgeCache = function (route) {
+	        if (route === void 0) { route = []; }
+	        if (this.rootNode && this.rootNode.childrenCache) {
+	            var topLevelCache = this.rootNode.childrenCache;
+	            var cacheToPurge = topLevelCache.getChildCache(route);
+	            if (cacheToPurge) {
+	                cacheToPurge.purgeCache();
+	            }
+	        }
+	    };
+	    EnterpriseRowModel.prototype.getBlockState = function () {
+	        if (this.rowNodeBlockLoader) {
+	            return this.rowNodeBlockLoader.getBlockState();
+	        }
+	        else {
+	            return null;
+	        }
+	    };
+	    EnterpriseRowModel.prototype.isRowPresent = function (rowNode) {
+	        return false;
+	    };
+	    return EnterpriseRowModel;
+	}(ag_grid_1.BeanStub));
+	__decorate([
+	    ag_grid_1.Autowired('gridOptionsWrapper'),
+	    __metadata("design:type", ag_grid_1.GridOptionsWrapper)
+	], EnterpriseRowModel.prototype, "gridOptionsWrapper", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('eventService'),
+	    __metadata("design:type", ag_grid_1.EventService)
+	], EnterpriseRowModel.prototype, "eventService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], EnterpriseRowModel.prototype, "context", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('columnController'),
+	    __metadata("design:type", ag_grid_1.ColumnController)
+	], EnterpriseRowModel.prototype, "columnController", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('filterManager'),
+	    __metadata("design:type", ag_grid_1.FilterManager)
+	], EnterpriseRowModel.prototype, "filterManager", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('sortController'),
+	    __metadata("design:type", ag_grid_1.SortController)
+	], EnterpriseRowModel.prototype, "sortController", void 0);
+	__decorate([
+	    ag_grid_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseRowModel.prototype, "postConstruct", null);
+	__decorate([
+	    __param(0, ag_grid_1.Qualifier('loggerFactory')),
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", [ag_grid_1.LoggerFactory]),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseRowModel.prototype, "setBeans", null);
+	EnterpriseRowModel = __decorate([
+	    ag_grid_1.Bean('rowModel')
+	], EnterpriseRowModel);
+	exports.EnterpriseRowModel = EnterpriseRowModel;
+
+
+/***/ }),
+/* 166 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var __param = (this && this.__param) || function (paramIndex, decorator) {
+	    return function (target, key) { decorator(target, key, paramIndex); }
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var enterpriseBlock_1 = __webpack_require__(167);
+	var EnterpriseCache = (function (_super) {
+	    __extends(EnterpriseCache, _super);
+	    function EnterpriseCache(cacheParams, parentRowNode) {
+	        var _this = _super.call(this, cacheParams) || this;
+	        // this will always be zero for the top level cache only,
+	        // all the other ones chance as the groups open and close
+	        _this.firstDisplayIndex = 0;
+	        _this.parentRowNode = parentRowNode;
+	        return _this;
+	    }
+	    EnterpriseCache.prototype.setBeans = function (loggerFactory) {
+	        this.logger = loggerFactory.create('EnterpriseCache');
+	    };
+	    EnterpriseCache.prototype.init = function () {
+	        _super.prototype.init.call(this);
+	    };
+	    EnterpriseCache.prototype.setDisplayIndexes = function (numberSequence) {
+	        var _this = this;
+	        this.firstDisplayIndex = numberSequence.peek();
+	        var lastBlockId = -1;
+	        this.forEachBlockInOrder(function (currentBlock, blockId) {
+	            // if we skipped blocks, then we need to skip the row indexes. we assume that all missing
+	            // blocks are made up of closed RowNodes only (if they were groups), as we never expire from
+	            // the cache if any row nodes are open.
+	            var blocksSkippedCount = blockId - lastBlockId - 1;
+	            var rowsSkippedCount = blocksSkippedCount * _this.cacheParams.blockSize;
+	            if (rowsSkippedCount > 0) {
+	                numberSequence.skip(rowsSkippedCount);
+	            }
+	            lastBlockId = blockId;
+	            currentBlock.setDisplayIndexes(numberSequence, _this.getVirtualRowCount());
+	        });
+	        // if any blocks missing at the end, need to increase the row index for them also
+	        // eg if block size = 10, we have total rows of 25 (indexes 0 .. 24), but first 2 blocks loaded (because
+	        // last row was ejected from cache), then:
+	        // lastVisitedRow = 19, virtualRowCount = 25, rows not accounted for = 5 (24 - 19)
+	        var lastVisitedRow = ((lastBlockId + 1) * this.cacheParams.blockSize) - 1;
+	        var rowCount = this.getVirtualRowCount();
+	        var rowsNotAccountedFor = rowCount - lastVisitedRow - 1;
+	        if (rowsNotAccountedFor > 0) {
+	            numberSequence.skip(rowsNotAccountedFor);
+	        }
+	        this.lastDisplayIndex = numberSequence.peek() - 1;
+	    };
+	    // gets called in a) init() above and b) by the grid
+	    EnterpriseCache.prototype.getRow = function (rowIndex) {
+	        var _this = this;
+	        // if we have the block, then this is the block
+	        var block = null;
+	        // this is the last block that we have BEFORE the right block
+	        var beforeBlock = null;
+	        this.forEachBlockInOrder(function (currentBlock) {
+	            if (currentBlock.isIndexInBlock(rowIndex)) {
+	                block = currentBlock;
+	            }
+	            else if (currentBlock.isBlockBefore(rowIndex)) {
+	                // this will get assigned many times, but the last time will
+	                // be the closest block to the required block that is BEFORE
+	                beforeBlock = currentBlock;
+	            }
+	        });
+	        // if block not found, we need to load it
+	        if (ag_grid_1._.missing(block)) {
+	            var blockNumber = void 0;
+	            var displayIndexStart_1;
+	            // because missing blocks are always fully closed, we can work out
+	            // the start index of the block we want by hopping from the closes block,
+	            // as we know the row count in closed blocks is equal to the page size
+	            if (beforeBlock) {
+	                blockNumber = beforeBlock.getPageNumber() + 1;
+	                displayIndexStart_1 = beforeBlock.getDisplayEndIndex();
+	                var isInRange = function () {
+	                    return rowIndex >= displayIndexStart_1 && rowIndex < (displayIndexStart_1 + _this.cacheParams.blockSize);
+	                };
+	                var count = 0;
+	                while (!isInRange()) {
+	                    displayIndexStart_1 += this.cacheParams.blockSize;
+	                    blockNumber++;
+	                    count++;
+	                    if (count > 1000) {
+	                        debugger;
+	                    }
+	                }
+	            }
+	            else {
+	                var localIndex = rowIndex - this.firstDisplayIndex;
+	                blockNumber = Math.floor(localIndex / this.cacheParams.blockSize);
+	                displayIndexStart_1 = this.firstDisplayIndex + (blockNumber * this.cacheParams.blockSize);
+	            }
+	            block = this.createBlock(blockNumber, displayIndexStart_1);
+	            this.logger.log("block missing, rowIndex = " + rowIndex + ", creating #" + blockNumber + ", displayIndexStart = " + displayIndexStart_1);
+	        }
+	        var rowNode = block.getRow(rowIndex);
+	        return rowNode;
+	    };
+	    EnterpriseCache.prototype.createBlock = function (blockNumber, displayIndex) {
+	        var newBlock = new enterpriseBlock_1.EnterpriseBlock(blockNumber, this.parentRowNode, this.cacheParams, this);
+	        this.context.wireBean(newBlock);
+	        var displayIndexSequence = new ag_grid_1.NumberSequence(displayIndex);
+	        newBlock.setDisplayIndexes(displayIndexSequence, this.getVirtualRowCount());
+	        this.postCreateBlock(newBlock);
+	        return newBlock;
+	    };
+	    EnterpriseCache.prototype.getLastDisplayedIndex = function () {
+	        return this.lastDisplayIndex;
+	    };
+	    EnterpriseCache.prototype.isIndexInCache = function (index) {
+	        return index >= this.firstDisplayIndex && index <= this.lastDisplayIndex;
+	    };
+	    EnterpriseCache.prototype.getChildCache = function (keys) {
+	        var _this = this;
+	        if (ag_grid_1._.missingOrEmpty(keys)) {
+	            return this;
+	        }
+	        var nextKey = keys[0];
+	        var nextEnterpriseCache = null;
+	        this.forEachBlockInOrder(function (block) {
+	            // callback: (rowNode: RowNode, index: number) => void, sequence: NumberSequence, rowCount: number
+	            block.forEachNodeShallow(function (rowNode) {
+	                if (rowNode.key === nextKey) {
+	                    nextEnterpriseCache = rowNode.childrenCache;
+	                }
+	            }, new ag_grid_1.NumberSequence(), _this.getVirtualRowCount());
+	        });
+	        if (nextEnterpriseCache) {
+	            var keyListForNextLevel = keys.slice(1, keys.length);
+	            return nextEnterpriseCache.getChildCache(keyListForNextLevel);
+	        }
+	        else {
+	            return null;
+	        }
+	    };
+	    return EnterpriseCache;
+	}(ag_grid_1.RowNodeCache));
+	__decorate([
+	    ag_grid_1.Autowired('eventService'),
+	    __metadata("design:type", ag_grid_1.EventService)
+	], EnterpriseCache.prototype, "eventService", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], EnterpriseCache.prototype, "context", void 0);
+	__decorate([
+	    __param(0, ag_grid_1.Qualifier('loggerFactory')),
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", [ag_grid_1.LoggerFactory]),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseCache.prototype, "setBeans", null);
+	__decorate([
+	    ag_grid_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseCache.prototype, "init", null);
+	exports.EnterpriseCache = EnterpriseCache;
+
+
+/***/ }),
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var __param = (this && this.__param) || function (paramIndex, decorator) {
+	    return function (target, key) { decorator(target, key, paramIndex); }
+	};
+	var ag_grid_1 = __webpack_require__(2);
+	var EnterpriseBlock = (function (_super) {
+	    __extends(EnterpriseBlock, _super);
+	    function EnterpriseBlock(pageNumber, parentRowNode, params, parentCache) {
+	        var _this = _super.call(this, pageNumber, params) || this;
+	        _this.params = params;
+	        _this.parentRowNode = parentRowNode;
+	        _this.parentCache = parentCache;
+	        _this.level = parentRowNode.level + 1;
+	        _this.groupLevel = _this.level < params.rowGroupCols.length;
+	        if (_this.groupLevel) {
+	            _this.groupField = params.rowGroupCols[_this.level].field;
+	        }
+	        _this.createNodeIdPrefix();
+	        return _this;
+	    }
+	    EnterpriseBlock.prototype.createNodeIdPrefix = function () {
+	        var parts = [];
+	        var rowNode = this.parentRowNode;
+	        while (ag_grid_1._.exists(rowNode.key)) {
+	            parts.push(rowNode.key);
+	            rowNode = rowNode.parent;
+	        }
+	        if (parts.length > 0) {
+	            this.nodeIdPrefix = parts.reverse().join('-') + '-';
+	        }
+	    };
+	    EnterpriseBlock.prototype.createIdForIndex = function (index) {
+	        if (ag_grid_1._.exists(this.nodeIdPrefix)) {
+	            return this.nodeIdPrefix + index.toString();
+	        }
+	        else {
+	            return index.toString();
+	        }
+	    };
+	    EnterpriseBlock.prototype.getNodeIdPrefix = function () {
+	        return this.nodeIdPrefix;
+	    };
+	    EnterpriseBlock.prototype.getRow = function (rowIndex) {
+	        // do binary search of tree
+	        // http://oli.me.uk/2013/06/08/searching-javascript-arrays-with-a-binary-search/
+	        var bottomPointer = this.getStartRow();
+	        // the end row depends on whether all this block is used or not. if the virtual row count
+	        // is before the end, then not all the row is used
+	        var virtualRowCount = this.parentCache.getVirtualRowCount();
+	        var endRow = this.getEndRow();
+	        var actualEnd = (virtualRowCount < endRow) ? virtualRowCount : endRow;
+	        var topPointer = actualEnd - 1;
+	        if (ag_grid_1._.missing(topPointer) || ag_grid_1._.missing(bottomPointer)) {
+	            console.log("ag-grid: error: topPointer = " + topPointer + ", bottomPointer = " + bottomPointer);
+	            return null;
+	        }
+	        var count = 0;
+	        while (true) {
+	            count++;
+	            if (count > 1000) {
+	                debugger;
+	            }
+	            var midPointer = Math.floor((bottomPointer + topPointer) / 2);
+	            var currentRowNode = _super.prototype.getRowUsingLocalIndex.call(this, midPointer);
+	            if (!currentRowNode) {
+	                console.log("missing rowNode");
+	            }
+	            if (currentRowNode.rowIndex === rowIndex) {
+	                return currentRowNode;
+	            }
+	            var childrenCache = currentRowNode.childrenCache;
+	            if (currentRowNode.rowIndex === rowIndex) {
+	                return currentRowNode;
+	            }
+	            else if (currentRowNode.expanded && childrenCache && childrenCache.isIndexInCache(rowIndex)) {
+	                return childrenCache.getRow(rowIndex);
+	            }
+	            else if (currentRowNode.rowIndex < rowIndex) {
+	                bottomPointer = midPointer + 1;
+	            }
+	            else if (currentRowNode.rowIndex > rowIndex) {
+	                topPointer = midPointer - 1;
+	            }
+	        }
+	    };
+	    EnterpriseBlock.prototype.setBeans = function (loggerFactory) {
+	        this.logger = loggerFactory.create('EnterpriseBlock');
+	    };
+	    EnterpriseBlock.prototype.init = function () {
+	        _super.prototype.init.call(this, {
+	            context: this.context,
+	            rowRenderer: this.rowRenderer
+	        });
+	    };
+	    EnterpriseBlock.prototype.setDataAndId = function (rowNode, data, index) {
+	        rowNode.stub = false;
+	        if (ag_grid_1._.exists(data)) {
+	            // if the user is not providing id's, then we build an id based on the index.
+	            // for infinite scrolling, the index is used on it's own. for enterprise,
+	            // we combine the index with the level and group key, so that the id is
+	            // unique across the set.
+	            //
+	            // unique id is needed for selection (so selection can be maintained when
+	            // doing server side sorting / filtering) - if user is not providing id's
+	            // (and we use the indexes) then selection will not work between sorting &
+	            // filtering.
+	            //
+	            // id's are also used by the row renderer for updating the dom as it identifies
+	            // rowNodes by id
+	            var idToUse = this.createIdForIndex(index);
+	            rowNode.setDataAndId(data, idToUse);
+	            rowNode.key = data[this.groupField];
+	        }
+	        else {
+	            rowNode.setDataAndId(undefined, undefined);
+	            rowNode.key = null;
+	        }
+	    };
+	    EnterpriseBlock.prototype.loadFromDatasource = function () {
+	        var _this = this;
+	        var params = this.createLoadParams();
+	        setTimeout(function () {
+	            _this.params.datasource.getRows(params);
+	        }, 0);
+	    };
+	    EnterpriseBlock.prototype.createBlankRowNode = function (rowIndex) {
+	        var rowNode = _super.prototype.createBlankRowNode.call(this, rowIndex);
+	        rowNode.group = this.groupLevel;
+	        rowNode.level = this.level;
+	        rowNode.uiLevel = this.level;
+	        rowNode.parent = this.parentRowNode;
+	        // stub gets set to true here, and then false when this rowNode gets it's data
+	        rowNode.stub = true;
+	        if (rowNode.group) {
+	            rowNode.expanded = false;
+	            rowNode.field = this.groupField;
+	        }
+	        return rowNode;
+	    };
+	    EnterpriseBlock.prototype.createGroupKeys = function (groupNode) {
+	        var keys = [];
+	        var pointer = groupNode;
+	        while (pointer.level >= 0) {
+	            keys.push(pointer.key);
+	            pointer = pointer.parent;
+	        }
+	        keys.reverse();
+	        return keys;
+	    };
+	    EnterpriseBlock.prototype.setDisplayIndexes = function (displayIndexSeq, virtualRowCount) {
+	        this.displayStartIndex = displayIndexSeq.peek();
+	        var start = this.getStartRow();
+	        var end = this.getEndRow();
+	        for (var i = start; i <= end; i++) {
+	            // the blocks can have extra rows in them, if they are the last block
+	            // in the cache and the virtual row count doesn't divide evenly by the
+	            if (i >= virtualRowCount) {
+	                continue;
+	            }
+	            var rowNode = this.getRowUsingLocalIndex(i);
+	            if (rowNode) {
+	                var rowIndex = displayIndexSeq.next();
+	                rowNode.setRowIndex(rowIndex);
+	                rowNode.rowTop = this.params.rowHeight * rowIndex;
+	                if (rowNode.group && rowNode.expanded && ag_grid_1._.exists(rowNode.childrenCache)) {
+	                    var enterpriseCache = rowNode.childrenCache;
+	                    enterpriseCache.setDisplayIndexes(displayIndexSeq);
+	                }
+	            }
+	        }
+	        this.displayEndIndex = displayIndexSeq.peek();
+	    };
+	    EnterpriseBlock.prototype.createLoadParams = function () {
+	        var groupKeys = this.createGroupKeys(this.parentRowNode);
+	        var request = {
+	            startRow: this.getStartRow(),
+	            endRow: this.getEndRow(),
+	            rowGroupCols: this.params.rowGroupCols,
+	            valueCols: this.params.valueCols,
+	            groupKeys: groupKeys,
+	            filterModel: this.params.filterModel,
+	            sortModel: this.params.sortModel
+	        };
+	        var params = {
+	            successCallback: this.pageLoaded.bind(this, this.getVersion()),
+	            failCallback: this.pageLoadFailed.bind(this),
+	            request: request
+	        };
+	        return params;
+	    };
+	    EnterpriseBlock.prototype.isIndexInBlock = function (index) {
+	        return index >= this.displayStartIndex && index < this.displayEndIndex;
+	    };
+	    EnterpriseBlock.prototype.isBlockBefore = function (index) {
+	        return index >= this.displayEndIndex;
+	    };
+	    EnterpriseBlock.prototype.getDisplayStartIndex = function () {
+	        return this.displayStartIndex;
+	    };
+	    EnterpriseBlock.prototype.getDisplayEndIndex = function () {
+	        return this.displayEndIndex;
+	    };
+	    return EnterpriseBlock;
+	}(ag_grid_1.RowNodeBlock));
+	__decorate([
+	    ag_grid_1.Autowired('context'),
+	    __metadata("design:type", ag_grid_1.Context)
+	], EnterpriseBlock.prototype, "context", void 0);
+	__decorate([
+	    ag_grid_1.Autowired('rowRenderer'),
+	    __metadata("design:type", ag_grid_1.RowRenderer)
+	], EnterpriseBlock.prototype, "rowRenderer", void 0);
+	__decorate([
+	    __param(0, ag_grid_1.Qualifier('loggerFactory')),
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", [ag_grid_1.LoggerFactory]),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseBlock.prototype, "setBeans", null);
+	__decorate([
+	    ag_grid_1.PostConstruct,
+	    __metadata("design:type", Function),
+	    __metadata("design:paramtypes", []),
+	    __metadata("design:returntype", void 0)
+	], EnterpriseBlock.prototype, "init", null);
+	exports.EnterpriseBlock = EnterpriseBlock;
+
+
+/***/ }),
+/* 168 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// ag-grid-enterprise v10.1.0
+	"use strict";
+	var columnSelectPanel_1 = __webpack_require__(128);
+	var renderedColumn_1 = __webpack_require__(130);
+	var renderedGroup_1 = __webpack_require__(129);
+	var aggregationStage_1 = __webpack_require__(138);
+	var groupStage_1 = __webpack_require__(137);
+	var setFilter_1 = __webpack_require__(142);
+	var setFilterModel_1 = __webpack_require__(143);
+	var statusBar_1 = __webpack_require__(150);
+	var statusItem_1 = __webpack_require__(151);
+	var clipboardService_1 = __webpack_require__(134);
+	var enterpriseBoot_1 = __webpack_require__(141);
+	var enterpriseMenu_1 = __webpack_require__(127);
+	var menuItemComponent_1 = __webpack_require__(132);
+	var menuList_1 = __webpack_require__(131);
+	var rangeController_1 = __webpack_require__(135);
+	var rowGroupColumnsPanel_1 = __webpack_require__(158);
+	var contextMenu_1 = __webpack_require__(152);
+	var viewportRowModel_1 = __webpack_require__(153);
+	var richSelectCellEditor_1 = __webpack_require__(146);
+	var richSelectRow_1 = __webpack_require__(147);
+	var virtualList_1 = __webpack_require__(145);
+	var abstractColumnDropPanel_1 = __webpack_require__(155);
+	var pivotColumnsPanel_1 = __webpack_require__(154);
+	var toolPanelComp_1 = __webpack_require__(157);
+	var licenseManager_1 = __webpack_require__(148);
+	var pivotStage_1 = __webpack_require__(139);
+	var pivotColDefService_1 = __webpack_require__(140);
+	var pivotModePanel_1 = __webpack_require__(159);
+	var aggFuncService_1 = __webpack_require__(136);
+	var md5_1 = __webpack_require__(149);
+	var setFilterListItem_1 = __webpack_require__(144);
+	var columnComponent_1 = __webpack_require__(156);
+	var valueColumnsPanel_1 = __webpack_require__(160);
+	var pivotCompFactory_1 = __webpack_require__(162);
+	var rowGroupCompFactory_1 = __webpack_require__(161);
+	var excelCreator_1 = __webpack_require__(163);
+	var excelXmlFactory_1 = __webpack_require__(164);
+	function populateClientExports(exports) {
+	    exports.AggFuncService = aggFuncService_1.AggFuncService;
+	    exports.MD5 = md5_1.MD5;
+	    exports.EnterpriseMenu = enterpriseMenu_1.EnterpriseMenu;
+	    exports.MenuList = menuList_1.MenuList;
+	    exports.MenuItemComponent = menuItemComponent_1.MenuItemComponent;
+	    exports.RichSelectCellEditor = richSelectCellEditor_1.RichSelectCellEditor;
+	    exports.RichSelectRow = richSelectRow_1.RichSelectRow;
+	    exports.VirtualList = virtualList_1.VirtualList;
+	    exports.AggregationStage = aggregationStage_1.AggregationStage;
+	    exports.GroupStage = groupStage_1.GroupStage;
+	    exports.PivotColDefService = pivotColDefService_1.PivotColDefService;
+	    exports.PivotStage = pivotStage_1.PivotStage;
+	    exports.SetFilter = setFilter_1.SetFilter;
+	    exports.SetFilterListItem = setFilterListItem_1.SetFilterListItem;
+	    exports.SetFilterModel = setFilterModel_1.SetFilterModel;
+	    exports.StatusBar = statusBar_1.StatusBar;
+	    exports.StatusItem = statusItem_1.StatusItem;
+	    exports.AbstractColumnDropPanel = abstractColumnDropPanel_1.AbstractColumnDropPanel;
+	    exports.ColumnComponent = columnComponent_1.ColumnComponent;
+	    exports.PivotColumnsPanel = pivotColumnsPanel_1.PivotColumnsPanel;
+	    exports.PivotModePanel = pivotModePanel_1.PivotModePanel;
+	    exports.RowGroupColumnsPanel = rowGroupColumnsPanel_1.RowGroupColumnsPanel;
+	    exports.ValuesColumnPanel = valueColumnsPanel_1.ValuesColumnPanel;
+	    exports.ToolPanelComp = toolPanelComp_1.ToolPanelComp;
+	    exports.ColumnSelectPanel = columnSelectPanel_1.ColumnSelectPanel;
+	    exports.RenderedColumn = renderedColumn_1.RenderedColumn;
+	    exports.RenderedGroup = renderedGroup_1.RenderedGroup;
+	    exports.ViewportRowModel = viewportRowModel_1.ViewportRowModel;
+	    exports.ClipboardService = clipboardService_1.ClipboardService;
+	    exports.ContextMenuFactory = contextMenu_1.ContextMenuFactory;
+	    exports.EnterpriseBoot = enterpriseBoot_1.EnterpriseBoot;
+	    exports.LicenseManager = licenseManager_1.LicenseManager;
+	    exports.PivotCompFactory = pivotCompFactory_1.PivotCompFactory;
+	    exports.ExcelCreator = excelCreator_1.ExcelCreator;
+	    exports.ExcelXmlFactory = excelXmlFactory_1.ExcelXmlFactory;
+	    exports.RangeController = rangeController_1.RangeController;
+	    exports.RowGroupCompFactory = rowGroupCompFactory_1.RowGroupCompFactory;
+	}
+	exports.populateClientExports = populateClientExports;
+
+
+/***/ }),
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(127);
+	var content = __webpack_require__(170);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(129)(content, {});
+	var update = __webpack_require__(172)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./ag-grid.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./ag-grid.css");
+			module.hot.accept("!!../../../css-loader/index.js!./ag-grid.css", function() {
+				var newContent = require("!!../../../css-loader/index.js!./ag-grid.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -29085,10 +37041,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 127 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(128)();
+	exports = module.exports = __webpack_require__(171)();
 	// imports
 
 
@@ -29099,7 +37055,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 128 */
+/* 171 */
 /***/ (function(module, exports) {
 
 	/*
@@ -29155,7 +37111,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 129 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -29409,23 +37365,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 130 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(131);
+	var content = __webpack_require__(174);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(129)(content, {});
+	var update = __webpack_require__(172)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./theme-blue.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./theme-blue.css");
+			module.hot.accept("!!../../../css-loader/index.js!./theme-fresh.css", function() {
+				var newContent = require("!!../../../css-loader/index.js!./theme-fresh.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -29435,90 +37391,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 131 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(128)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".ag-blue {\n  line-height: 1.4;\n  font-family: Calibri, \"Segoe UI\", Thonburi, Arial, Verdana, sans-serif;\n  font-size: 10pt;\n  color: #222;\n/* this is for the rowGroupPanel, that appears along the top of the grid */\n/* this is for the column drops that appear in the toolPanel */\n}\n.ag-blue img {\n  vertical-align: middle;\n  border: 0;\n}\n.ag-blue .ag-root {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-cell-not-inline-editing {\n  padding: 2px;\n}\n.ag-blue .ag-cell-range-selected-1:not(.ag-cell-focus) {\n  background-color: rgba(120,120,120,0.4);\n}\n.ag-blue .ag-cell-range-selected-2:not(.ag-cell-focus) {\n  background-color: rgba(80,80,80,0.4);\n}\n.ag-blue .ag-cell-range-selected-3:not(.ag-cell-focus) {\n  background-color: rgba(40,40,40,0.4);\n}\n.ag-blue .ag-cell-range-selected-4:not(.ag-cell-focus) {\n  background-color: rgba(0,0,0,0.4);\n}\n.ag-blue .ag-cell-focus {\n  border: 2px solid #217346;\n}\n.ag-blue .ag-cell-no-focus {\n  border-top: 2px solid transparent;\n  border-bottom: 1px dotted #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-cell-no-focus {\n  border-right: 1px dotted #9bc2e6;\n  border-left: 2px solid transparent;\n}\n.ag-blue .ag-rtl .ag-cell-no-focus {\n  border-right: 2px solid transparent;\n  border-left: 1px dotted #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-cell-first-right-pinned {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-cell-first-right-pinned {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-cell-last-left-pinned {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-cell-last-left-pinned {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-cell-highlight {\n  border: 1px solid #006400;\n}\n.ag-blue .ag-cell-highlight-animation {\n  -webkit-transition: border 1s;\n  -moz-transition: border 1s;\n  -o-transition: border 1s;\n  -ms-transition: border 1s;\n  transition: border 1s;\n}\n.ag-blue .ag-value-change-delta {\n  padding-right: 2px;\n}\n.ag-blue .ag-value-change-delta-up {\n  color: #006400;\n}\n.ag-blue .ag-value-change-delta-down {\n  color: #8b0000;\n}\n.ag-blue .ag-value-change-value {\n  background-color: transparent;\n  border-radius: 1px;\n  padding-left: 1px;\n  padding-right: 1px;\n  -webkit-transition: background-color 1s;\n  -moz-transition: background-color 1s;\n  -o-transition: background-color 1s;\n  -ms-transition: background-color 1s;\n  transition: background-color 1s;\n}\n.ag-blue .ag-value-change-value-highlight {\n  background-color: #cec;\n  -webkit-transition: background-color 0.1s;\n  -moz-transition: background-color 0.1s;\n  -o-transition: background-color 0.1s;\n  -ms-transition: background-color 0.1s;\n  transition: background-color 0.1s;\n}\n.ag-blue .ag-rich-select {\n  font-size: 14px;\n  border: 1px solid #9bc2e6;\n  background-color: #fff;\n}\n.ag-blue .ag-rich-select-value {\n  padding: 2px;\n}\n.ag-blue .ag-rich-select-list {\n  border-top: 1px solid #d3d3d3;\n}\n.ag-blue .ag-rich-select-row {\n  padding: 2px;\n}\n.ag-blue .ag-rich-select-row-selected {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-large-text {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-select-all {\n  padding: 5px 0px 0px 3px;\n  line-height: 0;\n}\n.ag-blue .ag-header {\n  color: #fff;\n  background: #5b9bd5;\n  border-bottom: 1px solid #9bc2e6;\n  font-weight: 600;\n}\n.ag-blue .ag-header-icon {\n  color: #fff;\n  stroke: none;\n  fill: #fff;\n}\n.ag-blue .ag-layout-for-print .ag-header-container {\n  background: #5b9bd5;\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-header-cell {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-header-cell {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-cell-moving .ag-header-cell-label {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-blue .ag-header-cell-moving {\n  background-color: #bebebe;\n}\n.ag-blue .ag-ltr .ag-header-group-cell {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-header-group-cell {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-group-cell-with-group {\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-cell-label {\n  padding: 4px 2px 4px 2px;\n}\n.ag-blue .ag-header-cell-text {\n  padding-left: 2px;\n}\n.ag-blue .ag-header-group-cell-label {\n  padding: 4px;\n}\n.ag-blue .ag-ltr .ag-header-group-cell-label {\n  padding-left: 10px;\n}\n.ag-blue .ag-rtl .ag-header-group-cell-label {\n  padding-right: 10px;\n}\n.ag-blue .ag-rtl .ag-header-group-text {\n  margin-left: 2px;\n}\n.ag-blue .ag-ltr .ag-header-group-text {\n  margin-right: 2px;\n}\n.ag-blue .ag-header-cell-menu-button {\n  padding: 2px;\n  margin-top: 4px;\n  margin-left: 1px;\n  margin-right: 1px;\n  border: 1px solid transparent;\n  border-radius: 3px;\n  -webkit-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  -moz-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  line-height: 0px /* normal line height, a space was appearing below the menu button */;\n}\n.ag-blue .ag-ltr .ag-pinned-right-header {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-pinned-left-header {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-cell-menu-button:hover {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-body {\n  background-color: #f6f6f6;\n}\n.ag-blue .ag-row-odd {\n  background-color: #ddebf7;\n}\n.ag-blue .ag-row-even {\n  background-color: #fff;\n}\n.ag-blue .ag-row-selected {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-row-stub {\n  background-color: #f0f0f0;\n}\n.ag-blue .ag-stub-cell {\n  padding: 2px 2px 2px 10px;\n}\n.ag-blue .ag-floating-top .ag-row {\n  background-color: #f0f0f0;\n}\n.ag-blue .ag-floating-bottom .ag-row {\n  background-color: #f0f0f0;\n}\n.ag-blue .ag-overlay-loading-wrapper {\n  background-color: rgba(255,255,255,0.5);\n}\n.ag-blue .ag-overlay-loading-center {\n  background-color: #fff;\n  border: 1px solid #9bc2e6;\n  border-radius: 10px;\n  padding: 10px;\n  color: #000;\n}\n.ag-blue .ag-overlay-no-rows-center {\n  background-color: #fff;\n  border: 1px solid #9bc2e6;\n  border-radius: 10px;\n  padding: 10px;\n}\n.ag-blue .ag-group-cell-entire-row {\n  background-color: #f6f6f6;\n  padding: 2px;\n}\n.ag-blue .ag-footer-cell-entire-row {\n  background-color: #f6f6f6;\n  padding: 2px;\n}\n.ag-blue .ag-group-cell {\n  font-style: italic;\n}\n.ag-blue .ag-ltr .ag-group-expanded {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-group-expanded {\n  padding-left: 4px;\n}\n.ag-blue .ag-ltr .ag-group-contracted {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-group-contracted {\n  padding-left: 4px;\n}\n.ag-blue .ag-ltr .ag-group-loading {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-group-loading {\n  padding-left: 4px;\n}\n.ag-blue .ag-ltr .ag-group-value {\n  padding-right: 2px;\n}\n.ag-blue .ag-rtl .ag-group-value {\n  padding-left: 2px;\n}\n.ag-blue .ag-ltr .ag-group-checkbox {\n  padding-right: 2px;\n}\n.ag-blue .ag-rtl .ag-group-checkbox {\n  padding-left: 2px;\n}\n.ag-blue .ag-group-child-count {\n  display: inline-block;\n}\n.ag-blue .ag-footer-cell {\n  font-style: italic;\n}\n.ag-blue .ag-menu {\n  border: 1px solid #808080;\n  background-color: #f6f6f6;\n  cursor: default;\n  font-family: Calibri, \"Segoe UI\", Thonburi, Arial, Verdana, sans-serif;\n  font-size: 10pt;\n}\n.ag-blue .ag-menu .ag-tab-header {\n  background-color: #5b9bd5;\n}\n.ag-blue .ag-menu .ag-tab {\n  padding: 6px 8px 6px 8px;\n  margin: 2px 2px 0px 2px;\n  display: inline-block;\n  border-right: 1px solid transparent;\n  border-left: 1px solid transparent;\n  border-top: 1px solid transparent;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n}\n.ag-blue .ag-menu .ag-tab-selected {\n  background-color: #9bc2e6;\n  border-right: 1px solid #d3d3d3;\n  border-left: 1px solid #d3d3d3;\n  border-top: 1px solid #d3d3d3;\n}\n.ag-blue .ag-menu-separator {\n  border-top: 1px solid #d3d3d3;\n}\n.ag-blue .ag-menu-option-active {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-menu-option-icon {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-text {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-shortcut {\n  padding: 2px 2px 2px 2px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-popup-pointer {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-disabled {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-blue .ag-menu-column-select-wrapper {\n  margin: 2px;\n}\n.ag-blue .ag-filter-checkbox {\n  position: relative;\n  top: 2px;\n  left: 2px;\n}\n.ag-blue .ag-filter-header-container {\n  border-bottom: 1px solid #d3d3d3;\n}\n.ag-blue .ag-filter-apply-panel {\n  border-top: 1px solid #d3d3d3;\n  padding: 2px;\n}\n.ag-blue .ag-filter-value {\n  margin-left: 4px;\n}\n.ag-blue .ag-ltr .ag-selection-checkbox {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-selection-checkbox {\n  padding-left: 4px;\n}\n.ag-blue .ag-paging-panel {\n  padding: 4px;\n}\n.ag-blue .ag-paging-button {\n  margin-left: 4px;\n  margin-right: 4px;\n}\n.ag-blue .ag-paging-row-summary-panel {\n  display: inline-block;\n  width: 300px;\n}\n.ag-blue .ag-tool-panel {\n  background-color: #f6f6f6;\n  border-bottom: 1px solid #9bc2e6;\n  border-top: 1px solid #9bc2e6;\n  color: #222;\n}\n.ag-blue .ltr .ag-tool-panel {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .rtl .ag-tool-panel {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-status-bar {\n  color: #222;\n  background-color: #f6f6f6;\n  font-size: 10pt;\n  height: 22px;\n  border-bottom: 1px solid #9bc2e6;\n  border-left: 1px solid #9bc2e6;\n  border-right: 1px solid #9bc2e6;\n  padding: 2px;\n}\n.ag-blue .ag-status-bar-aggregations {\n  float: right;\n}\n.ag-blue .ag-status-bar-item {\n  padding-left: 10px;\n}\n.ag-blue .ag-column-drop-cell {\n  background: #ddebf7;\n  color: #000;\n  border: 1px solid #808080;\n}\n.ag-blue .ag-column-drop-cell-ghost {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-blue .ag-column-drop-cell-text {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-blue .ag-column-drop-cell-button {\n  border: 1px solid transparent;\n  padding-left: 2px;\n  padding-right: 2px;\n  border-radius: 3px;\n}\n.ag-blue .ag-column-drop-cell-button:hover {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-column-drop-empty-message {\n  padding-left: 2px;\n  padding-right: 2px;\n  color: #808080;\n}\n.ag-blue .ag-column-drop-icon {\n  margin: 3px;\n}\n.ag-blue .ag-column-drop {\n  background-color: #f6f6f6;\n}\n.ag-blue .ag-column-drop-horizontal {\n  padding: 2px;\n  border-top: 1px solid #9bc2e6;\n  border-left: 1px solid #9bc2e6;\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-column-drop-vertical {\n  padding: 4px 4px 10px 4px;\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-column-drop-vertical .ag-column-drop-cell {\n  margin-top: 2px;\n}\n.ag-blue .ag-column-drop-vertical .ag-column-drop-empty-message {\n  text-align: center;\n  padding: 5px;\n}\n.ag-blue .ag-pivot-mode {\n  border-bottom: 1px solid #9bc2e6;\n  padding: 4px;\n  background-color: #f6f6f6;\n}\n.ag-blue .ag-tool-panel .ag-column-select-panel {\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-select-agg-func-popup {\n  cursor: default;\n  position: absolute;\n  font-size: 14px;\n  background-color: #fff;\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-select-agg-func-item {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-blue .ag-select-agg-func-item:hover {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-floating-filter-button {\n  background-color: #fff;\n  color: #222;\n}\n.ag-blue .ag-floating-filter-body input {\n  background-color: #fff;\n  color: #222;\n}\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 132 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(133);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(129)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./theme-dark.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./theme-dark.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(128)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".ag-dark {\n  line-height: 1.4;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  color: #ccc;\n/* this is for the rowGroupPanel, that appears along the top of the grid */\n/* this is for the column drops that appear in the toolPanel */\n}\n.ag-dark img {\n  vertical-align: middle;\n  border: 0;\n}\n.ag-dark .ag-root {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-cell-not-inline-editing {\n  padding: 2px;\n}\n.ag-dark .ag-cell-range-selected-1:not(.ag-cell-focus) {\n  background-color: rgba(100,160,160,0.4);\n}\n.ag-dark .ag-cell-range-selected-2:not(.ag-cell-focus) {\n  background-color: rgba(100,190,190,0.4);\n}\n.ag-dark .ag-cell-range-selected-3:not(.ag-cell-focus) {\n  background-color: rgba(100,220,220,0.4);\n}\n.ag-dark .ag-cell-range-selected-4:not(.ag-cell-focus) {\n  background-color: rgba(100,250,250,0.4);\n}\n.ag-dark .ag-cell-focus {\n  border: 1px solid #a9a9a9;\n}\n.ag-dark .ag-cell-no-focus {\n  border-top: 1px solid transparent;\n  border-bottom: 1px solid transparent;\n}\n.ag-dark .ag-ltr .ag-cell-no-focus {\n  border-right: 1px dotted #808080;\n  border-left: 1px solid transparent;\n}\n.ag-dark .ag-rtl .ag-cell-no-focus {\n  border-right: 1px solid transparent;\n  border-left: 1px dotted #808080;\n}\n.ag-dark .ag-rtl .ag-cell-first-right-pinned {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-ltr .ag-cell-first-right-pinned {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-cell-last-left-pinned {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-ltr .ag-cell-last-left-pinned {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-cell-highlight {\n  border: 1px solid #90ee90;\n}\n.ag-dark .ag-cell-highlight-animation {\n  -webkit-transition: border 1s;\n  -moz-transition: border 1s;\n  -o-transition: border 1s;\n  -ms-transition: border 1s;\n  transition: border 1s;\n}\n.ag-dark .ag-value-change-delta {\n  padding-right: 2px;\n}\n.ag-dark .ag-value-change-delta-up {\n  color: #adff2f;\n}\n.ag-dark .ag-value-change-delta-down {\n  color: #f00;\n}\n.ag-dark .ag-value-change-value {\n  background-color: transparent;\n  border-radius: 1px;\n  padding-left: 1px;\n  padding-right: 1px;\n  -webkit-transition: background-color 1s;\n  -moz-transition: background-color 1s;\n  -o-transition: background-color 1s;\n  -ms-transition: background-color 1s;\n  transition: background-color 1s;\n}\n.ag-dark .ag-value-change-value-highlight {\n  background-color: #d2691e;\n  -webkit-transition: background-color 0.1s;\n  -moz-transition: background-color 0.1s;\n  -o-transition: background-color 0.1s;\n  -ms-transition: background-color 0.1s;\n  transition: background-color 0.1s;\n}\n.ag-dark .ag-rich-select {\n  font-size: 14px;\n  border: 1px solid #808080;\n  background-color: #302e2e;\n}\n.ag-dark .ag-rich-select-value {\n  padding: 2px;\n}\n.ag-dark .ag-rich-select-list {\n  border-top: 1px solid #555;\n}\n.ag-dark .ag-rich-select-row {\n  padding: 2px;\n}\n.ag-dark .ag-rich-select-row-selected {\n  background-color: #4a708b;\n}\n.ag-dark .ag-large-text {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-header-select-all {\n  padding: 5px 0px 0px 3px;\n  line-height: 0;\n}\n.ag-dark .ag-header {\n  color: #e0e0e0;\n  background: #626262;\n  border-bottom: 1px solid #808080;\n  font-weight: normal;\n}\n.ag-dark .ag-header-icon {\n  color: #e0e0e0;\n  stroke: none;\n  fill: #e0e0e0;\n}\n.ag-dark .ag-layout-for-print .ag-header-container {\n  background: #626262;\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-ltr .ag-header-cell {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-header-cell {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-header-cell-moving .ag-header-cell-label {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-dark .ag-header-cell-moving {\n  background-color: #bebebe;\n}\n.ag-dark .ag-ltr .ag-header-group-cell {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-header-group-cell {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-header-group-cell-with-group {\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-header-cell-label {\n  padding: 4px 2px 4px 2px;\n}\n.ag-dark .ag-header-cell-text {\n  padding-left: 2px;\n}\n.ag-dark .ag-header-group-cell-label {\n  padding: 4px;\n}\n.ag-dark .ag-ltr .ag-header-group-cell-label {\n  padding-left: 10px;\n}\n.ag-dark .ag-rtl .ag-header-group-cell-label {\n  padding-right: 10px;\n}\n.ag-dark .ag-rtl .ag-header-group-text {\n  margin-left: 2px;\n}\n.ag-dark .ag-ltr .ag-header-group-text {\n  margin-right: 2px;\n}\n.ag-dark .ag-header-cell-menu-button {\n  padding: 2px;\n  margin-top: 4px;\n  margin-left: 1px;\n  margin-right: 1px;\n  border: 1px solid transparent;\n  border-radius: 3px;\n  -webkit-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  -moz-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  line-height: 0px /* normal line height, a space was appearing below the menu button */;\n}\n.ag-dark .ag-ltr .ag-pinned-right-header {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-pinned-left-header {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-header-cell-menu-button:hover {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-body {\n  background-color: #302e2e;\n}\n.ag-dark .ag-row-odd {\n  background-color: #302e2e;\n}\n.ag-dark .ag-row-even {\n  background-color: #403e3e;\n}\n.ag-dark .ag-row-selected {\n  background-color: #4a708b;\n}\n.ag-dark .ag-row-stub {\n  background-color: #333;\n}\n.ag-dark .ag-stub-cell {\n  padding: 2px 2px 2px 10px;\n}\n.ag-dark .ag-floating-top .ag-row {\n  background-color: #333;\n}\n.ag-dark .ag-floating-bottom .ag-row {\n  background-color: #333;\n}\n.ag-dark .ag-overlay-loading-wrapper {\n  background-color: rgba(255,255,255,0.5);\n}\n.ag-dark .ag-overlay-loading-center {\n  background-color: #fff;\n  border: 1px solid #808080;\n  border-radius: 10px;\n  padding: 10px;\n  color: #000;\n}\n.ag-dark .ag-overlay-no-rows-center {\n  background-color: #fff;\n  border: 1px solid #808080;\n  border-radius: 10px;\n  padding: 10px;\n}\n.ag-dark .ag-group-cell-entire-row {\n  background-color: #302e2e;\n  padding: 2px;\n}\n.ag-dark .ag-footer-cell-entire-row {\n  background-color: #302e2e;\n  padding: 2px;\n}\n.ag-dark .ag-group-cell {\n  font-style: italic;\n}\n.ag-dark .ag-ltr .ag-group-expanded {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-group-expanded {\n  padding-left: 4px;\n}\n.ag-dark .ag-ltr .ag-group-contracted {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-group-contracted {\n  padding-left: 4px;\n}\n.ag-dark .ag-ltr .ag-group-loading {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-group-loading {\n  padding-left: 4px;\n}\n.ag-dark .ag-ltr .ag-group-value {\n  padding-right: 2px;\n}\n.ag-dark .ag-rtl .ag-group-value {\n  padding-left: 2px;\n}\n.ag-dark .ag-ltr .ag-group-checkbox {\n  padding-right: 2px;\n}\n.ag-dark .ag-rtl .ag-group-checkbox {\n  padding-left: 2px;\n}\n.ag-dark .ag-group-child-count {\n  display: inline-block;\n}\n.ag-dark .ag-footer-cell {\n  font-style: italic;\n}\n.ag-dark .ag-menu {\n  border: 1px solid #555;\n  background-color: #302e2e;\n  cursor: default;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 14px;\n}\n.ag-dark .ag-menu .ag-tab-header {\n  background-color: #626262;\n}\n.ag-dark .ag-menu .ag-tab {\n  padding: 6px 8px 6px 8px;\n  margin: 2px 2px 0px 2px;\n  display: inline-block;\n  border-right: 1px solid transparent;\n  border-left: 1px solid transparent;\n  border-top: 1px solid transparent;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n}\n.ag-dark .ag-menu .ag-tab-selected {\n  background-color: #302e2e;\n  border-right: 1px solid #555;\n  border-left: 1px solid #555;\n  border-top: 1px solid #555;\n}\n.ag-dark .ag-menu-separator {\n  border-top: 1px solid #555;\n}\n.ag-dark .ag-menu-option-active {\n  background-color: #4a708b;\n}\n.ag-dark .ag-menu-option-icon {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-text {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-shortcut {\n  padding: 2px 2px 2px 2px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-popup-pointer {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-disabled {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-dark .ag-menu-column-select-wrapper {\n  margin: 2px;\n}\n.ag-dark .ag-filter-checkbox {\n  position: relative;\n  top: 2px;\n  left: 2px;\n}\n.ag-dark .ag-filter-header-container {\n  border-bottom: 1px solid #555;\n}\n.ag-dark .ag-filter-apply-panel {\n  border-top: 1px solid #555;\n  padding: 2px;\n}\n.ag-dark .ag-filter-value {\n  margin-left: 4px;\n}\n.ag-dark .ag-ltr .ag-selection-checkbox {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-selection-checkbox {\n  padding-left: 4px;\n}\n.ag-dark .ag-paging-panel {\n  padding: 4px;\n}\n.ag-dark .ag-paging-button {\n  margin-left: 4px;\n  margin-right: 4px;\n}\n.ag-dark .ag-paging-row-summary-panel {\n  display: inline-block;\n  width: 300px;\n}\n.ag-dark .ag-tool-panel {\n  background-color: #302e2e;\n  border-bottom: 1px solid #808080;\n  border-top: 1px solid #808080;\n  color: #ccc;\n}\n.ag-dark .ltr .ag-tool-panel {\n  border-right: 1px solid #808080;\n}\n.ag-dark .rtl .ag-tool-panel {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-status-bar {\n  color: #ccc;\n  background-color: #302e2e;\n  font-size: 14px;\n  height: 22px;\n  border-bottom: 1px solid #808080;\n  border-left: 1px solid #808080;\n  border-right: 1px solid #808080;\n  padding: 2px;\n}\n.ag-dark .ag-status-bar-aggregations {\n  float: right;\n}\n.ag-dark .ag-status-bar-item {\n  padding-left: 10px;\n}\n.ag-dark .ag-column-drop-cell {\n  background: #403e3e;\n  color: #e0e0e0;\n  border: 1px solid #666;\n}\n.ag-dark .ag-column-drop-cell-ghost {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-dark .ag-column-drop-cell-text {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-dark .ag-column-drop-cell-button {\n  border: 1px solid transparent;\n  padding-left: 2px;\n  padding-right: 2px;\n  border-radius: 3px;\n}\n.ag-dark .ag-column-drop-cell-button:hover {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-column-drop-empty-message {\n  padding-left: 2px;\n  padding-right: 2px;\n  color: #808080;\n}\n.ag-dark .ag-column-drop-icon {\n  margin: 3px;\n}\n.ag-dark .ag-column-drop {\n  background-color: #302e2e;\n}\n.ag-dark .ag-column-drop-horizontal {\n  padding: 2px;\n  border-top: 1px solid #808080;\n  border-left: 1px solid #808080;\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-column-drop-vertical {\n  padding: 4px 4px 10px 4px;\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-column-drop-vertical .ag-column-drop-cell {\n  margin-top: 2px;\n}\n.ag-dark .ag-column-drop-vertical .ag-column-drop-empty-message {\n  text-align: center;\n  padding: 5px;\n}\n.ag-dark .ag-pivot-mode {\n  border-bottom: 1px solid #808080;\n  padding: 4px;\n  background-color: #302e2e;\n}\n.ag-dark .ag-tool-panel .ag-column-select-panel {\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-select-agg-func-popup {\n  cursor: default;\n  position: absolute;\n  font-size: 14px;\n  background-color: #302e2e;\n  border: 1px solid #808080;\n}\n.ag-dark .ag-select-agg-func-item {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-dark .ag-select-agg-func-item:hover {\n  background-color: #4a708b;\n}\n.ag-dark ::-webkit-scrollbar {\n  width: 12px;\n  height: 12px;\n  background: #302e2e;\n}\n.ag-dark ::-webkit-scrollbar-thumb {\n  background-color: #626262;\n}\n.ag-dark ::-webkit-scrollbar-corner {\n  background: #302e2e;\n}\n.ag-dark select {\n  background-color: #302e2e;\n  color: #ccc;\n}\n.ag-dark input {\n  background-color: #302e2e;\n  color: #ccc;\n}\n.ag-dark .ag-floating-filter-button {\n  background-color: #302e2e;\n  color: #ccc;\n}\n.ag-dark .ag-floating-filter-body input {\n  background-color: #302e2e;\n  color: #ccc;\n}\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(135);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(129)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./theme-fresh.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./theme-fresh.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 135 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(128)();
+	exports = module.exports = __webpack_require__(171)();
 	// imports
 
 
@@ -29529,23 +37405,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 136 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(137);
+	var content = __webpack_require__(176);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(129)(content, {});
+	var update = __webpack_require__(172)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./theme-material.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./theme-material.css");
+			module.hot.accept("!!../../../css-loader/index.js!./theme-dark.css", function() {
+				var newContent = require("!!../../../css-loader/index.js!./theme-dark.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -29555,10 +37431,90 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 137 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(128)();
+	exports = module.exports = __webpack_require__(171)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ag-dark {\n  line-height: 1.4;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 14px;\n  color: #ccc;\n/* this is for the rowGroupPanel, that appears along the top of the grid */\n/* this is for the column drops that appear in the toolPanel */\n}\n.ag-dark img {\n  vertical-align: middle;\n  border: 0;\n}\n.ag-dark .ag-root {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-cell-not-inline-editing {\n  padding: 2px;\n}\n.ag-dark .ag-cell-range-selected-1:not(.ag-cell-focus) {\n  background-color: rgba(100,160,160,0.4);\n}\n.ag-dark .ag-cell-range-selected-2:not(.ag-cell-focus) {\n  background-color: rgba(100,190,190,0.4);\n}\n.ag-dark .ag-cell-range-selected-3:not(.ag-cell-focus) {\n  background-color: rgba(100,220,220,0.4);\n}\n.ag-dark .ag-cell-range-selected-4:not(.ag-cell-focus) {\n  background-color: rgba(100,250,250,0.4);\n}\n.ag-dark .ag-cell-focus {\n  border: 1px solid #a9a9a9;\n}\n.ag-dark .ag-cell-no-focus {\n  border-top: 1px solid transparent;\n  border-bottom: 1px solid transparent;\n}\n.ag-dark .ag-ltr .ag-cell-no-focus {\n  border-right: 1px dotted #808080;\n  border-left: 1px solid transparent;\n}\n.ag-dark .ag-rtl .ag-cell-no-focus {\n  border-right: 1px solid transparent;\n  border-left: 1px dotted #808080;\n}\n.ag-dark .ag-rtl .ag-cell-first-right-pinned {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-ltr .ag-cell-first-right-pinned {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-cell-last-left-pinned {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-ltr .ag-cell-last-left-pinned {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-cell-highlight {\n  border: 1px solid #90ee90;\n}\n.ag-dark .ag-cell-highlight-animation {\n  -webkit-transition: border 1s;\n  -moz-transition: border 1s;\n  -o-transition: border 1s;\n  -ms-transition: border 1s;\n  transition: border 1s;\n}\n.ag-dark .ag-value-change-delta {\n  padding-right: 2px;\n}\n.ag-dark .ag-value-change-delta-up {\n  color: #adff2f;\n}\n.ag-dark .ag-value-change-delta-down {\n  color: #f00;\n}\n.ag-dark .ag-value-change-value {\n  background-color: transparent;\n  border-radius: 1px;\n  padding-left: 1px;\n  padding-right: 1px;\n  -webkit-transition: background-color 1s;\n  -moz-transition: background-color 1s;\n  -o-transition: background-color 1s;\n  -ms-transition: background-color 1s;\n  transition: background-color 1s;\n}\n.ag-dark .ag-value-change-value-highlight {\n  background-color: #d2691e;\n  -webkit-transition: background-color 0.1s;\n  -moz-transition: background-color 0.1s;\n  -o-transition: background-color 0.1s;\n  -ms-transition: background-color 0.1s;\n  transition: background-color 0.1s;\n}\n.ag-dark .ag-rich-select {\n  font-size: 14px;\n  border: 1px solid #808080;\n  background-color: #302e2e;\n}\n.ag-dark .ag-rich-select-value {\n  padding: 2px;\n}\n.ag-dark .ag-rich-select-list {\n  border-top: 1px solid #555;\n}\n.ag-dark .ag-rich-select-row {\n  padding: 2px;\n}\n.ag-dark .ag-rich-select-row-selected {\n  background-color: #4a708b;\n}\n.ag-dark .ag-large-text {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-header-select-all {\n  padding: 5px 0px 0px 3px;\n  line-height: 0;\n}\n.ag-dark .ag-header {\n  color: #e0e0e0;\n  background: #626262;\n  border-bottom: 1px solid #808080;\n  font-weight: normal;\n}\n.ag-dark .ag-header-icon {\n  color: #e0e0e0;\n  stroke: none;\n  fill: #e0e0e0;\n}\n.ag-dark .ag-layout-for-print .ag-header-container {\n  background: #626262;\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-ltr .ag-header-cell {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-header-cell {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-header-cell-moving .ag-header-cell-label {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-dark .ag-header-cell-moving {\n  background-color: #bebebe;\n}\n.ag-dark .ag-ltr .ag-header-group-cell {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-header-group-cell {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-header-group-cell-with-group {\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-header-cell-label {\n  padding: 4px 2px 4px 2px;\n}\n.ag-dark .ag-header-cell-text {\n  padding-left: 2px;\n}\n.ag-dark .ag-header-group-cell-label {\n  padding: 4px;\n}\n.ag-dark .ag-ltr .ag-header-group-cell-label {\n  padding-left: 10px;\n}\n.ag-dark .ag-rtl .ag-header-group-cell-label {\n  padding-right: 10px;\n}\n.ag-dark .ag-rtl .ag-header-group-text {\n  margin-left: 2px;\n}\n.ag-dark .ag-ltr .ag-header-group-text {\n  margin-right: 2px;\n}\n.ag-dark .ag-header-cell-menu-button {\n  padding: 2px;\n  margin-top: 4px;\n  margin-left: 1px;\n  margin-right: 1px;\n  border: 1px solid transparent;\n  border-radius: 3px;\n  -webkit-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  -moz-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  line-height: 0px /* normal line height, a space was appearing below the menu button */;\n}\n.ag-dark .ag-ltr .ag-pinned-right-header {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-rtl .ag-pinned-left-header {\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-header-cell-menu-button:hover {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-body {\n  background-color: #302e2e;\n}\n.ag-dark .ag-row-odd {\n  background-color: #302e2e;\n}\n.ag-dark .ag-row-even {\n  background-color: #403e3e;\n}\n.ag-dark .ag-row-selected {\n  background-color: #4a708b;\n}\n.ag-dark .ag-row-stub {\n  background-color: #333;\n}\n.ag-dark .ag-stub-cell {\n  padding: 2px 2px 2px 10px;\n}\n.ag-dark .ag-floating-top .ag-row {\n  background-color: #333;\n}\n.ag-dark .ag-floating-bottom .ag-row {\n  background-color: #333;\n}\n.ag-dark .ag-overlay-loading-wrapper {\n  background-color: rgba(255,255,255,0.5);\n}\n.ag-dark .ag-overlay-loading-center {\n  background-color: #fff;\n  border: 1px solid #808080;\n  border-radius: 10px;\n  padding: 10px;\n  color: #000;\n}\n.ag-dark .ag-overlay-no-rows-center {\n  background-color: #fff;\n  border: 1px solid #808080;\n  border-radius: 10px;\n  padding: 10px;\n}\n.ag-dark .ag-group-cell-entire-row {\n  background-color: #302e2e;\n  padding: 2px;\n}\n.ag-dark .ag-footer-cell-entire-row {\n  background-color: #302e2e;\n  padding: 2px;\n}\n.ag-dark .ag-group-cell {\n  font-style: italic;\n}\n.ag-dark .ag-ltr .ag-group-expanded {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-group-expanded {\n  padding-left: 4px;\n}\n.ag-dark .ag-ltr .ag-group-contracted {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-group-contracted {\n  padding-left: 4px;\n}\n.ag-dark .ag-ltr .ag-group-loading {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-group-loading {\n  padding-left: 4px;\n}\n.ag-dark .ag-ltr .ag-group-value {\n  padding-right: 2px;\n}\n.ag-dark .ag-rtl .ag-group-value {\n  padding-left: 2px;\n}\n.ag-dark .ag-ltr .ag-group-checkbox {\n  padding-right: 2px;\n}\n.ag-dark .ag-rtl .ag-group-checkbox {\n  padding-left: 2px;\n}\n.ag-dark .ag-group-child-count {\n  display: inline-block;\n}\n.ag-dark .ag-footer-cell {\n  font-style: italic;\n}\n.ag-dark .ag-menu {\n  border: 1px solid #555;\n  background-color: #302e2e;\n  cursor: default;\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 14px;\n}\n.ag-dark .ag-menu .ag-tab-header {\n  background-color: #626262;\n}\n.ag-dark .ag-menu .ag-tab {\n  padding: 6px 8px 6px 8px;\n  margin: 2px 2px 0px 2px;\n  display: inline-block;\n  border-right: 1px solid transparent;\n  border-left: 1px solid transparent;\n  border-top: 1px solid transparent;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n}\n.ag-dark .ag-menu .ag-tab-selected {\n  background-color: #302e2e;\n  border-right: 1px solid #555;\n  border-left: 1px solid #555;\n  border-top: 1px solid #555;\n}\n.ag-dark .ag-menu-separator {\n  border-top: 1px solid #555;\n}\n.ag-dark .ag-menu-option-active {\n  background-color: #4a708b;\n}\n.ag-dark .ag-menu-option-icon {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-text {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-shortcut {\n  padding: 2px 2px 2px 2px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-popup-pointer {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-dark .ag-menu-option-disabled {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-dark .ag-menu-column-select-wrapper {\n  margin: 2px;\n}\n.ag-dark .ag-filter-checkbox {\n  position: relative;\n  top: 2px;\n  left: 2px;\n}\n.ag-dark .ag-filter-header-container {\n  border-bottom: 1px solid #555;\n}\n.ag-dark .ag-filter-apply-panel {\n  border-top: 1px solid #555;\n  padding: 2px;\n}\n.ag-dark .ag-filter-value {\n  margin-left: 4px;\n}\n.ag-dark .ag-ltr .ag-selection-checkbox {\n  padding-right: 4px;\n}\n.ag-dark .ag-rtl .ag-selection-checkbox {\n  padding-left: 4px;\n}\n.ag-dark .ag-paging-panel {\n  padding: 4px;\n}\n.ag-dark .ag-paging-button {\n  margin-left: 4px;\n  margin-right: 4px;\n}\n.ag-dark .ag-paging-row-summary-panel {\n  display: inline-block;\n  width: 300px;\n}\n.ag-dark .ag-tool-panel {\n  background-color: #302e2e;\n  border-bottom: 1px solid #808080;\n  border-top: 1px solid #808080;\n  color: #ccc;\n}\n.ag-dark .ltr .ag-tool-panel {\n  border-right: 1px solid #808080;\n}\n.ag-dark .rtl .ag-tool-panel {\n  border-left: 1px solid #808080;\n}\n.ag-dark .ag-status-bar {\n  color: #ccc;\n  background-color: #302e2e;\n  font-size: 14px;\n  height: 22px;\n  border-bottom: 1px solid #808080;\n  border-left: 1px solid #808080;\n  border-right: 1px solid #808080;\n  padding: 2px;\n}\n.ag-dark .ag-status-bar-aggregations {\n  float: right;\n}\n.ag-dark .ag-status-bar-item {\n  padding-left: 10px;\n}\n.ag-dark .ag-column-drop-cell {\n  background: #403e3e;\n  color: #e0e0e0;\n  border: 1px solid #666;\n}\n.ag-dark .ag-column-drop-cell-ghost {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-dark .ag-column-drop-cell-text {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-dark .ag-column-drop-cell-button {\n  border: 1px solid transparent;\n  padding-left: 2px;\n  padding-right: 2px;\n  border-radius: 3px;\n}\n.ag-dark .ag-column-drop-cell-button:hover {\n  border: 1px solid #808080;\n}\n.ag-dark .ag-column-drop-empty-message {\n  padding-left: 2px;\n  padding-right: 2px;\n  color: #808080;\n}\n.ag-dark .ag-column-drop-icon {\n  margin: 3px;\n}\n.ag-dark .ag-column-drop {\n  background-color: #302e2e;\n}\n.ag-dark .ag-column-drop-horizontal {\n  padding: 2px;\n  border-top: 1px solid #808080;\n  border-left: 1px solid #808080;\n  border-right: 1px solid #808080;\n}\n.ag-dark .ag-column-drop-vertical {\n  padding: 4px 4px 10px 4px;\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-column-drop-vertical .ag-column-drop-cell {\n  margin-top: 2px;\n}\n.ag-dark .ag-column-drop-vertical .ag-column-drop-empty-message {\n  text-align: center;\n  padding: 5px;\n}\n.ag-dark .ag-pivot-mode {\n  border-bottom: 1px solid #808080;\n  padding: 4px;\n  background-color: #302e2e;\n}\n.ag-dark .ag-tool-panel .ag-column-select-panel {\n  border-bottom: 1px solid #808080;\n}\n.ag-dark .ag-select-agg-func-popup {\n  cursor: default;\n  position: absolute;\n  font-size: 14px;\n  background-color: #302e2e;\n  border: 1px solid #808080;\n}\n.ag-dark .ag-select-agg-func-item {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-dark .ag-select-agg-func-item:hover {\n  background-color: #4a708b;\n}\n.ag-dark ::-webkit-scrollbar {\n  width: 12px;\n  height: 12px;\n  background: #302e2e;\n}\n.ag-dark ::-webkit-scrollbar-thumb {\n  background-color: #626262;\n}\n.ag-dark ::-webkit-scrollbar-corner {\n  background: #302e2e;\n}\n.ag-dark select {\n  background-color: #302e2e;\n  color: #ccc;\n}\n.ag-dark input {\n  background-color: #302e2e;\n  color: #ccc;\n}\n.ag-dark .ag-floating-filter-button {\n  background-color: #302e2e;\n  color: #ccc;\n}\n.ag-dark .ag-floating-filter-body input {\n  background-color: #302e2e;\n  color: #ccc;\n}\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(178);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(172)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../css-loader/index.js!./theme-blue.css", function() {
+				var newContent = require("!!../../../css-loader/index.js!./theme-blue.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(171)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ag-blue {\n  line-height: 1.4;\n  font-family: Calibri, \"Segoe UI\", Thonburi, Arial, Verdana, sans-serif;\n  font-size: 10pt;\n  color: #222;\n/* this is for the rowGroupPanel, that appears along the top of the grid */\n/* this is for the column drops that appear in the toolPanel */\n}\n.ag-blue img {\n  vertical-align: middle;\n  border: 0;\n}\n.ag-blue .ag-root {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-cell-not-inline-editing {\n  padding: 2px;\n}\n.ag-blue .ag-cell-range-selected-1:not(.ag-cell-focus) {\n  background-color: rgba(120,120,120,0.4);\n}\n.ag-blue .ag-cell-range-selected-2:not(.ag-cell-focus) {\n  background-color: rgba(80,80,80,0.4);\n}\n.ag-blue .ag-cell-range-selected-3:not(.ag-cell-focus) {\n  background-color: rgba(40,40,40,0.4);\n}\n.ag-blue .ag-cell-range-selected-4:not(.ag-cell-focus) {\n  background-color: rgba(0,0,0,0.4);\n}\n.ag-blue .ag-cell-focus {\n  border: 2px solid #217346;\n}\n.ag-blue .ag-cell-no-focus {\n  border-top: 2px solid transparent;\n  border-bottom: 1px dotted #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-cell-no-focus {\n  border-right: 1px dotted #9bc2e6;\n  border-left: 2px solid transparent;\n}\n.ag-blue .ag-rtl .ag-cell-no-focus {\n  border-right: 2px solid transparent;\n  border-left: 1px dotted #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-cell-first-right-pinned {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-cell-first-right-pinned {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-cell-last-left-pinned {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-cell-last-left-pinned {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-cell-highlight {\n  border: 1px solid #006400;\n}\n.ag-blue .ag-cell-highlight-animation {\n  -webkit-transition: border 1s;\n  -moz-transition: border 1s;\n  -o-transition: border 1s;\n  -ms-transition: border 1s;\n  transition: border 1s;\n}\n.ag-blue .ag-value-change-delta {\n  padding-right: 2px;\n}\n.ag-blue .ag-value-change-delta-up {\n  color: #006400;\n}\n.ag-blue .ag-value-change-delta-down {\n  color: #8b0000;\n}\n.ag-blue .ag-value-change-value {\n  background-color: transparent;\n  border-radius: 1px;\n  padding-left: 1px;\n  padding-right: 1px;\n  -webkit-transition: background-color 1s;\n  -moz-transition: background-color 1s;\n  -o-transition: background-color 1s;\n  -ms-transition: background-color 1s;\n  transition: background-color 1s;\n}\n.ag-blue .ag-value-change-value-highlight {\n  background-color: #cec;\n  -webkit-transition: background-color 0.1s;\n  -moz-transition: background-color 0.1s;\n  -o-transition: background-color 0.1s;\n  -ms-transition: background-color 0.1s;\n  transition: background-color 0.1s;\n}\n.ag-blue .ag-rich-select {\n  font-size: 14px;\n  border: 1px solid #9bc2e6;\n  background-color: #fff;\n}\n.ag-blue .ag-rich-select-value {\n  padding: 2px;\n}\n.ag-blue .ag-rich-select-list {\n  border-top: 1px solid #d3d3d3;\n}\n.ag-blue .ag-rich-select-row {\n  padding: 2px;\n}\n.ag-blue .ag-rich-select-row-selected {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-large-text {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-select-all {\n  padding: 5px 0px 0px 3px;\n  line-height: 0;\n}\n.ag-blue .ag-header {\n  color: #fff;\n  background: #5b9bd5;\n  border-bottom: 1px solid #9bc2e6;\n  font-weight: 600;\n}\n.ag-blue .ag-header-icon {\n  color: #fff;\n  stroke: none;\n  fill: #fff;\n}\n.ag-blue .ag-layout-for-print .ag-header-container {\n  background: #5b9bd5;\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-ltr .ag-header-cell {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-header-cell {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-cell-moving .ag-header-cell-label {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-blue .ag-header-cell-moving {\n  background-color: #bebebe;\n}\n.ag-blue .ag-ltr .ag-header-group-cell {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-header-group-cell {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-group-cell-with-group {\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-cell-label {\n  padding: 4px 2px 4px 2px;\n}\n.ag-blue .ag-header-cell-text {\n  padding-left: 2px;\n}\n.ag-blue .ag-header-group-cell-label {\n  padding: 4px;\n}\n.ag-blue .ag-ltr .ag-header-group-cell-label {\n  padding-left: 10px;\n}\n.ag-blue .ag-rtl .ag-header-group-cell-label {\n  padding-right: 10px;\n}\n.ag-blue .ag-rtl .ag-header-group-text {\n  margin-left: 2px;\n}\n.ag-blue .ag-ltr .ag-header-group-text {\n  margin-right: 2px;\n}\n.ag-blue .ag-header-cell-menu-button {\n  padding: 2px;\n  margin-top: 4px;\n  margin-left: 1px;\n  margin-right: 1px;\n  border: 1px solid transparent;\n  border-radius: 3px;\n  -webkit-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  -moz-box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  box-sizing: content-box /* When using bootstrap, box-sizing was set to 'border-box' */;\n  line-height: 0px /* normal line height, a space was appearing below the menu button */;\n}\n.ag-blue .ag-ltr .ag-pinned-right-header {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-rtl .ag-pinned-left-header {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-header-cell-menu-button:hover {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-body {\n  background-color: #f6f6f6;\n}\n.ag-blue .ag-row-odd {\n  background-color: #ddebf7;\n}\n.ag-blue .ag-row-even {\n  background-color: #fff;\n}\n.ag-blue .ag-row-selected {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-row-stub {\n  background-color: #f0f0f0;\n}\n.ag-blue .ag-stub-cell {\n  padding: 2px 2px 2px 10px;\n}\n.ag-blue .ag-floating-top .ag-row {\n  background-color: #f0f0f0;\n}\n.ag-blue .ag-floating-bottom .ag-row {\n  background-color: #f0f0f0;\n}\n.ag-blue .ag-overlay-loading-wrapper {\n  background-color: rgba(255,255,255,0.5);\n}\n.ag-blue .ag-overlay-loading-center {\n  background-color: #fff;\n  border: 1px solid #9bc2e6;\n  border-radius: 10px;\n  padding: 10px;\n  color: #000;\n}\n.ag-blue .ag-overlay-no-rows-center {\n  background-color: #fff;\n  border: 1px solid #9bc2e6;\n  border-radius: 10px;\n  padding: 10px;\n}\n.ag-blue .ag-group-cell-entire-row {\n  background-color: #f6f6f6;\n  padding: 2px;\n}\n.ag-blue .ag-footer-cell-entire-row {\n  background-color: #f6f6f6;\n  padding: 2px;\n}\n.ag-blue .ag-group-cell {\n  font-style: italic;\n}\n.ag-blue .ag-ltr .ag-group-expanded {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-group-expanded {\n  padding-left: 4px;\n}\n.ag-blue .ag-ltr .ag-group-contracted {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-group-contracted {\n  padding-left: 4px;\n}\n.ag-blue .ag-ltr .ag-group-loading {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-group-loading {\n  padding-left: 4px;\n}\n.ag-blue .ag-ltr .ag-group-value {\n  padding-right: 2px;\n}\n.ag-blue .ag-rtl .ag-group-value {\n  padding-left: 2px;\n}\n.ag-blue .ag-ltr .ag-group-checkbox {\n  padding-right: 2px;\n}\n.ag-blue .ag-rtl .ag-group-checkbox {\n  padding-left: 2px;\n}\n.ag-blue .ag-group-child-count {\n  display: inline-block;\n}\n.ag-blue .ag-footer-cell {\n  font-style: italic;\n}\n.ag-blue .ag-menu {\n  border: 1px solid #808080;\n  background-color: #f6f6f6;\n  cursor: default;\n  font-family: Calibri, \"Segoe UI\", Thonburi, Arial, Verdana, sans-serif;\n  font-size: 10pt;\n}\n.ag-blue .ag-menu .ag-tab-header {\n  background-color: #5b9bd5;\n}\n.ag-blue .ag-menu .ag-tab {\n  padding: 6px 8px 6px 8px;\n  margin: 2px 2px 0px 2px;\n  display: inline-block;\n  border-right: 1px solid transparent;\n  border-left: 1px solid transparent;\n  border-top: 1px solid transparent;\n  border-top-right-radius: 2px;\n  border-top-left-radius: 2px;\n}\n.ag-blue .ag-menu .ag-tab-selected {\n  background-color: #9bc2e6;\n  border-right: 1px solid #d3d3d3;\n  border-left: 1px solid #d3d3d3;\n  border-top: 1px solid #d3d3d3;\n}\n.ag-blue .ag-menu-separator {\n  border-top: 1px solid #d3d3d3;\n}\n.ag-blue .ag-menu-option-active {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-menu-option-icon {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-text {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-shortcut {\n  padding: 2px 2px 2px 2px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-popup-pointer {\n  padding: 2px 4px 2px 4px;\n  vertical-align: middle;\n}\n.ag-blue .ag-menu-option-disabled {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-blue .ag-menu-column-select-wrapper {\n  margin: 2px;\n}\n.ag-blue .ag-filter-checkbox {\n  position: relative;\n  top: 2px;\n  left: 2px;\n}\n.ag-blue .ag-filter-header-container {\n  border-bottom: 1px solid #d3d3d3;\n}\n.ag-blue .ag-filter-apply-panel {\n  border-top: 1px solid #d3d3d3;\n  padding: 2px;\n}\n.ag-blue .ag-filter-value {\n  margin-left: 4px;\n}\n.ag-blue .ag-ltr .ag-selection-checkbox {\n  padding-right: 4px;\n}\n.ag-blue .ag-rtl .ag-selection-checkbox {\n  padding-left: 4px;\n}\n.ag-blue .ag-paging-panel {\n  padding: 4px;\n}\n.ag-blue .ag-paging-button {\n  margin-left: 4px;\n  margin-right: 4px;\n}\n.ag-blue .ag-paging-row-summary-panel {\n  display: inline-block;\n  width: 300px;\n}\n.ag-blue .ag-tool-panel {\n  background-color: #f6f6f6;\n  border-bottom: 1px solid #9bc2e6;\n  border-top: 1px solid #9bc2e6;\n  color: #222;\n}\n.ag-blue .ltr .ag-tool-panel {\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .rtl .ag-tool-panel {\n  border-left: 1px solid #9bc2e6;\n}\n.ag-blue .ag-status-bar {\n  color: #222;\n  background-color: #f6f6f6;\n  font-size: 10pt;\n  height: 22px;\n  border-bottom: 1px solid #9bc2e6;\n  border-left: 1px solid #9bc2e6;\n  border-right: 1px solid #9bc2e6;\n  padding: 2px;\n}\n.ag-blue .ag-status-bar-aggregations {\n  float: right;\n}\n.ag-blue .ag-status-bar-item {\n  padding-left: 10px;\n}\n.ag-blue .ag-column-drop-cell {\n  background: #ddebf7;\n  color: #000;\n  border: 1px solid #808080;\n}\n.ag-blue .ag-column-drop-cell-ghost {\n  opacity: 0.5;\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\n  filter: alpha(opacity=50);\n}\n.ag-blue .ag-column-drop-cell-text {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-blue .ag-column-drop-cell-button {\n  border: 1px solid transparent;\n  padding-left: 2px;\n  padding-right: 2px;\n  border-radius: 3px;\n}\n.ag-blue .ag-column-drop-cell-button:hover {\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-column-drop-empty-message {\n  padding-left: 2px;\n  padding-right: 2px;\n  color: #808080;\n}\n.ag-blue .ag-column-drop-icon {\n  margin: 3px;\n}\n.ag-blue .ag-column-drop {\n  background-color: #f6f6f6;\n}\n.ag-blue .ag-column-drop-horizontal {\n  padding: 2px;\n  border-top: 1px solid #9bc2e6;\n  border-left: 1px solid #9bc2e6;\n  border-right: 1px solid #9bc2e6;\n}\n.ag-blue .ag-column-drop-vertical {\n  padding: 4px 4px 10px 4px;\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-column-drop-vertical .ag-column-drop-cell {\n  margin-top: 2px;\n}\n.ag-blue .ag-column-drop-vertical .ag-column-drop-empty-message {\n  text-align: center;\n  padding: 5px;\n}\n.ag-blue .ag-pivot-mode {\n  border-bottom: 1px solid #9bc2e6;\n  padding: 4px;\n  background-color: #f6f6f6;\n}\n.ag-blue .ag-tool-panel .ag-column-select-panel {\n  border-bottom: 1px solid #9bc2e6;\n}\n.ag-blue .ag-select-agg-func-popup {\n  cursor: default;\n  position: absolute;\n  font-size: 14px;\n  background-color: #fff;\n  border: 1px solid #9bc2e6;\n}\n.ag-blue .ag-select-agg-func-item {\n  padding-left: 2px;\n  padding-right: 2px;\n}\n.ag-blue .ag-select-agg-func-item:hover {\n  background-color: #c7c7c7;\n}\n.ag-blue .ag-floating-filter-button {\n  background-color: #fff;\n  color: #222;\n}\n.ag-blue .ag-floating-filter-body input {\n  background-color: #fff;\n  color: #222;\n}\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(180);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(172)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../../css-loader/index.js!./theme-material.css", function() {
+				var newContent = require("!!../../../css-loader/index.js!./theme-material.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(171)();
 	// imports
 
 
@@ -29569,23 +37525,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 138 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(139);
+	var content = __webpack_require__(182);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(129)(content, {});
+	var update = __webpack_require__(172)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!./theme-bootstrap.css", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!./theme-bootstrap.css");
+			module.hot.accept("!!../../../css-loader/index.js!./theme-bootstrap.css", function() {
+				var newContent = require("!!../../../css-loader/index.js!./theme-bootstrap.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -29595,10 +37551,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ }),
-/* 139 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(128)();
+	exports = module.exports = __webpack_require__(171)();
 	// imports
 
 

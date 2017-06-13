@@ -2,7 +2,10 @@
 <div layout="column" layout-padding>
     <span class="cpt-title">CONFIGURACIÓN NIVEL DEPORTIVO</span>
     <div layout="column">
-    <md-button style="width: 100px;" class="md-raised black-button" ng-click="showCreateLevel()">Crear Nivel</md-button>    
+        <div layout="row">
+            <md-button style="width: 100px;" class="md-raised black-button" ng-click="showCreateLevel(true)">Crear Nivel</md-button>  
+            <!--<md-button ng-if="edit" style="width: 100px;" class="md-raised black-button" ng-click="showCreateLevel(false)">Editar Nivel</md-button>--> 
+        </div>
     <div id="myGrid" ag-grid="gridOptions" class="ag-fresh" style="height: 300px; width: 100%"></div> 
     </div>
 </div>
