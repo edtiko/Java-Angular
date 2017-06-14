@@ -97,7 +97,7 @@
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
                     <input ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" type="text" name="weight" id="weight" placeholder="{{ 'WEIGHT' | translate }} {{weightmetric}}" ng-model="userProfile.weight" ng-blur="calculateIMC()" ng-required="true">
-                    <div class="has-error" role="alert" ng-messages="frm3.weight.$error">
+                    <div class="has-error" role="alert" ng-messages="frm1.weight.$error">
                         <div ng-message="required">Este es un campo requerido</div>
                         <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
                     </div>
@@ -112,7 +112,7 @@
             <div flex="66">
                 <md-input-container class="md-block md-input-has-placeholder" >
                     <input type="text" ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/" id="height" name="height" placeholder="{{ 'HEIGHT' | translate }} {{heightmetric}}" ng-model="userProfile.height" ng-blur="calculateIMC()" ng-required="true">
-                    <div class="has-error" role="alert" ng-messages="frm3.height.$error">
+                    <div class="has-error" role="alert" ng-messages="frm1.height.$error">
                         <div ng-message="required">Este es un campo requerido</div>
                         <div ng-message="pattern">Debe ingresar un n&uacute;mero valido, por favor verifique que no tenga comas</div>
                     </div>

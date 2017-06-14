@@ -9,11 +9,14 @@ import co.expertic.training.dao.plan.CoachAssignedPlanDao;
 import co.expertic.training.dao.plan.TrainingUserSerieDao;
 import co.expertic.training.dao.user.UserActivityPerformanceDao;
 import co.expertic.training.dao.user.UserDao;
+import co.expertic.training.enums.RoleEnum;
 import co.expertic.training.model.dto.CoachAssignedPlanDTO;
 import co.expertic.training.model.dto.MailCommunicationDTO;
 import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.PaginateDto;
+import co.expertic.training.model.dto.PlanAudioDTO;
 import co.expertic.training.model.dto.PlanMessageDTO;
+import co.expertic.training.model.dto.PlanVideoDTO;
 import co.expertic.training.model.dto.ReportCountDTO;
 import co.expertic.training.model.dto.SemaforoDTO;
 import co.expertic.training.model.dto.UserDTO;
@@ -23,10 +26,14 @@ import co.expertic.training.model.entities.ColourIndicator;
 import co.expertic.training.service.configuration.ColourIndicatorService;
 import co.expertic.training.service.plan.CoachAssignedPlanService;
 import co.expertic.training.service.plan.MailCommunicationService;
+import co.expertic.training.service.plan.PlanAudioService;
 import co.expertic.training.service.plan.PlanMessageService;
+import co.expertic.training.service.plan.PlanVideoService;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,10 +51,10 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
 
     @Autowired
     UserDao userDao;
-    
+
     @Autowired
     UserActivityPerformanceDao userActivityPerformanceDao;
-    
+
     @Autowired
     TrainingUserSerieDao trainingUserSerieDao;
 
@@ -60,87 +67,124 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
     @Autowired
     PlanMessageService planMessageService;
 
+    @Autowired
+    PlanVideoService planVideoService;
+
+    @Autowired
+    PlanAudioService planAudioService;
+
     @Override
     public List<CoachAssignedPlanDTO> findAthletesByUserRole(Integer userId, Integer roleId, PaginateDto paginateDto) throws Exception {
-        
-           paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
-           List<CoachAssignedPlanDTO> athletes = dao.findAthletesByUserRole(userId, roleId, paginateDto);
-           List<ColourIndicator> colours = colourIndicatorService.findAll();
 
-            int firstOrder = 0;
-            int secondOrder = 0;
-            int thirdOrder = 0;
-            String firstColour = "{'background-color':'white'}";
-            String secondColour = "{'background-color':'white'}";
-            String thirdColour = "{'background-color':'white'}";
-            for (ColourIndicator colour : colours) {
-                if (colour.getColourOrder().equals(1)) {
-                    firstOrder = colour.getHoursSpent();
-                    firstColour = colour.getColour();
-                }
-                if (colour.getColourOrder().equals(2)) {
-                    secondOrder = colour.getHoursSpent();
-                    secondColour = colour.getColour();
-                }
-                if (colour.getColourOrder().equals(3)) {
-                    thirdOrder = colour.getHoursSpent();
-                    thirdColour = colour.getColour();
-                }
+        paginateDto.setPage((paginateDto.getPage() - 1) * paginateDto.getLimit());
+        List<CoachAssignedPlanDTO> athletes = dao.findAthletesByUserRole(userId, roleId, paginateDto);
+        List<ColourIndicator> colours = colourIndicatorService.findAll();
+
+        int firstOrder = 0;
+        int secondOrder = 0;
+        int thirdOrder = 0;
+        String firstColour = "{'background-color':'white'}";
+        String secondColour = "{'background-color':'white'}";
+        String thirdColour = "{'background-color':'white'}";
+        for (ColourIndicator colour : colours) {
+            if (colour.getColourOrder().equals(1)) {
+                firstOrder = colour.getHoursSpent();
+                firstColour = colour.getColour();
             }
+            if (colour.getColourOrder().equals(2)) {
+                secondOrder = colour.getHoursSpent();
+                secondColour = colour.getColour();
+            }
+            if (colour.getColourOrder().equals(3)) {
+                thirdOrder = colour.getHoursSpent();
+                thirdColour = colour.getColour();
+            }
+        }
 
-            for (CoachAssignedPlanDTO athlete : athletes) {
-                int countFirstColour = 0;
-                int countSecondColour = 0;
-                int countThirdColour = 0;
-                Date now = Calendar.getInstance().getTime();
-                Integer athleteUserId = athlete.getAthleteUserId().getUserId();
-                Integer numActivities = userActivityPerformanceDao.getNumActivities(athleteUserId, athlete.getCreationDate(), now);
-                Integer goalActivities = trainingUserSerieDao.getCountPlanWorkoutByUser(athleteUserId);
-                Integer percentaje = 0;
-         
-                if(goalActivities > 0){
-                    percentaje = (numActivities / goalActivities) * 100;
-                }
-                athlete.setNumActivities(numActivities);
-                athlete.setGoalActivities(goalActivities);
-                athlete.setPercentaje(percentaje);
-                
-                List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(userId, athleteUserId);
-                List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(userId, athleteUserId);
+        for (CoachAssignedPlanDTO athlete : athletes) {
+            int countFirstColour = 0;
+            int countSecondColour = 0;
+            int countThirdColour = 0;
+            Date now = Calendar.getInstance().getTime();
+            Integer athleteUserId = athlete.getAthleteUserId().getUserId();
+            Integer numActivities = userActivityPerformanceDao.getNumActivities(athleteUserId, athlete.getCreationDate(), now);
+            Integer goalActivities = trainingUserSerieDao.getCountPlanWorkoutByUser(athleteUserId);
+            Integer percentaje = 0;
 
+            if (goalActivities > 0) {
+                percentaje = (numActivities / goalActivities) * 100;
+            }
+            athlete.setNumActivities(numActivities);
+            athlete.setGoalActivities(goalActivities);
+            athlete.setPercentaje(percentaje);
 
-                for (MailCommunicationDTO mail : mails) {
-                    if (!mail.getRead()) {
-                        mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
-                        if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
-                            countFirstColour++;
-                        } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
-                            countSecondColour++;
-                        } else {
-                            countThirdColour++;
-                        }
-                    }
+            List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(userId, athleteUserId);
+            List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(userId, athleteUserId);
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("planId", athlete.getId());
+            parameters.put("userId", athleteUserId);
+            parameters.put("toUserId", userId);
+            parameters.put("fromto", "from");
+            parameters.put("tipoPlan", "IN");
+            parameters.put("roleSelected", -1);
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
+            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(athlete.getId(), athleteUserId, userId, "from", "IN", -1);
 
-                }
-
-                for (PlanMessageDTO mail : messages) {
-                    long hours = (calculateHourDifference(mail.getCreationDate()));
-                    if (hours >= 0 && hours <= firstOrder) {
+            for (MailCommunicationDTO mail : mails) {
+                if (!mail.getRead()) {
+                    mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
+                    if (mail.getHoursSpent() >= 0 && mail.getHoursSpent() <= firstOrder) {
                         countFirstColour++;
-                    } else if (hours > firstOrder && hours <= secondOrder) {
+                    } else if (mail.getHoursSpent() > firstOrder && mail.getHoursSpent() <= secondOrder) {
                         countSecondColour++;
                     } else {
                         countThirdColour++;
                     }
                 }
-                if (countThirdColour > 0) {
-                    athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countSecondColour > 0) {
-                    athlete.setColor(secondColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
-                } else if (countFirstColour > 0) {
-                    athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+
+            }
+
+            for (PlanMessageDTO mail : messages) {
+                long hours = (calculateHourDifference(mail.getCreationDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
                 }
             }
+
+            for (PlanVideoDTO video : videos) {
+                long hours = (calculateHourDifference(video.getCreateDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
+                }
+            }
+
+            for (PlanAudioDTO audio : audios) {
+                long hours = (calculateHourDifference(audio.getCreateDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
+                }
+            }
+
+            if (countThirdColour > 0) {
+                athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+            } else if (countSecondColour > 0) {
+                athlete.setColor(secondColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+            } else if (countFirstColour > 0) {
+                athlete.setColor(firstColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
+            }
+        }
         return athletes;
     }
 
@@ -204,8 +248,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
         }
         for (UserResumeDTO athlete : list) {
             List<NotificationDTO> notificationList = userDao.getUserCountNotification(athlete.getUserId(), coachUserId);
-            Long msgReceived =   notificationList.stream().filter(n -> "chat".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
-            Long mailReceived =  notificationList.stream().filter(n -> "mail".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long msgReceived = notificationList.stream().filter(n -> "chat".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long mailReceived = notificationList.stream().filter(n -> "mail".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
             Long audioReceived = notificationList.stream().filter(n -> "audio".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
             Long videoReceived = notificationList.stream().filter(n -> "video".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
 
@@ -220,6 +264,16 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
             List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(coachUserId, athlete.getUserId());
 
             List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(coachUserId, athlete.getUserId());
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("planId", athlete.getPlanId());
+            parameters.put("userId", athlete.getUserId());
+            parameters.put("toUserId", coachUserId);
+            parameters.put("fromto", "from");
+            parameters.put("tipoPlan", "IN");
+            parameters.put("roleSelected", -1);
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
+            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(athlete.getPlanId(), athlete.getUserId(), coachUserId, "from", "IN", -1);
 
             for (MailCommunicationDTO mail : mails) {
                 if (!mail.getRead()) {
@@ -244,6 +298,29 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
                     countThirdColour++;
                 }
             }
+
+            for (PlanVideoDTO video : videos) {
+                long hours = (calculateHourDifference(video.getCreateDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
+                }
+            }
+
+            for (PlanAudioDTO audio : audios) {
+                long hours = (calculateHourDifference(audio.getCreateDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
+                }
+            }
+
             if (countThirdColour > 0) {
                 athlete.setColor(thirdColour.replaceAll("\\{", "").replaceAll("}", "").replaceAll("'", ""));
             } else if (countSecondColour > 0) {
@@ -303,8 +380,8 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
         }
         for (UserResumeDTO athlete : list) {
             List<NotificationDTO> notificationList = userDao.getUserCountNotificationStar(athlete.getUserId(), coachUserId, starUserId);
-            Long msgReceived =   notificationList.stream().filter(n -> "chat".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
-            Long mailReceived =  notificationList.stream().filter(n -> "mail".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long msgReceived = notificationList.stream().filter(n -> "chat".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
+            Long mailReceived = notificationList.stream().filter(n -> "mail".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
             Long audioReceived = notificationList.stream().filter(n -> "audio".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
             Long videoReceived = notificationList.stream().filter(n -> "video".equals(n.getModule())).mapToLong(n -> n.getCount()).sum();
 
@@ -320,6 +397,16 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
 
             List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(starUserId, athlete.getUserId());
 
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("planId", athlete.getPlanId());
+            parameters.put("userId", coachUserId);
+            parameters.put("toUserId", starUserId);
+            parameters.put("fromto", "from");
+            parameters.put("tipoPlan", "IN");
+            parameters.put("roleSelected", RoleEnum.ESTRELLA.getId());
+            List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
+            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(athlete.getPlanId(),coachUserId, starUserId, "from", "IN", RoleEnum.ESTRELLA.getId());
+            
             for (MailCommunicationDTO mail : mails) {
                 if (!mail.getRead()) {
                     mail.setHoursSpent(calculateHourDifference(mail.getCreationDate()));
@@ -335,6 +422,28 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
 
             for (PlanMessageDTO mail : messages) {
                 long hours = (calculateHourDifference(mail.getCreationDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
+                }
+            }
+            
+                     for (PlanVideoDTO video : videos) {
+                long hours = (calculateHourDifference(video.getCreateDate()));
+                if (hours >= 0 && hours <= firstOrder) {
+                    countFirstColour++;
+                } else if (hours > firstOrder && hours <= secondOrder) {
+                    countSecondColour++;
+                } else {
+                    countThirdColour++;
+                }
+            }
+             
+              for (PlanAudioDTO audio : audios) {
+                long hours = (calculateHourDifference(audio.getCreateDate()));
                 if (hours >= 0 && hours <= firstOrder) {
                     countFirstColour++;
                 } else if (hours > firstOrder && hours <= secondOrder) {

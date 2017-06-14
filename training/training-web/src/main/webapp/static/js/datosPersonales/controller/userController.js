@@ -78,6 +78,18 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     res = false;
                     //window.scrollTo(0, 10);
                 }
+                 if ($scope.userProfile.weight == null) {
+                    var weight = angular.element(document.querySelector('#weight'));
+                    weight.blur();
+                    res = false;
+                    //window.scrollTo(0, 300);
+                } 
+                if ($scope.userProfile.height == null) {
+                    var height = angular.element(document.querySelector('#height'));
+                    height.blur();
+                    res = false;
+                    //window.scrollTo(0, 300);
+                }
 
             } else if (step == 2) {
                 if ($scope.user.email == null) {
@@ -119,16 +131,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
                     weather.blur();
                     window.scrollTo(0, 300);
                     res = false;
-                } else if ($scope.userProfile.weight == null) {
-                    var weight = angular.element(document.querySelector('#weight'));
-                    weight.blur();
-                    res = false;
-                    //window.scrollTo(0, 300);
-                } else if ($scope.userProfile.height == null) {
-                    var height = angular.element(document.querySelector('#height'));
-                    height.blur();
-                    res = false;
-                    //window.scrollTo(0, 300);
                 }
                 if ($scope.userProfile.objective != null) {
                     var availableTime = angular.element(document.querySelector('#availableTime'));
@@ -1572,14 +1574,6 @@ trainingApp.controller('UserController', ['$scope', 'UserService', '$window', '$
             if ($scope.userProfile.weatherId == '' || $scope.userProfile.weatherId == null) {
                 $scope.errorMessages.push("Debe seleccionar un clima predominante");
                 //form.weather.$setTouched();
-                valid = false;
-            }
-            if ($scope.userProfile.weight == '' || $scope.userProfile.weight == null) {
-                //form.weight.$setTouched();
-                valid = false;
-            }
-            if ($scope.userProfile.height == '' || $scope.userProfile.height == null) {
-                //form.height.$setTouched();
                 valid = false;
             }
             if ($scope.userProfile.ageSport < 0) {
