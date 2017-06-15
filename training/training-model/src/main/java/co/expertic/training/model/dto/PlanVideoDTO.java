@@ -38,6 +38,7 @@ public class PlanVideoDTO {
     private boolean mobile;
     private String guion;
     private Integer fromPlanVideoId;
+    private Boolean read;
     
     public PlanVideoDTO(){
         
@@ -55,13 +56,15 @@ public class PlanVideoDTO {
         this.toStar = toStar;
     }
     
-    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, Date createDate, Integer indRejected, PlanVideo fromPlanVideoId){
+    public PlanVideoDTO(Integer planVideoId, String name, Integer fromUserId, Integer toUserId, 
+            Date createDate, Integer indRejected, PlanVideo fromPlanVideoId, Boolean read){
         this.id = planVideoId;
         this.name = name;
         this.fromUserId = fromUserId;
         this.toUserId =  toUserId;
         this.createDate = createDate;
         this.indRejected = indRejected;
+        this.read = read;
         if(fromPlanVideoId != null){
             this.fromPlanVideoId = fromPlanVideoId.getPlanVideoId();
         }
@@ -97,7 +100,7 @@ public class PlanVideoDTO {
     public static PlanVideoDTO mapFromPlanVideoEntityShort(PlanVideo video) {
         if (video != null) {
             return new PlanVideoDTO(video.getPlanVideoId(), video.getName(), video.getFromUserId().getUserId(),
-                    video.getToUserId().getUserId(), video.getCreationDate(), video.getIndRejected(), video.getFromPlanVideoId());
+                    video.getToUserId().getUserId(), video.getCreationDate(), video.getIndRejected(), video.getFromPlanVideoId(), video.getReaded());
         }
         return null;
     }
@@ -261,6 +264,14 @@ public class PlanVideoDTO {
 
     public void setFromPlanVideoId(Integer fromPlanVideoId) {
         this.fromPlanVideoId = fromPlanVideoId;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
     }
 
       

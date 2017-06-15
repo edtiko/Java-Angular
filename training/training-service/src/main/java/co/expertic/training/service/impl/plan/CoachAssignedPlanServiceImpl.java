@@ -29,6 +29,7 @@ import co.expertic.training.service.plan.MailCommunicationService;
 import co.expertic.training.service.plan.PlanAudioService;
 import co.expertic.training.service.plan.PlanMessageService;
 import co.expertic.training.service.plan.PlanVideoService;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,6 +111,7 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
             Integer numActivities = userActivityPerformanceDao.getNumActivities(athleteUserId, athlete.getCreationDate(), now);
             Integer goalActivities = trainingUserSerieDao.getCountPlanWorkoutByUser(athleteUserId);
             Integer percentaje = 0;
+            Integer coachUserId = athlete.getUserCoachId();
 
             if (goalActivities > 0) {
                 percentaje = (numActivities / goalActivities) * 100;
@@ -121,14 +123,23 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
             List<MailCommunicationDTO> mails = mailCommunicationService.getMailsByReceivingUserIdFromSendingUser(userId, athleteUserId);
             List<PlanMessageDTO> messages = planMessageService.getMessagesNotReadedByReceivingUserAndSendingUser(userId, athleteUserId);
             Map<String, Object> parameters = new HashMap<>();
+            List<PlanAudioDTO> audios = new ArrayList<>();
             parameters.put("planId", athlete.getId());
-            parameters.put("userId", athleteUserId);
-            parameters.put("toUserId", userId);
+            if (roleId == RoleEnum.ESTRELLA.getId()) {
+                parameters.put("userId", coachUserId);
+                parameters.put("toUserId", userId);
+
+                audios = planAudioService.getAudiosByUser(athlete.getId(), coachUserId, userId, "from", "IN", -1);
+            } else {
+                parameters.put("userId", athleteUserId);
+                parameters.put("toUserId", userId);
+
+                audios = planAudioService.getAudiosByUser(athlete.getId(), athleteUserId, userId, "from", "IN", -1);
+            }
             parameters.put("fromto", "from");
             parameters.put("tipoPlan", "IN");
             parameters.put("roleSelected", -1);
             List<PlanVideoDTO> videos = planVideoService.getVideosByUser(parameters);
-            List<PlanAudioDTO> audios = planAudioService.getAudiosByUser(athlete.getId(), athleteUserId, userId, "from", "IN", -1);
 
             for (MailCommunicationDTO mail : mails) {
                 if (!mail.getRead()) {
@@ -144,29 +155,34 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
 
             }
 
-            for (PlanMessageDTO mail : messages) {
-                long hours = (calculateHourDifference(mail.getCreationDate()));
-                if (hours >= 0 && hours <= firstOrder) {
-                    countFirstColour++;
-                } else if (hours > firstOrder && hours <= secondOrder) {
-                    countSecondColour++;
-                } else {
-                    countThirdColour++;
+            for (PlanMessageDTO msg : messages) {
+                if (!msg.getRead()) {
+                    long hours = (calculateHourDifference(msg.getCreationDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                        countFirstColour++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
                 }
             }
 
             for (PlanVideoDTO video : videos) {
-                long hours = (calculateHourDifference(video.getCreateDate()));
-                if (hours >= 0 && hours <= firstOrder) {
-                    countFirstColour++;
-                } else if (hours > firstOrder && hours <= secondOrder) {
-                    countSecondColour++;
-                } else {
-                    countThirdColour++;
+                if (!video.getRead()) {
+                    long hours = (calculateHourDifference(video.getCreateDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                        countFirstColour++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
                 }
             }
 
             for (PlanAudioDTO audio : audios) {
+                if (!audio.getRead()) {
                 long hours = (calculateHourDifference(audio.getCreateDate()));
                 if (hours >= 0 && hours <= firstOrder) {
                     countFirstColour++;
@@ -174,6 +190,7 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
                     countSecondColour++;
                 } else {
                     countThirdColour++;
+                }
                 }
             }
 
@@ -288,29 +305,34 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
                 }
             }
 
-            for (PlanMessageDTO mail : messages) {
-                long hours = (calculateHourDifference(mail.getCreationDate()));
-                if (hours >= 0 && hours <= firstOrder) {
-                    countFirstColour++;
-                } else if (hours > firstOrder && hours <= secondOrder) {
-                    countSecondColour++;
-                } else {
-                    countThirdColour++;
+            for (PlanMessageDTO msg : messages) {
+                if (!msg.getRead()) {
+                    long hours = (calculateHourDifference(msg.getCreationDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                        countFirstColour++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
                 }
             }
 
             for (PlanVideoDTO video : videos) {
-                long hours = (calculateHourDifference(video.getCreateDate()));
-                if (hours >= 0 && hours <= firstOrder) {
-                    countFirstColour++;
-                } else if (hours > firstOrder && hours <= secondOrder) {
-                    countSecondColour++;
-                } else {
-                    countThirdColour++;
+                if (!video.getRead()) {
+                    long hours = (calculateHourDifference(video.getCreateDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                        countFirstColour++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
                 }
             }
 
             for (PlanAudioDTO audio : audios) {
+                if (!audio.getRead()) {
                 long hours = (calculateHourDifference(audio.getCreateDate()));
                 if (hours >= 0 && hours <= firstOrder) {
                     countFirstColour++;
@@ -318,6 +340,7 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
                     countSecondColour++;
                 } else {
                     countThirdColour++;
+                }
                 }
             }
 
@@ -420,36 +443,42 @@ public class CoachAssignedPlanServiceImpl implements CoachAssignedPlanService {
                 }
             }
 
-            for (PlanMessageDTO mail : messages) {
-                long hours = (calculateHourDifference(mail.getCreationDate()));
-                if (hours >= 0 && hours <= firstOrder) {
-                    countFirstColour++;
-                } else if (hours > firstOrder && hours <= secondOrder) {
-                    countSecondColour++;
-                } else {
-                    countThirdColour++;
+            for (PlanMessageDTO msg : messages) {
+                if (!msg.getRead()) {
+                    long hours = (calculateHourDifference(msg.getCreationDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                        countFirstColour++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
                 }
             }
-            
-                     for (PlanVideoDTO video : videos) {
-                long hours = (calculateHourDifference(video.getCreateDate()));
-                if (hours >= 0 && hours <= firstOrder) {
-                    countFirstColour++;
-                } else if (hours > firstOrder && hours <= secondOrder) {
-                    countSecondColour++;
-                } else {
-                    countThirdColour++;
+
+            for (PlanVideoDTO video : videos) {
+                if (!video.getRead()) {
+                    long hours = (calculateHourDifference(video.getCreateDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                        countFirstColour++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
                 }
             }
-             
-              for (PlanAudioDTO audio : audios) {
-                long hours = (calculateHourDifference(audio.getCreateDate()));
-                if (hours >= 0 && hours <= firstOrder) {
-                    countFirstColour++;
-                } else if (hours > firstOrder && hours <= secondOrder) {
-                    countSecondColour++;
-                } else {
-                    countThirdColour++;
+
+            for (PlanAudioDTO audio : audios) {
+                if (!audio.getRead()) {
+                    long hours = (calculateHourDifference(audio.getCreateDate()));
+                    if (hours >= 0 && hours <= firstOrder) {
+                        countFirstColour++;
+                    } else if (hours > firstOrder && hours <= secondOrder) {
+                        countSecondColour++;
+                    } else {
+                        countThirdColour++;
+                    }
                 }
             }
             if (countThirdColour > 0) {

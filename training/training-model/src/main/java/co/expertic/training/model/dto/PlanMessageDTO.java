@@ -29,6 +29,7 @@ public class PlanMessageDTO {
     private Integer roleSelected;
     private boolean mobile;
     private List<Integer> starMessages;
+    private Boolean read;
 
     public PlanMessageDTO() {
 
@@ -41,17 +42,18 @@ public class PlanMessageDTO {
         this.creationDate = creationDate;
     }
     
-    public PlanMessageDTO(Integer id, String message, User messageUserId, Date creationDate,User receivingUserId) {
+    public PlanMessageDTO(Integer id, String message, User messageUserId, Date creationDate,User receivingUserId, Boolean read) {
         this.id = id;
         this.message = message;
         this.messageUserId = UserDTO.mapFromUserShortEntity(messageUserId);
         this.creationDate = creationDate;
         this.receivingUserId = UserDTO.mapFromUserShortEntity(receivingUserId);
+        this.read = read;
     }
     
      public static PlanMessageDTO mapFromPlanMessageEntity(PlanMessage e) {
         if (e != null) {
-            return new PlanMessageDTO(e.getPlanMessageId(), e.getMessage(), e.getMessageUserId(), e.getCreationDate(), e.getReceivingUserId());
+            return new PlanMessageDTO(e.getPlanMessageId(), e.getMessage(), e.getMessageUserId(), e.getCreationDate(), e.getReceivingUserId(), e.getReaded());
         }
         return null;
     }
@@ -174,6 +176,14 @@ public class PlanMessageDTO {
 
     public void setStarMessages(List<Integer> starMessages) {
         this.starMessages = starMessages;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
     }
 
 

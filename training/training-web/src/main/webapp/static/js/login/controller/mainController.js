@@ -221,7 +221,31 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         };
 
         $scope.goBuyPlan = function () {
-            window.location = urlCompraPlanEntrenamiento;
+            var discipline = "Running";
+            var url = $urlCompraRunning;
+            if ($scope.userSession.userId != null && $scope.userSession.disciplineName != null) {
+                discipline = $scope.userSession.disciplineName;
+
+            }
+
+            switch (discipline) {
+                case "Running":
+                    url = $urlCompraRunning;
+                    break;
+                case "Natacion":
+                    url = $urlCompraRunning
+                    break;
+                case "Triatlon":
+                    url = $urlCompraTriatlon;
+                    break;
+                case "Ciclismo":
+                    url = $urlCompraCiclismo;
+                    break;
+                default:
+                    url = $urlCompraRunning;
+                    break;
+            }
+            window.location = url;
         };
 
         $scope.getImageProfile = function (userId, fn) {

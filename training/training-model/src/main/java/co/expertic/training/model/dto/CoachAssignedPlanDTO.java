@@ -64,9 +64,12 @@ public class CoachAssignedPlanDTO{
         }
     }
     
-    public CoachAssignedPlanDTO(Integer id, User athleteUserId, ConfigurationPlan plan, Date planDate) {
+    //findAthletesByUserRole
+    public CoachAssignedPlanDTO(Integer id, User star, User coach, User athleteUserId, ConfigurationPlan plan, Date planDate) {
         this.id = id;
         this.athleteUserId = UserDTO.mapFromUserEntity(athleteUserId);
+        this.userCoachId = coach.getUserId();
+        this.userStarId = star.getUserId();
         this.external = false;
         this.creationDate = planDate;
         if (plan != null) {

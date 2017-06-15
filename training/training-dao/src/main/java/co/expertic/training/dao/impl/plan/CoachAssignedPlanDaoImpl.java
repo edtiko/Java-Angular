@@ -38,7 +38,7 @@ public class CoachAssignedPlanDaoImpl extends BaseDAOImpl<CoachAssignedPlan> imp
         if (order.contains("-")) {
             order = order.replaceAll("-", "") + " desc";
         }
-        sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.trainingPlanUserId.userId, cp, m.trainingPlanUserId.creationDate) ");
+        sql.append(" SELECT new co.expertic.training.model.dto.CoachAssignedPlanDTO(m.coachAssignedPlanId, m.starTeamId.starUserId, m.starTeamId.coachUserId, m.trainingPlanUserId.userId, cp, m.trainingPlanUserId.creationDate) ");
         sql.append(" FROM CoachAssignedPlan m, ConfigurationPlan cp ");
         sql.append("WHERE 1=1 ");
         if (Objects.equals(roleId, RoleEnum.COACH_INTERNO.getId())) {

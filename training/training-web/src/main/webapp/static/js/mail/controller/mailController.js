@@ -171,7 +171,7 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
                                 if (d.status == 'success') {
                                     $scope.showMessage(d.output);
                                     $scope.reset();
-                                    self.getEmailCount();
+                                    self.init();
                                 } else {
                                     $scope.showMessage(d.output);
                                 }

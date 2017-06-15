@@ -36,6 +36,7 @@ public class PlanAudioDTO {
     private boolean mobile;
     private String state;
     private Short stateId;
+    private Boolean read;
     
     public PlanAudioDTO(){
         
@@ -51,7 +52,7 @@ public class PlanAudioDTO {
     }
     
     // used by public List<PlanAudioDTO> getAudiosByUser
-    public PlanAudioDTO(Integer planAudioId, String name, Date createDate, Integer fromUserId, Integer toUserId, Boolean toStar, Short stateId) {
+    public PlanAudioDTO(Integer planAudioId, String name, Date createDate, Integer fromUserId, Integer toUserId, Boolean toStar, Short stateId, Boolean read) {
         this.id = planAudioId;
         this.name = name;
         this.createDate = createDate;
@@ -62,6 +63,7 @@ public class PlanAudioDTO {
         this.state = StateEnum.values()[stateId.intValue()].name();
         this.stateId = stateId;
         }
+        this.read = read;
     }
     
       public PlanAudioDTO(Integer planAudioId, String name, User fromUserId, User toUserId, Date createDate, Boolean toStar){
@@ -82,7 +84,9 @@ public class PlanAudioDTO {
     
       public static PlanAudioDTO mapFromPlanAudioEntity(PlanAudio audio) {
         if (audio != null) {
-            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getCreationDate(), audio.getFromUserId().getUserId(),audio.getToUserId().getUserId(), audio.getToStar(), audio.getStateId());
+            return new PlanAudioDTO(audio.getPlanAudioId(), audio.getName(), audio.getCreationDate(), 
+                    audio.getFromUserId().getUserId(),audio.getToUserId().getUserId(), audio.getToStar(), 
+                    audio.getStateId(), audio.getReaded());
         }
         return null;
     }
@@ -217,6 +221,14 @@ public class PlanAudioDTO {
 
     public Short getStateId() {
         return stateId;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
     }
 
     public void setStateId(Short stateId) {

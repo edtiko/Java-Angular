@@ -9,6 +9,10 @@ var $contextPath = window.location.origin + "/training/";
 //var $contextPath = "http://181.143.227.220:8087/training/";
 $wordPressContextPath = 'http://181.143.227.220:4321/cpt/';
 $wordPressContextPathHttps = 'https://181.143.227.220:444/cpt/';
+$urlCompraRunning = $wordPressContextPath+'estrellas-del-running/'; 
+$urlCompraCiclismo = $wordPressContextPath+'estrellas-del-ciclismo/'; 
+$urlCompraTriatlon = $wordPressContextPath+'estrellas-del-triatlon/';
+
 require.config({
     waitSeconds: 200,
     paths: {
