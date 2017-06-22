@@ -46,12 +46,12 @@
                         <md-progress-circular md-mode="indeterminate" md-diameter="40"></md-progress-circular>
                         <span>Cargando mensajes..</span>
                     </div>
-                    <div layout="column" ng-repeat="message in messages| orderBy:'creationDate':false" >
+                    <div layout="column" ng-repeat="message in messagesStarAthlete| orderBy:'creationDate':false" >
                         <div ng-class="userSession.userId == message.messageUserId.userId ? 'bubble you' : 'bubble me'">
                             <p ng-class="{self: message.self}">
                                 {{message.message}}
                             </p>
-                            <span class="msgTime md-caption">{{message.creationDate}}</span>
+                            <span class="msgTime md-caption">{{message.creationDate | date:'dd/MM/yyyy  hh:mm:ss'}}</span>
                         </div>
                     </div>
                 </md-content>

@@ -89,18 +89,9 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
             $scope.viewMailSelected = $scope.views.sent;
         };
 
-        $scope.getReceivedMailsByPlan = function (tipoPlan, sendingUserId, receivingUserId, planId, roleSelected) {
+        $scope.getReceivedMailsByPlan = function (tipoPlan, sendingUserId, receivingUserId, planId, roleSelected, fn) {
             MailService.getMailsByPlan(tipoPlan, sendingUserId, receivingUserId, planId, roleSelected, "to").then(
-                    function (data) {
-                        $scope.mailsReceived = data.entity.output;
-                        if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
-                            $scope.mailsReceived.forEach(function (value, index) {
-                                if (value.sendingUser.userId != $scope.userSession.userId) {
-                                    value.sendingUser = $scope.userSession.planSelected.starUserId;
-                                }
-                            });
-                        }
-                    },
+                    fn,
                     function (error) {
                         //$scope.showMessage(error);
                         console.error(error);
@@ -211,10 +202,29 @@ trainingApp.controller("MailController", ['$scope', 'MailService', '$window', '$
         self.getEmailAthlete = function () {
             if ($scope.userSession.planSelected != null) {
 
-                var toUser = $scope.userSession.planSelected.coachUserId.userId;
+                var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
+                var starUserId = $scope.userSession.planSelected.starUserId.userId;
 
                 $scope.getSentMailsByPlan("IN", $scope.userSession.userId, $scope.userSession.planSelected.coachUserId.userId, $scope.userSession.planSelected.id, $scope.roleSelected);
-                $scope.getReceivedMailsByPlan("IN", $scope.userSession.userId, toUser, $scope.userSession.planSelected.id, $scope.roleSelected);
+                $scope.getReceivedMailsByPlan("IN", $scope.userSession.userId, coachUserId, $scope.userSession.planSelected.id, $scope.roleSelected,
+                        function (data) {
+                            $scope.mailsReceived = data.entity.output;
+                            if ($scope.userSession.typeUser == $scope.userSessionTypeUserAtleta && $scope.roleSelected == $scope.userSessionTypeUserCoachEstrella) {
+                                $scope.mailsReceived.forEach(function (value, index) {
+                                    if (value.sendingUser.userId != $scope.userSession.userId) {
+                                        value.sendingUser = $scope.userSession.planSelected.starUserId;
+                                    }
+                                });
+                                $scope.getReceivedMailsByPlan("IN", $scope.userSession.userId, starUserId, $scope.userSession.planSelected.id, $scope.roleSelected,
+                                        function (data) {
+                                            data.entity.output.forEach(function(mail){ 
+                                               $scope.mailsReceived.push(mail); 
+                                            });
+
+                                        });
+
+                            }
+                        });
 
                 if ($scope.roleSelected == $scope.userSessionTypeUserCoachInterno) {
                     $scope.mailCommunication.mailto = $scope.userSession.planSelected.coachUserId.fullName;

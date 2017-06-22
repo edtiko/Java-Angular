@@ -283,6 +283,10 @@ public class MessageController {
         StringBuilder strResponse = new StringBuilder();
         try {
             planMessageService.resendStarMessages(planId, messages.getStarMessages());
+           for(Integer id : messages.getStarMessages()){
+                PlanMessageDTO dto = planMessageService.findById(id);
+                simpMessagingTemplate.convertAndSend("/queue/message", dto);
+            }
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             responseService.setOutput(messages);
             return new ResponseEntity<>(responseService, HttpStatus.OK);
@@ -293,7 +297,6 @@ public class MessageController {
             responseService.setDetail(e.getMessage());
             return new ResponseEntity<>(responseService, HttpStatus.OK);
         }
-
     }
     
     @RequestMapping(value = "get/user/messages/{userId}", method = RequestMethod.GET)

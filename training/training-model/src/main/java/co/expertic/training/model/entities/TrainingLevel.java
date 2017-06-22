@@ -6,7 +6,6 @@
 package co.expertic.training.model.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -39,9 +37,6 @@ public class TrainingLevel implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "training_level_id_seq")
     @Column(name = "training_level_id")
     private Integer trainingLevelId;
-    @JoinColumn(name = "training_level_type_id", referencedColumnName = "training_level_type_id")
-    @ManyToOne
-    private TrainingLevelType trainingLeveTypelId;
     @Column(name = "min_sesion")
     private Integer minSesion;
     @Column(name = "max_sesion")
@@ -54,23 +49,24 @@ public class TrainingLevel implements Serializable {
     private Integer minWeekPlan;
     @Column(name = "max_week_plan")
     private Integer maxWeekPlan;
-    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
-    @ManyToOne
-    private Modality modalityId;
     @Column(name = "user_create")
     private Integer userCreate;
     @Column(name = "user_update")
     private Integer userUpdate;
+    @Column(name = "state_id")
+    private Short stateId;
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "last_update")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
-    @Column(name = "state_id")
-    private Short stateId;
-    @OneToMany(mappedBy = "trainingLevelId")
-    private Collection<IntensityZone> intensityZoneCollection;
+    @JoinColumn(name = "modality_id", referencedColumnName = "modality_id")
+    @ManyToOne
+    private Modality modalityId;
+    @JoinColumn(name = "training_level_type_id", referencedColumnName = "training_level_type_id")
+    @ManyToOne
+    private TrainingLevelType trainingLevelTypeId;
 
     public TrainingLevel() {
     }
@@ -86,7 +82,6 @@ public class TrainingLevel implements Serializable {
     public void setTrainingLevelId(Integer trainingLevelId) {
         this.trainingLevelId = trainingLevelId;
     }
-
 
     public Integer getMinSesion() {
         return minSesion;
@@ -136,14 +131,6 @@ public class TrainingLevel implements Serializable {
         this.maxWeekPlan = maxWeekPlan;
     }
 
-    public Modality getModalityId() {
-        return modalityId;
-    }
-
-    public void setModalityId(Modality modalityId) {
-        this.modalityId = modalityId;
-    }
-
     public Integer getUserCreate() {
         return userCreate;
     }
@@ -158,6 +145,14 @@ public class TrainingLevel implements Serializable {
 
     public void setUserUpdate(Integer userUpdate) {
         this.userUpdate = userUpdate;
+    }
+
+    public Short getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Short stateId) {
+        this.stateId = stateId;
     }
 
     public Date getCreationDate() {
@@ -176,28 +171,20 @@ public class TrainingLevel implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public Short getStateId() {
-        return stateId;
+    public Modality getModalityId() {
+        return modalityId;
     }
 
-    public void setStateId(Short stateId) {
-        this.stateId = stateId;
+    public void setModalityId(Modality modalityId) {
+        this.modalityId = modalityId;
     }
 
-    public TrainingLevelType getTrainingLeveTypelId() {
-        return trainingLeveTypelId;
+    public TrainingLevelType getTrainingLevelTypeId() {
+        return trainingLevelTypeId;
     }
 
-    public void setTrainingLeveTypelId(TrainingLevelType trainingLeveTypelId) {
-        this.trainingLeveTypelId = trainingLeveTypelId;
-    }
-    
-    public Collection<IntensityZone> getIntensityZoneCollection() {
-        return intensityZoneCollection;
-    }
-
-    public void setIntensityZoneCollection(Collection<IntensityZone> intensityZoneCollection) {
-        this.intensityZoneCollection = intensityZoneCollection;
+    public void setTrainingLevelTypeId(TrainingLevelType trainingLevelTypeId) {
+        this.trainingLevelTypeId = trainingLevelTypeId;
     }
 
     @Override

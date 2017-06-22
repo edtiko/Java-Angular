@@ -33,7 +33,7 @@ public class TrainingLevelDTO {
 
     public TrainingLevelDTO(TrainingLevel t) {
         this.id = t.getTrainingLevelId();
-        this.name = t.getTrainingLeveTypelId().getName();
+        this.name = t.getTrainingLevelTypeId().getName();
         this.minSesion = t.getMinSesion();
         this.maxSesion = t.getMaxSesion();
         this.minHourWeek = t.getMinHourWeek();
@@ -42,7 +42,7 @@ public class TrainingLevelDTO {
         this.maxWeekPlan = t.getMaxWeekPlan();
         this.modality = t.getModalityId().getName();
         this.modalityId = t.getModalityId().getModalityId();
-        this.trainingLevelTypeId = t.getTrainingLeveTypelId().getTrainingLevelTypeId();
+        this.trainingLevelTypeId = t.getTrainingLevelTypeId().getTrainingLevelTypeId();
         this.disciplineId = t.getModalityId().getDisciplineId().getDisciplineId();
         
     }

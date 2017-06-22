@@ -40,7 +40,7 @@ public class ObjectiveServiceImpl implements ObjectiveService {
         
          TrainingLevel trainingLevel = new TrainingLevel();
          trainingLevel.setModalityId(new Modality(dto.getModalityId()));
-         trainingLevel.setTrainingLeveTypelId(new TrainingLevelType(dto.getTrainingLevelTypeId()));
+         trainingLevel.setTrainingLevelTypeId(new TrainingLevelType(dto.getTrainingLevelTypeId()));
          trainingLevel.setMaxHourWeek(dto.getMaxHourWeek());
          trainingLevel.setMaxSesion(dto.getMaxSesion());
          trainingLevel.setMaxWeekPlan(dto.getMaxWeekPlan());
@@ -58,7 +58,7 @@ public class ObjectiveServiceImpl implements ObjectiveService {
      
          TrainingLevel trainingLevel = levelDao.getById(dto.getId());
          trainingLevel.setModalityId(new Modality(dto.getModalityId()));
-         trainingLevel.setTrainingLeveTypelId(new TrainingLevelType(dto.getTrainingLevelTypeId()));
+         trainingLevel.setTrainingLevelTypeId(new TrainingLevelType(dto.getTrainingLevelTypeId()));
          trainingLevel.setMaxHourWeek(dto.getMaxHourWeek());
          trainingLevel.setMaxSesion(dto.getMaxSesion());
          trainingLevel.setMaxWeekPlan(dto.getMaxWeekPlan());

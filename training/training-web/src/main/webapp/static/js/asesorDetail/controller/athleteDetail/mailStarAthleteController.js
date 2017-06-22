@@ -74,6 +74,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
 
                     $scope.mailCommunication.coachAssignedPlanId = $scope.planSelected.id;
                     $scope.mailCommunication.roleSelected = $scope.roleSelected;
+                    $scope.mailCommunication.receivingUser.userId = $scope.planSelected.athleteUserId.userId;
                     
                 } 
                 
@@ -241,7 +242,7 @@ trainingApp.controller("MailStarAthleteController", ['$scope', 'MailService', '$
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                    $scope.getReceived();
+                                     $scope.getUserNotification($scope.userSession.userId, $scope.planSelected.id, "IN");
                                 } else {
                                     console.log(d.output);
                                 }

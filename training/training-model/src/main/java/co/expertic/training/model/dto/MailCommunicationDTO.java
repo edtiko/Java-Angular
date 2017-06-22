@@ -1,5 +1,6 @@
 package co.expertic.training.model.dto;
 
+import co.expertic.training.model.entities.MailCommunication;
 import co.expertic.training.model.entities.User;
 import co.expertic.training.model.util.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -42,6 +43,15 @@ public class MailCommunicationDTO implements Serializable {
         this.read = read;
         this.receivingUser = UserDTO.mapFromUserEntity(receivingUser);
         this.sendingUser = UserDTO.mapFromUserEntity(sendingUser);
+    }
+    
+    
+    public static MailCommunicationDTO mapFromEntity(MailCommunication m){
+        if(m != null){
+            return new MailCommunicationDTO(m.getMailCommunicationId(), m.getSubject(), m.getMessage(), 
+                    m.getStateId(), m.getCreationDate(), m.getRead(), m.getReceivingUser(), m.getSendingUser());
+        }
+        return null;
     }
     
     public MailCommunicationDTO() {

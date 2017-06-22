@@ -317,7 +317,12 @@ public class MailController {
     public ResponseEntity<ResponseService> resendEmail(@PathVariable("id") Integer id, @PathVariable("planId") Integer planId) {
         ResponseService responseService = new ResponseService();
         try {
-            mailCommunicationService.resendEmail(id, planId);
+            MailCommunicationDTO dto = mailCommunicationService.resendEmail(id, planId);
+            if (dto.getSendingUser() != null) {
+                RoleUser roleUserMsg = roleUserService.findByUserId(dto.getSendingUser().getUserId());
+                dto.getSendingUser().setRoleId(roleUserMsg.getRoleId().getRoleId());
+            }
+            simpMessagingTemplate.convertAndSend("/queue/mail", dto);
             responseService.setOutput(MessageUtil.getMessageFromBundle("co.expertic.training.i18n.trainingplan", "msgRegistroEditado"));
             responseService.setStatus(StatusResponse.SUCCESS.getName());
             return new ResponseEntity<>(responseService, HttpStatus.OK);

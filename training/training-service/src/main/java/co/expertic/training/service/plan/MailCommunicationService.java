@@ -202,7 +202,7 @@ public interface MailCommunicationService {
 
     public Integer getMailsEmergencyByPlanExt(Integer sessionId, Integer userId)throws Exception;
 
-    public void resendEmail(Integer id, Integer planId)throws Exception;
+    public MailCommunicationDTO resendEmail(Integer id, Integer planId)throws Exception;
 
     public List<UserResumeDTO> getMailsUsersByUserId(Integer userId)throws Exception;
 }

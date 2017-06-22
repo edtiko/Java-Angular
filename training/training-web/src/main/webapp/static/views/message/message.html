@@ -46,7 +46,7 @@
                             <p ng-class="{self: message.self}">
                                 {{message.message}}
                             </p>
-                            <span class="msgTime md-caption">{{message.creationDate}}</span>
+                            <span class="msgTime md-caption">{{message.creationDate | date:'dd/MM/yyyy  hh:mm:ss'}}</span>
                         </div>
                     </div>
                 </md-content>

@@ -114,7 +114,7 @@ trainingApp.controller("MailStarController", ['$scope', 'MailService', '$window'
         //notificación emails recibidos
         MailService.receive().then(null, null, function (email) {
             if (email.receivingUser.userId == $scope.userSession.userId) {
-                $scope.init();
+                self.init();
             }
 
         });
@@ -202,7 +202,7 @@ trainingApp.controller("MailStarController", ['$scope', 'MailService', '$window'
         };
 
 
-        $scope.init = function () {
+        self.init = function () {
 
             if ($scope.userSession != null) {
                 self.getEmailUser();
@@ -213,6 +213,6 @@ trainingApp.controller("MailStarController", ['$scope', 'MailService', '$window'
 
         };
 
-        $scope.init();
+        self.init();
         
     }]);

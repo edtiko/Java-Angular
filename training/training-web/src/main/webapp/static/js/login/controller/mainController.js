@@ -84,7 +84,13 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 $scope.rotate--;
         };
 
-        $scope.verModulo = function (module, userId, fromRole) {
+        $scope.verModulo = function (not) {
+
+            var module = not.module;
+            var userId = not.fromUserId;
+            var fromRole = not.fromUserRole;
+            var coach = not.coachUserId;
+
             var chat = "";
             var mail = "";
             var audio = "";
@@ -115,11 +121,16 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 mail = '/stars';
                 audio = '/stars';
                 video = '/stars';
-            } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella) {
-                chat = '/asesores';
-                mail = '/asesores';
-                audio = '/asesores';
-                video = '/asesores';
+            } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella && fromRole == $scope.userSessionTypeUserAtleta) {
+                chat = '/asesor-detail/' + coach;
+                mail = '/asesor-detail/' + coach;
+                audio = '/asesor-detail/' + coach;
+                video = '/asesor-detail/' + coach;
+            } else if ($scope.userSession.typeUser == $scope.userSessionTypeUserCoachEstrella && fromRole == $scope.userSessionTypeUserCoachInterno) {
+                chat = '/asesor-detail/' + userId;
+                mail = '/asesor-detail/' + userId;
+                audio = '/asesor-detail/' + userId;
+                video = '/asesor-detail/' + userId;
             }
 
             switch (module) {
@@ -136,7 +147,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     $scope.go(video, 8);
                     break;
                 case "fitting":
-                    $scope.go('/athletes-mecanico',  2);
+                    $scope.go('/athletes-mecanico', 2);
                     break;
 
             }
@@ -343,7 +354,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     .ariaLabel('Alert Dialog Demo')
                     .ok('Aceptar')
                     );
-            }
+        }
         }
         ;
 
@@ -701,9 +712,9 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 VideoService.initialize();
                 AudioMessageService.initialize();
                 MailService.initialize();
-                $scope.connectToChatserver($scope.userSession.planSelected.id);
-                $scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
-                $scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
+                //$scope.connectToChatserver($scope.userSession.planSelected.id);
+                //$scope.connectToAudioWsMovil($scope.userSession.planSelected.id);
+                //$scope.connectToVideoWsMovil($scope.userSession.planSelected.id);
 
             } else {
                 self.setAthletePlatform();
@@ -778,7 +789,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
             });
 
-            $scope.getUserNotification($scope.userSession.userId, -1, -1); 
+            $scope.getUserNotification($scope.userSession.userId, -1, -1);
         };
 
 

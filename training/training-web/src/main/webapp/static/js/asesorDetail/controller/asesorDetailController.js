@@ -3,7 +3,7 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
         var self = this;
         $scope.userSession = JSON.parse($window.sessionStorage.getItem("userInfo"));
         $scope.asesorUserId = $routeParams.user;
-        $scope.moduleSelected = 1;
+        $scope.moduleSelected = 2;
         $scope.messageReceivedAsesor = 0;
         $scope.mailReceivedAsesor = 0;
         $scope.asesorView = {
@@ -13,8 +13,8 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
             athletes: 'static/views/asesorDetail/athletes/athletes.html',
             athleteDetail: 'static/views/asesorDetail/athleteDetail/athleteDetail.html'
         };
-
-
+        
+        
         $scope.goAsesorMenu = function (module, index) {
             $scope.moduleSelected = index;
 
@@ -77,7 +77,7 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
         });
 
         $scope.getMessagesReceivedCount = function () {
-            MessageService.getMessagesReceived(-1, $scope.asesorUserId, $scope.userSession.userId, -1, -1).then(
+            MessageService.getMessagesReceived(-1, $scope.userSession.userId, -1, -1, -1).then(
                     function (data) {
                         $scope.messageReceivedAsesor = data.output;
                     },
@@ -85,10 +85,11 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
                         console.log(error);
                     }
             );
+             $scope.getUserNotification($scope.userSession.userId, -1, -1);
         };
 
         $scope.getMailReceivedCount = function () {
-            MailService.getReceivedMails(-1, $scope.asesorUserId, $scope.userSession.userId, -1, -1).then(
+            MailService.getReceivedMails(-1, $scope.userSession.userId, -1, -1, -1).then(
                     function (data) {
                         $scope.mailReceivedAsesor = data.output;
                     },
@@ -96,7 +97,8 @@ trainingApp.controller('AsesorDetailController', ['$scope', 'DashboardService', 
                         console.log(error);
                     }
             );
-        };
+          $scope.getUserNotification($scope.userSession.userId, -1, -1);
+        }; 
 
         self.init = function () {
             if ($scope.userSession.userId != null && $scope.asesorUserId != null) {

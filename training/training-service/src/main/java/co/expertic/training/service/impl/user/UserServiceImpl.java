@@ -48,6 +48,7 @@ import co.expertic.training.model.dto.CommunicationDTO;
 import co.expertic.training.model.dto.DisciplineDTO;
 import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.UserMovilDTO;
+import co.expertic.training.model.entities.CoachAssignedPlan;
 import co.expertic.training.model.entities.ConfigurationPlan;
 import co.expertic.training.model.entities.FederalState;
 import co.expertic.training.model.entities.VisibleFieldsUser;
@@ -581,11 +582,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<NotificationDTO> getUserNotification(Integer userSessionId, Integer planId, String tipoPlan) throws Exception {
         List<NotificationDTO> list = userDao.getUserNotification(userSessionId, planId, tipoPlan);
-        
+       
         for (NotificationDTO not : list) {
             User user = userDao.findById(not.getFromUserId());
             not.setSrcImage(getProfilePhotoBase64(user.getProfilePhoto()));
             not.setFromUser(user.getName()+" "+user.getSecondName()+" "+user.getLastName());
+            
+             if (not.getPlanId() != null) {
+                CoachAssignedPlan plan = coachDao.findById(not.getPlanId());
+                not.setCoachUserId(plan.getStarTeamId().getCoachUserId().getUserId());
+            }
         }
         
         return list;

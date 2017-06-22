@@ -110,6 +110,9 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             MessageService.getUsersMessages($scope.userSession.userId).then(
                     function (data) {
                         $scope.userMessages = data;
+                        if(data.length == 1){
+                            $scope.getMessagesByUser(data[0]);
+                        }
                     },
                     function (error) {
                         console.log(error);
@@ -121,6 +124,9 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             MailService.getUsersMails($scope.userSession.userId).then(
                     function (data) {
                         $scope.userMails = data;
+                        if(data.length == 1){
+                            $scope.getEmailByUser(data[0]);
+                        }
                     },
                     function (error) {
                         console.log(error);
@@ -158,6 +164,9 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
             MessageService.getMessagesByReceivingUserSendingUser($scope.userSession.userId, user.userId).then(
                     function (data) {
                         $scope.messagesAsesor = data;
+                        $scope.messagesAsesor.forEach(function(v){
+                                v.creationDate = new Date(v.creationDate);
+                            });
                         self.readMessages();
                     },
                     function (error) {
@@ -187,6 +196,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                         console.log(error);
                     }
             );
+          $scope.verRecibidos();
         };
 
         $scope.addMail = function () {
@@ -213,7 +223,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                                     $scope.showMessage(d.output);
                                 }
 
-                                $scope.init();
+                                self.init();
                             },
                             function (errResponse) {
                                 console.error('Error while creating mail communication.');
@@ -273,7 +283,8 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                     .then(
                             function (d) {
                                 if (d.status == 'success') {
-                                    $scope.getUserNotification($scope.userSession.userId, -1, -1);
+                                    self.getCountStarAsesor();
+               
                                 } else {
                                     console.log(d.output);
                                 }
@@ -282,6 +293,16 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                                 console.error('Error while updating mail communication.' + error);
                             }
                     );
+        };
+        
+        self.getCountStarAsesor = function () {
+            $scope.getUserNotification($scope.userSession.userId, -1, -1);
+            self.getMessagesReceivedCount(-1, function (data) {
+                $scope.messageReceivedStarAsesor = data.output;
+            });
+            self.getMailReceivedCount(-1, function (data) {
+                $scope.mailReceivedStarAsesor = data.output;
+            });
         };
 
         $scope.sendMessage = function () {
@@ -349,6 +370,10 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                     self.readMessages();
                 }
             }
+            
+            if ($scope.userSession.userId == message.receivingUserId.userId) {
+                    $scope.messageReceivedStarAsesor = $scope.messageReceivedStarAsesor + 1;
+                }
 
             $scope.messagesAsesor.push(message);
         });
@@ -400,7 +425,7 @@ trainingApp.controller('StarAsesorController', ['$scope', 'DashboardService', 'M
                         console.log(error);
                     }
             );
-        };
+        }; 
 
 
         self.init = function () {

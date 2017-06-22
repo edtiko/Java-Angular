@@ -253,5 +253,16 @@ public class PlanMessageServiceImpl implements PlanMessageService{
     public Integer getCountMessagesReceivedByUser(Integer receivingUserId) throws Exception {
        return planMessageDao.getCountMessagesReceivedByUser(receivingUserId);
     }
+
+    @Override
+    public PlanMessageDTO findById(Integer id) throws Exception {
+         PlanMessageDTO dto = PlanMessageDTO.mapFromPlanMessageEntity(planMessageDao.findById(id));
+       
+        if (dto.getMessageUserId() != null) {
+            RoleUser roleUserMsg = roleUserDao.findByUserId(dto.getMessageUserId().getUserId());
+            dto.getMessageUserId().setRoleId(roleUserMsg.getRoleId().getRoleId());
+        }
+        return dto;
+    }
     
 }

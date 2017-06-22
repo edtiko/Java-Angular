@@ -306,7 +306,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       from_user_id as from_user_id, \n"
                 + "       'audio' as module, \n"
                 + "        CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
-                + "        creation_date\n"
+                + "        creation_date,\n"
+                + "        coach_assigned_plan_id \n"
                 + "from plan_audio\n"
                 + "where to_user_id = " + userSessionId + " \n"
                 +strPlan
@@ -318,7 +319,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       from_user_id as from_user_id, \n"
                 + "       'video' as module, \n"
                 + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
-                + "       creation_date\n"
+                + "       creation_date,\n"
+                + "       coach_assigned_plan_id \n"
                 + "from plan_video\n"
                 + "where to_user_id = " + userSessionId + " \n"
                 +strPlan
@@ -330,7 +332,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       sending_user as from_user_id, \n"
                 + "       'mail' as module, \n"
                 + "       CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
-                + "       creation_date\n"
+                + "       creation_date,\n"
+                + "       coach_assigned_plan_id \n"
                 + "from mail_communication\n"
                 + "where receiving_user = " + userSessionId + " \n"
                 + strPlan
@@ -342,7 +345,8 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
                 + "       message_user_id as from_user_id, \n"
                 + "      'chat' as module, \n"
                 + "      CASE WHEN to_star = true THEN 5 ELSE 4 END as roleId,\n"
-                + "      creation_date\n"
+                + "      creation_date,\n"
+                + "      coach_assigned_plan_id \n"
                 + "from plan_message\n"
                 + "where receiving_user_id = " + userSessionId + " \n"
                 +strPlan
@@ -354,7 +358,7 @@ public class UserDaoImpl extends BaseDAOImpl<User> implements UserDao {
         List<Object[]> list = query.getResultList();
         List<NotificationDTO> res = new ArrayList<>();
         list.stream().forEach((result) -> {
-            res.add(new NotificationDTO((Integer) result[0], (Integer) result[1], (Integer) result[2],(String) result[3], (Integer) result[4], (Date) result[5]));
+            res.add(new NotificationDTO((Integer) result[0], (Integer) result[1], (Integer) result[2],(String) result[3], (Integer) result[4], (Date) result[5], (Integer) result[6]));
         });
         return res;
     }

@@ -65,6 +65,9 @@ trainingApp.controller("MessageStarController", ['$scope', 'MessageService', '$w
             MessageService.getMessagesByReceivingUserSendingUser($scope.userSession.userId, userId).then(
                     function (data) {
                         $scope.messagesStar = data;
+                        $scope.messagesStar.forEach(function(v){
+                                v.creationDate = new Date(v.creationDate);
+                            });
                         $scope.loading = false;
                         $scope.msgStarEnabled = true;
                         self.readMessages(userId, $scope.userSession.userId);

@@ -92,4 +92,6 @@ public interface PlanMessageService {
     public void resendStarMessages(Integer planId, List<Integer> messages)throws  Exception;
 
     public List<UserResumeDTO> getMessageUsersByUserId(Integer userId)throws  Exception;
+
+    public PlanMessageDTO findById(Integer get)throws  Exception;
 }

@@ -44,7 +44,9 @@
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in receivedAsesor| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
-                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td>
+                                        {{planSelected.coachUserId.fullName}}/Asesor
+                                    </td>
                                     <td>{{vr.createDate}}</td>
                                     <td><div class="circle_black42" ng-click="verVideoAsesor(vr.name, vr.id, 'to', $index)"><img src="static/img/play.png" /></div></td>
                                 </tr>
@@ -70,7 +72,7 @@
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in sendedAsesor| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
-                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td>{{userSession.fullName}}/Atleta</td>
                                     <td>{{vr.createDate}}</td>
                                     <td><div class="circle_black42" ng-click="verVideoAsesor(vr.name, vr.id, 'from', $index)"><img src="static/img/play.png" /></div></td>
                                 </tr>

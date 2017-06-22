@@ -209,7 +209,7 @@ public class PlanMessageDaoImpl extends BaseDAOImpl<PlanMessage> implements Plan
         ids.add(sendingUserId);
         ids.add(receivingUserId);
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT new co.expertic.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate, m.receivingUserId) ");        
+        sql.append("SELECT new co.expertic.training.model.dto.PlanMessageDTO(m.planMessageId,m.message, m.messageUserId, m.creationDate, m.receivingUserId, m.readed) ");        
         sql.append("FROM PlanMessage m ");
         sql.append("Where m.messageUserId.userId in :ids ");
         sql.append("AND m.receivingUserId.userId in :ids ");

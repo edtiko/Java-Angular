@@ -29,6 +29,9 @@ trainingApp.controller("MessageAsesorController", ['$scope', 'MessageService', '
                 MessageService.getMessages($scope.planSelected.id, $scope.userSession.userId, $scope.planSelected.athleteUserId.userId, tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             $scope.messages = data.output;
+                            $scope.messages.forEach(function(v){
+                                v.creationDate = new Date(v.creationDate);
+                            });
                             $scope.loading = false;
                             $scope.msgAsesorEnabled = true;
                             self.readMessages(tipoPlan, $scope.roleSelected, $scope.planSelected.athleteUserId.userId, $scope.userSession.userId);

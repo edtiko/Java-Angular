@@ -26,19 +26,22 @@ public class NotificationDTO {
     private String module;
     private Integer roleId;
     private Long count;
+    private Integer planId;
+    private Integer coachUserId;
     
     
     public NotificationDTO(){
         
     }
     
-    public NotificationDTO(Integer fromUserRole, Integer id, Integer fromUserId, String module, Integer roleId, Date creationDate) {
+    public NotificationDTO(Integer fromUserRole, Integer id, Integer fromUserId, String module, Integer roleId, Date creationDate, Integer planId) {
         this.id = id;
         this.fromUserId = fromUserId;
         this.fromUserRole = fromUserRole;
         this.creationDate = creationDate;
         this.module = module;
         this.roleId = roleId;
+        this.planId = planId;
 
     }
     
@@ -125,6 +128,22 @@ public class NotificationDTO {
 
     public void setFromUserRole(Integer fromUserRole) {
         this.fromUserRole = fromUserRole;
+    }
+
+    public Integer getCoachUserId() {
+        return coachUserId;
+    }
+
+    public void setCoachUserId(Integer coachUserId) {
+        this.coachUserId = coachUserId;
+    }
+
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
         
 }

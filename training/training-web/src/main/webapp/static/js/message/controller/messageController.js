@@ -32,7 +32,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                 MessageService.getMessages($scope.userSession.planSelected.id, $scope.userSession.userId, coach, tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             data.output.forEach(function (m) {
-
+                                m.creationDate = new Date(m.creationDate);
                                 $scope.messages.push(m);
                             });
                             $scope.loading = false;
@@ -47,7 +47,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                 MessageService.getMessages($scope.userSession.planSelected.id, $scope.userSession.userId, star, tipoPlan, $scope.roleSelected).then(
                         function (data) {
                             data.output.forEach(function (m) {
-
+                                m.creationDate = new Date(m.creationDate);
                                 $scope.messages.push(m);
                             });
                             $scope.loading = false;
@@ -64,7 +64,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
 
 
         //Envia mensaje para planes Coach Interno
-        $scope.sendMessage = function () {
+        $scope.sendMessage = function () { 
             var coachUserId = $scope.userSession.planSelected.coachUserId.userId;
             self.getAvailableMessages($scope.userSession.planSelected.id, $scope.userSession.userId, coachUserId, "IN", $scope.roleSelected, function (data) {
                 $scope.availableMessage = data.output;
@@ -77,7 +77,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                     $scope.planMessage.receivingUserId.userId = $scope.userSession.planSelected.coachUserId.userId;
 
                     MessageService.send($scope.planMessage);
-                    $scope.wsocket.send(JSON.stringify($scope.planMessage));                  
+                    //$scope.wsocket.send(JSON.stringify($scope.planMessage));                  
                     $scope.planMessage.message = "";
 
                 } else if ($scope.availableMessage == 0) {
@@ -89,15 +89,14 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
 
         //Recibir Mensajes en tiempo real
         MessageService.receive().then(null, null, function (message) {
-            if ($scope.userSession.userId == message.receivingUserId.userId) {
-                if ($scope.messageEnabled) {
+            if ($scope.messageEnabled) {
+                if ($scope.userSession.userId == message.receivingUserId.userId) {
+
                     MessageService.readMessage(message.id).then(
                             function (data) {
-                                //$scope.getReceived();
                                 self.getMessageCount();
                             },
                             function (error) {
-                                //$scope.showMessage(error);
                                 console.error(error);
                             });
 
@@ -106,13 +105,12 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                     } else if (message.roleSelected == $scope.userSessionTypeUserCoachInterno) {
                         $scope.receivedMessageSup++;
                     }
-                    //$scope.getReceived();
-
-                    if ($scope.roleSelected == message.roleSelected) {
-                        $scope.messages.push(message);
-                    }
-                    self.getMessageCount();
                 }
+
+                if ($scope.roleSelected == message.roleSelected) {
+                    $scope.messages.push(message);
+                }
+                self.getMessageCount();
             }
         });
 
@@ -182,7 +180,7 @@ trainingApp.controller("MessageController", ['$scope', 'MessageService', '$windo
                         $scope.receivedMessageSup = data.output;
                     });
 
-            $scope.getReceived(coachUserId, $scope.userSession.planSelected.id, "IN");
+            $scope.getReceived($scope.userSession.userId, $scope.userSession.planSelected.id, "IN");
 
             //$scope.getMessagesByRole($scope.roleSelected);
         };

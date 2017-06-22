@@ -73,6 +73,8 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         sql.append("FROM MailCommunication m ");
         sql.append("Where m.receivingUser.userId = :receivingUser ");
         sql.append("and m.sendingUser.userId = :sendingUser ");
+        sql.append("And m.coachExtAthleteId is null ");
+        sql.append("And m.coachAssignedPlanId is null ");
         Query query = getEntityManager().createQuery(sql.toString());
         query.setParameter("receivingUser", receivingUserId);
         query.setParameter("sendingUser", sendingUserId);
@@ -264,7 +266,9 @@ public class MailCommunicationDaoImpl extends BaseDAOImpl<MailCommunication> imp
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(m.mail_communication_id) ");
         sql.append(" FROM mail_communication m ");
-        sql.append(" WHERE m.receiving_user = ").append(receiveUserId);
+        sql.append(" WHERE m.receiving_user = ").append(receiveUserId); 
+        sql.append(" AND m.coach_assigned_plan_id  is null ");
+        sql.append(" AND m.coach_ext_athlete_id  is null ");
         sql.append(" And m.read = false");
 
         Query query = getEntityManager().createNativeQuery(sql.toString());

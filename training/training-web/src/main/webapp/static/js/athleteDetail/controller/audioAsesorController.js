@@ -308,8 +308,15 @@ trainingApp.controller("AudioAsesorController", ['$scope', 'AudioMessageService'
                         $scope.availableAudioStar = data.entity.output;
                     });
 
-            $scope.getReceivedAthleteAsesor($scope.planSelected.athleteUserId.userId, $scope.planSelected.id);
-            $scope.getReceivedAthleteAsesor($scope.planSelected.starUserId.userId, $scope.planSelected.id);
+            
+            $scope.getReceivedAudios($scope.planSelected.id, $scope.planSelected.athleteUserId.userId, $scope.userSession.userId, tipoPlan, -1,
+                    function (data) {
+                        $scope.audioReceivedAthlete = data.output;
+                        $scope.getReceivedAudios($scope.planSelected.id, $scope.planSelected.starUserId.userId, $scope.userSession.userId, tipoPlan, -1,
+                                function (data) {
+                                    $scope.audioReceivedAthlete = $scope.audioReceivedAthlete + data.output;
+                                });
+                    });
         };
 
         self.getAudiosAsesor = function () {

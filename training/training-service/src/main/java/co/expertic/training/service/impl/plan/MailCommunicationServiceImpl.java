@@ -341,7 +341,7 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
     }
 
     @Override
-    public void resendEmail(Integer id, Integer planId) throws Exception {
+    public MailCommunicationDTO resendEmail(Integer id, Integer planId) throws Exception {
         CoachAssignedPlan plan = coachAssignedPlanDao.findById(planId);
         MailCommunication mail = mailCommunicationDao.findById(id);
         User starUser = null;
@@ -350,9 +350,10 @@ public class MailCommunicationServiceImpl implements MailCommunicationService {
         }else{
             throw new Exception("No existe una estrella asignada, comuniquese con el administrador.");
         }
-        mail.setReceivingUser(starUser);
+        mail.setReceivingUser(starUser); 
+        mail.setRead(Boolean.FALSE);
         mail.setCreationDate(Calendar.getInstance().getTime());
-        mailCommunicationDao.merge(mail);
+       return  MailCommunicationDTO.mapFromEntity(mailCommunicationDao.merge(mail));
     }
 
     @Override

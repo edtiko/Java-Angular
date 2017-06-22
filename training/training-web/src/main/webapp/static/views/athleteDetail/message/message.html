@@ -56,7 +56,7 @@
                             <p ng-class="{self: message.self}">
                                 {{message.message}}
                             </p>
-                            <span class="msgTime md-caption">{{message.creationDate}}
+                            <span class="msgTime md-caption">{{message.creationDate | date:'dd/MM/yyyy  hh:mm:ss'}}
                              <md-checkbox ng-if="userSession.userId != message.messageUserId.userId && planSelected.starManageMessages && roleSelected == userSessionTypeUserCoachEstrella" ng-checked="exists(message.id, msgStar)" ng-click="toggle(message.id, msgStar)"></md-checkbox>
                             </span>
                            

@@ -129,8 +129,8 @@ public class DashboardDTO {
             this.weather = weather.getName();
         }
          
-         if(level != null && level.getTrainingLeveTypelId() != null){
-             this.objective = level.getTrainingLeveTypelId().getName();
+         if(level != null && level.getTrainingLevelTypeId() != null){
+             this.objective = level.getTrainingLevelTypeId().getName();
          }
         this.disease = disease;
         this.competenceDate = competenceDate;
