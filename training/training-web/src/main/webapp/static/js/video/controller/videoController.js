@@ -231,8 +231,8 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
             $scope.gumVideoStar.src = '';
             window.stream = null;
             $scope.mediaModelStar = null;
-            navigator.mediaDevices.getUserMedia(constraints).
-                    then(handleSuccessStar).catch(handleError);
+            /*navigator.mediaDevices.getUserMedia(constraints).
+                    then(handleSuccessStar).catch(handleError);*/
 
         };
 
@@ -243,8 +243,8 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
             $scope.gumVideoAsesor.src = '';
             window.stream = null;
             $scope.mediaModelAsesor = null;
-            navigator.mediaDevices.getUserMedia(constraints).
-                    then(handleSuccessAsesor).catch(handleError);
+            /*navigator.mediaDevices.getUserMedia(constraints).
+                    then(handleSuccessAsesor).catch(handleError);*/
 
         };
         
@@ -627,7 +627,7 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
             };
 
         }
-
+ 
         $scope.showAsesorRecord = function () {
             $mdDialog.show({
                 controller: asesorRecordController,
@@ -646,6 +646,7 @@ trainingApp.controller("VideoController", ['$scope', 'VideoService', 'UserServic
             };
             $scope.cancel = function () {
                 $mdDialog.cancel();
+                stream.getTracks().forEach(function(track) { track.stop(); });
             };
 
         }

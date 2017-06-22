@@ -230,6 +230,11 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                 }
             });
         };
+        
+        $scope.goBuyFitting = function(){
+               window.open($urlCompraFitting, '_blank');
+        };
+        
 
         $scope.goBuyPlan = function () {
             var discipline = "Running";
@@ -256,7 +261,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     url = $urlCompraRunning;
                     break;
             }
-            window.location = url;
+            window.open(url, '_blank');
         };
 
         $scope.getImageProfile = function (userId, fn) {

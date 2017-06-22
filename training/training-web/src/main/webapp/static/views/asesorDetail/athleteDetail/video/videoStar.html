@@ -57,11 +57,11 @@
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in receivedStar |filter:filterState |orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
-                                    <td>Rutina número {{$index + 1}}</td>
-                                    <td>{{vr.createDate}}</td>
+                                    <td>{{planSelected.athleteUserId.fullName}}/Atleta</td>
+                                    <td>{{vr.createDate}}</td> 
                                     <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr.id, 'to', $index)"><img src="static/img/play.png" /></div></td>
                                     <td><a href="javascript:void(0)" ng-click="showStarRecord(vr)">Responder</a></td>
-                                </tr>
+                                </tr> 
                             </tbody>
                         </table>
                     </md-table-container>
@@ -84,7 +84,7 @@
                             </thead>
                             <tbody md-body>
                                 <tr md-row  md-auto-select ng-repeat="vr  in sendedStar| orderBy:'creationDate':false | limitTo: query.limit: (query.page - 1) * query.limit">
-                                    <td>Rutina número {{$index + 1}}</td>
+                                    <td>{{userSession.fullName}}/Estrella</td>
                                     <td>{{vr.createDate}}</td>
                                     <td><div class="circle_black42" ng-click="verVideoStar(vr.name, vr.id, 'from', $index)"><img src="static/img/play.png" /></div></td>
                                 </tr>

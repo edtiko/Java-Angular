@@ -22,7 +22,7 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
         };
 
         self.isVideo = function (type) {
-            if (type.indexOf("video") !== -1) {
+            if (type.indexOf("video/mp4") !== -1) {
                 return false;
             }
             return true;
@@ -36,7 +36,7 @@ trainingApp.controller("UserFittingController", ['$scope', 'UserFittingService',
         $scope.uploadFile = function (file) {
 
             if (file !== undefined && self.isVideo(file.type)) {
-                $scope.showMessage("Debe seleccionar un video valido.", "error");
+                $scope.showMessage("Debe seleccionar un video MP4 valido.", "error");
             } else if ($scope.userSession.userFittingId != "" && file != null) {
                 UserFittingService.uploadVideo(file, $scope.userSession.userFittingId)
                         .then(

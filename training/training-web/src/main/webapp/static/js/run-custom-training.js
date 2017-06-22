@@ -12,6 +12,7 @@ $wordPressContextPathHttps = 'https://181.143.227.220:444/cpt/';
 $urlCompraRunning = $wordPressContextPath+'estrellas-del-running/'; 
 $urlCompraCiclismo = $wordPressContextPath+'estrellas-del-ciclismo/'; 
 $urlCompraTriatlon = $wordPressContextPath+'estrellas-del-triatlon/';
+$urlCompraFitting = $wordPressContextPath+'atletas/';
 
 require.config({
     waitSeconds: 200,

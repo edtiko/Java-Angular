@@ -17,6 +17,7 @@ import co.expertic.training.service.user.UserFittingService;
 import co.expertic.training.web.enums.StatusResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
@@ -169,10 +170,19 @@ public class UserFittingController {
     public ResponseEntity<Resource> serveFile(@PathVariable String videoPath) throws IOException {
 
         Resource file = storageService.loadAsResource("fitting/" + videoPath);
+        
+        String mimeType= URLConnection.guessContentTypeFromName(file.getFilename());
+        if(mimeType==null){
+            System.out.println("mimetype is not detectable, will take default");
+            mimeType = "video/mp4";
+        }
+         
+        System.out.println("mimetype : "+mimeType);
+            
         return ResponseEntity
                 .ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
-                .header(HttpHeaders.CONTENT_TYPE, file.getURL().openConnection().getContentType())
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + ".mp4\"")
+                .header(HttpHeaders.CONTENT_TYPE, mimeType)
                 .body(file);
     }
 
