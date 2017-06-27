@@ -232,7 +232,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
         };
         
         $scope.goBuyFitting = function(){
-               window.open($urlCompraFitting, '_blank');
+           window.location = $urlCompraFitting;
         };
         
 
@@ -261,7 +261,7 @@ trainingApp.controller('mainController', ['$http', '$scope', 'AuthService', 'Mes
                     url = $urlCompraRunning;
                     break;
             }
-            window.open(url, '_blank');
+            window.location = url;
         };
 
         $scope.getImageProfile = function (userId, fn) {

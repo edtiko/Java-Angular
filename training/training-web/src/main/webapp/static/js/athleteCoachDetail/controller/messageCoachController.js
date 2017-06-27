@@ -58,8 +58,8 @@ trainingApp.controller("MessageCoachController", ['$scope', 'MessageService', '$
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
 
                     $scope.planMessage.message = "";
-                    $scope.getMessageCount();
                 } else if ($scope.availableMessage == 0) {
+                    $scope.getMessageCount();
                     $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
                 }
             });

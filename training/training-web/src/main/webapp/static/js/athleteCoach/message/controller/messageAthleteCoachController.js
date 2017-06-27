@@ -21,7 +21,7 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
         $scope.items = [];
         $scope.msgAthleteCoachEnabled = false;
 
-        //Carga datos del chat según el tipo de plan
+        //Carga datos del chat según el tipo de plan = "EXT" o "IN"
         self.getChat = function (tipoPlan) {
             $scope.loading = true;
             if ($scope.planSelected != null) {
@@ -60,9 +60,9 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
                     //$scope.wsocket.send(JSON.stringify($scope.planMessage));
 
                     $scope.planMessage.message = "";
-                    $scope.getMessageCount();
                 } else if ($scope.availableMessage == 0) {
                     $scope.showMessage("Ya consumi\u00f3 el limite de mensajes permitidos para su plan");
+                    $scope.getMessageCount();
                 }
             });
         };
@@ -97,8 +97,8 @@ trainingApp.controller("MessageAthleteCoachController", ['$scope', 'MessageServi
         //Leer mensajes
         self.readMessages = function (tipoPlan, roleSelected, fromUserId, toUserId) {
             MessageService.readMessages($scope.planSelected.id, fromUserId, toUserId, tipoPlan, roleSelected).then(
-                    function (data) {
-                        //$scope.getReceived();
+                    function (data) {  
+                        $scope.getReceived(fromUserId, $scope.planSelected.id, "EXT");
                         console.log(data.output);
                     },
                     function (error) {

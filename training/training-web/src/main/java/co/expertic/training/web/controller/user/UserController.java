@@ -14,7 +14,6 @@ import co.expertic.training.model.dto.FederalStateDTO;
 import co.expertic.training.model.dto.NotificationDTO;
 import co.expertic.training.model.dto.OpenTokDTO;
 import co.expertic.training.model.dto.PaginateDto;
-import co.expertic.training.model.dto.UserBasicMovilDTO;
 import co.expertic.training.model.dto.UserDTO;
 import co.expertic.training.model.dto.UserGroupDTO;
 import co.expertic.training.model.dto.UserMovilDTO;

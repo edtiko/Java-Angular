@@ -68,18 +68,10 @@ trainingApp.controller('AthleteCoachDetailController', ['$scope', 'AthleteServic
         $scope.getActivePlan = function () {
             //$scope.showLoading(true);
             AthleteService.getActivePlan($scope.athleteUserId, function (res) {
-                $scope.planSelected = res.data.output;
-                if ($scope.planSelected != null) {
+                $scope.planSelected = null;
+                if (res.data.status == 'success') { 
                     $window.sessionStorage.setItem("planSelected", JSON.stringify(res.data.output));
-
-                    MessageService.initialize($scope.planSelected.id);
-                    VideoService.initialize($scope.planSelected.id);
-                    AudioMessageService.initialize($scope.planSelected.id);
-                    MailService.initialize($scope.planSelected.id);
-                    //$scope.connectToChatserver($scope.planSelected.id);
-                    //$scope.connectToAudioWsMovil($scope.planSelected.id);
-                    //$scope.connectToVideoWsMovil($scope.planSelected.id);
-
+                    $scope.planSelected = res.data.output;
                     $scope.messageReceivedCount = $scope.planSelected.coachCommunication.receivedMsg;
                     $scope.mailReceivedCount = $scope.planSelected.coachCommunication.receivedMail;
                     $scope.audioReceivedCount = $scope.planSelected.coachCommunication.receivedAudio;
